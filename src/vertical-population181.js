@@ -90,7 +90,8 @@
     const building = id => g.world.buildings.get(id);
     const site = id => h.state().sites.find(s => s.id === id);
     const validFloor = p => p && live(building(p.site)) && building(p.site).completed && site(p.site)?.decks[p.level]?.progress === 1;
-    const running = () => g.state === 'playing' && !g.paused && !g.gameOver && !g.activeOverlay && !g.frontier?.active();
+    // Assigned staff keep working while the Commander is in the region; only new orders need his presence.
+    const running = () => g.state === 'playing' && !g.paused && !g.gameOver && !g.activeOverlay;
     const commanded = () => g.expansions.canAct() && !g.frontier?.active();
     const statuses = new Map(), services = new Map();
     let notice = '';
@@ -139,7 +140,7 @@
         if (Math.abs(p.z - z) < P.separationZ && Math.hypot(other.x - x, other.y - y) < radius + other.radius * C.VerticalRouting180.bodyRadiusFactor) return false;
       }
       const player = h.pose();
-      return !live(g.player) || Math.abs(player.z - z) >= P.separationZ || Math.hypot(g.player.x - x, g.player.y - y) >= radius + g.player.radius * C.VerticalRouting180.bodyRadiusFactor;
+      return !live(g.player) || g.player.regionAbsent || Math.abs(player.z - z) >= P.separationZ || Math.hypot(g.player.x - x, g.player.y - y) >= radius + g.player.radius * C.VerticalRouting180.bodyRadiusFactor;
     }
     function clear(u, m, x, y) {
       const z = floorZ(building(m.site), m.level);

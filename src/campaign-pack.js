@@ -1,6 +1,10 @@
 /* Optional campaign operations link discovered places, carried supplies and D-17. */
 (function(root){
 'use strict';
+/* Monde sans bord T1 : lecture par les accesseurs du monde ; repli identique pour un monde sans accesseur. */
+const siteOf217=(w,id)=>w.site?w.site(id):w.pois.find(p=>p.id===id);
+/* Monde sans bord O4 : lieux vus par l'accesseur du monde (ordre de la liste en région finie) ; repli identique sans accesseur. */
+const seenSites217=(w,ids)=>w.seenSites?w.seenSites(ids):w.pois.filter(p=>ids.has(p.id));
 const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),P=root.DeadwallAtlasProjection||(typeof require==='function'?require('./atlas-projection.js'):null),R=C.CampaignPackRules,D=R.definitions,keys=Object.keys(D),copy=x=>JSON.parse(JSON.stringify(x));
 const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k),integer=(n,a,b)=>Number.isSafeInteger(n)&&n>=a&&n<=b;
 const legacyKeys=['patrol','aid','salvage','evacuation','defense'];
@@ -50,14 +54,14 @@ function install(g){
  const expired=a=>!!a&&!!D[a.kind].waveLimit&&g.wave-a.wave>=D[a.kind].waveLimit;
  function sitePoint(id){
   const w=g.frontier.world();if(worldRef!==w){worldRef=w;targetCache.clear();candidateCache.clear();}if(targetCache.has(id))return targetCache.get(id);
-  const p=w.pois.find(p=>p.id===id);if(!p)return null;const G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null);let point=null;
+  const p=siteOf217(w,id);if(!p)return null;const G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null);let point=null;
   for(const offset of [-3,-5,-8,-12,-16,-20]){const q=G.global(p,p.w/2,offset);if(!w.blocked(q.x,q.y,.4,0,null)){point={...q,z:0,inside:null,id:p.id,name:p.name,type:p.type};break;}}
   targetCache.set(id,point);return point;
  }
  function candidates(kind){
   if(!own(D,kind)||isDefense(kind))return[];const w=g.frontier.world(),f=g.frontier.snapshot(),seen=new Set(f.seen),used=new Set(state.usedSites[kind]),d=D[kind],key=f.seen.length+':'+state.usedSites[kind].length;
   if(worldRef!==w){worldRef=w;targetCache.clear();candidateCache.clear();}const cached=candidateCache.get(kind);if(cached?.key===key)return[...cached.ids];
-  const anchor=P.home(w),ids=w.pois.filter(p=>seen.has(p.id)&&!used.has(p.id)&&(!d.types||d.types.includes(p.type))).sort((a,b)=>Math.hypot(a.x-anchor.x,a.y-anchor.y)-Math.hypot(b.x-anchor.x,b.y-anchor.y)||a.id.localeCompare(b.id)).filter(p=>sitePoint(p.id)).map(p=>p.id);candidateCache.set(kind,{key,ids});return[...ids];
+  const anchor=P.home(w),ids=seenSites217(w,seen).filter(p=>!used.has(p.id)&&(!d.types||d.types.includes(p.type))).sort((a,b)=>Math.hypot(a.x-anchor.x,a.y-anchor.y)-Math.hypot(b.x-anchor.x,b.y-anchor.y)||a.id.localeCompare(b.id)).filter(p=>sitePoint(p.id)).map(p=>p.id);candidateCache.set(kind,{key,ids});return[...ids];
  }
  function previewStart(kind){
   if(!own(D,kind))return fail('Opération inconnue.');if(!can()||task||g.expansions.busy('campaign'))return fail('Le commandant doit être disponible.');if(state.active)return fail('Terminez ou abandonnez l’opération en cours.');if(!home()||g.phase!=='calm')return fail('Préparez cette opération au dépôt, pendant le calme.');if(g.wave<=state.lastStarted[kind])return fail('Une seule tentative de ce type par vague.');if(state.finished[kind]>=R.maxCount||g.wave>R.maxCount)return fail('Registre de campagne complet.');

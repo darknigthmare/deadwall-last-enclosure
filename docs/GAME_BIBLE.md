@@ -317,6 +317,39 @@ Pour lever la confusion de noms, **Samir** ne s'abrège jamais en « Sami ».
 - Un compagnon mort peut se relever comme n'importe qui (§2.4). Le jeu ne
   met pas cette scène en avant ; il ne l'empêche pas non plus.
 
+**Première tranche livrée [LIVRÉ]**
+
+Léa, Samir, Inès et Malik ont chacun leur origine, leur lien avec « ceux
+d'avant » et **quatre entretiens**, soit seize textes
+(`src/chronicles131-data.js`, déclencheurs dans `src/chronicles131.js`).
+
+| Étape | Fait qui l'ouvre |
+|---|---|
+| Rencontre | Le compagnon est recruté et vivant. |
+| Trace | Le dossier lié à son passé est relevé sur place (Registre), ou le document de terrain correspondant est collecté (Chroniques). |
+| Épreuve | Pendant un assaut, une brèche s'ouvre ou un secteur est perdu. |
+| Choix | La cité atteint l'âge Ville. |
+
+- Une étape s'annonce une fois, se relit au carnet et **ne donne rien**.
+- Un compagnon mort ne parle plus.
+- Correspondances retenues : Léa et la liste de Lina ; Samir et la fiche de
+  Nora ; Inès et le cahier d'Émile R. ; Malik et les deux ordres du barrage.
+- Les signatures d'Émile R., Nora, Héloïse, Solène et Oumar sont reliées,
+  sans réécrire leurs documents.
+- Une campagne en cours consigne en silence ce qui est déjà vrai ; une nuit
+  passée ne compte jamais comme Épreuve.
+- Test `tests/companion-arcs217.test.cjs`.
+
+Écarts : l'Épreuve n'est pas liée au secteur du compagnon, car aucune
+affectation de compagnon à un secteur n'existe ; l'étape Choix pose sa
+question sans offrir encore la décision (district confié ou non). Le jeu
+limite à deux compagnons à la fois : une campagne voit deux arcs en même
+temps.
+
+Restent à faire : blessures, marques et mort définitive ; la décision du
+Choix avec les districts ; relier Aline et Basile au barrage ; les
+chapitres V à VII.
+
 ### 2.8 Vocabulaire canonique **[PROPOSITION]**
 
 Un mot, un sens. Les textes affichés s'y conforment.
@@ -466,6 +499,63 @@ Toute nouvelle abomination passe les quatre questions du §3.3, sauf la
 première : on ne sait pas qui elle était. C'est précisément ce qui la
 distingue d'un infecté.
 
+**Meneuse, première tranche livrée [LIVRÉ]**, nouvelles campagnes seulement
+(`src/abominations217.js`, valeurs dans `C.Abominations217Rules`, test
+`tests/abominations217.test.cjs`)
+
+- À partir de la vague 12, une vague sur quatre est **menée**. Le choix
+  dépend du numéro de vague et de la graine, sans tirage, et n'est jamais
+  une vague de géants.
+- Pendant la journée qui précède, une Meneuse se tient au bord de la carte,
+  hors de portée des défenses : une Errante ordinaire, aux points de vie
+  d'une Errante, immobile, signalée par un cercle sobre au sol et sur la
+  carte réduite.
+- Ce n'est pas elle qui est dangereuse, c'est le nombre qu'elle amène :
+  **vivante au lancement de l'assaut, la vague compte 20 % d'infectés
+  ordinaires de plus** ; **abattue avant, 12 % de moins**. Ni points de vie
+  ni dégâts ne changent.
+- Annonces à l'apparition, à l'alerte, à sa mort et à l'assaut ; ligne
+  « Vague menée » dans le dossier de situation.
+
+**Écart avec la feuille de route, assumé** : l'effet porte sur la vague qui
+suit immédiatement l'élimination, pas sur la suivante. Ajouter ou retirer
+des infectés en plein assaut casserait un contrôle de cohérence de la
+sauvegarde, et cette section dit que tuer la Meneuse au loin est « la seule
+façon d'affaiblir une vague avant qu'elle n'arrive ».
+
+Réserves : équilibrage non joué. **Rien ne garde la Meneuse** et une sortie
+de 13 s suffit à l'atteindre : un joueur attentif l'abattra presque
+toujours, et la vague menée devient alors plus facile qu'une vague
+ordinaire. Elle ne se défend pas tant qu'elle rassemble. Son poste n'est pas
+vérifié contre le décor. Une cité étendue jusqu'au bord pourrait la tuer
+avec ses défenses. Seule la sortie du Commandant a été vérifiée. Elle n'a
+pas de silhouette propre et laisse une dépouille ordinaire. La lecture de
+siège et l'annonce de migration donnent encore l'effectif avant l'écart.
+
+**Deuxième tranche livrée [LIVRÉ]**
+
+- Une **escorte** d'infectés ordinaires (types du plan, points de vie et
+  dégâts inchangés) se tient immobile autour de la Meneuse : 6 à la
+  première vague menée, 2 de plus à chaque suivante, 18 au plus et jamais
+  plus de 8 % du plan. Elle est **prise sur l'effectif de la vague** :
+  abattre l'escorte avant l'assaut réduit donc la vague.
+- Elle se réveille si le Commandant approche à environ 8 m, si un tir passe
+  à environ 5 m, si un membre est touché, ou si la Meneuse meurt. Dérangée,
+  la Meneuse marche et frappe comme une Errante.
+- Le poste est vérifié contre le décor : sol praticable et relié à la cité.
+- L'annonce de migration et la lecture de siège donnent l'**effectif réel**
+  (« 282 si la Meneuse vit, 207 si elle tombe »), la marée à l'horizon porte
+  un repère MENEUSE, et la radio relaie la vague menée pendant une sortie.
+
+Réserves de la deuxième tranche : équilibrage non joué. Une escorte
+réveillée en plein jour marche sur la cité hors de l'assaut, une pression
+diurne nouvelle. Une sortie bien armée reste une réponse fiable. Le réveil
+ne tient pas compte de la ligne de vue.
+
+Restent à faire : la Meneuse en région (noyau d'une migration),
+sa présence dans la marée à l'horizon, la Comble-fossé, la Traîne-épave, les
+rôles propres des trois géants.
+
 ---
 
 ## 4. Les vivants hors de D-17
@@ -582,6 +672,73 @@ Cinq états par faction, sans jauge chiffrée affichée :
   rares et coûteuses.
 - Pas une source de butin gratuit : détruire une faction supprime aussi ce
   qu'elle apportait.
+
+### 4.7 Première tranche livrée **[LIVRÉ]**, nouvelles campagnes seulement
+
+(`src/factions217.js`, valeurs dans `C.Factions217Rules`, test
+`tests/factions217.test.cjs`)
+
+Deux factions sur dix : **Les Rouleurs** (bande motorisée) et **Les Relais**
+(Les Granges, La Rive, Fontvieille). Aucun hasard : tout suit le compteur de
+retours chargés et le numéro de vague.
+
+- **Relation** : une réputation entière par faction, montrée par les états
+  de §4.4 (Inconnue, Repérée, En contact, Entente, Tension, Hostile), jamais
+  par une jauge chiffrée. Seuls des actes la changent. Un relais ne devient
+  jamais hostile.
+- **Interception** : un fourgon d'expédition qui rentre avec au moins 20
+  unités au coffre est repéré la première fois, puis barré tous les trois
+  retours chargés. Les Rouleurs prennent 35 % du coffre, 24 unités au plus,
+  carburant d'abord (50 % et 36 à l'état Hostile). Deux parades sans tir :
+  deux fusiliers près du fourgon, ou un tribut de 6 carburant versé d'avance
+  au dépôt. Personne ne tire, le fourgon n'est pas abîmé, le stock du dépôt
+  n'est jamais touché.
+- **Demande d'aide** : un relais demande de l'aide aux vagues 2, 5, 8…, en
+  phase calme, pendant une vague. Un don pris au stock fait monter l'entente
+  et rapporte, deux vagues plus tard, une contrepartie annoncée et plus
+  petite que le don. Une demande ignorée fait baisser l'entente, sans autre
+  sanction.
+- Troisième parade : un avant-poste du côté par lequel le fourgon rentre
+  (§7.14) ; le barrage n'a pas lieu et le tribut n'est pas consommé.
+- Carte « Factions » dans le dossier de situation ; fiche et actions dans
+  les opérations, groupe Région.
+
+Réserves : jamais joué en partie réelle. L'escorte est sans doute trop
+facile pour une grande cité (des fusiliers de garnison suffisent). Le tribut
+est bon marché. « Entente » n'a encore aucun effet propre. Seul le fourgon
+d'expédition local est concerné. Les factions n'ont aucune présence sur la
+carte : ni lieu, ni silhouette, ni son.
+
+**Deuxième tranche livrée [LIVRÉ]**
+
+- **Repaires** : chaque faction tient un lieu régional déjà généré, choisi
+  par une fonction pure du monde (Rouleurs : garage, casse, station-service
+  ou entrepôt ; Relais : ferme, hameau ou longère), sans occupant infecté,
+  ni remarquable ni avant-poste, à 1,2–4 km de D-17. Il ne se repère qu'en
+  sortie, à 600 m, puis porte un repère en région et sur l'atlas.
+- **Entente utile** : avec les Rouleurs, plus de barrage et un
+  renseignement par vague contre 8 carburant (la prochaine vague menée, ou
+  un lieu remarquable non repéré) ; elle s'entretient, sinon elle baisse.
+  Avec les Relais, un échange par vague (16 bois contre 10 nourriture) et
+  une recrue unique.
+- **Escorte réelle** : seuls comptent les fusiliers hors des murs, le long
+  du retour du fourgon ; la garnison des portes ne compte plus.
+- **Assaut du repaire**, payé trois fois : aucun humain hostile n'est
+  simulé, la garde est neutralisée par une section de 6 fusiliers au prix
+  de 30 munitions, 2 fusiliers tués (3 si la bande est Hostile) et une
+  signature +90 pendant 2 vagues. Gain : 20 carburant et plus de barrage.
+  Perte définitive : tribut, renseignement et ralliement.
+- **Ralliement** : demandé par les Rouleurs après 6 vagues d'Entente ; 40
+  nourriture et 3 logements contre 3 fusiliers.
+- **Tribut** indexé sur l'âge et les vagues, au plus 20 carburant.
+
+Réserves : jamais joué en partie réelle. L'assaut est une opération résolue
+à prix fixe, pas un combat joué. Les morts qui se relèvent ne sont pas
+simulés. Aucune silhouette ni son de faction.
+
+Restent à faire : le tirage de quatre à six factions par la graine, un vrai
+combat contre des vivants, l'activation des campagnes existantes, les huit
+autres factions.
 
 ---
 
@@ -701,6 +858,49 @@ Tout écran qui ne sert aucun de ces cinq points est masqué pendant l'âge 1.
 Le calme initial doit avoir **une seule valeur documentée par scénario et par
 difficulté**, lue dans `src/core.js` (§11, point 4).
 
+### 6.4 Première tranche livrée **[LIVRÉ]**
+
+Une première tranche de la révélation par âge est en place. Elle masque
+**douze entrées de menu** au début d'une campagne et les rouvre avec l'âge.
+
+| Menu masqué | S'ouvre à l'âge |
+|---|---:|
+| Fusiliers, point de ralliement, dossier de l'équipe | 2 (Camp fortifié) |
+| Spécialistes, sorties, siège et secours, entretien des lignes | 3 (Avant-poste) |
+| Sections de fusiliers, logistique | 4 (Forteresse) |
+| Bulletin météo | 5 (Ville) |
+| Quartiers | 6 (Grande ville) |
+
+- **Où** : table et module dans `src/age-reveal.js`, test
+  `tests/age-reveal.test.cjs`. La table est une donnée de présentation : elle
+  reste hors de `src/core.js`, qu'aucune règle ne lit pour elle.
+- **Comment** : le module pose un attribut sur des contrôles existants. Il ne
+  lit ni n'écrit aucun stock, aucune règle, aucun tirage, aucune sauvegarde.
+- **Réglage** : « Afficher tous les menus dès le début », dans les
+  paramètres, avec le rappel de ce que l'âge suivant ouvrira.
+- **Campagnes chargées** : l'âge ne redescend jamais ; une campagne avancée
+  retrouve tous ses menus.
+- Les fusiliers et les spécialistes suivent le **prérequis réel** de leur
+  recrutement, lu dans les données.
+
+Écarts volontaires avec la table du §6.2, par prudence :
+
+- Les **doctrines** restent visibles dès l'âge 1 : un objectif du début
+  demande d'en lancer une.
+- La **carte**, l'**exploration**, les **préparatifs**, le **journal**, les
+  **secteurs** et le **catalogue de construction** ne sont jamais masqués.
+- Les sorties s'ouvrent à l'âge 3 plutôt qu'à l'âge 5 : elles servent tôt.
+- Les opérations, l'armurerie, l'élevage, la citadelle verticale et la
+  coopération ne sont **pas encore** concernés.
+
+Limites connues :
+
+- Les **raccourcis clavier** des systèmes masqués restent actifs.
+- Les parcours **automatisés** et l'atelier auteur gardent l'interface
+  complète, pour ne pas fausser les contrôles existants ; `?agereveal=1`
+  force le masquage.
+- Aucun objectif nouveau n'accompagne encore l'ouverture d'un menu.
+
 ---
 
 ## 7. Les systèmes, un par un
@@ -760,6 +960,66 @@ Direction :
   unifié. Migration de sauvegarde additive et testée.
 - Propriétaires à étendre : `core.js` (`Siege`), `husbandry191.js`,
   `campaign-water214.js`, `weather193.js`, `urban.js`.
+
+#### Première tranche livrée **[LIVRÉ]**
+
+- **La population boit.** À partir de l'âge Ville, chaque habitant puise dans
+  les **citernes existantes** : 0,004 unité par seconde et par personne, soit
+  12 unités par minute pour 50 habitants.
+- **Une seule réserve.** Ce sont les citernes des incendies : l'eau bue
+  n'éteint plus un foyer. Aucune eau n'est créée ; la pompe (électricité et
+  carburant) et la pluie restent les seuls apports.
+- **Pénurie, premier temps seulement.** Citernes vides : 180 s de délai,
+  annoncé. Ensuite le moral baisse de 0,35 par seconde, la moitié de la
+  famine. Le retour de l'eau l'arrête aussitôt.
+- **Nouvelles campagnes** : suivies d'office. **Campagnes existantes** :
+  inchangées jusqu'à une activation volontaire, au dépôt, sans coût.
+- **Avant la Ville** : aucun besoin, aucune consommation.
+- Fiche « Eau de la cité » dans les dossiers du carnet : réserve, besoin par
+  minute, autonomie sans apport.
+- Valeurs dans `C.CityWater215Rules` (`src/core.js`), module
+  `src/city-water215.js`, test `tests/city-water215.test.cjs`. État
+  sauvegardé comme module additif, sans changer la version de sauvegarde.
+
+Restent à faire :
+
+- les deux autres temps de la pénurie : départs d'habitants, puis morts ;
+- les débouchés cultures, élevage et clinique ;
+- l'unité commune avec les abreuvoirs et les tonneaux, qui restent des
+  réserves séparées, reliées par le seau ;
+- puits, château d'eau et réseau ;
+- le lien avec les saisons.
+
+Ces valeurs n'ont été éprouvées par aucune campagne humaine.
+
+#### Deuxième tranche livrée **[LIVRÉ]**
+
+- **Pénurie, deuxième temps : les départs.** Après 7 min de citernes vides,
+  la cité l'annonce ; à 10 min, un ouvrier sans affectation quitte la cité,
+  puis un autre toutes les 2 min, six au plus. Ni le dernier ouvrier, ni un
+  résident nommé, ni un habitant affecté ne partent. Un départ n'est pas une
+  perte au combat.
+- **Pénurie, troisième temps : les morts.** À 18 min, la cité l'annonce ; à
+  21 min, le plus affaibli meurt dans les murs, puis un autre toutes les
+  3 min, par le chemin de mort ordinaire. Les départs cessent alors. Le
+  Commandant et le dernier ouvrier sont épargnés.
+- **Le retour de l'eau arrête tout aussitôt** et réarme les seuils. Une
+  reprise ne rejoue ni annonce, ni départ, ni mort.
+- La fiche « Eau de la cité » indique le temps en cours, l'échéance suivante
+  et les pertes dues à l'eau.
+- L'état de la première tranche, s'il figure dans une sauvegarde, est
+  accepté et converti sans effet rétroactif.
+
+**Écart avec la décision** : les morts de soif **ne se relèvent pas**. Dans
+le jeu actuel, seule la dépouille du survivant joué peut se relever (§2.4) ;
+les unités ne laissent pas de corps. Il faut d'abord un système de dépouilles
+pour toutes les unités.
+
+Restent à faire : ce système de dépouilles ; le départ d'autres habitants
+que les ouvriers ; cultures, élevage, clinique ; l'unité commune avec
+abreuvoirs et tonneaux ; puits et réseau ; les saisons. Le moral tombe à
+zéro vers 7 à 8 min de pénurie, bien avant les premiers départs : cet
+enchaînement n'a pas été observé en partie.
 
 ### 7.4 Économie urbaine, énergie et signature **[LIVRÉ]**
 
@@ -873,6 +1133,70 @@ Règles de cohérence :
 - Propriétaires : `frontier-*.js`, `expeditions.js`, `exploration-125.js`,
   `campaign-pack.js`, `field-atlas*.js`, `return-routes.js`.
 
+#### Première tranche livrée **[LIVRÉ]**
+
+Le carnet affiche, en tête des dossiers « Sur le terrain » :
+
+- les **besoins de la cité** : eau en pénurie, munitions sous une salve,
+  chantiers financés en attente, logements pleins, et les trois réserves les
+  plus basses par rapport à leur plafond ;
+- **où aller** : les trois échelles avec leurs entrées existantes, ouvertes
+  par leurs onglets et fiches d'origine.
+
+| Échelle | Entrées rangées |
+|---|---|
+| Les abords | Sorties, vestiges des six secteurs, plan de D-17, cueillette, chasse et pêche, trajets et récupération |
+| Les secteurs | Quartiers et fourgons, expéditions et voiture |
+| La région | Carte et exploration, voyages lointains, monde et relais, opérations de campagne |
+
+- Une entrée voilée par l'âge n'est pas proposée. Le bilan de départ cite
+  les mêmes besoins.
+- Module `src/exploration-scales.js`, test
+  `tests/exploration-scales.test.cjs`. Présentation seulement : aucun stock,
+  tirage, règle ni état sauvegardé.
+- Les réserves sont classées par taux de remplissage, sans seuil propre.
+  « Munitions sous une salve » compare le stock au coût d'un tir de toutes
+  les défenses et de tous les fusiliers : c'est le seul critère construit
+  pour cette tranche.
+
+Restent à faire : une seule carte à trois niveaux de zoom ; la position fixe
+des six quartiers ; le besoin « route coupée » ; le lien entre un besoin et
+un lieu précis encore approvisionné ; la révélation par âge des fiches
+d'opérations ; un vocabulaire unifié, car « secteurs » désigne encore
+l'onglet des vestiges **et** la deuxième échelle.
+
+#### Deuxième tranche livrée **[LIVRÉ]**
+
+- **Un besoin, des lieux.** Sous chaque besoin de réserve, le carnet nomme
+  les lieux connus qui en détiennent encore, au plus deux par échelle, du
+  plus proche au plus lointain : nom, sorte de lieu, échelle, reste, cap et
+  distance depuis le centre de D-17, bouton vers l'onglet ou la fiche
+  d'origine. Un lieu vidé disparaît ; un lieu voilé par l'âge n'est ni
+  proposé ni nommé. Sans lieu : « Aucune source connue : explorer plus
+  loin. » L'eau renvoie à l'enceinte.
+- **Vocabulaire unique des lieux** : gisement, vestige, cueillette,
+  **quartier** (les six territoires), **halte d'expédition** (les douze
+  destinations), site régional.
+- **Une seule carte.** Les six quartiers et les douze haltes avaient déjà
+  une position régionale : ils tiennent dans le carré de 128 m de D-17.
+  Chacun reçoit un cap et une distance fixes depuis le centre et la ville
+  nommée la plus proche. L'atlas les dessine au zoom de la cité (losange :
+  quartier ; carré : halte repérée) ; un volet sous la carte les liste et
+  cadre la vue.
+- Module `src/exploration-needs217.js`, test
+  `tests/exploration-needs217.test.cjs`. Présentation seulement, toutes
+  campagnes : aucun stock, tirage, règle ni état sauvegardé.
+
+Réserves : les sites régionaux ne sont relus que si la carte régionale a
+déjà été dessinée dans la session (la construire coûte environ 4 s) ; cette
+partie n'a pas été jouée. Chasse et pêche ne sont pas reliées. Les distances
+sont à vol d'oiseau, sans durée ni carburant. **[DÉCISION]** L'entrée « Expéditions et
+voiture » est voilée jusqu'à l'âge 5, comme les quartiers : les haltes
+d'expédition ne sont plus proposées avant.
+
+Restent à faire : le besoin « route coupée », une durée de trajet, la chasse
+et la pêche comme sources, le renommage des onglets d'origine.
+
 ### 7.10 Météo, élevage, cueillette **[LIVRÉ]**
 
 - Six fronts de quatre minutes ; la tendance suivante se lit dans les
@@ -981,6 +1305,175 @@ d'atlas calée sur l'étendue totale.
 - Propriétaires : `frontier-world.js`, `frontier-state.js`, `geography135.js`,
   `hydrology165.js`, `atlas-projection.js`, `core.js`.
 
+**Avancement [LIVRÉ, sans effet en jeu]**
+
+- **[DÉCISION]** Le monde sans bord passe avant le relief.
+- Cadrage dans `specs/monde-sans-bord/` : inventaire de ce qui suppose un
+  bord, architecture, tranches T0 à T7, risques, décisions D1 à D7.
+- Première brique : `src/world-cantons217.js`, adressage pur des cantons de
+  1 024 m (coordonnées signées, identifiants `K<cx>_<cy>`, sous-graines de
+  canton, de couture et de sommet indépendantes de l'ordre de visite, anneau
+  de chargement, cache borné). Le jeu ne la charge pas ; aucune génération
+  1 à 11 ne la lit. La génération 12 est réservée et refusée partout tant
+  que la tranche d'ouverture n'est pas livrée.
+- Les deux inconnues techniques : un réseau routier connexe sans arbre
+  couvrant global, et une hydrologie qui ne dépend plus d'un bord (la côte
+  est aujourd'hui un des quatre bords).
+- **Tranche T2 livrée, sans effet en jeu** : `src/world-canton-gen217.js`
+  génère un canton de 1 024 m à partir de la graine et de ses coordonnées,
+  indépendamment de l'ordre de visite. Relief en six paliers sur une maille
+  de 32 m (palier 0 = mer), falaises là où deux mailles voisines diffèrent
+  de plus d'un cran, rampes ailleurs ; milieu par maille parmi les 16
+  existants ; cours d'eau qui descendent de canton en canton, lacs dans les
+  cuvettes ; routes dont les passages aux coutures sont identiques vus des
+  deux cantons et qui ne changent de palier que par une rampe ; lieux
+  candidats sans plan d'intérieur. Page d'aperçu hors jeu :
+  `node scripts/apercu-cantons217.mjs`. Coût : 1,8 ms par canton en médiane
+  sous Node, 3 à 4 ms en navigateur, pour un budget de 8 ms.
+- Réserves de T2 : rien n'a été joué, c'est un générateur de données et une
+  image. Le réseau routier n'est pas entièrement connexe (92 à 99,5 % des
+  cantons desservis selon la graine). **Les falaises sont minoritaires face
+  aux rampes** (environ 17 arêtes contre 80 par canton) : pour qu'une
+  falaise vaille une enceinte, il faudra durcir la règle. L'eau est
+  clairsemée et sans vallée. Aucune agglomération, aucun décor, D-17 n'est
+  pas encore placé.
+- **[DÉCISION, livrée hors jeu]** Falaises fréquentes, rampes rares : un
+  plateau doit être une enceinte naturelle avec quelques passages obligés à
+  garder.
+- **Tranche T3 livrée, sans effet en jeu** : tout changement de palier est
+  une falaise, sauf aux **cols**, quelques mailles de rampe par contour de
+  plateau. Un canton compte 87 à 102 arêtes de falaise pour 15 à 20 de rampe
+  (T2 : 17 pour 80) et 4 à 5,5 cols. Les routes passent par les cols ; faute
+  de col, elles taillent une rampe, qui devient un passage de plus à garder.
+  Le réseau tient d'un seul tenant à 97,9–100 % des cantons desservis : seule
+  la mer isole encore. Un cours d'eau coule dans 68 à 82 % des cantons hors
+  hauts plateaux, avec fonds de vallée et lacs. Les agglomérations (hameau,
+  bourg, ville) sont portées par les sommets de la grille, reliées entre
+  voisines et entourées de lieux. **D-17 a son site de fondation dans le
+  canton d'origine** : un plat de 128 m relié à une route, décrit par sa
+  fiche (palier, falaise et eau les plus proches, cols à garder). Sur 50
+  graines, 45 sites ont une falaise à 400 m ou moins et au moins un col à
+  garder.
+- Réserves de T3 : rien n'a été joué. « Une falaise vaut une enceinte » **se
+  lit à l'échelle régionale, pas encore à celle de la cité** : la falaise la
+  plus proche de D-17 est à une centaine de mètres, hors de la carte locale
+  de 128 m, et le palier de D-17 s'ouvre presque toujours de plain-pied vers
+  un canton voisin (1 plateau fermé sur 50 graines). Un grand plateau garde
+  10 à 20 cols, ce qui dépasse « quelques passages ». Les rivières ne
+  suivent pas toujours les vallées. Des noms d'agglomération en double sont
+  possibles. Le coût dans le navigateur reste à mesurer au calme.
+- **Plan d'ouverture et première brique (T6), sans effet en jeu** :
+  `specs/monde-sans-bord/ouverture.md` ordonne dix tranches (O1 à O10)
+  jusqu'à une partie en génération 12 jouable derrière l'option
+  « expérimental », chacune avec ses preuves d'innocuité pour les campagnes
+  existantes. Chemins critiques : monde régional → sauvegarde → ouverture,
+  et carte de la cité à 192 m → fronts par côté ouvert → ouverture. O1 est
+  livrée : `src/world-open217.js`, un monde régional hors jeu qui répond aux
+  mêmes accesseurs que la région finie (lieu par identifiant, voisinage,
+  limites toujours ouvertes, étendue infinie), avec un itinéraire limité à
+  quelques cantons et un tirage de route par position pour les migrations.
+  Réserves : rien n'a été joué ; les itinéraires suivent les mailles de
+  32 m (détour de 1,2 à 2,4 fois le vol d'oiseau) ; une falaise n'est pas
+  encore un obstacle en région. Cinq décisions restent ouvertes dans le
+  plan (une falaise arrête-t-elle un tir ou la vue ? valeurs du repli des
+  fronts ; vue à la première personne dès l'ouverture ; gel des règles de
+  génération ; repli à 128 m si 192 m coûte trop).
+- **Tranche O2 livrée, sans effet en jeu** : les lieux du monde sans bord
+  reçoivent emprise, genre, plan, accès et occupants, avec les mêmes
+  fabriques que la région actuelle, de façon déterministe. Falaise et eau
+  deviennent des obstacles : falaise infranchissable à pied et en voiture,
+  rampes de col franchissables, eau bloquante hors des ponts. La règle de
+  vue et de tir décidée est prête : une falaise arrête ce qui vient d'en
+  bas, pas d'en haut. Réserves : moitié moins de lieux que dans la région
+  actuelle ; une route coupe parfois l'angle d'une falaise près d'une rampe
+  (moins de 0,2 % des points) ; la règle de vue n'est pas encore branchée
+  sur les tirs de la cité.
+- **Tranche O4, premier lot, sans effet en jeu** : douze lecteurs (atlas,
+  fiche de graine, lieux remarquables, codex, carnet, opérations) ne
+  parcourent plus la liste complète des lieux mais leur voisinage, sur les
+  deux mondes. Sorties identiques au bit près sur les campagnes actuelles.
+  Restent : les validateurs de sauvegarde (avec O3), la chronique, et la
+  règle de sélection des lieux remarquables dans un monde sans bord (à
+  trancher : espacement vérifié par cantons voisins, sans plafond global).
+- **[DÉCISION]** Ouverture du monde sans bord : une falaise arrête la vue
+  et les tirs d'en bas, pas ceux d'en haut ; une cité à deux côtés ouverts
+  reçoit la même vague, concentrée sur ces côtés ; la vue à la première
+  personne est disponible dès l'ouverture expérimentale ; la carte de la
+  cité reste à 192 m, quitte à optimiser le champ de flux. Reste ouvert :
+  le gel des règles de génération à l'ouverture.
+- **Consignes par district et sacrifice [LIVRÉ]** (§8.2, §8.3) : chaque
+  district reçoit sa consigne — tenir, replier ses combattants, évacuer vers
+  l'anneau intérieur, ou **sacrifier** —, appliquée en présence comme en
+  absence, à la première brèche ou au premier pan menacé. Sacrifier laisse
+  les portes du district ouvertes : une porte ouverte coûte au champ de flux
+  autant qu'une case libre, la horde y est canalisée au lieu d'enfoncer les
+  murs ; repli général derrière l'enceinte suivante ; reconquête en trois
+  temps au matin (isoler, nettoyer, rétablir). Quand un pan menace, la
+  fiche propose tenir, évacuer ou sacrifier le district. Une rupture ne crée
+  plus qu'une seule brèche nommée. Réserves : le passage réel de la horde
+  par la porte ouverte n'a pas été observé ; aucune pénalité de moral ou de
+  production n'existe pour un secteur « perdu » ; la maladie reste comptée
+  pour toute la cité (une répartition par district est seulement affichée).
+- **Tranche T5 livrée, sans effet en jeu** : la taille de la carte de la
+  cité se lit désormais sur son propriétaire au lieu de constantes — monde
+  de la cité, champ de flux des hordes, déplacements, apparitions,
+  projectiles, sortie vers la région, expéditions, minicartes. La carte
+  reste de 128 m ; un parcours de quatre minutes avec une vague donne le
+  même état au bit près avant et après. Restent en clair : le cœur de la
+  grille, la voirie, quelques validateurs, la vue à la première personne.
+- Hors jeu : le site de D-17 reçoit une **prime de rive** (l'eau ferme un
+  côté pour 5 graines sur 400, 0 avant ; un gué en ralentit un pour 25) et
+  les falaises de la carte locale ne suivent plus les mailles de 32 m (bord
+  décalé de quelques mètres, mêmes régions et mêmes cols). **Raréfier les
+  cols n'a pas abouti** : la moitié des passages d'un plateau sont des
+  rampes taillées par les routes, et les variantes essayées enfermaient des
+  plateaux. Pistes : un propriétaire global par plateau, ou une trame
+  routière moins dense.
+- **Tranche T4 livrée, sans effet en jeu** : `src/world-local217.js` dérive
+  du canton d'origine la carte locale de D-17, case de 1 m par case :
+  paliers, falaises infranchissables, rampes de col, eau, routes. Pour
+  chacun des quatre côtés, il dit s'il est ouvert à une horde, fermé par
+  une falaise, ou réduit à des passages à tenir (rampe de 12 m, pont,
+  goulet), puis vérifie par un calcul de chemins qu'aucune cité n'est
+  enclavée. Il donne aussi des gisements candidats et une fiche de site
+  (« Adossée à une falaise à l'est, ouverte au nord, au sud et à l'ouest »).
+- **Site adossé et cadre de 192 m** (choix de l'agent, à valider) : le site
+  n'exige plus qu'un plat de 64 m, choisi contre une falaise, et le cadre
+  jouable passe de 128 à 192 m. Sur 50 graines, 38 ont un côté fermé ou
+  réduit à un passage (29 un côté fermé), contre 0 auparavant ; la falaise
+  est à 32 m du centre, à l'échelle des murs. Agrandir seulement la carte à
+  256 m n'en donnait que 4. Sur 400 graines, aucune cité enclavée. Exemple,
+  graine 17117 : un couloir est-ouest entre deux falaises, deux fronts
+  seulement.
+- Réserves de T4 : rien n'a été joué, c'est une description et une image.
+  12 graines sur 50 restent ouvertes des quatre côtés. **L'eau ne ferme
+  aucun côté.** Les falaises suivent les mailles de 32 m : traits droits,
+  angles droits. Le terrain derrière une falaise est de l'espace mort dans
+  le cadre (58 % du cadre utile en moyenne). **Équilibrage à décider à
+  l'ouverture** : la même vague sur deux côtés ouverts au lieu de quatre
+  concentre la pression ; trois côtés fermés et une rampe de 12 m
+  pourraient être trop faciles. Consommer cette grille touche la taille de
+  la carte locale (35 fichiers), les collisions, le champ de flux, les
+  enceintes et les deux vues : liste dans `specs/monde-sans-bord/tasks.md`.
+- **Tranche T1 achevée, sans effet en jeu** : tous les lecteurs de la taille
+  de région passent par les accesseurs de `frontier-world.js` — acteurs,
+  faune, atlas, recherches de lieu par identifiant, les huit validateurs de
+  sauvegarde, et un préfiltre de voisinage `sitesNear`. Les nombres 8 192 et
+  24 576 restants sont nommés : ce sont des schémas historiques fixes, pas
+  des bornes de monde. Preuve : mondes G1 à G11 identiques avant et après,
+  sauvegarde relue dans les deux sens, 2 100 falsifications de coordonnées
+  aux mêmes verdicts. `specs/monde-sans-bord/tasks.md` recense les parcours
+  de la liste complète des lieux qui restent incompatibles avec un monde
+  sans bord : c'est la matière des tranches suivantes.
+- **[DÉCISION]** Le relief par paliers entre dans la **même** nouvelle
+  génération que le monde sans bord : une seule rupture, quitte à reculer
+  l'ouverture.
+- **[DÉCISION]** Le monde sans bord s'ouvre d'abord comme option
+  « expérimental » à la création de partie ; la région finie reste le
+  défaut tant qu'il n'est pas éprouvé.
+- **[DÉCISION]** La mer est gardée comme zone basse de la carte, et non
+  plus comme bord.
+
 #### Direction : des lieux à découvrir
 
 Trois rangs de lieux, pour que l'exploration ait des souvenirs :
@@ -988,7 +1481,7 @@ Trois rangs de lieux, pour que l'exploration ait des souvenirs :
 | Rang | Fréquence | Exemple | Ce qu'on y gagne | Ce qu'on y risque |
 |---|---|---|---|---|
 | **Ordinaire** [LIVRÉ] | Des milliers par région | Maison, commerce, atelier | Butin courant | Un à quatre occupants |
-| **Remarquable** [PROPOSITION] | Quelques-uns par canton | Hôpital, caserne, dépôt de carburant, silo, gare de triage, barrage, émetteur | Une chose que la cité ne fabrique pas encore : machine, plan, pièce de grand ouvrage, recrue qualifiée | Un **nid** : des infectés qui stagnent en masse |
+| **Remarquable** [LIVRÉ, première tranche] | Quelques-uns par canton | Hôpital, caserne, dépôt de carburant, silo, gare de triage, barrage, émetteur | Une chose que la cité ne fabrique pas encore : machine, plan, pièce de grand ouvrage, recrue qualifiée | Un **nid** : des infectés qui stagnent en masse |
 | **Singulier** [PROPOSITION] | Un par grande distance | Un lieu nommé, lié au récit ou à une faction | Une trace, une rencontre, une décision | Propre au lieu |
 
 - Les 4 000 plans du codex servent de matière première ; il manque surtout
@@ -997,6 +1490,58 @@ Trois rangs de lieux, pour que l'exploration ait des souvenirs :
   on choisit d'y aller, on n'y tombe pas par hasard.
 - Un nid vidé peut se repeupler si une migration passe : rien n'est acquis
   hors des murs.
+
+**Première tranche livrée [LIVRÉ] : lieux remarquables et nids**, nouvelles
+campagnes seulement (`src/remarkable217.js`, valeurs dans
+`C.Remarkable217Rules`, test `tests/remarkable217.test.cjs`)
+
+- Les lieux remarquables sont des lieux **déjà générés**, promus par une
+  fonction pure du monde : usage lu sur leur nom (hôpital, caserne, dépôt de
+  carburant, silo, gare, barrage, émetteur, château d'eau, centrale),
+  emprise d'au moins 400 m², deux au plus par canton de 4 km, à 1 km
+  d'écart. Soit 39 à 48 lieux par région. Aucun lieu créé, déplacé ni
+  renommé.
+- **Vu de loin** : une silhouette (château d'eau, cheminée, pylône) avec nom
+  et distance, sur l'atlas et en vue de région, visible à 2,5 km. Un seul
+  lieu peut être désigné **objectif de sortie**, avec cap et distance.
+- **Nid** : 10 à 16 infectés au lieu de 1 à 4, immobiles tant qu'on ne les
+  dérange pas. Ce sont les occupants ordinaires : seul leur nombre change.
+- **Récompense** : un lot annoncé d'avance sur la fiche (médicaments,
+  munitions ou carburant, 24 à 36 unités), chargé sur place une fois le nid
+  vidé, une seule fois.
+
+- **[DÉCISION]** Aucun nid à moins de 1 km de D-17 : un lieu plus proche
+  reste ordinaire (`homeClearance`).
+
+Réserves : aucun combat réel contre un nid n'a été joué. Les lots cumulés font environ 1 300 unités rares par région, à
+surveiller. Le classement par nom a ses approximations (une clinique
+vétérinaire compte comme hôpital). La minicarte de région ne porte aucun
+repère.
+
+**Deuxième tranche livrée [LIVRÉ] : repérage en sortie, repeuplement**
+
+- **Vu de loin, repéré** : un lieu remarquable se voit de loin (2,5 km) —
+  silhouette, nom, distance, sur l'atlas, en vue de région et en point
+  sobre sur la minicarte de région. Ce « vu de loin » n'est jamais
+  sauvegardé. Le lieu n'est **repéré** (nid et lot connus) qu'en sortie, le
+  Commandant dehors à 600 m ; **depuis la cité, rien n'est repéré**. On peut
+  désigner comme objectif un lieu seulement vu de loin, sans apprendre son
+  nid.
+- **Repeuplement** : une migration qui passe à moins de 400 m d'un nid
+  vidé, loin du Commandant, sur un lieu **sans avant-poste**, y ramène 4 à
+  8 infectés. Chaque migration ne repeuple qu'une fois, un lieu au plus
+  trois fois. Le lot emporté ne revient pas. Un avant-poste protège donc
+  son lieu.
+- Les noms d'usage sont corrigés à l'affichage (clinique vétérinaire,
+  station de pompage…) sans changer la sélection des campagnes existantes.
+
+Réserves : non éprouvé en partie réelle. Les migrations ne bougent qu'en
+sortie, donc le repeuplement se produit surtout pendant une sortie. Une
+clinique vétérinaire reste du genre « hôpital » (lot de médicaments) : la
+corriger aurait changé la liste des lieux des campagnes existantes.
+
+Restent à faire : le rang singulier, des récompenses autres que des
+ressources (machine, plan, pièce de grand ouvrage, recrue qualifiée).
 
 #### Direction : un terrain modifiable
 
@@ -1056,6 +1601,156 @@ Règles :
   densité urbaine, distance aux premiers lieux remarquables.
 - La graine doit changer la **stratégie d'ouverture** : une cité de plaine
   sans pierre ne se bâtit pas comme une cité de plateau sans eau.
+
+**Première tranche livrée [LIVRÉ] : le milieu de la cité**, nouvelles
+campagnes seulement (`src/biome217.js`, valeurs dans `C.Biome217Rules`, test
+`tests/biome217.test.cjs`)
+
+Constat de départ : le milieu où tombe D-17 ne changeait **que le décor**.
+Ni les gisements, ni la météo, ni l'eau, ni les fermes ne le lisaient.
+
+- Le milieu d'ouverture est relevé une fois à la fondation, sur 169 points
+  dans un carré de 1 536 m centré sur D-17, puis **figé dans la
+  sauvegarde**.
+- Les 16 milieux sont rangés en cinq familles. Chacune donne un avantage et
+  une contrainte, appliqués à des calculs existants **[DÉCISION : ampleur
+  modérée, ±10 à 20 %]** :
+
+| Famille | Avantage | Contrainte |
+|---|---|---|
+| Forêt | Récolte du bois +15 % | Fermes protégées −10 % |
+| Plaine cultivée | Fermes protégées +15 % | Récolte de la pierre −15 % |
+| Zone humide | Pluie des citernes +20 % | Récolte de la ferraille −15 % |
+| Hauteurs pierreuses | Récolte de la pierre +20 % | Pluie des citernes −15 % |
+| Friche urbaine | Récolte de la ferraille +20 % | Récolte du bois −15 % |
+
+- Les facteurs de récolte changent la **cadence** (à la main et par les
+  ouvriers), pas la quantité des gisements. La génération et le placement ne
+  changent pas.
+- Une annonce unique au lancement, et une fiche « Milieu de la cité » dans
+  le carnet.
+
+Réserves : jamais joué en partie réelle. Il n'existe pas de milieu
+« littoral » (la côte relève de l'hydrologie), donc pas de famille
+littorale. Sur les huit graines de référence, quatre tombent en forêt.
+
+Restent à faire : cueillette, gibier et pêche ; bâtiments de production
+automatisée ; faire varier le placement des gisements locaux pour les
+campagnes futures.
+
+**Première tranche livrée [LIVRÉ] : la fiche de graine**, toutes campagnes
+(`src/seed-card217.js`, présentation seule, test
+`tests/seed-card217.test.cjs`)
+
+- Le carnet, classement « Sur le terrain », affiche sous les échelles
+  d'exploration une fiche de graine repliable : graine et profil de paysage,
+  milieu dominant et milieux voisins autour de D-17, rivière et côte les
+  plus proches (ou « aucune eau proche »), densité urbaine en un mot (isolé,
+  rural, périurbain, urbain), gisements de bois, de pierre et de ferraille à
+  portée de marche du centre, premiers lieux de la carte, et un conseil
+  d'ouverture déduit de ces seuls faits.
+- Deux boutons copient la graine seule ou la fiche entière.
+- Au menu, une ligne sous le champ de graine résume la carte en cours.
+- La fiche est une fonction pure du monde déjà généré : aucun tirage, aucun
+  état sauvegardé. Elle compte les gisements à leur quantité d'origine et ne
+  change donc pas avec la récolte.
+
+Réserves : elle nomme des agglomérations, une carrière ou une casse avant
+leur reconnaissance. Les cartes d'avant G6 n'ont ni milieu ni eau relevés.
+
+**Deuxième tranche livrée [LIVRÉ] : la fiche qui compte et l'aperçu avant le
+départ**
+
+- La fiche affiche la **famille de milieu** de la campagne avec son avantage
+  et sa contrainte chiffrés ; une campagne d'avant la règle n'affiche aucun
+  effet. Le conseil d'ouverture part de ces effets réels (« Forêt : bois
+  +15 %, fermes −10 % — ouvrez en bois, prévoyez plus de fermes »).
+- Les **trois lieux remarquables les plus proches de D-17** sont nommés avec
+  leur genre, leur direction et leur distance, mesurée depuis le centre de
+  la cité. **[DÉCISION, livrée] Divulgation : nom et distance seulement.**
+  Le nid et le lot ne s'affichent que dans le carnet, pour un lieu déjà
+  repéré, et dans leur état réel : nid, nid vidé avec lot à charger, reste
+  du lot, lot emporté. L'aperçu au menu ne les montre jamais.
+- **Aperçu avant le départ** : au menu, sous le champ de graine, le bouton
+  « Aperçu de la carte » trace à part la région de la graine saisie et
+  affiche sa fiche. Le calcul ne part que sur clic, un seul à la fois, et
+  son résultat est gardé par graine. Aucune campagne n'est créée, aucune
+  sauvegarde touchée.
+- L'aperçu utilise les versions de région que le départ choisirait (une
+  même fonction, `DeadwallWorldPack131.startVersions`, sert au départ réel
+  et à l'aperçu) : il est identique à la fiche du carnet après le départ,
+  hors gisements locaux.
+
+**Troisième tranche livrée [LIVRÉ]** : l'aperçu trace la région **en
+arrière-plan** (Web Worker), le menu reste utilisable pendant le calcul.
+Si l'arrière-plan est refusé ou échoue, la page trace elle-même et prévient
+que le menu ne répond pas pendant ce temps. Un départ ou une reprise
+abandonne l'aperçu en cours. L'aperçu dit qu'il ne vérifie pas la carte
+locale et qu'une carte impraticable est remplacée au départ (§11.4).
+
+Réserves : le calcul dure toujours 7 à 9 s. Il ne fige plus le menu sur le
+web, mais le fige encore dans l'application de bureau et la version
+autonome en un fichier, qui n'autorisent pas l'arrière-plan (déduit de leur
+configuration, non lancé). L'aperçu ne compte pas les gisements à portée du
+centre. **[Corrigé depuis]** Un lieu n'est plus repéré depuis la cité (§7.13, lieux remarquables, deuxième tranche). Le repérage a été
+simulé par sauvegarde, pas joué.
+
+**Travaux de terrain** (direction « un terrain modifiable », plus haut)
+
+**Première tranche livrée [LIVRÉ] : le fossé**, nouvelles campagnes seulement
+(`src/earthworks217.js`, valeurs dans `C.Earthworks217Rules`, test
+`tests/earthworks217.test.cjs`)
+
+- Le fossé se choisit au catalogue, onglet Défense, dès l'âge Refuge, et se
+  pose case par case dans l'emprise de la cité (44 cases autour du centre).
+  La pose coûte 4 bois ; la case est ensuite creusée à la main en 10 s de
+  travail, par les ouvriers (après les autres chantiers) ou par le
+  Commandant immobile à portée.
+- Un fossé ouvert ralentit l'infecté qui le traverse (vitesse ×0,55) et
+  ajoute un coût de passage : une partie de la horde le contourne quand le
+  détour est court. Il ne bloque aucun passage, n'inflige aucun dégât et ne
+  gêne ni les ouvriers ni le Commandant.
+- Les infectés abattus dans le fossé ou à son bord y tombent. Chaque case
+  absorbe 6 corps ; au-delà elle est comblée et n'a plus d'effet. L'ordre
+  « déblayer » existant, et la corvée de déblaiement (§8.5), vident les
+  fossés après les murs, à la même cadence.
+- Le fossé n'est pas un ouvrage du monde : il tient dans un registre à part,
+  sauvegardé par case, pour ne jamais devenir un obstacle attaquable.
+
+Réserves : aucun assaut réel n'a été joué ; l'effet sur le choix des fronts
+n'a pas été observé. Une ligne simple devant un front dense sera vite
+comblée. À 4 bois, un joueur peut tapisser les approches (256 cases au
+plus). Un clic par case, pas de tracé en ligne. Le fossé n'est pas dessiné
+dans la vue à la première personne. Le Commandant creuse dès qu'il reste
+immobile près d'un fossé, sans geste explicite. Le remblai est gratuit,
+alors que la direction le veut payant.
+
+**Deuxième tranche livrée [LIVRÉ] : talus, douve, remblai, tracé en ligne**
+
+- Chaque case de fossé creusée laisse sa **terre**. Le **talus** la consomme
+  (2 terre, 6 s de travail) contre un mur ou au bord d'un fossé. Adossé à
+  un mur, il faut **8 corps de plus pour franchir l'amas** : la règle de
+  franchissement du jeu est relue, pas remplacée, et un amas plus haut passe
+  toujours. Au bord d'un fossé ouvert, il ralentit encore la traversée
+  (×0,85). On peut l'araser, sa terre est rendue.
+- La **douve** est un fossé mis en eau avec l'eau de cité (4 par case, puis
+  un entretien continu). Elle ralentit davantage (×0,4) et absorbe 12 corps,
+  qui restent dans l'eau et comptent pour la salubrité (§8.7). En pénurie,
+  elle se vide et redevient un fossé.
+- Le **remblai** coûte 1 terre ou 2 pierre, puis 5 s de travail.
+- Fossé et talus se **tracent en ligne** par glissé, avec aperçu et coût
+  total (32 cases au plus).
+- Tout travail à la main du Commandant demande **ACTION / E**.
+- La sauvegarde de la première tranche est convertie.
+
+Réserves : rien n'a été joué en vraie vague. Le talus ne protège pas encore
+un tireur (aucun couvert). Talus et douve ne sont pas dessinés dans la vue
+à la première personne. Deux lectures de risque existantes annoncent encore
+un franchissement un peu trop tôt contre un mur adossé à un talus. La mise
+en eau reste permise pendant l'alerte.
+
+Restent à faire : défrichage, carrière, couvert du talus, travaux aux
+avant-postes.
 
 ### 7.14 Se déplacer dans le monde **[DÉCISION]**
 
@@ -1126,6 +1821,51 @@ région. Un bivouac n'arrête ni la nuit ni les vagues.
 - les nuits noires s'appliquent aussi en région ;
 - une sortie à pied de plusieurs jours impose de choisir **où dormir** avant
   la tombée de la nuit.
+
+#### Deux tranches livrées **[LIVRÉ]** : avant-postes, routes gardées, butin réel
+
+Nouvelles campagnes seulement (`src/outposts217.js`, valeurs dans
+`C.Outposts217Rules`, test `tests/outposts217.test.cjs`).
+
+- **Avant-poste** : décidé au dépôt de D-17, sur un lieu régional déjà vu,
+  infesté puis vidé de ses occupants (ou un lieu remarquable dont le nid est
+  vidé), relié à D-17 par la route. Deux fusiliers quittent la cité ; 30
+  bois, 20 ferraille, 20 nourriture et 20 munitions sont pris au stock.
+  Ouvert dès l'âge « Avant-poste ».
+- **[DÉCISION, livrée]** **Aucun plafond par âge** : on en tient autant
+  qu'on a de fusiliers et de stock.
+- **Entretien** : à chaque vague, en phase calme, 2 nourriture du dépôt par
+  avant-poste. Non ravitaillée, une garnison ne garde plus sa route et
+  n'envoie pas de convoi, jusqu'au prochain ravitaillement payé. C'est la
+  vraie limite une fois le plafond retiré.
+- **Route gardée** : l'itinéraire routier existant entre D-17 et
+  l'avant-poste, tant qu'il tient et qu'il est ravitaillé. Un fourgon qui
+  rentre de ce côté n'est pas barré par les Rouleurs (§4.7).
+- **[DÉCISION, livrée]** **Convoi sur le butin réel** : à chaque vague, en
+  phase calme, 16 unités au plus du butin du lieu arrivent seules au dépôt,
+  contre 2 carburant. Le convoi prélève dans le registre régional, par le
+  même chemin que la fouille à la main : ce que le Commandant a pris n'est
+  plus au convoi, et inversement. Les contenants verrouillés restent sur
+  place ; les ouvrir relance le convoi. Sans carburant ou dépôt plein, il
+  reste sur place.
+- **Abandon** : au dépôt. Les deux fusiliers rentrent ; le coût reste perdu.
+- **Radio** : elle porte à 3 000 m de D-17 et de chaque avant-poste (§7.15).
+- Un avant-poste créé avant la deuxième tranche garde son lieu et sa
+  garnison et repart sur le butin réel restant.
+
+Réserves : jamais joué en partie réelle. Un avant-poste ne peut pas tomber
+et n'a pas de signature. « Côté gardé » est la direction de l'avant-poste,
+pas le tracé de la route. Les fusiliers rendus sont des fusiliers neufs. Le
+convoi n'est pas dessiné, et vide les ressources dans un ordre fixe, sans
+choix du joueur. Sur les lieux proches de la graine 17117, le butin
+prenable est surtout de la ferraille (44 à 99 unités par lieu), les
+ressources rares étant souvent sous clé. 16 unités pour 2 carburant et 2
+nourriture restent sans doute généreux.
+
+Restent à faire : rangs Relais → Poste → Avant-poste et chantier sur place,
+chute et réinfestation, signature locale, états de route, « une bonne route
+sert aussi l'ennemi », rappel du Commandant par les routes gardées,
+fourgons des territoires, entretien des véhicules.
 
 ### 7.15 La cité autonome **[DÉCISION]**
 
@@ -1198,6 +1938,77 @@ mégacité » et l'exploration.
 Propriétaires : `frontier.js`, `departure130.js`, `frontier-ui.js`,
 `vertical-siege176.js`, `vertical-population181.js`, `game.js`.
 
+#### Première tranche livrée **[LIVRÉ]**
+
+Direction 1, « tout ou rien » : pendant une sortie régionale, D-17 est
+désormais **simulée en entier**.
+
+- **Siège vertical** : pression des faces, ascension, chute, escaliers,
+  passerelles et attaques de palier continuent.
+- **Personnel vertical** déjà affecté : trajets, livraisons, réparations,
+  soins et gardes continuent.
+- **Bandes errantes** : elles restent **suspendues** pendant l'absence,
+  comme avant. Une première version les faisait avancer : le parcours de
+  terrain de la CI a montré qu'une cité des premiers âges tombait alors en
+  moins de quatre minutes, sans avoir subi une seule vague. Les lever
+  demandera une règle de distance ou de délai, donc un équilibrage.
+- Le Commandant absent n'est ni visé ni blessé par un grimpeur, et sa
+  position mémorisée à la limite n'encombre plus aucun passage.
+- Les **ordres** (affecter, transférer, rappeler, bâtir) exigent toujours sa
+  présence : la cité n'improvise pas.
+- La première arrivée de la horde sur un chemin de ronde est annoncée une
+  fois par les notifications ordinaires, qui restent affichées en région
+  comme les annonces de brèche, de secteur perdu et de pénurie d'eau.
+- Test `tests/absence-coherence216.test.cjs`. Aucune valeur d'équilibrage,
+  format de sauvegarde inchangé.
+
+Conséquences à connaître :
+
+- **L'absence est plus dangereuse qu'avant aux âges tardifs** : un rempart
+  peut être escaladé pendant que le Commandant est sorti. Aucun
+  rééquilibrage n'a été fait.
+- Les cités sans rempart vertical ne sont pas concernées.
+
+Restent à faire : bandes errantes pendant l'absence (avec une règle
+d'équité), consignes d'absence, radio et portée (les annonces arrivent
+aujourd'hui sans condition de portée), rappel par les routes gardées,
+estimation honnête au départ, dernier carré.
+
+**Radio et consignes, première tranche [LIVRÉ]**
+(`src/city-radio217.js`, valeur dans `C.CityRadio217Rules`, test
+`tests/city-radio217.test.cjs`)
+
+- **Radio, toutes campagnes** : pendant une sortie en région, un répartiteur
+  (Sami V.) relaie les faits de D-17 : front annoncé, assaut, brèche nommée,
+  secteur perdu ou repris, mur qui menace de céder, amas imminent ou
+  franchi, pénurie d'eau, moral au plus bas, centre gravement endommagé,
+  munitions communes épuisées.
+- Chaque fait est daté et annoncé une fois par épisode ; jamais quand le
+  Commandant est sur place, ni à la reprise d'une sauvegarde. Une
+  aggravation est réannoncée, une amélioration non.
+- Le poste s'affiche pendant la sortie ; les douze derniers messages restent
+  dans le carnet, onglet Situation.
+- **Consignes, nouvelles campagnes seulement** : avant de sortir, le
+  Commandant fixe une consigne pour toute la cité : tenir la ligne, replier
+  les combattants à la première brèche, ou repli général à la première
+  brèche. La cité l'applique seule, une fois par vague, par les ordres de
+  repli existants, et lève le repli quand l'assaut est fini. Si le
+  Commandant rentre avant, c'est à lui de le lever.
+- Aucune règle de combat nouvelle. Les bandes errantes restent en pause
+  pendant l'absence.
+
+Réserves : jamais joué en vraie partie ; la brèche vue au navigateur venait
+d'un mur détruit par script. **[LIVRÉ ensuite]** La radio porte à 3 000 m
+de D-17 et de chaque avant-poste (§7.14), nouvelles campagnes seulement ;
+la consigne d'absence s'applique toujours, même hors de portée. L'absence, c'est la sortie
+régionale seulement. Risque du repli général en absence : les ouvriers
+cessent de produire jusqu'à la fin de l'assaut, les portes peuvent être
+closes au retour, et les sections restent groupées au centre après la
+levée. À valider côté récit : Sami V. est-il bien vivant à D-17 ?
+
+Restent à faire : consignes par district et « sacrifier un secteur », rappel par les routes
+gardées, estimation honnête au départ, dernier carré.
+
 ---
 
 ## 8. Profondeur du siège et fin de jeu
@@ -1219,6 +2030,65 @@ la deuxième enceinte, on a repris l'atelier au matin. »
 Aucune de ces directions n'ajoute de vie aux infectés. Toutes ajoutent de la
 géographie.
 
+#### Première tranche livrée **[LIVRÉ]**
+
+Le dossier **Situation** s'ouvre désormais sur deux cartes :
+
+- **Signature de la cité** : la valeur, ses quatre parts (bâtiments achevés,
+  population, consommation électrique, nombre de structures) et son effet sur
+  la vague en cours, en pourcentage et en nombre d'infectés supplémentaires.
+- **Dernière nuit** : durée, infectés éliminés, équipiers perdus, structures
+  perdues, tirs du commandant. Une phrase de bilan est aussi annoncée une
+  fois, à la sécurisation.
+
+Détails :
+
+- Module `src/siege-readout.js`, test `tests/siege-readout.test.cjs`.
+- Présentation seulement. L'effet sur la horde est **lu** dans le plan de
+  vague du moteur, sans recopier sa formule ; le bilan est **lu** dans le
+  registre des nuits déjà tenu par la citadelle, jusque-là visible seulement
+  au fond d'un dossier.
+- Une campagne reprise ne répète pas l'annonce de l'ancienne nuit.
+
+Restent à faire dans ce rang : fronts nommés, secteurs tenus, perdus et
+repris, munitions tirées par la garnison.
+
+#### Repli sur l'enceinte intérieure et brèches nommées **[LIVRÉ]**
+
+**[DÉCISION]** Les deux ordres de repli existent, côte à côte, dans l'onglet
+Situation du carnet :
+
+| Ordre | Ce qu'il fait | Ce qu'il ne touche pas |
+|---|---|---|
+| **Repli des combattants** | Les trois sections se replient vers le centre. | Ouvriers et portes. |
+| **Repli général** | Sections, ouvriers et spécialistes rentrent ; les portes de l'enceinte intérieure sont verrouillées dès que plus personne n'est dehors. | Rien n'est fermé tant qu'un équipier, ou le Commandant, est dehors. |
+| **Lever le repli** | Les portes verrouillées par l'ordre retrouvent leur mode précédent ; les ouvriers reprennent. | Les sections attendent un nouveau point de ralliement. |
+
+- **Enceinte intérieure** : la zone qu'on atteint depuis le centre sans
+  franchir un mur ni une porte, quel que soit le mode de la porte. Avec
+  plusieurs enceintes, c'est la plus proche du centre.
+- Sans enceinte fermée, le repli général replie tout le monde et ne
+  verrouille rien : le jeu le dit.
+- **Brèche nommée** : quand un mur ou une porte tombe pendant l'alerte ou
+  l'assaut, l'annonce donne le **côté** (nord, est, sud, ouest), l'ouvrage, et
+  le nombre d'infectés déjà dans l'enceinte intérieure.
+- Module `src/fallback-order.js`, test `tests/fallback-order.test.cjs`.
+- L'ordre **compose des commandes existantes** (repli des sections, ordre de
+  repli des ouvriers, mode des portes) avec leurs propres refus. Il n'ajoute
+  ni valeur d'équilibrage, ni stock, ni dégât, ni tirage, et ne modifie pas
+  `src/core.js`.
+
+Limites :
+
+- L'ordre de repli en cours, les portes qu'il a verrouillées avec leur mode
+  précédent, les brèches ouvertes et la ligne de repli choisie sont
+  **sauvegardés** (module additif `fallback217`). Une reprise ne réannonce
+  rien ; une sauvegarde plus ancienne se charge sans ordre ni brèche.
+- Le repli vise toujours le centre. Le repli **enceinte par enceinte**, avec
+  le choix de la ligne à tenir, viendra avec les districts (§8.2).
+- Le repli général est le premier pas du sacrifice de secteur (§8.3), sans
+  encore l'évacuation des stocks ni l'état « perdu ».
+
 ### 8.2 Districts autonomes **[DÉCISION]**
 
 - Un **district** est un secteur fermé doté d'un **responsable**, d'une
@@ -1231,6 +2101,33 @@ géographie.
 - **Contrepartie** : chaque district ajoute de la signature et immobilise des
   stocks. Dix districts mal reliés perdent plus sûrement qu'un seul bien tenu.
 - Révélé à l'âge 6.
+
+#### Première tranche livrée **[LIVRÉ]**
+
+Le jeu reconnaît **toutes les enceintes fermées** autour du centre, de
+l'intérieur vers l'extérieur : « Enceinte intérieure », « Deuxième
+enceinte », « Troisième enceinte »… Un **district** est la zone d'une
+enceinte moins celle des enceintes intérieures ; le reste est « Dehors ».
+Une porte reste une limite quel que soit son mode. Pas de district sans
+périmètre réellement fermé.
+
+- L'onglet Situation du carnet liste chaque district avec des faits
+  comptés : bâtiments achevés, logements, équipiers par rôle, portes et leur
+  mode, ouvrages en service et fragiles, infectés présents.
+- Dès qu'il y a deux enceintes fermées, le Commandant choisit la **ligne de
+  repli général** : tout le monde rentre toujours vers le centre, mais ce
+  sont les portes de l'enceinte choisie qui sont verrouillées, et seulement
+  quand plus personne n'est au-delà. Si cette ligne tombe, le repli revient
+  à l'enceinte encore fermée.
+- Module `src/districts.js`, test `tests/districts.test.cjs`. Lecture
+  seule : aucune valeur d'équilibrage, aucun stock, dégât, tirage ni état
+  sauvegardé. Le seuil de mur fragile est celui du relevé de champ de
+  bataille.
+
+Restent à faire : responsable, garnison affectée, stocks propres et
+priorité ; ordres *tenir / évacuer / sacrifier* ; repli des unités vers une
+enceinte plutôt que vers le centre ; état des secteurs (§8.3) par district ;
+révélation à l'âge 6 (la section est visible dès maintenant).
 
 ### 8.3 Sacrifice et reconquête **[DÉCISION]**
 
@@ -1255,6 +2152,46 @@ Cette étape devient un système à part entière.
   coûte moins cher que rebâtir.
 - Révélé à l'âge 9, mais la perte et la reprise simples existent dès qu'il y a
   deux enceintes.
+
+#### Première tranche livrée **[LIVRÉ]**
+
+L'onglet Situation du carnet affiche l'**état des quatre secteurs** de la
+cité (nord, est, sud, ouest) et, quand une ligne est ouverte, la
+**reconquête en trois temps**.
+
+| État | Ce qui le déclenche |
+|---|---|
+| Tenu | Ligne intacte, aucun contact. |
+| Menacé | Ligne intacte, mais contacts ou murs fragiles de ce côté pendant l'alerte ou l'assaut. |
+| Contesté | Un mur ou une porte de ce côté est tombé ; personne n'est encore entré. |
+| Perdu | La ligne est ouverte **et** des infectés sont à l'intérieur. |
+| Repris | La brèche est rebâtie : annoncé une fois, puis le secteur redevient tenu. |
+
+Reconquête, lue sur l'état réel :
+
+1. **Isoler** : fait quand chaque brèche est recouverte par un mur ou une
+   porte en service.
+2. **Nettoyer** : fait quand plus aucun infecté n'est près du centre.
+3. **Rétablir** : fait quand les deux premiers le sont et que le repli est
+   levé.
+
+- Les annonces « Secteur nord perdu » et « Secteur nord repris » paraissent
+  une fois par changement.
+- Tout est **déduit de faits déjà calculés** : contacts et murs fragiles par
+  le relevé de champ de bataille existant, brèches par la chute réelle d'un
+  ouvrage. Aucune valeur d'équilibrage, aucun effet sur la simulation.
+- Dans `src/fallback-order.js`, test `tests/fallback-order.test.cjs`.
+
+Écarts avec la direction ci-dessus, à combler :
+
+- Un « secteur » est ici un **côté** de la cité, pas encore la zone entre
+  deux enceintes : cela viendra avec les districts (§8.2).
+- Un secteur perdu **continue de produire** et ses structures ne se
+  dégradent pas davantage : l'état est un constat, pas encore une règle.
+- Le **sacrifice volontaire** avec évacuation des stocks n'existe pas ; le
+  repli général (§8.1) en tient lieu.
+- Le relevé de la nuit (secteurs perdus et repris) n'est pas sauvegardé : il
+  repart de zéro après une reprise. Les brèches ouvertes, elles, le sont.
 
 ### 8.4 Grands ouvrages **[DÉCISION]**
 
@@ -1285,6 +2222,64 @@ Cette étape devient un système à part entière.
 
 Un ouvrage ne crée pas de quatrième génération de mur : les trois générations
 restent la règle. Révélé à l'âge 10.
+
+**Première tranche livrée [LIVRÉ]**, nouvelles campagnes seulement
+(`src/great-works217.js`, valeurs dans `C.GreatWorks217Rules`, test
+`tests/great-works217.test.cjs`)
+
+- À l'âge Mégaville II, la cité peut lancer deux grands ouvrages depuis le
+  dépôt : le **Beffroi d'alerte** et la **Nécropole**.
+- Chaque ouvrage compte trois tranches. Une tranche est payée sur le stock,
+  puis construite en 60 s. Le chantier s'arrête de l'alerte à la fin de
+  l'assaut, et quand aucun ouvrier n'est présent. Une seule tranche par
+  ouvrage et par nuit : un ouvrage demande donc au moins trois nuits.
+- **Un ouvrage inachevé n'a aucun effet**, ni bénéfice ni prix.
+- Achevé, le beffroi allonge l'alerte avant l'assaut de 8 s ; la nécropole
+  accélère de moitié le déblaiement des corps par les ouvriers. Chacun
+  ajoute à la signature de la cité (+120 et +80) : c'est leur prix.
+- L'avancement se lit dans le dossier de situation (carte « Grands
+  ouvrages ») et sur un repère dessiné au-dessus du dépôt.
+
+Réserves : rien n'a été joué en conditions réelles ; l'âge a été forcé par
+une sauvegarde modifiée. **Écart avec la direction** : la tranche est un
+minuteur sans bâtiment ni emprise, la silhouette de la cité ne change pas,
+et une tranche inachevée n'est pas une faiblesse pendant l'assaut. Le prix
+en signature est presque symbolique avec la courbe ouverte (environ 1 %
+d'infectés en plus). La carte « Signature » affiche un total qui inclut les
+ouvrages, mais pas dans ses quatre parts.
+
+Restent à faire : les neuf autres ouvrages, un vrai chantier posé sur la
+carte, la tranche inachevée comme point faible, le prix en moral du
+district voisin, l'activation sur une campagne ancienne.
+
+**Deuxième tranche livrée [LIVRÉ] : le chantier posé sur la carte**
+
+- Un grand ouvrage occupe une **emprise choisie par le joueur** dans la
+  cité, à 44 cases au plus du dépôt : 4 × 4 cases pour le beffroi, 8 × 6
+  pour la nécropole. Pose comme au catalogue (aperçu, clic, Échap),
+  gratuite, déplaçable tant qu'aucune tranche n'est lancée. Aucun ouvrage
+  ne peut ensuite se poser dessus ; l'emprise ne ferme aucune case.
+- **La silhouette grandit à chaque tranche** : 8, 16 puis 24 m pour le
+  beffroi ; 2, 3,5 puis 5 m pour l'enceinte de la nécropole. Une tranche en
+  chantier apparaît en échafaudage.
+- **Une tranche inachevée est une faiblesse** : pendant l'assaut, chaque
+  infecté présent dans l'emprise lui retire 2 s de chantier par seconde, au
+  plus la moitié de la tranche par assaut. Aucun dégât, rien de repayé.
+- Achevée, la nécropole sert la filière des corps (§8.7) : bûcher 1,5 fois
+  plus rapide, fosses de 240 corps au lieu de 120.
+- La carte « Signature » compte les grands ouvrages et le bûcher comme une
+  cinquième part.
+- Une campagne de la première tranche garde son avancement ; ses ouvrages
+  restent sans emprise, sauf si le joueur leur en choisit une.
+
+Réserves : l'emprise n'est pas un ouvrage du monde (pas de points de vie, la
+horde ne la vise pas : elle la piétine en passant). Bien abritée à
+l'intérieur, elle ne risque rien. La vue à la première personne ne montre
+pas la silhouette. Rien n'a été joué en conditions réelles.
+
+Restent à faire : les neuf autres ouvrages, un vrai ouvrage du monde
+(points de vie, cible de la horde), le prix en moral du district voisin, la
+silhouette en vue à la première personne.
 
 ### 8.5 Lois et rationnement **[DÉCISION]**
 
@@ -1323,6 +2318,39 @@ Règles propres aux lois dures :
   ferme ses portes cesse d'être « un endroit où revenir », et le récit doit
   pouvoir le dire.
 
+#### Première tranche livrée **[LIVRÉ]**
+
+À la Grande métropole, la cité peut promulguer au dépôt trois lois
+(`src/city-laws217.js`, valeurs dans `C.CityLaws217Rules`) :
+
+| Loi | Effet | Prix |
+|---|---|---|
+| Demi-rations | Nourriture consommée −50 % | Moral −0,12/s (−0,04/s net du regain ordinaire) |
+| Rationnement de l'eau | Eau puisée −30 % ; citernes préservées pour les incendies | Moral −0,10/s (−0,02/s net) |
+| Corvée de déblaiement | Après chaque assaut repoussé, les ouvriers déblaient 30 s à cadence ×1,5 | Ni récolte ni chantier pendant la corvée |
+
+- Une loi à l'âge 8, deux aux âges 9 et 10, trois à l'âge 11. Tout changement
+  prend effet après 60 s, **jamais de l'alerte à la fin de l'assaut**.
+- Nouvelles campagnes : suivies d'office. Campagnes existantes : activation
+  volontaire au dépôt. État sauvegardé comme module additif.
+- Aucune ressource créée : les demi-rations restituent au plus ce qui vient
+  d'être consommé.
+- Test `tests/city-laws217.test.cjs`.
+
+Écarts et réserves :
+
+- **Extinction des feux n'est pas livrée**, et pour une raison de fond :
+  voir §11.3. La signature ne peut plus rien changer aux hordes à cet âge.
+- Le rationnement de l'eau coûte du moral, pas le rendement des fermes prévu
+  plus haut.
+- Le moral n'agit dans le jeu qu'en dessous de 20 : avec une seule loi de
+  rationnement, il faut environ 33 min pour y descendre. Le prix est
+  probablement trop doux.
+- Aucune de ces valeurs n'a été éprouvée par une campagne humaine.
+
+Restent à faire : conscription, quarantaine des arrivants, les lois dures et
+leurs visages, le lien avec les Éteints.
+
 Les lois prolongent les quatre crises existantes : une crise est un choix
 ponctuel, une loi est un choix durable. Révélées à l'âge 8.
 
@@ -1350,6 +2378,50 @@ une sirène. Rien n'est visible de loin. Les hordes régionales (jusqu'à
   Il peut la suivre, la prévenir, ou rentrer.
 - La foule lointaine est un **dessin de la simulation**, pas une seconde
   simulation : elle ne crée ni dégât ni tirage.
+
+**Première tranche livrée [LIVRÉ], présentation seulement**
+
+- Pendant l'alerte et l'assaut, une masse sombre de silhouettes se tient au
+  bord de la carte du côté de chaque front encore attendu
+  (`src/horde-horizon217.js`). Elle grossit pendant le préavis et s'amenuise
+  à mesure que la file se vide.
+- Le dossier Situation indique « Horde en approche : fronts — N contacts
+  restant à entrer ».
+- Aucune silhouette n'est un infecté : ni dégât, ni tirage, ni horloge.
+  240 silhouettes au plus, 96 en qualité légère ; positions déterministes.
+- L'effectif n'est pas partagé entre fronts : le jeu tire le front de chaque
+  arrivée au moment où elle entre.
+- Test `tests/horde-horizon217.test.cjs`.
+
+**Passe visuelle [LIVRÉ]**
+
+- La masse est une foule : une avant-garde de silhouettes entières (tête,
+  épaules, tronc, jambes, parfois bras tendus) devant des rangs serrés de
+  têtes, sur une base sombre et un voile de poussière. Vues de face au nord,
+  de dos au sud, de profil à l'est et à l'ouest.
+- Trois densités : une petite vague arrive par paquets, une vague moyenne
+  tient tout le bord, une marée s'épaissit sur environ cinq mètres.
+- Elle se tient à la limite de ce que l'interface cache, sur les quatre
+  côtés ; un libellé « HORDE · EST » marque le bord quand elle est hors
+  champ.
+- Elle est peinte avec le sol : acteurs, véhicules et bâtiments passent
+  dessus, et aucune figure n'est posée autour du Commandant.
+- Au plus 240 silhouettes entières et 1 440 têtes de rang (96 et 192 en
+  qualité légère).
+
+Réserves, constatées dans un navigateur :
+
+- La masse **entre de 8 à 12 m dans la carte** selon l'interface : un
+  rempart extérieur bâti loin serait dessiné par-dessus elle.
+- Les têtes de rang sont carrées, d'aspect « briques » de près.
+- Est et ouest restent moins imposants que nord et sud ; une petite vague
+  reste discrète ; en nuit noire on voit des têtes, pas des corps.
+- L'animation n'a pas été observée à l'écran, seulement testée.
+- La masse ne se voit que si le bord de la carte est à l'écran : pas encore
+  « depuis le rempart ».
+
+Restent à faire : allonger et faire gagner le préavis ; relier la vague à
+une migration régionale ; les masses agrégées ; la vue depuis les remparts.
 
 #### Les pyramides de corps
 
@@ -1391,6 +2463,36 @@ une sirène. Rien n'est visible de loin. Les hordes régionales (jusqu'à
 - Une pyramide ne se forme jamais sans le nombre : c'est l'expression directe
   de la règle « plus de monde, pas plus de vie ».
 
+**Lecture de l'amas au sol [LIVRÉ], présentation seulement**
+(`src/corpse-heaps217.js`, test `tests/corpse-heaps217.test.cjs`)
+
+| État | Charge | Ce qu'on voit contre la face extérieure |
+|---|---|---|
+| Épars | Moins de 50 % du seuil | Quelques corps |
+| Haut | 50 à 85 % | Un talus continu |
+| Imminent | 85 à 100 % | Le talus atteint la crête, liseré ambré |
+| Franchi | Au-delà | Les corps couvrent le mur, liseré rouge et chevrons |
+
+- **Le seuil dépend de chaque infecté, pas du mur** : les infectés agiles
+  ont chacun le leur, de 15 à 32 corps. Les premiers passent à 15, tous
+  passent au-delà de 32. L'affichage prend le premier franchissement pour
+  repère.
+- Une annonce signale « imminent » puis « franchi », une fois par épisode,
+  jamais à la reprise. Le dossier Situation donne l'amas le plus haut par
+  côté et le temps de déblaiement d'un ouvrier.
+- 600 corps dessinés au plus (240 en qualité légère). Aucune règle
+  modifiée, aucun état sauvegardé. Les remparts de citadelle gardent leur
+  rendu en gradins.
+
+Réserves : corps en découpes à plat ; la hauteur se lit par l'emprise et la
+densité, pas par un volume ; l'amas épars est presque invisible de nuit ; la
+montée pendant un vrai combat n'a pas été observée ; dans un cas extrême de
+180 murs chargés visibles, le dessin coûte 8 à 14 ms par image en rendu
+logiciel.
+
+Restent à faire : faire monter l'amas par les vivants ; l'affaisser en
+tirant dans sa base ; l'incendier ; animer le franchissement.
+
 #### Les murs colossaux
 
 **[LIVRÉ]** Remparts de 12, 24 et 48 m, dalles jusqu'à 72 m, quatre affûts,
@@ -1427,6 +2529,39 @@ secteur. La chute d'un rempart ne termine pas la partie.
 
 Une brèche catastrophe ne termine jamais la partie à elle seule : seule la
 chute du centre de commandement le fait.
+
+**Première tranche livrée [LIVRÉ], nouvelles campagnes seulement**
+(`src/breach217.js`, valeurs dans `C.Breach217Rules`, test
+`tests/breach217.test.cjs`)
+
+- **Le pan menacé** : une suite droite d'au moins 4 ouvrages de mur voisins,
+  portes comprises, tous sous 30 % de leur solidité. Il est annoncé une
+  fois (« Le mur nord menace de céder sur 4 ouvrages. ») et figure dans le
+  dossier « Pans menacés ». Réparer un seul de ses ouvrages au-dessus du
+  seuil lève la menace.
+- **La rupture** : si un ouvrage d'un pan déjà annoncé est détruit, le reste
+  du pan cède dans le même instant, 6 ouvrages au plus, avec une annonce
+  unique (« Rupture au nord : 5 ouvrages ont cédé d'un coup. »).
+- Elle n'ajoute aucun dégât aux ouvrages sains, ne tire aucun hasard, ne
+  crée ni infecté ni ressource, n'emporte jamais le centre et ne déclenche
+  pas d'autre rupture. Un pan ne tourne pas le coin.
+- Le seuil de fragilité est celui du relevé de champ de bataille : il n'y en
+  a qu'un.
+- Les campagnes commencées avant gardent la chute ouvrage par ouvrage.
+
+**Risque d'équilibrage, jamais joué** : les ruptures pourraient être
+fréquentes en début de partie, alors qu'elles doivent rester rares. Les
+infectés frappent souvent plusieurs palissades voisines, qui passent vite
+sous 30 %. Une ouverture d'une case peut devenir une ouverture de huit, et
+une section postée sur le pan peut perdre plusieurs équipiers d'un coup.
+**[DÉCISION]** Réglage retenu : 4 ouvrages pour menacer, 6 emportés au
+plus (auparavant 3 et 8). Leviers restants : passer à 5, ou réduire encore
+le nombre d'ouvrages emportés.
+
+Restent à faire : montrer les pans menacés sur la carte (fissures) ; les
+autres signes avant-coureurs (poids de l'amas, abomination en approche) ;
+la décision tenir, évacuer ou sacrifier avec les districts ; une seule
+brèche nommée par rupture dans l'état des secteurs.
 
 ### 8.7 La filière des corps **[DÉCISION]**
 
@@ -1466,6 +2601,48 @@ Cohérence :
   le grand ouvrage.
 - Propriétaires : `game.js`, `core.js` (`WORKER_RULES`), `urban.js`,
   `weather193.js`.
+
+**Première tranche livrée [LIVRÉ]**, nouvelles campagnes seulement, à partir
+de l'âge Avant-poste (`src/corpse-chain217.js`, valeurs dans
+`C.CorpseChain217Rules`, test `tests/corpse-chain217.test.cjs`)
+
+- Un corps retiré d'un mur ou d'un fossé, par un ouvrier ou par le
+  Commandant, reste **« à traiter »**. La charge au pied du mur garde ses
+  règles.
+- **Bûcher** : décidé au dépôt, au bois ou au carburant. Il consume vite
+  (90 corps par minute), ajoute 60 à la signature tant qu'il brûle, fume, et
+  s'éteint seul faute de corps ou de combustible. On peut l'éteindre avant
+  un assaut.
+- **Fosse** : 20 bois et un chantier d'ouvriers. Lente (15 corps par
+  minute), sans signature, arrêtée pendant les assauts ; pleine à 120 corps,
+  elle se referme et il faut en ouvrir une autre.
+- **Maladie** : les corps laissés (à traiter, plus la charge au pied des
+  murs) au-delà d'un seuil proportionné à la population rendent la cité
+  malade, par paliers annoncés d'avance comme la pénurie d'eau : grâce de
+  2 minutes, baisse du moral, malades affaiblis un à un, puis mort des plus
+  fragiles par le chemin de mort ordinaire. Les médicaments du dépôt évitent
+  une mort, à moindre dose avec une clinique en service. La pluie hâte le
+  mal, le temps sec le ralentit ; repasser sous le seuil arrête tout.
+- La corvée de déblaiement et la Nécropole accélèrent le déblaiement, donc
+  l'arrivée des corps à traiter.
+- Carte « Corps et salubrité » dans le dossier de situation.
+
+Réserves : rien n'a été joué en partie réelle. **Risque principal** : les
+vagues tardives laissent des centaines de corps et le calme est court ; la
+maladie pourrait devenir chronique dans une grande cité. Le seuil par
+habitant est une estimation, à éprouver en priorité. Trois baisses de moral
+peuvent se cumuler (eau, demi-rations, maladie). **Écarts avec la
+direction** : la maladie est à l'échelle de la cité, pas du secteur ; le
+bûcher et la fosse sont des emplacements tenus par le module, dessinés sous
+le dépôt, pas des ouvrages posés, donc la fosse n'est pas encore un vrai
+choix d'espace. Le Commandant ne tombe jamais malade. La radio ne relaie pas
+la maladie.
+
+L'ouverture de la filière à l'âge Avant-poste est annoncée une fois ; la
+radio relaie les paliers de maladie pendant une sortie.
+
+Restent à faire : effet par secteur, fosse comme emprise réelle hors des
+murs, chaleur, rôle propre de la Nécropole dans la filière.
 
 ### 8.8 Ce que la fin de jeu ne doit pas devenir
 
@@ -1617,15 +2794,10 @@ Passe du 10 novembre 2026 :
 | 12, 13, 14 | **Corrigées** dans `src/narrative.js`, avec un test dans `tests/narrative.test.cjs`. Le chapitre I ne suppose plus d'effectif ; « E.R. » est écrit Émile R. ; le répartiteur est Sami V. |
 | 9, 10 | **Non confirmées** à la relecture : les formulations relevées n'ont pas été retrouvées telles quelles. Aucun changement. |
 | 16 | **Vérifiée** : `D17:` est une clé interne de l'espace de coopération, validée par motif et jamais affichée. Aucun changement. |
-| 17, 18 | **Ouvertes** : ce sont des chantiers de jeu (§12, rangs 12 et 14), pas des corrections de texte. |
+| 17 | **Résolue** par « tout simuler » (§7.15, première tranche). |
+| 18 | **Ouverte** : chantier de jeu (§12, rang 14). |
 
 L'accord de la fiche du Manutentionnaire (§2.5) reste à trancher.
-
-La fiche du Commandant dit encore « premier responsable de D-17 » dans
-`src/core.js`. Ce fichier est couvert par les preuves d'inspection du codex
-(`docs/codex/suivi-monde2026/`) : toute modification impose de régénérer
-l'inspection. La correction est reportée au premier chantier qui touchera
-`core.js` pour une raison de jeu.
 
 ### 11.2 Défauts du jeu relevés en passant
 
@@ -1633,8 +2805,123 @@ Deux défauts de la version d'origine (`main`) faisaient échouer la CI par
 intermittence, quel que soit le contenu d'une demande de fusion.
 
 | Défaut | Constat | Correction |
-|
+|---|---|---|
+| **Nouvelle partie impossible sur certaines graines** | En contenu actuel, le décor métrique ne trouvait aucune parcelle libre sur de rares graines (relevées : 3033422227, 139741324, 4075956896 ; aucune sur 60 tirées en série). La création s'interrompait à mi-chemin. | `src/map-recovery216.js` reprend la création avec une autre carte et l'annonce au joueur. Une graine qui fonctionne donne exactement le même monde qu'avant. Test `tests/map-recovery216.test.cjs`. |
+| **Test de libellés sensible à la police** | `tests/expedition-art159.test.cjs` mesurait du texte avec la police du système et échouait sur l'image actuelle des machines de CI. | Le test vérifie le contrat de retour à la ligne sur n'importe quelle police, et les vrais noms avec une largeur de caractère fixe. |
 
+### 11.3 La signature cesse d'agir avant la fin de partie
+
+Constat fait en livrant les lois, sur la version d'origine :
+
+- L'effet de la signature sur l'effectif d'une vague est plafonné à +80 %,
+  atteint dès une signature de **288** (`C.wavePlan`, `signature / 360`
+  borné à 0,8).
+- Or il faut un score de bâtiments de **420** pour atteindre la Grande
+  métropole, et ce score entre entier dans la signature.
+- À partir de là, agrandir la cité n'attire plus un infecté de plus, et la
+  réduire ne change rien.
+
+Cela contredit la règle centrale du §1.2 : les deux courbes cessent de
+monter ensemble vers le milieu de la progression. Tant que cette courbe
+n'est pas revue, **aucune décision de fin de jeu fondée sur la signature n'a
+d'effet** : extinction des feux, grands ouvrages, beffroi, Éteints.
+
+**[DÉCISION]** La courbe devient **sans plafond** :
+
+- identique à aujourd'hui tant que l'attirance reste sous +80 % ;
+- au-delà, elle continue de monter, de plus en plus lentement : environ
+  +110 % à la Grande métropole, environ +150 % à Mégaville III ;
+- elle ne s'applique qu'aux **nouvelles campagnes** ; les campagnes en cours
+  gardent la courbe plafonnée.
+
+**[DÉCISION]** Le **moral agit par paliers**, dans les nouvelles campagnes
+seulement. Aujourd'hui il ne pèse qu'en dessous de 20 (vitesse ×0,82). Il
+doit ralentir progressivement, et plus tôt :
+
+- le travail des ouvriers (récolte, chantiers, déblaiement) ;
+- le déplacement de tous ;
+- la cadence de tir des fusiliers ;
+- et, à un moral très bas qui dure, faire partir des habitants.
+
+Sans cela, le prix des lois de rationnement (§8.5) met environ 33 minutes à
+se faire sentir.
+
+**[LIVRÉ], nouvelles campagnes seulement** (`src/balance217.js`, valeurs dans
+`C.Balance217Rules`, test `tests/balance217.test.cjs`) :
+
+- **Signature sans plafond** : identique à l'ancienne courbe jusqu'à +80 %
+  (signature 288), puis toujours croissante et de plus en plus lente : +94 %
+  à 420, +110 % vers 600, +125 % vers 1 000, +150 % vers 2 600. La fiche
+  « Signature et moral » et la lecture de siège affichent la courbe en
+  vigueur.
+- **Moral par paliers** : ×0,94 sous 60, ×0,88 sous 40, ×0,82 sous 20, sur le
+  déplacement des unités, sur la récolte, les chantiers et le déblaiement
+  des ouvriers, et sur la cadence de tir des fusiliers.
+- **Départs** : sous 10 de moral pendant cinq minutes, un ouvrier quitte la
+  cité, puis un autre toutes les trois minutes, après annonce. Jamais le
+  dernier ; jamais en double d'une pénurie d'eau, qui a ses propres départs.
+- Les campagnes commencées avant gardent la courbe plafonnée et le seul
+  ×0,82 sous 20, sans activation possible. Un plan de vague déjà tiré n'est
+  jamais recalculé.
+
+Conséquences à connaître, **jamais jouées** :
+
+- À signature 600, une vague compte environ 17 % d'infectés de plus
+  qu'avant ; à 2 600, environ 39 % de plus. Le plafond d'infectés simultanés
+  étale ce surplus : les nuits seront plus longues autant que plus denses.
+- Une **spirale** est possible : moral bas, donc ouvriers et fusiliers plus
+  lents, donc moins de récolte et de feu, donc pertes et famine, donc moral
+  plus bas, puis départs. Le plancher ×0,82 et le dernier ouvrier épargné la
+  bornent.
+- Une **famine continue fait maintenant partir des ouvriers** au bout
+  d'environ sept minutes.
+- Le prix des lois de rationnement se sent dès 60 de moral : cinq à six
+  minutes de demi-rations au lieu d'environ 33.
+
+**[DÉCISION]** Le Commandant n'est **pas** ralenti par le moral : le moral
+pèse sur la cité, pas sur la maniabilité du personnage joué. « Le
+déplacement de tous » s'entend des habitants et des équipes.
+
+Restent à décider : si les spécialistes, les gardes de palier et les travaux
+affectés (routes, récupération, expéditions) suivent aussi les paliers ; une
+activation pour les anciennes campagnes ; puis
+brancher les décisions de fin de jeu fondées sur la signature.
+
+### 11.4 Limites de la reprise de carte
+
+Limites de la première correction du défaut de génération (§11.2) :
+
+- La **cause est traitée** (217) : sur une carte saturée, les grandes ruines
+  n'avaient plus de parcelle avec un mètre de dégagement. La seule pièce
+  restée sans parcelle est désormais replacée avec un dégagement réduit par
+  paliers (`C.Scenery217Rules` : 1 m, 0,5 m, contact), sans recouvrement,
+  sans tirage et sans perdre de gisement. Les graines 3033422227,
+  139741324, 4075956896 et 1168806633 démarrent avec leur graine.
+- **Écart assumé** au contrat « un mètre partout » : sur ces cartes
+  saturées seulement, quelques grandes ruines ont entre 0,5 m et 1 m de
+  dégagement. Le palier « contact » n'a été atteint sur aucune graine
+  observée.
+- Balayage de 300 graines : 1 échec avant, 0 après ; 299 cartes saines
+  identiques au bit près. Ce balayage est court : une carte encore plus
+  saturée lancerait la même erreur et serait reprise par
+  `src/map-recovery216.js`, qui reste le filet de sécurité.
+- Test `tests/seed-scenery217.test.cjs`.
+- Une graine **saisie à la main** qui se révèle impraticable est remplacée
+  elle aussi, avec l'annonce. Une **recette de carte rejouée** n'est jamais
+  remplacée : l'erreur d'origine est conservée.
+
+---|---|---|
+| **Nouvelle partie impossible sur certaines graines** | En contenu actuel, quelques graines font échouer la génération du décor : « Décor métrique sans parcelle libre ». Trois graines relevées : 3033422227, 139741324, 4075956896. Rare : aucune sur 60 graines tirées en série. La partie ne démarre pas. | `packMetricScenery202`, `src/exploration-125.js` |
+| **Test de libellés sensible à la police** | `tests/expedition-art159.test.cjs` mesure du texte avec la police du système ; il échoue sur l'image actuelle des machines de CI et passe ailleurs. | `tests/expedition-art159.test.cjs` |
+
+Ces deux défauts font échouer la CI par intermittence, indépendamment du
+contenu d'une demande de fusion.
+
+La fiche du Commandant est corrigée (« premier commandant de D-17 ») depuis
+le chantier de l'eau de cité, qui modifiait déjà `src/core.js`. Ce fichier est
+couvert par les preuves d'inspection du codex
+(`docs/codex/suivi-monde2026/`) : toute modification impose de régénérer
+l'inspection, environ cinq minutes.
 
 ---
 
@@ -1647,27 +2934,27 @@ cohérence (§5.3) et se termine par `npm run check`.
 | Rang | Chantier | Pilier servi | Propriétaires principaux | Parcours joueur observable |
 |---:|---|---|---|---|
 | 0 | Nettoyage documentaire (§11) | Tous | `docs/`, `PROJECT_MANIFEST.md`, `CHANGELOG.md` | Les documents disent la même chose que le jeu. |
-| 1 | Révélation par âge (§6) | Clarté | `command-ui.js`, `urban.js`, `core.js` | Une nouvelle partie n'affiche que cinq systèmes. |
-| 2 | Signature visible et bilan de nuit (§7.4, §8.1) | Siège | `urban.js`, `battlefield.js`, `command-ui.js` | Le joueur voit pourquoi la horde grossit et ce qu'il a tenu. |
-| 3 | Brèche nommée et repli par enceinte (§8.1) | Siège | `tactics.js`, `squads.js`, `game.js` | Une porte cède, un ordre replie la garnison. |
-| 4 | Eau de cité (§7.3) | Chaîne | `core.js`, `urban.js`, `husbandry191.js`, `weather193.js` | Une sécheresse fait baisser les fermes. |
-| 5 | Exploration en trois échelles (§7.9) | Monde | `frontier-*.js`, `expeditions.js`, `field-atlas*.js` | Une seule carte, trois zooms, un besoin affiché. |
-| 6 | Sacrifice et reconquête (§8.3) | Siège | `tactics.js`, `game.js`, `core.js` | Un secteur est abandonné puis repris au matin. |
-| 7 | Districts (§8.2) | Mégacité | `urban.js`, `tactics.js`, `squads.js` | Un compagnon tient un district sans le joueur. |
-| 8 | Lois (§8.5) | Mégacité | `command-ui.js`, `urban.js`, `core.js` | Une loi change un chiffre et son contraire. |
-| 9 | Grands ouvrages (§8.4) | Mégacité | `core.js`, `settlement-plans.js`, `vertical-citadel175*.js` | La silhouette de la cité change en plusieurs nuits. |
-| 10 | Récit relié et arcs des compagnons (§2.6, §2.7) | Récit | `narrative.js`, `chronicles131-data.js`, `companions-pack.js` | Un entretien suit une nuit difficile. |
-| 11 | Factions (§4) | Monde | `frontier-*.js`, `expeditions.js`, nouveau module additif | Un fourgon est intercepté ; un relais demande de l'aide. |
-| 12 | Cité autonome cohérente : siège vertical actif, consignes, radio (§7.15) | Siège, Monde | `frontier.js`, `departure130.js`, `vertical-siege176.js` | Un message radio annonce une brèche pendant une sortie. |
-| 13 | Marée à l'horizon (§8.6) | Siège | `game.js`, `world-evolution.js`, `vertical-citadel175-render.js` | La horde se voit depuis le rempart avant la sirène. |
-| 14 | Pyramides visibles et masses agrégées (§8.6) | Siège | `vertical-siege176.js`, `art.js`, `core.js` | Un amas déborde un rempart de 24 m ; tirer dans sa base l'affaisse. |
-| 15 | Brèche catastrophe (§8.6) | Siège | `tactics.js`, `game.js`, `battlefield.js` | Un pan cède, la horde s'engouffre, un district est sacrifié. |
-| 16 | Avant-postes, routes gardées, entretien des véhicules (§7.14) | Monde | `world-pack131.js`, `frontier-routing.js`, `return-routes.js` | Un convoi roule seul sur une route gardée. |
-| 17 | Travaux de terrain : fossés, talus, douves (§7.13) | Siège | `core.js`, `game.js`, `barricades134.js` | Un fossé ralentit un front, puis se comble de corps. |
-| 18 | Lieux remarquables et nids (§7.13) | Monde | `frontier-geometry.js`, `codex-campaign205.js` | Un château d'eau vu de loin devient un objectif de sortie. |
+| 1 | Révélation par âge (§6) — première tranche livrée (§6.4) | Clarté | `age-reveal.js`, `ui.js` | Une nouvelle partie masque douze menus, rouverts âge par âge. |
+| 2 | Signature visible et bilan de nuit (§7.4, §8.1) — première tranche livrée | Siège | `urban.js`, `battlefield.js`, `command-ui.js` | Le joueur voit pourquoi la horde grossit et ce qu'il a tenu. |
+| 3 | Brèche nommée et repli par enceinte (§8.1) — première tranche livrée | Siège | `tactics.js`, `squads.js`, `game.js` | Une porte cède, un ordre replie la garnison. |
+| 4 | Eau de cité (§7.3) — première tranche livrée | Chaîne | `core.js`, `urban.js`, `husbandry191.js`, `weather193.js` | Une sécheresse fait baisser les fermes. |
+| 5 | Exploration en trois échelles (§7.9) — première tranche livrée | Monde | `frontier-*.js`, `expeditions.js`, `field-atlas*.js` | Une seule carte, trois zooms, un besoin affiché. |
+| 6 | Sacrifice et reconquête (§8.3) — première tranche livrée | Siège | `tactics.js`, `game.js`, `core.js` | Un secteur est abandonné puis repris au matin. |
+| 7 | Districts (§8.2) — première tranche livrée | Mégacité | `urban.js`, `tactics.js`, `squads.js` | Un compagnon tient un district sans le joueur. |
+| 8 | Lois (§8.5) — première tranche livrée | Mégacité | `command-ui.js`, `urban.js`, `core.js` | Une loi change un chiffre et son contraire. |
+| 9 | Grands ouvrages (§8.4) — première tranche livrée | Mégacité | `core.js`, `settlement-plans.js`, `vertical-citadel175*.js` | La silhouette de la cité change en plusieurs nuits. |
+| 10 | Récit relié et arcs des compagnons (§2.6, §2.7) — première tranche livrée | Récit | `narrative.js`, `chronicles131-data.js`, `companions-pack.js` | Un entretien suit une nuit difficile. |
+| 11 | Factions (§4) — première tranche livrée | Monde | `frontier-*.js`, `expeditions.js`, nouveau module additif | Un fourgon est intercepté ; un relais demande de l'aide. |
+| 12 | Cité autonome cohérente : siège vertical actif (livré), consignes et radio (première tranche livrée) (§7.15) | Siège, Monde | `frontier.js`, `departure130.js`, `vertical-siege176.js` | Un message radio annonce une brèche pendant une sortie. |
+| 13 | Marée à l'horizon (§8.6) — première tranche livrée | Siège | `game.js`, `world-evolution.js`, `vertical-citadel175-render.js` | La horde se voit depuis le rempart avant la sirène. |
+| 14 | Pyramides visibles (livré) et masses agrégées (§8.6) | Siège | `vertical-siege176.js`, `art.js`, `core.js` | Un amas déborde un rempart de 24 m ; tirer dans sa base l'affaisse. |
+| 15 | Brèche catastrophe (§8.6) — première tranche livrée | Siège | `tactics.js`, `game.js`, `battlefield.js` | Un pan cède, la horde s'engouffre, un district est sacrifié. |
+| 16 | Avant-postes et routes gardées (première tranche livrée), entretien des véhicules (§7.14) | Monde | `world-pack131.js`, `frontier-routing.js`, `return-routes.js` | Un convoi roule seul sur une route gardée. |
+| 17 | Travaux de terrain : fossés (livré), talus, douves (§7.13) | Siège | `core.js`, `game.js`, `barricades134.js` | Un fossé ralentit un front, puis se comble de corps. |
+| 18 | Lieux remarquables et nids (§7.13) — première tranche livrée | Monde | `frontier-geometry.js`, `codex-campaign205.js` | Un château d'eau vu de loin devient un objectif de sortie. |
 | 19 | Monde sans bord et relief par paliers (§7.13) | Monde | `frontier-world.js`, `frontier-state.js`, `geography135.js` | Une nouvelle campagne n'a plus de bord ; une falaise sert d'enceinte. |
-| 20 | Filière des corps et maladie (§8.7) | Siège, Chaîne | `game.js`, `core.js`, `urban.js` | Un bûcher fume après l'assaut ; un secteur négligé tombe malade. |
-| 21 | Nouvelles abominations, dont celles de région (§3.5) | Siège, Monde | `core.js`, `vertical-siege176.js`, `world-evolution.js` | Abattre une Meneuse au loin réduit la vague suivante. |
+| 20 | Filière des corps et maladie (§8.7) — première tranche livrée | Siège, Chaîne | `game.js`, `core.js`, `urban.js` | Un bûcher fume après l'assaut ; un secteur négligé tombe malade. |
+| 21 | Nouvelles abominations, dont celles de région (§3.5) — Meneuse au siège livrée | Siège, Monde | `core.js`, `vertical-siege176.js`, `world-evolution.js` | Abattre une Meneuse au loin réduit la vague suivante. |
 | 22 | Vraie coopération (§7.12) | Tous | `coop.js`, `scripts/coop-server.mjs`, `game.js` | Un joueur tient le mur pendant qu'un autre explore. |
 
 Le dernier carré se traite avec le rang 12. Le monde sans bord et la

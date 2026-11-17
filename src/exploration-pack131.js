@@ -1,6 +1,8 @@
 /* Long-distance logistics: real stocks, finite maintenance and physical wreck recovery. */
 (function(root){
 'use strict';
+/* Monde sans bord T1 : lecture par les accesseurs du monde ; repli identique pour un monde sans accesseur. */
+const siteOf217=(w,id)=>w.site?w.site(id):w.pois.find(p=>p.id===id);
 const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),R=C.Travel131Rules;
 const G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null);
 const Survey=root.DeadwallFrontierSurvey||(typeof require==='function'?require('./frontier-survey.js'):null);
@@ -9,7 +11,7 @@ const finite=(v,min,max)=>typeof v==='number'&&Number.isFinite(v)&&v>=min&&v<=ma
 const initial=()=>({version:1,tuning:null,wrecks:[]});
 const validationWorlds=new Map();
 function wreckReserve(seed,id){return R.wreckMinimum+G.hash(seed,id,'mechanical-reserve131')%R.wreckVariance;}
-function resolveWreck(world,id){if(typeof id!=='string'||!/^P\d{4}:car:\d+$/.test(id))return null;const p=world.pois.find(p=>p.id===id.split(':')[0]);return p?.parking.find(v=>v.id===id&&!['bike','skate'].includes(v.type))||null;}
+function resolveWreck(world,id){if(typeof id!=='string'||!/^P\d{4}:car:\d+$/.test(id))return null;const p=siteOf217(world,id.split(':')[0]);return p?.parking.find(v=>v.id===id&&!['bike','skate'].includes(v.type))||null;}
 function normalize(raw,full){
  if(raw===undefined)return initial();
  const fail=()=>{throw Error('Logistique lointaine : registre invalide.');};

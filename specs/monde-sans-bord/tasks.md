@@ -1,0 +1,727 @@
+# Monde sans bord — tâches
+
+Besoin : [spec.md](spec.md). Plan et tranches : [plan.md](plan.md).
+
+Règle commune à toute tâche : avant et après, les mondes G1–G11 des graines
+0, 1, 42, 17117, 84329, 967313470, 1947648717, 4294967295 sont identiques
+(`node scripts/audit-campaign-sites205.cjs <sortie> <graines>` comparé, hors empreintes de
+sources, à `docs/codex/suivi-monde2026/campagne205-eligibilite.json`).
+
+## T0 — Adressage des cantons (livré)
+
+- [x] T0.1 Règles `C.WorldCantons217Rules` dans `src/core.js`.
+- [x] T0.2 `src/world-cantons217.js` : coordonnées signées, identifiants de canton, d'objet
+      et de couture, sous-graines de canton, de couture et de sommet, voisinage, anneau,
+      plan de chargement, cache borné.
+- [x] T0.3 `tests/world-cantons217.test.cjs` : vecteurs figés, ordre de visite, symétrie des
+      coutures, éviction, isolement (non chargé par `index.html`, lu par aucun fichier).
+- [x] T0.4 Vérification : empreintes de monde inchangées ; seule l'empreinte de source de
+      `src/core.js` change.
+
+## T1 — Accesseurs de limite (aucun changement de valeur) — livré
+
+Tranche vérifiée ; test `tests/world-bounds217.test.cjs` (14 cas).
+
+- [x] T1.1 `src/frontier-world.js` : `limits(size)` et `limitsForGeneration(g)` (objets gelés, un
+      par taille), repris tels quels par le monde rendu par `create` : `outside(x, y, pad)`,
+      `outsideOpen(x, y, pad)`, `contains(x, y, pad)`, `clampInside(x, y, pad)`, `extent()`,
+      `chunkRange(chunk)`, `axisMin(pad)`, `axisMax(pad)`, plus `site(id)` et
+      `sitesNear(x, y, radius)`. Trois prédicats et non un seul, parce que les sites d'appel
+      historiques ne traitent pas un `NaN` ni le bord exact de la même façon :
+      `outside` = `x<pad||y<pad||x>size-pad||y>size-pad` (bord admis, `NaN` admis),
+      `outsideOpen` = `x<=pad||…||x>=size-pad` (bord refusé), `contains` = forme positive
+      `x>=pad&&…&&x<=size-pad` (`NaN` refusé). `contains` n'est donc **pas** la négation de
+      `outside`. `axisMin(pad)` = `pad` et `axisMax(pad)` = `size - pad` : les deux bornes d'un
+      axe, pour les validateurs qui gardent leur propre garde `!Number.isFinite(v)||v<lo||v>hi`.
+      `site(id)` : index par identifiant construit à la première lecture, reconstruit si la liste
+      change, premier lieu portant l'identifiant comme `pois.find`.
+      `sitesNear(x, y, radius)` : lieux dont le centre **ou** l'emprise tournée est à `radius` au
+      plus du point, dans l'ordre de la liste ; un lieu ou un point non mesurable (`NaN`) n'est
+      jamais retiré. C'est un préfiltre : l'appelant réapplique son critère d'origine, inchangé.
+- [x] T1.2 Test d'équivalence : 10 000 points par taille (8 192 et 24 576), bords, `NaN`, infinis
+      et marges compris, anciens calculs contre accesseurs ; mondes réels G4, G8, G11 ; tailles
+      des générations 1 à 11.
+- [x] T1.3 a) acteurs : `frontier.js` (dérive animale ; `enemyBlocked`), `world-evolution.js`.
+      `enemyBlocked` : converti en gardant les deux précomparaisons `x<R.footRadius||y<R.footRadius`
+      devant `outside217(world(),x,y,R.footRadius)`. `world()` crée la région à la demande : il
+      est lu exactement au moment où l'ancienne expression lisait `world().size` pour la première
+      fois, jamais plus tôt. Seule différence : la seconde lecture consécutive de `world()` dans
+      la même expression disparaît ; `world()` relu sans rien entre les deux est sans effet
+      (`ensure()` ne réécrit que les mêmes valeurs), et l'instruction suivante le relit de toute
+      façon. Les précomparaisons en clair sont à retirer avec T5.
+- [x] T1.3 b) faune : `biome-population165.js`, `wildlife189.js`, `biome-forage193.js`.
+      Le fichier généré `src/codex3000-live-data.js` suit `wildlife189.js`.
+- [x] T1.3 c) validateurs de sauvegarde : `frontier-state.js` (position, voiture, poursuites,
+      faune), `essential-state.js`, `night-gear.js`, `survival-pack.js`, `succession133.js`
+      (dépouilles et corps), `husbandry191.js` (enclos, capture), `world-evolution-state.js`
+      (hordes et contacts), `companions-pack.js`. Chacun lit `limitsForGeneration(g)` par une
+      fonction locale `limitsOf217(W, g, ancienCalcul)` : si le module du monde porte
+      `limitsForGeneration`, l'accesseur ; sinon l'ancien calcul sur `sizeForGeneration`, évalué
+      au même endroit qu'avant (une fois, tout de suite). Les faux `DeadwallFrontierWorld` des
+      tests, réduits à `sizeForGeneration`, passent par ce repli : aucun test modifié. Les gardes
+      (`num`, `number`, `n`) et leurs messages ne changent pas ; seules les deux bornes passées
+      viennent de l'accesseur. Bornes inférieures du domaine « région » comprises (`axisMin()`
+      = 0) ; le domaine « local » (cité, 4 096 unités) n'est pas une borne de monde et reste en
+      clair. `husbandry191.js` borne les enclos par la génération 10 en dur, comme avant.
+- [x] T1.3 d) atlas : `atlas-view.js` (étendue, sélection de terrain, lieux, coordonnées au
+      survol), `atlas-render.js` (fond, grille, cellules). Survol : `q.x>=0&&q.y>=0` reste
+      devant `inside217(view().world,q.x,q.y)` ; `view()` (qui peut demander la région par
+      `overview()`) est lu au même moment qu'avant, une fois au lieu de deux à cet endroit.
+- [x] T1.4 `pois.find(p => p.id === id)` → `site(id)` : les 28 recherches par identifiant de
+      18 fichiers hors `frontier-world.js`, et les 3 de `frontier-world.js`.
+- [x] T1.5 Constantes `24576` / `8192` : décision par site (valeurs inchangées).
+
+  | Fichier | Nature | Traitement |
+  | --- | --- | --- |
+  | `frontier-world.js` (taille par génération, `RULES.size`, emprise des bâtiments de l'ancienne région dans `install`, morceaux historiques dans `chunk`) | définition des régions finies G1–G11 et emprise de l'ancienne région | nommées `OLD_REGION` = 8 192 et `WIDE_REGION` = 24 576 |
+  | `field-atlas-state.js`, `cell` | schéma d'indexation fixe 3 × 3 blocs de 8 192 m, le même pour G1 à G11 (le lire dans `sizeForGeneration` changerait l'index des campagnes G1–G4) | nommées `INDEX_BLOCK_217`, `INDEX_SPAN_217` |
+  | `field-atlas-state.js`, `district` et `belongs` (`p.x<8192&&p.y<8192`) | emprise de l'ancienne région (agglomérations historiques) | nommée `OLD_REGION_217` |
+  | `world-stream131.js` (`old=8192`) | emprise de l'ancienne région dans le flux G5 | nommée `OLD_REGION_131` |
+  | `succession133.js` (`\|\|24576`), `companions-pack.js` (`\|\|8192`, `:24576`) | replis de validation quand le module du monde ou la sauvegarde manquent | nommées `WIDE_REGION_217`, `OLD_REGION_217` ; la borne elle-même passe par `limitsOf217` |
+  | `world-pack131.js` (`w?.size\|\|8192`, « km de côté ») | borne de monde affichée | `span217(w)` ; repli nommé `OLD_REGION_217` quand aucune région n'est chargée |
+  | `core.js` : `AtlasRules.regionSize`, `WorldStreamRules131.size`, `GeographyRules135.size` | règles : source des tailles | laissées (déjà nommées) |
+  | `frontier-geometry.js` (`SIZE=8192`) | constante déjà nommée de la géométrie historique | laissée |
+  | `core.js` (`pathMaxExpanded`, `maxExpanded`), `game.js` (`findPath`), `coop.js` (`messageChars`), `breach217.js` (`SCAN_LIMIT`) | plafonds de calcul sans rapport avec le monde | laissées |
+
+- [x] T1.6 Parcours de `pois` — recensement (hors recherche par identifiant, traitée en T1.4).
+
+  Lecteurs d'un voisinage ou d'un seul lieu, **convertis** (repli identique sans accesseur) :
+
+  | Fichier | Usage | Conversion |
+  | --- | --- | --- |
+  | `atlas-view.js` (clic sur l'atlas) | premier lieu vu dont le rectangle local élargi de `radius` contient le point | `sitesNear(x, y, radius × 1,5)` puis critère d'origine (1,5 couvre le coin, √2) |
+  | `seed-card217.js`, `density` | nombre de lieux dont le centre est à `placeRadius` de D-17 | `sitesNear(home, placeRadius)` puis critère d'origine |
+  | `frontier-art.js`, `render` (intérieur) | `pois.filter(p => p.id === inside)` : le lieu occupé | `site(id)` rendu en liste (`sitesById217`) |
+  | `campaign-services208.js`, `campaign-water-supports214.js` | `world.pois.includes(p)` sur des candidats déjà pris dans `nearPOI` | `site(p.id) === p` (`listed217`) |
+
+  Les deux dernières lignes supposent des identifiants uniques, ce que le test vérifie sur les
+  mondes G4, G8 et G11 et que l'activation de monde exige déjà (`world-pack131.js`).
+
+  Lecteurs d'un voisinage, **non convertis** :
+
+  | Fichier | Usage | Pourquoi |
+  | --- | --- | --- |
+  | `atlas-render.js:80` (emprises, parkings) | lieux vus dont `x ± w`, `y ± h` touche le rectangle de la caméra | voisinage rectangulaire dont la marge dépend de chaque lieu, relu à chaque image : demande `sitesIn(rect)` — T6 |
+  | `campaign-services208.js`, `campaign-water-supports214.js` | candidats `world.pois` quand `nearPOI` manque | repli pour mondes factices ; le monde réel passe déjà par `nearPOI` |
+  | `frontier-world.js`, `contextSites160(x, y, r)` | `nearPOI` si un point est donné, sinon toute la liste | la forme sans point exige tout (voir plus bas) |
+
+  Lecteurs qui exigent **tous** les lieux — incompatibles avec un monde sans bord, matière de
+  T4–T6 :
+
+  | Fichier | Usage | Ce qu'il faudra |
+  | --- | --- | --- |
+  | `frontier-state.js:33`, `field-atlas-state.js:20`, `world-pack131.js:12`, `campaign-pack.js:42`, `campaign-water214.js:43,130`, `context-operations160.js:32`, `outposts217.js:71`, `exploration-needs217.js:106`, `urban.js:43` | index `Map` de toute la liste par identifiant, pour valider ou lire des lieux cités | lecture par `site(id)` sur les cantons cités (T4.3) ; pas une conversion à l'identique aujourd'hui (une `Map` garde le **dernier** doublon, `site` le premier) |
+  | `world-evolution-state.js`, `frontier.js` (`revealSites`) | ensemble de tous les identifiants | idem |
+  | `world-pack131.js` (`normalize`) | tout lieu portant une réserve `frontier131` | registre par canton cité |
+  | `world-pack131.js` (préparations G5 à G11) | lieux ajoutés par une génération, plafonds et unicité du monde préparé | propre aux activations G5–G11 ; sans objet en G12 |
+  | `essential-state.js`, `campaign-pack.js:62`, `chronicles131.js:45`, `field-atlas.js:11` | plus proche lieu d'un type (ou d'un bourg) dans toute la région, trié par distance à D-17 | recherche par anneaux de cantons, bornée |
+  | `seed-card217.js` (`nearest`) | plus proche lieu d'un type depuis D-17 | idem |
+  | `field-atlas.js:26,28`, `field-atlas-ui.js:22`, `frontier-ui.js:19`, `world-codex-actions159.js:68,100`, `atlas-render.js` (voies d'accès, étiquettes) | tous les lieux **vus** (listes, étiquettes, voies d'accès, biomes connus) | itérer la liste `seen` et lire chaque lieu par `site(id)` — l'ordre de parcours change, donc pas une conversion à l'identique (T6) |
+  | `night-gear.js:155` | panneaux solaires de tous les lieux de six types | cache par canton chargé (T5) |
+  | `remarkable217.js:47` | lieux remarquables et nids de toute la région | rang par canton (T4.1) |
+  | `frontage174.js:88,90,114` | index et audit des façades de toute la liste | index par canton (T4.1) |
+  | `frontier-world.js` (`install`, raccords de routes, corbeilles `bins`, `driveOwners174`, `programmeDrives`) | construction de la région finie | remplacé par la façade G12 (T5) |
+  | `scripts/`, `tests/` | audits et preuves sur toute la liste | restent valables pour G1–G11 |
+
+Forme retenue aux sites d'appel : une fonction locale par fichier (`siteOf217`, `outside217`,
+`outsideOpen217`, `inside217`, `chunks217`, `span217`, `limitsOf217`, `sitesNear217`,
+`listed217`, `sitesById217`) qui lit l'accesseur du monde et, **si le monde n'en a pas**, refait
+le calcul historique. Ce repli existe pour les mondes factices des tests (une vingtaine de
+fichiers de test construisent `{size, pois: […]}` à la main, d'autres un faux module réduit à
+`sizeForGeneration`) ; il est vérifié identique dans `tests/world-bounds217.test.cjs`.
+
+Laissé hors T1, avec sa tranche :
+
+- [ ] `forage193.js:16` et `biome-forage193.js:16` : bornes lues dans `GeographyRules135.size`,
+      pas dans le monde — validateur d'identifiants, à traiter avec T4.
+- [ ] `atlas-projection.js` : caméra bornée par une étendue scalaire — T6.
+- [ ] Comparaisons internes de `frontier-world.js` (`blocked`, `line`, `vehicleClear`, `chunk`,
+      `prefetch`, décor) : laissées en clair — c'est l'implémentation du monde fini, que la
+      façade G12 remplace entièrement (T5).
+- [ ] Bornes de position signées dans les validateurs : `limitsForGeneration(12)` devra rendre
+      des bornes par cantons cités (T4.2) ; les validateurs lisent déjà l'accesseur.
+- [ ] Retirer les replis locaux quand les mondes factices des tests porteront les accesseurs.
+- Tests : ceux de chaque fichier touché, `tests/world-bounds217.test.cjs`,
+  `tests/codex-campaign*.test.cjs`.
+- Preuve d'innocuité de la fin de tranche : empreintes G1 à G11 de deux graines (routes, lieux,
+  villes, secteurs, jonctions, 482 sondes par monde) identiques avant et après ; mondes des
+  huit graines identiques à `campagne205-eligibilite.json` hors empreintes de sources ;
+  sauvegarde en région écrite avant, relue après, et inversement : états identiques, puis
+  identiques après 200 pas ; 2 100 falsifications de coordonnées de cette sauvegarde (position,
+  ancre, douze hordes, coordonnées locales), mêmes verdicts avant et après. Les validateurs de
+  l'équipement de nuit, du bivouac, des dépouilles, des enclos et des compagnons ne sont
+  couverts que par leurs propres tests et par l'égalité des bornes : cette sauvegarde n'en
+  contient pas d'objet.
+- Parcours vérifié (premier lot) : sortie à pied par le bord est de D-17 (G11, graine 17117),
+  marche, atlas ouvert en région, sauvegarde et reprise, retour — positions identiques au bit
+  près à la base. Non joué : sortie en voiture jusqu'au bord est de la région.
+
+## T2 — Canton sec hors jeu, avec relief par paliers (livré, sans effet en jeu)
+
+Décisions prises avant la tranche : D1 (canton de 1 024 m), D2 (le relief par paliers entre
+dans la même génération 12), D3 (ouverture en « expérimental », plus tard), D6 (la mer est une
+zone basse — le palier 0 —, plus un bord). La génération 12 reste refusée partout.
+
+Le découpage prévu en deux fichiers (`world-macro217.js`, `world-canton217.js`) est livré en
+un seul module, `src/world-canton-gen217.js` : les champs macro y sont des fonctions exportées
+(`altitude`, `levelAt`, `biomeAt`, `drainage`, `seam`).
+
+- [x] T2.1 Champs en coordonnées monde : altitude continue quantifiée en six paliers
+      (maille de 32 m), ressauts raides qui donnent les falaises (écart de deux crans entre
+      mailles voisines), rampes ailleurs ; milieu par maille parmi les 16 existants, selon
+      chaleur, humidité et altitude. Règles `C.WorldRelief217Rules` dans `src/core.js`.
+- [x] T2.2 `src/world-canton-gen217.js` : passages de route et d'eau des quatre coutures
+      (sous-graines de couture), carrefour intérieur, routes qui ne changent de palier que
+      par une rampe, lieux candidats `K<cx>_<cy>:site:<n>` sans plan d'intérieur.
+- [x] T2.3 `tests/world-canton-gen217.test.cjs` : ordres de visite et cache ; empreintes de
+      référence ; coordonnées négatives et bout de l'adressage ; relief, routes et eau
+      identiques des deux côtés de 486 coutures ; routes jamais par une falaise ; connexité
+      mesurée sur les huit graines (31 × 31 cantons pour 17117, 21 × 21 pour les autres) ;
+      module isolé, génération 12 refusée, monde existant inchangé.
+      Écart avec le plan : la connexité n'est **pas** totale. Plus grande composante entre
+      92 % et 99,5 % des cantons desservis ; la mer et les plateaux fermés isolent le reste.
+- [x] T2.4 Sonde `scripts/probe-cantons217.cjs` : médiane 1,8 ms par canton sous Node,
+      3 à 4 ms dans Chromium, pour un budget de 8 ms ; la moyenne subit la charge machine.
+- [x] T2.5 Page d'aperçu hors jeu : `PORT=4442 node scripts/apercu-cantons217.mjs`, page
+      `tools/apercu-cantons217.html` (paliers ou milieux, falaises, eau, routes, rampes,
+      ponts, lieux). Ni servie par `scripts/server.mjs`, ni chargée par `index.html`.
+- [ ] T2.6 Preuve `docs/codex/suivi-monde2026/monde-sans-bord-cantons.json` + son test
+      (à produire par le mainteneur avec les autres preuves, une fois les réglages arrêtés).
+- [ ] T2.7 Reste à faire avant T4 : décor (arbres, rochers) par morceaux de 256 m ; bande de
+      distance ; trame des routes moins régulière (une rangée sur trois porte encore la route
+      principale d'est en ouest, et chaque canton a son carrefour). Agglomérations et D-17 :
+      livrés dans la seconde tranche T3 ci-dessous.
+
+## T3 — Eau sans bord
+
+Première version livrée avec T2 (même module, mêmes tests) : chaque canton s'écoule vers son
+voisin le plus bas, le débit compte les cantons drainés, un cours d'eau franchit la couture
+au point bas de celle-ci et son niveau ne remonte jamais ; cuvette = lac contenu dans son
+canton ; palier 0 = mer.
+
+- [x] T3.1 Altitude macro et sens d'écoulement par couture.
+- [x] T3.2 Cours d'eau de canton en canton, confluences, plans d'eau contenus dans un canton
+      (première version : peu de cours d'eau — 0,4 par canton —, pas de méandres ni de
+      largeur de lit dans la maille, pas d'étangs hors cuvette ; densité et lacs de vallée
+      repris dans la tranche suivante).
+- [ ] T3.3 Ponts : réemploi de `hydrology165` (croisements route/eau) par canton. Les ponts
+      sont pour l'instant de simples mailles déclarées (`bridges`).
+- [x] T3.4 Tests : continuité de largeur et de niveau aux coutures ; aucune route noyée.
+- Décision requise : D6. Repli prévu si la tranche dérape (plan §8).
+
+## T3 (suite) — Relief durci, routes par les cols, eau, agglomérations et D-17 (livré, sans effet en jeu)
+
+Décision de l'utilisateur avant la tranche : **falaises fréquentes, rampes rares** — un
+plateau est une enceinte naturelle avec quelques passages à garder. Même module, mêmes
+règles (`C.WorldRelief217Rules`, version 2), toujours hors jeu : la génération 12 reste
+refusée partout. Les empreintes de référence de T2 ont été refigées (permis tant que la
+génération 12 n'est ouverte nulle part).
+
+- [x] T3.5 Relief durci. **Tout changement de palier est une falaise**, sauf aux cols. Dans
+      un canton, chaque contour d'un cran entre deux régions porte un col par 32 arêtes (au
+      moins un dès 5 arêtes), large de 3 à 4 arêtes ; toute région d'au moins 6 mailles
+      garde un accès. Le canton expose `passes` (arêtes franchissables) et `cols`
+      (`K…:col:n`, naturel ou taillé). Mesure sur les huit graines (11 × 11 cantons) :
+      87 à 102 arêtes de falaise pour 15 à 20 de rampe par canton, rapport **4,9 à 5,7**
+      (T2 : 17 pour 80) ; 4,2 à 5,5 cols par canton. Aucun plateau fermé de 12 mailles ou
+      plus sur 49 km² par graine ; restent des îlots de moins de 12 mailles (75 à 204) et
+      0 à 10 mesas ceintes de falaises de deux crans.
+- [x] T3.6 Routes par les cols. Un col coûte 4, tailler une rampe 40 (un cran) ou 160 (deux
+      crans) : la route fait le détour par un col quand le canton en offre un, sinon elle
+      taille sa rampe, qui devient un col déclaré (0,4 à 0,6 par canton). Toute couture
+      franchissable porte une route ; de plain-pied d'abord, sinon rampe taillée sur la
+      couture (rare : 4 sur 2 500 cantons). Raccord de secours si la mer ferme la couture
+      voulue. Connexité sur les huit graines : plus grande composante **97,9 à 100 %** des
+      cantons desservis (T2 : 92 à 99,5 %) ; sur une même masse de terre, **99,77 à 100 %**
+      des réseaux. Ce qui reste isolé l'est par la mer. Pas d'arbre couvrant global.
+- [x] T3.7 Eau. Fonds de vallée creusés dans le champ (jamais sous le palier 1), sources
+      dans les cantons sans amont, lacs de vallée traversés par leur cours d'eau. Un cours
+      d'eau dans 68 à 82 % des cantons hors hauts plateaux et hors mer (T2 : 0,4 par
+      canton) ; 0,15 à 0,3 lac par canton. Niveau jamais remontant, continu aux coutures.
+- [x] T3.8 Agglomérations portées par les sommets (`cornerSeed`), posées dans le canton dont
+      le sommet est le coin nord-ouest, lues à l'identique par leurs quatre cantons
+      (`G.town`) : hameau, bourg, ville (60 / 30 / 10 %), noms repris de `geography135`. Elles
+      servent de carrefour, attirent les lieux (12,4 lieux par canton d'agglomération contre
+      4,0 ailleurs) et sont reliées à leurs voisines, par une route principale entre bourgs
+      et villes.
+- [x] T3.9 D-17 dans `K0_0` : `G.foundation(graine)` rend un plat sec de 128 m, carrefour du
+      canton, avec sa fiche — palier, milieu, falaise et eau les plus proches (distance,
+      direction), part de falaise autour du palier, cols à garder. Un socle garde le centre
+      de `K0_0` hors d'eau ; le sommet (0,0) ne porte pas d'agglomération. Valide sur 50
+      graines (et 400 en relevé) : 48 sur 50 près d'une falaise ou de l'eau.
+- [x] T3.10 Sonde et aperçu mis à jour (cols, rampes taillées, agglomérations, D-17 et sa
+      fiche). Coût médian : 3 à 4,6 ms sous Node sur machine chargée (T2 : 1,8 ms au calme),
+      5 à 8 ms dans Chromium sur la même machine chargée — le budget de 8 ms est tenu de
+      peu dans le navigateur, à remesurer au calme.
+- [ ] T3.11 Réserves à lever avant T4 : les rivières suivent les vallées quand le plus court
+      chemin y passe, pas toujours ; les vallées ne dépendent pas du sens d'écoulement ; un
+      col naturel n'est jamais posé sur une couture ; les agglomérations sont toutes près
+      du coin nord-ouest de leur canton ; noms en double possibles (16 noms × 97 numéros) ;
+      les mesas ceintes de falaises de deux crans restent sans accès.
+
+## T4 (hors jeu) — La carte locale de D-17 née de son canton (livré, sans effet en jeu)
+
+Réserve de T3 à lever : « une falaise vaut une enceinte » ne se lisait qu'à l'échelle
+régionale. Toujours rien de branché : génération 12 refusée partout, aucune option de menu.
+Module `src/world-local217.js`, règles `C.WorldLocal217Rules`, test
+`tests/world-local217.test.cjs` (9 cas). Échelle rappelée : une case de la carte actuelle fait
+1 m (`C.TILE` = 32 unités), la carte 128 cases ; une maille de relief fait 32 m.
+
+- [x] T4.L1 Cadrage du site — mesuré sur les 50 graines du relevé de fondation, puis décidé.
+      « Fermé » = aucune case du bord d'où l'on atteint la cité ; « passage » = le côté ne
+      se joint que par des rampes, un pont ou un goulet.
+
+  | Option | Site (`foundation`) | Cadre | Un côté fermé | Fermé ou passage | Côtés ouverts 0/1/2/3/4 | Falaise dans le cadre |
+  | --- | --- | --- | --- | --- | --- | --- |
+  | état T3 | plat 128 m, falaise idéale à 2 mailles | 128 m | 0 | 0 | 0/0/0/0/50 | 0 |
+  | (a) agrandir | idem | 256 m | 2 | 4 | 0/0/0/4/46 | 32 graines, à 107 m |
+  | (a) agrandir | idem | 320 m | 6 | 12 | 0/0/0/12/38 | 43 graines, à 112 m |
+  | (b) rapprocher | plat 128 m, falaise idéale à 0 | 128 m | 0 | 0 | 0/0/0/0/50 | 0 |
+  | (b) rapprocher | plat 64 m, falaise idéale à 0 | 128 m | 7 | 13 | 0/0/1/12/37 | 43, à 32 m |
+  | (b) adossé | plat 64 m, idéale 0, prime d'adossement | 128 m | 22 | 26 | 0/0/11/15/24 | 44, à 32 m |
+  | **retenu** | plat 64 m, idéale 0, prime d'adossement | **192 m** | **29** | **38** | **0/2/18/18/12** | 44, à 32 m |
+  | (a)+(b) | idem | 256 m | 28 | 42 | 0/3/19/20/8 | 45, à 33 m |
+
+  Décision : **combinaison**. Agrandir seul ne suffit pas (4 sur 50 à 256 m, et la falaise
+  reste à 107 m, loin de toute muraille). Ce qui compte est le site : un plat exigé de 64 m
+  au lieu de 128, adossé (`foundation.size` 64, `idealCliff` 0, prime `backWeight` 6 par côté
+  du plat entièrement bordé de falaise, pour `backCap` 2 côtés au plus). Le cadre passe à
+  192 m (2,25 fois la surface actuelle, pas 4 fois) : il montre ce qu'il y a derrière la
+  falaise et fait entrer les rampes. Réglable : `C.WorldLocal217Rules.frame` (128 reste
+  valide et donne déjà 26 sur 50 ; 256 aussi), `C.WorldRelief217Rules.foundation`.
+  Sur 400 graines à 192 m : 303 avec un côté fermé ou réduit à un passage, 212 avec un côté
+  fermé, aucune cité enclavée.
+  Conséquence sur T3 : `C.WorldRelief217Rules.version` passe à 3, l'empreinte de référence
+  de `K0_0` (graine 17117) est refigée — les trois autres ne bougent pas : seul le canton
+  d'origine change. Les seuils du test de fondation tiennent sans retouche (48 sites sur 50
+  près d'une falaise ou de l'eau).
+- [x] T4.L2 Grille locale `L.describe(graine, {frame})` : par case de 1 m, `levels` (palier
+      de la maille du canton), `biomes`, `water` (mer et lacs de la maille ; rivières et
+      ruisseaux posés à leur largeur réelle depuis les tracés du canton), `passes` (bit 1 :
+      l'arête est se franchit ; bit 2 : l'arête sud), `kinds` (plat, falaise, rampe, rive,
+      eau), `roads` (classe + 1), `cost` (coût du chemin jusqu'au centre, −1 hors
+      d'atteinte). **Une arête de col ne se franchit que par sa rampe**, large de `ramp`
+      (12 m) au milieu de l'arête : à l'échelle régionale un col fait 3 à 4 mailles, soit
+      une centaine de mètres — ce n'est pas une porte ; à l'échelle de la cité, chacune de
+      ses arêtes porte une rampe de 12 m. Les routes du canton franchissent une arête en
+      son milieu, donc par la rampe. `accesses` : routes qui entrent dans le cadre (côté,
+      position, classe, `linked` : mène à la cité sans sortir du cadre) ; `cols` : cols du
+      canton pris dans le cadre. `sides.<côté>` : `ouvert` (au moins `narrow` = 24 m de bord
+      de plain-pied, joint par un couloir au moins aussi large), `ralenti` (idem, mais un
+      ruisseau à passer à gué), `passage` (rampes de col, pont, goulet, avec largeur et
+      position), `clos` (cause : falaise ou eau), plus `width`, `share`, `lanes`, `entries`.
+- [x] T4.L3 Siège hors jeu `L.siege(carte)` : fronts possibles (où la horde entre, où elle
+      est canalisée), relus par un parcours en largeur indépendant sur la grille seule ;
+      `enclosed`, `reachable`, `consistent`. Test : 50 graines sans cité enclavée, chaque
+      extrémité d'entrée reliée au centre par `L.pathToCentre` sans falaise ni eau profonde.
+- [x] T4.L4 Gisements candidats `deposits` (`K0_0:gite:n`) : 40 pierre, 100 bois, 52
+      ferraille, dans le carré de 128 m de la carte actuelle, à portée de la cité. Relevé de
+      la carte actuelle (graines 17117, 42, 84329, hors vivres et carburant) : 99 à 102
+      gisements de bois (8 700 à 9 100), 30 à 47 de pierre (3 100 à 4 800), 44 à 59 de
+      ferraille (3 200 à 4 200), plus les 48 pièces de décor métrique (20 à 23 de ferraille,
+      5 à 10 de pierre, 6 à 10 de bois, 4 à 5 de vivres, 1 de soins, 1 de carburant). Pierre
+      au pied des falaises (15 par graine en moyenne) sinon selon `rockChance` du milieu ;
+      bois selon `treeChance` et en lisière ; ferraille en bord de route. Tirage par hachage
+      de la case, aucun flux existant. Non repris : vivres, carburant, décor métrique, lots.
+- [x] T4.L5 Fiche du site `sheet` : côtés fermés (falaise, eau), passages, côtés ralentis,
+      ouverts, à demi couverts, eau et falaise les plus proches dans le cadre, part du cadre
+      à portée et sur le palier de la cité, phrase d'ouverture (38 phrases différentes sur
+      50 graines).
+- [x] T4.L6 Page d'aperçu : mode « carte locale de D-17 » (`?mode=local&seed=…&frame=…`).
+- [x] T4.L7 Mondes G1–G11 identiques sur les huit graines (procédure d'en-tête) ; coût
+      médian 25 à 35 ms sous Node canton compris, environ 130 ms au premier appel dans
+      Chromium ; une fois par campagne.
+- Réserves : **l'eau ne ferme aucun côté** (0 sur 400 graines) et ne ralentit que 17 graines
+  sur 400 — le site est choisi à sec et les rivières larges sont rares près de lui ; les
+  falaises suivent les mailles de 32 m (traits droits, angles droits) ; 12 graines sur 50
+  restent ouvertes des quatre côtés ; le plat garanti n'est que de 64 m (58 % du cadre sur
+  le palier de la cité en moyenne, 28 % au pire) ; une route peut longer le cadre sur un
+  autre palier sans mener à la cité (`linked` faux) ; la horde qui contourne par l'extérieur
+  du cadre n'est pas modélisée ; rien n'a été joué.
+
+### Ce que la tranche d'ouverture devra changer pour consommer cette grille (non commencé)
+
+Tout ce qui suit est conditionné à la génération 12 ; les campagnes G1–G11 gardent la carte
+plate de 128 m, ses flux et ses identifiants.
+
+1. **Taille de la carte locale** (`src/core.js`, `src/game.js`, sauvegarde). Préparé en T5 (volet
+   B, ci-dessous) : accesseurs `world.local` / `g.local` et lecteurs convertis. `WORLD_TILES`
+   (128) et `WORLD_SIZE` (4 096) étaient des constantes lues par 35 fichiers de `src/`
+   (`game.js`, `tactics.js`, `save.js`, `squads.js`, `linecare.js`, `recon.js`,
+   `exploration-125.js`, `vertical-citadel175*.js`, `earthworks217.js`,
+   `horde-horizon217.js`, `seed-card217.js`…). À 192 m il faut une taille par campagne :
+   `world.tiles` / `world.size` portés par `WorldMap`, `occupancy` et `FlowField.values`
+   dimensionnés par carte, `index(x, y)` et `grid()` paramétrés, caméra, minicarte
+   (`renderMinimap`), bornes des validateurs du domaine « local » (4 096 en clair dans
+   `frontier-state.js`, `essential-state.js`, `night-gear.js`, `survival-pack.js`,
+   `save.js` : véhicule, unités, chantiers). Repli sans rien de cela : `frame` 128 garde
+   la taille actuelle et donne déjà 26 graines sur 50 avec un côté fermé ou un passage.
+2. **`WorldMap`** (`src/game.js`). Le constructeur reçoit la description locale : tableaux
+   `levels`, `passes`, `water`, `roads`, `kinds`. `generateNodes()` et
+   `DeadwallWorldContent.generate` ne servent plus en G12 : les nœuds viennent de
+   `deposits` (identifiants `K0_0:gite:n` → `ResourceNode`), le décor métrique reste à
+   replacer (`packMetricScenery202` : parcelles libres hors falaise, hors eau, hors rampe).
+   `placement()` refuse une emprise à cheval sur deux paliers, sur l'eau, sur une rampe
+   (sauf porte et mur), et le message le dit. `movementCost()` ajoute le coût de rampe et de
+   gué ; nouvelle méthode `canStep(gx, gy, nx, ny)` (falaise, eau profonde) lue par tout
+   déplacement.
+3. **Collisions** (`src/game.js`). `friendlyPositionClear`, `hostilePositionClear`,
+   `moveFriendly` (lignes de `clamp(…, WORLD_SIZE - …)`), `hostileBuildingAt`, les lancers de
+   rayon par pas de `TILE/3` (lignes de vue des unités, charge des infectés, projectiles
+   dans `updateProjectiles`) : un pas qui change de palier hors rampe est refusé ; un
+   projectile tiré d'en bas s'arrête à la falaise, tiré d'en haut la franchit (règle à
+   décider). `findFriendlyPath` (`src/core.js`) reçoit le même prédicat d'arête, pas
+   seulement `blocked(x, y)` : une falaise ferme une arête, pas une case.
+4. **Champ de flux des hordes** (`FlowField.rebuild` et `direction`, `src/game.js`). Les
+   quatre voisins ne sont développés que si `canStep` ; coût = `movementCost` + rampe + gué
+   (`C.WorldLocal217Rules.costs`). Une case hors d'atteinte garde `0x3fffffff` : un infecté
+   qui s'y trouve (chute, apparition) doit avoir un repli. Les murs restent franchissables
+   au prix fort (ils se détruisent), une falaise jamais.
+5. **Fronts et apparitions** (`prepareWave`, `spawnZombie`, `src/game.js` ;
+   `src/horde-horizon217.js` ; `C.wavePlan`, `CARDINAL_FRONTS` et les formes d'assaut de
+   `src/core.js`). Les fronts d'une vague se tirent parmi les côtés non `clos` ; l'apparition
+   se fait dans les `entries` du côté (au lieu de `80 … WORLD_SIZE-80`). Un plan à quatre
+   fronts sur une cité à deux côtés ouverts doit se replier (deux fronts, même effectif :
+   la pression reste, elle se concentre) — décision d'équilibrage à prendre et à écrire dans
+   `docs/BALANCING.md`. Annonces de vague, horizon de horde et lecture de siège
+   (`siege-readout.js`) nomment le passage (« par la rampe du nord »).
+6. **Placement des murs et enceintes** (`wallLine`, `placement`, `tactics.js` : enceintes,
+   portes, `nearestWall`, `breach217.js`, `fallback-order.js`, `linecare.js`). Une enceinte
+   se ferme sur une falaise : le calcul d'enceinte close (cases intérieures atteintes sans
+   franchir de mur) doit compter l'arête de falaise comme un mur indestructible, sinon
+   aucune enceinte adossée n'est reconnue. Une rampe se barre comme une porte : un mur
+   posé sur les 12 cases de la rampe ferme le front. Les brèches (`breach217`) ne
+   s'appliquent pas à une falaise. Fossés et talus (`earthworks217.js`) : interdits sur une
+   rampe ou à préciser.
+7. **Récolte et ouvriers** (`nearestNode`, tâches et points d'approche des ouvriers,
+   `src/game.js` ; `linecare.js`). Les gisements sont tous à portée par construction, mais
+   parfois sur un autre palier : les trajets passent par les rampes, donc hors des murs si
+   la rampe est barrée — à montrer au joueur.
+8. **Rendu 2D / 2,5D** (`drawGround` dans `src/game.js`, `src/art.js`, `src/ground135.js`,
+   `exploration-125.js` pour les routes d'accès aujourd'hui en croix). Teinte ou ombrage
+   par palier, face de falaise dessinée du côté bas (hauteur projetée comme les étages de
+   `CityGeometry202.presentation`), rampe lisible, eau (`hydrology165` sait dessiner un
+   lit), routes d'après `roads` au lieu de la croix fixe, tri de profondeur des acteurs
+   derrière une falaise, brouillard de `visibility146.js` (une falaise coupe-t-elle la vue ?),
+   minicarte. Les falaises suivent les mailles de 32 m : prévoir un adoucissement de
+   présentation qui ne change pas la grille de collision.
+9. **Vue FPS de la citadelle** (`src/vertical-citadel175.js`, `-render.js`, `-state.js`,
+   `vertical-network179.js`). La vue partage la simulation : le sol devient un champ de
+   hauteur par palier (hauteur d'un cran à fixer en mètres), les falaises des parois
+   verticales, les rampes des plans inclinés ; collisions de la caméra par `canStep` ; pose
+   verticale des infectés (`vertical175.enemyPose`) décalée du palier. Aucune seconde
+   horloge ni tirage : les peintres lisent la grille.
+10. **Sauvegarde et campagne** (`save.js`, `frontier-state.js`, module d'extension de la
+    tranche d'ouverture). La description locale se recalcule de la graine et de la version
+    des règles (`WorldRelief217Rules.version`, `WorldLocal217Rules.version`) : la sauvegarde
+    ne garde que ces deux versions et les prélèvements par identifiant de gisement. Geler
+    les deux jeux de règles à l'ouverture : après, tout réglage change les cartes.
+    `Geo.home` (`geography135.js`) devient le site de `K0_0` ; les quatre approches fixes
+    (`D17_E`…) deviennent les `accesses`.
+11. **Fiche de graine** (`seed-card217.js`) : phrase d'ouverture et côtés depuis `sheet`.
+
+## T4 — Lieux et sauvegarde creuse
+
+- [x] T4.1 (→ O2, livré hors jeu) Lieux par canton : `K…:site:n`, plans par les fabriques existantes (`G.plan`,
+      codex 160, sites 205), occupants par `world-spawns131` et la bande de distance.
+- [ ] T4.2 `frontier-state` : G12 acceptée, bornes de position, expressions d'identifiants
+      par génération, registre `cantons`, plafonds.
+- [ ] T4.3 Validation par cantons cités ; plafond ; refus croisés G≤11 / G12.
+- [ ] T4.4 `field-atlas-state` : cellules par canton.
+- [ ] T4.5 Version de sauvegarde générale et migration vide ; tests de reprise des
+      sauvegardes de référence existantes.
+- Décisions requises : D2, D4, D7.
+
+## T5 (préparation) — Taille de la carte locale par accesseurs, relief local adouci (livré, sans effet en jeu)
+
+Toujours rien d'ouvert : génération 12 refusée partout, aucune option de menu. La carte de la
+cité reste de 128 cases (4 096 unités, 128 m).
+
+### Volet B — accesseurs de taille de la carte locale
+
+- [x] T5.B1 Accesseur : `C.localMap217(tiles)` (`src/core.js`), objet gelé — `tiles`, `size`,
+      `tile`, `cells`, `extent()`, `centre()` (objet neuf à chaque appel), `centreCell()`,
+      `axisMax(pad)`, `clampAxis(v, pad)`, `clampInside(x, y, pad)`, `contains(x, y, pad)`
+      (bord admis, `NaN` refusé), `outside(x, y, pad)` (bord admis, `NaN` admis),
+      `outsideOpen(x, y, pad)` (bord refusé), `cellInside(gx, gy)`, `cellOf(v)` (= `grid`),
+      `index(gx, gy)` (= `index`). Une seule instance en jeu : `C.LOCAL_MAP217 = localMap217(128)`.
+- [x] T5.B2 Propriétaires : `WorldMap#local` (accesseur de prototype, aucune propriété propre,
+      donc rien de sérialisé ni d'énuméré) et `Game#local` (= `g.world.local`, repli sur
+      `C.LOCAL_MAP217` quand le monde manque ou qu'un test le simule). `FlowField` garde la carte
+      lue à sa dernière reconstruction et redimensionne `values` si la taille change. Pas de
+      `size` posé directement sur `g.world` : plusieurs modules distinguent la région de la cité
+      par la présence de `world.size` (replis `w?.size||8192`) ; un accesseur au nom distinct
+      (`local`) évite toute confusion.
+- [x] T5.B3 Recensement (lignes du commit `f082488`) et conversions, par lots strictement
+      équivalents (même expression avec `size` / `tiles` lus sur la carte, ou prédicat qui reprend
+      mot pour mot la comparaison ; `a - r - 4` n'est jamais réécrit en `a - (r + 4)`).
+
+  Convertis — lus sur la carte de la partie (`this.local`, `g.local`, `world.local`) :
+
+  | Fichier | Lignes | Usage | Forme |
+  | --- | --- | --- | --- |
+  | `game.js`, `WorldMap` | 186, 220, 222, 227, 257–270, `add`/`remove`/`rewrite`/`placement` | occupation, `atCell`, `at`, zone constructible, nœuds de ressources | `this.local.cells`, `cellInside`, `cellOf`, `index`, `tiles`, `size` |
+  | `game.js`, `FlowField` | 279–299 | champ de flux des hordes (taille, voisins, direction) | carte lue sur `map` à `rebuild` |
+  | `game.js`, `Game` | 314–315, 328, 359, 737, 926, 1066, 1077, 1132, 1140, 1239–1240, 1303–1304, 1407–1408, 1634, 1670, 1714, 1775, 1882, 1888, 1968–1972, 2007, 2375, 2382–2402, 2586 | souris, caméra, ralliement, joueur, cœur, ordres d'escouade, déplacements amis, infectés poussés, points d'approche, brèche, apparitions par front, charges, projectiles, sol, minicarte | `this.local.size` / `.tiles`, `outside`, `outsideOpen`, `contains`, `centre()`, `centreCell()` |
+  | `game.js`, citadelle (`spawnPoint`) | 3755 | point d'apparition d'un rescapé (`4096` en clair) | `(g.local‖défaut).size` |
+  | `departure130.js` | 46, 91–94 | distance au bord, côté de sortie | `g.local` |
+  | `frontier.js` | 40, 49, 66, 276 | sortie de la cité vers la région, retour | `g.local` |
+  | `expeditions.js` | 44, 69–70, 86, 154 | gabarit du véhicule, sortie du volant, minicarte | `g.local` |
+  | `fieldcraft.js` | 40 | position libre | `g.local` |
+  | `recon.js` | 5, 61 | point de reconnaissance valide, minicarte | `C.LOCAL_MAP217.contains`, `g.local` |
+  | `exploration-pack.js` | 113 | minicarte | `g.local` |
+  | `abominations217.js` | 55, 104, 196 | poste de la Meneuse, orientation, minicarte | défaut (fonction pure de la graine), `g.local`, `this.local` |
+  | `expeditions-ui.js`, `content-ui.js`, `command-presentation129.js`, `linecare-ui.js` | 20, 31 ; 50, 72 ; 133, 143 ; 35–41 | cartes des dossiers | `g.local` / `game.local` |
+  | `return-routes.js` | 9 | grille des itinéraires de retour | `g.local` |
+
+  Convertis — lus sur la carte par défaut (`C.LOCAL_MAP217`), faute de partie à portée (validateurs,
+  fonctions pures) ; à brancher sur la carte de la campagne validée à l'ouverture :
+
+  | Fichier | Lignes | Usage |
+  | --- | --- | --- |
+  | `core.js` (fin de fichier) | 1743, 1761 | véhicule d'expédition, emplacements de nœuds |
+  | `save.js` | 20, 29, 33–34, 92, 103 | bornes de position, structures (grille, chevauchement), ralliement par défaut |
+  | `squads.js` | 8, 11 | ralliement valide, ralliement par défaut |
+  | `tactics.js`, `linecare.js`, `narrative.js` | 47–48 ; 19–20 ; 62–64, 88 | grilles d'enceinte, d'accès et d'approche (largeur par défaut et plafond) |
+  | `earthworks217.js`, `world-content.js` | 11 ; 22 | grille des fossés, centre du décor métrique |
+  | `fallback-order.js`, `districts.js` | 55 ; 31 | grilles d'enceinte : `C.LOCAL_MAP217?.tiles ?? C.WORLD_TILES` (le cœur est passé en argument, parfois simulé par un test) |
+
+  Restent en clair (lot suivant, ou propriétaire distinct) :
+
+  | Fichier | Lignes | Usage | Raison / à faire |
+  | --- | --- | --- | --- |
+  | `core.js` | 255, 257, 305, 363 | `grid`, `index`, `wallLine`, `findFriendlyPath` | aides de la carte par défaut, appelées partout ; à paramétrer avec la grille de collision (point 3 ci-dessus) |
+  | `game.js` | 96 | orientation d'un infecté à sa création (`Zombie` n'a pas la carte) | passer le centre au constructeur |
+  | `game.js` | 3983, 4094 ; `core.js` 1447, 1559 ; `atlas-render.js` 32 | voirie (`InfrastructureRules.worldTiles = 128`, `at` borné à 4 096, vue par défaut) | grille propre à la voirie : à dériver de la carte locale avec elle |
+  | `succession133.js` 28, 32 ; `essential-state.js` 8 ; `night-gear.js` 34 ; `survival-pack.js` 15, 57 ; `frontier-state.js` 8, 11 ; `arsenal134.js` 15 ; `fortification-pack.js` 48 ; `exploration-pack.js` 17 ; `vertical-citadel175-state.js` 65, 69 ; `vertical-network179.js` 84 ; `vertical-population181.js` 57 ; `core.js` 840, 929 | validateurs du domaine « local » (4 096 ou `C.WORLD_SIZE` en clair) | lire la carte de la campagne validée (à porter par la sauvegarde, point 10) |
+  | `vertical-citadel175.js` 360, `vertical-citadel175-render.js` 164 | sol et siège de la vue FPS | point 9 |
+  | `exploration-125.js` 1939, `barricades134.js` 39 | plan des abords (`createFeaturePlan(seed, size)`) | le plan prend déjà la taille en argument : passer `g.local.size` |
+  | `exploration-needs217.js` 69, `horde-horizon217.js` 33, `seed-card217.js` 126 | centres par défaut avec repli `‖4096` | présentation ; convertir avec un repli pour les cœurs simulés |
+  | `frontier.js` 49, 276 ; `fieldcraft.js` 81 ; `atlas-projection.js` 16 ; `recon-ui.js` 14–71 | centre `2048` en clair (croix des routes historiques, carte de reconnaissance) | à convertir avec la croix des routes (point 8) |
+
+- [x] T5.B4 Preuves (commit `f082488` contre l'arbre de travail) :
+      parcours déterministe — `Math.random`, `Date.now`, `performance.now` et `crypto.randomUUID`
+      figés, `startNew('standard','17117')`, vague forcée, 240 s de jeu à 30 pas par seconde avec
+      déplacements du joueur et un rendu sur quatre (la horde arrive, assiège et détruit le
+      cœur vers 100 s) : huit points de contrôle, sauvegardes de départ, de mi-parcours et de fin
+      **identiques octet pour octet**. Sauvegarde de mi-parcours d'avant rechargée après (et,
+      les fichiers étant identiques, inversement) : même état relu et même état 30 s plus tard.
+      Mondes G1–G11 des huit graines : voir le rapport de la tranche (procédure d'en-tête).
+      Tests des familles touchées (56 fichiers, 581 cas) : mêmes résultats avant et après
+      (580 réussis ; échoue des deux côtés `build: la sortie publique…`, qui lit `dist/`).
+      `tests/local-bounds217.test.cjs` (5 cas) : valeurs, 70 000 comparaisons de prédicats (bords,
+      `NaN`, infinis, marges fractionnaires), propriétaires et repli, parcours de 70 s avec vague
+      et reprise identique quelle que soit la source de l'accesseur (monde, copie, repli), lecteurs
+      convertis sans lecture en dur.
+- [ ] T5.B5 Restant : tableau « Restent en clair » ; puis carte par campagne (`WorldMap` reçoit
+      `tiles`), sauvegarde portant la taille, validateurs lisant la carte de la sauvegarde.
+
+### Volet A — relief, hors jeu
+
+- [ ] T5.A1 Cols plus rares — **non livré** ; essais mesurés (fenêtre de 7 × 7 cantons, plateaux
+      entiers d'au moins 400 mailles, cols naturels et rampes taillées qui les bordent) :
+
+  | Essai | Médiane par grand plateau (8 graines) | Effet de bord |
+  | --- | --- | --- |
+  | version 3 (livrée) | 8, 9, 14, 12, 14, 8, 8, 9 | — |
+  | premier col d'un contour seulement si une région en manque, un de plus par 64 arêtes | 8, 8, 14, 10, 11, 8, 8, 9 | aucun |
+  | + part de plateau ouverte sur un voisin dispensée, col en « zone de col » (bruit monde) | 6, 6, 9, 7, 8, 8, 6, 5 (avec routes locales sur 80 % des coutures, rampe taillée à 120) | 3 plateaux fermés jusqu'à 251 mailles (graine 0) ; rampes taillées 62 % des rampes de route ; côtés fermés de la carte locale 212 → 173 sur 400 graines |
+  | + seule la part du sud-est porte le col | 7, 8, 9, 10, 10, 10, 7, 7 | 1 plateau fermé de 39 mailles (graine 1) |
+  | + petites parts (< 12 mailles) gardent leur col | 7, 8, 11, 12, 12, 10, 7, 7 | aucun plateau fermé ; gain nul |
+
+  Constat : la moitié des passages d'un grand plateau sont des **rampes taillées par les routes**
+  (chaque couture franchissable porte une route, chaque canton a son carrefour) ; retirer des cols
+  naturels en fait tailler d'autres. Et la garantie « aucun plateau fermé » est locale au canton :
+  un plateau qui s'étend sur plusieurs cantons reçoit un col par part. Pistes : propriétaire
+  global d'un plateau (remplissage du champ de paliers, borné, depuis chaque part), ou trame
+  routière moins dense (T2.7). Rien de ces essais n'est livré.
+- [x] T5.A2 Eau qui ferme : prime de rive au choix du site (`foundation.shoreWeight` 6 par côté du
+      plat longé à 2 mailles au plus par la mer, un lac ou une rivière, `shoreCap` 1) ;
+      `WorldRelief217Rules.version` 4 (empreintes de canton inchangées : seul le site de certaines
+      graines bouge). Sur 400 graines : côté fermé par l'eau **5** (0 avant), côté ralenti par un
+      gué 25 (17), côté fermé 211 (212), fermé ou passage 295 (303), aucune cité enclavée. Sur les
+      50 graines figées : fermé 28 (29), dont eau 2 (0). Limite : K0_0 n'a une rivière ou un lac
+      que pour 44 graines sur 200, le socle d'origine étant haut ; un lac rond de 40 à 90 m se
+      contourne dans un cadre de 192 m. Un pont seul n'a encore été vu sur aucune graine.
+      Pousser plus loin demande d'agir sur l'eau elle-même (débit autour de l'origine).
+- [x] T5.A3 Falaises moins en escalier : `WorldLocal217Rules.version` 2, `edge` (amplitude 4 m,
+      échelle 40 m, bande 12 m). Chaque case lit la maille d'un point déplacé par un bruit continu
+      en coordonnées monde ; le déplacement s'annule près des arêtes de col (rampes droites), des
+      coins où deux mailles de même palier ne se touchent qu'en diagonale, du bord du cadre et du
+      plat du site, et reste contractant (pente sous 1). Vérifié sur 200 graines hors test et 50 en
+      test : mêmes composantes par palier, mêmes rampes, mêmes verdicts de côté ; arêtes de
+      ressaut sur une ligne de maille 100 % → 58 % ; 212 cases changées par carte en moyenne.
+      `describe(seed, {edge:false})` rend la grille T4, sur laquelle les contrôles stricts de
+      cohérence avec le canton sont gardés. Limite : la falaise qui adosse la cité borde le plat,
+      donc reste droite.
+- [x] T5.A4 Empreintes refigées (`world-local217` : `f34175ea`, `b82c6bc4`, `76e8b703`) ;
+      aperçu : sélecteur « Bord de falaise » (décalé / sur les mailles), regardé sur 17117, 42,
+      84329 et 1947648717 (empreintes identiques à Node).
+
+## T6 (cadrage) — Plan d'ouverture « expérimental » et première brique O1 (livré, sans effet en jeu)
+
+Décisions de l'utilisateur avant la tranche : le monde sans bord s'ouvrira d'abord comme
+**option « expérimental » à la création de partie**, la région finie restant le défaut ; relief
+dans la même génération 12 ; cadre de la cité de 192 m et site adossé ; mer comme zone basse.
+Toujours rien d'ouvert : génération 12 refusée partout, aucune option de menu.
+
+- [x] T6.P Plan d'ouverture exécutable : [ouverture.md](ouverture.md) — tranches O1 à O10,
+      livrables une à une, chacune avec fichiers et lignes, tests, preuve d'innocuité pour
+      G1–G11, parcours joueur, ampleur, risque et parallélisme ; décisions ouvertes D-O1 à D-O5.
+      Les tâches T4, T5.1–T5.6 et T6.1–T6.2 ci-dessous y sont redécoupées : T4.1 → O2,
+      T4.2–T4.5 → O3, T5.1–T5.5 → O9, T5.6 → O9, T6.1–T6.2 → O10 ; la liste en 11 points de
+      T4 → O5 (points 1, 10), O6 (2, 3, 4, 7), O7 (5, 6), O8 (8, 9), O9 et O4 (11) ; le
+      tableau « exigent tous les lieux » de T1.6 → O4 ; le tableau « Restent en clair » de
+      T5.B3 → O5.
+- [x] O1 Monde régional G12 hors jeu : `src/world-open217.js`, règles `C.WorldOpen217Rules`
+      (`src/core.js`, avant `C.Weather193Rules`), test `tests/world-open217.test.cjs` (9 cas).
+      Accesseurs communs du monde fini (`site`, `sitesNear`, `contains` vrai pour tout point
+      mesurable, `outside`, `outsideOpen`, `clampInside`, `axisMin`, `axisMax`, `chunkRange`,
+      `extent()` infini, `nearestRoad`), plus `roadsAround` / `pickRoad(hash, x, y)` (tirage de
+      route sans `% roads.length`) et `route(from, to)` borné au rectangle des deux cantons
+      élargi d'un canton, 25 cantons au plus, sur un graphe dont les passages de couture sont
+      partagés par leurs deux cantons. Aucun `roads`, `pois`, `size` global.
+      Module **absent du jeu** : ni `index.html`, ni `sw.js`, ni build, lu par aucun fichier de
+      `src/`. Les listes d'isolement de `tests/world-cantons217.test.cjs` et
+      `tests/world-canton-gen217.test.cjs` nomment le nouveau lecteur (aucune garde retirée).
+      Mesures (huit graines, 4 itinéraires de 1,9 à 2,9 km depuis D-17) : 31 trouvés sur 32,
+      détour de 1,23 à 2,42 fois le vol d'oiseau, 1 150 à 1 590 nœuds, 83 à 168 ms à froid
+      cantons compris. Mondes G1–G11 des huit graines identiques à
+      `campagne205-eligibilite.json` hors empreintes de sources ; seule l'empreinte de
+      `src/core.js` change.
+- Réserves : tracé sur les centres de maille, pas sur les courbes adoucies ; lieux sans
+  emprise ni `drive` (O2) ; `home` = plat de 64 m du site, à remplacer par le cadre de la carte
+  locale en O5 ; aucun `blocked` / `line` : la falaise n'est pas encore un obstacle régional (O2).
+- [x] O2 Lieux G12 complets et collisions régionales, hors jeu : `src/world-sites217.js`
+      (enveloppe du monde d'O1, qui reste intact), règles `C.WorldSites217Rules` (`src/core.js`,
+      juste après `C.WorldOpen217Rules`), test `tests/world-sites217.test.cjs` (13 cas) ; page
+      d'aperçu étendue (case « emprises des lieux (O2) », servie par
+      `scripts/apercu-cantons217.mjs`). Chaque candidat `K…:site:n` devient un lieu complet par
+      (graine, canton, indice) : genre tiré du milieu du lieu (flux `lieu-genre-n`), programme du
+      codex par `forParcel` et plan `floor` comme les lieux natifs de G8+ (sinon `G.plan` du
+      genre), emprise tournée face à sa route avec le lot de la région finie (w + 26 × h + 48),
+      allée raccordée par `frontage174.resolve`, occupation `world-spawns131`, nombre
+      d'occupants identique à `frontier-world.threatCount`, occupants `K…:site:n:eN` (étage et
+      profil du milieu), détails par la chaîne des campagnes neuves (version 13), plans et
+      détails paresseux. Veto : lot dans le canton à 12 m des coutures, sur un seul palier sec,
+      sans route ni rivière, hors du site de fondation et des autres lots. Accesseurs ajoutés :
+      `site` (lieu complet ; `candidate` = candidat brut d'O1), `sitesNear` par emprise tournée,
+      `nearPOI`, `plan`, `detailAt`, `drive`, `driveFor`, `connectionFor`, `threatCount`,
+      `occupants`, `chunk(cx, cy)` (256 m, clé signée, arbres `K…:arbre:n` et rochers
+      `K…:roche:n` par flux `arbres-j` / `roches-j`), `around`, `containers`, `blocked`,
+      `line`, `opticalBlocked`, `movementLine`, `vehicleClear`, `lineOfSight`, `levelAt`,
+      `edgesIn`. Obstacles : une arête de falaise bloque le pas et la voiture, une rampe (col
+      naturel ou taillé) se franchit, la mer, les lacs et les cours d'eau bloquent sauf sur un
+      pont (règle G8+) ; **D-O1** : `lineOfSight` (et `line` en vue ou en tir) est arrêté par
+      une arête de falaise montante plus haute que le palier du tireur, jamais en descendant ;
+      règle pure `SIGHT.blocks(tireur, avant, après)`.
+      Mesures : 45 % des candidats deviennent des lieux (17117 : 222 sur 489 en 7 × 7 cantons ;
+      refus surtout par lot voisin, palier, route, raccord) ; un tiers à la moitié des lieux
+      portent un programme du codex ; mobilier d'un canton 1 ms en médiane hors génération
+      (6,5 ms dans le navigateur), morceau de 256 m 2 ms en médiane ; 200 cantons : toutes les
+      arêtes de falaise bloquantes, aucune rampe bloquée par le relief. Mondes G1–G11 des huit
+      graines identiques à `campagne205-eligibilite.json` hors empreinte de `src/core.js`.
+- Réserves O2 : le tracé adouci `road.points` coupe parfois l'angle d'une falaise près d'une
+  rampe (moins de 0,2 % des points de route refusés à la voiture) : à reprendre avec le rendu
+  (O8) ou le générateur ; plus de la moitié des candidats restent sans lieu (aucun second
+  essai de position) ; les lots refusent toute route sur leur arrière (plus strict que la
+  région finie, dont les clôtures de détail peuvent toucher une route) ; `line` refuse un
+  segment de plus de 512 m ; pas de nids de `remarkable217` (O4) ; un détail du codex coûte
+  50 à 1 000 ms au premier appel (chargement des grilles), à surveiller en O9.
+
+## O4 — Lecteurs de voisinage (premier lot livré, sans effet en jeu)
+
+Fiche : [ouverture.md](ouverture.md), O4. Test `tests/world-neighbourhood217.test.cjs` (5 cas).
+
+- [x] O4.1 Accesseurs sur les deux mondes. Région finie (`src/frontier-world.js`) : chacun rend
+      exactement l'ancien parcours de toute la liste, dans son ordre. Monde G12 hors jeu
+      (`src/world-open217.js`) : mêmes noms, réponses par cantons, aucune liste globale ; bornes
+      reprises de `nearMaxRadius` (aucune règle nouvelle, `src/core.js` inchangé).
+
+  | Accesseur | Région finie (G1–G11) | Monde G12 |
+  | --- | --- | --- |
+  | `sitesIn({left, top, right, bottom})` | lieux dont `x ± w`, `y ± h` touche le rectangle (critère de `atlas-render.js`), ordre de la liste, `NaN` jamais écarté | centre dans le rectangle, ordre canonique ; côté ≤ 2 × `nearMaxRadius`, refus sinon (pas encore d'emprise : O2) |
+  | `seenSites(ids)` | `pois.filter(p => ids.has(p.id))` (liste ou ensemble), ordre de la liste, doublons de la liste gardés | `site(id)` pour chaque identifiant, ordre des identifiants, doublons et inconnus écartés |
+  | `nearestSite(x, y, filtre, rayonMax)` | premier lieu de distance minimale dans l'ordre de la liste (`<` strict, comme `seed-card217.js`) | recherche par anneaux de cantons, arrêt dès qu'un lieu retenu est à moins de (k − 1) cantons ; égalité : ordre canonique ; rayon ≤ `nearMaxRadius` |
+  | `sitesByDistance(x, y, filtre, rayonMax)` (ajouté à la fiche) | `pois.filter(filtre).sort(distance ‖ id.localeCompare)` : le tri recopié par `campaign-pack`, `essential-state`, `field-atlas` | `sitesNear` filtré, même tri |
+  | `siteIndex()` | `new Map(pois.map(p => [p.id, p]))` neuve à chaque appel (le **dernier** doublon gagne, comme les `Map` actuelles) | index paresseux gelé `{get, has}` par `site(id)` ; ni `size` ni parcours |
+
+- [x] O4.2 Lecteurs convertis, chacun avec un repli historique identique quand le monde n'a pas
+      l'accesseur (mondes factices des tests) :
+
+  | Lot | Fichier | Avant | Après |
+  | --- | --- | --- | --- |
+  | lieux remarquables | `remarkable217.js` `select` | toute la liste groupée par canton de 4 096 m (clé `cy*4096+cx`) | cantons de l'étendue parcourus ligne puis colonne (même ordre que les clés triées), chacun lu par `sitesIn` du canton puis `floor(x / 4096)` ; rang, espacement, plafonds inchangés. Monde sans bord (étendue non bornée) : liste vide, comme avant, sans lire `pois` |
+  | fiche de graine | `seed-card217.js` `sources` | plus proche carrière, scierie, casse dans toute la liste | `nearestSite` |
+  | atlas | `atlas-render.js` voies d'accès (44), emprises et parkings (80), étiquettes (92) | `pois` filtrés par `seen` | `seenSites` (44, 92), `sitesIn(caméra)` puis critère d'origine (80) |
+  | lieux vus | `field-atlas-ui.js` (22), `frontier-ui.js` (19), `world-codex-actions159.js` (68, 100), `field-atlas.js` biomes connus et étapes (26, 28), `campaign-pack.js` candidats (62) | `pois.filter(seen…)` | `seenSites` puis le reste du filtre et du tri d'origine |
+  | plus proche par secteur | `field-atlas.js` `pool` (11) | `pois.filter(secteur).sort(distance ‖ id)` | `sitesByDistance` |
+  | index | `frontier.js` `revealSites`, `exploration-needs217.js` (106), `urban.js` (43), `outposts217.js` `book` | `new Set` / `new Map` de toute la liste | `siteIndex()` (lectures `get` / `has` seulement) |
+
+- [ ] O4.3 Restent sur toute la liste (à convertir avec leur tranche) :
+
+  | Fichier | Usage | Pourquoi pas dans ce lot |
+  | --- | --- | --- |
+  | `frontier-state.js:33`, `field-atlas-state.js:20`, `world-pack131.js:12`, `campaign-water214.js:43,130`, `campaign-pack.js:42`, `context-operations160.js:32`, `world-evolution-state.js:28` | index ou ensemble de toute la liste dans un validateur de sauvegarde | `siteIndex()` est prêt, mais toucher un validateur exige les falsifications de T1 (règle 4) : avec O3, qui réécrit ces validateurs pour G12 |
+  | `essential-state.js:12` (`targets`) | plus proche lieu d'un type, puis plan intérieur | appelé par la validation de l'état essentiel (ligne 13) : même raison ; `sitesByDistance` le remplace mot pour mot |
+  | `chronicles131.js:45` | lieux d'un type triés par hachage sur toute la région | tri global par hachage, pas une distance : demande une règle par canton (G12), à décider avec O2 |
+  | `night-gear.js:156` | panneaux solaires des lieux de six types | cache par canton chargé : avec le chargement par anneau (O9) |
+  | `frontage174.js:88,90,114` | index et audit des façades | construction de la région finie ; index par canton avec O2 |
+  | `world-pack131.js` (préparations G5–G11, `normalize`) | activations | sans objet en G12 (inchangé, voir la fiche) |
+  | `campaign-services208.js`, `campaign-water-supports214.js`, `frontier-world.js` (`contextSites160` sans point, `install`) | replis des mondes factices, construction | inchangés (T1.6) |
+
+- Lieux remarquables en G12 : la sélection finie est une **chaîne** — l'espacement (1 000 m) est
+  vérifié contre tous les lieux déjà retenus dans l'ordre des cantons, et le plafond de 512 est
+  global. Un canton dépend donc de tous ceux qui le précèdent, ce qu'un monde sans bord ne peut pas
+  recalculer localement. Le monde fini garde cette chaîne (sélection identique). Le monde G12
+  appliquera une règle locale, propre aux nouvelles campagnes G12 : candidats d'un canton de
+  4 096 m par `sitesIn` (côté exactement à la borne de 2 × 2 048 m), rang par hachage inchangé,
+  au plus `perCanton` ; espacement résolu contre les **candidats bruts** des huit cantons voisins
+  (le plus petit hachage l'emporte), sans dépendre de leur propre sélection ; pas de plafond
+  global (le registre sauvegardé reste plafonné à 512). Rien de cela n'est codé : `select` rend
+  une liste vide en G12, comme avant ; décision à prendre avec O2 (types et emprises des lieux G12).
+- Preuves (base `9940aa1`, même worktree) :
+  - test d'équivalence sur G4, G8, G11 de 17117 et 42 : 300 rectangles par monde (dégénérés,
+    hors région, `NaN` compris), 40 listes de lieux vus (inconnus et doublons compris), plus proche
+    lieu et liste triée pour chaque type depuis 28 points, index par identifiant : mêmes objets,
+    même ordre ; lecteurs convertis contre leur repli historique (lieux remarquables, fiche de
+    graine entière, lieux et programmes connus du codex) : sorties identiques ; en G12, contre un
+    calcul exhaustif sur 7 × 7 cantons, et aucun lecteur converti ne lit `pois`, `roads` ni `size` ;
+  - lieux remarquables et fiche de graine des huit graines de référence en G8 et G11, base contre
+    tranche, deux processus : JSON identique octet pour octet (43 à 50 lieux remarquables par monde) ;
+  - mondes G1–G11 des huit graines identiques à `campagne205-eligibilite.json` hors empreintes de
+    sources ; seules les empreintes des fichiers touchés changent ;
+  - parcours déterministe de T5.B4 (240 s, graine 17117) : sauvegardes de départ, de mi-parcours
+    et de fin identiques octet pour octet, résultats identiques ; sauvegarde de mi-parcours d'avant
+    relue après : mêmes empreintes que relue avant ;
+  - navigateur (Playwright, campagne standard 17117, G8) : 60 lieux révélés autour de D-17, carnet
+    ouvert sur l'atlas, cadrage « tout voir » : liste des lieux, lieux remarquables (44), biomes
+    connus, programmes du codex (56) et leurs lieux, besoins d'exploration, image du canevas de
+    l'atlas et capture de page **identiques** à la base ; aucune erreur de page.
+- Réserves : le parcours de 240 s reste dans la cité (il ne lit ni l'atlas ni la région) ;
+  l'atlas, la fiche, le codex et les lieux remarquables sont couverts par le test d'équivalence et
+  le parcours navigateur. Sur la région finie, `sitesIn` et les autres accesseurs parcourent
+  encore la liste : même coût qu'avant (les lieux remarquables lisent 49 cantons une fois par
+  monde, résultat gardé).
+
+## T5 — Ouverture expérimentale
+
+- [ ] T5.1 `src/world-open217.js` : façade ; aiguillage dans `frontier-world.create`.
+- [ ] T5.2 Chargement par anneau dans la boucle de `frontier.js`, un canton par image.
+- [ ] T5.3 Itinéraire : graphe chargé + graphe macro des coutures.
+- [ ] T5.4 Migrations, épaves, faune sur cantons chargés (D5).
+- [ ] T5.5 Réglage « Monde sans bord (expérimental) » à la création de campagne ; module
+      d'extension enregistré (`reset()` actif, `validate(undefined)` inactif).
+- [ ] T5.6 Harnais navigateur G12 : 20 km, sauvegarde, reprise, retour.
+- Décision requise : D3.
+
+## T6 — Atlas et minicarte
+
+- [ ] T6.1 Caméra sans étendue fixe, cadrage sur les cantons vus.
+- [ ] T6.2 Rendu par cantons vus ; brouillard au-delà ; rayon d'action du véhicule.
+
+## T7 — Par défaut et gradient de distance
+
+- [ ] T7.1 G12 pour toute nouvelle campagne ; mention dans le codex et le journal.
+- [ ] T7.2 Rareté et dureté par distance ; relevé de butin par bande ; `docs/BALANCING.md`.
+- [ ] T7.3 Mise à jour de `docs/GAME_BIBLE.md` §7.13 ([DÉCISION] → [LIVRÉ]).

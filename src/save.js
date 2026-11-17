@@ -17,7 +17,7 @@
   const integer = (value, fallback, min, max, label) => { const result = number(value, fallback, min, max, label); if (!Number.isInteger(result)) fail(label); return result; };
   const list = (value, fallback, max, label) => { const result = value === undefined ? fallback : value; if (!Array.isArray(result) || result.length > max) fail(label); return result; };
   const bag = value => { const raw = object(value === undefined ? {} : value, 'ressources'); return Object.fromEntries(C.RESOURCE_KEYS.map(key => [key, number(raw[key], 0, 0, 1e12, key)])); };
-  const position = raw => ({ x: number(raw.x, undefined, -64, C.WORLD_SIZE + 64, 'position X'), y: number(raw.y, undefined, -64, C.WORLD_SIZE + 64, 'position Y') });
+  const position = raw => ({ x: number(raw.x, undefined, -64, C.LOCAL_MAP217.size + 64, 'position X'), y: number(raw.y, undefined, -64, C.LOCAL_MAP217.size + 64, 'position Y') });
 
   function validate(input) {
     const source = object(input, 'document');
@@ -26,12 +26,12 @@
     const scenarioId = S.normalize(data.scenarioId);
     const ids = new Set(), nodeIds = new Set(), occupied = new Set(); let maximumId = 0, cores = 0;
     const entityId = raw => { const id = integer(raw.id, undefined, 1, MAX_ENTITY_ID, 'identifiant'); if (ids.has(id)) fail('identifiant dupliqué'); ids.add(id); maximumId = Math.max(maximumId, id); return id; };
-    const buildings = list(data.buildings, [], C.WORLD_TILES ** 2, 'structures').map(value => {
+    const buildings = list(data.buildings, [], C.LOCAL_MAP217.tiles ** 2, 'structures').map(value => {
       const raw = object(value, 'structure');if(!owns(C.BUILDINGS,raw.type))fail('type de structure');const def=C.CityGeometry202.definition(raw.type,cityGeometry202);
       const id = entityId(raw), rotation = integer(raw.rotation, 0, 0, 3, 'rotation');
       const [width, height] = rotation % 2 ? [def.size[1], def.size[0]] : def.size;
-      const gx = integer(raw.gx, undefined, 0, C.WORLD_TILES-width, 'cellule X'), gy = integer(raw.gy, undefined, 0, C.WORLD_TILES-height, 'cellule Y');
-      for (let y=gy;y<gy+height;y++) for (let x=gx;x<gx+width;x++) { const cell=y*C.WORLD_TILES+x; if (occupied.has(cell)) fail('structures superposées'); occupied.add(cell); }
+      const gx = integer(raw.gx, undefined, 0, C.LOCAL_MAP217.tiles-width, 'cellule X'), gy = integer(raw.gy, undefined, 0, C.LOCAL_MAP217.tiles-height, 'cellule Y');
+      for (let y=gy;y<gy+height;y++) for (let x=gx;x<gx+width;x++) { const cell=y*C.LOCAL_MAP217.tiles+x; if (occupied.has(cell)) fail('structures superposées'); occupied.add(cell); }
       const progress=number(raw.progress,1,0,1,'chantier'); if(raw.type==='core'){cores++;if(progress!==1)fail('centre incomplet');}
       return { id,type:raw.type,gx,gy,rotation,progress,health:number(raw.health,def.health,0.001,def.health,'intégrité'),corpseLoad:number(raw.corpseLoad,0,0,1e9,'pression des corps'),priority:integer(raw.priority,2,1,3,'priorité'),gateMode:['auto','open','closed'].includes(raw.gateMode)?raw.gateMode:'auto' };
     });
@@ -89,7 +89,7 @@
     const stats=Object.fromEntries(Object.keys(C.createStats()).map(key=>[key,number(data.stats?.[key],0,0,1e15,'statistiques')]));
     const research={completed:list(data.research?.completed,[],C.RESEARCH.length,'doctrines').filter(id=>C.RESEARCH.some(item=>item.id===id)),insight:number(data.research?.insight,0,0,C.RESEARCH_INSIGHT_MAX,'insight'),active:null};
     const narrative=N.normalize(data.narrative);
-    const squads=Q.normalize(data.squads,data.rally?position(data.rally):{x:C.WORLD_SIZE/2,y:C.WORLD_SIZE/2},buildings);
+    const squads=Q.normalize(data.squads,data.rally?position(data.rally):{x:C.LOCAL_MAP217.size/2,y:C.LOCAL_MAP217.size/2},buildings);
     const objectiveIndex=integer(data.objectiveIndex,0,0,C.OBJECTIVES.length,'objectif');
     const objectiveProgress=number(data.objectiveProgress,0,0,1e12,'progression');
     const objectiveReady=data.objectiveReady===undefined?false:data.objectiveReady;
@@ -100,7 +100,7 @@
       squads,
       narrative,nodes:list(data.nodes,[],50000,'gisements').map(row=>{if(!Array.isArray(row)||row.length!==2)fail('gisement');const id=integer(row[0],undefined,0,1e9,'gisement ID');if(nodeIds.has(id))fail('gisement dupliqué');nodeIds.add(id);return[id,number(row[1],0,0,1e12,'gisement quantité')];}),
       wave,phase,phaseTime:number(data.phaseTime,20,-1e12,1e12,'chronomètre'),spawnQueue:legacy.slice(),pendingSpawns:{...pending},spawnTimer:number(data.spawnTimer,0,-1e12,1e12,'cadence migration'),fronts:list(data.fronts,[],4,'fronts').filter(front=>['north','east','south','west'].includes(front)),wavePlan:plan,
-      elapsed:number(data.elapsed,0,0,1e12,'temps'),dayClock:number(data.dayClock,.2,0,1,'heure'),weather:number(data.weather,0,0,1,'météo'),weatherTarget:number(data.weatherTarget,data.weather??0,0,1,'cible météo'),morale:number(data.morale,100,0,100,'moral'),rally:data.rally?position(data.rally):{x:C.WORLD_SIZE/2,y:C.WORLD_SIZE/2},stats,objectiveIndex,objectiveProgress:objectiveReady?C.OBJECTIVES[objectiveIndex].target:objectiveProgress,objectiveReady,nextId,research,activeCrisis:C.normalizeCrisis?C.normalizeCrisis(data.activeCrisis):null,depositedResources:number(data.depositedResources,0,0,1e12,'dépôts') };
+      elapsed:number(data.elapsed,0,0,1e12,'temps'),dayClock:number(data.dayClock,.2,0,1,'heure'),weather:number(data.weather,0,0,1,'météo'),weatherTarget:number(data.weatherTarget,data.weather??0,0,1,'cible météo'),morale:number(data.morale,100,0,100,'moral'),rally:data.rally?position(data.rally):{x:C.LOCAL_MAP217.size/2,y:C.LOCAL_MAP217.size/2},stats,objectiveIndex,objectiveProgress:objectiveReady?C.OBJECTIVES[objectiveIndex].target:objectiveProgress,objectiveReady,nextId,research,activeCrisis:C.normalizeCrisis?C.normalizeCrisis(data.activeCrisis):null,depositedResources:number(data.depositedResources,0,0,1e12,'dépôts') };
   }
   function parse(text) {
     if (typeof text !== 'string' || text.length > MAX_FILE_BYTES) fail('fichier trop volumineux');

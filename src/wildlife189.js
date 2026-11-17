@@ -1,5 +1,9 @@
 /* Versioned encounter descriptors and physical habitat rules; no saved owner here. */
 (function(root){'use strict';
+/* Monde sans bord T1 : lecture par les accesseurs du monde ; repli identique pour un monde sans accesseur. */
+const outside217=(w,x,y,pad)=>w.outside?w.outside(x,y,pad):x<pad||y<pad||x>w.size-pad||y>w.size-pad;
+const outsideOpen217=(w,x,y,pad)=>w.outsideOpen?w.outsideOpen(x,y,pad):x<=pad||y<=pad||x>=w.size-pad||y>=w.size-pad;
+const chunks217=(w,chunk)=>w.chunkRange?w.chunkRange(chunk).count:Math.ceil(w.size/chunk);
  const core=()=>root.DeadwallCore||(typeof require==='function'?require('./core.js'):null);
  const geo=()=>root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null);
  let previous=null,catalogue=null;
@@ -22,7 +26,7 @@
  function clear(w,q,x=q?.x,y=q?.y){
   if(!enabled(w)||!q?.profile||![x,y].every(Number.isFinite))return false;
   const d=q.profile,r=Math.max(.32,q.radius),water=w.hydrology.sample(x,y);
-  if(x<=r||y<=r||x>=w.size-r||y>=w.size-r||!habitat(d,water))return false;
+  if(outsideOpen217(w,x,y,r)||!habitat(d,water))return false;
   // Aquatic/low aerial animals waive only NATURAL water, never walls or furniture.
   if(d.mode==='land')return !w.blocked(x,y,q.radius,0,null);
   if(!w.wildlifeWaterClear?.(x,y,q.radius))return false;
@@ -56,7 +60,7 @@
  }
  function animal(w,cx,cy,index=0){
   if(!enabled(w))return null;
-  const C=core(),K=C.Landscape189Rules.population,R=C.BiomePopulation165Rules,limit=Math.ceil(w.size/R.chunk);
+  const C=core(),K=C.Landscape189Rules.population,R=C.BiomePopulation165Rules,limit=chunks217(w,R.chunk);
   if(!enabled(w)||w.hydrologyVersion!==1||![cx,cy,index].every(Number.isInteger)||cx<0||cy<0||cx>=limit||cy>=limit||index<0||index>=K.groups*K.members)return null;
   const group=Math.floor(index/K.members),member=index%K.members,gid='A189_'+cx+'_'+cy+'_'+group* K.members,id='A189_'+cx+'_'+cy+'_'+index,hash=(key)=>geo().hash(w.seed,gid,key)/4294967296;
   if(hash('presence')>=K.chance)return null;
@@ -77,7 +81,7 @@
   let draw=hash('species')*choices.reduce((n,row)=>n+row[1],0),chosen=choices.at(-1)[0];for(const[id,weight]of choices){draw-=weight;if(draw<0){chosen=id;break;}}
   const d=species()[chosen];if(member>=d.group)return null;
   if(member){const a=geo().hash(w.seed,id,'group-angle')/4294967296*Math.PI*2,rr=(.4+.6*hash('spacing'))*K.groupSpread*member/K.members;x+=Math.cos(a)*rr;y+=Math.sin(a)*rr;}
-  if(Math.hypot(x-w.home.x,y-w.home.y)<R.homeExclusion||x<1||y<1||x>w.size-1||y>w.size-1||!habitat(d,w.hydrology.sample(x,y)))return null;
+  if(Math.hypot(x-w.home.x,y-w.home.y)<R.homeExclusion||outside217(w,x,y,1)||!habitat(d,w.hydrology.sample(x,y)))return null;
   const road=w.nearestRoad({x,y});if(road&&road.d<road.road.width/2+R.roadClearance)return null;
   return Object.freeze({id,x,y,z:0,poi:null,species:d.id,variant:geo().hash(w.seed,id,'appearance')%4,radius:d.radius,length:d.length,width:d.width,profile:d,biome:biome.id,group189:gid,landscape189:w.landscape189});
  }

@@ -3,6 +3,9 @@
 (function(root,factory){'use strict';const api=factory(root);root.DeadwallCampaignServices208=api;
  if(typeof module==='object'&&module.exports)module.exports=api;
 })(typeof globalThis!=='undefined'?globalThis:this,function(root){'use strict';
+/* Monde sans bord T1 : lecture par les accesseurs du monde ; repli identique pour un monde sans accesseur. */
+const siteOf217=(w,id)=>w.site?w.site(id):w.pois.find(p=>p.id===id);
+const listed217=(w,p)=>w.site?w.site(p.id)===p:w.pois.includes(p);
  const dependency=(name,file)=>root[name]||(typeof require==='function'?require(file):null);
  const rules=()=>dependency('DeadwallCore','./core.js').CampaignServices208Rules;
  const geometry=()=>dependency('DeadwallFrontierGeometry','./frontier-geometry.js');
@@ -46,7 +49,7 @@
  function resolve(world,pose,request,discoveries,options={}){
   if(!available(world,pose))return refused('Rejoignez à pied un équipement résidentiel G11.');
   if(!request||!Object.hasOwn(rules().supports,request.action)||typeof request.siteId!=='string'||typeof request.supportId!=='string')return refused('Équipement ou service inconnu.');
-  const p=world.pois.find(p=>p.id===request.siteId),support=site(p)&&descriptors(world,p).find(o=>o.supportId===request.supportId&&o.action===request.action);
+  const p=siteOf217(world,request.siteId),support=site(p)&&descriptors(world,p).find(o=>o.supportId===request.supportId&&o.action===request.action);
   if(!support)return refused('Ce lieu ne possède pas ce support de service.');
   if(!Array.isArray(discoveries)||!discoveries.includes(p.id))return refused('Repérez ce site sur place avant de l’utiliser.',support);
   if(typeof options.structureDestroyed!=='function')return refused('État du support indisponible.',support);
@@ -68,7 +71,7 @@
  function list(world,pose,discoveries,options={}){
   if(!available(world,pose))return Object.freeze([]);
   const R=rules(),seen=new Set(Array.isArray(discoveries)?discoveries:[]),candidates=typeof world.nearPOI==='function'?world.nearPOI(pose.x,pose.y,R.nearbyRadius):world.pois,
-   sites=candidates.filter(p=>site(p)&&world.pois.includes(p)&&seen.has(p.id)&&distance(p,pose)<=R.nearbyRadius)
+   sites=candidates.filter(p=>site(p)&&listed217(world,p)&&seen.has(p.id)&&distance(p,pose)<=R.nearbyRadius)
    .sort((a,b)=>distance(a,pose)-distance(b,pose)||a.id.localeCompare(b.id)).slice(0,R.maxSites),offered=[];
   for(const p of sites)for(const support of descriptors(world,p))if((!options.action||support.action===options.action)&&Math.hypot(support.anchor.x-pose.x,support.anchor.y-pose.y)<=R.nearbyRadius)offered.push(support);
   return Object.freeze(offered.sort((a,b)=>Math.hypot(a.anchor.x-pose.x,a.anchor.y-pose.y)-Math.hypot(b.anchor.x-pose.x,b.anchor.y-pose.y)||a.supportId.localeCompare(b.supportId)||a.action.localeCompare(b.action))

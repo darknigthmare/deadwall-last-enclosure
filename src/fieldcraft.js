@@ -37,7 +37,7 @@ function attach(g){
   const car=g.expeditions.car();if(car?.metric174===1&&(u.id===car.id||u===g.player&&car.driving))return g.expeditions.overlapsVehicle175(b,car);
   return collides({def:true,left:b.x,top:b.y,right:b.x+b.w,bottom:b.y+b.h},u.x,u.y,u.radius||12);
  }
- function positionFree(u,x,y){const car=g.expeditions.car();if(car?.metric174===1&&car.health>0&&!car.regionAway){if(u===g.player&&car.driving)return g.expeditions.carClear(x,y);if(u.id!==car.id&&root.DeadwallMetric174.bodyCircle(g.expeditions.vehicleBody175(car.x,car.y,car.angle),{x,y},u.radius*.9))return false;}return Number.isFinite(x)&&Number.isFinite(y)&&x>u.radius+3&&y>u.radius+3&&x<C.WORLD_SIZE-u.radius-3&&y<C.WORLD_SIZE-u.radius-3&&!blocked(x,y,u.radius*.9);}
+ function positionFree(u,x,y){const car=g.expeditions.car();if(car?.metric174===1&&car.health>0&&!car.regionAway){if(u===g.player&&car.driving)return g.expeditions.carClear(x,y);if(u.id!==car.id&&root.DeadwallMetric174.bodyCircle(g.expeditions.vehicleBody175(car.x,car.y,car.angle),{x,y},u.radius*.9))return false;}return Number.isFinite(x)&&Number.isFinite(y)&&x>u.radius+3&&y>u.radius+3&&x<(g.local||C.LOCAL_MAP217).size-u.radius-3&&y<(g.local||C.LOCAL_MAP217).size-u.radius-3&&!blocked(x,y,u.radius*.9);}
  function segment(u,a,b,step=7){const n=Math.max(1,Math.ceil(Math.hypot(a.x-b.x,a.y-b.y)/step));for(let i=0;i<=n;i++)if(!g.friendlyPositionClear(u,a.x+(b.x-a.x)*i/n,a.y+(b.y-a.y)*i/n))return false;return true;}
  function service(u,e){
   if(!e)return null;

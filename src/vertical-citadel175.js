@@ -392,7 +392,7 @@
    q.m.health-=amount;if(q.m.health<=0){q.s.decks[q.level].modules=q.s.decks[q.level].modules.filter(m=>m.id!==id);if(controlled===id)release();if(job?.object===q.m)job=null;autoTargets.delete(id);g.refreshMetrics(true);notice='Équipement d’étage détruit : '+q.def.name;}return true;
   }
   const groundClear=g.friendlyPositionClear.bind(g);
-  const siege=Siege.create(g,{unitPose:u=>population?.isAssigned(u?.id)?population.pose(u):null,alliesAt:(id,level)=>population?.unitsAt(id,level)||[],navigationGraph:()=>network.navigationGraph(),state:()=>state,building,surfaceAt,clearAt,pose,geometry,damageModule,groundLine:g.hostileLineClear.bind(g),notice:message=>{notice=message;}});
+  const siege=Siege.create(g,{unitPose:u=>population?.isAssigned(u?.id)?population.pose(u):null,alliesAt:(id,level)=>population?.unitsAt(id,level)||[],navigationGraph:()=>network.navigationGraph(),state:()=>state,building,surfaceAt,clearAt,pose,geometry,damageModule,groundLine:g.hostileLineClear.bind(g),notice:message=>{notice=message;if(g.player.regionAbsent&&state.climbers.length===1)g.notify?.('D-17 : '+message,'danger');}});
   network=N.create(g,{bridgeHasInvader:id=>siege.bridgeOccupied(id)||population?.bridgeOccupied(id),reconcileInvaders:()=>{siege.reconcile();population?.reconcile();},S,state:()=>state,can,nativeBusy,pose,surfaceAt,moduleRef,clearFootprint:engineeringClear178,groundLine:g.hostileLineClear.bind(g),fallActor:fallActor179});
   const Population=root.DeadwallVerticalPopulation181||(typeof require==='function'?require('./vertical-population181.js'):null);
   population=Population.create(g,{S,navigation:siege.navigation,state:()=>state,network:()=>network,pose,groundClear,enemyPose:siege.enemyPose,aimPoint,sightQuery,raycast,hit,
