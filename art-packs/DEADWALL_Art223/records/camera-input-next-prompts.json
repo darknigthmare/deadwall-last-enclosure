@@ -1,0 +1,66 @@
+[
+  {
+    "key": "laundry",
+    "id": "DW-0085",
+    "file": "DW-0085_laverie-automatique.png",
+    "label": "Laverie — accès technique au sol",
+    "input": "/workspace/scratch/55dad3ac334d/generated_images/exec-5d51e477-81a4-420f-80dc-fe245eca3919.png",
+    "prompt": "Use case: precise-object-edit. Image 1 is the exact current DEADWALL asset to edit; image 2 is the ORIGINAL GAME BUILDINGS ATLAS, the camera and materials reference. Correct ONLY the projection/camera of the target building. Raise the orthographic camera to the very high near-overhead view of the atlas, looking 70 degrees below horizontal, with the roof plan horizontal/vertical axes aligned to the image axes. Front facade must become a SHORT, vertically foreshortened strip, not a large head-on elevation. Restore true plan DEPTH: the roof rectangle must have its specified width to projected-depth ratio. Draw the entire same building from the raised camera, do not merely stretch pixels. Preserve the recognizable building identity, exact number of storeys, ground-level entrances, roof equipment, materials, palette and wear. No doorway or threshold on any roof; a rear service door may be hidden by the roof instead of falsely visible on it. Building facade at image bottom. No diagonal isometric view, no perspective vanishing points, no added annex, no giant symbols, no lettering, people or vehicles. Genuinely transparent RGBA background, only a narrow contact shadow, generous fully transparent margins on all four sides, no backdrop, terrain tile, border or checkerboard. One isolated building only. DW-0085 laundromat: one low storey, plan21m wide by15m deep. The roof depth should be about67% of roof width, and front wall about7% of roof width. Preserve washer windows and the public entrance, ground-floor service door at right and modest roof exhausts.",
+    "referenceImages": [
+      "/workspace/scratch/55dad3ac334d/generated_images/exec-5d51e477-81a4-420f-80dc-fe245eca3919.png",
+      "/workspace/scratch/55dad3ac334d/references-art223/buildings-atlas.webp"
+    ],
+    "iteration": 3,
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true
+  },
+  {
+    "key": "postoffice",
+    "id": "DW-0082",
+    "file": "DW-0082_bureau-postal.png",
+    "label": "Bureau postal — quai de chargement au sol",
+    "input": "/workspace/scratch/55dad3ac334d/generated_images/exec-a50f3210-1f75-4acc-9ccd-8cc5346ae0fc.png",
+    "prompt": "Use case: precise-object-edit. Image 1 is the exact current DEADWALL asset to edit; image 2 is the ORIGINAL GAME BUILDINGS ATLAS, the camera and materials reference. Correct ONLY the projection/camera of the target building. Raise the orthographic camera to the very high near-overhead view of the atlas, looking 70 degrees below horizontal, with the roof plan horizontal/vertical axes aligned to the image axes. Front facade must become a SHORT, vertically foreshortened strip, not a large head-on elevation. Restore true plan DEPTH: the roof rectangle must have its specified width to projected-depth ratio. Draw the entire same building from the raised camera, do not merely stretch pixels. Preserve the recognizable building identity, exact number of storeys, ground-level entrances, roof equipment, materials, palette and wear. No doorway or threshold on any roof; a rear service door may be hidden by the roof instead of falsely visible on it. Building facade at image bottom. No diagonal isometric view, no perspective vanishing points, no added annex, no giant symbols, no lettering, people or vehicles. Genuinely transparent RGBA background, only a narrow contact shadow, generous fully transparent margins on all four sides, no backdrop, terrain tile, border or checkerboard. One isolated building only. DW-0082 postal office: one low storey, plan28m wide by22m deep. The roof depth should be about74% of roof width, and front wall about6% of roof width. Preserve ground-level delivery shutter at left, small public entrance and wall postal boxes. No roof delivery hatch or door.",
+    "referenceImages": [
+      "/workspace/scratch/55dad3ac334d/generated_images/exec-a50f3210-1f75-4acc-9ccd-8cc5346ae0fc.png",
+      "/workspace/scratch/55dad3ac334d/references-art223/buildings-atlas.webp"
+    ],
+    "iteration": 3,
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true
+  },
+  {
+    "key": "gym",
+    "id": "DW-0444",
+    "file": "DW-0444_gymnase-municipal.png",
+    "label": "Gymnase municipal",
+    "input": "/workspace/scratch/55dad3ac334d/generated_images/exec-6da60689-2a88-4991-a364-cdc5c73fbf8a.png",
+    "prompt": "Use case: precise-object-edit. Image 1 is the exact current DEADWALL asset to edit; image 2 is the ORIGINAL GAME BUILDINGS ATLAS, the camera and materials reference. Correct ONLY the projection/camera of the target building. Raise the orthographic camera to the very high near-overhead view of the atlas, looking 70 degrees below horizontal, with the roof plan horizontal/vertical axes aligned to the image axes. Front facade must become a SHORT, vertically foreshortened strip, not a large head-on elevation. Restore true plan DEPTH: the roof rectangle must have its specified width to projected-depth ratio. Draw the entire same building from the raised camera, do not merely stretch pixels. Preserve the recognizable building identity, exact number of storeys, ground-level entrances, roof equipment, materials, palette and wear. No doorway or threshold on any roof; a rear service door may be hidden by the roof instead of falsely visible on it. Building facade at image bottom. No diagonal isometric view, no perspective vanishing points, no added annex, no giant symbols, no lettering, people or vehicles. Genuinely transparent RGBA background, only a narrow contact shadow, generous fully transparent margins on all four sides, no backdrop, terrain tile, border or checkerboard. One isolated building only. DW-0444 sports gymnasium: exactly ONE high-ceiling sports hall, no second floor. Plan38m wide by28m deep, roof depth about69% of its width. A low vestibule strip against the front and short band of high clerestory windows on the hall. Both facades greatly foreshortened from near-overhead, hall facade band about8% of roof width. Preserve sports equipment delivery access on right at ground level.",
+    "referenceImages": [
+      "/workspace/scratch/55dad3ac334d/generated_images/exec-6da60689-2a88-4991-a364-cdc5c73fbf8a.png",
+      "/workspace/scratch/55dad3ac334d/references-art223/buildings-atlas.webp"
+    ],
+    "iteration": 2,
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true
+  },
+  {
+    "key": "selfstorage",
+    "id": "DW-0224",
+    "file": "DW-0224_garde-meubles.png",
+    "label": "Garde-meubles",
+    "input": "/workspace/scratch/55dad3ac334d/generated_images/exec-f6143a69-f79c-4f04-b192-491b6c70eb3c.png",
+    "prompt": "Use case: precise-object-edit. Image 1 is the exact current DEADWALL asset to edit; image 2 is the ORIGINAL GAME BUILDINGS ATLAS, the camera and materials reference. Correct ONLY the projection/camera of the target building. Raise the orthographic camera to the very high near-overhead view of the atlas, looking 70 degrees below horizontal, with the roof plan horizontal/vertical axes aligned to the image axes. Front facade must become a SHORT, vertically foreshortened strip, not a large head-on elevation. Restore true plan DEPTH: the roof rectangle must have its specified width to projected-depth ratio. Draw the entire same building from the raised camera, do not merely stretch pixels. Preserve the recognizable building identity, exact number of storeys, ground-level entrances, roof equipment, materials, palette and wear. No doorway or threshold on any roof; a rear service door may be hidden by the roof instead of falsely visible on it. Building facade at image bottom. No diagonal isometric view, no perspective vanishing points, no added annex, no giant symbols, no lettering, people or vehicles. Genuinely transparent RGBA background, only a narrow contact shadow, generous fully transparent margins on all four sides, no backdrop, terrain tile, border or checkerboard. One isolated building only. DW-0224 self-storage building: one storey, closed rectangular plan36m wide by26m deep. Roof depth about68% of its width, short front wall band about6% of roof width. Preserve small reception at left and one main loading shutter at right. Eight storage boxes are INSIDE the closed hall, do not show them as exterior garages. No extra storey or frontage of eight roll-up doors.",
+    "referenceImages": [
+      "/workspace/scratch/55dad3ac334d/generated_images/exec-f6143a69-f79c-4f04-b192-491b6c70eb3c.png",
+      "/workspace/scratch/55dad3ac334d/references-art223/buildings-atlas.webp"
+    ],
+    "iteration": 2,
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true
+  }
+]

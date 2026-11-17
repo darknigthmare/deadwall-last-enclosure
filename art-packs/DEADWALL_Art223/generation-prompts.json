@@ -1,0 +1,317 @@
+[
+  {
+    "key": "bakery",
+    "id": "DW-0065",
+    "label": "Boulangerie artisanale",
+    "file": "DW-0065_boulangerie-artisanale.png",
+    "prompt": "Use case: stylized-concept. ROLE: exactly ONE standalone regional building sprite for DEADWALL — Last Enclosure, continuation batch art223. The input is the ORIGINAL GAME BUILDINGS ATLAS: use it as a strict style, materials and CAMERA reference, not as an edit target. Match the painted semi-realistic post-apocalyptic strategy-game art, muted steel gray, olive, dusty earth, worn concrete and metal, restrained rust, believable human scale. VIEW: very high near-overhead orthographic camera about 68–70 degrees down, roofs dominate, a short front wall toward image bottom. Roof footprint axes aligned with image horizontal/vertical; no 45-degree isometric diamond, no low cinematic facade view. GAME-SCALE READ: one clear complete silhouette, readable public doorway and service access, modest physically supported roof details. OUTPUT: a native high-resolution RGBA sprite on true fully transparent background, centered with generous transparent margin on all four sides. NO baked checkerboard copied from the atlas, no matte, gradient, halo, backdrop, scene, display plinth or surrounding terrain tile. Only a narrow contact strip and subtle short contact shadow are allowed. EXCLUDE text, lettering, logos, labels, numbers, watermark, UI, giant pictograms, people, vehicles, fire, smoke, glowing energy, exaggerated vegetation, disconnected annexes and duplicate buildings. Exterior sprite with intact roofs, not a cutaway. Keep door scale and the documented number of floors. SUBJECT: DW-0065 artisanal BAKERY, canonical pilot footprint22 metres wide by17 metres deep, ONE GROUND FLOOR. A compact rectangular neighborhood bakery; actual ground outline about1.29:1 width/depth, not a thin shopfront. A modest front public shop entrance with glazed display windows and a shallow faded canvas awning. A distinct flour-delivery/service door on the rear side, away from the customer entrance. One low main roof covering the shop, separate bakehouse, kneading area and flour reserve; appropriate modest oven exhaust/chimney and practical roof ventilation near the rear. The functions are ordinary real-world bakery functions; no industrial factory, tall smokestack or upstairs apartment. A faint suggestion of ordinary shelves behind glazing is enough; do not remove the roof to reveal the interior. No giant bread, decorative baguette, cafe terrace, franchise sign, outdoor stall or piles blocking doors. The worn shop frontage, oven exhaust and delivery route make it identifiable without text. Keep the full rectangular volume substantial in depth and consistent with the atlas camera.",
+    "generatedSourcePath": "/workspace/scratch/55dad3ac334d/generated_images/exec-97ddcb75-bc93-4070-a8d6-3e624db9789b.png",
+    "referenceImages": [
+      "/workspace/scratch/55dad3ac334d/references-art223/buildings-atlas.webp"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "stage": "initial_generation",
+    "packPath": "references/iterations/DW-0065_bakery_v1.png",
+    "sha256": "6817580c5b28bea2c92d1460ed80325e170add44a02da92559dea501244839e4",
+    "selectedAsFinal": false,
+    "supersededReason": "Projection rapprochée de l’atlas dans la version finale ; les versions initiales bakery/laundry/postoffice avaient aussi un accès sur toiture."
+  },
+  {
+    "key": "bakery",
+    "id": "DW-0065",
+    "label": "Boulangerie — accès de livraison au sol",
+    "file": "DW-0065_boulangerie-artisanale.png",
+    "input": "/workspace/scratch/55dad3ac334d/generated_images/exec-97ddcb75-bc93-4070-a8d6-3e624db9789b.png",
+    "prompt": "Use case: stylized-concept. Correct ONE physical-access error in this DEADWALL bakery sprite. Preserve the same building identity, 22-by-17-metre compact footprint, ONE floor, high near-overhead orthographic camera, worn atlas style, colors, intact low roof, oven flue, front awning, glazed bread displays, public central entrance, realistic scale and native transparency. ERROR: the door at the TOP CENTER is standing on the roof and its threshold opens onto the roof. REMOVE that entire rooftop doorway, its frame and raised masonry; restore a continuous flat roof/parapet there with NO door, no rooftop room, no stair enclosure. The separate flour-delivery access must instead be a modest single service door on the VISIBLE lower LEFT SIDE WALL at GROUND LEVEL, in a small recessed corner contained within the same building envelope. Its threshold must touch the narrow ground contact strip beside the building, at the same ground elevation as the public entrance, not the roof. Make that service door physically plausible and distinct from the public shop door; do not block the side path with crates. If necessary expose a small side-wall return solely to make the ground-level door legible, without changing to a low or isometric camera. No added storey, detached annex, roof staircase, outdoor bread sculpture, lettering, people or vehicles. Keep the whole isolated asset fully inside the image with generous genuine transparent margins; no colored background, matte, gradient, halo, checkerboard or presentation platform. Transparent RGBA output.",
+    "iteration": 2,
+    "generatedSourcePath": "/workspace/scratch/55dad3ac334d/generated_images/exec-e9571785-ca5f-4d70-81bd-857236184c8a.png",
+    "referenceImages": [
+      "/workspace/scratch/55dad3ac334d/generated_images/exec-97ddcb75-bc93-4070-a8d6-3e624db9789b.png"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "stage": "ground_access_correction",
+    "packPath": "references/iterations/DW-0065_bakery_v2.png",
+    "sha256": "491a2b969a04f6a9d58c624a3c136dde24158c9d409c7c80d1c5a9d77112bd7b",
+    "selectedAsFinal": false,
+    "supersededReason": "Projection rapprochée de l’atlas dans la version finale ; les versions initiales bakery/laundry/postoffice avaient aussi un accès sur toiture."
+  },
+  {
+    "key": "library",
+    "id": "DW-0153",
+    "label": "Bibliothèque municipale",
+    "file": "DW-0153_bibliotheque-municipale.png",
+    "prompt": "Use case: stylized-concept. ROLE: exactly ONE standalone regional building sprite for DEADWALL — Last Enclosure, continuation batch art223. The input is the ORIGINAL GAME BUILDINGS ATLAS: use it as a strict style, materials and CAMERA reference, not as an edit target. Match the painted semi-realistic post-apocalyptic strategy-game art, muted steel gray, olive, dusty earth, worn concrete and metal, restrained rust, believable human scale. VIEW: very high near-overhead orthographic camera about 68–70 degrees down, roofs dominate, a short front wall toward image bottom. Roof footprint axes aligned with image horizontal/vertical; no 45-degree isometric diamond, no low cinematic facade view. GAME-SCALE READ: one clear complete silhouette, readable public doorway and service access, modest physically supported roof details. OUTPUT: a native high-resolution RGBA sprite on true fully transparent background, centered with generous transparent margin on all four sides. NO baked checkerboard copied from the atlas, no matte, gradient, halo, backdrop, scene, display plinth or surrounding terrain tile. Only a narrow contact strip and subtle short contact shadow are allowed. EXCLUDE text, lettering, logos, labels, numbers, watermark, UI, giant pictograms, people, vehicles, fire, smoke, glowing energy, exaggerated vegetation, disconnected annexes and duplicate buildings. Exterior sprite with intact roofs, not a cutaway. Keep door scale and the documented number of floors. SUBJECT: DW-0153 municipal public LIBRARY, canonical pilot footprint32 metres wide by24 metres deep, exactly TWO LEVELS: ground floor plus one upper floor. A modest rectangular civic building at human scale, not a palace or university tower. The ground footprint is approximately1.33:1 width/depth, not a narrow facade. A clear main public entrance under a small supported porch, reading-room windows, two recognizable rows of windows corresponding to the two floors, and a discreet side/rear service doorway for archive access. An intact shallow roof dominates the view, with restrained skylight and service ventilation. Program: reception, shelving, reading, archives; archive rooms remain distinct in function but are not exposed through an opaque roof. Weathered pale concrete and masonry, subdued olive-gray or steel-gray roof, matching atlas. No third floor, basement cutaway, grand stairs consuming the entire footprint, clocktower, columns of a temple, giant books or book logo. Show all of the two-storey building with the high orthographic camera, compact footprint and generous empty transparent margins.",
+    "generatedSourcePath": "/workspace/scratch/55dad3ac334d/generated_images/exec-52558726-b6fd-4763-bfb7-278a55f9a12a.png",
+    "referenceImages": [
+      "/workspace/scratch/55dad3ac334d/references-art223/buildings-atlas.webp"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "stage": "initial_generation",
+    "packPath": "references/iterations/DW-0153_library_v1.png",
+    "sha256": "e44f300cc0688e205fb605a1bd7c386f88ee766a984026a73571e78ba2e2b84e",
+    "selectedAsFinal": false,
+    "supersededReason": "Projection rapprochée de l’atlas dans la version finale ; les versions initiales bakery/laundry/postoffice avaient aussi un accès sur toiture."
+  },
+  {
+    "key": "laundry",
+    "id": "DW-0085",
+    "label": "Laverie automatique",
+    "file": "DW-0085_laverie-automatique.png",
+    "prompt": "Use case: stylized-concept. ROLE: exactly ONE standalone regional building sprite for DEADWALL — Last Enclosure, continuation batch art223. The input is the ORIGINAL GAME BUILDINGS ATLAS: use it as a strict style, materials and CAMERA reference, not as an edit target. Match the painted semi-realistic post-apocalyptic strategy-game art, muted steel gray, olive, dusty earth, worn concrete and metal, restrained rust, believable human scale. VIEW: very high near-overhead orthographic camera about 68–70 degrees down, roofs dominate, a short front wall toward image bottom. Roof footprint axes aligned with image horizontal/vertical; no 45-degree isometric diamond, no low cinematic facade view. GAME-SCALE READ: one clear complete silhouette, readable public doorway and service access, modest physically supported roof details. OUTPUT: a native high-resolution RGBA sprite on true fully transparent background, centered with generous transparent margin on all four sides. NO baked checkerboard copied from the atlas, no matte, gradient, halo, backdrop, scene, display plinth or surrounding terrain tile. Only a narrow contact strip and subtle short contact shadow are allowed. EXCLUDE text, lettering, logos, labels, numbers, watermark, UI, giant pictograms, people, vehicles, fire, smoke, glowing energy, exaggerated vegetation, disconnected annexes and duplicate buildings. Exterior sprite with intact roofs, not a cutaway. Keep door scale and the documented number of floors. SUBJECT: DW-0085 neighborhood self-service LAUNDROMAT, canonical pilot footprint21 metres wide by15 metres deep, exactly ONE LEVEL. Low compact rectangular building, ground width/depth ratio1.4:1. A modest public entrance on the front alongside practical large shop windows; a few faint circular washer doors may be seen THROUGH the glazing at indoor floor level, never mounted on the exterior wall or roof. The interior program consists of machines, folding, waiting and a separate technical room. Suggest the rear maintenance access behind the washer row through a discreet service doorway and a tidy set of modest dryer exhaust vents at the rear; the maintenance approach must remain unobstructed. A complete worn low roof over a substantial deep building; muted gray-green or steel roof, dirty concrete frontage. No giant washing machine, rooftop machinery dump, factory smokestacks, upstairs rooms, outdoor laundry lines or giant pictogram. Do not make a storefront with no building depth. No lettering or logo. Whole low building, intact roof and original atlas near-overhead camera.",
+    "generatedSourcePath": "/workspace/scratch/55dad3ac334d/generated_images/exec-848e9e9e-574f-4bf9-a9b4-097d907ada50.png",
+    "referenceImages": [
+      "/workspace/scratch/55dad3ac334d/references-art223/buildings-atlas.webp"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "stage": "initial_generation",
+    "packPath": "references/iterations/DW-0085_laundry_v1.png",
+    "sha256": "32fd816e8d5f429818896389797dd9b5f74421d90390e8727d28cd585b2ee83e",
+    "selectedAsFinal": false,
+    "supersededReason": "Projection rapprochée de l’atlas dans la version finale ; les versions initiales bakery/laundry/postoffice avaient aussi un accès sur toiture."
+  },
+  {
+    "key": "laundry",
+    "id": "DW-0085",
+    "label": "Laverie — accès technique au sol",
+    "file": "DW-0085_laverie-automatique.png",
+    "input": "/workspace/scratch/55dad3ac334d/generated_images/exec-848e9e9e-574f-4bf9-a9b4-097d907ada50.png",
+    "prompt": "Use case: stylized-concept. Correct ONE physical-access error in this DEADWALL laundromat sprite. Preserve the same 21-by-15-metre compact single-storey building, near-overhead orthographic camera, muted industrial atlas palette, painted weathered concrete/metal style, public central front door, waiting chairs and washer fronts visible behind glazing, intact low roof and modest dryer vents. ERROR: at the TOP RIGHT of the roof there is a raised doorway with its threshold on the roof. REMOVE that entire rooftop door and its raised wall frame; make the roof/parapet continuous there, with no rooftop room or stair enclosure. Put the maintenance/service door on the VISIBLE lower RIGHT SIDE WALL, at GROUND LEVEL, as a small recessed service entry within the overall rectangular building envelope. Its threshold and one small step must clearly meet the ground contact strip beside the building, at the public entrance's ground elevation. The service approach should lead beside the machines, clearly apart from the central public doorway. Make the short side-wall return legible without switching to a low-angle facade or a45-degree diamond. Do not add a floor or a detached annex and do not place a door or washing machine on the roof. Keep the three modest rear exhausts and everything else fixed except minor local structural adjustment required by the corrected door. No people, vehicles, signs, lettering or logos. Entire complete object on TRUE transparent RGBA with generous transparent margins; no baked checkerboard, matte, gradient, backdrop, glow or display plinth.",
+    "iteration": 2,
+    "generatedSourcePath": "/workspace/scratch/55dad3ac334d/generated_images/exec-5d51e477-81a4-420f-80dc-fe245eca3919.png",
+    "referenceImages": [
+      "/workspace/scratch/55dad3ac334d/generated_images/exec-848e9e9e-574f-4bf9-a9b4-097d907ada50.png"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "stage": "ground_access_correction",
+    "packPath": "references/iterations/DW-0085_laundry_v2.png",
+    "sha256": "9694ce829763fa81550c76c6da35050e691dad7334953d5ee63bdb2adea5d380",
+    "selectedAsFinal": false,
+    "supersededReason": "Projection rapprochée de l’atlas dans la version finale ; les versions initiales bakery/laundry/postoffice avaient aussi un accès sur toiture."
+  },
+  {
+    "key": "postoffice",
+    "id": "DW-0082",
+    "label": "Bureau postal",
+    "file": "DW-0082_bureau-postal.png",
+    "prompt": "Use case: stylized-concept. ROLE: exactly ONE standalone regional building sprite for DEADWALL — Last Enclosure, continuation batch art223. The input is the ORIGINAL GAME BUILDINGS ATLAS: use it as a strict style, materials and CAMERA reference, not as an edit target. Match the painted semi-realistic post-apocalyptic strategy-game art, muted steel gray, olive, dusty earth, worn concrete and metal, restrained rust, believable human scale. VIEW: very high near-overhead orthographic camera about 68–70 degrees down, roofs dominate, a short front wall toward image bottom. Roof footprint axes aligned with image horizontal/vertical; no 45-degree isometric diamond, no low cinematic facade view. GAME-SCALE READ: one clear complete silhouette, readable public doorway and service access, modest physically supported roof details. OUTPUT: a native high-resolution RGBA sprite on true fully transparent background, centered with generous transparent margin on all four sides. NO baked checkerboard copied from the atlas, no matte, gradient, halo, backdrop, scene, display plinth or surrounding terrain tile. Only a narrow contact strip and subtle short contact shadow are allowed. EXCLUDE text, lettering, logos, labels, numbers, watermark, UI, giant pictograms, people, vehicles, fire, smoke, glowing energy, exaggerated vegetation, disconnected annexes and duplicate buildings. Exterior sprite with intact roofs, not a cutaway. Keep door scale and the documented number of floors. SUBJECT: DW-0082 small regional POST OFFICE, canonical pilot footprint28 metres wide by22 metres deep, ONE LEVEL. A substantial compact rectangular public-service building with actual ground width/depth1.27:1. Public reception entrance clearly on the front, subdued front windows, a few ordinary small unbranded mailbox/parcel-locker units attached under a shallow canopy. Postal sorting and parcel storage occupy the closed rear volume. Provide a distinct modest loading door/dock on the rear SIDE so it remains visible from the high camera, with a clear small service threshold separated from the public entry. Keep one coherent low roof with subdued ventilation over the entire rectangular envelope; no detached depot. Weathered pale concrete, restrained faded ochre accent at the small mailbox units, steel/olive gray roofing, all in the atlas palette. No recognizable real postal-company branding, flags, readable mail slot labels, people, delivery vans, outdoor parcels strewn across the entrance or giant envelope sculpture. Correct clear separation of the public frontage and the rear loading function; intact exterior roof, no cutaway.",
+    "generatedSourcePath": "/workspace/scratch/55dad3ac334d/generated_images/exec-b5a4d0c7-15f2-4177-91f1-3034595c1d20.png",
+    "referenceImages": [
+      "/workspace/scratch/55dad3ac334d/references-art223/buildings-atlas.webp"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "stage": "initial_generation",
+    "packPath": "references/iterations/DW-0082_postoffice_v1.png",
+    "sha256": "0bd314a38f175c661b4c30ff13872eb2618e8398a122509fb2e7ca854ad646b6",
+    "selectedAsFinal": false,
+    "supersededReason": "Projection rapprochée de l’atlas dans la version finale ; les versions initiales bakery/laundry/postoffice avaient aussi un accès sur toiture."
+  },
+  {
+    "key": "postoffice",
+    "id": "DW-0082",
+    "label": "Bureau postal — quai de chargement au sol",
+    "file": "DW-0082_bureau-postal.png",
+    "input": "/workspace/scratch/55dad3ac334d/generated_images/exec-b5a4d0c7-15f2-4177-91f1-3034595c1d20.png",
+    "prompt": "Use case: stylized-concept. Correct the physically impossible loading access in this DEADWALL post-office sprite while preserving its identity. Keep the compact28-by22-metre single-storey footprint, atlas materials/palette, high near-overhead orthographic camera, front public entrance, modest yellow parcel-locker units, roof vents, window rhythm and genuine transparent background. ERROR: a loading roller door with two bollards and hazard-marked loading apron has been placed at the TOP CENTER ON THE ROOF. Remove that ENTIRE rooftop loading doorway/raised wall/canopy, its two bollards and its hazard-marked apron. Restore a continuous intact low roof and parapet there with no door and no rooftop dock. Place ONE modest postal loading roller door on the visible lower LEFT SIDE WALL at GROUND LEVEL, using a short recessed corner contained within the rectangular building envelope. Its small loading threshold must touch the GROUND beside the building, at the same ground elevation as the public front entrance; it must not touch or stand on the roof. Put any necessary two protective bollards at the ground-level loading threshold. Keep public customer access and parcel lockers on the front, clearly apart from this side handling entrance. It is acceptable to show a short wall return to make the ground-level entrance legible while keeping the same high camera and roof axes; do not rotate the building into a diamond, lower the camera, add a second storey or add a detached warehouse. No vehicles, people, large terrain apron, brand logo, readable text or extra decoration. Whole coherent building centered with generous transparent margin, no checkerboard, color matte, vignette or background. Native RGBA.",
+    "iteration": 2,
+    "generatedSourcePath": "/workspace/scratch/55dad3ac334d/generated_images/exec-a50f3210-1f75-4acc-9ccd-8cc5346ae0fc.png",
+    "referenceImages": [
+      "/workspace/scratch/55dad3ac334d/generated_images/exec-b5a4d0c7-15f2-4177-91f1-3034595c1d20.png"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "stage": "ground_access_correction",
+    "packPath": "references/iterations/DW-0082_postoffice_v2.png",
+    "sha256": "ebc5e9fb5e2d11ca5712480a0f5f60112ed9d13ec708aff6ca79e7966a5dc3f9",
+    "selectedAsFinal": false,
+    "supersededReason": "Projection rapprochée de l’atlas dans la version finale ; les versions initiales bakery/laundry/postoffice avaient aussi un accès sur toiture."
+  },
+  {
+    "key": "gym",
+    "id": "DW-0444",
+    "label": "Gymnase municipal",
+    "file": "DW-0444_gymnase-municipal.png",
+    "prompt": "Use case: stylized-concept. ROLE: exactly ONE standalone regional building sprite for DEADWALL — Last Enclosure, continuation batch art223. The input is the ORIGINAL GAME BUILDINGS ATLAS: use it as a strict style, materials and CAMERA reference, not as an edit target. Match the painted semi-realistic post-apocalyptic strategy-game art, muted steel gray, olive, dusty earth, worn concrete and metal, restrained rust, believable human scale. VIEW: very high near-overhead orthographic camera about 68–70 degrees down, roofs dominate, a short front wall toward image bottom. Roof footprint axes aligned with image horizontal/vertical; no 45-degree isometric diamond, no low cinematic facade view. GAME-SCALE READ: one clear complete silhouette, readable public doorway and service access, modest physically supported roof details. OUTPUT: a native high-resolution RGBA sprite on true fully transparent background, centered with generous transparent margin on all four sides. NO baked checkerboard copied from the atlas, no matte, gradient, halo, backdrop, scene, display plinth or surrounding terrain tile. Only a narrow contact strip and subtle short contact shadow are allowed. EXCLUDE text, lettering, logos, labels, numbers, watermark, UI, giant pictograms, people, vehicles, fire, smoke, glowing energy, exaggerated vegetation, disconnected annexes and duplicate buildings. Exterior sprite with intact roofs, not a cutaway. Keep door scale and the documented number of floors. SUBJECT: DW-0444 municipal indoor GYMNASIUM, canonical pilot footprint38 metres wide by28 metres deep, ONE GROUND LEVEL. A broad rectangular sports hall, actual ground width/depth1.36:1, deep enough to contain a central open indoor sports floor. Taller single-storey hall volume with high clerestory windows does NOT imply additional floors: exactly one row of high hall windows, no stacked classroom floors or mezzanine shown. A gently pitched metal roof spans the main court in one coherent large volume. A low attached entrance/changing-room/storage strip is contained within the same overall rectangular building footprint. Clear public hall entrance at the front and modest separate side service access for equipment storage. Weathered structural concrete and muted olive/steel cladding matching the atlas; small practical roof ventilation only. NO outdoor court, basketball hoop outside, stadium grandstands, sports field, school tower, extra storey, crowd, giant ball logo or lettering. Roof intact, no dollhouse open court. Whole isolated sports building at near-overhead orthographic camera, roofs dominant and realistic door scale.",
+    "generatedSourcePath": "/workspace/scratch/55dad3ac334d/generated_images/exec-6da60689-2a88-4991-a364-cdc5c73fbf8a.png",
+    "referenceImages": [
+      "/workspace/scratch/55dad3ac334d/references-art223/buildings-atlas.webp"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "stage": "initial_generation",
+    "packPath": "references/iterations/DW-0444_gym_v1.png",
+    "sha256": "71283fbac0d20c923923bf75575b9862758ef73db711d2ecfd6d5a538cce99fc",
+    "selectedAsFinal": false,
+    "supersededReason": "Projection rapprochée de l’atlas dans la version finale ; les versions initiales bakery/laundry/postoffice avaient aussi un accès sur toiture."
+  },
+  {
+    "key": "selfstorage",
+    "id": "DW-0224",
+    "label": "Garde-meubles",
+    "file": "DW-0224_garde-meubles.png",
+    "prompt": "Use case: stylized-concept. ROLE: exactly ONE standalone regional building sprite for DEADWALL — Last Enclosure, continuation batch art223. The input is the ORIGINAL GAME BUILDINGS ATLAS: use it as a strict style, materials and CAMERA reference, not as an edit target. Match the painted semi-realistic post-apocalyptic strategy-game art, muted steel gray, olive, dusty earth, worn concrete and metal, restrained rust, believable human scale. VIEW: very high near-overhead orthographic camera about 68–70 degrees down, roofs dominate, a short front wall toward image bottom. Roof footprint axes aligned with image horizontal/vertical; no 45-degree isometric diamond, no low cinematic facade view. GAME-SCALE READ: one clear complete silhouette, readable public doorway and service access, modest physically supported roof details. OUTPUT: a native high-resolution RGBA sprite on true fully transparent background, centered with generous transparent margin on all four sides. NO baked checkerboard copied from the atlas, no matte, gradient, halo, backdrop, scene, display plinth or surrounding terrain tile. Only a narrow contact strip and subtle short contact shadow are allowed. EXCLUDE text, lettering, logos, labels, numbers, watermark, UI, giant pictograms, people, vehicles, fire, smoke, glowing energy, exaggerated vegetation, disconnected annexes and duplicate buildings. Exterior sprite with intact roofs, not a cutaway. Keep door scale and the documented number of floors. SUBJECT: DW-0224 indoor SELF-STORAGE furniture storage facility, canonical pilot footprint36 metres wide by26 metres deep, exactly ONE LEVEL. One low closed rectangular warehouse envelope, actual ground width/depth approximately1.38:1. A small integrated reception/office entrance with a couple of windows at the front corner and a distinct wide handling/loading doorway with a modest unobstructed loading threshold on the side. The canonical interior has EIGHT STORAGE BOXES, four on each side of a COMMON INTERNAL CORRIDOR: these boxes are INSIDE the enclosed building. DO NOT convert them into eight external garage bays, do not show rows of detached self-storage units, and do not expose the interior. Preserve an intact substantial roof over all rooms. Few exterior openings, believable modest roof vents and a single practical vehicle-sized loading door; no oversized factory tower or extra floor. Worn concrete and corrugated metal, muted steel/olive/earth palette matching the atlas. No piles of furniture or containers blocking the loading access, no signage or logos. Whole cohesive compact building on true transparent alpha, the same high orthographic near-overhead camera.",
+    "generatedSourcePath": "/workspace/scratch/55dad3ac334d/generated_images/exec-f6143a69-f79c-4f04-b192-491b6c70eb3c.png",
+    "referenceImages": [
+      "/workspace/scratch/55dad3ac334d/references-art223/buildings-atlas.webp"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "stage": "initial_generation",
+    "packPath": "references/iterations/DW-0224_selfstorage_v1.png",
+    "sha256": "c9014a01471cdbd49683f3dfb113057340e8cebfc0a4923c715b005378039ad3",
+    "selectedAsFinal": false,
+    "supersededReason": "Projection rapprochée de l’atlas dans la version finale ; les versions initiales bakery/laundry/postoffice avaient aussi un accès sur toiture."
+  },
+  {
+    "key": "bakery",
+    "id": "DW-0065",
+    "file": "DW-0065_boulangerie-artisanale.png",
+    "label": "Boulangerie — accès de livraison au sol",
+    "input": "/workspace/scratch/55dad3ac334d/generated_images/exec-e9571785-ca5f-4d70-81bd-857236184c8a.png",
+    "prompt": "Use case: precise-object-edit. Image 1 is the exact current DEADWALL asset to edit; image 2 is the ORIGINAL GAME BUILDINGS ATLAS, the camera and materials reference. Correct ONLY the projection/camera of the target building. Raise the orthographic camera to the very high near-overhead view of the atlas, looking 70 degrees below horizontal, with the roof plan horizontal/vertical axes aligned to the image axes. Front facade must become a SHORT, vertically foreshortened strip, not a large head-on elevation. Restore true plan DEPTH: the roof rectangle must have its specified width to projected-depth ratio. Draw the entire same building from the raised camera, do not merely stretch pixels. Preserve the recognizable building identity, exact number of storeys, ground-level entrances, roof equipment, materials, palette and wear. No doorway or threshold on any roof; a rear service door may be hidden by the roof instead of falsely visible on it. Building facade at image bottom. No diagonal isometric view, no perspective vanishing points, no added annex, no giant symbols, no lettering, people or vehicles. Genuinely transparent RGBA background, only a narrow contact shadow, generous fully transparent margins on all four sides, no backdrop, terrain tile, border or checkerboard. One isolated building only. DW-0065 bakery: one low storey, plan width22m and depth17m, ratio width/projected roof depth about1.38. Roof depth should be about72% of roof width, not half. At this camera, the single-storey facade should be about7% of roof width. Preserve the oven flue, front awning, bread shop windows and ground-floor door at left from the edit target.",
+    "referenceImages": [
+      "/workspace/scratch/55dad3ac334d/generated_images/exec-e9571785-ca5f-4d70-81bd-857236184c8a.png",
+      "/workspace/scratch/55dad3ac334d/references-art223/buildings-atlas.webp"
+    ],
+    "iteration": 3,
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-b4cddcf7-5e39-4018-b528-589a1a959d92.png",
+    "stage": "camera_projection_correction",
+    "packPath": "assets/art223/regional/DW-0065_boulangerie-artisanale.png",
+    "sha256": "14967654138df62aac926ad4a8847e9df6fe5d51f339f2cc07b0110078bc9b6e",
+    "selectedAsFinal": true,
+    "nativeOutputBytesPreserved": true
+  },
+  {
+    "key": "library",
+    "id": "DW-0153",
+    "file": "DW-0153_bibliotheque-municipale.png",
+    "label": "Bibliothèque municipale",
+    "input": "/workspace/scratch/55dad3ac334d/generated_images/exec-52558726-b6fd-4763-bfb7-278a55f9a12a.png",
+    "prompt": "Use case: precise-object-edit. Image 1 is the exact current DEADWALL asset to edit; image 2 is the ORIGINAL GAME BUILDINGS ATLAS, the camera and materials reference. Correct ONLY the projection/camera of the target building. Raise the orthographic camera to the very high near-overhead view of the atlas, looking 70 degrees below horizontal, with the roof plan horizontal/vertical axes aligned to the image axes. Front facade must become a SHORT, vertically foreshortened strip, not a large head-on elevation. Restore true plan DEPTH: the roof rectangle must have its specified width to projected-depth ratio. Draw the entire same building from the raised camera, do not merely stretch pixels. Preserve the recognizable building identity, exact number of storeys, ground-level entrances, roof equipment, materials, palette and wear. No doorway or threshold on any roof; a rear service door may be hidden by the roof instead of falsely visible on it. Building facade at image bottom. No diagonal isometric view, no perspective vanishing points, no added annex, no giant symbols, no lettering, people or vehicles. Genuinely transparent RGBA background, only a narrow contact shadow, generous fully transparent margins on all four sides, no backdrop, terrain tile, border or checkerboard. One isolated building only. DW-0153 municipal library: exactly two storeys (ground plus1), plan width32m and depth24m, ratio width/projected roof depth about1.42. Roof depth should be about70% of roof width. The entire two-storey facade should be about10% of roof width, keeping two compressed rows of windows; roof must dominate. Keep entrance porch supported at ground level, modest skylight and archives function.",
+    "referenceImages": [
+      "/workspace/scratch/55dad3ac334d/generated_images/exec-52558726-b6fd-4763-bfb7-278a55f9a12a.png",
+      "/workspace/scratch/55dad3ac334d/references-art223/buildings-atlas.webp"
+    ],
+    "iteration": 2,
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-260760d0-fc73-4eae-90f5-f473de2a819f.png",
+    "stage": "camera_projection_correction",
+    "packPath": "assets/art223/regional/DW-0153_bibliotheque-municipale.png",
+    "sha256": "91ff2610137571b5467785a9f77166d5ae868797d2fbfab08919eed1670ea39e",
+    "selectedAsFinal": true,
+    "nativeOutputBytesPreserved": true
+  },
+  {
+    "key": "laundry",
+    "id": "DW-0085",
+    "file": "DW-0085_laverie-automatique.png",
+    "label": "Laverie — accès technique au sol",
+    "input": "/workspace/scratch/55dad3ac334d/generated_images/exec-5d51e477-81a4-420f-80dc-fe245eca3919.png",
+    "prompt": "Use case: precise-object-edit. Image 1 is the exact current DEADWALL asset to edit; image 2 is the ORIGINAL GAME BUILDINGS ATLAS, the camera and materials reference. Correct ONLY the projection/camera of the target building. Raise the orthographic camera to the very high near-overhead view of the atlas, looking 70 degrees below horizontal, with the roof plan horizontal/vertical axes aligned to the image axes. Front facade must become a SHORT, vertically foreshortened strip, not a large head-on elevation. Restore true plan DEPTH: the roof rectangle must have its specified width to projected-depth ratio. Draw the entire same building from the raised camera, do not merely stretch pixels. Preserve the recognizable building identity, exact number of storeys, ground-level entrances, roof equipment, materials, palette and wear. No doorway or threshold on any roof; a rear service door may be hidden by the roof instead of falsely visible on it. Building facade at image bottom. No diagonal isometric view, no perspective vanishing points, no added annex, no giant symbols, no lettering, people or vehicles. Genuinely transparent RGBA background, only a narrow contact shadow, generous fully transparent margins on all four sides, no backdrop, terrain tile, border or checkerboard. One isolated building only. DW-0085 laundromat: one low storey, plan21m wide by15m deep. The roof depth should be about67% of roof width, and front wall about7% of roof width. Preserve washer windows and the public entrance, ground-floor service door at right and modest roof exhausts.",
+    "referenceImages": [
+      "/workspace/scratch/55dad3ac334d/generated_images/exec-5d51e477-81a4-420f-80dc-fe245eca3919.png",
+      "/workspace/scratch/55dad3ac334d/references-art223/buildings-atlas.webp"
+    ],
+    "iteration": 3,
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-15061757-a6b5-493d-8c32-ab4e8081eb80.png",
+    "stage": "camera_projection_correction",
+    "packPath": "assets/art223/regional/DW-0085_laverie-automatique.png",
+    "sha256": "a30aaec3b793d163499572621c0a9aa7c4a0fb5733b53f00be391e3d42fa516e",
+    "selectedAsFinal": true,
+    "nativeOutputBytesPreserved": true
+  },
+  {
+    "key": "postoffice",
+    "id": "DW-0082",
+    "file": "DW-0082_bureau-postal.png",
+    "label": "Bureau postal — quai de chargement au sol",
+    "input": "/workspace/scratch/55dad3ac334d/generated_images/exec-a50f3210-1f75-4acc-9ccd-8cc5346ae0fc.png",
+    "prompt": "Use case: precise-object-edit. Image 1 is the exact current DEADWALL asset to edit; image 2 is the ORIGINAL GAME BUILDINGS ATLAS, the camera and materials reference. Correct ONLY the projection/camera of the target building. Raise the orthographic camera to the very high near-overhead view of the atlas, looking 70 degrees below horizontal, with the roof plan horizontal/vertical axes aligned to the image axes. Front facade must become a SHORT, vertically foreshortened strip, not a large head-on elevation. Restore true plan DEPTH: the roof rectangle must have its specified width to projected-depth ratio. Draw the entire same building from the raised camera, do not merely stretch pixels. Preserve the recognizable building identity, exact number of storeys, ground-level entrances, roof equipment, materials, palette and wear. No doorway or threshold on any roof; a rear service door may be hidden by the roof instead of falsely visible on it. Building facade at image bottom. No diagonal isometric view, no perspective vanishing points, no added annex, no giant symbols, no lettering, people or vehicles. Genuinely transparent RGBA background, only a narrow contact shadow, generous fully transparent margins on all four sides, no backdrop, terrain tile, border or checkerboard. One isolated building only. DW-0082 postal office: one low storey, plan28m wide by22m deep. The roof depth should be about74% of roof width, and front wall about6% of roof width. Preserve ground-level delivery shutter at left, small public entrance and wall postal boxes. No roof delivery hatch or door.",
+    "referenceImages": [
+      "/workspace/scratch/55dad3ac334d/generated_images/exec-a50f3210-1f75-4acc-9ccd-8cc5346ae0fc.png",
+      "/workspace/scratch/55dad3ac334d/references-art223/buildings-atlas.webp"
+    ],
+    "iteration": 3,
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-ca12cc28-a8c5-4338-b3d3-724716c71017.png",
+    "stage": "camera_projection_correction",
+    "packPath": "assets/art223/regional/DW-0082_bureau-postal.png",
+    "sha256": "4dd8cd481bd11a3287d793dc946cde66bf3e403a0df366e46802406e978de121",
+    "selectedAsFinal": true,
+    "nativeOutputBytesPreserved": true
+  },
+  {
+    "key": "gym",
+    "id": "DW-0444",
+    "file": "DW-0444_gymnase-municipal.png",
+    "label": "Gymnase municipal",
+    "input": "/workspace/scratch/55dad3ac334d/generated_images/exec-6da60689-2a88-4991-a364-cdc5c73fbf8a.png",
+    "prompt": "Use case: precise-object-edit. Image 1 is the exact current DEADWALL asset to edit; image 2 is the ORIGINAL GAME BUILDINGS ATLAS, the camera and materials reference. Correct ONLY the projection/camera of the target building. Raise the orthographic camera to the very high near-overhead view of the atlas, looking 70 degrees below horizontal, with the roof plan horizontal/vertical axes aligned to the image axes. Front facade must become a SHORT, vertically foreshortened strip, not a large head-on elevation. Restore true plan DEPTH: the roof rectangle must have its specified width to projected-depth ratio. Draw the entire same building from the raised camera, do not merely stretch pixels. Preserve the recognizable building identity, exact number of storeys, ground-level entrances, roof equipment, materials, palette and wear. No doorway or threshold on any roof; a rear service door may be hidden by the roof instead of falsely visible on it. Building facade at image bottom. No diagonal isometric view, no perspective vanishing points, no added annex, no giant symbols, no lettering, people or vehicles. Genuinely transparent RGBA background, only a narrow contact shadow, generous fully transparent margins on all four sides, no backdrop, terrain tile, border or checkerboard. One isolated building only. DW-0444 sports gymnasium: exactly ONE high-ceiling sports hall, no second floor. Plan38m wide by28m deep, roof depth about69% of its width. A low vestibule strip against the front and short band of high clerestory windows on the hall. Both facades greatly foreshortened from near-overhead, hall facade band about8% of roof width. Preserve sports equipment delivery access on right at ground level.",
+    "referenceImages": [
+      "/workspace/scratch/55dad3ac334d/generated_images/exec-6da60689-2a88-4991-a364-cdc5c73fbf8a.png",
+      "/workspace/scratch/55dad3ac334d/references-art223/buildings-atlas.webp"
+    ],
+    "iteration": 2,
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-fe62c9d9-7f3c-494d-87a5-6706aa778d6c.png",
+    "stage": "camera_projection_correction",
+    "packPath": "assets/art223/regional/DW-0444_gymnase-municipal.png",
+    "sha256": "d481e296f9ca9b80cba79497afb5dbbd11187e2904d20df500ac4223dfbcd13a",
+    "selectedAsFinal": true,
+    "nativeOutputBytesPreserved": true
+  },
+  {
+    "key": "selfstorage",
+    "id": "DW-0224",
+    "file": "DW-0224_garde-meubles.png",
+    "label": "Garde-meubles",
+    "input": "/workspace/scratch/55dad3ac334d/generated_images/exec-f6143a69-f79c-4f04-b192-491b6c70eb3c.png",
+    "prompt": "Use case: precise-object-edit. Image 1 is the exact current DEADWALL asset to edit; image 2 is the ORIGINAL GAME BUILDINGS ATLAS, the camera and materials reference. Correct ONLY the projection/camera of the target building. Raise the orthographic camera to the very high near-overhead view of the atlas, looking 70 degrees below horizontal, with the roof plan horizontal/vertical axes aligned to the image axes. Front facade must become a SHORT, vertically foreshortened strip, not a large head-on elevation. Restore true plan DEPTH: the roof rectangle must have its specified width to projected-depth ratio. Draw the entire same building from the raised camera, do not merely stretch pixels. Preserve the recognizable building identity, exact number of storeys, ground-level entrances, roof equipment, materials, palette and wear. No doorway or threshold on any roof; a rear service door may be hidden by the roof instead of falsely visible on it. Building facade at image bottom. No diagonal isometric view, no perspective vanishing points, no added annex, no giant symbols, no lettering, people or vehicles. Genuinely transparent RGBA background, only a narrow contact shadow, generous fully transparent margins on all four sides, no backdrop, terrain tile, border or checkerboard. One isolated building only. DW-0224 self-storage building: one storey, closed rectangular plan36m wide by26m deep. Roof depth about68% of its width, short front wall band about6% of roof width. Preserve small reception at left and one main loading shutter at right. Eight storage boxes are INSIDE the closed hall, do not show them as exterior garages. No extra storey or frontage of eight roll-up doors.",
+    "referenceImages": [
+      "/workspace/scratch/55dad3ac334d/generated_images/exec-f6143a69-f79c-4f04-b192-491b6c70eb3c.png",
+      "/workspace/scratch/55dad3ac334d/references-art223/buildings-atlas.webp"
+    ],
+    "iteration": 2,
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-4336f3fe-f2b4-451e-a280-b3a4bffe70ac.png",
+    "stage": "camera_projection_correction",
+    "packPath": "assets/art223/regional/DW-0224_garde-meubles.png",
+    "sha256": "e218863d9be7324e60ef3789301b79aaa133b25cf4985df1e5b9cbff97dc645a",
+    "selectedAsFinal": true,
+    "nativeOutputBytesPreserved": true
+  }
+]

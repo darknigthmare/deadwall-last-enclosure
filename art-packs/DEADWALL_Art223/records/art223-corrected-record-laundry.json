@@ -1,0 +1,16 @@
+{
+  "key": "laundry",
+  "id": "DW-0085",
+  "label": "Laverie — accès technique au sol",
+  "file": "DW-0085_laverie-automatique.png",
+  "input": "/workspace/scratch/55dad3ac334d/generated_images/exec-848e9e9e-574f-4bf9-a9b4-097d907ada50.png",
+  "prompt": "Use case: stylized-concept. Correct ONE physical-access error in this DEADWALL laundromat sprite. Preserve the same 21-by-15-metre compact single-storey building, near-overhead orthographic camera, muted industrial atlas palette, painted weathered concrete/metal style, public central front door, waiting chairs and washer fronts visible behind glazing, intact low roof and modest dryer vents. ERROR: at the TOP RIGHT of the roof there is a raised doorway with its threshold on the roof. REMOVE that entire rooftop door and its raised wall frame; make the roof/parapet continuous there, with no rooftop room or stair enclosure. Put the maintenance/service door on the VISIBLE lower RIGHT SIDE WALL, at GROUND LEVEL, as a small recessed service entry within the overall rectangular building envelope. Its threshold and one small step must clearly meet the ground contact strip beside the building, at the public entrance's ground elevation. The service approach should lead beside the machines, clearly apart from the central public doorway. Make the short side-wall return legible without switching to a low-angle facade or a45-degree diamond. Do not add a floor or a detached annex and do not place a door or washing machine on the roof. Keep the three modest rear exhausts and everything else fixed except minor local structural adjustment required by the corrected door. No people, vehicles, signs, lettering or logos. Entire complete object on TRUE transparent RGBA with generous transparent margins; no baked checkerboard, matte, gradient, backdrop, glow or display plinth.",
+  "iteration": 2,
+  "generatedSourcePath": "/workspace/scratch/55dad3ac334d/generated_images/exec-5d51e477-81a4-420f-80dc-fe245eca3919.png",
+  "referenceImages": [
+    "/workspace/scratch/55dad3ac334d/generated_images/exec-848e9e9e-574f-4bf9-a9b4-097d907ada50.png"
+  ],
+  "transparentBackgroundRequested": true,
+  "generator": "OpenAI ImageGen intégré",
+  "promptIsVerbatim": true
+}
