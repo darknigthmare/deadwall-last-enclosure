@@ -1,0 +1,725 @@
+{
+  "project": "DeadWall",
+  "pack": "Art234",
+  "sourceMain": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "identityContract": "prop:<kind>:v0; source art only; no Codex remapping or new campaign placement",
+  "sourceFiles": [
+    {
+      "path": "references/runtime/campaign-site-art205.js",
+      "sha256": "492790bf2aa6c77dd244f4fcd8c164f1960f08eb2654b10b1ca20663bd72e0f2",
+      "bytes": 44852,
+      "repositoryPath": "src/campaign-site-art205.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "gitBlob": "adcceb210d194cdbf4f19359a743c9cec2a8e4e6"
+    },
+    {
+      "path": "references/runtime/codex-furnishings2026.js",
+      "sha256": "5aacd2944d7cf44d21997a9b265dac966a873875e9e5cd7a48a43c8dca044b36",
+      "bytes": 40680,
+      "repositoryPath": "src/codex-furnishings2026.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "gitBlob": "57648ec1a6e908069734f622eb449166770495d4"
+    },
+    {
+      "path": "references/materials/interior-workshop-atlas.png",
+      "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+      "bytes": 2334203,
+      "repositoryPath": "assets/art153/interior-workshop-atlas.png",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "gitBlob": "3057a2f58d27addab9917511c755edcc0ed5931f"
+    }
+  ],
+  "targets": [
+    {
+      "key": "conveyor",
+      "kind": "conveyor",
+      "id": "prop:conveyor:v0",
+      "artId": "prop:conveyor:v0",
+      "label": "Convoyeur",
+      "file": "conveyor_convoyeur.png",
+      "dimensions": {
+        "w": 3.2,
+        "h": 1,
+        "heightM": 1.1,
+        "units": "metres",
+        "authority": "author-design:industrial-conveyor"
+      },
+      "catalogueEntry": {
+        "name": "Convoyeur",
+        "w": 3.2,
+        "h": 1,
+        "heightM": 1.1,
+        "sourceDimensions": "author-design:industrial-conveyor",
+        "lootEligible": false
+      },
+      "route": "procedural205",
+      "canonicalVariant": 0,
+      "subject": "A long narrow low roller conveyor. Exactly seven stationary transverse metal rollers across the long horizontal bed, contained between two parallel long side rails, with four short structural feet. Dark gaps between rollers. Empty conveyor, no belt substituted, no cargo.",
+      "prompt": "Use case: stylized-concept. Asset type: original DEADWALL production-source prop sprite, one isolated industrial object, true RGBA transparency.\nInput image 1 is the AUTHORITATIVE CANONICAL TOP-DOWN GEOMETRY REFERENCE rendered by the game's unchanged drawProp, variant 0. Preserve its exact plan orientation, arrangement and relative footprint proportions; refine its flat shapes into credible tactile 3D-like materials. Input image 2 is MATERIAL AND PAINTING STYLE ONLY: original DeadWall worn workshop art. DO NOT copy its lower camera, its multi-object layout or its background.\nCamera: strictly orthographic bird's-eye directly overhead (90 degrees elevation), long x axis horizontal left-to-right as in image 1, y axis vertical. No diagonal/isometric rotation, no vanishing point or near-side enlargement. Keep all top-view parts readable in their canonical positions. Small bevel shading may imply depth, but do not tilt the camera to show a large front facade.\nStyle: serious grounded post-apocalyptic industrial game asset, carefully hand-painted pre-rendered appearance, original generic equipment, restrained wear and believable manufacturing; muted gray-green painted metal, steel, weathered brown wood, dull rust and light edge highlights. Soft overhead lighting, shadows only inside the object silhouette.\nSubject: A long narrow low roller conveyor. Exactly seven stationary transverse metal rollers across the long horizontal bed, contained between two parallel long side rails, with four short structural feet. Dark gaps between rollers. Empty conveyor, no belt substituted, no cargo.\nAuthoritative dimensions: footprint 3.2 metres along screen X by 1 metres along screen Y, height envelope 1.1 metres. These values come from CATALOGUE and are author-design dimensions.\nComposition: ONE coherent complete object centered with at least 10% fully empty transparent margin on every side. Match the top-down width-to-depth aspect ratio of reference 1; do not make the footprint square. No supporting ground slab except the machine's own integral base shown in the canonical drawing. The height is an author-design envelope, not permission to change its footprint or invent additional levels.\nAll machines are switched off and unattended. No people, zombies, landscape, floor tile, wall, background gradient, contact-shadow plane, smoke, steam, sparks, glowing indicators, separate props, extra tools, fake UI, labels, text, numerals, logos, watermarks or drawn border. Preserve genuine transparent alpha outside the complete object. This is one source-art proposal, not a certified metric replacement or a new gameplay placement.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/conveyor_v0.png",
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png"
+      ],
+      "referenceFiles": [
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/conveyor_v0.png",
+          "sha256": "a9ae3320a9ee9e5fa52e465291c989c5020532e3deec579e180afb186dfabe04",
+          "role": "canonical-geometry"
+        },
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+          "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+          "role": "materials-only"
+        }
+      ],
+      "generator": "OpenAI built-in ImageGen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true
+    },
+    {
+      "key": "dosingUnit",
+      "kind": "dosingUnit",
+      "id": "prop:dosingUnit:v0",
+      "artId": "prop:dosingUnit:v0",
+      "label": "Poste de dosage",
+      "file": "dosingUnit_poste_dosage.png",
+      "dimensions": {
+        "w": 1.5,
+        "h": 1.2,
+        "heightM": 2.1,
+        "units": "metres",
+        "authority": "author-design:industrial-dosingUnit"
+      },
+      "catalogueEntry": {
+        "name": "Poste de dosage",
+        "w": 1.5,
+        "h": 1.2,
+        "heightM": 2.1,
+        "sourceDimensions": "author-design:industrial-dosingUnit",
+        "lootEligible": false
+      },
+      "route": "procedural205",
+      "canonicalVariant": 0,
+      "subject": "A compact rectangular dosing unit on one base. A broad angular hopper occupies upper-left to center, tapering into a short dark discharge neck toward the lower edge; one narrow rust-brown rectangular drive casing sits at the lower-right of the hopper. Four integral feet. No extra tanks, piping networks or loose containers.",
+      "prompt": "Use case: stylized-concept. Asset type: original DEADWALL production-source prop sprite, one isolated industrial object, true RGBA transparency.\nInput image 1 is the AUTHORITATIVE CANONICAL TOP-DOWN GEOMETRY REFERENCE rendered by the game's unchanged drawProp, variant 0. Preserve its exact plan orientation, arrangement and relative footprint proportions; refine its flat shapes into credible tactile 3D-like materials. Input image 2 is MATERIAL AND PAINTING STYLE ONLY: original DeadWall worn workshop art. DO NOT copy its lower camera, its multi-object layout or its background.\nCamera: strictly orthographic bird's-eye directly overhead (90 degrees elevation), long x axis horizontal left-to-right as in image 1, y axis vertical. No diagonal/isometric rotation, no vanishing point or near-side enlargement. Keep all top-view parts readable in their canonical positions. Small bevel shading may imply depth, but do not tilt the camera to show a large front facade.\nStyle: serious grounded post-apocalyptic industrial game asset, carefully hand-painted pre-rendered appearance, original generic equipment, restrained wear and believable manufacturing; muted gray-green painted metal, steel, weathered brown wood, dull rust and light edge highlights. Soft overhead lighting, shadows only inside the object silhouette.\nSubject: A compact rectangular dosing unit on one base. A broad angular hopper occupies upper-left to center, tapering into a short dark discharge neck toward the lower edge; one narrow rust-brown rectangular drive casing sits at the lower-right of the hopper. Four integral feet. No extra tanks, piping networks or loose containers.\nAuthoritative dimensions: footprint 1.5 metres along screen X by 1.2 metres along screen Y, height envelope 2.1 metres. These values come from CATALOGUE and are author-design dimensions.\nComposition: ONE coherent complete object centered with at least 10% fully empty transparent margin on every side. Match the top-down width-to-depth aspect ratio of reference 1; do not make the footprint square. No supporting ground slab except the machine's own integral base shown in the canonical drawing. The height is an author-design envelope, not permission to change its footprint or invent additional levels.\nAll machines are switched off and unattended. No people, zombies, landscape, floor tile, wall, background gradient, contact-shadow plane, smoke, steam, sparks, glowing indicators, separate props, extra tools, fake UI, labels, text, numerals, logos, watermarks or drawn border. Preserve genuine transparent alpha outside the complete object. This is one source-art proposal, not a certified metric replacement or a new gameplay placement.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/dosingUnit_v0.png",
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png"
+      ],
+      "referenceFiles": [
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/dosingUnit_v0.png",
+          "sha256": "ab2d6b97aa00e7667ec168018c258a8028e2a6b95075acda5f8eda1bb2455ef2",
+          "role": "canonical-geometry"
+        },
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+          "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+          "role": "materials-only"
+        }
+      ],
+      "generator": "OpenAI built-in ImageGen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true
+    },
+    {
+      "key": "foodMixer",
+      "kind": "foodMixer",
+      "id": "prop:foodMixer:v0",
+      "artId": "prop:foodMixer:v0",
+      "label": "Mélangeur alimentaire",
+      "file": "foodMixer_melangeur_alimentaire.png",
+      "dimensions": {
+        "w": 1.8,
+        "h": 1.6,
+        "heightM": 2,
+        "units": "metres",
+        "authority": "author-design:industrial-foodMixer"
+      },
+      "catalogueEntry": {
+        "name": "Mélangeur alimentaire",
+        "w": 1.8,
+        "h": 1.6,
+        "heightM": 2,
+        "sourceDimensions": "author-design:industrial-foodMixer",
+        "lootEligible": false
+      },
+      "route": "procedural205",
+      "canonicalVariant": 0,
+      "subject": "A food mixing unit on a rectangular metal base: one circular open stainless steel mixing bowl offset LEFT, with a dark empty bowl interior. A narrow upright drive column sits on the RIGHT and one pale metal arm runs from its upper end leftward then down into the center of the bowl. Four integral feet. Empty, static and unpowered, no food stock.",
+      "prompt": "Use case: stylized-concept. Asset type: original DEADWALL production-source prop sprite, one isolated industrial object, true RGBA transparency.\nInput image 1 is the AUTHORITATIVE CANONICAL TOP-DOWN GEOMETRY REFERENCE rendered by the game's unchanged drawProp, variant 0. Preserve its exact plan orientation, arrangement and relative footprint proportions; refine its flat shapes into credible tactile 3D-like materials. Input image 2 is MATERIAL AND PAINTING STYLE ONLY: original DeadWall worn workshop art. DO NOT copy its lower camera, its multi-object layout or its background.\nCamera: strictly orthographic bird's-eye directly overhead (90 degrees elevation), long x axis horizontal left-to-right as in image 1, y axis vertical. No diagonal/isometric rotation, no vanishing point or near-side enlargement. Keep all top-view parts readable in their canonical positions. Small bevel shading may imply depth, but do not tilt the camera to show a large front facade.\nStyle: serious grounded post-apocalyptic industrial game asset, carefully hand-painted pre-rendered appearance, original generic equipment, restrained wear and believable manufacturing; muted gray-green painted metal, steel, weathered brown wood, dull rust and light edge highlights. Soft overhead lighting, shadows only inside the object silhouette.\nSubject: A food mixing unit on a rectangular metal base: one circular open stainless steel mixing bowl offset LEFT, with a dark empty bowl interior. A narrow upright drive column sits on the RIGHT and one pale metal arm runs from its upper end leftward then down into the center of the bowl. Four integral feet. Empty, static and unpowered, no food stock.\nAuthoritative dimensions: footprint 1.8 metres along screen X by 1.6 metres along screen Y, height envelope 2 metres. These values come from CATALOGUE and are author-design dimensions.\nComposition: ONE coherent complete object centered with at least 10% fully empty transparent margin on every side. Match the top-down width-to-depth aspect ratio of reference 1; do not make the footprint square. No supporting ground slab except the machine's own integral base shown in the canonical drawing. The height is an author-design envelope, not permission to change its footprint or invent additional levels.\nAll machines are switched off and unattended. No people, zombies, landscape, floor tile, wall, background gradient, contact-shadow plane, smoke, steam, sparks, glowing indicators, separate props, extra tools, fake UI, labels, text, numerals, logos, watermarks or drawn border. Preserve genuine transparent alpha outside the complete object. This is one source-art proposal, not a certified metric replacement or a new gameplay placement.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/foodMixer_v0.png",
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png"
+      ],
+      "referenceFiles": [
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/foodMixer_v0.png",
+          "sha256": "19a264080dfffc1368e0655b1d99be7d94049777d0fd2d18dedb6b0dee6738fe",
+          "role": "canonical-geometry"
+        },
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+          "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+          "role": "materials-only"
+        }
+      ],
+      "generator": "OpenAI built-in ImageGen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true
+    },
+    {
+      "key": "heatChamber",
+      "kind": "heatChamber",
+      "id": "prop:heatChamber:v0",
+      "artId": "prop:heatChamber:v0",
+      "label": "Enceinte thermique",
+      "file": "heatChamber_enceinte_thermique.png",
+      "dimensions": {
+        "w": 2.2,
+        "h": 1.6,
+        "heightM": 2.2,
+        "units": "metres",
+        "authority": "author-design:industrial-heatChamber"
+      },
+      "catalogueEntry": {
+        "name": "Enceinte thermique",
+        "w": 2.2,
+        "h": 1.6,
+        "heightM": 2.2,
+        "sourceDimensions": "author-design:industrial-heatChamber",
+        "lootEligible": false
+      },
+      "route": "procedural205",
+      "canonicalVariant": 0,
+      "subject": "A rectangular insulated heat-chamber enclosure on four integral feet. Preserve the broad pale insulated inner rectangle and dark inset rectangular hatch/chamber in the center, two stationary rust-colored parallel transverse bars and a small pale latch on the right side of the dark inset. One coherent enclosure, closed/unpowered with no glow, flames or steam; visible dark recess matches reference and is not a glowing furnace.",
+      "prompt": "Use case: stylized-concept. Asset type: original DEADWALL production-source prop sprite, one isolated industrial object, true RGBA transparency.\nInput image 1 is the AUTHORITATIVE CANONICAL TOP-DOWN GEOMETRY REFERENCE rendered by the game's unchanged drawProp, variant 0. Preserve its exact plan orientation, arrangement and relative footprint proportions; refine its flat shapes into credible tactile 3D-like materials. Input image 2 is MATERIAL AND PAINTING STYLE ONLY: original DeadWall worn workshop art. DO NOT copy its lower camera, its multi-object layout or its background.\nCamera: strictly orthographic bird's-eye directly overhead (90 degrees elevation), long x axis horizontal left-to-right as in image 1, y axis vertical. No diagonal/isometric rotation, no vanishing point or near-side enlargement. Keep all top-view parts readable in their canonical positions. Small bevel shading may imply depth, but do not tilt the camera to show a large front facade.\nStyle: serious grounded post-apocalyptic industrial game asset, carefully hand-painted pre-rendered appearance, original generic equipment, restrained wear and believable manufacturing; muted gray-green painted metal, steel, weathered brown wood, dull rust and light edge highlights. Soft overhead lighting, shadows only inside the object silhouette.\nSubject: A rectangular insulated heat-chamber enclosure on four integral feet. Preserve the broad pale insulated inner rectangle and dark inset rectangular hatch/chamber in the center, two stationary rust-colored parallel transverse bars and a small pale latch on the right side of the dark inset. One coherent enclosure, closed/unpowered with no glow, flames or steam; visible dark recess matches reference and is not a glowing furnace.\nAuthoritative dimensions: footprint 2.2 metres along screen X by 1.6 metres along screen Y, height envelope 2.2 metres. These values come from CATALOGUE and are author-design dimensions.\nComposition: ONE coherent complete object centered with at least 10% fully empty transparent margin on every side. Match the top-down width-to-depth aspect ratio of reference 1; do not make the footprint square. No supporting ground slab except the machine's own integral base shown in the canonical drawing. The height is an author-design envelope, not permission to change its footprint or invent additional levels.\nAll machines are switched off and unattended. No people, zombies, landscape, floor tile, wall, background gradient, contact-shadow plane, smoke, steam, sparks, glowing indicators, separate props, extra tools, fake UI, labels, text, numerals, logos, watermarks or drawn border. Preserve genuine transparent alpha outside the complete object. This is one source-art proposal, not a certified metric replacement or a new gameplay placement.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/heatChamber_v0.png",
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png"
+      ],
+      "referenceFiles": [
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/heatChamber_v0.png",
+          "sha256": "897e779c8536b7d3284119b171e1a58f84b23c839d37eb742a0cc1338277c591",
+          "role": "canonical-geometry"
+        },
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+          "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+          "role": "materials-only"
+        }
+      ],
+      "generator": "OpenAI built-in ImageGen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true
+    },
+    {
+      "key": "metalSaw",
+      "kind": "metalSaw",
+      "id": "prop:metalSaw:v0",
+      "artId": "prop:metalSaw:v0",
+      "label": "Scie de débit",
+      "file": "metalSaw_scie_debit.png",
+      "dimensions": {
+        "w": 2.2,
+        "h": 1.2,
+        "heightM": 1.6,
+        "units": "metres",
+        "authority": "author-design:industrial-metalSaw"
+      },
+      "catalogueEntry": {
+        "name": "Scie de débit",
+        "w": 2.2,
+        "h": 1.2,
+        "heightM": 1.6,
+        "sourceDimensions": "author-design:industrial-metalSaw",
+        "lootEligible": false
+      },
+      "route": "procedural205",
+      "canonicalVariant": 0,
+      "subject": "A metal-cutting saw on a low rectangular industrial table and four integral feet. Preserve the large dark circular saw disk area LEFT of center, the narrow straight upright guide at the RIGHT and the long rust-colored guide along the near/lower edge. Silver-gray work surface with clear exposed blade/guard geometry. Blade stationary, no workpiece, no detached tools, no sparks.",
+      "prompt": "Use case: stylized-concept. Asset type: original DEADWALL production-source prop sprite, one isolated industrial object, true RGBA transparency.\nInput image 1 is the AUTHORITATIVE CANONICAL TOP-DOWN GEOMETRY REFERENCE rendered by the game's unchanged drawProp, variant 0. Preserve its exact plan orientation, arrangement and relative footprint proportions; refine its flat shapes into credible tactile 3D-like materials. Input image 2 is MATERIAL AND PAINTING STYLE ONLY: original DeadWall worn workshop art. DO NOT copy its lower camera, its multi-object layout or its background.\nCamera: strictly orthographic bird's-eye directly overhead (90 degrees elevation), long x axis horizontal left-to-right as in image 1, y axis vertical. No diagonal/isometric rotation, no vanishing point or near-side enlargement. Keep all top-view parts readable in their canonical positions. Small bevel shading may imply depth, but do not tilt the camera to show a large front facade.\nStyle: serious grounded post-apocalyptic industrial game asset, carefully hand-painted pre-rendered appearance, original generic equipment, restrained wear and believable manufacturing; muted gray-green painted metal, steel, weathered brown wood, dull rust and light edge highlights. Soft overhead lighting, shadows only inside the object silhouette.\nSubject: A metal-cutting saw on a low rectangular industrial table and four integral feet. Preserve the large dark circular saw disk area LEFT of center, the narrow straight upright guide at the RIGHT and the long rust-colored guide along the near/lower edge. Silver-gray work surface with clear exposed blade/guard geometry. Blade stationary, no workpiece, no detached tools, no sparks.\nAuthoritative dimensions: footprint 2.2 metres along screen X by 1.2 metres along screen Y, height envelope 1.6 metres. These values come from CATALOGUE and are author-design dimensions.\nComposition: ONE coherent complete object centered with at least 10% fully empty transparent margin on every side. Match the top-down width-to-depth aspect ratio of reference 1; do not make the footprint square. No supporting ground slab except the machine's own integral base shown in the canonical drawing. The height is an author-design envelope, not permission to change its footprint or invent additional levels.\nAll machines are switched off and unattended. No people, zombies, landscape, floor tile, wall, background gradient, contact-shadow plane, smoke, steam, sparks, glowing indicators, separate props, extra tools, fake UI, labels, text, numerals, logos, watermarks or drawn border. Preserve genuine transparent alpha outside the complete object. This is one source-art proposal, not a certified metric replacement or a new gameplay placement.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/metalSaw_v0.png",
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png"
+      ],
+      "referenceFiles": [
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/metalSaw_v0.png",
+          "sha256": "1c60ae21e9b849b86e097548896e31dac4904a802f6b908306dbd506f4ea92fd",
+          "role": "canonical-geometry"
+        },
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+          "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+          "role": "materials-only"
+        }
+      ],
+      "generator": "OpenAI built-in ImageGen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true
+    },
+    {
+      "key": "lathe",
+      "kind": "lathe",
+      "id": "prop:lathe:v0",
+      "artId": "prop:lathe:v0",
+      "label": "Tour mécanique",
+      "file": "lathe_tour_mecanique.png",
+      "dimensions": {
+        "w": 2.4,
+        "h": 1.2,
+        "heightM": 1.6,
+        "units": "metres",
+        "authority": "author-design:industrial-lathe"
+      },
+      "catalogueEntry": {
+        "name": "Tour mécanique",
+        "w": 2.4,
+        "h": 1.2,
+        "heightM": 1.6,
+        "sourceDimensions": "author-design:industrial-lathe",
+        "lootEligible": false
+      },
+      "route": "procedural205",
+      "canonicalVariant": 0,
+      "subject": "A compact metal lathe on one long rectangular base. The headstock and circular chuck are on the LEFT; a straight bright horizontal spindle/bed axis runs toward the RIGHT, with parallel dark bed rails. A small tool carriage and hand wheel sit near lower-right, and a short rust-colored tail piece sits at the right end. Preserve the left-right arrangement exactly. No workpiece and no loose tools; all parts stationary.",
+      "prompt": "Use case: stylized-concept. Asset type: original DEADWALL production-source prop sprite, one isolated industrial object, true RGBA transparency.\nInput image 1 is the AUTHORITATIVE CANONICAL TOP-DOWN GEOMETRY REFERENCE rendered by the game's unchanged drawProp, variant 0. Preserve its exact plan orientation, arrangement and relative footprint proportions; refine its flat shapes into credible tactile 3D-like materials. Input image 2 is MATERIAL AND PAINTING STYLE ONLY: original DeadWall worn workshop art. DO NOT copy its lower camera, its multi-object layout or its background.\nCamera: strictly orthographic bird's-eye directly overhead (90 degrees elevation), long x axis horizontal left-to-right as in image 1, y axis vertical. No diagonal/isometric rotation, no vanishing point or near-side enlargement. Keep all top-view parts readable in their canonical positions. Small bevel shading may imply depth, but do not tilt the camera to show a large front facade.\nStyle: serious grounded post-apocalyptic industrial game asset, carefully hand-painted pre-rendered appearance, original generic equipment, restrained wear and believable manufacturing; muted gray-green painted metal, steel, weathered brown wood, dull rust and light edge highlights. Soft overhead lighting, shadows only inside the object silhouette.\nSubject: A compact metal lathe on one long rectangular base. The headstock and circular chuck are on the LEFT; a straight bright horizontal spindle/bed axis runs toward the RIGHT, with parallel dark bed rails. A small tool carriage and hand wheel sit near lower-right, and a short rust-colored tail piece sits at the right end. Preserve the left-right arrangement exactly. No workpiece and no loose tools; all parts stationary.\nAuthoritative dimensions: footprint 2.4 metres along screen X by 1.2 metres along screen Y, height envelope 1.6 metres. These values come from CATALOGUE and are author-design dimensions.\nComposition: ONE coherent complete object centered with at least 10% fully empty transparent margin on every side. Match the top-down width-to-depth aspect ratio of reference 1; do not make the footprint square. No supporting ground slab except the machine's own integral base shown in the canonical drawing. The height is an author-design envelope, not permission to change its footprint or invent additional levels.\nAll machines are switched off and unattended. No people, zombies, landscape, floor tile, wall, background gradient, contact-shadow plane, smoke, steam, sparks, glowing indicators, separate props, extra tools, fake UI, labels, text, numerals, logos, watermarks or drawn border. Preserve genuine transparent alpha outside the complete object. This is one source-art proposal, not a certified metric replacement or a new gameplay placement.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/lathe_v0.png",
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png"
+      ],
+      "referenceFiles": [
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/lathe_v0.png",
+          "sha256": "cb699c7ce0db05504eeda6b064adb554f9b81684de854deeb982f38577204267",
+          "role": "canonical-geometry"
+        },
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+          "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+          "role": "materials-only"
+        }
+      ],
+      "generator": "OpenAI built-in ImageGen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true
+    },
+    {
+      "key": "millingMachine",
+      "kind": "millingMachine",
+      "id": "prop:millingMachine:v0",
+      "artId": "prop:millingMachine:v0",
+      "label": "Fraiseuse",
+      "file": "millingMachine_fraiseuse.png",
+      "dimensions": {
+        "w": 2.2,
+        "h": 1.6,
+        "heightM": 2.1,
+        "units": "metres",
+        "authority": "author-design:industrial-millingMachine"
+      },
+      "catalogueEntry": {
+        "name": "Fraiseuse",
+        "w": 2.2,
+        "h": 1.6,
+        "heightM": 2.1,
+        "sourceDimensions": "author-design:industrial-millingMachine",
+        "lootEligible": false
+      },
+      "route": "procedural205",
+      "canonicalVariant": 0,
+      "subject": "A milling machine on one rectangular base with four integral feet. Preserve the dark upright column toward upper-LEFT, the pale horizontal cantilever beam extending RIGHT across the upper side, its short vertical spindle pointing down in the plan toward the center-right work area, and the wide slotted work table across the lower portion. The small spindle tip is dark. No part being milled, no chips flying.",
+      "prompt": "Use case: stylized-concept. Asset type: original DEADWALL production-source prop sprite, one isolated industrial object, true RGBA transparency.\nInput image 1 is the AUTHORITATIVE CANONICAL TOP-DOWN GEOMETRY REFERENCE rendered by the game's unchanged drawProp, variant 0. Preserve its exact plan orientation, arrangement and relative footprint proportions; refine its flat shapes into credible tactile 3D-like materials. Input image 2 is MATERIAL AND PAINTING STYLE ONLY: original DeadWall worn workshop art. DO NOT copy its lower camera, its multi-object layout or its background.\nCamera: strictly orthographic bird's-eye directly overhead (90 degrees elevation), long x axis horizontal left-to-right as in image 1, y axis vertical. No diagonal/isometric rotation, no vanishing point or near-side enlargement. Keep all top-view parts readable in their canonical positions. Small bevel shading may imply depth, but do not tilt the camera to show a large front facade.\nStyle: serious grounded post-apocalyptic industrial game asset, carefully hand-painted pre-rendered appearance, original generic equipment, restrained wear and believable manufacturing; muted gray-green painted metal, steel, weathered brown wood, dull rust and light edge highlights. Soft overhead lighting, shadows only inside the object silhouette.\nSubject: A milling machine on one rectangular base with four integral feet. Preserve the dark upright column toward upper-LEFT, the pale horizontal cantilever beam extending RIGHT across the upper side, its short vertical spindle pointing down in the plan toward the center-right work area, and the wide slotted work table across the lower portion. The small spindle tip is dark. No part being milled, no chips flying.\nAuthoritative dimensions: footprint 2.2 metres along screen X by 1.6 metres along screen Y, height envelope 2.1 metres. These values come from CATALOGUE and are author-design dimensions.\nComposition: ONE coherent complete object centered with at least 10% fully empty transparent margin on every side. Match the top-down width-to-depth aspect ratio of reference 1; do not make the footprint square. No supporting ground slab except the machine's own integral base shown in the canonical drawing. The height is an author-design envelope, not permission to change its footprint or invent additional levels.\nAll machines are switched off and unattended. No people, zombies, landscape, floor tile, wall, background gradient, contact-shadow plane, smoke, steam, sparks, glowing indicators, separate props, extra tools, fake UI, labels, text, numerals, logos, watermarks or drawn border. Preserve genuine transparent alpha outside the complete object. This is one source-art proposal, not a certified metric replacement or a new gameplay placement.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/millingMachine_v0.png",
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png"
+      ],
+      "referenceFiles": [
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/millingMachine_v0.png",
+          "sha256": "e8c71da3d8ca45b5d4e58d7b7fa56f6d9af4078d1678c2c76aa8d192b8bcc012",
+          "role": "canonical-geometry"
+        },
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+          "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+          "role": "materials-only"
+        }
+      ],
+      "generator": "OpenAI built-in ImageGen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true
+    },
+    {
+      "key": "assemblyStation",
+      "kind": "assemblyStation",
+      "id": "prop:assemblyStation:v0",
+      "artId": "prop:assemblyStation:v0",
+      "label": "Poste assemblage",
+      "file": "assemblyStation_poste_assemblage.png",
+      "dimensions": {
+        "w": 2.4,
+        "h": 1.1,
+        "heightM": 1.1,
+        "units": "metres",
+        "authority": "author-design:industrial-assemblyStation"
+      },
+      "catalogueEntry": {
+        "name": "Poste assemblage",
+        "w": 2.4,
+        "h": 1.1,
+        "heightM": 1.1,
+        "sourceDimensions": "author-design:industrial-assemblyStation",
+        "lootEligible": false
+      },
+      "route": "procedural205",
+      "canonicalVariant": 0,
+      "subject": "A long shallow wooden assembly workbench on four integral feet. Preserve the small square metal fixture at upper-LEFT, a larger dark rectangular fixed fixture right of center and exactly three rust-colored short fixed holders across the lower edge. Keep the three holders attached to the bench, not detached tools. Empty unstaffed industrial bench, no spare crates or loose workpieces.",
+      "prompt": "Use case: stylized-concept. Asset type: original DEADWALL production-source prop sprite, one isolated industrial object, true RGBA transparency.\nInput image 1 is the AUTHORITATIVE CANONICAL TOP-DOWN GEOMETRY REFERENCE rendered by the game's unchanged drawProp, variant 0. Preserve its exact plan orientation, arrangement and relative footprint proportions; refine its flat shapes into credible tactile 3D-like materials. Input image 2 is MATERIAL AND PAINTING STYLE ONLY: original DeadWall worn workshop art. DO NOT copy its lower camera, its multi-object layout or its background.\nCamera: strictly orthographic bird's-eye directly overhead (90 degrees elevation), long x axis horizontal left-to-right as in image 1, y axis vertical. No diagonal/isometric rotation, no vanishing point or near-side enlargement. Keep all top-view parts readable in their canonical positions. Small bevel shading may imply depth, but do not tilt the camera to show a large front facade.\nStyle: serious grounded post-apocalyptic industrial game asset, carefully hand-painted pre-rendered appearance, original generic equipment, restrained wear and believable manufacturing; muted gray-green painted metal, steel, weathered brown wood, dull rust and light edge highlights. Soft overhead lighting, shadows only inside the object silhouette.\nSubject: A long shallow wooden assembly workbench on four integral feet. Preserve the small square metal fixture at upper-LEFT, a larger dark rectangular fixed fixture right of center and exactly three rust-colored short fixed holders across the lower edge. Keep the three holders attached to the bench, not detached tools. Empty unstaffed industrial bench, no spare crates or loose workpieces.\nAuthoritative dimensions: footprint 2.4 metres along screen X by 1.1 metres along screen Y, height envelope 1.1 metres. These values come from CATALOGUE and are author-design dimensions.\nComposition: ONE coherent complete object centered with at least 10% fully empty transparent margin on every side. Match the top-down width-to-depth aspect ratio of reference 1; do not make the footprint square. No supporting ground slab except the machine's own integral base shown in the canonical drawing. The height is an author-design envelope, not permission to change its footprint or invent additional levels.\nAll machines are switched off and unattended. No people, zombies, landscape, floor tile, wall, background gradient, contact-shadow plane, smoke, steam, sparks, glowing indicators, separate props, extra tools, fake UI, labels, text, numerals, logos, watermarks or drawn border. Preserve genuine transparent alpha outside the complete object. This is one source-art proposal, not a certified metric replacement or a new gameplay placement.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/assemblyStation_v0.png",
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png"
+      ],
+      "referenceFiles": [
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/assemblyStation_v0.png",
+          "sha256": "87dc1cacc3cd9c9d1d8ac3ede5e1dcccea4173f22f17c2114cad40a22a0e1555",
+          "role": "canonical-geometry"
+        },
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+          "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+          "role": "materials-only"
+        }
+      ],
+      "generator": "OpenAI built-in ImageGen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true
+    },
+    {
+      "key": "inspectionBench",
+      "kind": "inspectionBench",
+      "id": "prop:inspectionBench:v0",
+      "artId": "prop:inspectionBench:v0",
+      "label": "Banc de contrôle",
+      "file": "inspectionBench_banc_controle.png",
+      "dimensions": {
+        "w": 1.8,
+        "h": 0.9,
+        "heightM": 1.2,
+        "units": "metres",
+        "authority": "author-design:industrial-inspectionBench"
+      },
+      "catalogueEntry": {
+        "name": "Banc de contrôle",
+        "w": 1.8,
+        "h": 0.9,
+        "heightM": 1.2,
+        "sourceDimensions": "author-design:industrial-inspectionBench",
+        "lootEligible": false
+      },
+      "route": "procedural205",
+      "canonicalVariant": 0,
+      "subject": "A long shallow gray metal inspection bench on four integral feet. Preserve a narrow rectangular instrument housing on the LEFT and a single large pale circular analog inspection dial on the RIGHT with a dark stationary needle, all mounted to the same bench. Blank dial without invented letters or numerals; restrained wear, powered off, no lit screen.",
+      "prompt": "Use case: stylized-concept. Asset type: original DEADWALL production-source prop sprite, one isolated industrial object, true RGBA transparency.\nInput image 1 is the AUTHORITATIVE CANONICAL TOP-DOWN GEOMETRY REFERENCE rendered by the game's unchanged drawProp, variant 0. Preserve its exact plan orientation, arrangement and relative footprint proportions; refine its flat shapes into credible tactile 3D-like materials. Input image 2 is MATERIAL AND PAINTING STYLE ONLY: original DeadWall worn workshop art. DO NOT copy its lower camera, its multi-object layout or its background.\nCamera: strictly orthographic bird's-eye directly overhead (90 degrees elevation), long x axis horizontal left-to-right as in image 1, y axis vertical. No diagonal/isometric rotation, no vanishing point or near-side enlargement. Keep all top-view parts readable in their canonical positions. Small bevel shading may imply depth, but do not tilt the camera to show a large front facade.\nStyle: serious grounded post-apocalyptic industrial game asset, carefully hand-painted pre-rendered appearance, original generic equipment, restrained wear and believable manufacturing; muted gray-green painted metal, steel, weathered brown wood, dull rust and light edge highlights. Soft overhead lighting, shadows only inside the object silhouette.\nSubject: A long shallow gray metal inspection bench on four integral feet. Preserve a narrow rectangular instrument housing on the LEFT and a single large pale circular analog inspection dial on the RIGHT with a dark stationary needle, all mounted to the same bench. Blank dial without invented letters or numerals; restrained wear, powered off, no lit screen.\nAuthoritative dimensions: footprint 1.8 metres along screen X by 0.9 metres along screen Y, height envelope 1.2 metres. These values come from CATALOGUE and are author-design dimensions.\nComposition: ONE coherent complete object centered with at least 10% fully empty transparent margin on every side. Match the top-down width-to-depth aspect ratio of reference 1; do not make the footprint square. No supporting ground slab except the machine's own integral base shown in the canonical drawing. The height is an author-design envelope, not permission to change its footprint or invent additional levels.\nAll machines are switched off and unattended. No people, zombies, landscape, floor tile, wall, background gradient, contact-shadow plane, smoke, steam, sparks, glowing indicators, separate props, extra tools, fake UI, labels, text, numerals, logos, watermarks or drawn border. Preserve genuine transparent alpha outside the complete object. This is one source-art proposal, not a certified metric replacement or a new gameplay placement.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/inspectionBench_v0.png",
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png"
+      ],
+      "referenceFiles": [
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/inspectionBench_v0.png",
+          "sha256": "aab72d505f89ed6fbafe62dbfd6014b1d73b09303d5ae7cfb0ca96d69a9ec3f0",
+          "role": "canonical-geometry"
+        },
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+          "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+          "role": "materials-only"
+        }
+      ],
+      "generator": "OpenAI built-in ImageGen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true
+    },
+    {
+      "key": "loom",
+      "kind": "loom",
+      "id": "prop:loom:v0",
+      "artId": "prop:loom:v0",
+      "label": "Métier à tisser",
+      "file": "loom_metier_tisser.png",
+      "dimensions": {
+        "w": 2.8,
+        "h": 1.8,
+        "heightM": 1.9,
+        "units": "metres",
+        "authority": "author-design:industrial-loom"
+      },
+      "catalogueEntry": {
+        "name": "Métier à tisser",
+        "w": 2.8,
+        "h": 1.8,
+        "heightM": 1.9,
+        "sourceDimensions": "author-design:industrial-loom",
+        "lootEligible": false
+      },
+      "route": "procedural205",
+      "canonicalVariant": 0,
+      "subject": "One broad rectangular wooden weaving loom with four integral feet. Preserve six evenly spaced pale warp threads/lines along the screen vertical direction and five wooden crossbars running horizontally, one metal side rail on each left/right edge, and the rust-colored diagonal shuttle/beater across the middle. Muted fabric under the threads is part of the loom, no external cloth heaps. Static and unattended.",
+      "prompt": "Use case: stylized-concept. Asset type: original DEADWALL production-source prop sprite, one isolated industrial object, true RGBA transparency.\nInput image 1 is the AUTHORITATIVE CANONICAL TOP-DOWN GEOMETRY REFERENCE rendered by the game's unchanged drawProp, variant 0. Preserve its exact plan orientation, arrangement and relative footprint proportions; refine its flat shapes into credible tactile 3D-like materials. Input image 2 is MATERIAL AND PAINTING STYLE ONLY: original DeadWall worn workshop art. DO NOT copy its lower camera, its multi-object layout or its background.\nCamera: strictly orthographic bird's-eye directly overhead (90 degrees elevation), long x axis horizontal left-to-right as in image 1, y axis vertical. No diagonal/isometric rotation, no vanishing point or near-side enlargement. Keep all top-view parts readable in their canonical positions. Small bevel shading may imply depth, but do not tilt the camera to show a large front facade.\nStyle: serious grounded post-apocalyptic industrial game asset, carefully hand-painted pre-rendered appearance, original generic equipment, restrained wear and believable manufacturing; muted gray-green painted metal, steel, weathered brown wood, dull rust and light edge highlights. Soft overhead lighting, shadows only inside the object silhouette.\nSubject: One broad rectangular wooden weaving loom with four integral feet. Preserve six evenly spaced pale warp threads/lines along the screen vertical direction and five wooden crossbars running horizontally, one metal side rail on each left/right edge, and the rust-colored diagonal shuttle/beater across the middle. Muted fabric under the threads is part of the loom, no external cloth heaps. Static and unattended.\nAuthoritative dimensions: footprint 2.8 metres along screen X by 1.8 metres along screen Y, height envelope 1.9 metres. These values come from CATALOGUE and are author-design dimensions.\nComposition: ONE coherent complete object centered with at least 10% fully empty transparent margin on every side. Match the top-down width-to-depth aspect ratio of reference 1; do not make the footprint square. No supporting ground slab except the machine's own integral base shown in the canonical drawing. The height is an author-design envelope, not permission to change its footprint or invent additional levels.\nAll machines are switched off and unattended. No people, zombies, landscape, floor tile, wall, background gradient, contact-shadow plane, smoke, steam, sparks, glowing indicators, separate props, extra tools, fake UI, labels, text, numerals, logos, watermarks or drawn border. Preserve genuine transparent alpha outside the complete object. This is one source-art proposal, not a certified metric replacement or a new gameplay placement.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/loom_v0.png",
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png"
+      ],
+      "referenceFiles": [
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/loom_v0.png",
+          "sha256": "34436eb09f2aa504a4d4c6219aa1a4dc6512061beaf6daadd1e05db2c251576b",
+          "role": "canonical-geometry"
+        },
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+          "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+          "role": "materials-only"
+        }
+      ],
+      "generator": "OpenAI built-in ImageGen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true
+    },
+    {
+      "key": "sewingStation",
+      "kind": "sewingStation",
+      "id": "prop:sewingStation:v0",
+      "artId": "prop:sewingStation:v0",
+      "label": "Poste de confection",
+      "file": "sewingStation_poste_confection.png",
+      "dimensions": {
+        "w": 1.4,
+        "h": 0.7,
+        "heightM": 1.2,
+        "units": "metres",
+        "authority": "author-design:industrial-sewingStation"
+      },
+      "catalogueEntry": {
+        "name": "Poste de confection",
+        "w": 1.4,
+        "h": 0.7,
+        "heightM": 1.2,
+        "sourceDimensions": "author-design:industrial-sewingStation",
+        "lootEligible": false
+      },
+      "route": "procedural205",
+      "canonicalVariant": 0,
+      "subject": "One long shallow wooden sewing workbench on four integral feet. Preserve a compact metal sewing machine left of center with a circular handwheel at its LEFT, the machine arm extending RIGHT and a dark descending needle housing near center-right. A small pale cloth patch lies attached/in place below the needle at lower-right. One needle line, no person, loose scissors or thread spools added outside the unit. Unpowered.",
+      "prompt": "Use case: stylized-concept. Asset type: original DEADWALL production-source prop sprite, one isolated industrial object, true RGBA transparency.\nInput image 1 is the AUTHORITATIVE CANONICAL TOP-DOWN GEOMETRY REFERENCE rendered by the game's unchanged drawProp, variant 0. Preserve its exact plan orientation, arrangement and relative footprint proportions; refine its flat shapes into credible tactile 3D-like materials. Input image 2 is MATERIAL AND PAINTING STYLE ONLY: original DeadWall worn workshop art. DO NOT copy its lower camera, its multi-object layout or its background.\nCamera: strictly orthographic bird's-eye directly overhead (90 degrees elevation), long x axis horizontal left-to-right as in image 1, y axis vertical. No diagonal/isometric rotation, no vanishing point or near-side enlargement. Keep all top-view parts readable in their canonical positions. Small bevel shading may imply depth, but do not tilt the camera to show a large front facade.\nStyle: serious grounded post-apocalyptic industrial game asset, carefully hand-painted pre-rendered appearance, original generic equipment, restrained wear and believable manufacturing; muted gray-green painted metal, steel, weathered brown wood, dull rust and light edge highlights. Soft overhead lighting, shadows only inside the object silhouette.\nSubject: One long shallow wooden sewing workbench on four integral feet. Preserve a compact metal sewing machine left of center with a circular handwheel at its LEFT, the machine arm extending RIGHT and a dark descending needle housing near center-right. A small pale cloth patch lies attached/in place below the needle at lower-right. One needle line, no person, loose scissors or thread spools added outside the unit. Unpowered.\nAuthoritative dimensions: footprint 1.4 metres along screen X by 0.7 metres along screen Y, height envelope 1.2 metres. These values come from CATALOGUE and are author-design dimensions.\nComposition: ONE coherent complete object centered with at least 10% fully empty transparent margin on every side. Match the top-down width-to-depth aspect ratio of reference 1; do not make the footprint square. No supporting ground slab except the machine's own integral base shown in the canonical drawing. The height is an author-design envelope, not permission to change its footprint or invent additional levels.\nAll machines are switched off and unattended. No people, zombies, landscape, floor tile, wall, background gradient, contact-shadow plane, smoke, steam, sparks, glowing indicators, separate props, extra tools, fake UI, labels, text, numerals, logos, watermarks or drawn border. Preserve genuine transparent alpha outside the complete object. This is one source-art proposal, not a certified metric replacement or a new gameplay placement.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/sewingStation_v0.png",
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png"
+      ],
+      "referenceFiles": [
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/sewingStation_v0.png",
+          "sha256": "c0bc8843626aef4093bd5c9581d9b083dea758b76e48089b2f61693cd99d9bba",
+          "role": "canonical-geometry"
+        },
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+          "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+          "role": "materials-only"
+        }
+      ],
+      "generator": "OpenAI built-in ImageGen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true
+    },
+    {
+      "key": "cuttingTable",
+      "kind": "cuttingTable",
+      "id": "prop:cuttingTable:v0",
+      "artId": "prop:cuttingTable:v0",
+      "label": "Table de coupe",
+      "file": "cuttingTable_table_coupe.png",
+      "dimensions": {
+        "w": 2.4,
+        "h": 1.4,
+        "heightM": 0.9,
+        "units": "metres",
+        "authority": "author-design:industrial-cuttingTable"
+      },
+      "catalogueEntry": {
+        "name": "Table de coupe",
+        "w": 2.4,
+        "h": 1.4,
+        "heightM": 0.9,
+        "sourceDimensions": "author-design:industrial-cuttingTable",
+        "lootEligible": false
+      },
+      "route": "procedural205",
+      "canonicalVariant": 0,
+      "subject": "One rectangular cutting table on four integral feet. Preserve a plain pale metal rim, one inset olive-green cutting mat with exactly five thin vertical guide lines and four horizontal guide lines, and one plain pale strip along the near/lower edge. No printed text or numbers, no blade, scissors, fabric piles or detached tools; the gridded mat is integrated into the tabletop.",
+      "prompt": "Use case: stylized-concept. Asset type: original DEADWALL production-source prop sprite, one isolated industrial object, true RGBA transparency.\nInput image 1 is the AUTHORITATIVE CANONICAL TOP-DOWN GEOMETRY REFERENCE rendered by the game's unchanged drawProp, variant 0. Preserve its exact plan orientation, arrangement and relative footprint proportions; refine its flat shapes into credible tactile 3D-like materials. Input image 2 is MATERIAL AND PAINTING STYLE ONLY: original DeadWall worn workshop art. DO NOT copy its lower camera, its multi-object layout or its background.\nCamera: strictly orthographic bird's-eye directly overhead (90 degrees elevation), long x axis horizontal left-to-right as in image 1, y axis vertical. No diagonal/isometric rotation, no vanishing point or near-side enlargement. Keep all top-view parts readable in their canonical positions. Small bevel shading may imply depth, but do not tilt the camera to show a large front facade.\nStyle: serious grounded post-apocalyptic industrial game asset, carefully hand-painted pre-rendered appearance, original generic equipment, restrained wear and believable manufacturing; muted gray-green painted metal, steel, weathered brown wood, dull rust and light edge highlights. Soft overhead lighting, shadows only inside the object silhouette.\nSubject: One rectangular cutting table on four integral feet. Preserve a plain pale metal rim, one inset olive-green cutting mat with exactly five thin vertical guide lines and four horizontal guide lines, and one plain pale strip along the near/lower edge. No printed text or numbers, no blade, scissors, fabric piles or detached tools; the gridded mat is integrated into the tabletop.\nAuthoritative dimensions: footprint 2.4 metres along screen X by 1.4 metres along screen Y, height envelope 0.9 metres. These values come from CATALOGUE and are author-design dimensions.\nComposition: ONE coherent complete object centered with at least 10% fully empty transparent margin on every side. Match the top-down width-to-depth aspect ratio of reference 1; do not make the footprint square. No supporting ground slab except the machine's own integral base shown in the canonical drawing. The height is an author-design envelope, not permission to change its footprint or invent additional levels.\nAll machines are switched off and unattended. No people, zombies, landscape, floor tile, wall, background gradient, contact-shadow plane, smoke, steam, sparks, glowing indicators, separate props, extra tools, fake UI, labels, text, numerals, logos, watermarks or drawn border. Preserve genuine transparent alpha outside the complete object. This is one source-art proposal, not a certified metric replacement or a new gameplay placement.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/cuttingTable_v0.png",
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png"
+      ],
+      "referenceFiles": [
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/cuttingTable_v0.png",
+          "sha256": "da654cd7e715cb10e8b5b252ffda9186e8ab80bcc0fce2a8a8e97c8b972b1680",
+          "role": "canonical-geometry"
+        },
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+          "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+          "role": "materials-only"
+        }
+      ],
+      "generator": "OpenAI built-in ImageGen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true
+    },
+    {
+      "key": "materialMixer",
+      "kind": "materialMixer",
+      "id": "prop:materialMixer:v0",
+      "artId": "prop:materialMixer:v0",
+      "label": "Malaxeur de matériaux",
+      "file": "materialMixer_malaxeur_materiaux.png",
+      "dimensions": {
+        "w": 2.2,
+        "h": 1.8,
+        "heightM": 2.2,
+        "units": "metres",
+        "authority": "author-design:industrial-materialMixer"
+      },
+      "catalogueEntry": {
+        "name": "Malaxeur de matériaux",
+        "w": 2.2,
+        "h": 1.8,
+        "heightM": 2.2,
+        "sourceDimensions": "author-design:industrial-materialMixer",
+        "lootEligible": false
+      },
+      "route": "procedural205",
+      "canonicalVariant": 0,
+      "subject": "A materials mixer on one rectangular metal base with four integral feet. Preserve one circular brown/oxide-stained mixing bowl offset LEFT with a dark interior and four small inert ochre residue flecks inside. A narrow drive column stands on the RIGHT; one pale metal arm runs left from its upper end and then down into the bowl center. A small attached rust-colored tab sits at the lower-LEFT edge. No external aggregate piles, sacks or containers; stationary and empty apart from residual wear.",
+      "prompt": "Use case: stylized-concept. Asset type: original DEADWALL production-source prop sprite, one isolated industrial object, true RGBA transparency.\nInput image 1 is the AUTHORITATIVE CANONICAL TOP-DOWN GEOMETRY REFERENCE rendered by the game's unchanged drawProp, variant 0. Preserve its exact plan orientation, arrangement and relative footprint proportions; refine its flat shapes into credible tactile 3D-like materials. Input image 2 is MATERIAL AND PAINTING STYLE ONLY: original DeadWall worn workshop art. DO NOT copy its lower camera, its multi-object layout or its background.\nCamera: strictly orthographic bird's-eye directly overhead (90 degrees elevation), long x axis horizontal left-to-right as in image 1, y axis vertical. No diagonal/isometric rotation, no vanishing point or near-side enlargement. Keep all top-view parts readable in their canonical positions. Small bevel shading may imply depth, but do not tilt the camera to show a large front facade.\nStyle: serious grounded post-apocalyptic industrial game asset, carefully hand-painted pre-rendered appearance, original generic equipment, restrained wear and believable manufacturing; muted gray-green painted metal, steel, weathered brown wood, dull rust and light edge highlights. Soft overhead lighting, shadows only inside the object silhouette.\nSubject: A materials mixer on one rectangular metal base with four integral feet. Preserve one circular brown/oxide-stained mixing bowl offset LEFT with a dark interior and four small inert ochre residue flecks inside. A narrow drive column stands on the RIGHT; one pale metal arm runs left from its upper end and then down into the bowl center. A small attached rust-colored tab sits at the lower-LEFT edge. No external aggregate piles, sacks or containers; stationary and empty apart from residual wear.\nAuthoritative dimensions: footprint 2.2 metres along screen X by 1.8 metres along screen Y, height envelope 2.2 metres. These values come from CATALOGUE and are author-design dimensions.\nComposition: ONE coherent complete object centered with at least 10% fully empty transparent margin on every side. Match the top-down width-to-depth aspect ratio of reference 1; do not make the footprint square. No supporting ground slab except the machine's own integral base shown in the canonical drawing. The height is an author-design envelope, not permission to change its footprint or invent additional levels.\nAll machines are switched off and unattended. No people, zombies, landscape, floor tile, wall, background gradient, contact-shadow plane, smoke, steam, sparks, glowing indicators, separate props, extra tools, fake UI, labels, text, numerals, logos, watermarks or drawn border. Preserve genuine transparent alpha outside the complete object. This is one source-art proposal, not a certified metric replacement or a new gameplay placement.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/materialMixer_v0.png",
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png"
+      ],
+      "referenceFiles": [
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/materialMixer_v0.png",
+          "sha256": "aabed1703763dca811da3d7352b6a39b1c2758d5a383f101676389324f6f08e3",
+          "role": "canonical-geometry"
+        },
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+          "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+          "role": "materials-only"
+        }
+      ],
+      "generator": "OpenAI built-in ImageGen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true
+    },
+    {
+      "key": "formingPress",
+      "kind": "formingPress",
+      "id": "prop:formingPress:v0",
+      "artId": "prop:formingPress:v0",
+      "label": "Presse de formage",
+      "file": "formingPress_presse_formage.png",
+      "dimensions": {
+        "w": 2.2,
+        "h": 1.8,
+        "heightM": 2.6,
+        "units": "metres",
+        "authority": "author-design:industrial-formingPress"
+      },
+      "catalogueEntry": {
+        "name": "Presse de formage",
+        "w": 2.2,
+        "h": 1.8,
+        "heightM": 2.6,
+        "sourceDimensions": "author-design:industrial-formingPress",
+        "lootEligible": false
+      },
+      "route": "procedural205",
+      "canonicalVariant": 0,
+      "subject": "One compact forming press on a rectangular metal base and four integral feet. Preserve two tall upright side columns at LEFT and RIGHT, a broad pale crosshead across the upper end, a lower pale transverse bed near the lower end, a dark central rectangular opening and a narrow centered metal ram descending from the upper crosshead toward the bed. All contained in one footprint, open empty pressing space, unpowered, no workpiece.",
+      "prompt": "Use case: stylized-concept. Asset type: original DEADWALL production-source prop sprite, one isolated industrial object, true RGBA transparency.\nInput image 1 is the AUTHORITATIVE CANONICAL TOP-DOWN GEOMETRY REFERENCE rendered by the game's unchanged drawProp, variant 0. Preserve its exact plan orientation, arrangement and relative footprint proportions; refine its flat shapes into credible tactile 3D-like materials. Input image 2 is MATERIAL AND PAINTING STYLE ONLY: original DeadWall worn workshop art. DO NOT copy its lower camera, its multi-object layout or its background.\nCamera: strictly orthographic bird's-eye directly overhead (90 degrees elevation), long x axis horizontal left-to-right as in image 1, y axis vertical. No diagonal/isometric rotation, no vanishing point or near-side enlargement. Keep all top-view parts readable in their canonical positions. Small bevel shading may imply depth, but do not tilt the camera to show a large front facade.\nStyle: serious grounded post-apocalyptic industrial game asset, carefully hand-painted pre-rendered appearance, original generic equipment, restrained wear and believable manufacturing; muted gray-green painted metal, steel, weathered brown wood, dull rust and light edge highlights. Soft overhead lighting, shadows only inside the object silhouette.\nSubject: One compact forming press on a rectangular metal base and four integral feet. Preserve two tall upright side columns at LEFT and RIGHT, a broad pale crosshead across the upper end, a lower pale transverse bed near the lower end, a dark central rectangular opening and a narrow centered metal ram descending from the upper crosshead toward the bed. All contained in one footprint, open empty pressing space, unpowered, no workpiece.\nAuthoritative dimensions: footprint 2.2 metres along screen X by 1.8 metres along screen Y, height envelope 2.6 metres. These values come from CATALOGUE and are author-design dimensions.\nComposition: ONE coherent complete object centered with at least 10% fully empty transparent margin on every side. Match the top-down width-to-depth aspect ratio of reference 1; do not make the footprint square. No supporting ground slab except the machine's own integral base shown in the canonical drawing. The height is an author-design envelope, not permission to change its footprint or invent additional levels.\nAll machines are switched off and unattended. No people, zombies, landscape, floor tile, wall, background gradient, contact-shadow plane, smoke, steam, sparks, glowing indicators, separate props, extra tools, fake UI, labels, text, numerals, logos, watermarks or drawn border. Preserve genuine transparent alpha outside the complete object. This is one source-art proposal, not a certified metric replacement or a new gameplay placement.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/formingPress_v0.png",
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png"
+      ],
+      "referenceFiles": [
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/formingPress_v0.png",
+          "sha256": "82c7a5a78f2771ef9f9c605de84b06bc017780110001fae75b8878b72db85589",
+          "role": "canonical-geometry"
+        },
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+          "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+          "role": "materials-only"
+        }
+      ],
+      "generator": "OpenAI built-in ImageGen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true
+    },
+    {
+      "key": "curingRack",
+      "kind": "curingRack",
+      "id": "prop:curingRack:v0",
+      "artId": "prop:curingRack:v0",
+      "label": "Rayonnage de maturation",
+      "file": "curingRack_rayonnage_maturation.png",
+      "dimensions": {
+        "w": 2.4,
+        "h": 1.1,
+        "heightM": 2.2,
+        "units": "metres",
+        "authority": "author-design:industrial-curingRack"
+      },
+      "catalogueEntry": {
+        "name": "Rayonnage de maturation",
+        "w": 2.4,
+        "h": 1.1,
+        "heightM": 2.2,
+        "sourceDimensions": "author-design:industrial-curingRack",
+        "lootEligible": false
+      },
+      "route": "procedural205",
+      "canonicalVariant": 0,
+      "subject": "One long shallow metal curing rack with four integral feet. Preserve exactly THREE parallel shelf/tray bands across its short screen-vertical depth, with exactly TWO small rust-colored oval inserts resting on each band, six in total, and slim structural side rails. These six inserts are part of the canonical authored appearance, not new inventory. Static rack, no added fourth shelf, stacked trays, sacks or external loads.",
+      "prompt": "Use case: stylized-concept. Asset type: original DEADWALL production-source prop sprite, one isolated industrial object, true RGBA transparency.\nInput image 1 is the AUTHORITATIVE CANONICAL TOP-DOWN GEOMETRY REFERENCE rendered by the game's unchanged drawProp, variant 0. Preserve its exact plan orientation, arrangement and relative footprint proportions; refine its flat shapes into credible tactile 3D-like materials. Input image 2 is MATERIAL AND PAINTING STYLE ONLY: original DeadWall worn workshop art. DO NOT copy its lower camera, its multi-object layout or its background.\nCamera: strictly orthographic bird's-eye directly overhead (90 degrees elevation), long x axis horizontal left-to-right as in image 1, y axis vertical. No diagonal/isometric rotation, no vanishing point or near-side enlargement. Keep all top-view parts readable in their canonical positions. Small bevel shading may imply depth, but do not tilt the camera to show a large front facade.\nStyle: serious grounded post-apocalyptic industrial game asset, carefully hand-painted pre-rendered appearance, original generic equipment, restrained wear and believable manufacturing; muted gray-green painted metal, steel, weathered brown wood, dull rust and light edge highlights. Soft overhead lighting, shadows only inside the object silhouette.\nSubject: One long shallow metal curing rack with four integral feet. Preserve exactly THREE parallel shelf/tray bands across its short screen-vertical depth, with exactly TWO small rust-colored oval inserts resting on each band, six in total, and slim structural side rails. These six inserts are part of the canonical authored appearance, not new inventory. Static rack, no added fourth shelf, stacked trays, sacks or external loads.\nAuthoritative dimensions: footprint 2.4 metres along screen X by 1.1 metres along screen Y, height envelope 2.2 metres. These values come from CATALOGUE and are author-design dimensions.\nComposition: ONE coherent complete object centered with at least 10% fully empty transparent margin on every side. Match the top-down width-to-depth aspect ratio of reference 1; do not make the footprint square. No supporting ground slab except the machine's own integral base shown in the canonical drawing. The height is an author-design envelope, not permission to change its footprint or invent additional levels.\nAll machines are switched off and unattended. No people, zombies, landscape, floor tile, wall, background gradient, contact-shadow plane, smoke, steam, sparks, glowing indicators, separate props, extra tools, fake UI, labels, text, numerals, logos, watermarks or drawn border. Preserve genuine transparent alpha outside the complete object. This is one source-art proposal, not a certified metric replacement or a new gameplay placement.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/curingRack_v0.png",
+        "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png"
+      ],
+      "referenceFiles": [
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/curingRack_v0.png",
+          "sha256": "939121aabe0c2539503c62be2b81011efab309b28887c087540648504b1e6408",
+          "role": "canonical-geometry"
+        },
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+          "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+          "role": "materials-only"
+        }
+      ],
+      "generator": "OpenAI built-in ImageGen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true
+    }
+  ],
+  "analogousSourceNote": "Lathe/table-saw/drill-like generic machine drawings exist in the workshop atlas; these are new typed procedural205 proposals, not an absence of every analogous image."
+}

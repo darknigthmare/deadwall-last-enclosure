@@ -1,0 +1,616 @@
+[
+  {
+    "id": "prop:singleBunk:v0",
+    "kind": "singleBunk",
+    "name": "Couchette individuelle",
+    "dimensionsAuthorDesignMetres": {
+      "w": 2,
+      "h": 0.75,
+      "heightM": 1.7
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/singleBunk-v0.png",
+      "sha256": "a17e2280ad41d7c114b56d85add2b9253439eb6354e05105e9532c0425bd3a78"
+    },
+    "sourceId": "codex-furnishing:singleBunk",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Couchette individuelle",
+      "w": 2,
+      "h": 0.75,
+      "heightM": 1.7,
+      "sourceDimensions": "author-design:single-bunk",
+      "lootEligible": false,
+      "heightOrigin": "author-design-not-manufacturer-dimension"
+    },
+    "sourceStatus": "Current G11 residential service support; no change to its rest transaction.",
+    "existingState": {
+      "proceduralRendererPresent": true,
+      "dedicatedBitmapRegistry": {
+        "world153": null,
+        "interior153": null,
+        "detail157": null
+      },
+      "analogues": [
+        "interior-home-atlas.png includes ordinary beds, not this narrow single-surface bunk and its access ladder."
+      ],
+      "notMissingRendering": true,
+      "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+    },
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:feedTrough:v0",
+    "kind": "feedTrough",
+    "name": "Mangeoire",
+    "dimensionsAuthorDesignMetres": {
+      "w": 2,
+      "h": 0.5,
+      "heightM": 0.65
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/feedTrough-v0.png",
+      "sha256": "ce148512b2696b4343edda035fd253c223c4a8224bf882045357bc48e4882555"
+    },
+    "sourceId": "codex-furnishing:feedTrough",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Mangeoire",
+      "w": 2,
+      "h": 0.5,
+      "heightM": 0.65,
+      "sourceDimensions": "author-design:feed-trough",
+      "lootEligible": false,
+      "heightOrigin": "author-design-not-manufacturer-dimension"
+    },
+    "sourceStatus": "Present in authored agriculture plans only; not an assertion of natural campaign placement.",
+    "existingState": {
+      "proceduralRendererPresent": true,
+      "dedicatedBitmapRegistry": {
+        "world153": null,
+        "interior153": null,
+        "detail157": null
+      },
+      "analogues": [],
+      "notMissingRendering": true,
+      "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+    },
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:waterTrough:v0",
+    "kind": "waterTrough",
+    "name": "Abreuvoir",
+    "dimensionsAuthorDesignMetres": {
+      "w": 1.2,
+      "h": 0.5,
+      "heightM": 0.6
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/waterTrough-v0.png",
+      "sha256": "4c3e623cd7278611f817ee7cf15d0f0e5e545f241562ece23dd53ef299dd06cd"
+    },
+    "sourceId": "codex-furnishing:waterTrough",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Abreuvoir",
+      "w": 1.2,
+      "h": 0.5,
+      "heightM": 0.6,
+      "sourceDimensions": "author-design:water-trough",
+      "lootEligible": false,
+      "heightOrigin": "author-design-not-manufacturer-dimension"
+    },
+    "sourceStatus": "Present in authored agriculture plans only; not an assertion of natural campaign placement.",
+    "existingState": {
+      "proceduralRendererPresent": true,
+      "dedicatedBitmapRegistry": {
+        "world153": null,
+        "interior153": null,
+        "detail157": null
+      },
+      "analogues": [
+        "worldPropsScenery153 has larger waterTank silhouettes, not this low open trough."
+      ],
+      "notMissingRendering": true,
+      "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+    },
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:fodderRack:v0",
+    "kind": "fodderRack",
+    "name": "Râtelier à fourrage",
+    "dimensionsAuthorDesignMetres": {
+      "w": 1.6,
+      "h": 0.6,
+      "heightM": 1.3
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/fodderRack-v0.png",
+      "sha256": "aec6a68d04e589eafb1c96143065dddf819371312e6c40db73b1f529775ec180"
+    },
+    "sourceId": "codex-furnishing:fodderRack",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Râtelier à fourrage",
+      "w": 1.6,
+      "h": 0.6,
+      "heightM": 1.3,
+      "sourceDimensions": "author-design:fodder-rack",
+      "lootEligible": false,
+      "heightOrigin": "author-design-not-manufacturer-dimension"
+    },
+    "sourceStatus": "Present in authored agriculture plans only; not an assertion of natural campaign placement.",
+    "existingState": {
+      "proceduralRendererPresent": true,
+      "dedicatedBitmapRegistry": {
+        "world153": null,
+        "interior153": null,
+        "detail157": null
+      },
+      "analogues": [],
+      "notMissingRendering": true,
+      "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+    },
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:milkingUnit:v0",
+    "kind": "milkingUnit",
+    "name": "Poste de traite",
+    "dimensionsAuthorDesignMetres": {
+      "w": 1.1,
+      "h": 0.8,
+      "heightM": 1.6
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/milkingUnit-v0.png",
+      "sha256": "b278f415729b42842633c09e036476e9adfe44d083ca653aec0af2335d73d803"
+    },
+    "sourceId": "codex-furnishing:milkingUnit",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Poste de traite",
+      "w": 1.1,
+      "h": 0.8,
+      "heightM": 1.6,
+      "sourceDimensions": "author-design:milking-unit",
+      "lootEligible": false,
+      "heightOrigin": "author-design-not-manufacturer-dimension"
+    },
+    "sourceStatus": "Present in authored agriculture plans only; not an assertion of natural campaign placement.",
+    "existingState": {
+      "proceduralRendererPresent": true,
+      "dedicatedBitmapRegistry": {
+        "world153": null,
+        "interior153": null,
+        "detail157": null
+      },
+      "analogues": [],
+      "notMissingRendering": true,
+      "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+    },
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:milkVat:v0",
+    "kind": "milkVat",
+    "name": "Cuve à lait",
+    "dimensionsAuthorDesignMetres": {
+      "w": 1.5,
+      "h": 1.3,
+      "heightM": 1.8
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/milkVat-v0.png",
+      "sha256": "262513508d0860ff8a667ddae85f8537b27b036e1fdc67ba019c26da3eaa2cd9"
+    },
+    "sourceId": "codex-furnishing:milkVat",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Cuve à lait",
+      "w": 1.5,
+      "h": 1.3,
+      "heightM": 1.8,
+      "sourceDimensions": "author-design:milk-vat",
+      "lootEligible": false,
+      "heightOrigin": "author-design-not-manufacturer-dimension"
+    },
+    "sourceStatus": "Present in authored agriculture plans only; not an assertion of natural campaign placement.",
+    "existingState": {
+      "proceduralRendererPresent": true,
+      "dedicatedBitmapRegistry": {
+        "world153": null,
+        "interior153": null,
+        "detail157": null
+      },
+      "analogues": [
+        "waterTank and generic vessels exist as other families; no dedicated typed milkVat bitmap is registered."
+      ],
+      "notMissingRendering": true,
+      "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+    },
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:nestBox:v0",
+    "kind": "nestBox",
+    "name": "Pondoir",
+    "dimensionsAuthorDesignMetres": {
+      "w": 1.2,
+      "h": 0.5,
+      "heightM": 0.8
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/nestBox-v0.png",
+      "sha256": "7b2a5ed2e43e8b4797312714512ad82b91cc579b42fea31a7011fdd2a85aebf2"
+    },
+    "sourceId": "codex-furnishing:nestBox",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Pondoir",
+      "w": 1.2,
+      "h": 0.5,
+      "heightM": 0.8,
+      "sourceDimensions": "author-design:nest-box",
+      "lootEligible": false,
+      "heightOrigin": "author-design-not-manufacturer-dimension"
+    },
+    "sourceStatus": "Present in authored agriculture plans only; not an assertion of natural campaign placement.",
+    "existingState": {
+      "proceduralRendererPresent": true,
+      "dedicatedBitmapRegistry": {
+        "world153": null,
+        "interior153": null,
+        "detail157": null
+      },
+      "analogues": [],
+      "notMissingRendering": true,
+      "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+    },
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:wineVat:v0",
+    "kind": "wineVat",
+    "name": "Cuve vinicole",
+    "dimensionsAuthorDesignMetres": {
+      "w": 1.6,
+      "h": 1.6,
+      "heightM": 2.2
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/wineVat-v0.png",
+      "sha256": "b3d69e067def6225ee35c35e44e684e6ea6ca5675f13b360cf2fef2dc8d1be47"
+    },
+    "sourceId": "codex-furnishing:wineVat",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Cuve vinicole",
+      "w": 1.6,
+      "h": 1.6,
+      "heightM": 2.2,
+      "sourceDimensions": "author-design:wine-vat",
+      "lootEligible": false,
+      "heightOrigin": "author-design-not-manufacturer-dimension"
+    },
+    "sourceStatus": "Present in authored agriculture plans only; not an assertion of natural campaign placement.",
+    "existingState": {
+      "proceduralRendererPresent": true,
+      "dedicatedBitmapRegistry": {
+        "world153": null,
+        "interior153": null,
+        "detail157": null
+      },
+      "analogues": [
+        "Larger water tanks exist; there is no typed wineVat bitmap."
+      ],
+      "notMissingRendering": true,
+      "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+    },
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:wineBarrel:v0",
+    "kind": "wineBarrel",
+    "name": "Fût de chai",
+    "dimensionsAuthorDesignMetres": {
+      "w": 0.8,
+      "h": 0.8,
+      "heightM": 0.95
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/wineBarrel-v0.png",
+      "sha256": "21cb64648fdb8ea2ed97c9fb6cb1c7c353771bb59b776271706cdc9c7a4de3d1"
+    },
+    "sourceId": "codex-furnishing:wineBarrel",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Fût de chai",
+      "w": 0.8,
+      "h": 0.8,
+      "heightM": 0.95,
+      "sourceDimensions": "author-design:wine-barrel",
+      "lootEligible": false,
+      "heightOrigin": "author-design-not-manufacturer-dimension"
+    },
+    "sourceStatus": "Present in authored agriculture plans only; not an assertion of natural campaign placement.",
+    "existingState": {
+      "proceduralRendererPresent": true,
+      "dedicatedBitmapRegistry": {
+        "world153": null,
+        "interior153": null,
+        "detail157": null
+      },
+      "analogues": [
+        "worldPropsYard153 already includes generic metal barrels; this is a new dedicated wooden wineBarrel v0 proposal, not a claim that all barrel art was absent."
+      ],
+      "notMissingRendering": true,
+      "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+    },
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:grapePress:v0",
+    "kind": "grapePress",
+    "name": "Pressoir",
+    "dimensionsAuthorDesignMetres": {
+      "w": 1.4,
+      "h": 1.2,
+      "heightM": 1.8
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/grapePress-v0.png",
+      "sha256": "341788b3e1315bda6310f6da93a981ffdcbc3bd7d383ebe922b9ac66e27a7b3a"
+    },
+    "sourceId": "codex-furnishing:grapePress",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Pressoir",
+      "w": 1.4,
+      "h": 1.2,
+      "heightM": 1.8,
+      "sourceDimensions": "author-design:grape-press",
+      "lootEligible": false,
+      "heightOrigin": "author-design-not-manufacturer-dimension"
+    },
+    "sourceStatus": "Present in authored agriculture plans only; not an assertion of natural campaign placement.",
+    "existingState": {
+      "proceduralRendererPresent": true,
+      "dedicatedBitmapRegistry": {
+        "world153": null,
+        "interior153": null,
+        "detail157": null
+      },
+      "analogues": [],
+      "notMissingRendering": true,
+      "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+    },
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:veterinaryTable:v0",
+    "kind": "veterinaryTable",
+    "name": "Table de soins vétérinaires",
+    "dimensionsAuthorDesignMetres": {
+      "w": 1.3,
+      "h": 0.7,
+      "heightM": 0.85
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/veterinaryTable-v0.png",
+      "sha256": "dcbc96a5c38549c0935221cd4ba66e2637e6ad3183df4687d64d9b60552882c9"
+    },
+    "sourceId": "codex-furnishing:veterinaryTable",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Table de soins vétérinaires",
+      "w": 1.3,
+      "h": 0.7,
+      "heightM": 0.85,
+      "sourceDimensions": "author-design:veterinary-table",
+      "lootEligible": false,
+      "heightOrigin": "author-design-not-manufacturer-dimension"
+    },
+    "sourceStatus": "Present in authored agriculture plans only; not an assertion of natural campaign placement.",
+    "existingState": {
+      "proceduralRendererPresent": true,
+      "dedicatedBitmapRegistry": {
+        "world153": null,
+        "interior153": null,
+        "detail157": null
+      },
+      "analogues": [
+        "steelTable and ordinary medical furniture have atlas entries; no dedicated table with this v0 restraint layout is registered."
+      ],
+      "notMissingRendering": true,
+      "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+    },
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:growingBench:v0",
+    "kind": "growingBench",
+    "name": "Table de semis",
+    "dimensionsAuthorDesignMetres": {
+      "w": 1.6,
+      "h": 0.7,
+      "heightM": 0.85
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/growingBench-v0.png",
+      "sha256": "de95d296fc7bd0a054bdeb53b97366248512d43928b8fc3178263f0f9357603b"
+    },
+    "sourceId": "codex-furnishing:growingBench",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Table de semis",
+      "w": 1.6,
+      "h": 0.7,
+      "heightM": 0.85,
+      "sourceDimensions": "author-design:growing-bench",
+      "lootEligible": false,
+      "heightOrigin": "author-design-not-manufacturer-dimension"
+    },
+    "sourceStatus": "Present in authored agriculture plans only; not an assertion of natural campaign placement.",
+    "existingState": {
+      "proceduralRendererPresent": true,
+      "dedicatedBitmapRegistry": {
+        "world153": null,
+        "interior153": null,
+        "detail157": null
+      },
+      "analogues": [
+        "Generic crops and greenhouse art exist; no dedicated typed growingBench bitmap is registered."
+      ],
+      "notMissingRendering": true,
+      "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+    },
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:growingBed:v0",
+    "kind": "growingBed",
+    "name": "Bac de culture",
+    "dimensionsAuthorDesignMetres": {
+      "w": 1.8,
+      "h": 0.7,
+      "heightM": 0.65
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/growingBed-v0.png",
+      "sha256": "87e133e24a0311b7b5110e00e44100c4ed0ff4e949cd00e4b8b034d60e19ad8c"
+    },
+    "sourceId": "codex-furnishing:growingBed",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Bac de culture",
+      "w": 1.8,
+      "h": 0.7,
+      "heightM": 0.65,
+      "sourceDimensions": "author-design:growing-bed",
+      "lootEligible": false,
+      "heightOrigin": "author-design-not-manufacturer-dimension"
+    },
+    "sourceStatus": "Present in authored agriculture plans only; not an assertion of natural campaign placement.",
+    "existingState": {
+      "proceduralRendererPresent": true,
+      "dedicatedBitmapRegistry": {
+        "world153": null,
+        "interior153": null,
+        "detail157": null
+      },
+      "analogues": [
+        "Generic planted crops exist; no dedicated typed low growingBed bitmap is registered."
+      ],
+      "notMissingRendering": true,
+      "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+    },
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  }
+]

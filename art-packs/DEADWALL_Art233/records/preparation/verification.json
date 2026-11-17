@@ -1,0 +1,126 @@
+{
+  "batch": "Art233",
+  "checkedAt": "2026-11-17T12:07:15.839989+00:00",
+  "sourceBase": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "sourceOnly": true,
+  "finals": 13,
+  "history": 17,
+  "replaced": 4,
+  "uniqueFinalIds": 13,
+  "uniqueFinalPNGHashes": 13,
+  "finalPNGBytes": 19255858,
+  "allHistoricalPNGBytes": 24595089,
+  "verbatimPromptsMatched": 17,
+  "referenceHashesVerified": true,
+  "sourceCopiesAndGitBlobsVerified": true,
+  "allNativePNGsRGBA": true,
+  "maximumFinalBorderAlpha": 1,
+  "cornersException": {
+    "key": "growingBed",
+    "order": [
+      "topLeft",
+      "topRight",
+      "bottomRight",
+      "bottomLeft"
+    ],
+    "values": [
+      0,
+      0,
+      0,
+      1
+    ]
+  },
+  "canonicalReferences": 13,
+  "styleAtlases": 2,
+  "sourceCopies": 13,
+  "corrections": [
+    {
+      "key": "singleBunk",
+      "iteration": 2
+    },
+    {
+      "key": "feedTrough",
+      "iteration": 2
+    },
+    {
+      "key": "waterTrough",
+      "iteration": 2
+    },
+    {
+      "key": "fodderRack",
+      "iteration": 2
+    }
+  ],
+  "files": {
+    "selection-and-prompts.json": {
+      "sha256": "b96d12673a3c412b73c32bf1dd4e1289189db042c7297762dfa991efdfe4b3d4",
+      "bytes": 82335
+    },
+    "generation-prompts.json": {
+      "sha256": "aac1db300862dc89853904ced6193bbf9beed31cb6ed74658e2576f5b2d47b84",
+      "bytes": 44196
+    },
+    "generation-corrections.json": {
+      "sha256": "edbe5bbc8f2c212db156aff8d367fe548b3785a8b2b869712eaa4699e51a353b",
+      "bytes": 8829
+    },
+    "initial-results.json": {
+      "sha256": "374281f9a6690ec56e015790da80a84474a0aad876893b3b5690277cf58f054b",
+      "bytes": 45821
+    },
+    "history-results.json": {
+      "sha256": "2dfc4750dc72262a68f8fa9a6124ee3ee38ff4922b812f2411b8eda5e9c13d60",
+      "bytes": 55147
+    },
+    "results.json": {
+      "sha256": "e5ec88e1886a01cff6db506b008e42cbcb4246f073b8ab6ea8dc518cb1d1f759",
+      "bytes": 41106
+    },
+    "review.json": {
+      "sha256": "06dee2f551390fdb926daa59c02ec9ece5f7acd7f08e6e6db87be91f82178750",
+      "bytes": 44364
+    },
+    "native-alpha-audit.json": {
+      "sha256": "4fed727957f1a325308cad109d57a270984db898b267160af269fdf5527469f6",
+      "bytes": 15506
+    },
+    "source-integrity.json": {
+      "sha256": "c45cee9e0ccfa15221383c7f0a6ee8de138627888425fb92dfd1d57cb6f4f7fd",
+      "bytes": 9015
+    },
+    "generation-ledger.json": {
+      "sha256": "0ad8669e8beb1ab0fe950e05109adf8032c949eba9ef25b4940f058f2bf71dad",
+      "bytes": 18832
+    },
+    "reference-inspections.json": {
+      "sha256": "004e7a15e2b46f11c7277235fd5a54c9dced39139741518d3d1a8f9456e52afc",
+      "bytes": 5484
+    },
+    "references/source-index.json": {
+      "sha256": "c347a29c854d950bed8efa6c2cd2e74d095854fc6198018832263d4728c7aa57",
+      "bytes": 7495
+    },
+    "references/canonical-render-records.json": {
+      "sha256": "88531535df9f0242d1ba91879f063203305c287fd2dd6eab43ee2fc963b79039",
+      "bytes": 13409
+    },
+    "prepare-art233.cjs": {
+      "sha256": "e6752ee33eb769e2b54f895b577694ab306404b4103310aff43dc7da6081b818",
+      "bytes": 17585
+    },
+    "record-result.py": {
+      "sha256": "cc2662a21feb54a7ecbb95e4aa7f2c603b24b96289192cc3db3fecf4f495ddce",
+      "bytes": 1224
+    }
+  },
+  "pixelEditingPerformed": false,
+  "runtimeSourceModified": false,
+  "repositoryPackAssemblyPerformed": false,
+  "commitOrPublicationPerformed": false,
+  "limits": [
+    "Author-design dimensions; no pixel-metric 1:1 or manufacturer certification.",
+    "Only procedural205 variant 0, one canonical orientation; v1/v2 and runtime integration remain outside this delivery.",
+    "Agricultural author plans are not proof of campaign farm placement.",
+    "Some native PNGs contain negligible alpha 1 edge noise and hidden RGB; original native bytes remain untouched."
+  ]
+}

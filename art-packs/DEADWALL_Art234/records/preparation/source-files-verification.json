@@ -1,0 +1,39 @@
+{
+  "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "sources": [
+    {
+      "path": "references/runtime/campaign-site-art205.js",
+      "sha256": "492790bf2aa6c77dd244f4fcd8c164f1960f08eb2654b10b1ca20663bd72e0f2",
+      "bytes": 44852,
+      "repositoryPath": "src/campaign-site-art205.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "gitBlob": "adcceb210d194cdbf4f19359a743c9cec2a8e4e6",
+      "verifiedAgainstGitShow": true,
+      "currentCheckoutBytesAlsoEqual": true
+    },
+    {
+      "path": "references/runtime/codex-furnishings2026.js",
+      "sha256": "5aacd2944d7cf44d21997a9b265dac966a873875e9e5cd7a48a43c8dca044b36",
+      "bytes": 40680,
+      "repositoryPath": "src/codex-furnishings2026.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "gitBlob": "57648ec1a6e908069734f622eb449166770495d4",
+      "verifiedAgainstGitShow": true,
+      "currentCheckoutBytesAlsoEqual": true
+    },
+    {
+      "path": "references/materials/interior-workshop-atlas.png",
+      "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+      "bytes": 2334203,
+      "repositoryPath": "assets/art153/interior-workshop-atlas.png",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "gitBlob": "3057a2f58d27addab9917511c755edcc0ed5931f",
+      "verifiedAgainstGitShow": true,
+      "currentCheckoutBytesAlsoEqual": true
+    }
+  ],
+  "allExactGitBytes": true,
+  "renderScriptSha256": "1cc902fe788ad550c071f21f54f3fba3b70707fbf41664317acafc9f23f85006",
+  "canonicalRenderReceiptSha256": "aecca8ce0b9944db69b9a451ec3b251b4c33b46d3ae72698cab4c3e387393835",
+  "runtimeCodeModified": false
+}
