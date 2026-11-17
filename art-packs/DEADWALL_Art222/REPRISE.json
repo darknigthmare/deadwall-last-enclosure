@@ -1,0 +1,80 @@
+{
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "art222",
+  "savedAt": "2026-11-17T04:44:22+01:00",
+  "intent": "Continuer les sprites manquants depuis le dernier point sans recommencer les lots précédents.",
+  "completedSpriteIds": [
+    "DW-0342",
+    "DW-0132",
+    "DW-0321",
+    "DW-0334",
+    "DW-0541",
+    "DW-0528",
+    "DW-0549",
+    "DW-0097"
+  ],
+  "finalAssets": [
+    {
+      "id": "DW-0342",
+      "path": "assets/art222/regional/DW-0342_station-pompage.png",
+      "sha256": "b03ba974465b8cd04bacc92fb60fd283bfcf49fb9caf018cff7f4841ac1a85c5"
+    },
+    {
+      "id": "DW-0132",
+      "path": "assets/art222/regional/DW-0132_clinique-chirurgicale.png",
+      "sha256": "12d009eaa57d831bb7d28ed27e5b8b54c84e8390355eea96085c8ad4720f19e0"
+    },
+    {
+      "id": "DW-0321",
+      "path": "assets/art222/regional/DW-0321_poste-electrique-quartier.png",
+      "sha256": "da21ba0dcb99785f4d6a897a909754fb588a6f11aecfd738bbfd8f423739e730"
+    },
+    {
+      "id": "DW-0334",
+      "path": "assets/art222/regional/DW-0334_relais-radio-rural.png",
+      "sha256": "2cc0a824ee14287a228bb65f51a1c1163389e1db6d42fece3227c15ee01f3bc3"
+    },
+    {
+      "id": "DW-0541",
+      "path": "assets/art222/regional/DW-0541_bunker-defense-civile-v01.png",
+      "sha256": "46b2e5d55607a7a47c8378cffeb95536c83f341031e74286115d1be4c9a53309"
+    },
+    {
+      "id": "DW-0528",
+      "path": "assets/art222/regional/DW-0528_caserne-pompiers-v01.png",
+      "sha256": "5cd2493e07f7b44849d59ff8c6473d5eab9b86c7819dc405157a497ff1629a6f"
+    },
+    {
+      "id": "DW-0549",
+      "path": "assets/art222/regional/DW-0549_gare-routiere-v01.png",
+      "sha256": "59929ac12222ae8c54022a5c954b1edcc08dd7c5147f2ebed8ac601ac6486e72"
+    },
+    {
+      "id": "DW-0097",
+      "path": "assets/art222/regional/DW-0097_clinique-veterinaire.png",
+      "sha256": "74a259003e431bc6a4c0bd2888ae00687239ecc8dd4e571627c0dacc3a41edcf"
+    }
+  ],
+  "priorArt221": {
+    "previouslyReportedGeneratedCount": 9,
+    "regeneratedThisBatch": false,
+    "priorPackRecoveredThisBatch": false
+  },
+  "referenceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+  "resumeFrom": "Lire ce fichier et PROVENANCE.json ; conserver les huit sprites art222, leurs sources et les deux corrections déjà effectuées.",
+  "nextUnresolvedCandidate": {
+    "name": "Gendarmerie",
+    "status": "source_required_before_generation",
+    "reason": "Aucune fiche dédiée identifiée lors de la recherche dans l’index du Codex ; ne pas inventer une fidélité 1:1."
+  },
+  "nextSteps": [
+    "Vérifier la prochaine fiche canonique avant toute nouvelle génération.",
+    "Comparer les prochains candidats aux lots déjà produits pour éviter les doublons.",
+    "Valider ancrage, échelle et transparence dans le moteur lorsque l’intégration sera reprise."
+  ],
+  "knownLimits": [
+    "Inventaire exhaustif de tous les sprites encore manquants non reconstitué.",
+    "Ancien dépôt local et ancien pack art221 non restaurés dans cette reprise.",
+    "Aucun résultat historique de test n’est présenté comme un test exécuté pour art222."
+  ]
+}
