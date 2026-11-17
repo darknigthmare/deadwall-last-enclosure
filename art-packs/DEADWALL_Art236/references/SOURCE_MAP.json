@@ -1,0 +1,63 @@
+[
+  {
+    "key": "survivor-inert-body",
+    "id": "succession:body",
+    "kind": "survivor-inert",
+    "name": "Dépouille persistante du survivant",
+    "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "canonicalReference": {
+      "path": "references/canonical/survivor-inert-angle0.png",
+      "sha256": "7db6428a2a8f5e3352190f6870efdcb442c2ce615693a0a4e74c76cac4a1e4ff"
+    },
+    "canonicalReplay": {
+      "id": "succession:body",
+      "canonicalSha256": "7db6428a2a8f5e3352190f6870efdcb442c2ce615693a0a4e74c76cac4a1e4ff",
+      "replaySha256": "7db6428a2a8f5e3352190f6870efdcb442c2ce615693a0a4e74c76cac4a1e4ff",
+      "bytes": 40457,
+      "replayedBytesIdentical": true,
+      "entryPoint": "succession133.depthEntries / fallen body draw",
+      "serializedStateUnchangedExcludingFreshTimestamp": true,
+      "fullGroundMarkPreserved": true,
+      "metricGeometryCertified": false
+    },
+    "deliveryStatus": "accepted-source-art-proposal",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false,
+    "runtimeOwner": "Existing succession133 body state; separate dropped bag and inventory ownership unchanged",
+    "identityMeaning": "Graphic proposal ID; not a new runtime type or saved entity ID",
+    "intendedPhases": [
+      "rest",
+      "waiting",
+      "neutralized"
+    ],
+    "excludedPhase": "risen",
+    "sharedProfiles": [
+      "commander",
+      "scout",
+      "porter",
+      "builder"
+    ],
+    "camera": {
+      "projection": "orthographic",
+      "pitchDegrees": 90,
+      "angleRadians": 0,
+      "headDirection": "right",
+      "bootsDirection": "left"
+    },
+    "metricDimensions": null,
+    "referenceFiles": [
+      {
+        "path": "references/canonical/survivor-inert-angle0.png",
+        "sha256": "7db6428a2a8f5e3352190f6870efdcb442c2ce615693a0a4e74c76cac4a1e4ff",
+        "binding": "normalized-from-original-initial-reference-list",
+        "role": "canonical-source"
+      },
+      {
+        "path": "references/repository/assets/art137/survivor-prone.png",
+        "sha256": "28517c7c9eeb89414d3320ef2807c18fe9b6d2e37022fd4d7051822f64f7978f",
+        "binding": "normalized-from-original-initial-reference-list",
+        "role": "identity-or-material-reference"
+      }
+    ]
+  }
+]

@@ -1,0 +1,606 @@
+{
+  "schemaVersion": 1,
+  "auditedAt": "2026-11-17T12:17:08Z",
+  "reviewer": "art225_assets",
+  "repository": "darknigthmare/deadwall-last-enclosure",
+  "checkout": "/workspace/scratch/6f470a892a0f/deadwall-art233",
+  "checkoutHeadAtStart": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "scope": "Read-only targeted audit of persistent survivor remains, the drawFallen133 hook, existing human pose sources, and the separate body/bag/equipment owners.",
+  "classification": {
+    "persistentBodyCurrentlyVisible": true,
+    "proceduralFallbackPresent": true,
+    "namedRasterHookImplemented": false,
+    "hookOccurrenceCount": 1,
+    "dedicatedInertHumanCorpseRasterIdentified": false,
+    "existingUnarmedHumanProneRasterPresent": true,
+    "integrationGapConfirmed": true,
+    "newGenerationMandatoryToObtainAnyHumanRaster": false,
+    "separateInertPoseWouldBeOptionalSourceArt": true,
+    "conclusion": "Le raccord raster de la dépouille persistante manque. Le corps existe déjà en Canvas. Une pose humaine couchée à mains vides existe aussi (Art137) et mérite une évaluation de réutilisation avant toute image supplémentaire. Aucun asset dédié à une pose spécifiquement inerte n’est identifié dans les registres et sources ciblés.",
+    "backlogInterpretation": "Le backlog reste exact sur le hook absent et sur l’absence de raster dédié à la dépouille. Il ne doit pas être résumé comme une absence de corps visible, ni comme une absence de toute image humaine couchée."
+  },
+  "searchEvidence": {
+    "exactHookSearch": "git grep -n drawFallen133 f3ba02a5b73a55120c02c21d5703902ea3e901d9 -- :(exclude)art-packs",
+    "hookMatches": [
+      "f3ba02a5b73a55120c02c21d5703902ea3e901d9:src/succession133.js:166: function draw(ctx,r,part,domain){const s=domain==='local'?32:1,p=part==='body'?r.body:r.point;if((part==='bag'||r.body.phase!=='risen')&&g.art?.drawFallen133?.(ctx,{id:r.id,x:p.x,y:p.y,angle:r.point.angle,scale:s/32},part==='bag'?'bag':'corpse'))return;ctx.save();ctx.translate(p.x,p.y);ctx.scale(s,s);"
+    ],
+    "runtimeAndAssetSearches": [
+      "drawFallen133, drawFallen, drawCorpse, corpseSprite, survivorPersistentRemains, succession:body in source, asset metadata, relevant docs and tests",
+      "commander-rig130, hero-actions133, survivor-prone, survivor-crouch and player-gear in source and provenance",
+      "succession133 depthEntries and __fallenDraw local/regional call graph",
+      "takeForDeath, recoverLegacy, recover, fallenCount and visualEquipment in arsenal134"
+    ],
+    "all27AuditedSourceFilesByteIdenticalToPinnedBase": true,
+    "limits": "Exhaustiveness applies to the exact hook name and the checked-in source revision. Asset absence is based on the registered catalogues, metadata, targeted image inventory and visual examination of six relevant original PNGs; this is not a claim about unattached historical images outside this checkout."
+  },
+  "renderGraph": [
+    {
+      "owner": "src/succession133.js:166",
+      "role": "Single optional hook call",
+      "behavior": "For bag, or for body when phase is not risen, call g.art?.drawFallen133?.(ctx, pose, partName). A truthy return skips the fallback; missing/falsy hook continues to Canvas."
+    },
+    {
+      "owner": "src/succession133.js:167",
+      "role": "Bag fallback",
+      "behavior": "Draws a separate ground pack at r.point. Its fill color depends on amount(r)>0, and it remains after being emptied. It does not move with the risen body."
+    },
+    {
+      "owner": "src/succession133.js:168",
+      "role": "Risen regional body",
+      "behavior": "Uses existing g.art.drawActor(...,'walker',...) with visualIdentity fallen:<id>; if unavailable, draws a simple green body/head. The corpse hook is not called for a risen body."
+    },
+    {
+      "owner": "src/succession133.js:169",
+      "role": "Inert body fallback",
+      "behavior": "Rotates by r.point.angle and draws ochre torso, bent arms, dark trousers, brown boots, skin/hair and a muted dark-red ground mark. No drawn weapon or independent carried bag."
+    },
+    {
+      "owner": "src/succession133.js:170",
+      "role": "Depth records",
+      "behavior": "Creates body and bag entries, filtered by domain, floor/interior, bounds and regional visibility. Omits the local risen body because the actual local zombie already owns its rendering."
+    },
+    {
+      "owner": "src/succession133.js:185-186",
+      "role": "Local insertion",
+      "behavior": "Wraps the existing depthEntries and drawBuilding paths using __fallenDraw; preserves existing depth sorting."
+    },
+    {
+      "owner": "src/frontier-art.js:167",
+      "role": "Regional insertion",
+      "behavior": "Appends succession133.depthEntries('region',v,view) to the regional drawing queue."
+    }
+  ],
+  "hookContract": {
+    "method": "g.art.drawFallen133",
+    "arguments": {
+      "poseFields": [
+        "id",
+        "x",
+        "y",
+        "angle",
+        "scale"
+      ],
+      "partValues": [
+        "corpse",
+        "bag"
+      ]
+    },
+    "absentPoseFields": [
+      "profile",
+      "body.phase",
+      "weapon id",
+      "equipment category",
+      "inventory amount",
+      "bag empty/full state"
+    ],
+    "position": "Body uses r.body.x/y; bag uses r.point.x/y.",
+    "orientation": "Angle is the captured death orientation r.point.angle: local player.facing or regional position.a. The same original angle is still used after a risen body is neutralized; no last-facing value is stored in body.",
+    "scale": "s=32 in the local domain, s=1 in the region; hook scale=s/32, i.e. 1 locally and 1/32 regionally. The current Canvas fallback instead scales its normalized primitives by s.",
+    "anchor": "Fallback torso is centred approximately at the supplied body point; head centre is (+0.39,0) before rotation. A reused raster needs an explicit pivot conversion rather than blindly treating its existing head anchor as the persistent-body origin.",
+    "failureContract": "A future method can support corpse only and return false for bag to preserve the quantity-sensitive existing ground-pack fallback. It must also return false for unavailable images and restore Canvas state. No method was implemented during this audit."
+  },
+  "persistentStates": [
+    {
+      "phase": "rest",
+      "body": "Static original death pose at body.x/y",
+      "bag": "Original point",
+      "hookPart": "corpse"
+    },
+    {
+      "phase": "waiting",
+      "body": "Same static pose while existing deterministic reanimation timer runs only in active simulation",
+      "bag": "Original point",
+      "hookPart": "corpse"
+    },
+    {
+      "phase": "risen",
+      "body": "Existing walker: local real zombie or regional walker/contact; no corpse sprite",
+      "bag": "Original point",
+      "hookPart": null
+    },
+    {
+      "phase": "neutralized",
+      "body": "Static pose at final body position; original death angle retained",
+      "bag": "Original point",
+      "hookPart": "corpse"
+    }
+  ],
+  "profilesAndIdentity": {
+    "profiles": [
+      {
+        "id": "commander",
+        "name": "Commandant",
+        "role": "Initial survivor"
+      },
+      {
+        "id": "scout",
+        "name": "Éclaireuse",
+        "role": "Successor"
+      },
+      {
+        "id": "porter",
+        "name": "Manutentionnaire",
+        "role": "Successor"
+      },
+      {
+        "id": "builder",
+        "name": "Bâtisseuse",
+        "role": "Successor"
+      }
+    ],
+    "evidence": [
+      "src/core.js:1928-1936",
+      "src/succession133.js:9,20-34,76-80,88-95",
+      "src/actor-presentation.js:59-81"
+    ],
+    "visualMapping": "All four profiles currently use the shared player presentation; the persistent corpse fallback and optional hook do not select an image by profile. This audit does not invent separate gender/face/body models or require four new corpse sprites.",
+    "existingAppearance": "Short dark-brown hair, worn ochre/mustard jacket, black gloves, charcoal cargo trousers and brown boots. Existing living references include an olive pack; the procedural persistent body itself has no drawn pack."
+  },
+  "existingSources": [
+    {
+      "path": "assets/commander-rig130.png",
+      "sha256": "f619945032bc04c2a23ed92efe7cd384692335468121b6b3ef71120f991eee6a",
+      "atlas": "commanderRig",
+      "sourceSize": [
+        1774,
+        887
+      ],
+      "contents": "Four armed upper pieces (rifle/pistol and recoil) and four lower-body stride pieces, all source-facing right; no inert full-body pose.",
+      "geometryMetadata": "assets/commander-rig130.json and HERO_RIG in src/art.js:154-168; shared pelvis anchors, scale .105, idleLower1.",
+      "runtime": "drawCommanderRig requires canArticulate, which rejects entity.dead and non-standing postures.",
+      "roleForFallen": "Identity/material reference only; direct use would require assembling/reposing and suppressing weapons, not simply connecting a ready corpse bitmap."
+    },
+    {
+      "path": "assets/hero-actions133.png",
+      "sha256": "0d08fdb4ca33685959078da5e5de31b88e8616549a3da5143b0ac7a732b26408",
+      "atlas": "heroActions133",
+      "sourceSize": [
+        1536,
+        1024
+      ],
+      "contents": "32 living work-action poses: build row0, dig row1, dressing row2, open row3, eight frames each. The combined64 pose count in docs also includes hero-harvest133.png.",
+      "runtime": "HERO_ACTIONS133 and HERO_ACTION_PIVOTS133; heroActionPose133 rejects entity.dead. No death/corpse row.",
+      "orientation": "Rotation from action.facing; eight phases, not eight separate camera directions.",
+      "roleForFallen": "Clothing/material consistency reference, not a ready fallen-pose source."
+    },
+    {
+      "path": "assets/art137/survivor-prone.png",
+      "sha256": "28517c7c9eeb89414d3320ef2807c18fe9b6d2e37022fd4d7051822f64f7978f",
+      "atlas": "heroProne137",
+      "sourceSize": [
+        1774,
+        887
+      ],
+      "registeredCut": [
+        47,
+        248,
+        1677,
+        472
+      ],
+      "registeredPivot": [
+        1320,
+        480
+      ],
+      "registeredScale": 0.04,
+      "contents": "Complete unarmed human lying prone, head right/boots left, empty gloved hands extended ahead, olive backpack and straps baked into the image.",
+      "runtime": "HERO_LOW137.prone; drawLowBody137 explicitly rejects entity.dead. Not connected to persistent remains.",
+      "visualAssessment": "Visually examined native PNG: this is an existing, coherent horizontal body candidate. Arms are held ahead in a living prone posture, not the limp bent-arm arrangement of the procedural corpse.",
+      "roleForFallen": "Evaluate reuse first. Requires anchor/scale assessment, a decision about the carried backpack versus the separate persistent ground bag, and explicit corpse routing. No pixel edit or integration was performed, and reuse is not yet visually validated in runtime."
+    },
+    {
+      "path": "assets/commander-actions-atlas.png",
+      "sha256": "a186549a62099e88ab31a47e2408fa563c4a22617c91afb054e6d45fcbbb1d4f",
+      "atlas": "commander",
+      "sourceSize": [
+        1024,
+        1536
+      ],
+      "proneFirstFrameCut": [
+        0,
+        788,
+        278,
+        113
+      ],
+      "proneRow": 4,
+      "contents": "Existing aimed rifle prone poses, with backpack, among eight living movement/action states.",
+      "runtime": "heroPose maps entity.dead to prone frame0 on the generic player path, but the persistent-remains draw does not call drawActor(kind='player').",
+      "roleForFallen": "Not a neutral corpse replacement: a weapon is baked into the source."
+    },
+    {
+      "path": "assets/commander-pistol-atlas.png",
+      "sha256": "206824bc8dc5bca68ec77bc7e1bc01431ed9f9689ef51d44a25d59fe4bcb8d36",
+      "atlas": "commanderPistol",
+      "sourceSize": [
+        1024,
+        1536
+      ],
+      "proneFirstFrameCut": [
+        0,
+        786,
+        268,
+        119
+      ],
+      "proneRow": 4,
+      "contents": "Equivalent living aimed-pistol prone poses; weapon baked into pixels.",
+      "roleForFallen": "Not a neutral persistent corpse replacement and not evidence of a dedicated corpse source."
+    },
+    {
+      "path": "assets/art158/player-gear.png",
+      "sha256": "1068063d247f6c54f18871f2db71a1baba0ef066a25d1bced30db52ad72dd9fb",
+      "atlas": "art158PlayerGear",
+      "sourceSize": [
+        1774,
+        887
+      ],
+      "cuts": [
+        [
+          179,
+          70,
+          639,
+          729
+        ],
+        [
+          1013,
+          73,
+          606,
+          717
+        ]
+      ],
+      "contents": "Two isolated packs already used as torso-attached cosmetic variants.",
+      "runtime": "world-variants158.drawPlayerGear selects a stable campaign-seeded variant and attaches it to living/dead generic player presentation. Persistent remains do not call it.",
+      "roleForFallen": "Ground-pack reuse candidate with angle/anchor review; missing connection does not prove a missing bag bitmap. The hook currently lacks empty/full state."
+    },
+    {
+      "path": "assets/art159/corpses.png",
+      "sha256": "d941b75501f8015b31f4d2bb79bb7cac2e6306333e9a2a823efbf2d03fa3361c",
+      "atlas": "art159Corpses",
+      "sourceSize": [
+        1536,
+        1024
+      ],
+      "registeredKinds": [
+        "walker",
+        "runner",
+        "armored",
+        "crawler",
+        "howler",
+        "breacher",
+        "stalker",
+        "bloated",
+        "shielded",
+        "charger"
+      ],
+      "roleForFallen": "Ten infected kinds with two forms each; equipment-art159.corpseSprite returns null for a human/player kind. Do not relabel an infected corpse as the former survivor."
+    }
+  ],
+  "inventoryAndEquipmentInvariants": {
+    "evidence": [
+      "src/succession133.js:72-83,110-130",
+      "src/arsenal134.js:94-96,160",
+      "tests/succession133.test.cjs:10-59"
+    ],
+    "death": "Existing owners move bag contents, magazine/legacy weapon data, remaining personal gear and kits into the persistent record. arsenal134.takeForDeath moves actual carried item records to its fallen storage and clears the equipped item.",
+    "recovery": "Existing recovery transfers only what fits; unrecovered contents remain. Emptying the bag does not erase the body.",
+    "separateGroundObjects": "Lights and other owned equipment retain their existing drop-on-death mechanisms. The visual audit neither adds an extra loose weapon nor removes anything from those owners.",
+    "renderRule": "A body image must not imply a particular recoverable gun, tool, armour capacity, ammunition quantity or filled bag because the hook receives none of those values. The existing registry remains the authority.",
+    "noNewStockOrLoss": true
+  },
+  "minimumCredibleNextScope": {
+    "preferredFirstStep": "Evaluate Art137 prone-source reuse in a separately authorized rendering task; preserve procedural fallback and keep bag quantity handling under its existing owner.",
+    "mandatoryNewImageCountFromThisAudit": 0,
+    "optionalDedicatedSourceIfASeparateInertPoseIsChosen": {
+      "count": 1,
+      "identity": "succession:body",
+      "state": "Single static, non-graphic, relaxed fallen pose of the existing shared survivor appearance.",
+      "cameraAndOrientation": "Strict overhead view, complete body with transparent margin, source head right and boots left; future draw rotates by existing point.angle.",
+      "clothing": "Same ochre jacket, dark hair/gloves/trousers and brown boots as existing references.",
+      "equipment": "Empty hands, no baked gun/tool/loot pile, no separately recoverable pack or extra ground objects. Resolve the baked-backpack issue explicitly rather than changing stock.",
+      "scope": "One reusable pose for rest/waiting/neutralized, not a death animation, reanimation sequence, eight camera directions, new playable identity or four profile-specific models.",
+      "deliveryBoundary": "Source art only until separately authorized and reviewed integration."
+    },
+    "requiredIntegrationEvaluationIfLaterAuthorized": [
+      "Correct pivot and uniform scale in both domains; original captured angle and depth ordering preserved.",
+      "Body stays at its own current position after neutralization while bag remains at original point.",
+      "Waiting/rest/neutralized use the intended source; risen local and regional bodies remain owned by current walker paths.",
+      "Unavailable raster preserves the current Canvas fallback and does not hide a bag or body.",
+      "No read or mutation of inventory/seed/timer/save fields is introduced by drawing."
+    ]
+  },
+  "validationPerformed": {
+    "staticRead": true,
+    "exactHookSearch": true,
+    "nativeImagesViewedIndividually": 6,
+    "hashedFiles": 27,
+    "allHashesAndBytesComparedToPinnedGitRevision": true,
+    "testsExecuted": false,
+    "simulationExecuted": false,
+    "runtimeScreenshotProduced": false,
+    "imageGenerationPerformed": false,
+    "imageEditingPerformed": false,
+    "runtimeEditsPerformed": false,
+    "frozenPackChangesPerformed": false,
+    "soleWrittenArtifact": "publication-art233-235/fallen-survivor-scope-audit.json"
+  },
+  "sources": [
+    {
+      "path": "src/succession133.js",
+      "bytes": 29336,
+      "sha256": "abf328ba0d7cdd57281673e947962d99ef9fc40fb2a23b084532a3676cbedc54",
+      "baseGitBlob": "36ba07a1089094ccd04eca20863811f7b3cbb2e3",
+      "bytesIdenticalToBase": true
+    },
+    {
+      "path": "src/art.js",
+      "bytes": 69066,
+      "sha256": "e7ea9f8ab6350072a5d7785218522d70f583ca7ae2cc36f1496a780f95e26e47",
+      "baseGitBlob": "474735a011863d808651efec72e4dd90f48e9f46",
+      "bytesIdenticalToBase": true
+    },
+    {
+      "path": "src/core.js",
+      "bytes": 335878,
+      "sha256": "33a3539f8b80015815303b9425e83d49721c5d88938533508c431cc38854909e",
+      "baseGitBlob": "f725b280a3c1327a878829c8c7f3eb72374da937",
+      "bytesIdenticalToBase": true
+    },
+    {
+      "path": "src/actor-presentation.js",
+      "bytes": 9691,
+      "sha256": "115900704feb838293177ea0606325b9fe50dcb1b0d638365dbd68e45b6d6022",
+      "baseGitBlob": "8adf4b1c0d08c710f033d4d025d00208060fbca3",
+      "bytesIdenticalToBase": true
+    },
+    {
+      "path": "src/hero-actions133.js",
+      "bytes": 15599,
+      "sha256": "2d70c7ec3e85243143a7e10d6890670f2de7464e3f4a7a4053af8636a6e0e9c4",
+      "baseGitBlob": "537d69dc7870beca46b4da00afb6183d5f35d179",
+      "bytesIdenticalToBase": true
+    },
+    {
+      "path": "src/frontier-art.js",
+      "bytes": 35986,
+      "sha256": "50e3f6e92a1a33bbaddc0a98b99472e367ee66834eeb691c9a26e2507837b017",
+      "baseGitBlob": "bc3933fb70aae5c092fd0a89361eb818c5a9aa7a",
+      "bytesIdenticalToBase": true
+    },
+    {
+      "path": "src/world-variants158.js",
+      "bytes": 12786,
+      "sha256": "fd131b78b25398bed75de226b8c7d46e4b6547b08d429fc3e888efc6948718db",
+      "baseGitBlob": "90faf681eb06c0cf5c3795e53946fad862503c4b",
+      "bytesIdenticalToBase": true
+    },
+    {
+      "path": "src/arsenal134.js",
+      "bytes": 27219,
+      "sha256": "d779b6dc938e27e81d50f8357409c521d3ed2840acd51669cf45960a891f0de8",
+      "baseGitBlob": "223c7be35cb57d78b69a87c4f418518defe68c0a",
+      "bytesIdenticalToBase": true
+    },
+    {
+      "path": "src/equipment-art159.js",
+      "bytes": 10653,
+      "sha256": "3b0373b14c71e16590f42101156bf80e847bcc6640335dbbe225fe6e413fa84c",
+      "baseGitBlob": "6739271712de64112b82b89c4755339e22f2053d",
+      "bytesIdenticalToBase": true
+    },
+    {
+      "path": "src/game.js",
+      "bytes": 457783,
+      "sha256": "f27835cee4505f1c18d168402f525867a8e3665b367daf8b12fb677ecef35e98",
+      "baseGitBlob": "25ce5e5f208f24e81a1ad7ac1dae9beef16258fd",
+      "bytesIdenticalToBase": true
+    },
+    {
+      "path": "tests/succession133.test.cjs",
+      "bytes": 11598,
+      "sha256": "f40eab06b9a169c76ab01d01c947dc05f6054c0b60f581bbb5ce095ba23b3740",
+      "baseGitBlob": "b06a7a439056fcd87c3452127e43296521359c9f",
+      "bytesIdenticalToBase": true
+    },
+    {
+      "path": "docs/SUCCESSION_1_33.md",
+      "bytes": 5566,
+      "sha256": "7a9767c2ee8bdbb9ff7540f3f072275657a842485dd0d7057c8da91cd85d29a4",
+      "baseGitBlob": "b2e70bef7d4775982929e3394271423429e5792c",
+      "bytesIdenticalToBase": true
+    },
+    {
+      "path": "docs/ANIMATIONS_1_33.md",
+      "bytes": 5209,
+      "sha256": "1316f73907481075db8bb8a96db8410c8b8bafeee85eb1e7cfc188b071abe23d",
+      "baseGitBlob": "b76e06a9d9e654c5f1497127a81fff83954663b7",
+      "bytesIdenticalToBase": true
+    },
+    {
+      "path": "docs/ACTOR_ARTICULATION_1_30.md",
+      "bytes": 2529,
+      "sha256": "d5b08fec7de2739bbb3864a624242eda826db66b1ff44b366e1df3a39c0444c4",
+      "baseGitBlob": "365359a5d92d4bc922ad121a1c3d008ab114c63d",
+      "bytesIdenticalToBase": true
+    },
+    {
+      "path": "docs/VISUEL_1_37.md",
+      "bytes": 4370,
+      "sha256": "8c7faf2a9f0968f697444252930b4146b4821a316c245a192625e8028f89a2d1",
+      "baseGitBlob": "2fff1a78febc85c0ae38f2ac20d32e4a45b1ff2e",
+      "bytesIdenticalToBase": true
+    },
+    {
+      "path": "assets/commander-rig130.json",
+      "bytes": 1681,
+      "sha256": "573e79f199e6b47035656629ffff1abddaed54ced1ed526c38d75e8b05bd3421",
+      "baseGitBlob": "e0d8a1688e63fe070b853534562f0e1275874cad",
+      "bytesIdenticalToBase": true
+    },
+    {
+      "path": "assets/PROVENANCE_1_30.json",
+      "bytes": 2152,
+      "sha256": "deeeef91cbd5479b6616e7c461ada9d6216a937dd0b486ee7ab3a5f6d46ba1e1",
+      "baseGitBlob": "4ae5193d6bcf31d8577a3c2132f9972fd726441c",
+      "bytesIdenticalToBase": true
+    },
+    {
+      "path": "assets/PROVENANCE_1_33.json",
+      "bytes": 3593,
+      "sha256": "6eb42460288af8be28e992d12080426abd8ea36867f5f6cbbc4649f96a80f9af",
+      "baseGitBlob": "24c990c36a1f5334038eec0a7a7c111c3d35b4f0",
+      "bytesIdenticalToBase": true
+    },
+    {
+      "path": "assets/PROVENANCE_1_37.json",
+      "bytes": 798,
+      "sha256": "3d0de229ac937553314ffb1b5a284cae0ee6c90d6ae77c4568ae64dd45e9d389",
+      "baseGitBlob": "f7cc2d00ce543e1286a6b6cfec909f5983cc401b",
+      "bytesIdenticalToBase": true
+    },
+    {
+      "path": "assets/art137/PROMPTS.md",
+      "bytes": 2556,
+      "sha256": "c04beab44dfa0293258579edca98ae84424fc32bdf4bf22c8a3b3f2a4de9a02e",
+      "baseGitBlob": "0f5aa49c8dbfd37217ac6ef5b06b6bcf9806d32d",
+      "bytesIdenticalToBase": true
+    },
+    {
+      "path": "assets/commander-rig130.png",
+      "bytes": 890093,
+      "sha256": "f619945032bc04c2a23ed92efe7cd384692335468121b6b3ef71120f991eee6a",
+      "baseGitBlob": "e1d1e2d07a6c85087da260d5b37c449acd0ff165",
+      "bytesIdenticalToBase": true,
+      "dimensions": [
+        1774,
+        887
+      ],
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "visuallyInspectedNative": true
+    },
+    {
+      "path": "assets/hero-actions133.png",
+      "bytes": 2303066,
+      "sha256": "0d08fdb4ca33685959078da5e5de31b88e8616549a3da5143b0ac7a732b26408",
+      "baseGitBlob": "750570b1deffb6ba01d25b7cc6c2fdb68f5a5ab6",
+      "bytesIdenticalToBase": true,
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "visuallyInspectedNative": true
+    },
+    {
+      "path": "assets/art137/survivor-prone.png",
+      "bytes": 1171859,
+      "sha256": "28517c7c9eeb89414d3320ef2807c18fe9b6d2e37022fd4d7051822f64f7978f",
+      "baseGitBlob": "49749f2e6c12b81e1e71a42e38144d8b5ba15760",
+      "bytesIdenticalToBase": true,
+      "dimensions": [
+        1774,
+        887
+      ],
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "visuallyInspectedNative": true
+    },
+    {
+      "path": "assets/commander-actions-atlas.png",
+      "bytes": 2051387,
+      "sha256": "a186549a62099e88ab31a47e2408fa563c4a22617c91afb054e6d45fcbbb1d4f",
+      "baseGitBlob": "5110cf692861ab89e6a8f0e41a071d91e91f306b",
+      "bytesIdenticalToBase": true,
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "visuallyInspectedNative": true
+    },
+    {
+      "path": "assets/commander-pistol-atlas.png",
+      "bytes": 2193114,
+      "sha256": "206824bc8dc5bca68ec77bc7e1bc01431ed9f9689ef51d44a25d59fe4bcb8d36",
+      "baseGitBlob": "b8a7d7205fc81256c3d4877022131f70262ed1d9",
+      "bytesIdenticalToBase": true,
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "visuallyInspectedNative": true
+    },
+    {
+      "path": "assets/art158/player-gear.png",
+      "bytes": 1770120,
+      "sha256": "1068063d247f6c54f18871f2db71a1baba0ef066a25d1bced30db52ad72dd9fb",
+      "baseGitBlob": "e974011c916554ec0305a2fb61552d551d632bbd",
+      "bytesIdenticalToBase": true,
+      "dimensions": [
+        1774,
+        887
+      ],
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "visuallyInspectedNative": true
+    },
+    {
+      "path": "assets/art159/corpses.png",
+      "bytes": 2245624,
+      "sha256": "d941b75501f8015b31f4d2bb79bb7cac2e6306333e9a2a823efbf2d03fa3361c",
+      "baseGitBlob": "db150fa07ae4c65014b371c4a7ec97451dc905f9",
+      "bytesIdenticalToBase": true,
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "visuallyInspectedNative": false
+    }
+  ]
+}

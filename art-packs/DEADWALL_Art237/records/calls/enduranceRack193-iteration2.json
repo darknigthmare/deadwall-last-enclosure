@@ -1,0 +1,15 @@
+{
+  "key": "enduranceRack193",
+  "iteration": 2,
+  "correctionReason": "The first generated ratchet blade overlapped in front of the rack lower rail, opposite to the native painter hardware-last layer order. Restore one continuous foreground rack rail.",
+  "replaces": "/workspace/scratch/6f470a892a0f/generated_images/exec-1b41c9ee-d97a-4c75-9bc6-e92c7d8524d6.png",
+  "arguments": {
+    "prompt": "Edit image 1, an existing static DEADWALL enduranceRack193 game-art source, using image 2 as the authoritative native assembled reference. Make ONE precise layer-order correction only. The lower horizontal rail of the upper rectangular four-tooth rack must be a single fully continuous straight foreground member from its left vertical side to its right vertical side. It lies IN FRONT OF the angled toothed ratchet blade, exactly as image 2 shows. Wherever the blade and rack lower rail overlap, the rack lower rail covers the blade. Do not make the blade break, cut through or sit on top of that horizontal rack rail. Preserve the actual underlying angled blade; simply depict the correct existing overlap.\n\nKeep all other geometry, camera, axes, proportions, position, materials and existing wear from image 1 unchanged: four rectangular hanging rack teeth with their open gaps, timber base, side rails, left circular blade pivot, right coiled spring and its hooked end, and the glimpses of the Hérisson support underneath. Keep the complete assembly still and unoccupied. Add no hardware or contents and introduce no new action.\n\nDeliver ONE complete isolated assembled sprite on genuine transparent RGBA, holes transparent, with generous clear margin around every protrusion. No floor, backdrop, shadow beyond the object, text, labels or additional objects. Preserve the original native PNG of image 1 as history; this output is a new native PNG version.",
+    "referenced_image_paths": [
+      "/workspace/scratch/6f470a892a0f/generated_images/exec-1b41c9ee-d97a-4c75-9bc6-e92c7d8524d6.png",
+      "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/enduranceRack193-v0-armed-mounted.png"
+    ],
+    "transparent_background": true
+  },
+  "initiatedAt": "2026-11-17T13:37:14.583Z"
+}

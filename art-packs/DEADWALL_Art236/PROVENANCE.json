@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 2,
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "Art236",
+  "title": "Dépouille inerte du survivant",
+  "assembledOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "referenceRepository": "darknigthmare/deadwall-last-enclosure",
+  "publicationBaseRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "publicationBaseTree": "663ad5750e49ae401fc0b46bfdebc28942ad1617",
+  "publicationBaseIsOutputCommit": false,
+  "identityPolicy": "succession:body is a source-art identifier; the survivor-inert kind is descriptive and creates no runtime type or saved identity.",
+  "scope": "One source sprite for the existing inert shared-survivor body, which already has a visible Canvas fallback. Living Art137 prone art remains a material and identity reference.",
+  "deliveryStatus": "accepted-source-art-proposals",
+  "plannedTargetCount": 1,
+  "plannedArtIds": [
+    "succession:body"
+  ],
+  "finalSpriteCount": 1,
+  "generationCount": 2,
+  "supersededCandidateCount": 1,
+  "blockedTargetCount": 0,
+  "blockedArtIds": [],
+  "failureReceiptCount": 0,
+  "blockedTargetRecords": null,
+  "generationFailureRecords": null,
+  "nativeOutputBytesPreserved": true,
+  "imageEditingResizingCroppingPerformed": false,
+  "geometryBasis": "The exact existing succession133 depth-entry fallback at angle zero. Its schematic geometry is not an anatomical or metric measurement. The canonical fallback retains its original ground mark; the proposed body sprite excludes that mark.",
+  "integration": {
+    "performed": false,
+    "runtimeSourceChanged": false,
+    "runtimeAssetRegistrationChanged": false,
+    "testsChanged": false,
+    "newWorldPlacementCreated": false,
+    "saveOrWorldIdentityChanged": false
+  },
+  "fidelity": {
+    "reviewed": [
+      "canonical source layout",
+      "existing object identity and components",
+      "selected source presentation",
+      "native PNG and transparency",
+      "exact references and prompt history"
+    ],
+    "notCertified": [
+      "metric or pixel-for-pixel 1:1 fidelity",
+      "generated-sprite metres per pixel",
+      "runtime anchors and collision alignment",
+      "unseen variants, phases or rotations"
+    ]
+  },
+  "sourcesIndex": "references/verified-sources.json",
+  "sourceMapping": "references/SOURCE_MAP.json",
+  "generationHistory": "generation-history.json",
+  "canonicalReplay": "records/preparation/root-canonical-replay.json",
+  "canonicalReplayScript": "records/root_replay_canonicals.cjs",
+  "technicalAudit": "qa/image-audit.json",
+  "visualReview": "qa/visual-review.md",
+  "independentVisualReview": "records/preparation/root-review.json",
+  "gallery": "gallery.html",
+  "aggregateCoverage": null,
+  "validation": {
+    "packTechnicalAudit": "passed",
+    "runtimeTests": "not_run_by_assembler",
+    "browser": "not_run_by_assembler"
+  },
+  "assets": [
+    {
+      "key": "survivor-inert-body",
+      "id": "succession:body",
+      "artId": "succession:body",
+      "kind": "survivor-inert",
+      "name": "Dépouille persistante du survivant",
+      "path": "assets/art236/actors/survivor_inert_body.png",
+      "sha256": "f4cd1898b5133ea7acf295151d27e328eed8dbc4c8d4f678f9af8ef4ee58f911",
+      "bytes": 1061317,
+      "iteration": 2,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated"
+    }
+  ]
+}

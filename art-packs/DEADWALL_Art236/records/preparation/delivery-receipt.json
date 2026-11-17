@@ -1,0 +1,247 @@
+{
+  "schemaVersion": 1,
+  "status": "frozen_for_independent_review_and_assembly",
+  "scope": "Art236 source preparation only",
+  "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "selectedKey": "survivor-inert-body",
+  "selectedIteration": 2,
+  "selectedSha256": "f4cd1898b5133ea7acf295151d27e328eed8dbc4c8d4f678f9af8ef4ee58f911",
+  "selectedPath": "outputs/iteration-02/survivor_inert_body.png",
+  "generationsRetained": 2,
+  "sourceCopiesVerified": 24,
+  "nativeOutputCopiesByteIdentical": true,
+  "allActualReferenceFilesExist": true,
+  "runtimeModified": false,
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "1c4b6e771ccf0619b6f18d3293c30ecbfe044adfdfa4237b47e35d9773be1d85",
+      "bytes": 7041
+    },
+    {
+      "path": "alpha-review.json",
+      "sha256": "fd9dcd6cb6fe650699555d8afdba9a881a904bcbd70a51a83a41bf1c881b407e",
+      "bytes": 26998
+    },
+    {
+      "path": "canonical-render-receipt.json",
+      "sha256": "71dcfa7d6692e27265598c1b5e18382828ac693e4da3c87b20514ecd49932df2",
+      "bytes": 3518
+    },
+    {
+      "path": "generation-inputs/iteration-01.json",
+      "sha256": "190e100142afcac1df0aa429dc2f7ea7c47b30185922952c71e9340ed52896ea",
+      "bytes": 3785
+    },
+    {
+      "path": "generation-inputs/iteration-02.json",
+      "sha256": "cd0821457d4d0c4f7fd9c3b4ff6e1c1ae960f109748ce90f1385cd103c3b87d4",
+      "bytes": 2977
+    },
+    {
+      "path": "generation-responses/iteration-01.json",
+      "sha256": "31f9d31a90cd51961ff2182a1c3a9cd1b1fd663983d30af1c03a93f3e2ab9f32",
+      "bytes": 713
+    },
+    {
+      "path": "generation-responses/iteration-02.json",
+      "sha256": "957ea69ed7830ca8add48f4dc4cd14b6df89c11026041320aa0d5de02aea68ab",
+      "bytes": 713
+    },
+    {
+      "path": "guidance/create-game-assets-SKILL.md",
+      "sha256": "36cd246a434fefe1e36feff066597a6268d9f63364bee387ee65a22f03838b5d",
+      "bytes": 8152
+    },
+    {
+      "path": "guidance/guide-0-tool-result.json",
+      "sha256": "94d06d94e9180e59628d0ba70864040f6e9724950111ea06e08679a4b9d5381a",
+      "bytes": 8741
+    },
+    {
+      "path": "guidance/guide-1-tool-result.json",
+      "sha256": "3e4e7743a7de02f460a890d6cc99f81d9e3a826dec14e384e0078911753a41da",
+      "bytes": 4786
+    },
+    {
+      "path": "guidance/provenance.json",
+      "sha256": "926d27cd99f6edcb608059b8c5acf45858d00ba1a5ff919ffe3227810f1e3077",
+      "bytes": 1035
+    },
+    {
+      "path": "guidance/raster-pipeline.md",
+      "sha256": "d7a5714628fd8f4b66d03e060488e353b163b811112b164af218beb2b6450a02",
+      "bytes": 4236
+    },
+    {
+      "path": "history-results.json",
+      "sha256": "380b1f13fde585258aef10274a091d7c851a727f79fc423bc84de5abcd21b1dd",
+      "bytes": 9966
+    },
+    {
+      "path": "outputs/iteration-01/survivor_inert_body.png",
+      "sha256": "5868f518503df917911b54fcc2c430dae1641d19d3a6731b269139af349635c1",
+      "bytes": 1201927
+    },
+    {
+      "path": "outputs/iteration-02/survivor_inert_body.png",
+      "sha256": "f4cd1898b5133ea7acf295151d27e328eed8dbc4c8d4f678f9af8ef4ee58f911",
+      "bytes": 1061317
+    },
+    {
+      "path": "prepare-art236.cjs",
+      "sha256": "9666869ebfc12ff5069a719607b4e08eff920877855386aa401bfda36d6eda1c",
+      "bytes": 7379
+    },
+    {
+      "path": "references/canonical/survivor-inert-angle0.png",
+      "sha256": "7db6428a2a8f5e3352190f6870efdcb442c2ce615693a0a4e74c76cac4a1e4ff",
+      "bytes": 40457
+    },
+    {
+      "path": "references/fallen-survivor-scope-audit.json",
+      "sha256": "9aeda276118d019df80c764070592307e346934ecc6dc47cbfee2f9b80c83ae5",
+      "bytes": 25507
+    },
+    {
+      "path": "references/repository/AGENTS.md",
+      "sha256": "7d02c6bd7f9c6a8e04c4c18680f9539109ecbc943f240de12a536ab9a8a8ab13",
+      "bytes": 4190
+    },
+    {
+      "path": "references/repository/assets/art137/PROMPTS.md",
+      "sha256": "c04beab44dfa0293258579edca98ae84424fc32bdf4bf22c8a3b3f2a4de9a02e",
+      "bytes": 2556
+    },
+    {
+      "path": "references/repository/assets/art137/survivor-prone.png",
+      "sha256": "28517c7c9eeb89414d3320ef2807c18fe9b6d2e37022fd4d7051822f64f7978f",
+      "bytes": 1171859
+    },
+    {
+      "path": "references/repository/assets/commander-rig130.json",
+      "sha256": "573e79f199e6b47035656629ffff1abddaed54ced1ed526c38d75e8b05bd3421",
+      "bytes": 1681
+    },
+    {
+      "path": "references/repository/assets/commander-rig130.png",
+      "sha256": "f619945032bc04c2a23ed92efe7cd384692335468121b6b3ef71120f991eee6a",
+      "bytes": 890093
+    },
+    {
+      "path": "references/repository/assets/hero-actions133.png",
+      "sha256": "0d08fdb4ca33685959078da5e5de31b88e8616549a3da5143b0ac7a732b26408",
+      "bytes": 2303066
+    },
+    {
+      "path": "references/repository/docs/ARCHITECTURE.md",
+      "sha256": "880657b6abfc044a3ef534d8a092ad9a20ad3a0a2a9024bdbbea6642d8eb3f3c",
+      "bytes": 57076
+    },
+    {
+      "path": "references/repository/docs/BALANCING.md",
+      "sha256": "5caf2749d57201a01f9aafa80de8a3e70e0579a01895283e6d5b05abdc526088",
+      "bytes": 37720
+    },
+    {
+      "path": "references/repository/docs/CODEX_MASTER_PROMPT.md",
+      "sha256": "9c0280c574ad13d7ba03cb4391713411e8eb8fcdbcc4cc94f2609f277c727c6d",
+      "bytes": 5269
+    },
+    {
+      "path": "references/repository/docs/GAMEDEV_GUIDANCE.md",
+      "sha256": "0b2df8233ea2c49ff0c1fd959cf43bac8d1245fb6900334e42cb541b0d2f0144",
+      "bytes": 24935
+    },
+    {
+      "path": "references/repository/docs/GAME_BIBLE.md",
+      "sha256": "3f6f48befcd5408e03ab4ed0c79a68a040cac48c09f087545e334f0b3c738890",
+      "bytes": 98486
+    },
+    {
+      "path": "references/repository/docs/GAME_DESIGN.md",
+      "sha256": "3f5ce6afc19ca49f5ffe239eee67b7258078098e8d0477a5ef62fd2fc8fd65f9",
+      "bytes": 15746
+    },
+    {
+      "path": "references/repository/docs/ORIGINAL_BRIEF.txt",
+      "sha256": "64fe23e910f065cdd6ce4f8f84fcc8efd6894d923122c086cd7b16f599492297",
+      "bytes": 1283
+    },
+    {
+      "path": "references/repository/docs/SUCCESSION_1_33.md",
+      "sha256": "7a9767c2ee8bdbb9ff7540f3f072275657a842485dd0d7057c8da91cd85d29a4",
+      "bytes": 5566
+    },
+    {
+      "path": "references/repository/docs/VISUEL_1_37.md",
+      "sha256": "8c7faf2a9f0968f697444252930b4146b4821a316c245a192625e8028f89a2d1",
+      "bytes": 4370
+    },
+    {
+      "path": "references/repository/src/actor-presentation.js",
+      "sha256": "115900704feb838293177ea0606325b9fe50dcb1b0d638365dbd68e45b6d6022",
+      "bytes": 9691
+    },
+    {
+      "path": "references/repository/src/art.js",
+      "sha256": "e7ea9f8ab6350072a5d7785218522d70f583ca7ae2cc36f1496a780f95e26e47",
+      "bytes": 69066
+    },
+    {
+      "path": "references/repository/src/core.js",
+      "sha256": "33a3539f8b80015815303b9425e83d49721c5d88938533508c431cc38854909e",
+      "bytes": 335878
+    },
+    {
+      "path": "references/repository/src/game.js",
+      "sha256": "f27835cee4505f1c18d168402f525867a8e3665b367daf8b12fb677ecef35e98",
+      "bytes": 457783
+    },
+    {
+      "path": "references/repository/src/hero-actions133.js",
+      "sha256": "2d70c7ec3e85243143a7e10d6890670f2de7464e3f4a7a4053af8636a6e0e9c4",
+      "bytes": 15599
+    },
+    {
+      "path": "references/repository/src/succession133.js",
+      "sha256": "abf328ba0d7cdd57281673e947962d99ef9fc40fb2a23b084532a3676cbedc54",
+      "bytes": 29336
+    },
+    {
+      "path": "references/repository/tests/helpers/expansions131.cjs",
+      "sha256": "cbfda405edda4ca2b7d2061e36b81127aac4618572b5d8e49f515517d8f5b9c6",
+      "bytes": 812
+    },
+    {
+      "path": "references/repository/tests/helpers/navigation130.cjs",
+      "sha256": "405da824d42923d4efdce01af1a7a5ae87d462885d6f18f4f86d9ed53aebdb94",
+      "bytes": 2925
+    },
+    {
+      "path": "references/repository/tests/succession133.test.cjs",
+      "sha256": "f40eab06b9a169c76ab01d01c947dc05f6054c0b60f581bbb5ce095ba23b3740",
+      "bytes": 11598
+    },
+    {
+      "path": "references/sources.json",
+      "sha256": "c871939ffbef5cd796096d7dc11f78e55fd73c0f7be231464f0c8a7a52c81c7a",
+      "bytes": 8882
+    },
+    {
+      "path": "results.json",
+      "sha256": "63a5b822c59cd8906fe91789fc49d09c80458556878e8bd90bfacc2dd3c031e1",
+      "bytes": 4786
+    },
+    {
+      "path": "review.json",
+      "sha256": "ca3157b4c75488a918e8317e1cdfcd517becf283182e0c93beaa7e042f4647f0",
+      "bytes": 9394
+    },
+    {
+      "path": "selection-and-prompts.json",
+      "sha256": "94412e74a9202aa0ee2c905732be540addaf0dca0a1b3b49d37f5dcb36eb2274",
+      "bytes": 7867
+    }
+  ]
+}

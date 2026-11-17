@@ -1,0 +1,18 @@
+{
+  "reviewer": "root",
+  "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "sha256": "f4cd1898b5133ea7acf295151d27e328eed8dbc4c8d4f678f9af8ef4ee58f911",
+  "decision": "accepted_source_art_proposal",
+  "viewedFiles": [
+    "references/canonical/survivor-inert-angle0.png",
+    "references/repository/assets/art137/survivor-prone.png",
+    "outputs/iteration-02/survivor_inert_body.png"
+  ],
+  "observation": "Corps complet vu du dessus, tête à droite et bottes à gauche. Veste ocre, pantalon anthracite, bottes brunes et gants conformes à la tenue Art137 ; mains repliées vers la taille et dos sans sac. La silhouette anatomique est plus allongée et symétrique que le schéma Canvas. La marque de sol rouge native demeure dans la référence et est volontairement exclue du sprite du corps. Aucun pivot ou recouvrement moteur n’est certifié.",
+  "knownLimits": [
+    "Marge gauche alpha>=8 de9,24%, inférieure à12% demandé mais sans coupe.",
+    "Bruit alpha1/255 sur80pixels de bord ; pas de bord strictement tout-zéro revendiqué.",
+    "La pose est une interprétation anatomique du schéma, pas son tracé pixel exact."
+  ],
+  "canonicalReplayFile": "root-canonical-replay.json"
+}

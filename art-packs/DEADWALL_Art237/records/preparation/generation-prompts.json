@@ -1,0 +1,224 @@
+[
+  {
+    "key": "runnerCable193",
+    "iteration": 1,
+    "attempt": 1,
+    "callRecord": "calls/runnerCable193-iteration1.json",
+    "status": "blocked-no-image",
+    "prompt": "Create ONE original DEADWALL source-art sprite proposal for the existing mechanism Câble anti-coureurs (runnerCable193), variant 0, mounted on its existing Hérisson support, completely at rest in the armed pose.\n\nREFERENCE CONTRACT: Image 1 is the actual assembled sprite drawn by the UNCHANGED game renderer for this exact mechanism. It is the authority for silhouette, camera/projection, axes, every major part, every connection, relative size, overlap, and position. Images 2 and 3 are the original component atlases, supplied ONLY for material texture and colour; do not copy their sheets, neighbours, backgrounds, or detached layout. Keep the assembled design of image 1. Refine materials, not geometry. This is one assembled object, never an exploded diagram or atlas.\n\nCAMERA AND SCALE: Keep the same 2D sprite-plane projection and the same visible surfaces as image 1; do not rotate, mirror, tilt, reinterpret its elevation or rebuild it into a different perspective. Horizontal source X remains horizontal; source Y remains vertical downward. Preserve the full source silhouette and aspect ratio. The support has an authored 1 m by 1 m ground footprint; the native sprite owner is 32 by 32 units, with its drawing clipped to the existing 26 by 26 interior. These constrain its existing relative proportions; they are not permission to make all six silhouettes square. No mechanism height is specified. Do not add tall unseen faces, new supports or a new pedestal.\n\nEXACT ASSEMBLY: Keep the low, broad horizontal two-rail timber-and-rusted-steel base. Keep its four end mounting bands. The mobile1 sliding/hooked crosspiece stands vertically just LEFT of centre, with the small hooked tip pointing LEFT in the lower half. The mobile2 toothed slider sits RIGHT of centre, horizontally, with its existing opposed teeth above and below. The distinctive Canvas193 hardware is TWO slender long vertical hook rails at the left and right positions shown: each has an inward slanted short return at its LOWER end, plus exactly ONE straight horizontal cable joining them above the middle. Preserve those two side uprights and both lower returns; do not shorten them to the wood base. Texture the pale olive-grey schematic hardware as simple dull worn metal/cable while retaining its complete silhouette and exact locations. Preserve the existing Hérisson underlay glimpses. No reel, extra coil, trigger pedal or new jaw.\n\nSTATE AND OWNERSHIP: The source contains the existing Hérisson support beneath one fixed mechanism base, TWO mobile parts frozen in their native armed pose, and its specialized hardware. Keep all visible pieces exactly where the reference places them. Full nominal charges (8) are a state value, not a quantity of loose physical supplies to draw. No action, no target, no wound, no movement, no trigger flash, no sparks, no smoke, no charged glow, no UI badge or quantity marker. This is a static source illustration, not an animation replacement.\n\nMATERIALS: Serious grounded repaired survival equipment. Match the original atlas's aged brown timber, dark oxidised steel, restrained iron-red rust, dull bolts and worn grey/olive hardware. Clearly readable existing edges and joins; no ornamental redesign, futuristic equipment, fantasy motifs or excessive new damage. Soft neutral illumination and crisp detailed silhouette. The original flat-colour specialized hardware should become believable material, not a painted annotation or diagram, but its count, topology and placement must remain unchanged.\n\nOUTPUT: Exactly ONE complete isolated mounted mechanism, centred on TRUE transparent RGBA. Preserve every protruding existing part with at least 12 percent clear transparent margin on all four sides. No floor, terrain, base tile, ambient backdrop, coloured matte, cast shadow outside the object, labels, words, numerals, dimensions, watermark, logos, border, reference sheet or additional object. Keep the holes between parts transparent. Native PNG only.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/runnerCable193-v0-armed-mounted.png",
+      "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/assets/art159/traps-mechanisms-a.png",
+      "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/assets/art159/traps-supplies-a.png"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "image_gen.imagegen",
+    "promptIsVerbatim": true,
+    "initiatedAt": "2026-11-17T13:25:56.740Z",
+    "referenceFiles": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/runnerCable193-v0-armed-mounted.png",
+        "sha256": "0d138bff82599041b800d0542cf55d99199f7a3535ee68a627f8b3055de6e6b1",
+        "bytes": 246288
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/assets/art159/traps-mechanisms-a.png",
+        "sha256": "c693c8d2c6056fc900a673b2f8ad789e5c36e0660340d07302610c2a8e645f78",
+        "bytes": 2007623
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/assets/art159/traps-supplies-a.png",
+        "sha256": "f6f6695c2d10182302736ed16171b87574e3400cc97b69a4f5ffd3116dfb830a",
+        "bytes": 2199589
+      }
+    ]
+  },
+  {
+    "key": "runnerCable193",
+    "iteration": 1,
+    "attempt": 2,
+    "callRecord": "calls/runnerCable193-iteration1-attempt2.json",
+    "status": "blocked-no-image",
+    "prompt": "This is a static visual-depiction request for an existing fictional video-game trap as an unoccupied mechanical art prop. No event, victim, injury, operating instructions or construction instructions are requested. Depict the supplied inert assembly only.\n\nCreate ONE original DEADWALL source-art sprite proposal for the existing mechanism Câble anti-coureurs (runnerCable193), variant 0, mounted on its existing Hérisson support, completely at rest in the armed pose.\n\nREFERENCE CONTRACT: Image 1 is the actual assembled sprite drawn by the UNCHANGED game renderer for this exact mechanism. It is the authority for silhouette, camera/projection, axes, every major part, every connection, relative size, overlap, and position. The aged original materials are already visible in image 1. Keep the assembled design of image 1. Refine materials, not geometry. This is one assembled object, never an exploded diagram or atlas.\n\nCAMERA AND SCALE: Keep the same 2D sprite-plane projection and the same visible surfaces as image 1; do not rotate, mirror, tilt, reinterpret its elevation or rebuild it into a different perspective. Horizontal source X remains horizontal; source Y remains vertical downward. Preserve the full source silhouette and aspect ratio. The support has an authored 1 m by 1 m ground footprint; the native sprite owner is 32 by 32 units, with its drawing clipped to the existing 26 by 26 interior. These constrain its existing relative proportions; they are not permission to make all six silhouettes square. No mechanism height is specified. Do not add tall unseen faces, new supports or a new pedestal.\n\nEXACT ASSEMBLY: Keep the low, broad horizontal two-rail timber-and-rusted-steel base. Keep its four end mounting bands. The mobile1 sliding/hooked crosspiece stands vertically just LEFT of centre, with the small hooked tip pointing LEFT in the lower half. The mobile2 toothed slider sits RIGHT of centre, horizontally, with its existing opposed teeth above and below. The distinctive Canvas193 hardware is TWO slender long vertical hook rails at the left and right positions shown: each has an inward slanted short return at its LOWER end, plus exactly ONE straight horizontal cable joining them above the middle. Preserve those two side uprights and both lower returns; do not shorten them to the wood base. Texture the pale olive-grey schematic hardware as simple dull worn metal/cable while retaining its complete silhouette and exact locations. Preserve the existing Hérisson underlay glimpses. No reel, extra coil, trigger pedal or new jaw.\n\nSTATE AND OWNERSHIP: The source contains the existing Hérisson support beneath one fixed mechanism base, TWO mobile parts frozen in their native armed pose, and its specialized hardware. Keep all visible pieces exactly where the reference places them. Full nominal charges (8) are a state value, not a quantity of loose physical supplies to draw. The assembly is unoccupied and still, with no effects and no UI marks. This is a static source illustration, not an animation replacement.\n\nMATERIALS: Serious grounded repaired survival equipment. Match the original atlas's aged brown timber, dark oxidised steel, restrained iron-red rust, dull bolts and worn grey/olive hardware. Clearly readable existing edges and joins; no ornamental redesign, futuristic equipment, fantasy motifs or excessive new damage. Soft neutral illumination and crisp detailed silhouette. The original flat-colour specialized hardware should become believable material, not a painted annotation or diagram, but its count, topology and placement must remain unchanged.\n\nOUTPUT: Exactly ONE complete isolated mounted mechanism, centred on TRUE transparent RGBA. Preserve every protruding existing part with at least 12 percent clear transparent margin on all four sides. No floor, terrain, base tile, ambient backdrop, coloured matte, cast shadow outside the object, labels, words, numerals, dimensions, watermark, logos, border, reference sheet or additional object. Keep the holes between parts transparent. Native PNG only.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/runnerCable193-v0-armed-mounted.png"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "image_gen.imagegen",
+    "promptIsVerbatim": true,
+    "initiatedAt": "2026-11-17T13:27:06.239Z",
+    "referenceFiles": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/runnerCable193-v0-armed-mounted.png",
+        "sha256": "0d138bff82599041b800d0542cf55d99199f7a3535ee68a627f8b3055de6e6b1",
+        "bytes": 246288
+      }
+    ]
+  },
+  {
+    "key": "siegeBrake193",
+    "iteration": 1,
+    "attempt": 1,
+    "callRecord": "calls/siegeBrake193-iteration1.json",
+    "status": "native-output-received",
+    "prompt": "This is a visual game-art request only: depict one existing, unoccupied and motionless mechanical assembly exactly as shown in the reference.\n\nCreate ONE original DEADWALL source-art sprite proposal for the existing mechanism Frein à chaîne de siège (siegeBrake193), variant 0, mounted on its existing Hérisson support, completely at rest in the armed pose.\n\nREFERENCE CONTRACT: Image 1 is the actual assembled sprite drawn by the UNCHANGED game renderer for this exact mechanism. It is the authority for silhouette, camera/projection, axes, every major part, every connection, relative size, overlap, and position. The original material textures and colour are already visible in image 1. Keep the assembled design of image 1. Refine materials, not geometry. This is one assembled object, never an exploded diagram or atlas.\n\nCAMERA AND SCALE: Keep the same 2D sprite-plane projection and the same visible surfaces as image 1; do not rotate, mirror, tilt, reinterpret its elevation or rebuild it into a different perspective. Horizontal source X remains horizontal; source Y remains vertical downward. Preserve the full source silhouette and aspect ratio. The support has an authored 1 m by 1 m ground footprint; the native sprite owner is 32 by 32 units, with its drawing clipped to the existing 26 by 26 interior. These constrain its existing relative proportions; they are not permission to make all six silhouettes square. No mechanism height is specified. Do not add tall unseen faces, new supports or a new pedestal.\n\nEXACT ASSEMBLY: Keep the existing counterweight-family assembly and its broad timber base with two outer steel rails. Preserve the central triangular-braced pivot tower, its circular upper eye, the angled long narrow lever running from a circular eye in the lower-left/centre area up toward the RIGHT, and the existing hanging rectangular riveted counterweight at the RIGHT with its short vertical chain extending toward the TOP. Keep the same overlaps, pivot placement, lever angle and attached chain length. The distinctive Canvas193 hardware is exactly ONE small muted grey-olive rectangular brake block at the UPPER LEFT, and exactly FOUR connected downward V-shaped chain/link sections forming a short horizontal zigzag across the LOWER centre. Texture that block and four-link zigzag as worn physical material with the same silhouette and placement. Preserve the underlying Hérisson support glimpses. No extra weight, pendulum swing, pulley wheel, extra long chain, winch, motor or loose stock.\n\nSTATE AND OWNERSHIP: The source contains the existing Hérisson support beneath one fixed mechanism base, TWO mobile parts frozen in their native armed pose, and its specialized hardware. Keep all visible pieces exactly where the reference places them. Full nominal charges (2) are a state value, not a quantity of loose physical supplies to draw. No action, no target, no wound, no movement, no trigger flash, no sparks, no smoke, no charged glow, no UI badge or quantity marker. This is a static source illustration, not an animation replacement.\n\nMATERIALS: Serious grounded repaired survival equipment. Match the original atlas's aged brown timber, dark oxidised steel, restrained iron-red rust, dull bolts and worn grey/olive hardware. Clearly readable existing edges and joins; no ornamental redesign, futuristic equipment, fantasy motifs or excessive new damage. Soft neutral illumination and crisp detailed silhouette. The original flat-colour specialized hardware should become believable material, not a painted annotation or diagram, but its count, topology and placement must remain unchanged.\n\nOUTPUT: Exactly ONE complete isolated mounted mechanism, centred on TRUE transparent RGBA. Preserve every protruding existing part with at least 12 percent clear transparent margin on all four sides. No floor, terrain, base tile, ambient backdrop, coloured matte, cast shadow outside the object, labels, words, numerals, dimensions, watermark, logos, border, reference sheet or additional object. Keep the holes between parts transparent. Native PNG only.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/siegeBrake193-v0-armed-mounted.png"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "image_gen.imagegen",
+    "promptIsVerbatim": true,
+    "initiatedAt": "2026-11-17T13:28:51.005Z",
+    "referenceFiles": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/siegeBrake193-v0-armed-mounted.png",
+        "sha256": "1384259fe55135898b545458926edf8113d488fe645a63f71c3a1c067e2b3e20",
+        "bytes": 370429
+      }
+    ]
+  },
+  {
+    "key": "enduranceRack193",
+    "iteration": 1,
+    "attempt": 1,
+    "callRecord": "calls/enduranceRack193-iteration1.json",
+    "status": "native-output-received",
+    "prompt": "This is a visual game-art request only: depict one existing, unoccupied and motionless mechanical assembly exactly as shown in the reference.\n\nCreate ONE original DEADWALL source-art sprite proposal for the existing mechanism Râtelier de dents de relève (enduranceRack193), variant 0, mounted on its existing Hérisson support, completely at rest in the armed pose.\n\nREFERENCE CONTRACT: Image 1 is the actual assembled sprite drawn by the UNCHANGED game renderer for this exact mechanism. It is the authority for silhouette, camera/projection, axes, every major part, every connection, relative size, overlap, and position. The original material textures and colour are already visible in image 1. Keep the assembled design of image 1. Refine materials, not geometry. This is one assembled object, never an exploded diagram or atlas.\n\nCAMERA AND SCALE: Keep the same 2D sprite-plane projection and the same visible surfaces as image 1; do not rotate, mirror, tilt, reinterpret its elevation or rebuild it into a different perspective. Horizontal source X remains horizontal; source Y remains vertical downward. Preserve the full source silhouette and aspect ratio. The support has an authored 1 m by 1 m ground footprint; the native sprite owner is 32 by 32 units, with its drawing clipped to the existing 26 by 26 interior. These constrain its existing relative proportions; they are not permission to make all six silhouettes square. No mechanism height is specified. Do not add tall unseen faces, new supports or a new pedestal.\n\nEXACT ASSEMBLY: Keep the ratchet assembly: a timber-and-steel base with two side rails, the central roller opening and the broad lower crossbar. The first mobile piece is the existing long triangular toothed ratchet blade pivoting from its circular eye on the LEFT and sloping gently up toward the RIGHT. The second mobile piece is the existing compact coiled spring with its hooked end at the RIGHT of centre. Preserve their overlap, exact positions and armed angles. The distinctive Canvas193 hardware occupies the UPPER part of the reference: exactly ONE thin rectangular rack frame containing exactly FOUR evenly spaced rectangular hanging teeth. Give that pale grey-brown frame and those four teeth worn metal texture without adding teeth or filling their intervening gaps. Preserve the side glimpses of the Hérisson support beneath. No spare rack, loose teeth, extra stock, motor or duplicated spring.\n\nSTATE AND OWNERSHIP: The source contains the existing Hérisson support beneath one fixed mechanism base, TWO mobile parts frozen in their native armed pose, and its specialized hardware. Keep all visible pieces exactly where the reference places them. Full nominal charges (18) are a state value, not a quantity of loose physical supplies to draw. No action, no target, no wound, no movement, no trigger flash, no sparks, no smoke, no charged glow, no UI badge or quantity marker. This is a static source illustration, not an animation replacement.\n\nMATERIALS: Serious grounded repaired survival equipment. Match the original atlas's aged brown timber, dark oxidised steel, restrained iron-red rust, dull bolts and worn grey/olive hardware. Clearly readable existing edges and joins; no ornamental redesign, futuristic equipment, fantasy motifs or excessive new damage. Soft neutral illumination and crisp detailed silhouette. The original flat-colour specialized hardware should become believable material, not a painted annotation or diagram, but its count, topology and placement must remain unchanged.\n\nOUTPUT: Exactly ONE complete isolated mounted mechanism, centred on TRUE transparent RGBA. Preserve every protruding existing part with at least 12 percent clear transparent margin on all four sides. No floor, terrain, base tile, ambient backdrop, coloured matte, cast shadow outside the object, labels, words, numerals, dimensions, watermark, logos, border, reference sheet or additional object. Keep the holes between parts transparent. Native PNG only.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/enduranceRack193-v0-armed-mounted.png"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "image_gen.imagegen",
+    "promptIsVerbatim": true,
+    "initiatedAt": "2026-11-17T13:31:04.701Z",
+    "referenceFiles": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/enduranceRack193-v0-armed-mounted.png",
+        "sha256": "0f32ac82d8235ed472863a84405dc25d37ced14c751a5157e235fd18d7d04172",
+        "bytes": 371491
+      }
+    ]
+  },
+  {
+    "key": "quickCable193",
+    "iteration": 1,
+    "attempt": 1,
+    "callRecord": "calls/quickCable193-iteration1.json",
+    "status": "native-output-received",
+    "prompt": "This is a visual game-art request only: depict one existing, unoccupied and motionless mechanical assembly exactly as shown in the reference.\n\nCreate ONE original DEADWALL source-art sprite proposal for the existing mechanism Bobines de couverture rapide (quickCable193), variant 0, mounted on its existing Hérisson support, completely at rest in the armed pose.\n\nREFERENCE CONTRACT: Image 1 is the actual assembled sprite drawn by the UNCHANGED game renderer for this exact mechanism. It is the authority for silhouette, camera/projection, axes, every major part, every connection, relative size, overlap, and position. The original material textures and colour are already visible in image 1. Keep the assembled design of image 1. Refine materials, not geometry. This is one assembled object, never an exploded diagram or atlas.\n\nCAMERA AND SCALE: Keep the same 2D sprite-plane projection and the same visible surfaces as image 1; do not rotate, mirror, tilt, reinterpret its elevation or rebuild it into a different perspective. Horizontal source X remains horizontal; source Y remains vertical downward. Preserve the full source silhouette and aspect ratio. The support has an authored 1 m by 1 m ground footprint; the native sprite owner is 32 by 32 units, with its drawing clipped to the existing 26 by 26 interior. These constrain its existing relative proportions; they are not permission to make all six silhouettes square. No mechanism height is specified. Do not add tall unseen faces, new supports or a new pedestal.\n\nEXACT ASSEMBLY: Keep the low broad horizontal twin-rail timber-and-rusted-steel base with the same four mounting bands. Keep the vertical sliding/hooked crosspiece LEFT of centre, its hook pointing LEFT, and the compact horizontal toothed slider RIGHT of centre. The distinctive Canvas193 hardware is exactly TWO circular annular reel shapes, one at each end on the horizontal centreline, and exactly ONE straight horizontal cable along the LOWER edge between their X positions. The two rings must remain visibly hollow: do not turn them into large solid disks, stacked loose coils or extra stock. Texture the existing pale tan-grey annular rims and the single lower cable as dull worn material without changing their outline, thickness, centres or spacing. Keep the lower cable separate from the centreline and preserve the existing underlay glimpses. No long vertical hook rails, no hanging ropes, no third reel, motor or new hardware.\n\nSTATE AND OWNERSHIP: The source contains the existing Hérisson support beneath one fixed mechanism base, TWO mobile parts frozen in their native armed pose, and its specialized hardware. Keep all visible pieces exactly where the reference places them. Full nominal charges (12) are a state value, not a quantity of loose physical supplies to draw. No action, no target, no wound, no movement, no trigger flash, no sparks, no smoke, no charged glow, no UI badge or quantity marker. This is a static source illustration, not an animation replacement.\n\nMATERIALS: Serious grounded repaired survival equipment. Match the original atlas's aged brown timber, dark oxidised steel, restrained iron-red rust, dull bolts and worn grey/olive hardware. Clearly readable existing edges and joins; no ornamental redesign, futuristic equipment, fantasy motifs or excessive new damage. Soft neutral illumination and crisp detailed silhouette. The original flat-colour specialized hardware should become believable material, not a painted annotation or diagram, but its count, topology and placement must remain unchanged.\n\nOUTPUT: Exactly ONE complete isolated mounted mechanism, centred on TRUE transparent RGBA. Preserve every protruding existing part with at least 12 percent clear transparent margin on all four sides. No floor, terrain, base tile, ambient backdrop, coloured matte, cast shadow outside the object, labels, words, numerals, dimensions, watermark, logos, border, reference sheet or additional object. Keep the holes between parts transparent. Native PNG only.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/quickCable193-v0-armed-mounted.png"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "image_gen.imagegen",
+    "promptIsVerbatim": true,
+    "initiatedAt": "2026-11-17T13:32:53.027Z",
+    "referenceFiles": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/quickCable193-v0-armed-mounted.png",
+        "sha256": "1ded2ebb7510a66295f44abf53f3f5f80a57d6aad0730b4804c842d9791d2137",
+        "bytes": 239385
+      }
+    ]
+  },
+  {
+    "key": "breachClamp193",
+    "iteration": 1,
+    "attempt": 1,
+    "callRecord": "calls/breachClamp193-iteration1.json",
+    "status": "native-output-received",
+    "prompt": "This is a visual game-art request only: depict one existing, unoccupied and motionless mechanical assembly exactly as shown in the reference.\n\nCreate ONE original DEADWALL source-art sprite proposal for the existing mechanism Mâchoire anti-briseurs (breachClamp193), variant 0, mounted on its existing Hérisson support, completely at rest in the armed pose.\n\nREFERENCE CONTRACT: Image 1 is the actual assembled sprite drawn by the UNCHANGED game renderer for this exact mechanism. It is the authority for silhouette, camera/projection, axes, every major part, every connection, relative size, overlap, and position. The original material textures and colour are already visible in image 1. Keep the assembled design of image 1. Refine materials, not geometry. This is one assembled object, never an exploded diagram or atlas.\n\nCAMERA AND SCALE: Keep the same 2D sprite-plane projection and the same visible surfaces as image 1; do not rotate, mirror, tilt, reinterpret its elevation or rebuild it into a different perspective. Horizontal source X remains horizontal; source Y remains vertical downward. Preserve the full source silhouette and aspect ratio. The support has an authored 1 m by 1 m ground footprint; the native sprite owner is 32 by 32 units, with its drawing clipped to the existing 26 by 26 interior. These constrain its existing relative proportions; they are not permission to make all six silhouettes square. No mechanism height is specified. Do not add tall unseen faces, new supports or a new pedestal.\n\nEXACT ASSEMBLY: Keep the approximately square timber frame with a clear central opening, four steel corner bands, and its two lateral hinge drums. Preserve the TWO inward-facing toothed curved jaw plates, their circular hinge eyes in the lower left and lower right areas, their current fixed armed pose, and the central negative space. Do not open or close the jaws relative to reference 1. The distinctive Canvas193 hardware is FOUR small rectangular damper blocks, one near each corner position shown, and exactly TWO thin diagonal members crossing in an X across the frame, joining opposite damper positions. Make the tan-grey blocks and the X members look like worn material with exactly the same positions, widths and connections. Preserve the visible Hérisson underlay. No additional central trigger plate, third jaw, motor, hydraulic tank or new brace.\n\nSTATE AND OWNERSHIP: The source contains the existing Hérisson support beneath one fixed mechanism base, TWO mobile parts frozen in their native armed pose, and its specialized hardware. Keep all visible pieces exactly where the reference places them. Full nominal charges (5) are a state value, not a quantity of loose physical supplies to draw. No action, no target, no wound, no movement, no trigger flash, no sparks, no smoke, no charged glow, no UI badge or quantity marker. This is a static source illustration, not an animation replacement.\n\nMATERIALS: Serious grounded repaired survival equipment. Match the original atlas's aged brown timber, dark oxidised steel, restrained iron-red rust, dull bolts and worn grey/olive hardware. Clearly readable existing edges and joins; no ornamental redesign, futuristic equipment, fantasy motifs or excessive new damage. Soft neutral illumination and crisp detailed silhouette. The original flat-colour specialized hardware should become believable material, not a painted annotation or diagram, but its count, topology and placement must remain unchanged.\n\nOUTPUT: Exactly ONE complete isolated mounted mechanism, centred on TRUE transparent RGBA. Preserve every protruding existing part with at least 12 percent clear transparent margin on all four sides. No floor, terrain, base tile, ambient backdrop, coloured matte, cast shadow outside the object, labels, words, numerals, dimensions, watermark, logos, border, reference sheet or additional object. Keep the holes between parts transparent. Native PNG only.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/breachClamp193-v0-armed-mounted.png"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "image_gen.imagegen",
+    "promptIsVerbatim": true,
+    "initiatedAt": "2026-11-17T13:33:50.260Z",
+    "referenceFiles": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/breachClamp193-v0-armed-mounted.png",
+        "sha256": "ec11451ca852aaa55d362a963ab417df3fb0043cb6f1c28f97c552d2b6111bb3",
+        "bytes": 474648
+      }
+    ]
+  },
+  {
+    "key": "shieldTongs193",
+    "iteration": 1,
+    "attempt": 1,
+    "callRecord": "calls/shieldTongs193-iteration1.json",
+    "status": "native-output-received",
+    "prompt": "This is a visual game-art request only: depict one existing, unoccupied and motionless mechanical assembly exactly as shown in the reference.\n\nCreate ONE original DEADWALL source-art sprite proposal for the existing mechanism Pinces anti-protections (shieldTongs193), variant 0, mounted on its existing Hérisson support, completely at rest in the armed pose.\n\nREFERENCE CONTRACT: Image 1 is the actual assembled sprite drawn by the UNCHANGED game renderer for this exact mechanism. It is the authority for silhouette, camera/projection, axes, every major part, every connection, relative size, overlap, and position. The original material textures and colour are already visible in image 1. Keep the assembled design of image 1. Refine materials, not geometry. This is one assembled object, never an exploded diagram or atlas.\n\nCAMERA AND SCALE: Keep the same 2D sprite-plane projection and the same visible surfaces as image 1; do not rotate, mirror, tilt, reinterpret its elevation or rebuild it into a different perspective. Horizontal source X remains horizontal; source Y remains vertical downward. Preserve the full source silhouette and aspect ratio. The support has an authored 1 m by 1 m ground footprint; the native sprite owner is 32 by 32 units, with its drawing clipped to the existing 26 by 26 interior. These constrain its existing relative proportions; they are not permission to make all six silhouettes square. No mechanism height is specified. Do not add tall unseen faces, new supports or a new pedestal.\n\nEXACT ASSEMBLY: Keep the approximately square timber frame, its four corner bands, two side hinge drums and clear central opening. Preserve exactly TWO inward-facing toothed curved jaw plates and the two circular pivot eyes, in the same fixed armed pose and overlap as reference 1. The distinctive Canvas193 hardware is exactly TWO broad straight metal tong bars. The LEFT bar runs from the lower-left corner area toward the upper-left inner area; the RIGHT bar mirrors it from the lower-right area toward the upper-right inner area. They lean inward toward the top, but remain separate and do NOT cross or connect over the central gap. Texture their muted blue-grey/olive-grey surfaces as worn metal while keeping their width, ends and placement. Preserve the Hérisson support underneath. No shield held in the jaws, target, third jaw, X brace, added spring or central trigger plate.\n\nSTATE AND OWNERSHIP: The source contains the existing Hérisson support beneath one fixed mechanism base, TWO mobile parts frozen in their native armed pose, and its specialized hardware. Keep all visible pieces exactly where the reference places them. Full nominal charges (4) are a state value, not a quantity of loose physical supplies to draw. No action, no target, no wound, no movement, no trigger flash, no sparks, no smoke, no charged glow, no UI badge or quantity marker. This is a static source illustration, not an animation replacement.\n\nMATERIALS: Serious grounded repaired survival equipment. Match the original atlas's aged brown timber, dark oxidised steel, restrained iron-red rust, dull bolts and worn grey/olive hardware. Clearly readable existing edges and joins; no ornamental redesign, futuristic equipment, fantasy motifs or excessive new damage. Soft neutral illumination and crisp detailed silhouette. The original flat-colour specialized hardware should become believable material, not a painted annotation or diagram, but its count, topology and placement must remain unchanged.\n\nOUTPUT: Exactly ONE complete isolated mounted mechanism, centred on TRUE transparent RGBA. Preserve every protruding existing part with at least 12 percent clear transparent margin on all four sides. No floor, terrain, base tile, ambient backdrop, coloured matte, cast shadow outside the object, labels, words, numerals, dimensions, watermark, logos, border, reference sheet or additional object. Keep the holes between parts transparent. Native PNG only.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/shieldTongs193-v0-armed-mounted.png"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "image_gen.imagegen",
+    "promptIsVerbatim": true,
+    "initiatedAt": "2026-11-17T13:34:59.296Z",
+    "referenceFiles": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/shieldTongs193-v0-armed-mounted.png",
+        "sha256": "c9f045524b3306431d7c3b71b8ae85f5f75db1d8b6c3fd11e77f830d5891e53f",
+        "bytes": 508272
+      }
+    ]
+  },
+  {
+    "key": "enduranceRack193",
+    "iteration": 2,
+    "attempt": 1,
+    "callRecord": "calls/enduranceRack193-iteration2.json",
+    "status": "native-output-received",
+    "prompt": "Edit image 1, an existing static DEADWALL enduranceRack193 game-art source, using image 2 as the authoritative native assembled reference. Make ONE precise layer-order correction only. The lower horizontal rail of the upper rectangular four-tooth rack must be a single fully continuous straight foreground member from its left vertical side to its right vertical side. It lies IN FRONT OF the angled toothed ratchet blade, exactly as image 2 shows. Wherever the blade and rack lower rail overlap, the rack lower rail covers the blade. Do not make the blade break, cut through or sit on top of that horizontal rack rail. Preserve the actual underlying angled blade; simply depict the correct existing overlap.\n\nKeep all other geometry, camera, axes, proportions, position, materials and existing wear from image 1 unchanged: four rectangular hanging rack teeth with their open gaps, timber base, side rails, left circular blade pivot, right coiled spring and its hooked end, and the glimpses of the Hérisson support underneath. Keep the complete assembly still and unoccupied. Add no hardware or contents and introduce no new action.\n\nDeliver ONE complete isolated assembled sprite on genuine transparent RGBA, holes transparent, with generous clear margin around every protrusion. No floor, backdrop, shadow beyond the object, text, labels or additional objects. Preserve the original native PNG of image 1 as history; this output is a new native PNG version.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/generated_images/exec-1b41c9ee-d97a-4c75-9bc6-e92c7d8524d6.png",
+      "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/enduranceRack193-v0-armed-mounted.png"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "image_gen.imagegen",
+    "promptIsVerbatim": true,
+    "initiatedAt": "2026-11-17T13:37:14.583Z",
+    "referenceFiles": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/generated_images/exec-1b41c9ee-d97a-4c75-9bc6-e92c7d8524d6.png",
+        "sha256": "f256b85ff0dadcb7679ec68fdf59c5ba144c0b9c26687c550c2db9e2c38c9431",
+        "bytes": 1058543
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/enduranceRack193-v0-armed-mounted.png",
+        "sha256": "0f32ac82d8235ed472863a84405dc25d37ced14c751a5157e235fd18d7d04172",
+        "bytes": 371491
+      }
+    ]
+  },
+  {
+    "key": "quickCable193",
+    "iteration": 2,
+    "attempt": 1,
+    "callRecord": "calls/quickCable193-iteration2.json",
+    "status": "native-output-received",
+    "prompt": "Edit image 1, the existing static DEADWALL quickCable193 mechanical game-art sprite. Perform a targeted background correction: remove the entire soft brown haze, dark ambient backdrop and diffuse surrounding shadow from outside the equipment. The space outside the actual hard silhouette, and all genuinely open gaps between its parts, must be completely clear transparent alpha with no coloured glow or matte. This is an isolated RGBA sprite, not equipment photographed on a dark background.\n\nKeep the complete mechanism itself unchanged: the same horizontal timber twin-rail base, four end mounting bands, vertical hooked slider left of centre, small toothed slider right of centre, exactly TWO hollow circular metal rings at the left and right ends on the centreline, and exactly ONE straight lower horizontal metal/cable bar. Preserve the exact colours, worn timber, rust, bolts, component topology, proportions, overlaps and same camera/axes. Image 2 is the native canonical assembly, supplied only to lock that existing layout. No extra parts, no target, no action and no stock.\n\nPlace the complete isolated object centrally with at least 15 percent clear transparent margin to the outermost piece at every canvas edge, without cropping any hardware. Produce a new native PNG with true RGBA transparency, no floor, shadow outside the object, text, grid, frame or additional object. Do not alter or replace the original input file.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/generated_images/exec-f9bf07db-dd43-4928-aa98-0ca4409644cc.png",
+      "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/quickCable193-v0-armed-mounted.png"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "image_gen.imagegen",
+    "promptIsVerbatim": true,
+    "initiatedAt": "2026-11-17T13:39:22.217Z",
+    "referenceFiles": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/generated_images/exec-f9bf07db-dd43-4928-aa98-0ca4409644cc.png",
+        "sha256": "11247bda33f27be432ef17a86c88c2409c084ebf6b7cd20af36f5b4b360f82d2",
+        "bytes": 2039285
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/quickCable193-v0-armed-mounted.png",
+        "sha256": "1ded2ebb7510a66295f44abf53f3f5f80a57d6aad0730b4804c842d9791d2137",
+        "bytes": 239385
+      }
+    ]
+  }
+]

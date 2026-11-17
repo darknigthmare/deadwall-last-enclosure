@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "status": "frozen_for_root_independent_review_and_assembly",
+  "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "keys": [
+    "garden-shed",
+    "rain-barrel"
+  ],
+  "generationsRetained": 2,
+  "allNativeCopiesByteIdentical": true,
+  "exactPromptsAndReferencesVerified": true,
+  "commonFilesModified": false,
+  "files": [
+    {
+      "path": "README-shed-barrel.md",
+      "sha256": "cd8fae754323c9f6ab6856857079cd15aabbbaf95022bc4a98040167728c3ecb",
+      "bytes": 3074
+    },
+    {
+      "path": "alpha-shed-barrel.json",
+      "sha256": "c714041211bde9566a86fdf89a1ad6551d38e54153b8602fcd2758c0dbbafa9a",
+      "bytes": 13156
+    },
+    {
+      "path": "history-shed-barrel.json",
+      "sha256": "259d84177d8a1b86db1b80e67c532d9791c5b1a7e6d54c40547b1fbe87ed4213",
+      "bytes": 11219
+    },
+    {
+      "path": "inputs-shed-barrel/garden-shed-iteration-01.json",
+      "sha256": "c3020f1ce90f7659c6895df42d3d5648363d569335327e69af5928c2ea70c3cf",
+      "bytes": 2812
+    },
+    {
+      "path": "inputs-shed-barrel/rain-barrel-iteration-01.json",
+      "sha256": "adeca18c9cabc88a237ee51059adfb2dc23cb276f988f7fff76a1049a2c2666e",
+      "bytes": 2856
+    },
+    {
+      "path": "outputs-shed-barrel/garden-shed-iteration-01.png",
+      "sha256": "62f78aac248efeb594ab1882170d6d91a2e64014cd8a44d283901de94bdbf07e",
+      "bytes": 1377572
+    },
+    {
+      "path": "outputs-shed-barrel/rain-barrel-iteration-01.png",
+      "sha256": "965fbd60ba7dbb321e84545e31fb6fd350da931573faffe9c10a1bf9567fb5d0",
+      "bytes": 1244816
+    },
+    {
+      "path": "responses-shed-barrel/garden-shed-iteration-01.json",
+      "sha256": "e1ff551bca082ebcaa34d82aab7e45a4a5cd0942f6803d91042936fb2fd84d23",
+      "bytes": 697
+    },
+    {
+      "path": "responses-shed-barrel/rain-barrel-iteration-01.json",
+      "sha256": "3ccf499d940c0a29e071e2595598478d443d8906f00c2230b7a212178c8a2a09",
+      "bytes": 697
+    },
+    {
+      "path": "results-shed-barrel.json",
+      "sha256": "259d84177d8a1b86db1b80e67c532d9791c5b1a7e6d54c40547b1fbe87ed4213",
+      "bytes": 11219
+    },
+    {
+      "path": "review-shed-barrel.json",
+      "sha256": "09d1909a4a6553042ce1ff26b3f6e937e129d07d83e4f5289825f9fdcd82090b",
+      "bytes": 16637
+    }
+  ]
+}

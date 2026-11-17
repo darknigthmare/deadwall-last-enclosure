@@ -1,0 +1,2187 @@
+{
+  "version": "1.53.0",
+  "generator": "OpenAI Image Gen integrated tool",
+  "spriteCount": 112,
+  "familyCount": 55,
+  "pixelEdits": false,
+  "images": [
+    {
+      "id": "worldPropsScenery153",
+      "runtime": "assets/art153/props-scenery.png",
+      "original": "/workspace/generated_images/exec-bd731cb5-ce93-4822-b8d8-eb5af5d5e019.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "sha256": "4e77a1f022c46fb08f6d5031f7f2f55e480fc9d61b530225e72af4dbc5b2640a",
+      "bytes": 2136619,
+      "pixelEdits": false,
+      "sprites": {
+        "tent:0": [
+          76,
+          49,
+          223,
+          187
+        ],
+        "tent:1": [
+          436,
+          66,
+          277,
+          181
+        ],
+        "container:0": [
+          849,
+          71,
+          208,
+          166
+        ],
+        "container:1": [
+          1238,
+          40,
+          222,
+          214
+        ],
+        "waterTank:0": [
+          120,
+          288,
+          148,
+          237
+        ],
+        "waterTank:1": [
+          468,
+          338,
+          230,
+          183
+        ],
+        "powerPylon:0": [
+          898,
+          281,
+          118,
+          241
+        ],
+        "powerPylon:1": [
+          1259,
+          272,
+          163,
+          249
+        ],
+        "concreteBarricade:0": [
+          80,
+          579,
+          238,
+          167
+        ],
+        "concreteBarricade:1": [
+          449,
+          603,
+          262,
+          143
+        ],
+        "streetLamp:0": [
+          906,
+          557,
+          139,
+          190
+        ],
+        "streetLamp:1": [
+          1242,
+          560,
+          207,
+          179
+        ],
+        "ambulance:0": [
+          43,
+          779,
+          309,
+          190
+        ],
+        "ambulance:1": [
+          427,
+          777,
+          312,
+          189
+        ],
+        "bus:0": [
+          819,
+          793,
+          277,
+          172
+        ],
+        "bus:1": [
+          1189,
+          797,
+          302,
+          165
+        ]
+      }
+    },
+    {
+      "id": "worldPropsLights153",
+      "runtime": "assets/art153/props-lights.png",
+      "original": "/workspace/generated_images/exec-7ac3f832-185d-4e95-a5d7-101182608c5b.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "sha256": "ea6038285dabc9b16fe4ff5c2602b90dbf7b56330b77b748f279698ea93ef172",
+      "bytes": 2025966,
+      "pixelEdits": false,
+      "sprites": {
+        "branch:0": [
+          57,
+          33,
+          291,
+          216
+        ],
+        "branch:1": [
+          462,
+          35,
+          265,
+          214
+        ],
+        "torch:0": [
+          838,
+          22,
+          262,
+          225
+        ],
+        "torch:1": [
+          1235,
+          25,
+          258,
+          223
+        ],
+        "campfire:0": [
+          48,
+          282,
+          295,
+          222
+        ],
+        "campfire:1": [
+          454,
+          260,
+          258,
+          251
+        ],
+        "flare:0": [
+          846,
+          287,
+          225,
+          196
+        ],
+        "flare:1": [
+          1251,
+          285,
+          204,
+          202
+        ],
+        "chemlight:0": [
+          79,
+          523,
+          229,
+          216
+        ],
+        "chemlight:1": [
+          453,
+          518,
+          252,
+          232
+        ],
+        "lantern:0": [
+          885,
+          493,
+          168,
+          262
+        ],
+        "lantern:1": [
+          1263,
+          502,
+          179,
+          245
+        ],
+        "worklight:0": [
+          76,
+          758,
+          236,
+          244
+        ],
+        "worklight:1": [
+          454,
+          769,
+          249,
+          233
+        ],
+        "beacon:0": [
+          864,
+          789,
+          206,
+          205
+        ],
+        "beacon:1": [
+          1236,
+          760,
+          237,
+          234
+        ]
+      }
+    },
+    {
+      "id": "worldPropsKits153",
+      "runtime": "assets/art153/props-kits.png",
+      "original": "/workspace/generated_images/exec-917ef5c9-c3c9-4b07-b65e-71822de569e3.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "sha256": "71a7f2a513a3b611cd1ef261c41243fd348ae36acc993c2587dbb8fb7cd4d707",
+      "bytes": 2734148,
+      "pixelEdits": false,
+      "sprites": {
+        "essentialLight:0": [
+          46,
+          32,
+          324,
+          236
+        ],
+        "essentialLight:1": [
+          422,
+          46,
+          318,
+          219
+        ],
+        "essentialAid:0": [
+          801,
+          42,
+          319,
+          230
+        ],
+        "essentialAid:1": [
+          1168,
+          52,
+          336,
+          221
+        ],
+        "essentialBrace:0": [
+          28,
+          315,
+          354,
+          202
+        ],
+        "essentialBrace:1": [
+          418,
+          308,
+          348,
+          219
+        ],
+        "essentialDecoy:0": [
+          848,
+          290,
+          251,
+          225
+        ],
+        "essentialDecoy:1": [
+          1197,
+          307,
+          285,
+          208
+        ],
+        "barricadePlanks:0": [
+          25,
+          557,
+          358,
+          193
+        ],
+        "barricadePlanks:1": [
+          412,
+          555,
+          357,
+          199
+        ],
+        "barricadeSheet:0": [
+          796,
+          541,
+          342,
+          207
+        ],
+        "barricadeSheet:1": [
+          1162,
+          545,
+          358,
+          208
+        ],
+        "barricadeBraced:0": [
+          36,
+          780,
+          336,
+          198
+        ],
+        "barricadeBraced:1": [
+          425,
+          778,
+          340,
+          200
+        ],
+        "solar:0": [
+          862,
+          747,
+          203,
+          238
+        ],
+        "solar:1": [
+          1190,
+          754,
+          301,
+          257
+        ]
+      }
+    },
+    {
+      "id": "worldPropsOperations153",
+      "runtime": "assets/art153/props-operations.png",
+      "original": "/workspace/generated_images/exec-571197e3-91ae-4950-9ca9-94b2fba5e8b6.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "sha256": "fecbf4a521c89607df7b08ee39bdecff7d0f7a06b1e675ae4e3113405cf78a0a",
+      "bytes": 2677626,
+      "pixelEdits": false,
+      "sprites": {
+        "cache:0": [
+          34,
+          30,
+          315,
+          213
+        ],
+        "cache:1": [
+          419,
+          34,
+          299,
+          207
+        ],
+        "cargo:0": [
+          780,
+          38,
+          331,
+          207
+        ],
+        "cargo:1": [
+          1174,
+          23,
+          345,
+          228
+        ],
+        "routeMarker:0": [
+          164,
+          269,
+          136,
+          218
+        ],
+        "routeMarker:1": [
+          454,
+          254,
+          180,
+          247
+        ],
+        "bedroll:0": [
+          733,
+          293,
+          391,
+          205
+        ],
+        "bedroll:1": [
+          1166,
+          297,
+          351,
+          189
+        ],
+        "tarp:0": [
+          22,
+          493,
+          334,
+          258
+        ],
+        "tarp:1": [
+          362,
+          499,
+          402,
+          244
+        ],
+        "ammoBox:0": [
+          820,
+          544,
+          250,
+          167
+        ],
+        "ammoBox:1": [
+          1145,
+          572,
+          371,
+          131
+        ],
+        "repairKit:0": [
+          30,
+          768,
+          322,
+          199
+        ],
+        "repairKit:1": [
+          396,
+          751,
+          367,
+          226
+        ],
+        "casualtyBag:0": [
+          785,
+          725,
+          336,
+          265
+        ],
+        "casualtyBag:1": [
+          1154,
+          746,
+          350,
+          235
+        ]
+      }
+    },
+    {
+      "id": "worldPropsResources153",
+      "runtime": "assets/art153/props-resources.png",
+      "original": "/workspace/generated_images/exec-831ce974-a71b-4e39-93e1-fb538ac9de8e.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "sha256": "84e5fc975a1e1cb45ea123d16e77f4a252f87376d9b3893a4614cc0b30a9b66f",
+      "bytes": 2912437,
+      "pixelEdits": false,
+      "sprites": {
+        "sedan:0": [
+          112,
+          6,
+          168,
+          299
+        ],
+        "sedan:1": [
+          481,
+          7,
+          171,
+          293
+        ],
+        "scrap:0": [
+          780,
+          37,
+          349,
+          231
+        ],
+        "scrap:1": [
+          1166,
+          19,
+          349,
+          260
+        ],
+        "fuel:0": [
+          74,
+          313,
+          239,
+          189
+        ],
+        "fuel:1": [
+          434,
+          312,
+          267,
+          191
+        ],
+        "crops:0": [
+          776,
+          304,
+          330,
+          205
+        ],
+        "crops:1": [
+          1164,
+          319,
+          355,
+          167
+        ],
+        "supplies:0": [
+          34,
+          518,
+          321,
+          221
+        ],
+        "supplies:1": [
+          442,
+          526,
+          248,
+          209
+        ],
+        "utilityTruck:0": [
+          756,
+          535,
+          362,
+          211
+        ],
+        "utilityTruck:1": [
+          1169,
+          504,
+          352,
+          251
+        ],
+        "tanker:0": [
+          8,
+          753,
+          375,
+          240
+        ],
+        "tanker:1": [
+          409,
+          761,
+          354,
+          230
+        ],
+        "scrap:2": [
+          802,
+          766,
+          325,
+          241
+        ],
+        "scrap:3": [
+          1160,
+          759,
+          359,
+          248
+        ]
+      }
+    },
+    {
+      "id": "worldPropsRoad153",
+      "runtime": "assets/art153/props-road.png",
+      "original": "/workspace/generated_images/exec-ff8e73f7-e81c-49d9-9989-89f81b90625c.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "sha256": "05c358b50f94e3e8d5696b1ed4828e14c0d66f63b88448bfb137c9efe8219155",
+      "bytes": 2372891,
+      "pixelEdits": false,
+      "sprites": {
+        "cone:0": [
+          93,
+          8,
+          184,
+          245
+        ],
+        "cone:1": [
+          489,
+          68,
+          197,
+          181
+        ],
+        "roadSign:0": [
+          871,
+          9,
+          199,
+          247
+        ],
+        "roadSign:1": [
+          1274,
+          7,
+          160,
+          251
+        ],
+        "roadBarrier:0": [
+          56,
+          283,
+          268,
+          204
+        ],
+        "roadBarrier:1": [
+          414,
+          268,
+          333,
+          229
+        ],
+        "bollard:0": [
+          909,
+          289,
+          110,
+          195
+        ],
+        "bollard:1": [
+          1297,
+          261,
+          110,
+          245
+        ],
+        "tirePile:0": [
+          38,
+          523,
+          308,
+          203
+        ],
+        "tirePile:1": [
+          436,
+          506,
+          302,
+          229
+        ],
+        "luggage:0": [
+          813,
+          529,
+          301,
+          202
+        ],
+        "luggage:1": [
+          1185,
+          526,
+          325,
+          212
+        ],
+        "shoppingCart:0": [
+          49,
+          740,
+          275,
+          272
+        ],
+        "shoppingCart:1": [
+          468,
+          742,
+          212,
+          263
+        ],
+        "pallet:0": [
+          789,
+          754,
+          338,
+          250
+        ],
+        "pallet:1": [
+          1186,
+          764,
+          321,
+          235
+        ]
+      }
+    },
+    {
+      "id": "worldPropsYard153",
+      "runtime": "assets/art153/props-yard.png",
+      "original": "/workspace/generated_images/exec-705178af-7982-4d98-bdf5-4c45808cd216.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "sha256": "ca1039feaf685e05341bb8b20da56049de409dbf11a3450de042de507288a35c",
+      "bytes": 2554149,
+      "pixelEdits": false,
+      "sprites": {
+        "shed:0": [
+          78,
+          7,
+          296,
+          279
+        ],
+        "shed:1": [
+          465,
+          5,
+          247,
+          270
+        ],
+        "barrel:0": [
+          870,
+          9,
+          174,
+          281
+        ],
+        "barrel:1": [
+          1227,
+          8,
+          192,
+          275
+        ],
+        "mailbox:0": [
+          140,
+          291,
+          132,
+          215
+        ],
+        "mailbox:1": [
+          505,
+          290,
+          188,
+          222
+        ],
+        "drain:0": [
+          823,
+          339,
+          274,
+          141
+        ],
+        "drain:1": [
+          1191,
+          298,
+          279,
+          208
+        ],
+        "manhole:0": [
+          80,
+          512,
+          287,
+          247
+        ],
+        "manhole:1": [
+          452,
+          513,
+          282,
+          242
+        ],
+        "marker:0": [
+          914,
+          520,
+          93,
+          231
+        ],
+        "marker:1": [
+          1233,
+          516,
+          187,
+          243
+        ],
+        "crack:0": [
+          80,
+          767,
+          282,
+          243
+        ],
+        "crack:1": [
+          467,
+          775,
+          262,
+          227
+        ],
+        "litter:0": [
+          821,
+          767,
+          267,
+          226
+        ],
+        "litter:1": [
+          1192,
+          765,
+          265,
+          227
+        ]
+      }
+    }
+  ],
+  "families": {
+    "tent": [
+      {
+        "atlas": "worldPropsScenery153",
+        "rect": [
+          76,
+          49,
+          223,
+          187
+        ],
+        "family": "tent",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsScenery153",
+        "rect": [
+          436,
+          66,
+          277,
+          181
+        ],
+        "family": "tent",
+        "variant": 1
+      }
+    ],
+    "container": [
+      {
+        "atlas": "worldPropsScenery153",
+        "rect": [
+          849,
+          71,
+          208,
+          166
+        ],
+        "family": "container",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsScenery153",
+        "rect": [
+          1238,
+          40,
+          222,
+          214
+        ],
+        "family": "container",
+        "variant": 1
+      }
+    ],
+    "waterTank": [
+      {
+        "atlas": "worldPropsScenery153",
+        "rect": [
+          120,
+          288,
+          148,
+          237
+        ],
+        "family": "waterTank",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsScenery153",
+        "rect": [
+          468,
+          338,
+          230,
+          183
+        ],
+        "family": "waterTank",
+        "variant": 1
+      }
+    ],
+    "powerPylon": [
+      {
+        "atlas": "worldPropsScenery153",
+        "rect": [
+          898,
+          281,
+          118,
+          241
+        ],
+        "family": "powerPylon",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsScenery153",
+        "rect": [
+          1259,
+          272,
+          163,
+          249
+        ],
+        "family": "powerPylon",
+        "variant": 1
+      }
+    ],
+    "concreteBarricade": [
+      {
+        "atlas": "worldPropsScenery153",
+        "rect": [
+          80,
+          579,
+          238,
+          167
+        ],
+        "family": "concreteBarricade",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsScenery153",
+        "rect": [
+          449,
+          603,
+          262,
+          143
+        ],
+        "family": "concreteBarricade",
+        "variant": 1
+      }
+    ],
+    "streetLamp": [
+      {
+        "atlas": "worldPropsScenery153",
+        "rect": [
+          906,
+          557,
+          139,
+          190
+        ],
+        "family": "streetLamp",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsScenery153",
+        "rect": [
+          1242,
+          560,
+          207,
+          179
+        ],
+        "family": "streetLamp",
+        "variant": 1
+      }
+    ],
+    "ambulance": [
+      {
+        "atlas": "worldPropsScenery153",
+        "rect": [
+          43,
+          779,
+          309,
+          190
+        ],
+        "family": "ambulance",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsScenery153",
+        "rect": [
+          427,
+          777,
+          312,
+          189
+        ],
+        "family": "ambulance",
+        "variant": 1
+      }
+    ],
+    "bus": [
+      {
+        "atlas": "worldPropsScenery153",
+        "rect": [
+          819,
+          793,
+          277,
+          172
+        ],
+        "family": "bus",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsScenery153",
+        "rect": [
+          1189,
+          797,
+          302,
+          165
+        ],
+        "family": "bus",
+        "variant": 1
+      }
+    ],
+    "branch": [
+      {
+        "atlas": "worldPropsLights153",
+        "rect": [
+          57,
+          33,
+          291,
+          216
+        ],
+        "family": "branch",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsLights153",
+        "rect": [
+          462,
+          35,
+          265,
+          214
+        ],
+        "family": "branch",
+        "variant": 1
+      }
+    ],
+    "torch": [
+      {
+        "atlas": "worldPropsLights153",
+        "rect": [
+          838,
+          22,
+          262,
+          225
+        ],
+        "family": "torch",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsLights153",
+        "rect": [
+          1235,
+          25,
+          258,
+          223
+        ],
+        "family": "torch",
+        "variant": 1
+      }
+    ],
+    "campfire": [
+      {
+        "atlas": "worldPropsLights153",
+        "rect": [
+          48,
+          282,
+          295,
+          222
+        ],
+        "family": "campfire",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsLights153",
+        "rect": [
+          454,
+          260,
+          258,
+          251
+        ],
+        "family": "campfire",
+        "variant": 1
+      }
+    ],
+    "flare": [
+      {
+        "atlas": "worldPropsLights153",
+        "rect": [
+          846,
+          287,
+          225,
+          196
+        ],
+        "family": "flare",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsLights153",
+        "rect": [
+          1251,
+          285,
+          204,
+          202
+        ],
+        "family": "flare",
+        "variant": 1
+      }
+    ],
+    "chemlight": [
+      {
+        "atlas": "worldPropsLights153",
+        "rect": [
+          79,
+          523,
+          229,
+          216
+        ],
+        "family": "chemlight",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsLights153",
+        "rect": [
+          453,
+          518,
+          252,
+          232
+        ],
+        "family": "chemlight",
+        "variant": 1
+      }
+    ],
+    "lantern": [
+      {
+        "atlas": "worldPropsLights153",
+        "rect": [
+          885,
+          493,
+          168,
+          262
+        ],
+        "family": "lantern",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsLights153",
+        "rect": [
+          1263,
+          502,
+          179,
+          245
+        ],
+        "family": "lantern",
+        "variant": 1
+      }
+    ],
+    "worklight": [
+      {
+        "atlas": "worldPropsLights153",
+        "rect": [
+          76,
+          758,
+          236,
+          244
+        ],
+        "family": "worklight",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsLights153",
+        "rect": [
+          454,
+          769,
+          249,
+          233
+        ],
+        "family": "worklight",
+        "variant": 1
+      }
+    ],
+    "beacon": [
+      {
+        "atlas": "worldPropsLights153",
+        "rect": [
+          864,
+          789,
+          206,
+          205
+        ],
+        "family": "beacon",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsLights153",
+        "rect": [
+          1236,
+          760,
+          237,
+          234
+        ],
+        "family": "beacon",
+        "variant": 1
+      }
+    ],
+    "essentialLight": [
+      {
+        "atlas": "worldPropsKits153",
+        "rect": [
+          46,
+          32,
+          324,
+          236
+        ],
+        "family": "essentialLight",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsKits153",
+        "rect": [
+          422,
+          46,
+          318,
+          219
+        ],
+        "family": "essentialLight",
+        "variant": 1
+      }
+    ],
+    "essentialAid": [
+      {
+        "atlas": "worldPropsKits153",
+        "rect": [
+          801,
+          42,
+          319,
+          230
+        ],
+        "family": "essentialAid",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsKits153",
+        "rect": [
+          1168,
+          52,
+          336,
+          221
+        ],
+        "family": "essentialAid",
+        "variant": 1
+      }
+    ],
+    "essentialBrace": [
+      {
+        "atlas": "worldPropsKits153",
+        "rect": [
+          28,
+          315,
+          354,
+          202
+        ],
+        "family": "essentialBrace",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsKits153",
+        "rect": [
+          418,
+          308,
+          348,
+          219
+        ],
+        "family": "essentialBrace",
+        "variant": 1
+      }
+    ],
+    "essentialDecoy": [
+      {
+        "atlas": "worldPropsKits153",
+        "rect": [
+          848,
+          290,
+          251,
+          225
+        ],
+        "family": "essentialDecoy",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsKits153",
+        "rect": [
+          1197,
+          307,
+          285,
+          208
+        ],
+        "family": "essentialDecoy",
+        "variant": 1
+      }
+    ],
+    "barricadePlanks": [
+      {
+        "atlas": "worldPropsKits153",
+        "rect": [
+          25,
+          557,
+          358,
+          193
+        ],
+        "family": "barricadePlanks",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsKits153",
+        "rect": [
+          412,
+          555,
+          357,
+          199
+        ],
+        "family": "barricadePlanks",
+        "variant": 1
+      }
+    ],
+    "barricadeSheet": [
+      {
+        "atlas": "worldPropsKits153",
+        "rect": [
+          796,
+          541,
+          342,
+          207
+        ],
+        "family": "barricadeSheet",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsKits153",
+        "rect": [
+          1162,
+          545,
+          358,
+          208
+        ],
+        "family": "barricadeSheet",
+        "variant": 1
+      }
+    ],
+    "barricadeBraced": [
+      {
+        "atlas": "worldPropsKits153",
+        "rect": [
+          36,
+          780,
+          336,
+          198
+        ],
+        "family": "barricadeBraced",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsKits153",
+        "rect": [
+          425,
+          778,
+          340,
+          200
+        ],
+        "family": "barricadeBraced",
+        "variant": 1
+      }
+    ],
+    "solar": [
+      {
+        "atlas": "worldPropsKits153",
+        "rect": [
+          862,
+          747,
+          203,
+          238
+        ],
+        "family": "solar",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsKits153",
+        "rect": [
+          1190,
+          754,
+          301,
+          257
+        ],
+        "family": "solar",
+        "variant": 1
+      }
+    ],
+    "cache": [
+      {
+        "atlas": "worldPropsOperations153",
+        "rect": [
+          34,
+          30,
+          315,
+          213
+        ],
+        "family": "cache",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsOperations153",
+        "rect": [
+          419,
+          34,
+          299,
+          207
+        ],
+        "family": "cache",
+        "variant": 1
+      }
+    ],
+    "cargo": [
+      {
+        "atlas": "worldPropsOperations153",
+        "rect": [
+          780,
+          38,
+          331,
+          207
+        ],
+        "family": "cargo",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsOperations153",
+        "rect": [
+          1174,
+          23,
+          345,
+          228
+        ],
+        "family": "cargo",
+        "variant": 1
+      }
+    ],
+    "routeMarker": [
+      {
+        "atlas": "worldPropsOperations153",
+        "rect": [
+          164,
+          269,
+          136,
+          218
+        ],
+        "family": "routeMarker",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsOperations153",
+        "rect": [
+          454,
+          254,
+          180,
+          247
+        ],
+        "family": "routeMarker",
+        "variant": 1
+      }
+    ],
+    "bedroll": [
+      {
+        "atlas": "worldPropsOperations153",
+        "rect": [
+          733,
+          293,
+          391,
+          205
+        ],
+        "family": "bedroll",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsOperations153",
+        "rect": [
+          1166,
+          297,
+          351,
+          189
+        ],
+        "family": "bedroll",
+        "variant": 1
+      }
+    ],
+    "tarp": [
+      {
+        "atlas": "worldPropsOperations153",
+        "rect": [
+          22,
+          493,
+          334,
+          258
+        ],
+        "family": "tarp",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsOperations153",
+        "rect": [
+          362,
+          499,
+          402,
+          244
+        ],
+        "family": "tarp",
+        "variant": 1
+      }
+    ],
+    "ammoBox": [
+      {
+        "atlas": "worldPropsOperations153",
+        "rect": [
+          820,
+          544,
+          250,
+          167
+        ],
+        "family": "ammoBox",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsOperations153",
+        "rect": [
+          1145,
+          572,
+          371,
+          131
+        ],
+        "family": "ammoBox",
+        "variant": 1
+      }
+    ],
+    "repairKit": [
+      {
+        "atlas": "worldPropsOperations153",
+        "rect": [
+          30,
+          768,
+          322,
+          199
+        ],
+        "family": "repairKit",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsOperations153",
+        "rect": [
+          396,
+          751,
+          367,
+          226
+        ],
+        "family": "repairKit",
+        "variant": 1
+      }
+    ],
+    "casualtyBag": [
+      {
+        "atlas": "worldPropsOperations153",
+        "rect": [
+          785,
+          725,
+          336,
+          265
+        ],
+        "family": "casualtyBag",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsOperations153",
+        "rect": [
+          1154,
+          746,
+          350,
+          235
+        ],
+        "family": "casualtyBag",
+        "variant": 1
+      }
+    ],
+    "sedan": [
+      {
+        "atlas": "worldPropsResources153",
+        "rect": [
+          112,
+          6,
+          168,
+          299
+        ],
+        "family": "sedan",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsResources153",
+        "rect": [
+          481,
+          7,
+          171,
+          293
+        ],
+        "family": "sedan",
+        "variant": 1
+      }
+    ],
+    "scrap": [
+      {
+        "atlas": "worldPropsResources153",
+        "rect": [
+          780,
+          37,
+          349,
+          231
+        ],
+        "family": "scrap",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsResources153",
+        "rect": [
+          1166,
+          19,
+          349,
+          260
+        ],
+        "family": "scrap",
+        "variant": 1
+      },
+      {
+        "atlas": "worldPropsResources153",
+        "rect": [
+          802,
+          766,
+          325,
+          241
+        ],
+        "family": "scrap",
+        "variant": 2
+      },
+      {
+        "atlas": "worldPropsResources153",
+        "rect": [
+          1160,
+          759,
+          359,
+          248
+        ],
+        "family": "scrap",
+        "variant": 3
+      }
+    ],
+    "fuel": [
+      {
+        "atlas": "worldPropsResources153",
+        "rect": [
+          74,
+          313,
+          239,
+          189
+        ],
+        "family": "fuel",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsResources153",
+        "rect": [
+          434,
+          312,
+          267,
+          191
+        ],
+        "family": "fuel",
+        "variant": 1
+      }
+    ],
+    "crops": [
+      {
+        "atlas": "worldPropsResources153",
+        "rect": [
+          776,
+          304,
+          330,
+          205
+        ],
+        "family": "crops",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsResources153",
+        "rect": [
+          1164,
+          319,
+          355,
+          167
+        ],
+        "family": "crops",
+        "variant": 1
+      }
+    ],
+    "supplies": [
+      {
+        "atlas": "worldPropsResources153",
+        "rect": [
+          34,
+          518,
+          321,
+          221
+        ],
+        "family": "supplies",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsResources153",
+        "rect": [
+          442,
+          526,
+          248,
+          209
+        ],
+        "family": "supplies",
+        "variant": 1
+      }
+    ],
+    "utilityTruck": [
+      {
+        "atlas": "worldPropsResources153",
+        "rect": [
+          756,
+          535,
+          362,
+          211
+        ],
+        "family": "utilityTruck",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsResources153",
+        "rect": [
+          1169,
+          504,
+          352,
+          251
+        ],
+        "family": "utilityTruck",
+        "variant": 1
+      }
+    ],
+    "tanker": [
+      {
+        "atlas": "worldPropsResources153",
+        "rect": [
+          8,
+          753,
+          375,
+          240
+        ],
+        "family": "tanker",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsResources153",
+        "rect": [
+          409,
+          761,
+          354,
+          230
+        ],
+        "family": "tanker",
+        "variant": 1
+      }
+    ],
+    "cone": [
+      {
+        "atlas": "worldPropsRoad153",
+        "rect": [
+          93,
+          8,
+          184,
+          245
+        ],
+        "family": "cone",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsRoad153",
+        "rect": [
+          489,
+          68,
+          197,
+          181
+        ],
+        "family": "cone",
+        "variant": 1
+      }
+    ],
+    "roadSign": [
+      {
+        "atlas": "worldPropsRoad153",
+        "rect": [
+          871,
+          9,
+          199,
+          247
+        ],
+        "family": "roadSign",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsRoad153",
+        "rect": [
+          1274,
+          7,
+          160,
+          251
+        ],
+        "family": "roadSign",
+        "variant": 1
+      }
+    ],
+    "roadBarrier": [
+      {
+        "atlas": "worldPropsRoad153",
+        "rect": [
+          56,
+          283,
+          268,
+          204
+        ],
+        "family": "roadBarrier",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsRoad153",
+        "rect": [
+          414,
+          268,
+          333,
+          229
+        ],
+        "family": "roadBarrier",
+        "variant": 1
+      }
+    ],
+    "bollard": [
+      {
+        "atlas": "worldPropsRoad153",
+        "rect": [
+          909,
+          289,
+          110,
+          195
+        ],
+        "family": "bollard",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsRoad153",
+        "rect": [
+          1297,
+          261,
+          110,
+          245
+        ],
+        "family": "bollard",
+        "variant": 1
+      }
+    ],
+    "tirePile": [
+      {
+        "atlas": "worldPropsRoad153",
+        "rect": [
+          38,
+          523,
+          308,
+          203
+        ],
+        "family": "tirePile",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsRoad153",
+        "rect": [
+          436,
+          506,
+          302,
+          229
+        ],
+        "family": "tirePile",
+        "variant": 1
+      }
+    ],
+    "luggage": [
+      {
+        "atlas": "worldPropsRoad153",
+        "rect": [
+          813,
+          529,
+          301,
+          202
+        ],
+        "family": "luggage",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsRoad153",
+        "rect": [
+          1185,
+          526,
+          325,
+          212
+        ],
+        "family": "luggage",
+        "variant": 1
+      }
+    ],
+    "shoppingCart": [
+      {
+        "atlas": "worldPropsRoad153",
+        "rect": [
+          49,
+          740,
+          275,
+          272
+        ],
+        "family": "shoppingCart",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsRoad153",
+        "rect": [
+          468,
+          742,
+          212,
+          263
+        ],
+        "family": "shoppingCart",
+        "variant": 1
+      }
+    ],
+    "pallet": [
+      {
+        "atlas": "worldPropsRoad153",
+        "rect": [
+          789,
+          754,
+          338,
+          250
+        ],
+        "family": "pallet",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsRoad153",
+        "rect": [
+          1186,
+          764,
+          321,
+          235
+        ],
+        "family": "pallet",
+        "variant": 1
+      }
+    ],
+    "shed": [
+      {
+        "atlas": "worldPropsYard153",
+        "rect": [
+          78,
+          7,
+          296,
+          279
+        ],
+        "family": "shed",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsYard153",
+        "rect": [
+          465,
+          5,
+          247,
+          270
+        ],
+        "family": "shed",
+        "variant": 1
+      }
+    ],
+    "barrel": [
+      {
+        "atlas": "worldPropsYard153",
+        "rect": [
+          870,
+          9,
+          174,
+          281
+        ],
+        "family": "barrel",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsYard153",
+        "rect": [
+          1227,
+          8,
+          192,
+          275
+        ],
+        "family": "barrel",
+        "variant": 1
+      }
+    ],
+    "mailbox": [
+      {
+        "atlas": "worldPropsYard153",
+        "rect": [
+          140,
+          291,
+          132,
+          215
+        ],
+        "family": "mailbox",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsYard153",
+        "rect": [
+          505,
+          290,
+          188,
+          222
+        ],
+        "family": "mailbox",
+        "variant": 1
+      }
+    ],
+    "drain": [
+      {
+        "atlas": "worldPropsYard153",
+        "rect": [
+          823,
+          339,
+          274,
+          141
+        ],
+        "family": "drain",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsYard153",
+        "rect": [
+          1191,
+          298,
+          279,
+          208
+        ],
+        "family": "drain",
+        "variant": 1
+      }
+    ],
+    "manhole": [
+      {
+        "atlas": "worldPropsYard153",
+        "rect": [
+          80,
+          512,
+          287,
+          247
+        ],
+        "family": "manhole",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsYard153",
+        "rect": [
+          452,
+          513,
+          282,
+          242
+        ],
+        "family": "manhole",
+        "variant": 1
+      }
+    ],
+    "marker": [
+      {
+        "atlas": "worldPropsYard153",
+        "rect": [
+          914,
+          520,
+          93,
+          231
+        ],
+        "family": "marker",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsYard153",
+        "rect": [
+          1233,
+          516,
+          187,
+          243
+        ],
+        "family": "marker",
+        "variant": 1
+      }
+    ],
+    "crack": [
+      {
+        "atlas": "worldPropsYard153",
+        "rect": [
+          80,
+          767,
+          282,
+          243
+        ],
+        "family": "crack",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsYard153",
+        "rect": [
+          467,
+          775,
+          262,
+          227
+        ],
+        "family": "crack",
+        "variant": 1
+      }
+    ],
+    "litter": [
+      {
+        "atlas": "worldPropsYard153",
+        "rect": [
+          821,
+          767,
+          267,
+          226
+        ],
+        "family": "litter",
+        "variant": 0
+      },
+      {
+        "atlas": "worldPropsYard153",
+        "rect": [
+          1192,
+          765,
+          265,
+          227
+        ],
+        "family": "litter",
+        "variant": 1
+      }
+    ]
+  },
+  "measurementErrors": [],
+  "originalIntermediateImages": [
+    "/workspace/generated_images/exec-8555081f-dce3-4119-865c-f9ab1529c8a3.png",
+    "/workspace/generated_images/exec-5159e60f-0064-4b3b-9d1a-0cd3452fcf92.png",
+    "/workspace/generated_images/exec-31a30c75-a57e-4b98-9402-e1a49daf395a.png",
+    "/workspace/generated_images/exec-3a073ba3-a2e3-439e-9fbe-86a911e196b4.png"
+  ],
+  "imageGenCorrections": [
+    {
+      "prompt": "sceneryCorrection",
+      "input": "/workspace/generated_images/exec-8555081f-dce3-4119-865c-f9ab1529c8a3.png",
+      "output": "/workspace/generated_images/exec-5159e60f-0064-4b3b-9d1a-0cd3452fcf92.png"
+    },
+    {
+      "prompt": "sceneryGutters",
+      "input": "/workspace/generated_images/exec-5159e60f-0064-4b3b-9d1a-0cd3452fcf92.png",
+      "output": "/workspace/generated_images/exec-bd731cb5-ce93-4822-b8d8-eb5af5d5e019.png"
+    },
+    {
+      "prompt": "lightsCorrection",
+      "input": "/workspace/generated_images/exec-31a30c75-a57e-4b98-9402-e1a49daf395a.png",
+      "output": "/workspace/generated_images/exec-3a073ba3-a2e3-439e-9fbe-86a911e196b4.png"
+    },
+    {
+      "prompt": "lightsGutters",
+      "input": "/workspace/generated_images/exec-3a073ba3-a2e3-439e-9fbe-86a911e196b4.png",
+      "output": "/workspace/generated_images/exec-7ac3f832-185d-4e95-a5d7-101182608c5b.png"
+    }
+  ]
+}

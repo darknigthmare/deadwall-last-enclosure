@@ -1,0 +1,16 @@
+{
+  "key": "runnerCable193",
+  "iteration": 1,
+  "attempt": 1,
+  "status": "failed_before_generation",
+  "httpStatus": 400,
+  "code": "moderation_blocked",
+  "category": "violence",
+  "requestId": "64e05fc2-c0d5-4283-bad2-9d8b12692523",
+  "promptRecord": "calls/runnerCable193-iteration1.json",
+  "followUp": "One clarification of benign static fictional depiction, with exact canonical assembly reference only.",
+  "imageDelivered": false,
+  "nativeOutputPath": null,
+  "tool": "image_gen.imagegen",
+  "receiptType": "Structured transcription of the error returned by the tool in this session."
+}

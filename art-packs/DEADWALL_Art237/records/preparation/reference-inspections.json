@@ -1,0 +1,93 @@
+{
+  "reviewer": "defenses_art237",
+  "sourceMain": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "canonicalReferences": [
+    {
+      "key": "runnerCable193",
+      "path": "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/runnerCable193-v0-armed-mounted.png",
+      "sha256": "0d138bff82599041b800d0542cf55d99199f7a3535ee68a627f8b3055de6e6b1",
+      "inspectedBeforeGeneration": true,
+      "method": "view_image native PNG; all 6 canonical references and both complete original atlases visually inspected before first call",
+      "observation": "Broad horizontal rails; vertical left slider; right tooth slider; long lateral hooks and high horizontal cable; lower inward returns."
+    },
+    {
+      "key": "breachClamp193",
+      "path": "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/breachClamp193-v0-armed-mounted.png",
+      "sha256": "ec11451ca852aaa55d362a963ab417df3fb0043cb6f1c28f97c552d2b6111bb3",
+      "inspectedBeforeGeneration": true,
+      "method": "view_image native PNG; all 6 canonical references and both complete original atlases visually inspected before first call",
+      "observation": "Two opposing inward-toothed jaw plates on a square open frame; four corner blocks and central X hardware."
+    },
+    {
+      "key": "enduranceRack193",
+      "path": "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/enduranceRack193-v0-armed-mounted.png",
+      "sha256": "0f32ac82d8235ed472863a84405dc25d37ced14c751a5157e235fd18d7d04172",
+      "inspectedBeforeGeneration": true,
+      "method": "view_image native PNG; all 6 canonical references and both complete original atlases visually inspected before first call",
+      "observation": "Ratchet blade from left toward upper-right and a right spring; upper rack frame has four hanging rectangular teeth."
+    },
+    {
+      "key": "shieldTongs193",
+      "path": "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/shieldTongs193-v0-armed-mounted.png",
+      "sha256": "c9f045524b3306431d7c3b71b8ae85f5f75db1d8b6c3fd11e77f830d5891e53f",
+      "inspectedBeforeGeneration": true,
+      "method": "view_image native PNG; all 6 canonical references and both complete original atlases visually inspected before first call",
+      "observation": "Shared paired-jaw frame with two uncrossed broad inward-leaning tong bars, distinct from breachClamp X."
+    },
+    {
+      "key": "quickCable193",
+      "path": "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/quickCable193-v0-armed-mounted.png",
+      "sha256": "1ded2ebb7510a66295f44abf53f3f5f80a57d6aad0730b4804c842d9791d2137",
+      "inspectedBeforeGeneration": true,
+      "method": "view_image native PNG; all 6 canonical references and both complete original atlases visually inspected before first call",
+      "observation": "Shared low rail frame with two hollow annular reels at the ends and a lower horizontal cable."
+    },
+    {
+      "key": "siegeBrake193",
+      "path": "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/siegeBrake193-v0-armed-mounted.png",
+      "sha256": "1384259fe55135898b545458926edf8113d488fe645a63f71c3a1c067e2b3e20",
+      "inspectedBeforeGeneration": true,
+      "method": "view_image native PNG; all 6 canonical references and both complete original atlases visually inspected before first call",
+      "observation": "Central braced pivot, angled lever and right chain-hung counterweight; upper-left brake block and four-V lower chain."
+    }
+  ],
+  "styleAtlases": [
+    {
+      "repositoryPath": "assets/art159/traps-mechanisms-a.png",
+      "preparedPath": "references/repository/assets/art159/traps-mechanisms-a.png",
+      "absolutePath": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/assets/art159/traps-mechanisms-a.png",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "gitBlob": "d5c16143deff85b5d52f948bc5b430bd758da17a",
+      "sha256": "c693c8d2c6056fc900a673b2f8ad789e5c36e0660340d07302610c2a8e645f78",
+      "bytes": 2007623,
+      "worktreeMatchesCommit": true
+    },
+    {
+      "repositoryPath": "assets/art159/traps-supplies-a.png",
+      "preparedPath": "references/repository/assets/art159/traps-supplies-a.png",
+      "absolutePath": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/assets/art159/traps-supplies-a.png",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "gitBlob": "93f2ae2df0631705ff695ab9475b943e5c0636e5",
+      "sha256": "f6f6695c2d10182302736ed16171b87574e3400cc97b69a4f5ffd3116dfb830a",
+      "bytes": 2199589,
+      "worktreeMatchesCommit": true
+    }
+  ],
+  "actualToolReferenceScope": "Successful initial calls used only each exact canonical assembly. Both original full atlases were visually inspected and archived as source evidence, but were tool inputs only to the first rejected runnerCable193 attempt.",
+  "nativeGeneratedInputsForEdits": [
+    {
+      "key": "enduranceRack193",
+      "iteration": 2,
+      "path": "/workspace/scratch/6f470a892a0f/generated_images/exec-1b41c9ee-d97a-4c75-9bc6-e92c7d8524d6.png",
+      "sha256": "f256b85ff0dadcb7679ec68fdf59c5ba144c0b9c26687c550c2db9e2c38c9431",
+      "visuallyInspectedBeforeEdit": true
+    },
+    {
+      "key": "quickCable193",
+      "iteration": 2,
+      "path": "/workspace/scratch/6f470a892a0f/generated_images/exec-f9bf07db-dd43-4928-aa98-0ca4409644cc.png",
+      "sha256": "11247bda33f27be432ef17a86c88c2409c084ebf6b7cd20af36f5b4b360f82d2",
+      "visuallyInspectedBeforeEdit": true
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "key": "breachClamp193",
+  "iteration": 1,
+  "status": "native-output-received",
+  "callRecord": "calls/breachClamp193-iteration1.json",
+  "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-5e48fc8b-04e0-4da1-9af1-b0069b9a8ba6.png",
+  "sha256": "81734587dc0ea91ed8610efe90291b124ce17fe054cbdd2fb07809a225bdf81b",
+  "bytes": 1145129,
+  "pixelEditingPerformed": false
+}

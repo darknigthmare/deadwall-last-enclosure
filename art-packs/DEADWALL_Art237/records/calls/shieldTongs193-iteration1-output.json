@@ -1,0 +1,10 @@
+{
+  "key": "shieldTongs193",
+  "iteration": 1,
+  "status": "native-output-received",
+  "callRecord": "calls/shieldTongs193-iteration1.json",
+  "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-185ca233-65dc-4588-b0a0-1511100ae5ad.png",
+  "sha256": "69272136fb21df3bb8e80039e1abf53819234851dcc15feb854c6476cfdadc9d",
+  "bytes": 1104712,
+  "pixelEditingPerformed": false
+}
