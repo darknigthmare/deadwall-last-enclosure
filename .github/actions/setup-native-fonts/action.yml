@@ -1,0 +1,21 @@
+name: Prepare native Canvas Latin fonts
+description: Install a known Latin font and verify real native Canvas glyphs before native tests.
+inputs:
+  report:
+    description: JSON evidence path inside the native job's existing artifact directory.
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Install the Ubuntu Latin font package
+      shell: bash
+      run: |
+        sudo timeout --kill-after=10s 180s apt-get -o Acquire::Retries=2 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20 update
+        sudo timeout --kill-after=10s 120s apt-get install --no-install-recommends -y fonts-dejavu-core
+        dpkg-query --show --showformat='${binary:Package} ${Version}\n' fonts-dejavu-core
+    - name: Verify visible Latin glyphs in native Canvas
+      if: ${{ always() }}
+      shell: bash
+      env:
+        DEADWALL_NATIVE_FONT_REPORT: ${{ inputs.report }}
+      run: timeout --kill-after=5s 30s node scripts/ci-native-fonts.mjs "$DEADWALL_NATIVE_FONT_REPORT"
