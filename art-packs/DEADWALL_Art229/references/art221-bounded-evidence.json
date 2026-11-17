@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "checkedOn": "2026-11-17",
+  "scope": "Bounded read-only evidence search for the exact Art221 output inventory; no new image generation, IDs, game data or saved campaigns modified.",
+  "conclusion": "Exact Art221 inventory not recovered. None of DW-0123, DW-0201, DW-0247 is established as an already-generated Art221 duplicate by the evidence inspected.",
+  "searches": [
+    {
+      "source": "GitHub PR24 changed filenames",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/24",
+      "headRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+      "changedFileCount": 153,
+      "art221Paths": [],
+      "rasterImagePaths": [],
+      "assetDirectoryPaths": [],
+      "limit": "A changed-file list does not prove the absence of an unpublished local image or an asset inherited from the PR base."
+    },
+    {
+      "source": "GitHub branch searches",
+      "queries": [
+        "art221",
+        "221"
+      ],
+      "returnedBranches": [
+        [],
+        []
+      ],
+      "limit": "No matching currently returned branch; deleted or never-pushed branches are not excluded."
+    },
+    {
+      "source": "Recovered local workspace",
+      "root": "/workspace/scratch/55dad3ac334d",
+      "methods": [
+        "rg file-name scan for Art221, manifests, provenance and reprise records",
+        "rg text scan for art221 in JSON, Markdown, text and JavaScript",
+        "Read references-art223/targets.json previousArt221 and DEADWALL_Art222/REPRISE.json priorArt221",
+        "List top-level archives and local publication checkout branches"
+      ],
+      "findings": {
+        "exactManifestFound": false,
+        "explicitlyAttributedPngFound": false,
+        "topLevelArchives": [],
+        "previouslyReportedGeneratedCount": 9,
+        "knownNames": [
+          "grand émetteur",
+          "gare ferroviaire"
+        ],
+        "priorPackRecovered": false,
+        "localPublicationBranches": [
+          "codex/art222-regional-sprites",
+          "main",
+          "origin/main"
+        ]
+      },
+      "limit": "Unattributed native output files, deleted workspaces and remote files outside these bounded searches have not been exhaustively inspected."
+    },
+    {
+      "source": "PR24 src/art.js registration",
+      "revision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/src/art.js",
+      "art221StringFound": false,
+      "observation": "The clinic/fuel matches inspected refer to existing atlas rectangles and resource rendering; no exact Art221 filename or target-ID provenance was found."
+    }
+  ],
+  "matcherEvidence": {
+    "source": "references/remarkable217.js",
+    "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+    "sha256": "c2aaf40a08f2a5fce22a076d481edcb7aab908688efebfaece118ee31bf062b2",
+    "method": "Evaluate only the preserved USES regular expressions against the exact native G.BY names; this checks classification, not full candidate eligibility or image production.",
+    "results": [
+      {
+        "type": "clinic",
+        "codexId": "DW-0123",
+        "nativeName": "Dispensaire rural",
+        "matchedCategory": null,
+        "exactArt221DuplicateProven": false
+      },
+      {
+        "type": "bunker",
+        "codexId": "DW-0201",
+        "nativeName": "Abri communal souterrain",
+        "matchedCategory": null,
+        "exactArt221DuplicateProven": false
+      },
+      {
+        "type": "fuel",
+        "codexId": "DW-0247",
+        "nativeName": "Station-service",
+        "matchedCategory": "fuel",
+        "exactArt221DuplicateProven": false
+      }
+    ]
+  },
+  "decisionBoundary": "A category match is not an image-production receipt. Lack of a recovered receipt is not proof that an image never existed. The three targets remain historically unresolved until exact filenames, output bytes or an ID-bound provenance record are found."
+}

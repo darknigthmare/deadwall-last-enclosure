@@ -1,0 +1,722 @@
+{
+  "schemaVersion": 1,
+  "batch": "art228",
+  "checkedOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "method": "PNG signature/IHDR and Pillow verify, native RGBA alpha histogram and bounds, SHA-256. No write, crop, resize or pixel transformation.",
+  "alphaThresholds": [
+    1,
+    8,
+    32,
+    128,
+    240
+  ],
+  "boundsConvention": "left/top inclusive, right/bottom exclusive",
+  "alphaInterpretation": "Hidden RGB colors with alpha=0 are transparent. Low alpha1–7 noise is reported separately. Alpha>=8 margins are a technical visibility indicator, not a physical footprint or fidelity certificate.",
+  "finalSpriteCount": 7,
+  "allRgba": true,
+  "allVisibleBodiesWithinCanvasAtAlpha8": true,
+  "nativeBytesPreserved": true,
+  "assets": [
+    {
+      "file": "assets/art228/regional/DW-0041_centre_commercial.png",
+      "bytes": 2600914,
+      "sha256": "9963eccb828202ca3ebc52561165ef11bd541337e3eea4a03ed33f10c7d67e22",
+      "width": 1517,
+      "height": 1037,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 572942,
+      "fullyTransparentFraction": 0.36420535124582915,
+      "lowAlphaPixels1to7": 55489,
+      "boundsAlphaAtLeast": {
+        "1": [
+          21,
+          0,
+          1516,
+          1037
+        ],
+        "8": [
+          104,
+          146,
+          1411,
+          893
+        ],
+        "32": [
+          107,
+          146,
+          1407,
+          891
+        ],
+        "128": [
+          108,
+          147,
+          1406,
+          887
+        ],
+        "240": [
+          109,
+          147,
+          1405,
+          883
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 21,
+          "top": 0,
+          "right": 1,
+          "bottom": 0
+        },
+        "8": {
+          "left": 104,
+          "top": 146,
+          "right": 106,
+          "bottom": 144
+        },
+        "32": {
+          "left": 107,
+          "top": 146,
+          "right": 110,
+          "bottom": 146
+        },
+        "128": {
+          "left": 108,
+          "top": 147,
+          "right": 111,
+          "bottom": 150
+        },
+        "240": {
+          "left": 109,
+          "top": 147,
+          "right": 112,
+          "bottom": 154
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 0,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art228/regional/DW-0061_superette_quartier.png",
+      "bytes": 1184979,
+      "sha256": "bbb859739ad0a1e8bb726b17dd3f279e9a0854efe2b71360d26ae0406bb41984",
+      "width": 1402,
+      "height": 1122,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1067856,
+      "fullyTransparentFraction": 0.6788468726876045,
+      "lowAlphaPixels1to7": 56303,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          19,
+          1388,
+          1122
+        ],
+        "8": [
+          285,
+          330,
+          1118,
+          894
+        ],
+        "32": [
+          289,
+          330,
+          1114,
+          889
+        ],
+        "128": [
+          292,
+          331,
+          1110,
+          884
+        ],
+        "240": [
+          293,
+          332,
+          1109,
+          882
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 19,
+          "right": 14,
+          "bottom": 0
+        },
+        "8": {
+          "left": 285,
+          "top": 330,
+          "right": 284,
+          "bottom": 228
+        },
+        "32": {
+          "left": 289,
+          "top": 330,
+          "right": 288,
+          "bottom": 233
+        },
+        "128": {
+          "left": 292,
+          "top": 331,
+          "right": 292,
+          "bottom": 238
+        },
+        "240": {
+          "left": 293,
+          "top": 332,
+          "right": 293,
+          "bottom": 240
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art228/regional/DW-0062_supermarche_quai.png",
+      "bytes": 2020691,
+      "sha256": "92d124c06b3bf0f7e9e8921797c8372847bf84978af2a995493ba5baa350527f",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 772201,
+      "fullyTransparentFraction": 0.4910570749773613,
+      "lowAlphaPixels1to7": 43674,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1434,
+          1086
+        ],
+        "8": [
+          175,
+          176,
+          1271,
+          912
+        ],
+        "32": [
+          177,
+          178,
+          1268,
+          910
+        ],
+        "128": [
+          178,
+          178,
+          1265,
+          908
+        ],
+        "240": [
+          178,
+          179,
+          1264,
+          907
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 14,
+          "bottom": 0
+        },
+        "8": {
+          "left": 175,
+          "top": 176,
+          "right": 177,
+          "bottom": 174
+        },
+        "32": {
+          "left": 177,
+          "top": 178,
+          "right": 180,
+          "bottom": 176
+        },
+        "128": {
+          "left": 178,
+          "top": 178,
+          "right": 183,
+          "bottom": 178
+        },
+        "240": {
+          "left": 178,
+          "top": 179,
+          "right": 184,
+          "bottom": 179
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art228/regional/DW-0498_motel_foret.png",
+      "bytes": 2503283,
+      "sha256": "0aad47c740fef31e76650233891140912657ee1df06747ba949a924ad0d16890",
+      "width": 1903,
+      "height": 826,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 517685,
+      "fullyTransparentFraction": 0.3293417173597442,
+      "lowAlphaPixels1to7": 22551,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          4,
+          1873,
+          806
+        ],
+        "8": [
+          144,
+          92,
+          1764,
+          751
+        ],
+        "32": [
+          148,
+          92,
+          1758,
+          745
+        ],
+        "128": [
+          148,
+          93,
+          1751,
+          734
+        ],
+        "240": [
+          149,
+          94,
+          1750,
+          732
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 4,
+          "right": 30,
+          "bottom": 20
+        },
+        "8": {
+          "left": 144,
+          "top": 92,
+          "right": 139,
+          "bottom": 75
+        },
+        "32": {
+          "left": 148,
+          "top": 92,
+          "right": 145,
+          "bottom": 81
+        },
+        "128": {
+          "left": 148,
+          "top": 93,
+          "right": 152,
+          "bottom": 92
+        },
+        "240": {
+          "left": 149,
+          "top": 94,
+          "right": 153,
+          "bottom": 94
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 0,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art228/regional/DW-0181_caserne_pompiers_native.png",
+      "bytes": 1782470,
+      "sha256": "fe3b013dce017584e7196f5c7cbc8bb82f2b8a5960e7f6a9d1d41681e4b5a2dc",
+      "width": 1422,
+      "height": 1106,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 833435,
+      "fullyTransparentFraction": 0.5299281759384307,
+      "lowAlphaPixels1to7": 62588,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1392,
+          1106
+        ],
+        "8": [
+          231,
+          201,
+          1184,
+          931
+        ],
+        "32": [
+          237,
+          201,
+          1179,
+          927
+        ],
+        "128": [
+          242,
+          202,
+          1172,
+          922
+        ],
+        "240": [
+          244,
+          203,
+          1167,
+          919
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 30,
+          "bottom": 0
+        },
+        "8": {
+          "left": 231,
+          "top": 201,
+          "right": 238,
+          "bottom": 175
+        },
+        "32": {
+          "left": 237,
+          "top": 201,
+          "right": 243,
+          "bottom": 179
+        },
+        "128": {
+          "left": 242,
+          "top": 202,
+          "right": 250,
+          "bottom": 184
+        },
+        "240": {
+          "left": 244,
+          "top": 203,
+          "right": 255,
+          "bottom": 187
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art228/regional/DW-0126_cabinet_dentaire.png",
+      "bytes": 1719601,
+      "sha256": "e8b0f89d56d431cc5dca64b7c4a3d5ec8c43d17a031258c32230cefc1e59f744",
+      "width": 1402,
+      "height": 1122,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 866447,
+      "fullyTransparentFraction": 0.5508091318488231,
+      "lowAlphaPixels1to7": 80279,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1388,
+          1122
+        ],
+        "8": [
+          221,
+          276,
+          1189,
+          953
+        ],
+        "32": [
+          225,
+          276,
+          1182,
+          949
+        ],
+        "128": [
+          227,
+          277,
+          1176,
+          946
+        ],
+        "240": [
+          228,
+          278,
+          1175,
+          944
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 14,
+          "bottom": 0
+        },
+        "8": {
+          "left": 221,
+          "top": 276,
+          "right": 213,
+          "bottom": 169
+        },
+        "32": {
+          "left": 225,
+          "top": 276,
+          "right": 220,
+          "bottom": 173
+        },
+        "128": {
+          "left": 227,
+          "top": 277,
+          "right": 226,
+          "bottom": 176
+        },
+        "240": {
+          "left": 228,
+          "top": 278,
+          "right": 227,
+          "bottom": 178
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art228/regional/DW-0401_mine_halle_surface.png",
+      "bytes": 1868260,
+      "sha256": "b1cbaac7651d1047a3aa38317b7df8e0494235e60a08739c3cb57aa25e96c4eb",
+      "width": 1419,
+      "height": 1108,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 771594,
+      "fullyTransparentFraction": 0.490757206859969,
+      "lowAlphaPixels1to7": 38108,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1418,
+          1108
+        ],
+        "8": [
+          180,
+          202,
+          1239,
+          956
+        ],
+        "32": [
+          181,
+          202,
+          1238,
+          954
+        ],
+        "128": [
+          181,
+          203,
+          1238,
+          951
+        ],
+        "240": [
+          182,
+          204,
+          1237,
+          950
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 1,
+          "bottom": 0
+        },
+        "8": {
+          "left": 180,
+          "top": 202,
+          "right": 180,
+          "bottom": 152
+        },
+        "32": {
+          "left": 181,
+          "top": 202,
+          "right": 181,
+          "bottom": 154
+        },
+        "128": {
+          "left": 181,
+          "top": 203,
+          "right": 181,
+          "bottom": 157
+        },
+        "240": {
+          "left": 182,
+          "top": 204,
+          "right": 182,
+          "bottom": 158
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    }
+  ]
+}

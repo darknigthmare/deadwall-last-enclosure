@@ -1,0 +1,51 @@
+{
+  "house": {
+    "sha256": "edcf77b66f5a2154a9fce27129913753db406df3326d538d2f5e27199f8bd009",
+    "observation": "Maison à un seul niveau apparent, toiture à croupes sans comble habitable, petite entrée publique au sol et porte de garage dans le même volume. Toit dominant et silhouette entière.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique des niveaux, accès et silhouette ; proportions projetées approximatives, aucune certification métrique1:1 ni intégration au moteur."
+  },
+  "duplex": {
+    "sha256": "f8f18c1649d2fd20e7ec4f883652e70382f0e8c4a1d141ba27011819cc133aed",
+    "observation": "Deux niveaux apparents en deux rangées de fenêtres, toiture simple sans étage de combles et entrée centrale au sol. Aucun escalier extérieur ni annexe détachée.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique des niveaux, accès et silhouette ; proportions projetées approximatives, aucune certification métrique1:1 ni intégration au moteur."
+  },
+  "cabin": {
+    "sha256": "cb3ffadd531a92721bcba520804dbdc377469f28fa37d99bc9006fdf3f5e4a97",
+    "observation": "Petit chalet en bois avec un seul niveau apparent, conduit arrêté, fenêtres modestes et accès au sol. Silhouette compacte complète, sans porche ou étage supplémentaire.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique des niveaux, accès et silhouette ; proportions projetées approximatives, aucune certification métrique1:1 ni intégration au moteur."
+  },
+  "apartments": {
+    "sha256": "09c6622cbb82855a463800c0e246530fbd8420dec862b2533e0f15744032b530",
+    "observation": "Immeuble montrant trois rangées de fenêtres pour les niveaux0,1,2 et une entrée centrale au rez-de-chaussée. Toit fermé sans étage supplémentaire ; le petit volume technique en toiture ne présente pas d’accès habitable.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique des niveaux, accès et silhouette ; proportions projetées approximatives, aucune certification métrique1:1 ni intégration au moteur."
+  },
+  "basementHouse": {
+    "sha256": "88d1438eb979cb5cf398497621707be5ec5caef2cc9d1814e003ecaee7d558c6",
+    "observation": "Un seul niveau aérien visible, entrée au sol et fenêtres résidentielles ; le sous-sol natif reste entièrement enterré et n’est pas ajouté comme second étage ou fosse.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique des niveaux, accès et silhouette ; proportions projetées approximatives, aucune certification métrique1:1 ni intégration au moteur."
+  },
+  "ruin": {
+    "sha256": "4ac2a7402c2afecbe3839e088a5cbc4ad198fd3bb5f508f6c02c3dfff5b1c18b",
+    "observation": "Toiture partiellement effondrée dans une zone localisée, charpente et gravats dans l’emprise, murs bas et entrée de plain-pied lisible. Pas de sous-sol, de second étage intact ou de présentation en coupe propre.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique des niveaux, accès et silhouette ; proportions projetées approximatives, aucune certification métrique1:1 ni intégration au moteur."
+  },
+  "hotel": {
+    "sha256": "d094fee5e66fddfee0a7edf38b2eaa0f3cc1f1633b5ea535d598e1d8f1451f1b",
+    "observation": "Hôtel à trois niveaux apparents au total, trois rangées de fenêtres et entrée centrale au sol. Toit fermé, ventilation modeste et silhouette complète ; aucune quatrième rangée ou annexe.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique des niveaux, accès et silhouette ; proportions projetées approximatives, aucune certification métrique1:1 ni intégration au moteur."
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "art229",
+  "savedOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "intent": "Continuer les sprites manquants depuis le point conservé, sans régénérer les lots précédents.",
+  "completedSpriteIds": [
+    "DW-0123",
+    "DW-0201",
+    "DW-0247"
+  ],
+  "finalAssets": [
+    {
+      "id": "DW-0123",
+      "path": "assets/art229/regional/DW-0123_dispensaire_rural.png",
+      "sha256": "bf958ae9bd41eb801585b728d6edd24b52e2329ebba99bd19a6f3a12158277da"
+    },
+    {
+      "id": "DW-0201",
+      "path": "assets/art229/regional/DW-0201_abri_communal.png",
+      "sha256": "b4f455cddf2ece4f90e41d546eaa2efd81a50c87900d97cfcfe472c78a838e20"
+    },
+    {
+      "id": "DW-0247",
+      "path": "assets/art229/regional/DW-0247_station_service_village.png",
+      "sha256": "ca6e01c384eba134c07b3475638d9b710fefa9f97fdb0877c2ddfcf1a83ea38c"
+    }
+  ],
+  "priorArt221Regenerated": false,
+  "priorArt222Regenerated": false,
+  "priorArt223Regenerated": false,
+  "priorArt224Regenerated": false,
+  "priorArt225Regenerated": false,
+  "priorArt226Regenerated": false,
+  "exclusionEvidence": {
+    "art222CodexIds": [
+      "DW-0342",
+      "DW-0132",
+      "DW-0321",
+      "DW-0334",
+      "DW-0541",
+      "DW-0528",
+      "DW-0549",
+      "DW-0097"
+    ],
+    "art223CodexIds": [
+      "DW-0065",
+      "DW-0153",
+      "DW-0085",
+      "DW-0082",
+      "DW-0444",
+      "DW-0224"
+    ],
+    "art221KnownCount": 9,
+    "art221CompleteAssetInventoryRecovered": false,
+    "art221CategoryExclusion": "Not used to declare these exact pilots already generated. Bounded evidence search did not recover an exact Art221 output inventory. clinic and bunker native names do not match USES; fuel matches only a category. These are newly commissioned pilot-specific sprites, not a reconstruction or certified historical deduplication of Art221.",
+    "art224CodexIds": [
+      "DW-0046",
+      "DW-0367",
+      "DW-0104",
+      "DW-0251",
+      "DW-0306",
+      "DW-0237"
+    ],
+    "art225SelectedCodexIds": [
+      "DW-0053",
+      "DW-0045",
+      "DW-0069",
+      "DW-0241",
+      "DW-0142",
+      "DW-0161"
+    ],
+    "art226SelectedCodexIds": [
+      "DW-0381",
+      "DW-0221",
+      "DW-0289",
+      "DW-0073",
+      "DW-0331",
+      "DW-0403"
+    ],
+    "parallelNextBatchSelectedCodexIds": [
+      "DW-0001",
+      "DW-0003",
+      "DW-0010",
+      "DW-0021",
+      "DW-0004",
+      "DW-0481",
+      "DW-0101"
+    ],
+    "art228SelectedCodexIds": [
+      "DW-0041",
+      "DW-0061",
+      "DW-0062",
+      "DW-0498",
+      "DW-0181",
+      "DW-0126",
+      "DW-0401"
+    ]
+  },
+  "publicationBaseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "priorPublishedPacks": [
+    {
+      "batch": "art222",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/27",
+      "pullRequestLabel": "PR #27",
+      "headRevision": "f76b216a9b98c1d4ebd5a6c53dc1fc07142c9114",
+      "finalSpriteCount": 8,
+      "supersededCandidateCount": 2
+    },
+    {
+      "batch": "art223",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/28",
+      "pullRequestLabel": "PR #28",
+      "headRevision": "e16e501e3ad18ea5f1088ffd4ba8cbab38f0e149",
+      "finalSpriteCount": 6,
+      "supersededCandidateCount": 9
+    },
+    {
+      "batch": "art224",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/29",
+      "pullRequestLabel": "PR #29",
+      "headRevision": "384f6ebaa5c573dfdedf5621a85f2a36be95b046",
+      "finalSpriteCount": 6,
+      "supersededCandidateCount": 1
+    },
+    {
+      "batch": "art225",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/30",
+      "pullRequestLabel": "PR #30",
+      "headRevision": "bb14d13aae1619e79fab6b5c4b8d2329aff1c2c6",
+      "finalSpriteCount": 6,
+      "supersededCandidateCount": 1
+    },
+    {
+      "batch": "art226",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/30",
+      "pullRequestLabel": "PR #30",
+      "headRevision": "bb14d13aae1619e79fab6b5c4b8d2329aff1c2c6",
+      "finalSpriteCount": 6,
+      "supersededCandidateCount": 6
+    }
+  ],
+  "continuationCounts": {
+    "priorPublishedFinalSprites": 32,
+    "art229FinalSprites": 3,
+    "art229SupersededCandidates": 0,
+    "art227IsParallelCompanionNotCountedHere": true,
+    "art228IsParallelCompanionNotCountedHere": true,
+    "countsDescribeArtPacksNotRuntimeIntegration": true
+  },
+  "integration": "not_performed",
+  "publicationStatusAtAssembly": "prepared_locally_not_published_by_assembler",
+  "nextSteps": [
+    "Lire les PR et manifestes publiés avant de sélectionner la suite.",
+    "Conserver les trois PNG retenus et les itérations remplacées.",
+    "Associer les futurs visuels aux fiches et types exacts.",
+    "Calibrer projection, échelle, ancrages, portes et ouverture des intérieurs avant raccord au moteur.",
+    "Après raccord, qualifier le commit réel par les contrôles du dépôt et le parcours joueur."
+  ],
+  "knownLimits": [
+    "Exact Art221 inventory remains unrecovered; these three specific IDs are not established as previous Art221 outputs. Their new sprites are authorized without claiming reconstruction or exhaustive deduplication of the nine historical illustrations.",
+    "Native pilot footprints and floors are verified, while larger proposed parcel ranges and exterior facade details are different concepts. Exact metric or pixel fidelity1:1 is not certified.",
+    "Inventaire historique Art221 incomplet.",
+    "Intégration au chargement et au rendu du jeu non effectuée.",
+    "Fidélité métrique ou pixel pour pixel 1:1 non certifiée."
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "clinic": {
+    "sha256": "bf958ae9bd41eb801585b728d6edd24b52e2329ebba99bd19a6f3a12158277da",
+    "observation": "Petit dispensaire rural à un niveau apparent, fenêtres modestes, entrée publique centrale au sol et toit fermé. Aucun étage supplémentaire, croix géante, aile hospitalière ou ambulance.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique des niveaux, accès, fonction et silhouette ; proportions projetées approximatives, pas de certification métrique1:1 ni d’intégration au moteur."
+  },
+  "bunker": {
+    "sha256": "b4f455cddf2ece4f90e41d546eaa2efd81a50c87900d97cfcfe472c78a838e20",
+    "observation": "Volume communal bas en béton, un seul niveau aérien avec accès central au sol et ventilation. Le niveau enterré n’est pas exposé comme étage, fosse ou coupe ; aucune arme, tourelle ou annexe militaire.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique des niveaux, accès, fonction et silhouette ; proportions projetées approximatives, pas de certification métrique1:1 ni d’intégration au moteur."
+  },
+  "fuel": {
+    "sha256": "ca6e01c384eba134c07b3475638d9b710fefa9f97fdb0877c2ddfcf1a83ea38c",
+    "observation": "Petite boutique à un niveau, vitrine et porte centrale au sol. Les trois groupes d’objets demandés sont présents : une pompe et un petit conteneur à gauche, une pile de pneus à droite ; aucun objet ne bloque l’entrée. Pas de grande marquise ou parcelle de station. Les positions et échelles précises restent à calibrer.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique des niveaux, accès, fonction et silhouette ; proportions projetées approximatives, pas de certification métrique1:1 ni d’intégration au moteur."
+  }
+}

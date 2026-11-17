@@ -1,0 +1,190 @@
+{
+  "schemaVersion": 1,
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "art227",
+  "assembledOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "generator": "OpenAI ImageGen intégré",
+  "referenceRepository": "darknigthmare/deadwall-last-enclosure",
+  "publicationBaseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "publicationBaseIsOutputCommit": false,
+  "finalSpriteCount": 7,
+  "generationCount": 7,
+  "supersededCandidateCount": 0,
+  "nativeOutputBytesPreserved": true,
+  "pixelEditingResizingCroppingPerformed": false,
+  "scope": "Sept extérieurs dédiés à l’habitat et à l’hébergement ; pack de préparation artistique.",
+  "styleReference": {
+    "path": "references/buildings-atlas.webp",
+    "repositoryPath": "assets/buildings-atlas.webp",
+    "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a",
+    "gitBlob": "99f730d209168f7be2e5c8aee1b0e927c9ab02e5",
+    "bytes": 364648,
+    "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/assets/buildings-atlas.webp",
+    "baseRevisionCompared": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "baseGitBlob": "99f730d209168f7be2e5c8aee1b0e927c9ab02e5",
+    "sameBlobAtPublicationBase": true,
+    "sourceDigestVerified": true
+  },
+  "fidelity": {
+    "observed": [
+      "Atlas réel utilisé",
+      "Programmes et niveaux documentés",
+      "Accès visibles au sol",
+      "Silhouettes et alpha contrôlés"
+    ],
+    "notCertified": [
+      "Projection métrique exacte",
+      "Mètres par pixel",
+      "Identité pixel pour pixel",
+      "Ancres et collisions",
+      "Position des accès et intégration en jeu"
+    ]
+  },
+  "integration": {
+    "performed": false,
+    "runtimeSourceChanged": false,
+    "runtimeAssetRegistrationChanged": false,
+    "testsChanged": false
+  },
+  "validation": {
+    "packTechnicalAudit": "passed",
+    "runtimeCheckThisPack": "not_run_by_assembler",
+    "browser": "not_run",
+    "windows": "not_run"
+  },
+  "sourcesIndex": "references/sources.json",
+  "sourceMapping": "references/SOURCE_MAP.json",
+  "prompts": "generation-prompts.json",
+  "generationHistory": "generation-history.json",
+  "technicalAudit": "qa/image-audit.json",
+  "visualReview": "qa/visual-review.md",
+  "assets": [
+    {
+      "id": "DW-0001",
+      "type": "house",
+      "name": "Maison de lotissement",
+      "path": "assets/art227/regional/DW-0001_maison_lotissement.png",
+      "sha256": "edcf77b66f5a2154a9fce27129913753db406df3326d538d2f5e27199f8bd009",
+      "bytes": 1469764,
+      "iteration": 1,
+      "pilotBuildingFootprintMetres": [
+        14,
+        12
+      ],
+      "pilotLevels": [
+        0
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0003",
+      "type": "duplex",
+      "name": "Maison à étage",
+      "path": "assets/art227/regional/DW-0003_maison_etage.png",
+      "sha256": "f8f18c1649d2fd20e7ec4f883652e70382f0e8c4a1d141ba27011819cc133aed",
+      "bytes": 1828325,
+      "iteration": 1,
+      "pilotBuildingFootprintMetres": [
+        16,
+        13
+      ],
+      "pilotLevels": [
+        0,
+        1
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0010",
+      "type": "cabin",
+      "name": "Chalet forestier",
+      "path": "assets/art227/regional/DW-0010_chalet_forestier.png",
+      "sha256": "cb3ffadd531a92721bcba520804dbdc377469f28fa37d99bc9006fdf3f5e4a97",
+      "bytes": 1131775,
+      "iteration": 1,
+      "pilotBuildingFootprintMetres": [
+        9,
+        8
+      ],
+      "pilotLevels": [
+        0
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0021",
+      "type": "apartments",
+      "name": "Immeuble de trois étages",
+      "path": "assets/art227/regional/DW-0021_immeuble_trois_niveaux.png",
+      "sha256": "09c6622cbb82855a463800c0e246530fbd8420dec862b2533e0f15744032b530",
+      "bytes": 1965993,
+      "iteration": 1,
+      "pilotBuildingFootprintMetres": [
+        30,
+        23
+      ],
+      "pilotLevels": [
+        0,
+        1,
+        2
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0004",
+      "type": "basementHouse",
+      "name": "Maison sur sous-sol",
+      "path": "assets/art227/regional/DW-0004_maison_sous_sol.png",
+      "sha256": "88d1438eb979cb5cf398497621707be5ec5caef2cc9d1814e003ecaee7d558c6",
+      "bytes": 1349455,
+      "iteration": 1,
+      "pilotBuildingFootprintMetres": [
+        18,
+        15
+      ],
+      "pilotLevels": [
+        -1,
+        0
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0481",
+      "type": "ruin",
+      "name": "Maison effondrée visitable",
+      "path": "assets/art227/regional/DW-0481_maison_effondree.png",
+      "sha256": "4ac2a7402c2afecbe3839e088a5cbc4ad198fd3bb5f508f6c02c3dfff5b1c18b",
+      "bytes": 1586099,
+      "iteration": 1,
+      "pilotBuildingFootprintMetres": [
+        18,
+        14
+      ],
+      "pilotLevels": [
+        0
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0101",
+      "type": "hotel",
+      "name": "Hôtel de centre-ville",
+      "path": "assets/art227/regional/DW-0101_hotel_centre_ville.png",
+      "sha256": "d094fee5e66fddfee0a7edf38b2eaa0f3cc1f1633b5ea535d598e1d8f1451f1b",
+      "bytes": 2356030,
+      "iteration": 1,
+      "pilotBuildingFootprintMetres": [
+        42,
+        26
+      ],
+      "pilotLevels": [
+        0,
+        1,
+        2
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "mall": {
+    "sha256": "9963eccb828202ca3ebc52561165ef11bd541337e3eea4a03ed33f10c7d67e22",
+    "observation": "Centre commercial montrant deux bandes de vitrages pour ses deux niveaux, toiture très dominante, accès public central au sol et équipements de toiture modestes. Aucun parking, tour d’atrium ou aile détachée.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique des niveaux, accès, fonction et silhouette ; proportions projetées approximatives, pas de certification métrique1:1 ni d’intégration au moteur."
+  },
+  "grocer": {
+    "sha256": "bbb859739ad0a1e8bb726b17dd3f279e9a0854efe2b71360d26ae0406bb41984",
+    "observation": "Boutique alimentaire à un seul niveau, vitrage de vente, porte centrale au sol et toit simple avec petite ventilation. Silhouette complète et accès dégagé, sans stock extérieur ajouté.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique des niveaux, accès, fonction et silhouette ; proportions projetées approximatives, pas de certification métrique1:1 ni d’intégration au moteur."
+  },
+  "market": {
+    "sha256": "92d124c06b3bf0f7e9e8921797c8372847bf84978af2a995493ba5baa350527f",
+    "observation": "Supermarché bas à un seul niveau apparent, vitrage public, porte centrale au sol, toiture technique et bande arrière fermée. Aucun grand quai surélevé ni parcelle ajoutée.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique des niveaux, accès, fonction et silhouette ; proportions projetées approximatives, pas de certification métrique1:1 ni d’intégration au moteur."
+  },
+  "motel": {
+    "sha256": "0aad47c740fef31e76650233891140912657ee1df06747ba949a924ad0d16890",
+    "observation": "Correction retenue : profondeur apparente du toit augmentée, deux rangées de fenêtres conservées dans une façade courte. Entrée de réception au sol, végétation murale modeste et équipements de toiture conservés ; aucun troisième niveau.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique des niveaux, accès, fonction et silhouette ; proportions projetées approximatives, pas de certification métrique1:1 ni d’intégration au moteur."
+  },
+  "firestation": {
+    "sha256": "fe3b013dce017584e7196f5c7cbc8bb82f2b8a5960e7f6a9d1d41681e4b5a2dc",
+    "observation": "Caserne native DW-0181 à deux niveaux apparents, deux portes de remise au sol, porte piétonne centrale et rangée de fenêtres supérieure. Toit fermé, sans tour ni véhicule ; distincte de la variante DW-0528.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique des niveaux, accès, fonction et silhouette ; proportions projetées approximatives, pas de certification métrique1:1 ni d’intégration au moteur."
+  },
+  "dental": {
+    "sha256": "e8b0f89d56d431cc5dca64b7c4a3d5ec8c43d17a031258c32230cefc1e59f744",
+    "observation": "Petit cabinet à un seul niveau, fenêtres modestes, porte de réception centrale au sol et toiture fermée avec ventilation discrète. Aucun symbole dentaire géant ou aile hospitalière.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique des niveaux, accès, fonction et silhouette ; proportions projetées approximatives, pas de certification métrique1:1 ni d’intégration au moteur."
+  },
+  "mine": {
+    "sha256": "b1cbaac7651d1047a3aa38317b7df8e0494235e60a08739c3cb57aa25e96c4eb",
+    "observation": "Halle de surface fermée à un seul niveau aérien avec entrée de manutention au sol et fenêtres techniques. La galerie souterraine demeure cachée, sans falaise, chevalement ou fosse ajouté.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique des niveaux, accès, fonction et silhouette ; proportions projetées approximatives, pas de certification métrique1:1 ni d’intégration au moteur."
+  }
+}
