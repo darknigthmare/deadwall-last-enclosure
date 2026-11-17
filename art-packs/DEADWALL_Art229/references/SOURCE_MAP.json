@@ -1,0 +1,401 @@
+[
+  {
+    "id": "DW-0123",
+    "name": "Dispensaire rural",
+    "type": "clinic",
+    "sourceSheet": "references/DW-0123.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      23,
+      17
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Accueil",
+          "Consultation",
+          "Soins",
+          "Stock médical"
+        ],
+        "objectKinds": [
+          "desk",
+          "table",
+          "medical",
+          "bed",
+          "shelf"
+        ],
+        "stairs": []
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "medical",
+      "crate"
+    ],
+    "nativeOutdoorProps": [
+      {
+        "kind": "medical",
+        "x": 2,
+        "y": 21,
+        "w": 1.2,
+        "h": 0.65
+      },
+      {
+        "kind": "crate",
+        "x": 20,
+        "y": 21,
+        "w": 1.2,
+        "h": 0.8
+      }
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        20,
+        16
+      ],
+      "maximum": [
+        150,
+        100
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "clinic",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatServices153",
+        "family": "clinic",
+        "variant": 0,
+        "rect": [
+          789,
+          39,
+          345,
+          212
+        ]
+      },
+      {
+        "atlas": "habitatServices153",
+        "family": "clinic",
+        "variant": 1,
+        "rect": [
+          1167,
+          41,
+          352,
+          209
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "clinic",
+        "variant": 2,
+        "model": "terracotta-skylight",
+        "rect": [
+          53,
+          774,
+          303,
+          184
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "clinic",
+        "variant": 3,
+        "model": "concrete-ventilation",
+        "rect": [
+          432,
+          777,
+          304,
+          179
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "clinic",
+        "variant": 4,
+        "model": "metal-skylights",
+        "rect": [
+          804,
+          777,
+          313,
+          183
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "clinic",
+        "variant": 5,
+        "model": "weathered-flat",
+        "rect": [
+          1203,
+          777,
+          266,
+          184
+        ]
+      }
+    ]
+  },
+  {
+    "id": "DW-0201",
+    "name": "Abri communal souterrain",
+    "type": "bunker",
+    "sourceSheet": "references/DW-0201.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      26,
+      21
+    ],
+    "pilotLevels": [
+      -1,
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": -1,
+        "names": [
+          "Vie commune",
+          "Dortoir",
+          "Réserve secours",
+          "Technique"
+        ],
+        "objectKinds": [
+          "table",
+          "crate",
+          "bed",
+          "wardrobe",
+          "medical",
+          "workbench",
+          "fuel"
+        ],
+        "stairs": [
+          {
+            "id": "art229-bunker:stairs",
+            "x": 11.95,
+            "y": 17,
+            "w": 2.1,
+            "h": 2.9,
+            "levels": [
+              -1,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "z": 0,
+        "names": [
+          "Vie commune",
+          "Dortoir",
+          "Réserve secours",
+          "Technique"
+        ],
+        "objectKinds": [
+          "table",
+          "crate",
+          "bed",
+          "wardrobe",
+          "medical",
+          "workbench",
+          "fuel"
+        ],
+        "stairs": [
+          {
+            "id": "art229-bunker:stairs",
+            "x": 11.95,
+            "y": 17,
+            "w": 2.1,
+            "h": 2.9,
+            "levels": [
+              -1,
+              0
+            ]
+          }
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [],
+    "nativeOutdoorProps": [],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        16,
+        12
+      ],
+      "maximum": [
+        95,
+        70
+      ]
+    },
+    "authorProposedLevelsText": "-1, 0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "underground",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatServices153",
+        "family": "underground",
+        "variant": 0,
+        "rect": [
+          34,
+          781,
+          333,
+          212
+        ]
+      },
+      {
+        "atlas": "habitatServices153",
+        "family": "underground",
+        "variant": 1,
+        "rect": [
+          402,
+          787,
+          347,
+          204
+        ]
+      }
+    ]
+  },
+  {
+    "id": "DW-0247",
+    "name": "Station-service",
+    "type": "fuel",
+    "sourceSheet": "references/DW-0247.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      19,
+      14
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Réserve",
+          "Service et caisse",
+          "Vente"
+        ],
+        "objectKinds": [
+          "shelf",
+          "fuel",
+          "workbench"
+        ],
+        "stairs": []
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "fuel",
+      "tirePile",
+      "pump"
+    ],
+    "nativeOutdoorProps": [
+      {
+        "kind": "fuel",
+        "x": -5,
+        "y": 5.6000000000000005,
+        "w": 0.65,
+        "h": 0.5
+      },
+      {
+        "kind": "tirePile",
+        "x": 22,
+        "y": 5.6000000000000005,
+        "w": 1.2,
+        "h": 1.2
+      },
+      {
+        "kind": "pump",
+        "x": -5,
+        "y": 9.600000000000001,
+        "w": 0.8,
+        "h": 0.65
+      }
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        22,
+        18
+      ],
+      "maximum": [
+        100,
+        85
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "service",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatServices153",
+        "family": "service",
+        "variant": 0,
+        "rect": [
+          43,
+          528,
+          260,
+          228
+        ]
+      },
+      {
+        "atlas": "habitatServices153",
+        "family": "service",
+        "variant": 1,
+        "rect": [
+          341,
+          530,
+          414,
+          227
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "service",
+        "variant": 2,
+        "model": "terracotta-skylight",
+        "rect": [
+          53,
+          774,
+          303,
+          184
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "service",
+        "variant": 3,
+        "model": "concrete-ventilation",
+        "rect": [
+          432,
+          777,
+          304,
+          179
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "service",
+        "variant": 4,
+        "model": "metal-skylights",
+        "rect": [
+          804,
+          777,
+          313,
+          183
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "service",
+        "variant": 5,
+        "model": "weathered-flat",
+        "rect": [
+          1203,
+          777,
+          266,
+          184
+        ]
+      }
+    ]
+  }
+]

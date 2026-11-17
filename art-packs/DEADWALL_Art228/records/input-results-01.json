@@ -1,0 +1,124 @@
+[
+  {
+    "key": "mall",
+    "id": "DW-0041",
+    "label": "Centre commercial régional",
+    "file": "DW-0041_centre_commercial.png",
+    "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art228. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates; do not lower the camera to show the facade. Preserve the native pilot footprint ratio and above-ground floor count. Intact roof, no cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow grounded threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0041 82 m wide by 56 m deep broad rectangular regional shopping centre. EXACTLY TWO above-ground floors. Very broad weathered flat or gently sloped roof with a few small practical ventilation units, restrained repeated storefront glazing and one modest ground-level public entrance. Enclosed mall corridor, shops, anchor shops and storage remain inside a single continuous rectangular block. No parking lot, full retail park, disconnected wings, giant atrium tower, advertising, extra floor or rooftop entrance. PROJECTION PRIORITY: projected roof/footprint depth about 64% of its width; combined visible front wall band about 10% of building width, for ALL above-ground floors together. Keep full roof depth and strongly compress the facade. It is acceptable for doors and low windows to be partly hidden by eaves. Do not invent an extra floor to improve readability. CAMERA CLARIFICATION: the camera is only 15 degrees away from looking vertically straight down. Use a nearly undistorted top-down roof plan with a tiny front-wall strip, without raising the camera target to show more facade. All specified above-ground floors still exist; their visible wall bands are strongly foreshortened together.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art228-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-bb6c0e16-e3dd-4cd3-b3e1-7d261380d6ed.png"
+  },
+  {
+    "key": "grocer",
+    "id": "DW-0061",
+    "label": "Supérette de quartier",
+    "file": "DW-0061_superette_quartier.png",
+    "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art228. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates; do not lower the camera to show the facade. Preserve the native pilot footprint ratio and above-ground floor count. Intact roof, no cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow grounded threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0061 19 m wide by 15 m deep compact rectangular neighborhood grocery, EXACTLY ONE above-ground floor. Modest glazed sales frontage, one human-scale grounded customer doorway and a simple low weathered roof. Shelved sales space, reserve, service and checkout remain inside. A rear delivery door may be hidden by the roof. No giant supermarket hall, detached stock building, outdoor food display, logo or extra storey. PROJECTION PRIORITY: projected roof/footprint depth about 74% of its width; combined visible front wall band about 6% of building width, for ALL above-ground floors together. Keep full roof depth and strongly compress the facade. It is acceptable for doors and low windows to be partly hidden by eaves. Do not invent an extra floor to improve readability. CAMERA CLARIFICATION: the camera is only 15 degrees away from looking vertically straight down. Use a nearly undistorted top-down roof plan with a tiny front-wall strip, without raising the camera target to show more facade. All specified above-ground floors still exist; their visible wall bands are strongly foreshortened together.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art228-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-03a6f135-c91c-42b1-8922-daf2e4294afa.png"
+  },
+  {
+    "key": "market",
+    "id": "DW-0062",
+    "label": "Supermarché avec quai",
+    "file": "DW-0062_supermarche_quai.png",
+    "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art228. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates; do not lower the camera to show the facade. Preserve the native pilot footprint ratio and above-ground floor count. Intact roof, no cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow grounded threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0062 42 m wide by 30 m deep rectangular supermarket, EXACTLY ONE above-ground floor. Broad low utilitarian roof, modest glazed public frontage and a grounded customer doorway. Enclosed stock/service zone at the rear; any service threshold remains at ground level and may be occluded by the roof. Do not invent a large raised truck dock outside the native rectangle just because the sheet title mentions a quay. No parking lot, shopping-centre second floor, detached cold store, signs or rooftop doorway. PROJECTION PRIORITY: projected roof/footprint depth about 67% of its width; combined visible front wall band about 6% of building width, for ALL above-ground floors together. Keep full roof depth and strongly compress the facade. It is acceptable for doors and low windows to be partly hidden by eaves. Do not invent an extra floor to improve readability. CAMERA CLARIFICATION: the camera is only 15 degrees away from looking vertically straight down. Use a nearly undistorted top-down roof plan with a tiny front-wall strip, without raising the camera target to show more facade. All specified above-ground floors still exist; their visible wall bands are strongly foreshortened together.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art228-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-2d1d06d0-ca2b-48b1-84f3-e20e456a7a5e.png"
+  },
+  {
+    "key": "motel",
+    "id": "DW-0498",
+    "label": "Motel gagné par la forêt",
+    "file": "DW-0498_motel_foret.png",
+    "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art228. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates; do not lower the camera to show the facade. Preserve the native pilot footprint ratio and above-ground floor count. Intact roof, no cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow grounded threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0498 44 m wide by 19 m deep long rectangular motel, EXACTLY TWO floors: ground plus one upper. Broad shallow-depth simple roof, two compressed rows of repeated room windows, small ground-level reception entrance, muted weathered walls and only a little restrained wall vegetation. The native central corridor and stair remain indoors. No detached cabin row, open U-shaped courtyard, external stair, swimming pool, parking lot, forest tile or third floor. PROJECTION PRIORITY: projected roof/footprint depth about 41% of its width; combined visible front wall band about 10% of building width, for ALL above-ground floors together. Keep full roof depth and strongly compress the facade. It is acceptable for doors and low windows to be partly hidden by eaves. Do not invent an extra floor to improve readability. CAMERA CLARIFICATION: the camera is only 15 degrees away from looking vertically straight down. Use a nearly undistorted top-down roof plan with a tiny front-wall strip, without raising the camera target to show more facade. All specified above-ground floors still exist; their visible wall bands are strongly foreshortened together.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art228-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-0c89ddeb-c003-4858-9b8d-f6cb145a183b.png"
+  },
+  {
+    "key": "firestation",
+    "id": "DW-0181",
+    "label": "Caserne de pompiers",
+    "file": "DW-0181_caserne_pompiers_native.png",
+    "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art228. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates; do not lower the camera to show the facade. Preserve the native pilot footprint ratio and above-ground floor count. Intact roof, no cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow grounded threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0181 36 m wide by 28 m deep rectangular fire station, EXACTLY TWO above-ground floors, matching native DW-0181. Ground floor holds equipment storage, workshop, reception and emergency reserves; upper floor holds crew rest rooms, lockers, coordination, refectory and archives. Sober weathered masonry, a broad low roof, a couple of practical ground-level equipment doors and a compact upper row of windows. Keep the entire two-floor wall band short. No extra tower, hose-drying tower, roof access door, fire engine, whole yard or separate garage. Do not copy the one-floor DW-0528 variant from Art222. PROJECTION PRIORITY: projected roof/footprint depth about 73% of its width; combined visible front wall band about 10% of building width, for ALL above-ground floors together. Keep full roof depth and strongly compress the facade. It is acceptable for doors and low windows to be partly hidden by eaves. Do not invent an extra floor to improve readability. CAMERA CLARIFICATION: the camera is only 15 degrees away from looking vertically straight down. Use a nearly undistorted top-down roof plan with a tiny front-wall strip, without raising the camera target to show more facade. All specified above-ground floors still exist; their visible wall bands are strongly foreshortened together.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art228-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-90203106-3bd1-4aa1-9abc-9f12d7f163b8.png"
+  },
+  {
+    "key": "dental",
+    "id": "DW-0126",
+    "label": "Cabinet dentaire",
+    "file": "DW-0126_cabinet_dentaire.png",
+    "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art228. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates; do not lower the camera to show the facade. Preserve the native pilot footprint ratio and above-ground floor count. Intact roof, no cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow grounded threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0126 25 m wide by 20 m deep rectangular neighborhood dental practice, EXACTLY ONE above-ground floor. Modest clean-lined but weathered plaster/masonry, a broad low simple roof, restrained small windows and a small grounded reception entrance. Waiting/reception, two treatment rooms, sterilization, clean stock and changing/office rooms stay inside. No giant tooth symbol, medical cross, hospital wing, ambulance bay, outdoor dental chair, rooftop door or extra storey. PROJECTION PRIORITY: projected roof/footprint depth about 75% of its width; combined visible front wall band about 6% of building width, for ALL above-ground floors together. Keep full roof depth and strongly compress the facade. It is acceptable for doors and low windows to be partly hidden by eaves. Do not invent an extra floor to improve readability. CAMERA CLARIFICATION: the camera is only 15 degrees away from looking vertically straight down. Use a nearly undistorted top-down roof plan with a tiny front-wall strip, without raising the camera target to show more facade. All specified above-ground floors still exist; their visible wall bands are strongly foreshortened together.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art228-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-ba54b238-332d-4539-8749-3544e9738b36.png"
+  },
+  {
+    "key": "mine",
+    "id": "DW-0401",
+    "label": "Mine à galerie",
+    "file": "DW-0401_mine_halle_surface.png",
+    "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art228. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates; do not lower the camera to show the facade. Preserve the native pilot footprint ratio and above-ground floor count. Intact roof, no cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow grounded threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0401 32 m wide by 25 m deep rectangular SURFACE SERVICE HALL for the native gallery mine, EXACTLY ONE visible ABOVE-GROUND floor. One entirely buried underground level lies beneath: timbered gallery, extraction chamber, refuge and rock face remain HIDDEN. The native surface plan is an enclosed hall with shelves, a rear technical reserve and an office, connected to the underground level by an INTERNAL stair. Show a low weathered industrial roof, modest ground-level material doorway and restrained technical windows. Do not replace this native rectangular building with a cliff portal, mountain, open-pit mine, shaft tower, exposed underground cross-section, second above-ground floor, external ramp or terrain base. PROJECTION PRIORITY: projected roof/footprint depth about 73% of its width; combined visible front wall band about 6% of building width, for ALL above-ground floors together. Keep full roof depth and strongly compress the facade. It is acceptable for doors and low windows to be partly hidden by eaves. Do not invent an extra floor to improve readability. CAMERA CLARIFICATION: the camera is only 15 degrees away from looking vertically straight down. Use a nearly undistorted top-down roof plan with a tiny front-wall strip, without raising the camera target to show more facade. All specified above-ground floors still exist; their visible wall bands are strongly foreshortened together.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art228-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-81866817-a8b5-4b09-9407-67c1d99a9dff.png"
+  },
+  {
+    "key": "motel",
+    "id": "DW-0498",
+    "label": "Motel gagné par la forêt",
+    "file": "DW-0498_motel_foret.png",
+    "prompt": "Use case: stylized-concept. Edit ONLY the existing DEADWALL motel in image 1. Image 2 is the original game atlas as a style reference. Preserve the SAME 44 m wide by 19 m deep rectangular motel, exactly TWO above-ground floors, repeated windows, central ground-level reception doorway, weathered flat roof, vents and modest wall vegetation. The current building is far too compressed front-to-back. Correct to a near-vertical downward orthographic camera, only 15 degrees off straight down. Expand the visible ROOF PLAN depth to about 41% of roof width, roughly DOUBLE the current visible depth; keep building width. Preserve both floors, with their combined front-wall band about 8–10% of building width, no taller. The two rows of windows and doorway may be strongly foreshortened from above. Do not create an extra upper floor, attic, roof doorway, external staircase, courtyard or separate rooms. Roof edges aligned to image axes, no diamond isometric. Keep all original worn subdued materials and details, one coherent complete silhouette with generous true transparent RGBA margins and short contact shadow. No terrain rectangle, opaque background, text, people, vehicles or pool. Preserve transparency. This is a projection correction of the same native motel.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/generated_images/exec-0c89ddeb-c003-4858-9b8d-f6cb145a183b.png",
+      "/workspace/scratch/6f470a892a0f/art228-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 2,
+    "operation": "camera-correction",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-4f19f3db-17af-4f97-a805-97ced590c7eb.png"
+  }
+]

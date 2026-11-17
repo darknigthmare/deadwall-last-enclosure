@@ -1,0 +1,37 @@
+[
+  {
+    "path": "inventory-references/settlement-plans.js",
+    "repositoryPath": "src/settlement-plans.js",
+    "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "sha256": "b6753636ae6b075af11b3c49da9616c3853f3a5c3cdb28b03707752b70ac2f1c",
+    "bytes": 1501
+  },
+  {
+    "path": "inventory-references/DW-0056.md",
+    "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0056.md",
+    "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "sha256": "c8a4cdda2168287ad57658313ec0cc30ee78393084c12c523bc55904baa213a6",
+    "bytes": 8400
+  },
+  {
+    "path": "inventory-references/DW-0066.md",
+    "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0066.md",
+    "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "sha256": "fde86e8442e939e836f8fb21eadc4ffbba972feb007492c0257ca2cf0a6b3747",
+    "bytes": 8288
+  },
+  {
+    "path": "inventory-references/DW-0505.md",
+    "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0505.md",
+    "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "sha256": "7d503a500d5398399b4de9c434ddbc391486a96edd9215f6da9c757492025322",
+    "bytes": 1966
+  },
+  {
+    "path": "inventory-references/DW-0518.md",
+    "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0518.md",
+    "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "sha256": "58f82c0bcdb928f8bafee5384e6aba341b1de42290ae6c31d7337ab214112402",
+    "bytes": 1987
+  }
+]

@@ -1,0 +1,322 @@
+{
+  "schemaVersion": 1,
+  "batch": "art229",
+  "checkedOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "method": "PNG signature/IHDR and Pillow verify, native RGBA alpha histogram and bounds, SHA-256. No write, crop, resize or pixel transformation.",
+  "alphaThresholds": [
+    1,
+    8,
+    32,
+    128,
+    240
+  ],
+  "boundsConvention": "left/top inclusive, right/bottom exclusive",
+  "alphaInterpretation": "Hidden RGB colors with alpha=0 are transparent. Low alpha1–7 noise is reported separately. Alpha>=8 margins are a technical visibility indicator, not a physical footprint or fidelity certificate.",
+  "finalSpriteCount": 3,
+  "allRgba": true,
+  "allVisibleBodiesWithinCanvasAtAlpha8": true,
+  "nativeBytesPreserved": true,
+  "assets": [
+    {
+      "file": "assets/art229/regional/DW-0123_dispensaire_rural.png",
+      "bytes": 1870117,
+      "sha256": "bf958ae9bd41eb801585b728d6edd24b52e2329ebba99bd19a6f3a12158277da",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 869587,
+      "fullyTransparentFraction": 0.5529866558814851,
+      "lowAlphaPixels1to7": 32804,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          19,
+          1444,
+          1086
+        ],
+        "8": [
+          213,
+          237,
+          1237,
+          918
+        ],
+        "32": [
+          219,
+          238,
+          1233,
+          911
+        ],
+        "128": [
+          223,
+          238,
+          1229,
+          902
+        ],
+        "240": [
+          227,
+          239,
+          1223,
+          897
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 19,
+          "right": 4,
+          "bottom": 0
+        },
+        "8": {
+          "left": 213,
+          "top": 237,
+          "right": 211,
+          "bottom": 168
+        },
+        "32": {
+          "left": 219,
+          "top": 238,
+          "right": 215,
+          "bottom": 175
+        },
+        "128": {
+          "left": 223,
+          "top": 238,
+          "right": 219,
+          "bottom": 184
+        },
+        "240": {
+          "left": 227,
+          "top": 239,
+          "right": 225,
+          "bottom": 189
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art229/regional/DW-0201_abri_communal.png",
+      "bytes": 2476004,
+      "sha256": "b4f455cddf2ece4f90e41d546eaa2efd81a50c87900d97cfcfe472c78a838e20",
+      "width": 1438,
+      "height": 1093,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 633494,
+      "fullyTransparentFraction": 0.40305420637334305,
+      "lowAlphaPixels1to7": 55041,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1429,
+          1093
+        ],
+        "8": [
+          112,
+          213,
+          1337,
+          957
+        ],
+        "32": [
+          115,
+          213,
+          1331,
+          952
+        ],
+        "128": [
+          119,
+          214,
+          1324,
+          947
+        ],
+        "240": [
+          121,
+          215,
+          1321,
+          943
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 9,
+          "bottom": 0
+        },
+        "8": {
+          "left": 112,
+          "top": 213,
+          "right": 101,
+          "bottom": 136
+        },
+        "32": {
+          "left": 115,
+          "top": 213,
+          "right": 107,
+          "bottom": 141
+        },
+        "128": {
+          "left": 119,
+          "top": 214,
+          "right": 114,
+          "bottom": 146
+        },
+        "240": {
+          "left": 121,
+          "top": 215,
+          "right": 117,
+          "bottom": 150
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art229/regional/DW-0247_station_service_village.png",
+      "bytes": 1551294,
+      "sha256": "ca6e01c384eba134c07b3475638d9b710fefa9f97fdb0877c2ddfcf1a83ea38c",
+      "width": 1470,
+      "height": 1070,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 976796,
+      "fullyTransparentFraction": 0.6210159577849832,
+      "lowAlphaPixels1to7": 23843,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          15,
+          1458,
+          1070
+        ],
+        "8": [
+          207,
+          242,
+          1280,
+          855
+        ],
+        "32": [
+          208,
+          242,
+          1276,
+          845
+        ],
+        "128": [
+          208,
+          242,
+          1272,
+          835
+        ],
+        "240": [
+          209,
+          243,
+          1272,
+          833
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 15,
+          "right": 12,
+          "bottom": 0
+        },
+        "8": {
+          "left": 207,
+          "top": 242,
+          "right": 190,
+          "bottom": 215
+        },
+        "32": {
+          "left": 208,
+          "top": 242,
+          "right": 194,
+          "bottom": 225
+        },
+        "128": {
+          "left": 208,
+          "top": 242,
+          "right": 198,
+          "bottom": 235
+        },
+        "240": {
+          "left": 209,
+          "top": 243,
+          "right": 198,
+          "bottom": 237
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    }
+  ]
+}

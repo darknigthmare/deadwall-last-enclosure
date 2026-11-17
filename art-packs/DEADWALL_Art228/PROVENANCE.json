@@ -1,0 +1,188 @@
+{
+  "schemaVersion": 1,
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "art228",
+  "assembledOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "generator": "OpenAI ImageGen intégré",
+  "referenceRepository": "darknigthmare/deadwall-last-enclosure",
+  "publicationBaseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "publicationBaseIsOutputCommit": false,
+  "finalSpriteCount": 7,
+  "generationCount": 8,
+  "supersededCandidateCount": 1,
+  "nativeOutputBytesPreserved": true,
+  "pixelEditingResizingCroppingPerformed": false,
+  "scope": "Sept extérieurs dédiés aux commerces, aux services, au motel et à la halle de surface de la mine ; pack de préparation artistique.",
+  "styleReference": {
+    "path": "references/buildings-atlas.webp",
+    "repositoryPath": "assets/buildings-atlas.webp",
+    "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a",
+    "gitBlob": "99f730d209168f7be2e5c8aee1b0e927c9ab02e5",
+    "bytes": 364648,
+    "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/assets/buildings-atlas.webp",
+    "baseRevisionCompared": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "baseGitBlob": "99f730d209168f7be2e5c8aee1b0e927c9ab02e5",
+    "sameBlobAtPublicationBase": true,
+    "sourceDigestVerified": true
+  },
+  "fidelity": {
+    "observed": [
+      "Atlas réel utilisé",
+      "Programmes et niveaux documentés",
+      "Accès visibles au sol",
+      "Silhouettes et alpha contrôlés"
+    ],
+    "notCertified": [
+      "Projection métrique exacte",
+      "Mètres par pixel",
+      "Identité pixel pour pixel",
+      "Ancres et collisions",
+      "Position des accès et intégration en jeu"
+    ]
+  },
+  "integration": {
+    "performed": false,
+    "runtimeSourceChanged": false,
+    "runtimeAssetRegistrationChanged": false,
+    "testsChanged": false
+  },
+  "validation": {
+    "packTechnicalAudit": "passed",
+    "runtimeCheckThisPack": "not_run_by_assembler",
+    "browser": "not_run",
+    "windows": "not_run"
+  },
+  "sourcesIndex": "references/sources.json",
+  "sourceMapping": "references/SOURCE_MAP.json",
+  "prompts": "generation-prompts.json",
+  "generationHistory": "generation-history.json",
+  "technicalAudit": "qa/image-audit.json",
+  "visualReview": "qa/visual-review.md",
+  "assets": [
+    {
+      "id": "DW-0041",
+      "type": "mall",
+      "name": "Centre commercial régional",
+      "path": "assets/art228/regional/DW-0041_centre_commercial.png",
+      "sha256": "9963eccb828202ca3ebc52561165ef11bd541337e3eea4a03ed33f10c7d67e22",
+      "bytes": 2600914,
+      "iteration": 1,
+      "pilotBuildingFootprintMetres": [
+        82,
+        56
+      ],
+      "pilotLevels": [
+        0,
+        1
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0061",
+      "type": "grocer",
+      "name": "Supérette de quartier",
+      "path": "assets/art228/regional/DW-0061_superette_quartier.png",
+      "sha256": "bbb859739ad0a1e8bb726b17dd3f279e9a0854efe2b71360d26ae0406bb41984",
+      "bytes": 1184979,
+      "iteration": 1,
+      "pilotBuildingFootprintMetres": [
+        19,
+        15
+      ],
+      "pilotLevels": [
+        0
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0062",
+      "type": "market",
+      "name": "Supermarché avec quai",
+      "path": "assets/art228/regional/DW-0062_supermarche_quai.png",
+      "sha256": "92d124c06b3bf0f7e9e8921797c8372847bf84978af2a995493ba5baa350527f",
+      "bytes": 2020691,
+      "iteration": 1,
+      "pilotBuildingFootprintMetres": [
+        42,
+        30
+      ],
+      "pilotLevels": [
+        0
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0498",
+      "type": "motel",
+      "name": "Motel gagné par la forêt",
+      "path": "assets/art228/regional/DW-0498_motel_foret.png",
+      "sha256": "0aad47c740fef31e76650233891140912657ee1df06747ba949a924ad0d16890",
+      "bytes": 2503283,
+      "iteration": 2,
+      "pilotBuildingFootprintMetres": [
+        44,
+        19
+      ],
+      "pilotLevels": [
+        0,
+        1
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0181",
+      "type": "firestation",
+      "name": "Caserne de pompiers",
+      "path": "assets/art228/regional/DW-0181_caserne_pompiers_native.png",
+      "sha256": "fe3b013dce017584e7196f5c7cbc8bb82f2b8a5960e7f6a9d1d41681e4b5a2dc",
+      "bytes": 1782470,
+      "iteration": 1,
+      "pilotBuildingFootprintMetres": [
+        36,
+        28
+      ],
+      "pilotLevels": [
+        0,
+        1
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0126",
+      "type": "dental",
+      "name": "Cabinet dentaire",
+      "path": "assets/art228/regional/DW-0126_cabinet_dentaire.png",
+      "sha256": "e8b0f89d56d431cc5dca64b7c4a3d5ec8c43d17a031258c32230cefc1e59f744",
+      "bytes": 1719601,
+      "iteration": 1,
+      "pilotBuildingFootprintMetres": [
+        25,
+        20
+      ],
+      "pilotLevels": [
+        0
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0401",
+      "type": "mine",
+      "name": "Mine à galerie",
+      "path": "assets/art228/regional/DW-0401_mine_halle_surface.png",
+      "sha256": "b1cbaac7651d1047a3aa38317b7df8e0494235e60a08739c3cb57aa25e96c4eb",
+      "bytes": 1868260,
+      "iteration": 1,
+      "pilotBuildingFootprintMetres": [
+        32,
+        25
+      ],
+      "pilotLevels": [
+        -1,
+        0
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    }
+  ]
+}

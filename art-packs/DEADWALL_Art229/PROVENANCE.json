@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "art229",
+  "assembledOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "generator": "OpenAI ImageGen intégré",
+  "referenceRepository": "darknigthmare/deadwall-last-enclosure",
+  "publicationBaseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "publicationBaseIsOutputCommit": false,
+  "finalSpriteCount": 3,
+  "generationCount": 3,
+  "supersededCandidateCount": 0,
+  "nativeOutputBytesPreserved": true,
+  "pixelEditingResizingCroppingPerformed": false,
+  "scope": "Trois nouveaux extérieurs des pilotes exacts : dispensaire rural, abri communal et petite station-service. Historique Art221 incomplet ; aucune reconstitution ou déduplication historique exhaustive revendiquée.",
+  "styleReference": {
+    "path": "references/buildings-atlas.webp",
+    "repositoryPath": "assets/buildings-atlas.webp",
+    "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a",
+    "gitBlob": "99f730d209168f7be2e5c8aee1b0e927c9ab02e5",
+    "bytes": 364648,
+    "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/assets/buildings-atlas.webp",
+    "baseRevisionCompared": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "baseGitBlob": "99f730d209168f7be2e5c8aee1b0e927c9ab02e5",
+    "sameBlobAtPublicationBase": true,
+    "sourceDigestVerified": true
+  },
+  "fidelity": {
+    "observed": [
+      "Atlas réel utilisé",
+      "Programmes et niveaux documentés",
+      "Accès visibles au sol",
+      "Silhouettes et alpha contrôlés"
+    ],
+    "notCertified": [
+      "Projection métrique exacte",
+      "Mètres par pixel",
+      "Identité pixel pour pixel",
+      "Ancres et collisions",
+      "Position des accès et intégration en jeu"
+    ]
+  },
+  "integration": {
+    "performed": false,
+    "runtimeSourceChanged": false,
+    "runtimeAssetRegistrationChanged": false,
+    "testsChanged": false
+  },
+  "validation": {
+    "packTechnicalAudit": "passed",
+    "runtimeCheckThisPack": "not_run_by_assembler",
+    "browser": "not_run",
+    "windows": "not_run"
+  },
+  "sourcesIndex": "references/sources.json",
+  "sourceMapping": "references/SOURCE_MAP.json",
+  "prompts": "generation-prompts.json",
+  "generationHistory": "generation-history.json",
+  "aggregateCoverage": {
+    "report": "coverage/coverage-art222-229.json",
+    "explanation": "coverage/coverage-art222-229.md",
+    "finalIdsAndPngHashesUnique": 49,
+    "thisPackIdHashSizeAndPathVerifiedAgainstReport": true,
+    "reportDoesNotIncludeThisPackManifestHash": true
+  },
+  "promptRefinements": {
+    "initialSelectionPreservedAsHistoricalProposal": true,
+    "actualVerbatimPromptsAreAuthoritative": true,
+    "cameraClarification": "Generation requests strengthen the camera toward 15 degrees from vertical; this is a requested visual direction, not a measured projection certificate.",
+    "fuelRelativeDepthInferenceRemovedFromAllSentPrompts": true,
+    "fuelRefinementReason": "The initial proposal inferred a front/back ordering from native local y coordinates and the desired image orientation. That screen-space inference is not established; keep native coordinates and left/right prop groups without certifying that mapping.",
+    "nativePlanCoordinatesChanged": false,
+    "nativePropKindsOrCountChanged": false
+  },
+  "technicalAudit": "qa/image-audit.json",
+  "visualReview": "qa/visual-review.md",
+  "assets": [
+    {
+      "id": "DW-0123",
+      "type": "clinic",
+      "name": "Dispensaire rural",
+      "path": "assets/art229/regional/DW-0123_dispensaire_rural.png",
+      "sha256": "bf958ae9bd41eb801585b728d6edd24b52e2329ebba99bd19a6f3a12158277da",
+      "bytes": 1870117,
+      "iteration": 1,
+      "pilotBuildingFootprintMetres": [
+        23,
+        17
+      ],
+      "pilotLevels": [
+        0
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0201",
+      "type": "bunker",
+      "name": "Abri communal souterrain",
+      "path": "assets/art229/regional/DW-0201_abri_communal.png",
+      "sha256": "b4f455cddf2ece4f90e41d546eaa2efd81a50c87900d97cfcfe472c78a838e20",
+      "bytes": 2476004,
+      "iteration": 1,
+      "pilotBuildingFootprintMetres": [
+        26,
+        21
+      ],
+      "pilotLevels": [
+        -1,
+        0
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0247",
+      "type": "fuel",
+      "name": "Station-service",
+      "path": "assets/art229/regional/DW-0247_station_service_village.png",
+      "sha256": "ca6e01c384eba134c07b3475638d9b710fefa9f97fdb0877c2ddfcf1a83ea38c",
+      "bytes": 1551294,
+      "iteration": 1,
+      "pilotBuildingFootprintMetres": [
+        19,
+        14
+      ],
+      "pilotLevels": [
+        0
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    }
+  ]
+}
