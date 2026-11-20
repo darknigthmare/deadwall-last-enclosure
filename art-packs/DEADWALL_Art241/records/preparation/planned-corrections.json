@@ -1,0 +1,36 @@
+[
+  {
+    "key": "abandoned-caravan:v1",
+    "iteration": 2,
+    "preparedAtUtc": "2026-11-17 15:11:53 UTC",
+    "status": "prepared",
+    "tool": "image_gen.imagegen",
+    "correctionReason": "Canonical surface cracks/rust were incorrectly given physical raised geometry in iteration 1.",
+    "arguments": {
+      "prompt": "Use case: precise-object-edit. Asset type: DEADWALL abandoned caravan source-art sprite, existing painter variant 1, transparent RGBA.\nINPUTS: Image 1 is the edit target. Image 2 is the exact public game painter canonical reference for component geometry only. Image 3 is the accepted Art235 abandoned v0 reference for natural corrosion and fine surface cracks only.\nMAKE ONLY THIS TARGETED SURFACE CORRECTION: The source's brown streaks are RUST STAINS, not added plates, planks or cargo. On the left portion of the roof, replace the small brown rectangular raised pieces near the top and bottom and the long diagonal brown piece near the middle with irregular narrow corrosion stains FLUSH with the original painted roof. Preserve their approximate positions and overall extents, but remove straight manufactured perimeters, thickness, bevels and object-like shadows. Blend their edges into convincing chipped paint and oxidized metal like image 3. Keep BOTH closed rectangular roof panels, the large central rectangular roof frame and its two slim inner highlights exactly in place. The two dark N-shaped raised bars in the upper-right and lower-right roof regions must become thin shallow irregular cracks in the painted surface, with no raised metal, beveled edges or cast shadows.\nLOCK ALL OTHER FEATURES: Keep the exact narrow chamfered body silhouette, centered short hitch at the TOP, FOUR wheels at their two widely separated stations, two outer longitudinal roof seams, closed roof and body, same portrait orientation, strictly orthographic directly overhead camera, muted grey-blue worn metal palette and all valid variant-specific fittings. Preserve the surrounding transparent space and the full object inside the canvas. No new object, open interior, lights, people, supplies, services or active effects.\nOUTPUT: One complete isolated object, genuine transparent RGBA background. No terrain, backdrop, cast ground shadow, labels, writing, logos, border or watermark. Do not return a collage or a before/after sheet. Do not alter unrelated geometry or redraw with a different projection. Keep the native alpha; no matte.",
+      "referenced_image_paths": [
+        "/workspace/scratch/6f470a892a0f/art241-prep/outputs/iteration-01/abandoned-caravan_v1.png",
+        "/workspace/scratch/6f470a892a0f/art241-prep/references/canonical/abandoned-caravan_v1.png",
+        "/workspace/scratch/6f470a892a0f/art241-prep/references/repository/art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png"
+      ],
+      "transparent_background": true
+    }
+  },
+  {
+    "key": "abandoned-caravan:v2",
+    "iteration": 2,
+    "preparedAtUtc": "2026-11-17 15:11:53 UTC",
+    "status": "prepared",
+    "tool": "image_gen.imagegen",
+    "correctionReason": "Canonical surface cracks/rust were incorrectly given physical raised geometry in iteration 1.",
+    "arguments": {
+      "prompt": "Use case: precise-object-edit. Asset type: DEADWALL abandoned caravan source-art sprite, existing painter variant 2, transparent RGBA.\nINPUTS: Image 1 is the edit target. Image 2 is the exact public game painter canonical reference for component geometry only. Image 3 is the accepted Art235 abandoned v0 reference for natural corrosion and fine surface cracks only.\nMAKE ONLY THIS TARGETED SURFACE CORRECTION: The source's brown streaks are RUST STAINS, not added plates, planks or cargo. On the left portion of the roof, replace the small brown rectangular raised pieces near the top and bottom and the long diagonal brown piece near the middle with irregular narrow corrosion stains FLUSH with the original painted roof. Preserve their approximate positions and overall extents, but remove straight manufactured perimeters, thickness, bevels and object-like shadows. Blend their edges into convincing chipped paint and oxidized metal like image 3. Keep the single broad closed metal roof panel, the long narrow grey metal strip left of centre and the genuine rectangular WOODEN PATCH in the lower-right exactly in place. The wooden patch with its diagonal seam is a real source-defined component and must remain. Keep thin irregular paint fractures in the upper-right and lower-right regions; they must not read as letters, symbols or raised hardware.\nLOCK ALL OTHER FEATURES: Keep the exact narrow chamfered body silhouette, centered short hitch at the TOP, FOUR wheels at their two widely separated stations, two outer longitudinal roof seams, closed roof and body, same portrait orientation, strictly orthographic directly overhead camera, muted grey-olive worn metal palette and all valid variant-specific fittings. Preserve the surrounding transparent space and the full object inside the canvas. No new object, open interior, lights, people, supplies, services or active effects.\nOUTPUT: One complete isolated object, genuine transparent RGBA background. No terrain, backdrop, cast ground shadow, labels, writing, logos, border or watermark. Do not return a collage or a before/after sheet. Do not alter unrelated geometry or redraw with a different projection. Keep the native alpha; no matte.",
+      "referenced_image_paths": [
+        "/workspace/scratch/6f470a892a0f/art241-prep/outputs/iteration-01/abandoned-caravan_v2.png",
+        "/workspace/scratch/6f470a892a0f/art241-prep/references/canonical/abandoned-caravan_v2.png",
+        "/workspace/scratch/6f470a892a0f/art241-prep/references/repository/art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png"
+      ],
+      "transparent_background": true
+    }
+  }
+]

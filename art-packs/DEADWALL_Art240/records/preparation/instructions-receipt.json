@@ -1,0 +1,110 @@
+{
+  "sourceMain": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+  "requiredReadingOrder": [
+    "docs/ORIGINAL_BRIEF.txt",
+    "docs/GAME_DESIGN.md",
+    "docs/ARCHITECTURE.md",
+    "docs/BALANCING.md",
+    "docs/CODEX_MASTER_PROMPT.md",
+    "docs/GAMEDEV_GUIDANCE.md",
+    "docs/GAME_BIBLE.md"
+  ],
+  "readingStatus": "All seven required documents were read in the mandated order earlier in this conversation; unchanged bytes verified again against pinned main before Art240 preparation. AGENTS and GAMEDEV_GUIDANCE were reconsulted for this continuation.",
+  "verifiedDocuments": [
+    {
+      "path": "references/repository/AGENTS.md",
+      "preparedPath": "references/repository/AGENTS.md",
+      "repositoryPath": "AGENTS.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "9fc35b328129aa19d57642dd6f78b913b94f17aa",
+      "sha256": "7d02c6bd7f9c6a8e04c4c18680f9539109ecbc943f240de12a536ab9a8a8ab13",
+      "bytes": 4190,
+      "worktreeMatchesPinnedMain": true
+    },
+    {
+      "path": "references/repository/docs/ORIGINAL_BRIEF.txt",
+      "preparedPath": "references/repository/docs/ORIGINAL_BRIEF.txt",
+      "repositoryPath": "docs/ORIGINAL_BRIEF.txt",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "4a1d493b07b8094dbaabd21b2682615f7a372af5",
+      "sha256": "64fe23e910f065cdd6ce4f8f84fcc8efd6894d923122c086cd7b16f599492297",
+      "bytes": 1283,
+      "worktreeMatchesPinnedMain": true
+    },
+    {
+      "path": "references/repository/docs/GAME_DESIGN.md",
+      "preparedPath": "references/repository/docs/GAME_DESIGN.md",
+      "repositoryPath": "docs/GAME_DESIGN.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "31bca14159be0eac8986c8e50540936e9482b8e9",
+      "sha256": "3f5ce6afc19ca49f5ffe239eee67b7258078098e8d0477a5ef62fd2fc8fd65f9",
+      "bytes": 15746,
+      "worktreeMatchesPinnedMain": true
+    },
+    {
+      "path": "references/repository/docs/ARCHITECTURE.md",
+      "preparedPath": "references/repository/docs/ARCHITECTURE.md",
+      "repositoryPath": "docs/ARCHITECTURE.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "63b12166f52109d70bf95637b48a96c23f8260fc",
+      "sha256": "880657b6abfc044a3ef534d8a092ad9a20ad3a0a2a9024bdbbea6642d8eb3f3c",
+      "bytes": 57076,
+      "worktreeMatchesPinnedMain": true
+    },
+    {
+      "path": "references/repository/docs/BALANCING.md",
+      "preparedPath": "references/repository/docs/BALANCING.md",
+      "repositoryPath": "docs/BALANCING.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "1b668d20d6e60c7cb05c721e37d396d4a05f5781",
+      "sha256": "5caf2749d57201a01f9aafa80de8a3e70e0579a01895283e6d5b05abdc526088",
+      "bytes": 37720,
+      "worktreeMatchesPinnedMain": true
+    },
+    {
+      "path": "references/repository/docs/CODEX_MASTER_PROMPT.md",
+      "preparedPath": "references/repository/docs/CODEX_MASTER_PROMPT.md",
+      "repositoryPath": "docs/CODEX_MASTER_PROMPT.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "1b15347772ed2da3b22cd33fe572792255db9d51",
+      "sha256": "9c0280c574ad13d7ba03cb4391713411e8eb8fcdbcc4cc94f2609f277c727c6d",
+      "bytes": 5269,
+      "worktreeMatchesPinnedMain": true
+    },
+    {
+      "path": "references/repository/docs/GAMEDEV_GUIDANCE.md",
+      "preparedPath": "references/repository/docs/GAMEDEV_GUIDANCE.md",
+      "repositoryPath": "docs/GAMEDEV_GUIDANCE.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "922952410a6d7efa4eb28c48fc1b4101457e1e55",
+      "sha256": "0b2df8233ea2c49ff0c1fd959cf43bac8d1245fb6900334e42cb541b0d2f0144",
+      "bytes": 24935,
+      "worktreeMatchesPinnedMain": true
+    },
+    {
+      "path": "references/repository/docs/GAME_BIBLE.md",
+      "preparedPath": "references/repository/docs/GAME_BIBLE.md",
+      "repositoryPath": "docs/GAME_BIBLE.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "f13043eae6cad2d009c9287c80f02b6bfb926ef7",
+      "sha256": "3f6f48befcd5408e03ab4ed0c79a68a040cac48c09f087545e334f0b3c738890",
+      "bytes": 98486,
+      "worktreeMatchesPinnedMain": true
+    }
+  ],
+  "guides": [
+    "imagegen built-in tool mode",
+    "create-game-assets at 19d93f97c9c1ea0f8b306e77aa81e0d3e352d3e9",
+    "raster-pipeline at 19d93f97c9c1ea0f8b306e77aa81e0d3e352d3e9"
+  ],
+  "userConstraintOverridesNormalization": "Preserve every native generated PNG; no crop, resize, re-encoding or pixel retouch. Runtime calibration deferred."
+}

@@ -1,0 +1,104 @@
+[
+  {
+    "key": "runnerCable193",
+    "sha256": "0d138bff82599041b800d0542cf55d99199f7a3535ee68a627f8b3055de6e6b1",
+    "mode": "RGBA",
+    "dimensions": [
+      1024,
+      1024
+    ],
+    "alphaZero": 880804,
+    "bboxAlpha16": [
+      201,
+      324,
+      823,
+      723
+    ],
+    "edgeMaximum": 0
+  },
+  {
+    "key": "breachClamp193",
+    "sha256": "ec11451ca852aaa55d362a963ab417df3fb0043cb6f1c28f97c552d2b6111bb3",
+    "mode": "RGBA",
+    "dimensions": [
+      1024,
+      1024
+    ],
+    "alphaZero": 739713,
+    "bboxAlpha16": [
+      202,
+      212,
+      823,
+      788
+    ],
+    "edgeMaximum": 0
+  },
+  {
+    "key": "enduranceRack193",
+    "sha256": "0f32ac82d8235ed472863a84405dc25d37ced14c751a5157e235fd18d7d04172",
+    "mode": "RGBA",
+    "dimensions": [
+      1024,
+      1024
+    ],
+    "alphaZero": 775223,
+    "bboxAlpha16": [
+      202,
+      262,
+      823,
+      757
+    ],
+    "edgeMaximum": 0
+  },
+  {
+    "key": "shieldTongs193",
+    "sha256": "c9f045524b3306431d7c3b71b8ae85f5f75db1d8b6c3fd11e77f830d5891e53f",
+    "mode": "RGBA",
+    "dimensions": [
+      1024,
+      1024
+    ],
+    "alphaZero": 740123,
+    "bboxAlpha16": [
+      202,
+      212,
+      823,
+      788
+    ],
+    "edgeMaximum": 0
+  },
+  {
+    "key": "quickCable193",
+    "sha256": "1ded2ebb7510a66295f44abf53f3f5f80a57d6aad0730b4804c842d9791d2137",
+    "mode": "RGBA",
+    "dimensions": [
+      1024,
+      1024
+    ],
+    "alphaZero": 890752,
+    "bboxAlpha16": [
+      201,
+      379,
+      823,
+      645
+    ],
+    "edgeMaximum": 0
+  },
+  {
+    "key": "siegeBrake193",
+    "sha256": "1384259fe55135898b545458926edf8113d488fe645a63f71c3a1c067e2b3e20",
+    "mode": "RGBA",
+    "dimensions": [
+      1024,
+      1024
+    ],
+    "alphaZero": 818036,
+    "bboxAlpha16": [
+      202,
+      235,
+      823,
+      725
+    ],
+    "edgeMaximum": 0
+  }
+]

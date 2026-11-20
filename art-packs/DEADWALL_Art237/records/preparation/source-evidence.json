@@ -1,0 +1,231 @@
+{
+  "project": "DEADWALL",
+  "batch": "Art237",
+  "repository": "darknigthmare/deadwall-last-enclosure",
+  "sourceMain": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "sourceTree": "663ad5750e49ae401fc0b46bfdebc28942ad1617",
+  "checkout": "/workspace/scratch/6f470a892a0f/deadwall-art236",
+  "verifiedAt": "2026-11-17T13:41:24.555Z",
+  "sourceFiles": [
+    {
+      "repositoryPath": "AGENTS.md",
+      "preparedPath": "references/repository/AGENTS.md",
+      "absolutePath": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/AGENTS.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "gitBlob": "9fc35b328129aa19d57642dd6f78b913b94f17aa",
+      "sha256": "7d02c6bd7f9c6a8e04c4c18680f9539109ecbc943f240de12a536ab9a8a8ab13",
+      "bytes": 4190,
+      "worktreeMatchesCommit": true
+    },
+    {
+      "repositoryPath": "README.md",
+      "preparedPath": "references/repository/README.md",
+      "absolutePath": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/README.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "gitBlob": "79c4e7aaec3e3fbb78765133ab8115ff6f4606c1",
+      "sha256": "8159b42787bf183ce3c7a7c9674103742740cdfee1c0ecce736aa248499a6174",
+      "bytes": 87028,
+      "worktreeMatchesCommit": true
+    },
+    {
+      "repositoryPath": "package.json",
+      "preparedPath": "references/repository/package.json",
+      "absolutePath": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/package.json",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "gitBlob": "7e4caf5ad3abd91c38fd0977bf714e54469d8e92",
+      "sha256": "722c28f9946e5c9c2095e2b3a03774c595aa4bd9bfc1655484dcb34396c0cea0",
+      "bytes": 3159,
+      "worktreeMatchesCommit": true
+    },
+    {
+      "repositoryPath": "package-lock.json",
+      "preparedPath": "references/repository/package-lock.json",
+      "absolutePath": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/package-lock.json",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "gitBlob": "6a7a8a9c1a0df6304c4297123169a0c3420c64ed",
+      "sha256": "41cd5573880263b30206dbb78766b789f65702fa2ffebe2401601b1bd2205c53",
+      "bytes": 35109,
+      "worktreeMatchesCommit": true
+    },
+    {
+      "repositoryPath": "docs/ORIGINAL_BRIEF.txt",
+      "preparedPath": "references/repository/docs/ORIGINAL_BRIEF.txt",
+      "absolutePath": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/docs/ORIGINAL_BRIEF.txt",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "gitBlob": "4a1d493b07b8094dbaabd21b2682615f7a372af5",
+      "sha256": "64fe23e910f065cdd6ce4f8f84fcc8efd6894d923122c086cd7b16f599492297",
+      "bytes": 1283,
+      "worktreeMatchesCommit": true
+    },
+    {
+      "repositoryPath": "docs/GAME_DESIGN.md",
+      "preparedPath": "references/repository/docs/GAME_DESIGN.md",
+      "absolutePath": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/docs/GAME_DESIGN.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "gitBlob": "31bca14159be0eac8986c8e50540936e9482b8e9",
+      "sha256": "3f5ce6afc19ca49f5ffe239eee67b7258078098e8d0477a5ef62fd2fc8fd65f9",
+      "bytes": 15746,
+      "worktreeMatchesCommit": true
+    },
+    {
+      "repositoryPath": "docs/ARCHITECTURE.md",
+      "preparedPath": "references/repository/docs/ARCHITECTURE.md",
+      "absolutePath": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/docs/ARCHITECTURE.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "gitBlob": "63b12166f52109d70bf95637b48a96c23f8260fc",
+      "sha256": "880657b6abfc044a3ef534d8a092ad9a20ad3a0a2a9024bdbbea6642d8eb3f3c",
+      "bytes": 57076,
+      "worktreeMatchesCommit": true
+    },
+    {
+      "repositoryPath": "docs/BALANCING.md",
+      "preparedPath": "references/repository/docs/BALANCING.md",
+      "absolutePath": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/docs/BALANCING.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "gitBlob": "1b668d20d6e60c7cb05c721e37d396d4a05f5781",
+      "sha256": "5caf2749d57201a01f9aafa80de8a3e70e0579a01895283e6d5b05abdc526088",
+      "bytes": 37720,
+      "worktreeMatchesCommit": true
+    },
+    {
+      "repositoryPath": "docs/CODEX_MASTER_PROMPT.md",
+      "preparedPath": "references/repository/docs/CODEX_MASTER_PROMPT.md",
+      "absolutePath": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/docs/CODEX_MASTER_PROMPT.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "gitBlob": "1b15347772ed2da3b22cd33fe572792255db9d51",
+      "sha256": "9c0280c574ad13d7ba03cb4391713411e8eb8fcdbcc4cc94f2609f277c727c6d",
+      "bytes": 5269,
+      "worktreeMatchesCommit": true
+    },
+    {
+      "repositoryPath": "docs/GAMEDEV_GUIDANCE.md",
+      "preparedPath": "references/repository/docs/GAMEDEV_GUIDANCE.md",
+      "absolutePath": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/docs/GAMEDEV_GUIDANCE.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "gitBlob": "922952410a6d7efa4eb28c48fc1b4101457e1e55",
+      "sha256": "0b2df8233ea2c49ff0c1fd959cf43bac8d1245fb6900334e42cb541b0d2f0144",
+      "bytes": 24935,
+      "worktreeMatchesCommit": true
+    },
+    {
+      "repositoryPath": "docs/GAME_BIBLE.md",
+      "preparedPath": "references/repository/docs/GAME_BIBLE.md",
+      "absolutePath": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/docs/GAME_BIBLE.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "gitBlob": "f13043eae6cad2d009c9287c80f02b6bfb926ef7",
+      "sha256": "3f6f48befcd5408e03ab4ed0c79a68a040cac48c09f087545e334f0b3c738890",
+      "bytes": 98486,
+      "worktreeMatchesCommit": true
+    },
+    {
+      "repositoryPath": "src/core.js",
+      "preparedPath": "references/repository/src/core.js",
+      "absolutePath": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/src/core.js",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "gitBlob": "f725b280a3c1327a878829c8c7f3eb72374da937",
+      "sha256": "33a3539f8b80015815303b9425e83d49721c5d88938533508c431cc38854909e",
+      "bytes": 335878,
+      "worktreeMatchesCommit": true
+    },
+    {
+      "repositoryPath": "src/art.js",
+      "preparedPath": "references/repository/src/art.js",
+      "absolutePath": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/src/art.js",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "gitBlob": "474735a011863d808651efec72e4dd90f48e9f46",
+      "sha256": "e7ea9f8ab6350072a5d7785218522d70f583ca7ae2cc36f1496a780f95e26e47",
+      "bytes": 69066,
+      "worktreeMatchesCommit": true
+    },
+    {
+      "repositoryPath": "src/trap-art159.js",
+      "preparedPath": "references/repository/src/trap-art159.js",
+      "absolutePath": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/src/trap-art159.js",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "gitBlob": "59e9a7303b3c9a9a7b6c93e149b206656b355493",
+      "sha256": "30f23d3b7a9005cd7599380e2f95f699232faea4aeab8cfef4451e21f7189866",
+      "bytes": 12128,
+      "worktreeMatchesCommit": true
+    },
+    {
+      "repositoryPath": "src/fortification-pack.js",
+      "preparedPath": "references/repository/src/fortification-pack.js",
+      "absolutePath": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/src/fortification-pack.js",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "gitBlob": "570598916b1c94db4390202be31cdd6944842e8f",
+      "sha256": "10c081024e67b6c273715fcec50802030a11da0fe7dc9f2b57cb0c9f216bfec3",
+      "bytes": 43515,
+      "worktreeMatchesCommit": true
+    },
+    {
+      "repositoryPath": "docs/DEFENSES_193.md",
+      "preparedPath": "references/repository/docs/DEFENSES_193.md",
+      "absolutePath": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/docs/DEFENSES_193.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "gitBlob": "661fcd94677de088f128c07911529136ec5ff146",
+      "sha256": "57952de0bf4bbe73ee5ce023e37a01e14fef1d2ea7b7bd94af58526c7d898dac",
+      "bytes": 5631,
+      "worktreeMatchesCommit": true
+    },
+    {
+      "repositoryPath": "assets/art159/PROVENANCE-traps159.json",
+      "preparedPath": "references/repository/assets/art159/PROVENANCE-traps159.json",
+      "absolutePath": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/assets/art159/PROVENANCE-traps159.json",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "gitBlob": "1ffa4a70dc75bace3890d547dfc53e53a8c1aec6",
+      "sha256": "abe2229bffc4354423eeb49e86708f965bf519d86e975db1a940e597f2ed3287",
+      "bytes": 12280,
+      "worktreeMatchesCommit": true
+    },
+    {
+      "repositoryPath": "tests/audit193-trap-art.test.cjs",
+      "preparedPath": "references/repository/tests/audit193-trap-art.test.cjs",
+      "absolutePath": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/tests/audit193-trap-art.test.cjs",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "gitBlob": "589f3bc464986157b45c1d077a86ed623f9eefe1",
+      "sha256": "6a138364f879e93eec94b368f18b2ec94dad3278f42ef511126e414c3aef080e",
+      "bytes": 1804,
+      "worktreeMatchesCommit": true
+    },
+    {
+      "repositoryPath": "tests/trap-art159.test.cjs",
+      "preparedPath": "references/repository/tests/trap-art159.test.cjs",
+      "absolutePath": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/tests/trap-art159.test.cjs",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "gitBlob": "324e787c86cea74dea83b164cdf8b457bc0eb226",
+      "sha256": "2d68e335d3ae244c14f408eb3cbef86e9c3d9c9140103431075eb1d220652140",
+      "bytes": 15042,
+      "worktreeMatchesCommit": true
+    },
+    {
+      "repositoryPath": "assets/art159/traps-mechanisms-a.png",
+      "preparedPath": "references/repository/assets/art159/traps-mechanisms-a.png",
+      "absolutePath": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/assets/art159/traps-mechanisms-a.png",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "gitBlob": "d5c16143deff85b5d52f948bc5b430bd758da17a",
+      "sha256": "c693c8d2c6056fc900a673b2f8ad789e5c36e0660340d07302610c2a8e645f78",
+      "bytes": 2007623,
+      "worktreeMatchesCommit": true
+    },
+    {
+      "repositoryPath": "assets/art159/traps-supplies-a.png",
+      "preparedPath": "references/repository/assets/art159/traps-supplies-a.png",
+      "absolutePath": "/workspace/scratch/6f470a892a0f/art237-prep/references/repository/assets/art159/traps-supplies-a.png",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "gitBlob": "93f2ae2df0631705ff695ab9475b943e5c0636e5",
+      "sha256": "f6f6695c2d10182302736ed16171b87574e3400cc97b69a4f5ffd3116dfb830a",
+      "bytes": 2199589,
+      "worktreeMatchesCommit": true
+    }
+  ],
+  "rendererSourceIsUnmodified": true,
+  "simulationMutation": false,
+  "nativeRendering": {
+    "canvasPackage": "@napi-rs/canvas",
+    "canvasPackageVersion": "0.1.100",
+    "nodeVersion": "v24.22.1",
+    "installedFromRepositoryLockfile": true
+  },
+  "priorAudit": "next-art233-audit/actors-and-equipment",
+  "priorAuditRevisionIsHistorical": true
+}

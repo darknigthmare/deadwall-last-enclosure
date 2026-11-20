@@ -1,0 +1,37 @@
+[
+  {
+    "id": "prop:fence:v0",
+    "kind": "fence",
+    "existingRoute": "structural205",
+    "explanation": "Art158 already has two generic fence images. This is a separate structural205 v0 source proposal for the exact 3 m authored segment, not evidence that fences have no images. The number of posts changes with source length; it does not cover every fence.",
+    "bitmapDedicatedToThisAuthoredFixtureFound": false
+  },
+  {
+    "id": "prop:garden-shed:v0",
+    "kind": "garden-shed",
+    "existingRoute": "structural205",
+    "explanation": "Art153 already contains two generic shed pictures. The source here is the structural205 closed 3.4 by 3.3 m authored garden-shed footprint; no new accessible building or interior is claimed.",
+    "bitmapDedicatedToThisAuthoredFixtureFound": false
+  },
+  {
+    "id": "prop:rain-barrel:v0",
+    "kind": "rain-barrel",
+    "existingRoute": "structural205",
+    "explanation": "Generic barrel and water-tank images already exist in Art153. This is the exact inactive structural205 rain-barrel v0; game-owned water214 overlays and quantities are not baked into the proposed image.",
+    "bitmapDedicatedToThisAuthoredFixtureFound": false
+  },
+  {
+    "id": "prop:compost-bin:v0",
+    "kind": "compost-bin",
+    "existingRoute": "structural205",
+    "explanation": "Art157 already has two generic compost images. This proposal follows the specific structural205 v0 four-member, nine-cluster arrangement. The fixed matter is decorative source content, not collectible or newly produced compost.",
+    "bitmapDedicatedToThisAuthoredFixtureFound": false
+  },
+  {
+    "id": "prop:closed-pool:v0",
+    "kind": "closed-pool",
+    "existingRoute": "structural205",
+    "explanation": "Art157 already has two generic pool images. This is the 8 by 12 m structural205 basin from authored layout V21, rendered with painter variant0. Layout V21 and painter variant0 are different axes; this does not cover every pool variant or create a new gameplay water reserve.",
+    "bitmapDedicatedToThisAuthoredFixtureFound": false
+  }
+]

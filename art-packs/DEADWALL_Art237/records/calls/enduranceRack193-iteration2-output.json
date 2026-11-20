@@ -1,0 +1,10 @@
+{
+  "key": "enduranceRack193",
+  "iteration": 2,
+  "status": "native-output-received",
+  "callRecord": "calls/enduranceRack193-iteration2.json",
+  "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-43f697f3-5b75-4c0f-9ae0-934825dddaa8.png",
+  "sha256": "c413868bea8ca403bdacc1d29a6e3232247ff6aa6e25827deb7ff43ec9e8ffba",
+  "bytes": 1065181,
+  "pixelEditingPerformed": false
+}

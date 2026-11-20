@@ -1,0 +1,58 @@
+[
+  {
+    "key": "touring-caravan:v1",
+    "iteration": 1,
+    "sha256": "9ed37d39104b00b35de4146fb6cfb2ef5323a351374ca7564c2e6905b8e80be6",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Canonique et sortie comparés : coque fermée et inoccupée en vue zénithale, axe long vertical et attelage vers le haut. Quatre roues visibles à deux positions espacées. Deux panneaux de toit fermés et grand cadre central avec deux lignes claires intérieures conservés ; palette froide crème et gris bleuté. Aucun intérieur ou signe de fonctionnement.",
+    "nativeOutputRetained": true
+  },
+  {
+    "key": "touring-caravan:v2",
+    "iteration": 1,
+    "sha256": "e24289d2185870da391b3c3260f1c03fbd41e31732fb113a6082b8d0f38c7841",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Canonique et sortie comparés : coque fermée en vue zénithale, quatre roues espacées, attelage complet. Un panneau fermé central, une bande métallique longitudinale à gauche remontant au-dessus du panneau et un patch de bois rectangulaire avec diagonale en partie basse droite. Les trois éléments distinguent la variante 2 de la v0 et de la v1 ; aucune charge mobile ajoutée.",
+    "nativeOutputRetained": true
+  },
+  {
+    "key": "abandoned-caravan:v1",
+    "iteration": 1,
+    "sha256": "bc1d4094cb6f76ddb58cd7dd9fa45a56af1c0c80c6d1ab2eb822f4dabf87edcf",
+    "decision": "superseded_not_selected",
+    "observation": "Refus visuel auteur : les marques canoniques de fissure et de rouille sont interprétées comme barres en relief et morceaux rapportés.",
+    "nativeOutputRetained": true
+  },
+  {
+    "key": "abandoned-caravan:v2",
+    "iteration": 1,
+    "sha256": "91833c4ae39c15308663733dac0aeaf5b032f78281954e292cbb90bd2fb03c77",
+    "decision": "superseded_not_selected",
+    "observation": "Refus visuel auteur : certaines plages de rouille sont matérialisées en plaques ; partie supérieure du renfort métallique trop courte.",
+    "nativeOutputRetained": true
+  },
+  {
+    "key": "abandoned-caravan:v1",
+    "iteration": 2,
+    "sha256": "941c7282cd9b01dd12a88fea3bce77b28ce59e61a45f8ec156933fdc090faa6b",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Itération 2 retenue après correction ciblée : les anciennes barres en zigzag sont devenues des fissures fines de surface et les pièces brunes sont devenues des plages irrégulières de corrosion sur le toit. Les deux panneaux fermés, le cadre central, les quatre roues et l’attelage restent lisibles, dans la palette froide du canonique. La coque évacuée reste complète et fermée.",
+    "nativeOutputRetained": true
+  },
+  {
+    "key": "abandoned-caravan:v2",
+    "iteration": 2,
+    "sha256": "db63a0b14f90d3afafca59a6ea8f254f89c3ad943c7049cbd25ea4662c7cff94",
+    "decision": "superseded_not_selected",
+    "observation": "Correction de surface réussie, puis non-retenue : le renfort longitudinal gauche doit encore remonter au-dessus du panneau central.",
+    "nativeOutputRetained": true
+  },
+  {
+    "key": "abandoned-caravan:v2",
+    "iteration": 3,
+    "sha256": "87ca8ebb699f6838a36fccf9741451c5e9eefec33c555097a1476839560348c8",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Itération 3 retenue : corrosion et fissures sont des marques superficielles, pas des accessoires rapportés. La bande métallique gauche remonte désormais nettement au-dessus du panneau central, selon le canonique. Le patch de bois inférieur droit et sa diagonale restent présents, ainsi que les quatre roues espacées et l’attelage haut. Palette gris olive ; aucune ouverture ou activité ajoutée.",
+    "nativeOutputRetained": true
+  }
+]

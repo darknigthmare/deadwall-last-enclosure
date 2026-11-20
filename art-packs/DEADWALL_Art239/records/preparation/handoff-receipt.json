@@ -1,0 +1,73 @@
+{
+  "kind": "art239-source-proposals-handoff",
+  "status": "frozen_after_independent_root_review",
+  "createdAt": "2026-11-17T16:27:43.428087+01:00",
+  "timezone": "Europe/Paris",
+  "baseMain": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "verifiedRemoteHead": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+  "sourceTree": "33d089eab2bb23f288e66d57c2794f6a38b3ba84",
+  "finalImages": 6,
+  "nativeGenerations": 8,
+  "supersededImages": 2,
+  "bytesFinalImages": 5436471,
+  "bytesNativeGenerations": 5989028,
+  "pixelEdits": false,
+  "runtimeIntegrated": false,
+  "resultsFile": "results.json",
+  "historyFile": "history-results.json",
+  "reviewFile": "review.json",
+  "rootReviewFile": "root-review.json",
+  "manifestFile": "freeze-manifest.json",
+  "manifestSha256": "7b0fa3af03c92069582aed9c1831422c02ee80708df2cfcb2c66008203f43a15",
+  "files": {
+    "selection-and-prompts.json": "303dab412c7d63d3d078b56356fef421fa93e84088aa4d5e263a1d23e211ff96",
+    "canonical-render-receipt.json": "abbcbebccdeda1f52dea87ec33be97e6d93186b0228f7df296cc9d276d1b4a74",
+    "geometry-audit.json": "19374ec04d25233296a7c4748d8cdb97ff08d5a434c9e8ce5eeceac7cc714606",
+    "results.json": "52f52ef3d78ae339880aa139c9b2930ca94e9493d2425920744f3c4156c33071",
+    "history-results.json": "0c2fefef0cf77183d1df3e5f458b74fdc6158ca7b7d7528284e66a51460bc8a5",
+    "review.json": "f58222c1207f8631727802b9824afa1b776befe5bc4ba73cfcc997952ab0f879",
+    "root-review.json": "c48e1a1365981692dc1c6f64971c941eee4f3f64bfd8f34d3f71d99d9ba60c6e",
+    "iteration-review.json": "2a63b2d53403c6e06448e4d665ac2fcc7159825bdae04ac8b8c2c561b93e4412",
+    "alpha-review.json": "44661d0b5fb5f8c131219b5dc98d2c86c1237060db20615b1dad7720cbb6b27c",
+    "alpha-history.json": "17f3c6ac96a5fce753eebfd095c8cde6557c74409bc7cac0add99e4029baabc0",
+    "README.md": "d676edb1b16727f316c7296210a818d12cea838966e447d927bef34ca181ed59"
+  },
+  "finalSelection": [
+    {
+      "key": "fence:v1",
+      "iteration": 1,
+      "sha256": "88b6ee1653066ce236aab1fd19693e14286f9aa63930571619f8d3f2f1bedad3"
+    },
+    {
+      "key": "fence:v2",
+      "iteration": 3,
+      "sha256": "2f871f6f1d70b64ecb99842a8cd03413c9ed049b3e19ffa45444d13cb1d3b78f"
+    },
+    {
+      "key": "garden-shed:v1",
+      "iteration": 1,
+      "sha256": "6b4b84fc1a71cd08e7d7aabd53b5f35c8afef5b22dbd811608f463823af32074"
+    },
+    {
+      "key": "garden-shed:v2",
+      "iteration": 1,
+      "sha256": "17c9f528b7a4b712b18af839e62b31bc38ce30ee16c14b18d32e2f1d8b821801"
+    },
+    {
+      "key": "rain-barrel:v1",
+      "iteration": 1,
+      "sha256": "cb2f2395e0d0e67bdcdd92458e317558a75ce811e394f0a9cd307740f8d6fb40"
+    },
+    {
+      "key": "rain-barrel:v2",
+      "iteration": 1,
+      "sha256": "c271376c312da5491b18783f0d5a9eecc7f8ddad97bbf3eb19b952493fea2159"
+    }
+  ],
+  "notes": [
+    "Both failed fence:v2 candidates and all exact calls are archived.",
+    "The final fence:v2 used only its canonical image as input.",
+    "Residual alpha noise and author viewer discrepancy are disclosed.",
+    "No previously accepted image or runtime file was modified."
+  ]
+}

@@ -1,0 +1,422 @@
+[
+  {
+    "key": "compost-bin:v1",
+    "decision": "accepted_source_art_proposal",
+    "reviewStage": "artist_review_complete_independent_root_acceptance_received",
+    "sha256": "74341943da6e2292c2510df4cabdfeb696a0dfa661c51e8ad8a576a1837ce5eb",
+    "iteration": 1,
+    "reviewedBy": "/root/defenses_art237 — canonical, original material atlas and native output visually inspected",
+    "observation": "Plan complet vu strictement du dessus. Quatre membres verticaux, dont les deux latéraux, et une traverse diagonale du haut gauche au bas droit conservent la disposition canonique. Les neuf groupes de feuilles sèches et brindilles suivent les trois rangées, avec les occultations par la diagonale. Les petites ferrures de coin sont une interprétation de matière ajoutée par la génération, à examiner en revue indépendante. Aucun outil ou nouveau stock fonctionnel. Source native conservée sans retouche.",
+    "canonicalReference": "/workspace/scratch/6f470a892a0f/art240-prep/references/canonical/compost-bin_v1.png",
+    "canonicalReferenceSha256": "c9f292fe49a83e47d24d6598db7cd5a0b02461baa8bd55219221a99feeb63caf",
+    "alphaAudit": {
+      "key": "compost-bin:v1",
+      "iteration": 1,
+      "file": "/workspace/scratch/6f470a892a0f/art240-prep/outputs/iteration-01/compost-bin_composteur_jardin_v1.png",
+      "sha256": "74341943da6e2292c2510df4cabdfeb696a0dfa661c51e8ad8a576a1837ce5eb",
+      "bytes": 1447148,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 988864,
+      "lowAlpha1to7Pixels": 13748,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          15,
+          1230,
+          1254
+        ],
+        "8": [
+          240,
+          253,
+          1014,
+          996
+        ],
+        "32": [
+          240,
+          255,
+          1014,
+          996
+        ],
+        "128": [
+          240,
+          255,
+          1014,
+          996
+        ],
+        "240": [
+          241,
+          256,
+          1013,
+          995
+        ]
+      },
+      "marginFractionsAlphaAtLeast": {
+        "1": [
+          0.0,
+          0.011961722488038277,
+          0.019138755980861243,
+          0.0
+        ],
+        "8": [
+          0.19138755980861244,
+          0.20175438596491227,
+          0.19138755980861244,
+          0.20574162679425836
+        ],
+        "32": [
+          0.19138755980861244,
+          0.20334928229665072,
+          0.19138755980861244,
+          0.20574162679425836
+        ],
+        "128": [
+          0.19138755980861244,
+          0.20334928229665072,
+          0.19138755980861244,
+          0.20574162679425836
+        ],
+        "240": [
+          0.19218500797448165,
+          0.20414673046251994,
+          0.19218500797448165,
+          0.2065390749601276
+        ]
+      },
+      "borderAlphaMaximum": 1,
+      "transparentPixelsWithNonzeroRgb": 250,
+      "readOnlyDecode": true,
+      "nativeOutputBytesPreserved": true,
+      "pixelEditingPerformed": false
+    },
+    "limitations": [
+      "Source-art proposal only; runtime integration, pivot and raster scale are deferred.",
+      "Metric 1:1 or pixel-for-pixel fidelity is not certified.",
+      "Every native version is retained; no pixel retouch, crop, resize or re-encoding."
+    ],
+    "notRuntimeIntegrated": true,
+    "independentRootDecision": "accepted_source_art_proposal",
+    "independentRootEvidence": "Parent message in the current conversation; root-review.json is the separately maintained independent receipt.",
+    "interpretiveMaterialDetailsDeclared": true
+  },
+  {
+    "key": "compost-bin:v2",
+    "decision": "accepted_source_art_proposal",
+    "reviewStage": "artist_review_complete_independent_root_acceptance_received",
+    "sha256": "450d49d558661f0217fac526ed62146ea74afe30f96885762368274a90a8bfbc",
+    "iteration": 1,
+    "reviewedBy": "/root/defenses_art237 — canonical, original material atlas and native output visually inspected",
+    "observation": "Plan complet fidèle à la variante 2 : deux bandes métalliques horizontales, panneau de bois à gauche avec quatre joints horizontaux courts, six groupes organiques visibles à droite en deux colonnes de trois. Le panneau conserve son rôle de recouvrement de la colonne gauche, sans ajout de matière visible derrière lui. Les petits boulons des bandes et le grain sont une interprétation de surface. Source native conservée sans retouche.",
+    "canonicalReference": "/workspace/scratch/6f470a892a0f/art240-prep/references/canonical/compost-bin_v2.png",
+    "canonicalReferenceSha256": "d8d41028c0b5f054ca8a71936f47a4e38d6d6e5bdf4274c2e4b823044b81f1ab",
+    "alphaAudit": {
+      "key": "compost-bin:v2",
+      "iteration": 1,
+      "file": "/workspace/scratch/6f470a892a0f/art240-prep/outputs/iteration-01/compost-bin_composteur_jardin_v2.png",
+      "sha256": "450d49d558661f0217fac526ed62146ea74afe30f96885762368274a90a8bfbc",
+      "bytes": 1610623,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 929021,
+      "lowAlpha1to7Pixels": 31649,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          9,
+          1226,
+          1254
+        ],
+        "8": [
+          228,
+          233,
+          1022,
+          1011
+        ],
+        "32": [
+          230,
+          234,
+          1021,
+          1009
+        ],
+        "128": [
+          230,
+          234,
+          1020,
+          1008
+        ],
+        "240": [
+          231,
+          235,
+          1019,
+          1007
+        ]
+      },
+      "marginFractionsAlphaAtLeast": {
+        "1": [
+          0.0,
+          0.007177033492822967,
+          0.022328548644338118,
+          0.0
+        ],
+        "8": [
+          0.18181818181818182,
+          0.18580542264752792,
+          0.1850079744816587,
+          0.1937799043062201
+        ],
+        "32": [
+          0.18341307814992025,
+          0.18660287081339713,
+          0.18580542264752792,
+          0.19537480063795853
+        ],
+        "128": [
+          0.18341307814992025,
+          0.18660287081339713,
+          0.18660287081339713,
+          0.19617224880382775
+        ],
+        "240": [
+          0.18421052631578946,
+          0.18740031897926634,
+          0.18740031897926634,
+          0.19696969696969696
+        ]
+      },
+      "borderAlphaMaximum": 1,
+      "transparentPixelsWithNonzeroRgb": 188,
+      "readOnlyDecode": true,
+      "nativeOutputBytesPreserved": true,
+      "pixelEditingPerformed": false
+    },
+    "limitations": [
+      "Source-art proposal only; runtime integration, pivot and raster scale are deferred.",
+      "Metric 1:1 or pixel-for-pixel fidelity is not certified.",
+      "Every native version is retained; no pixel retouch, crop, resize or re-encoding."
+    ],
+    "notRuntimeIntegrated": true,
+    "independentRootDecision": "accepted_source_art_proposal",
+    "independentRootEvidence": "Parent message in the current conversation; root-review.json is the separately maintained independent receipt.",
+    "interpretiveMaterialDetailsDeclared": true
+  },
+  {
+    "key": "closed-pool:v1",
+    "decision": "accepted_source_art_proposal",
+    "reviewStage": "artist_review_complete_independent_root_acceptance_received",
+    "sha256": "4b511e0eb83c8bba591336e3af21881ea416b14f0d88b7d5c336fd565c7e5df1",
+    "iteration": 1,
+    "reviewedBy": "/root/defenses_art237 — canonical, original material atlas and native output visually inspected",
+    "observation": "Bassin entier en vue de dessus stricte, grand axe vertical et ouverture rectangulaire. Une échelle reste sur le côté droit dans la moitié basse, deux rails et trois barreaux dans la disposition canonique. Deux lignes longitudinales verticales et cinq groupes principaux de résidus sont conservés, trois à droite et deux à gauche. Joints de pierre, petites feuilles éparses et corrosion des attaches interprètent les matériaux de l’atlas sans ajouter un objet fonctionnel. Source native conservée sans retouche.",
+    "canonicalReference": "/workspace/scratch/6f470a892a0f/art240-prep/references/canonical/closed-pool_v1.png",
+    "canonicalReferenceSha256": "f699e4f65d895fbd7102e67f296113603e41d814ca6a63ca9d02ddf87a0a00fe",
+    "alphaAudit": {
+      "key": "closed-pool:v1",
+      "iteration": 1,
+      "file": "/workspace/scratch/6f470a892a0f/art240-prep/outputs/iteration-01/closed-pool_bassin_ferme_v1.png",
+      "sha256": "4b511e0eb83c8bba591336e3af21881ea416b14f0d88b7d5c336fd565c7e5df1",
+      "bytes": 761122,
+      "width": 1122,
+      "height": 1402,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1206757,
+      "lowAlpha1to7Pixels": 10132,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1108,
+          1376
+        ],
+        "8": [
+          320,
+          329,
+          802,
+          1072
+        ],
+        "32": [
+          320,
+          331,
+          802,
+          1070
+        ],
+        "128": [
+          321,
+          332,
+          801,
+          1070
+        ],
+        "240": [
+          321,
+          333,
+          801,
+          1069
+        ]
+      },
+      "marginFractionsAlphaAtLeast": {
+        "1": [
+          0.0,
+          0.0,
+          0.012477718360071301,
+          0.018544935805991442
+        ],
+        "8": [
+          0.28520499108734404,
+          0.2346647646219686,
+          0.28520499108734404,
+          0.23537803138373753
+        ],
+        "32": [
+          0.28520499108734404,
+          0.23609129814550642,
+          0.28520499108734404,
+          0.23680456490727533
+        ],
+        "128": [
+          0.28609625668449196,
+          0.23680456490727533,
+          0.28609625668449196,
+          0.23680456490727533
+        ],
+        "240": [
+          0.28609625668449196,
+          0.23751783166904422,
+          0.28609625668449196,
+          0.23751783166904422
+        ]
+      },
+      "borderAlphaMaximum": 1,
+      "transparentPixelsWithNonzeroRgb": 601,
+      "readOnlyDecode": true,
+      "nativeOutputBytesPreserved": true,
+      "pixelEditingPerformed": false
+    },
+    "limitations": [
+      "Source-art proposal only; runtime integration, pivot and raster scale are deferred.",
+      "Metric 1:1 or pixel-for-pixel fidelity is not certified.",
+      "Every native version is retained; no pixel retouch, crop, resize or re-encoding."
+    ],
+    "notRuntimeIntegrated": true,
+    "independentRootDecision": "accepted_source_art_proposal",
+    "independentRootEvidence": "Parent message in the current conversation; root-review.json is the separately maintained independent receipt.",
+    "interpretiveMaterialDetailsDeclared": true
+  },
+  {
+    "key": "closed-pool:v2",
+    "decision": "accepted_source_art_proposal",
+    "reviewStage": "artist_review_complete_independent_root_acceptance_received",
+    "sha256": "8b4f76904cb66eec85ec824488b03398c3019c00756d7f935c2d910143e567eb",
+    "iteration": 1,
+    "reviewedBy": "/root/defenses_art237 — canonical, original material atlas and native output visually inspected",
+    "observation": "Cadre extérieur rectangulaire complet, grand axe vertical ; seule l’ouverture d’eau intérieure possède huit côtés et quatre angles coupés. Échelle à droite dans la moitié haute, deux rails et trois barreaux. Une seule ligne pâle à deux segments reste à gauche avec coude vers la droite. Cinq groupes de résidus suivent la disposition trois à droite et deux à gauche. Joints de pierre, grain, petites feuilles éparses et corrosion sont des interprétations de surface ; aucune nouvelle activité ni équipement. Source native conservée sans retouche.",
+    "canonicalReference": "/workspace/scratch/6f470a892a0f/art240-prep/references/canonical/closed-pool_v2.png",
+    "canonicalReferenceSha256": "86acdb271d95ed15123e34536e214a0cadbc41d58dd375414cbf055fead3670b",
+    "alphaAudit": {
+      "key": "closed-pool:v2",
+      "iteration": 1,
+      "file": "/workspace/scratch/6f470a892a0f/art240-prep/outputs/iteration-01/closed-pool_bassin_ferme_v2.png",
+      "sha256": "8b4f76904cb66eec85ec824488b03398c3019c00756d7f935c2d910143e567eb",
+      "bytes": 836767,
+      "width": 1122,
+      "height": 1402,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1211691,
+      "lowAlpha1to7Pixels": 8383,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          17,
+          1100,
+          1378
+        ],
+        "8": [
+          322,
+          327,
+          800,
+          1072
+        ],
+        "32": [
+          323,
+          329,
+          799,
+          1070
+        ],
+        "128": [
+          323,
+          330,
+          799,
+          1069
+        ],
+        "240": [
+          324,
+          331,
+          798,
+          1069
+        ]
+      },
+      "marginFractionsAlphaAtLeast": {
+        "1": [
+          0.0,
+          0.012125534950071327,
+          0.0196078431372549,
+          0.017118402282453638
+        ],
+        "8": [
+          0.28698752228163993,
+          0.2332382310984308,
+          0.28698752228163993,
+          0.23537803138373753
+        ],
+        "32": [
+          0.2878787878787879,
+          0.2346647646219686,
+          0.2878787878787879,
+          0.23680456490727533
+        ],
+        "128": [
+          0.2878787878787879,
+          0.23537803138373753,
+          0.2878787878787879,
+          0.23751783166904422
+        ],
+        "240": [
+          0.2887700534759358,
+          0.23609129814550642,
+          0.2887700534759358,
+          0.23751783166904422
+        ]
+      },
+      "borderAlphaMaximum": 1,
+      "transparentPixelsWithNonzeroRgb": 234,
+      "readOnlyDecode": true,
+      "nativeOutputBytesPreserved": true,
+      "pixelEditingPerformed": false
+    },
+    "limitations": [
+      "Source-art proposal only; runtime integration, pivot and raster scale are deferred.",
+      "Metric 1:1 or pixel-for-pixel fidelity is not certified.",
+      "Every native version is retained; no pixel retouch, crop, resize or re-encoding."
+    ],
+    "notRuntimeIntegrated": true,
+    "independentRootDecision": "accepted_source_art_proposal",
+    "independentRootEvidence": "Parent message in the current conversation; root-review.json is the separately maintained independent receipt.",
+    "interpretiveMaterialDetailsDeclared": true
+  }
+]

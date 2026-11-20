@@ -1,0 +1,42 @@
+{
+  "pack": "Art241",
+  "status": "author-frozen-awaiting-root-review",
+  "sourceMain": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "publishedParent": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+  "freezeManifestSha256": "20593201b65ca7aa6944afead037c698dea26f8a5036bb8d37eb1c7c74efb568",
+  "fileCount": 59,
+  "totalBytes": 11120692,
+  "finalCount": 4,
+  "nativeOutputCount": 7,
+  "retainedNonfinalOutputCount": 3,
+  "finals": [
+    {
+      "key": "touring-caravan:v1",
+      "iteration": 1,
+      "file": "outputs/iteration-01/touring-caravan_v1.png",
+      "sha256": "9ed37d39104b00b35de4146fb6cfb2ef5323a351374ca7564c2e6905b8e80be6",
+      "bytes": 1111064
+    },
+    {
+      "key": "touring-caravan:v2",
+      "iteration": 1,
+      "file": "outputs/iteration-01/touring-caravan_v2.png",
+      "sha256": "e24289d2185870da391b3c3260f1c03fbd41e31732fb113a6082b8d0f38c7841",
+      "bytes": 1198407
+    },
+    {
+      "key": "abandoned-caravan:v1",
+      "iteration": 2,
+      "file": "outputs/iteration-02/abandoned-caravan_v1.png",
+      "sha256": "941c7282cd9b01dd12a88fea3bce77b28ce59e61a45f8ec156933fdc090faa6b",
+      "bytes": 1002005
+    },
+    {
+      "key": "abandoned-caravan:v2",
+      "iteration": 3,
+      "file": "outputs/iteration-03/abandoned-caravan_v2.png",
+      "sha256": "87ca8ebb699f6838a36fccf9741451c5e9eefec33c555097a1476839560348c8",
+      "bytes": 1019029
+    }
+  ]
+}

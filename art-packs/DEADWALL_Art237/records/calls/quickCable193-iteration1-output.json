@@ -1,0 +1,10 @@
+{
+  "key": "quickCable193",
+  "iteration": 1,
+  "status": "native-output-received",
+  "callRecord": "calls/quickCable193-iteration1.json",
+  "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-f9bf07db-dd43-4928-aa98-0ca4409644cc.png",
+  "sha256": "11247bda33f27be432ef17a86c88c2409c084ebf6b7cd20af36f5b4b360f82d2",
+  "bytes": 2039285,
+  "pixelEditingPerformed": false
+}

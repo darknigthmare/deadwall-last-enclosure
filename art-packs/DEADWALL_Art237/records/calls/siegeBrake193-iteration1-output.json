@@ -1,0 +1,10 @@
+{
+  "key": "siegeBrake193",
+  "iteration": 1,
+  "status": "native-output-received",
+  "callRecord": "calls/siegeBrake193-iteration1.json",
+  "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-5eff86e4-442e-4180-aa76-269bf868d5b1.png",
+  "sha256": "0a2f9a2173c4eb65810d5a8f2a75d164bd4f2557104e00d324a34d9bce29539a",
+  "bytes": 878290,
+  "pixelEditingPerformed": false
+}

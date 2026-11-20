@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-17 15:19:14 UTC",
+  "scope": "One optional read after Art240 generation; no continued monitoring or changes to the earlier frozen CI receipt.",
+  "repository": "darknigthmare/deadwall-last-enclosure",
+  "headCommit": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+  "runId": 44100314990,
+  "tool": "github_fetch_workflow_run_jobs",
+  "requestedArguments": {
+    "repo_full_name": "darknigthmare/deadwall-last-enclosure",
+    "run_id": 44100314990
+  },
+  "result": {
+    "jobs": [
+      {
+        "id": 134098248835,
+        "name": "literal full check / exact head",
+        "status": "in_progress",
+        "conclusion": null,
+        "run_id": 44100314990,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Installer strictement le verrou npm",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Préparer les polices latines du Canvas natif",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Exécuter réellement la commande complète et conserver les deux sorties",
+            "status": "in_progress",
+            "conclusion": null,
+            "number": 6
+          },
+          {
+            "name": "Conserver aussi les essais négatifs ou interrompus",
+            "status": "pending",
+            "conclusion": null,
+            "number": 7
+          },
+          {
+            "name": "Post Run actions/setup-node@v4",
+            "status": "pending",
+            "conclusion": null,
+            "number": 13
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "pending",
+            "conclusion": null,
+            "number": 14
+          }
+        ]
+      },
+      {
+        "id": 134098249273,
+        "name": "continuation 201 / actual Chromium",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 44100314990,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Installer strictement le verrou npm",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Run npm run build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run npx playwright install --with-deps chromium",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Carnet, six aperçus gratuits et un financement natif déclaré",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Conserver captures, erreurs et empreintes même en échec",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Post Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          }
+        ]
+      }
+    ]
+  },
+  "literalStillInProgress": true,
+  "globalSuccessClaimed": false,
+  "workflowCancelled": false,
+  "workflowRerun": false,
+  "previousReceiptUnmodified": true,
+  "links": {
+    "literal": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/44100314990/job/134098248835",
+    "chromium": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/44100314990/job/134098249273"
+  }
+}

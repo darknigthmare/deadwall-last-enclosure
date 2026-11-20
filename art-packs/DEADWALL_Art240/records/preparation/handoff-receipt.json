@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "pack": "Art240",
+  "status": "frozen_for_assembly",
+  "frozenAt": "2026-11-17T15:23:00.632910+00:00",
+  "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "publicationParent": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+  "checkoutTree": "33d089eab2bb23f288e66d57c2794f6a38b3ba84",
+  "keys": [
+    "compost-bin:v1",
+    "compost-bin:v2",
+    "closed-pool:v1",
+    "closed-pool:v2"
+  ],
+  "counts": {
+    "selectedFinals": 4,
+    "nativePng": 4,
+    "replacedIterations": 0,
+    "failedImageCalls": 0,
+    "blockedTargets": 0,
+    "canonicalReferences": 4
+  },
+  "selected": [
+    {
+      "key": "compost-bin:v1",
+      "id": "prop:compost-bin:v1",
+      "artId": "prop:compost-bin:v1",
+      "file": "/workspace/scratch/6f470a892a0f/art240-prep/outputs/iteration-01/compost-bin_composteur_jardin_v1.png",
+      "iteration": 1,
+      "sha256": "74341943da6e2292c2510df4cabdfeb696a0dfa661c51e8ad8a576a1837ce5eb"
+    },
+    {
+      "key": "compost-bin:v2",
+      "id": "prop:compost-bin:v2",
+      "artId": "prop:compost-bin:v2",
+      "file": "/workspace/scratch/6f470a892a0f/art240-prep/outputs/iteration-01/compost-bin_composteur_jardin_v2.png",
+      "iteration": 1,
+      "sha256": "450d49d558661f0217fac526ed62146ea74afe30f96885762368274a90a8bfbc"
+    },
+    {
+      "key": "closed-pool:v1",
+      "id": "prop:closed-pool:v1",
+      "artId": "prop:closed-pool:v1",
+      "file": "/workspace/scratch/6f470a892a0f/art240-prep/outputs/iteration-01/closed-pool_bassin_ferme_v1.png",
+      "iteration": 1,
+      "sha256": "4b511e0eb83c8bba591336e3af21881ea416b14f0d88b7d5c336fd565c7e5df1"
+    },
+    {
+      "key": "closed-pool:v2",
+      "id": "prop:closed-pool:v2",
+      "artId": "prop:closed-pool:v2",
+      "file": "/workspace/scratch/6f470a892a0f/art240-prep/outputs/iteration-01/closed-pool_bassin_ferme_v2.png",
+      "iteration": 1,
+      "sha256": "8b4f76904cb66eec85ec824488b03398c3019c00756d7f935c2d910143e567eb"
+    }
+  ],
+  "allNativeCopiesByteIdentical": true,
+  "exactPromptsAndReferencesVerified": true,
+  "independentCanonicalReplay": {
+    "file": "root-canonical-replay.json",
+    "sha256": "f7ba7ff1ce1b6d4c5b16a1327937bf471e595d35be849f4d6a63c3a985deba98",
+    "fourExactByteMatches": true
+  },
+  "independentVisualReview": {
+    "reviewer": "/root",
+    "decision": "accepted_source_art_proposal",
+    "evidence": "Parent message accepting all four canonical/candidate pairs, with interpretive material details declared. Separate root-review.json receipt is maintained by root.",
+    "receiptPresentAtFreeze": true,
+    "receiptSha256AtFreeze": "b0fc74b951690bbe6190185cd4d6e1699ee828bd0bbcb516ed78c9cdbb53ddea"
+  },
+  "freezeManifest": {
+    "file": "freeze-manifest.json",
+    "sha256": "12ae4dc5ac53298227e7519c3166f8816aec8d0d7c134317874859e23ac747c4",
+    "files": 58
+  },
+  "integrityReceipt": {
+    "file": "integrity-receipt.json",
+    "sha256": "c98d31b6911419bbacffa7e759a444692c4fb3c7450cb9e0e1233df4e6f12370"
+  },
+  "priorSourceProposalsRegenerated": false,
+  "runtimeModified": false,
+  "gitMutationPerformed": false,
+  "imageEditingPerformed": false,
+  "alphaCaveat": "Native low-alpha traces are preserved, including border alpha max 1. Reported margins refer to alpha >=8; strict zero-alpha margins are not certified."
+}

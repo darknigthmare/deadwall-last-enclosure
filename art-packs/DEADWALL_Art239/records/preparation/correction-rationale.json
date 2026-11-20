@@ -1,0 +1,11 @@
+{
+  "key": "fence:v2",
+  "iteration": 1,
+  "sha256": "2be6d0ff6d2cf2d60944c2e893a2fb7a730f99d4beb873ddc31a75263cd72c4e",
+  "decision": "superseded_after_independent_root_review",
+  "reason": "Material remains too close to v0/v1 timber and both thin X braces insufficiently readable. Preserve construction and thin footprint; correct only matte weathered steel material and local contrast.",
+  "alphaDefect": false,
+  "originalPngPreserved": true,
+  "initialAuthorReviewSnapshot": "pre-correction-records/review.json",
+  "correctionInput": "calls/fence_v2-iteration-02-input.json"
+}

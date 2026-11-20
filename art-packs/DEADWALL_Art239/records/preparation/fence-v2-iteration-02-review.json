@@ -1,0 +1,18 @@
+{
+  "key": "fence:v2",
+  "iteration": 2,
+  "decision": "rejected_source_art_candidate",
+  "sha256": "860fa7c57994fa212c87f115501b711aa5dc6089a2858b18ebfb296fb5d31d0c",
+  "reviewedBy": "root and fallen_art236",
+  "observation": "Root sees a broad grey cloud around the bar; rails remain almost joined and both X ties insufficiently readable. Author view_image appeared almost empty despite valid colored RGB/alpha samples, while the ImageGen preview showed the broad cloud. The discrepancy is preserved as an observed preview limitation, not proof of corrupted PNG bytes.",
+  "alphaEvidence": "fence-v2-iteration-02-alpha.json",
+  "nativeAlphaFacts": {
+    "alpha1Pixels": 242368,
+    "alpha2to7Pixels": 260300,
+    "pixelsAlphaAtLeast128": 32453,
+    "alphaExactly255Pixels": 39,
+    "borderAlphaMaximum": 1
+  },
+  "originalPngPreserved": true,
+  "pixelEdits": false
+}

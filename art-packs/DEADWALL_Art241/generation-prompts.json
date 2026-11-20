@@ -1,0 +1,203 @@
+[
+  {
+    "key": "touring-caravan:v1",
+    "kind": "touring-caravan",
+    "id": "prop:touring-caravan:v1",
+    "artId": "prop:touring-caravan:v1",
+    "label": "Caravane tractable fermée et inoccupée — variante 1",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: original DEADWALL game source-art sprite of ONE complete isolated touring-caravan, painter variant 1.\nINPUT IMAGES: Image 1 is the AUTHORITATIVE canonical geometry and palette, rendered by the unchanged public campaign-site-art205.drawProp API for this exact authored instance, painter variant 1. Image 2 is the already accepted Art235 variant 0 for MATERIAL TEXTURE AND PAINTERLY STYLE ONLY; ignore its v0 roof fittings and follow image 1 for all variant-specific parts.\nCAMERA AND SILHOUETTE: strict orthographic overhead plan, camera looking vertically down. Long axis vertical, short tow hitch pointing straight UP to negative screen Y, no diagonal turn, perspective or visible tall side facade. Preserve the narrow chamfered rectangular closed body, dark outer contour and two longitudinal roof-edge seams. The authored source footprint is 2.4 m across X by 6.2 m along Y, with a separate height envelope of 2.8 m; these are author-design values, not manufacturer dimensions. Retain the source proportions.\nWHEELS AND HITCH: exactly FOUR small visible rubber wheels, two at each side, at TWO widely separated longitudinal stations (roughly one-third and three-quarters down the canonical footprint). Preserve this source geometry, not an ordinary close tandem axle. Keep the short centered tow tongue and transverse tip completely visible at the top.\nVARIANT 1 ROOF: exactly TWO small closed metal roof panels in a vertical sequence, one near the upper quarter and one near the lower third. Preserve the larger central rectangular dark seam/frame that spans between and partly around them, including its two slim longitudinal inset highlights. Follow image 1 for overlap and positions. These are shallow CLOSED roof details, not windows into rooms and not rooftop cargo. Do not retain the v0 single-panel/dark-hatch arrangement from the style image.\nCONDITION: Unoccupied touring caravan. Keep the complete closed shell, modest age and light grime; no severe ruin, inhabitants or signs of occupation. Use the pale desaturated cream/blue-grey palette in canonical variant 1, or the pale cream/tan/olive palette in canonical variant 2. The old v0 reference supplies weathered painted-metal rendering only. Both roof and body remain closed; the source instance has no authored accessible interior, no loot assignment and no utility connection. These decorative source images must not imply a new service, stock, electrical operation or gameplay state.\nSTYLE: detailed restrained hand-painted pre-rendered post-apocalyptic game art matching image 2, with believable worn painted metal, rubber, shallow bevels, modest fine grain and neutral overhead lighting. No photo background, dramatic lighting or exaggerated distress. Preserve image 1's variant colour family rather than forcing the v0 palette.\nOUTPUT: ONE object only, whole and centred, true transparent RGBA background with at least 12 percent empty margin on all sides. Every wheel and the tow hitch must stay inside the image. No ground plane or external cast shadow. No people, animals, plants, ground debris, extra accessories, awning, solar panel, aerial, chimney, ladder, air-conditioning box, spare wheel, open door, exposed interior, readable text, logo, labels, numbers, border or watermark. No active effects. Source-art proposal for later calibration; not a metric or pixel-for-pixel certification.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI built-in ImageGen",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/canonical/touring-caravan_v1.png",
+        "sha256": "f0bb2a5dbf5dc70082930071362e76e8470ae3b33e1e354291d245ca3bb07522"
+      },
+      {
+        "path": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png",
+        "sha256": "49d5f583cfde5c4217598b2dd2c57703ebe74868bdc2dd47855adff5f1dbbbee"
+      }
+    ],
+    "output": "assets/art241/props/touring-caravan_v1.png",
+    "sha256": "9ed37d39104b00b35de4146fb6cfb2ef5323a351374ca7564c2e6905b8e80be6",
+    "bytes": 1111064,
+    "selected": true,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "touring-caravan:v2",
+    "kind": "touring-caravan",
+    "id": "prop:touring-caravan:v2",
+    "artId": "prop:touring-caravan:v2",
+    "label": "Caravane tractable fermée et inoccupée — variante 2",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: original DEADWALL game source-art sprite of ONE complete isolated touring-caravan, painter variant 2.\nINPUT IMAGES: Image 1 is the AUTHORITATIVE canonical geometry and palette, rendered by the unchanged public campaign-site-art205.drawProp API for this exact authored instance, painter variant 2. Image 2 is the already accepted Art235 variant 0 for MATERIAL TEXTURE AND PAINTERLY STYLE ONLY; ignore its v0 roof fittings and follow image 1 for all variant-specific parts.\nCAMERA AND SILHOUETTE: strict orthographic overhead plan, camera looking vertically down. Long axis vertical, short tow hitch pointing straight UP to negative screen Y, no diagonal turn, perspective or visible tall side facade. Preserve the narrow chamfered rectangular closed body, dark outer contour and two longitudinal roof-edge seams. The authored source footprint is 2.4 m across X by 6.2 m along Y, with a separate height envelope of 2.8 m; these are author-design values, not manufacturer dimensions. Retain the source proportions.\nWHEELS AND HITCH: exactly FOUR small visible rubber wheels, two at each side, at TWO widely separated longitudinal stations (roughly one-third and three-quarters down the canonical footprint). Preserve this source geometry, not an ordinary close tandem axle. Keep the short centered tow tongue and transverse tip completely visible at the top.\nVARIANT 2 ROOF: exactly ONE broad shallow closed rectangular metal roof panel in the upper-middle region, ONE small warm-weathered WOODEN rectangular patch in the lower-right roof region with its single diagonal seam, and ONE thin longitudinal metal strip just LEFT of centre, extending from the upper region towards the lower middle. Preserve their exact relative locations and overlaps from image 1. This is a small fixed source-defined patch, not loose planks or roof cargo. Do not retain the v0 single-panel/dark-hatch arrangement from the style image.\nCONDITION: Unoccupied touring caravan. Keep the complete closed shell, modest age and light grime; no severe ruin, inhabitants or signs of occupation. Use the pale desaturated cream/blue-grey palette in canonical variant 1, or the pale cream/tan/olive palette in canonical variant 2. The old v0 reference supplies weathered painted-metal rendering only. Both roof and body remain closed; the source instance has no authored accessible interior, no loot assignment and no utility connection. These decorative source images must not imply a new service, stock, electrical operation or gameplay state.\nSTYLE: detailed restrained hand-painted pre-rendered post-apocalyptic game art matching image 2, with believable worn painted metal, rubber, shallow bevels, modest fine grain and neutral overhead lighting. No photo background, dramatic lighting or exaggerated distress. Preserve image 1's variant colour family rather than forcing the v0 palette.\nOUTPUT: ONE object only, whole and centred, true transparent RGBA background with at least 12 percent empty margin on all sides. Every wheel and the tow hitch must stay inside the image. No ground plane or external cast shadow. No people, animals, plants, ground debris, extra accessories, awning, solar panel, aerial, chimney, ladder, air-conditioning box, spare wheel, open door, exposed interior, readable text, logo, labels, numbers, border or watermark. No active effects. Source-art proposal for later calibration; not a metric or pixel-for-pixel certification.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI built-in ImageGen",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/canonical/touring-caravan_v2.png",
+        "sha256": "a2c7f68fb0decde7fca80d1ba5dda4bc28492f534c8581d19d69c266ffdd9bba"
+      },
+      {
+        "path": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png",
+        "sha256": "49d5f583cfde5c4217598b2dd2c57703ebe74868bdc2dd47855adff5f1dbbbee"
+      }
+    ],
+    "output": "assets/art241/props/touring-caravan_v2.png",
+    "sha256": "e24289d2185870da391b3c3260f1c03fbd41e31732fb113a6082b8d0f38c7841",
+    "bytes": 1198407,
+    "selected": true,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "abandoned-caravan:v1",
+    "kind": "abandoned-caravan",
+    "id": "prop:abandoned-caravan:v1",
+    "artId": "prop:abandoned-caravan:v1",
+    "label": "Caravane abandonnée fermée et évacuée — variante 1",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: original DEADWALL game source-art sprite of ONE complete isolated abandoned-caravan, painter variant 1.\nINPUT IMAGES: Image 1 is the AUTHORITATIVE canonical geometry and palette, rendered by the unchanged public campaign-site-art205.drawProp API for this exact authored instance, painter variant 1. Image 2 is the already accepted Art235 variant 0 for MATERIAL TEXTURE AND PAINTERLY STYLE ONLY; ignore its v0 roof fittings and follow image 1 for all variant-specific parts.\nCAMERA AND SILHOUETTE: strict orthographic overhead plan, camera looking vertically down. Long axis vertical, short tow hitch pointing straight UP to negative screen Y, no diagonal turn, perspective or visible tall side facade. Preserve the narrow chamfered rectangular closed body, dark outer contour and two longitudinal roof-edge seams. The authored source footprint is 2.4 m across X by 6.2 m along Y, with a separate height envelope of 2.8 m; these are author-design values, not manufacturer dimensions. Retain the source proportions.\nWHEELS AND HITCH: exactly FOUR small visible rubber wheels, two at each side, at TWO widely separated longitudinal stations (roughly one-third and three-quarters down the canonical footprint). Preserve this source geometry, not an ordinary close tandem axle. Keep the short centered tow tongue and transverse tip completely visible at the top.\nVARIANT 1 ROOF: exactly TWO small closed metal roof panels in a vertical sequence, one near the upper quarter and one near the lower third. Preserve the larger central rectangular dark seam/frame that spans between and partly around them, including its two slim longitudinal inset highlights. Follow image 1 for overlap and positions. These are shallow CLOSED roof details, not windows into rooms and not rooftop cargo. Do not retain the v0 single-panel/dark-hatch arrangement from the style image.\nCONDITION: Abandoned and evacuated caravan. Retain the closed complete shell with source-defined shallow zigzag cracks and localized dull rust streaks in the same positions as image 1. Muted grey-blue metal in variant 1 or grey-olive metal in variant 2. No roof collapse, holes into a visible interior, missing wheels, wreckage, occupants or active light. Both roof and body remain closed; the source instance has no authored accessible interior, no loot assignment and no utility connection. These decorative source images must not imply a new service, stock, electrical operation or gameplay state.\nSTYLE: detailed restrained hand-painted pre-rendered post-apocalyptic game art matching image 2, with believable worn painted metal, rubber, shallow bevels, modest fine grain and neutral overhead lighting. No photo background, dramatic lighting or exaggerated distress. Preserve image 1's variant colour family rather than forcing the v0 palette.\nOUTPUT: ONE object only, whole and centred, true transparent RGBA background with at least 12 percent empty margin on all sides. Every wheel and the tow hitch must stay inside the image. No ground plane or external cast shadow. No people, animals, plants, ground debris, extra accessories, awning, solar panel, aerial, chimney, ladder, air-conditioning box, spare wheel, open door, exposed interior, readable text, logo, labels, numbers, border or watermark. No active effects. Source-art proposal for later calibration; not a metric or pixel-for-pixel certification.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI built-in ImageGen",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/canonical/abandoned-caravan_v1.png",
+        "sha256": "d729ae423cd4c8e1fa6e9b6e39dc1f0cc1e2843dde15b66aed9b847bbab13f95"
+      },
+      {
+        "path": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+        "sha256": "be15ae950d99461b2351a0295713a36e0091aaec5a37da5191e392f4e3748748"
+      }
+    ],
+    "output": "references/iterations/abandoned-caravan_v1-iteration-01.png",
+    "sha256": "bc1d4094cb6f76ddb58cd7dd9fa45a56af1c0c80c6d1ab2eb822f4dabf87edcf",
+    "bytes": 1046969,
+    "selected": false,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "abandoned-caravan:v1",
+    "kind": "abandoned-caravan",
+    "id": "prop:abandoned-caravan:v1",
+    "artId": "prop:abandoned-caravan:v1",
+    "label": "Caravane abandonnée fermée et évacuée — variante 1",
+    "iteration": 2,
+    "prompt": "Use case: precise-object-edit. Asset type: DEADWALL abandoned caravan source-art sprite, existing painter variant 1, transparent RGBA.\nINPUTS: Image 1 is the edit target. Image 2 is the exact public game painter canonical reference for component geometry only. Image 3 is the accepted Art235 abandoned v0 reference for natural corrosion and fine surface cracks only.\nMAKE ONLY THIS TARGETED SURFACE CORRECTION: The source's brown streaks are RUST STAINS, not added plates, planks or cargo. On the left portion of the roof, replace the small brown rectangular raised pieces near the top and bottom and the long diagonal brown piece near the middle with irregular narrow corrosion stains FLUSH with the original painted roof. Preserve their approximate positions and overall extents, but remove straight manufactured perimeters, thickness, bevels and object-like shadows. Blend their edges into convincing chipped paint and oxidized metal like image 3. Keep BOTH closed rectangular roof panels, the large central rectangular roof frame and its two slim inner highlights exactly in place. The two dark N-shaped raised bars in the upper-right and lower-right roof regions must become thin shallow irregular cracks in the painted surface, with no raised metal, beveled edges or cast shadows.\nLOCK ALL OTHER FEATURES: Keep the exact narrow chamfered body silhouette, centered short hitch at the TOP, FOUR wheels at their two widely separated stations, two outer longitudinal roof seams, closed roof and body, same portrait orientation, strictly orthographic directly overhead camera, muted grey-blue worn metal palette and all valid variant-specific fittings. Preserve the surrounding transparent space and the full object inside the canvas. No new object, open interior, lights, people, supplies, services or active effects.\nOUTPUT: One complete isolated object, genuine transparent RGBA background. No terrain, backdrop, cast ground shadow, labels, writing, logos, border or watermark. Do not return a collage or a before/after sheet. Do not alter unrelated geometry or redraw with a different projection. Keep the native alpha; no matte.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI built-in ImageGen",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/iterations/abandoned-caravan_v1-iteration-01.png",
+        "sha256": "bc1d4094cb6f76ddb58cd7dd9fa45a56af1c0c80c6d1ab2eb822f4dabf87edcf"
+      },
+      {
+        "path": "references/canonical/abandoned-caravan_v1.png",
+        "sha256": "d729ae423cd4c8e1fa6e9b6e39dc1f0cc1e2843dde15b66aed9b847bbab13f95"
+      },
+      {
+        "path": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+        "sha256": "be15ae950d99461b2351a0295713a36e0091aaec5a37da5191e392f4e3748748"
+      }
+    ],
+    "output": "assets/art241/props/abandoned-caravan_v1.png",
+    "sha256": "941c7282cd9b01dd12a88fea3bce77b28ce59e61a45f8ec156933fdc090faa6b",
+    "bytes": 1002005,
+    "selected": true,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "abandoned-caravan:v2",
+    "kind": "abandoned-caravan",
+    "id": "prop:abandoned-caravan:v2",
+    "artId": "prop:abandoned-caravan:v2",
+    "label": "Caravane abandonnée fermée et évacuée — variante 2",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: original DEADWALL game source-art sprite of ONE complete isolated abandoned-caravan, painter variant 2.\nINPUT IMAGES: Image 1 is the AUTHORITATIVE canonical geometry and palette, rendered by the unchanged public campaign-site-art205.drawProp API for this exact authored instance, painter variant 2. Image 2 is the already accepted Art235 variant 0 for MATERIAL TEXTURE AND PAINTERLY STYLE ONLY; ignore its v0 roof fittings and follow image 1 for all variant-specific parts.\nCAMERA AND SILHOUETTE: strict orthographic overhead plan, camera looking vertically down. Long axis vertical, short tow hitch pointing straight UP to negative screen Y, no diagonal turn, perspective or visible tall side facade. Preserve the narrow chamfered rectangular closed body, dark outer contour and two longitudinal roof-edge seams. The authored source footprint is 2.4 m across X by 6.2 m along Y, with a separate height envelope of 2.8 m; these are author-design values, not manufacturer dimensions. Retain the source proportions.\nWHEELS AND HITCH: exactly FOUR small visible rubber wheels, two at each side, at TWO widely separated longitudinal stations (roughly one-third and three-quarters down the canonical footprint). Preserve this source geometry, not an ordinary close tandem axle. Keep the short centered tow tongue and transverse tip completely visible at the top.\nVARIANT 2 ROOF: exactly ONE broad shallow closed rectangular metal roof panel in the upper-middle region, ONE small warm-weathered WOODEN rectangular patch in the lower-right roof region with its single diagonal seam, and ONE thin longitudinal metal strip just LEFT of centre, extending from the upper region towards the lower middle. Preserve their exact relative locations and overlaps from image 1. This is a small fixed source-defined patch, not loose planks or roof cargo. Do not retain the v0 single-panel/dark-hatch arrangement from the style image.\nCONDITION: Abandoned and evacuated caravan. Retain the closed complete shell with source-defined shallow zigzag cracks and localized dull rust streaks in the same positions as image 1. Muted grey-blue metal in variant 1 or grey-olive metal in variant 2. No roof collapse, holes into a visible interior, missing wheels, wreckage, occupants or active light. Both roof and body remain closed; the source instance has no authored accessible interior, no loot assignment and no utility connection. These decorative source images must not imply a new service, stock, electrical operation or gameplay state.\nSTYLE: detailed restrained hand-painted pre-rendered post-apocalyptic game art matching image 2, with believable worn painted metal, rubber, shallow bevels, modest fine grain and neutral overhead lighting. No photo background, dramatic lighting or exaggerated distress. Preserve image 1's variant colour family rather than forcing the v0 palette.\nOUTPUT: ONE object only, whole and centred, true transparent RGBA background with at least 12 percent empty margin on all sides. Every wheel and the tow hitch must stay inside the image. No ground plane or external cast shadow. No people, animals, plants, ground debris, extra accessories, awning, solar panel, aerial, chimney, ladder, air-conditioning box, spare wheel, open door, exposed interior, readable text, logo, labels, numbers, border or watermark. No active effects. Source-art proposal for later calibration; not a metric or pixel-for-pixel certification.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI built-in ImageGen",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/canonical/abandoned-caravan_v2.png",
+        "sha256": "e69d60a8a01e1efa9dd97a00b81b177eee5a3c72510ade58c75f7003f6c04183"
+      },
+      {
+        "path": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+        "sha256": "be15ae950d99461b2351a0295713a36e0091aaec5a37da5191e392f4e3748748"
+      }
+    ],
+    "output": "references/iterations/abandoned-caravan_v2-iteration-01.png",
+    "sha256": "91833c4ae39c15308663733dac0aeaf5b032f78281954e292cbb90bd2fb03c77",
+    "bytes": 1140439,
+    "selected": false,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "abandoned-caravan:v2",
+    "kind": "abandoned-caravan",
+    "id": "prop:abandoned-caravan:v2",
+    "artId": "prop:abandoned-caravan:v2",
+    "label": "Caravane abandonnée fermée et évacuée — variante 2",
+    "iteration": 2,
+    "prompt": "Use case: precise-object-edit. Asset type: DEADWALL abandoned caravan source-art sprite, existing painter variant 2, transparent RGBA.\nINPUTS: Image 1 is the edit target. Image 2 is the exact public game painter canonical reference for component geometry only. Image 3 is the accepted Art235 abandoned v0 reference for natural corrosion and fine surface cracks only.\nMAKE ONLY THIS TARGETED SURFACE CORRECTION: The source's brown streaks are RUST STAINS, not added plates, planks or cargo. On the left portion of the roof, replace the small brown rectangular raised pieces near the top and bottom and the long diagonal brown piece near the middle with irregular narrow corrosion stains FLUSH with the original painted roof. Preserve their approximate positions and overall extents, but remove straight manufactured perimeters, thickness, bevels and object-like shadows. Blend their edges into convincing chipped paint and oxidized metal like image 3. Keep the single broad closed metal roof panel, the long narrow grey metal strip left of centre and the genuine rectangular WOODEN PATCH in the lower-right exactly in place. The wooden patch with its diagonal seam is a real source-defined component and must remain. Keep thin irregular paint fractures in the upper-right and lower-right regions; they must not read as letters, symbols or raised hardware.\nLOCK ALL OTHER FEATURES: Keep the exact narrow chamfered body silhouette, centered short hitch at the TOP, FOUR wheels at their two widely separated stations, two outer longitudinal roof seams, closed roof and body, same portrait orientation, strictly orthographic directly overhead camera, muted grey-olive worn metal palette and all valid variant-specific fittings. Preserve the surrounding transparent space and the full object inside the canvas. No new object, open interior, lights, people, supplies, services or active effects.\nOUTPUT: One complete isolated object, genuine transparent RGBA background. No terrain, backdrop, cast ground shadow, labels, writing, logos, border or watermark. Do not return a collage or a before/after sheet. Do not alter unrelated geometry or redraw with a different projection. Keep the native alpha; no matte.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI built-in ImageGen",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/iterations/abandoned-caravan_v2-iteration-01.png",
+        "sha256": "91833c4ae39c15308663733dac0aeaf5b032f78281954e292cbb90bd2fb03c77"
+      },
+      {
+        "path": "references/canonical/abandoned-caravan_v2.png",
+        "sha256": "e69d60a8a01e1efa9dd97a00b81b177eee5a3c72510ade58c75f7003f6c04183"
+      },
+      {
+        "path": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+        "sha256": "be15ae950d99461b2351a0295713a36e0091aaec5a37da5191e392f4e3748748"
+      }
+    ],
+    "output": "references/iterations/abandoned-caravan_v2-iteration-02.png",
+    "sha256": "db63a0b14f90d3afafca59a6ea8f254f89c3ad943c7049cbd25ea4662c7cff94",
+    "bytes": 1056984,
+    "selected": false,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "abandoned-caravan:v2",
+    "kind": "abandoned-caravan",
+    "id": "prop:abandoned-caravan:v2",
+    "artId": "prop:abandoned-caravan:v2",
+    "label": "Caravane abandonnée fermée et évacuée — variante 2",
+    "iteration": 3,
+    "prompt": "Use case: precise-object-edit. DEADWALL abandoned caravan, painter variant 2, one complete transparent source sprite.\nINPUTS: Image 1 is the edit target with corrected natural corrosion. Image 2 is the authoritative unchanged game painter canonical geometry. Image 3 is the touring variant 2 solely to clarify the full length of the narrow metal strip.\nCHANGE ONLY THE TOP EXTENT OF ONE EXISTING PIECE: In image 1, the long thin vertical GREY METAL STRIP immediately LEFT of the central closed roof panel starts too low, at about the top edge of that panel. Extend the SAME strip straight UP, without changing its width, horizontal position or bottom end. Its top must reach the UPPER FIFTH of the canonical footprint, clearly ABOVE the roof panel, at the same longitudinal height as the upper rust patch. Match its full span in images 2 and 3: it starts roughly 13 percent down from the chamfered body top and extends to roughly 72 percent down the body. Keep it one continuous slender strip; do not add a second strip or extra component. Preserve the natural rusty paint around it.\nKEEP EVERYTHING ELSE UNCHANGED: closed broad roof panel, genuine rectangular wooden patch with diagonal seam at lower right, natural shallow fine cracks and three irregular corrosion areas, grey-olive weathered metal palette, chamfered shell, two outer roof seams, FOUR wheels at their two far-separated stations, short complete centred hitch pointing UP, exact directly-overhead orthographic camera and current silhouette proportions. No raised letter-shaped cracks or rectangular rust plates.\nOutput ONE complete isolated caravan on genuine transparent RGBA, all parts inside canvas with generous empty margins, no ground shadow or matte. No new accessory, inhabitants, interior, stock, operation, text, logo, frame or watermark. This is a precise component-length correction; preserve the established natural surface weathering.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI built-in ImageGen",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/iterations/abandoned-caravan_v2-iteration-02.png",
+        "sha256": "db63a0b14f90d3afafca59a6ea8f254f89c3ad943c7049cbd25ea4662c7cff94"
+      },
+      {
+        "path": "references/canonical/abandoned-caravan_v2.png",
+        "sha256": "e69d60a8a01e1efa9dd97a00b81b177eee5a3c72510ade58c75f7003f6c04183"
+      },
+      {
+        "path": "assets/art241/props/touring-caravan_v2.png",
+        "sha256": "e24289d2185870da391b3c3260f1c03fbd41e31732fb113a6082b8d0f38c7841"
+      }
+    ],
+    "output": "assets/art241/props/abandoned-caravan_v2.png",
+    "sha256": "87ca8ebb699f6838a36fccf9741451c5e9eefec33c555097a1476839560348c8",
+    "bytes": 1019029,
+    "selected": true,
+    "nativeBytesPreserved": true
+  }
+]

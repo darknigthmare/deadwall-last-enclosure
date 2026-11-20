@@ -1,0 +1,102 @@
+{
+  "key": "fence:v2",
+  "iteration": 2,
+  "path": "/workspace/scratch/6f470a892a0f/art239-prep/outputs/iteration-02/fence_cloture_croisillons_metal_v2.png",
+  "originalGeneratedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-cae475c1-aec9-41f0-a556-0c658d48921a.png",
+  "sha256": "860fa7c57994fa212c87f115501b711aa5dc6089a2858b18ebfb296fb5d31d0c",
+  "bytes": 404140,
+  "width": 1402,
+  "height": 1122,
+  "mode": "RGBA",
+  "alphaExtrema": [
+    0,
+    255
+  ],
+  "fullyTransparentPixels": 1020232,
+  "alpha1Pixels": 242368,
+  "alpha2to7Pixels": 260300,
+  "alpha8to31Pixels": 11345,
+  "alpha32to127Pixels": 6346,
+  "alpha128to254Pixels": 32414,
+  "alpha255Pixels": 39,
+  "boundsAlphaAtLeast": {
+    "1": [
+      0,
+      262,
+      1402,
+      988
+    ],
+    "2": [
+      75,
+      357,
+      1356,
+      785
+    ],
+    "8": [
+      199,
+      530,
+      1201,
+      607
+    ],
+    "32": [
+      208,
+      536,
+      1195,
+      596
+    ],
+    "128": [
+      209,
+      537,
+      1194,
+      596
+    ],
+    "240": [
+      210,
+      538,
+      1193,
+      595
+    ]
+  },
+  "marginFractionsAlphaAtLeast": {
+    "1": [
+      0.0,
+      0.23351158645276293,
+      0.0,
+      0.11942959001782531
+    ],
+    "2": [
+      0.05349500713266762,
+      0.3181818181818182,
+      0.03281027104136947,
+      0.3003565062388592
+    ],
+    "8": [
+      0.1419400855920114,
+      0.47237076648841353,
+      0.1433666191155492,
+      0.4590017825311943
+    ],
+    "32": [
+      0.14835948644793154,
+      0.47771836007130125,
+      0.14764621968616262,
+      0.46880570409982175
+    ],
+    "128": [
+      0.14907275320970043,
+      0.4786096256684492,
+      0.14835948644793154,
+      0.46880570409982175
+    ],
+    "240": [
+      0.14978601997146934,
+      0.47950089126559714,
+      0.14907275320970043,
+      0.4696969696969697
+    ]
+  },
+  "borderAlphaMaximum": 1,
+  "readOnlyDecode": true,
+  "nativeOutputBytesPreserved": true,
+  "pixelEditingPerformed": false
+}

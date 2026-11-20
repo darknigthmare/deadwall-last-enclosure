@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "key": "survivor-inert-body",
+  "iteration": 1,
+  "generator": "image_gen.imagegen",
+  "intent": "generate from pose and identity references",
+  "promptIsVerbatim": true,
+  "inputRoles": [
+    {
+      "path": "/workspace/scratch/6f470a892a0f/art236-prep/references/canonical/survivor-inert-angle0.png",
+      "role": "pose-only canonical fallback reference"
+    },
+    {
+      "path": "/workspace/scratch/6f470a892a0f/art236-prep/references/repository/assets/art137/survivor-prone.png",
+      "role": "identity, wardrobe and material/style reference only"
+    }
+  ],
+  "arguments": {
+    "prompt": "Use case: stylized-concept.\nAsset type: one isolated transparent 2D game sprite source proposal for DEADWALL, depicting the existing shared survivor's persistent inert body.\n\nInput image 1 is the exact current game's schematic corpse fallback, rendered unchanged: use ONLY its body orientation and bent-back limb arrangement as the pose reference. It has head to the RIGHT, boots to the LEFT, two separated nearly straight legs, the upper leg extending a little farther left. Both elbows point sideways away from the torso, and both forearms fold BACK LEFT toward the waist; both hands remain behind the head and shoulders. The dark reddish oval beneath the schematic is a separate ground mark: OMIT it entirely.\nInput image 2 is the existing living prone survivor: use ONLY its established identity, clothing materials, proportions and painterly sprite finish. Do NOT copy its active forward-reaching pose and do NOT copy its olive backpack or its backpack straps.\n\nCreate ONE complete existing survivor, lying face down, fully slack and inert after falling, without blood, wounds or gore. Preserve the short dark-brown hair, worn mustard/ochre canvas jacket, black work gloves, charcoal cargo trousers with existing practical pockets, and scuffed brown work boots. No new costume, character, faction markings or equipment. The back of the jacket is visible and bare of packs or harness straps; the bag and inventory have their own separate game owner.\n\nSTRICT ORTHOGRAPHIC ZENITHAL camera exactly 90 degrees straight down. Show the top of the hair, jacket back, back of the trousers and boots. No visible face. Head right, boots left, long body axis horizontal. Use natural human anatomy matching the established survivor, while faithfully following image 1's limb layout: arms relaxed on either side, elbows splayed, empty gloved hands folded backward toward the waist, wrists slack. Legs separated, almost straight, with the upper boot slightly farther left. The body lies completely flat and unsupported, with no raised chest, no crawling, aiming, bracing, reaching forward or movement.\n\nMatch image 2's grounded painterly realistic 2D survival-game rendering: muted earthy ochre, charcoal and brown, restrained crisp material detail, fabric folds and scuffed leather, subtle outline definition and soft neutral overhead lighting. This is one static inert pose; no animation, atlas, alternatives or scene.\n\nLandscape framing. Entire body fully visible and centered, with generous transparent margin on all four sides; preserve at least roughly 12 percent margin beyond the silhouette. True transparent RGBA background. Only the person belongs in the pixels. No floor, scenery, contact shadow, cast shadow, ground circle, puddle, blood, red mark, base, weapon, tool, ammunition, backpack, straps, loose bag, loot, labels, text, watermark or extra object.",
+    "referenced_image_paths": [
+      "/workspace/scratch/6f470a892a0f/art236-prep/references/canonical/survivor-inert-angle0.png",
+      "/workspace/scratch/6f470a892a0f/art236-prep/references/repository/assets/art137/survivor-prone.png"
+    ],
+    "transparent_background": true
+  }
+}

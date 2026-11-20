@@ -1,0 +1,83 @@
+[
+  {
+    "key": "fence",
+    "kind": "fence",
+    "id": "prop:fence:v0",
+    "artId": "prop:fence:v0",
+    "file": "fence_cloture_bois.png",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: original DEADWALL game source sprite, one complete isolated Segment de clôture en bois.\nINPUTS: Image 1 is the authoritative geometry/layout reference, rendered by the unchanged structural205 game painter for this exact authored source, painter variant0. Image 2 is MATERIAL AND PAINTERLY STYLE ONLY from the original game atlas; do not copy its camera angle, neighbouring sprites, grid or background.\nCAMERA: strict orthographic overhead plan, camera looking vertically down. Keep source X horizontal and source Y down the image; retain the canonical silhouette, aspect ratio, orientation, number of parts and relative positions. Do not make a tilted isometric object or expose a tall facade.\nSUBJECT AND PARTS: A single extremely narrow HORIZONTAL timber boundary segment seen strictly from above. Preserve TWO long parallel wooden rails and exactly THREE short cross-posts at left, centre and right. The authored ground footprint is twenty times longer than its depth: it must remain a thin strip in the image, surrounded by ample transparency. Do not turn this plan into an upright fence facade, a gate, a broad ladder or a panel of vertical pickets. No diagonal brace, wire mesh, extra posts or pointed stakes.\nDESIGN ENVELOPE: 3 m across X by 0.15 m along Y; separate author-defined height 1.2 m. These are author-design dimensions, not manufacturer measurements. Preserve the proportional source footprint rather than filling the canvas with a different-shaped object.\nMATERIALS: serious grounded post-apocalyptic game, detailed restrained hand-painted pre-rendered look; aged wood, dull steel, worn stone and weathered muted olive/brown/grey as the source requires. Natural fine grain, small scuffs, modest corrosion and soft neutral overhead lighting. Readable major components at game scale, idle and unattended. No exaggerated destruction or invented decoration.\nOUTPUT: ONE whole object only, true transparent RGBA background. Centre the complete silhouette with at least 12 percent transparent margin on every side; never cut thin components. No ground plane or cast shadow outside the object, no landscape, scene, frame, lettering, dimensions, logo, UI or watermark. No extra detached tools, people, animals or active effects. This is a source-art proposal for later calibration, not a claim of metric or pixel-for-pixel certification.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art238-prep/references/canonical/fence_v0.png",
+      "/workspace/scratch/6f470a892a0f/art238-prep/references/repository/assets/art158/details.png"
+    ],
+    "generator": "OpenAI built-in ImageGen",
+    "promptIsVerbatim": true,
+    "transparentBackgroundRequested": true,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-88903832-b921-4ce3-89cd-3c3e0598c771.png",
+    "selected": true,
+    "generationDate": "2026-11-17",
+    "nativeOutputBytesPreserved": true
+  },
+  {
+    "key": "compost-bin",
+    "kind": "compost-bin",
+    "id": "prop:compost-bin:v0",
+    "artId": "prop:compost-bin:v0",
+    "file": "compost-bin_composteur_jardin.png",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: original DEADWALL game source sprite, one complete isolated Composteur de jardin.\nINPUTS: Image 1 is the authoritative geometry/layout reference, rendered by the unchanged structural205 game painter for this exact authored source, painter variant0. Image 2 is MATERIAL AND PAINTERLY STYLE ONLY from the original game atlas; do not copy its camera angle, neighbouring sprites, grid or background.\nCAMERA: strict orthographic overhead plan, camera looking vertically down. Keep source X horizontal and source Y down the image; retain the canonical silhouette, aspect ratio, orientation, number of parts and relative positions. Do not make a tilted isometric object or expose a tall facade.\nSUBJECT AND PARTS: One square low timber compost bin in overhead plan. Preserve its thick wooden perimeter, dark interior and FOUR horizontal timber members at the exact heights in image 1. Inside, preserve the NINE small source clusters in a three-by-three layout as irregular dry leaves and twig scraps in muted brown and olive. Treat the small flat source marks as natural organic matter, not painted ovals or fresh planted crops. No shovel, sack, lid, tall legs, insects, steam, loose ground pile or extra stock.\nDESIGN ENVELOPE: 1 m across X by 1 m along Y; separate author-defined height 1 m. These are author-design dimensions, not manufacturer measurements. Preserve the proportional source footprint rather than filling the canvas with a different-shaped object.\nMATERIALS: serious grounded post-apocalyptic game, detailed restrained hand-painted pre-rendered look; aged wood, dull steel, worn stone and weathered muted olive/brown/grey as the source requires. Natural fine grain, small scuffs, modest corrosion and soft neutral overhead lighting. Readable major components at game scale, idle and unattended. No exaggerated destruction or invented decoration.\nOUTPUT: ONE whole object only, true transparent RGBA background. Centre the complete silhouette with at least 12 percent transparent margin on every side; never cut thin components. No ground plane or cast shadow outside the object, no landscape, scene, frame, lettering, dimensions, logo, UI or watermark. No extra detached tools, people, animals or active effects. This is a source-art proposal for later calibration, not a claim of metric or pixel-for-pixel certification.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art238-prep/references/canonical/compost-bin_v0.png",
+      "/workspace/scratch/6f470a892a0f/art238-prep/references/repository/assets/art157/yard-atlas.png"
+    ],
+    "generator": "OpenAI built-in ImageGen",
+    "promptIsVerbatim": true,
+    "transparentBackgroundRequested": true,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-79a7da5d-7977-462f-bf10-3f54a1e1cdca.png",
+    "selected": false,
+    "generationDate": "2026-11-17",
+    "nativeOutputBytesPreserved": true
+  },
+  {
+    "key": "compost-bin",
+    "kind": "compost-bin",
+    "id": "prop:compost-bin:v0",
+    "artId": "prop:compost-bin:v0",
+    "file": "compost-bin_composteur_jardin.png",
+    "iteration": 2,
+    "prompt": "Edit Image 1, the detailed compost-bin source sprite. Image 2 is the exact native layout authority; its flat tan and olive ellipses represent loose ORGANIC MATTER, never wood fittings. Preserve the existing strict overhead camera, full square silhouette, weathered timber palette, muted leaves, canvas dimensions, true transparent background and generous margins. Correct only the structural misunderstanding: all FOUR horizontal wooden cross-members must have simple straight parallel long edges and a uniform width. In particular remove both round wooden lobes/disks and their extra central bolts from the THIRD cross-member down. Replace them with a plain straight rectangular weathered wood plank matching the other three, with fasteners only at its ends. The bottom-row leaf clusters may be partly hidden BEHIND that straight plank, as in the canonical image. Keep nine small irregular loose-leaf clusters in three rows of three, tan/olive alternating, without literal painted ovals. No raised circles, circular wooden joints, hubs, knobs or decorative hardware anywhere on the cross-members. Keep the perimeter and all other existing material detail, no detached tools, no ground, no text. Output one complete native RGBA transparent sprite.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/generated_images/exec-79a7da5d-7977-462f-bf10-3f54a1e1cdca.png",
+      "/workspace/scratch/6f470a892a0f/art238-prep/references/canonical/compost-bin_v0.png"
+    ],
+    "generator": "OpenAI built-in ImageGen",
+    "promptIsVerbatim": true,
+    "transparentBackgroundRequested": true,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-faca8570-b16a-401e-bd25-971d1d33b609.png",
+    "selected": true,
+    "generationDate": "2026-11-17",
+    "nativeOutputBytesPreserved": true,
+    "editReason": "Remove invented circular timber fittings on third cross-member; preserve four straight members and nine organic clusters."
+  },
+  {
+    "key": "closed-pool",
+    "kind": "closed-pool",
+    "id": "prop:closed-pool:v0",
+    "artId": "prop:closed-pool:v0",
+    "file": "closed-pool_bassin_ferme.png",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: original DEADWALL game source sprite, one complete isolated Bassin extérieur fermé au public.\nINPUTS: Image 1 is the authoritative geometry/layout reference, rendered by the unchanged structural205 game painter for this exact authored source, painter variant0. Image 2 is MATERIAL AND PAINTERLY STYLE ONLY from the original game atlas; do not copy its camera angle, neighbouring sprites, grid or background.\nCAMERA: strict orthographic overhead plan, camera looking vertically down. Keep source X horizontal and source Y down the image; retain the canonical silhouette, aspect ratio, orientation, number of parts and relative positions. Do not make a tilted isometric object or expose a tall facade.\nSUBJECT AND PARTS: One long rectangular neglected outdoor swimming basin viewed strictly from above, long axis VERTICAL. Closed means unattended and closed to use; the water remains visible, with NO pool cover or roof. Preserve the nested rectangular dark outer edge, pale stone/tile coping and still murky blue-green water. Keep the single fixed THREE-RUNG metal ladder attached at the RIGHT long edge in the upper half, at the exact canonical location, and the FIVE modest dull olive floating-residue patches in the same positions as image 1. Render water and residue naturally, without literal painted ellipses. Include only the source-defined coping; no surrounding terrace, lawn, fence, furniture, people, swimmers, diving board, powered pump, ripples of activity, depth markings or potable-water symbol.\nDESIGN ENVELOPE: 8 m across X by 12 m along Y; separate author-defined height 0.4 m; basin depth 1.4 m. These are author-design dimensions, not manufacturer measurements. Preserve the proportional source footprint rather than filling the canvas with a different-shaped object.\nMATERIALS: serious grounded post-apocalyptic game, detailed restrained hand-painted pre-rendered look; aged wood, dull steel, worn stone and weathered muted olive/brown/grey as the source requires. Natural fine grain, small scuffs, modest corrosion and soft neutral overhead lighting. Readable major components at game scale, idle and unattended. No exaggerated destruction or invented decoration.\nOUTPUT: ONE whole object only, true transparent RGBA background. Centre the complete silhouette with at least 12 percent transparent margin on every side; never cut thin components. No ground plane or cast shadow outside the object, no landscape, scene, frame, lettering, dimensions, logo, UI or watermark. No extra detached tools, people, animals or active effects. This is a source-art proposal for later calibration, not a claim of metric or pixel-for-pixel certification.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art238-prep/references/canonical/closed-pool_v0.png",
+      "/workspace/scratch/6f470a892a0f/art238-prep/references/repository/assets/art157/yard-atlas.png"
+    ],
+    "generator": "OpenAI built-in ImageGen",
+    "promptIsVerbatim": true,
+    "transparentBackgroundRequested": true,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-e33d0337-cd30-4433-835c-9797cea44e90.png",
+    "selected": true,
+    "generationDate": "2026-11-17",
+    "nativeOutputBytesPreserved": true
+  }
+]

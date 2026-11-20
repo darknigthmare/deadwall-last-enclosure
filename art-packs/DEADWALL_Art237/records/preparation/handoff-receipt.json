@@ -1,0 +1,129 @@
+{
+  "batch": "Art237",
+  "status": "frozen_for_assembly",
+  "frozenAt": "2026-11-17T13:46:21.098032+00:00",
+  "directory": "/workspace/scratch/6f470a892a0f/art237-prep",
+  "sourceMain": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "sourceTree": "663ad5750e49ae401fc0b46bfdebc28942ad1617",
+  "counts": {
+    "selectedTargets": 6,
+    "acceptedFinals": 5,
+    "nativeHistoryPngs": 7,
+    "supersededNativePngs": 2,
+    "canonicalReferences": 6,
+    "blockedTargets": 1,
+    "failedCallsWithoutImage": 2,
+    "actualToolCalls": 9
+  },
+  "finals": [
+    {
+      "key": "breachClamp193",
+      "iteration": 1,
+      "path": "/workspace/scratch/6f470a892a0f/generated_images/exec-5e48fc8b-04e0-4da1-9af1-b0069b9a8ba6.png",
+      "sha256": "81734587dc0ea91ed8610efe90291b124ce17fe054cbdd2fb07809a225bdf81b"
+    },
+    {
+      "key": "enduranceRack193",
+      "iteration": 2,
+      "path": "/workspace/scratch/6f470a892a0f/generated_images/exec-43f697f3-5b75-4c0f-9ae0-934825dddaa8.png",
+      "sha256": "c413868bea8ca403bdacc1d29a6e3232247ff6aa6e25827deb7ff43ec9e8ffba"
+    },
+    {
+      "key": "shieldTongs193",
+      "iteration": 1,
+      "path": "/workspace/scratch/6f470a892a0f/generated_images/exec-185ca233-65dc-4588-b0a0-1511100ae5ad.png",
+      "sha256": "69272136fb21df3bb8e80039e1abf53819234851dcc15feb854c6476cfdadc9d"
+    },
+    {
+      "key": "quickCable193",
+      "iteration": 2,
+      "path": "/workspace/scratch/6f470a892a0f/generated_images/exec-2800e328-7327-4f4f-a0f7-50c0d7c5943c.png",
+      "sha256": "1765d89e2e0b6afeb1e82f68cf735382ec278f3ce26373d1918a62bbdd08fe96"
+    },
+    {
+      "key": "siegeBrake193",
+      "iteration": 1,
+      "path": "/workspace/scratch/6f470a892a0f/generated_images/exec-5eff86e4-442e-4180-aa76-269bf868d5b1.png",
+      "sha256": "0a2f9a2173c4eb65810d5a8f2a75d164bd4f2557104e00d324a34d9bce29539a"
+    }
+  ],
+  "blockedKeys": [
+    "runnerCable193"
+  ],
+  "freezeManifest": {
+    "path": "freeze-manifest.json",
+    "sha256": "9edae520e778b28f316a9f46e461f9f29e7c22813069733838219835a8d8835b",
+    "files": 84,
+    "bytes": 17100443
+  },
+  "records": [
+    {
+      "path": "selection-and-prompts.json",
+      "sha256": "1041058def1ef6e051edfb1653ae797143f35ecb4a2f37cf4bdb0a9b8f48646d"
+    },
+    {
+      "path": "results.json",
+      "sha256": "2e146908d63dea678ec6b327e0e0bb881dc6f59c828704c815857edfddca40f8"
+    },
+    {
+      "path": "history-results.json",
+      "sha256": "13ac74f18ed2ffb55461055120824a0642b579cd616e5e0efe433fd3592ff234"
+    },
+    {
+      "path": "review.json",
+      "sha256": "58604a51f7053f440b99a684225a87e8e9a56523c2be82960f082ed3fe97d211"
+    },
+    {
+      "path": "root-review.json",
+      "sha256": "e57a37fd2775dfa19aa5b5b9447abe809f99fffea65dec26cccf3d03595fda10"
+    },
+    {
+      "path": "root-canonical-replay.json",
+      "sha256": "b1cf2c05f7af40e05171ef47ee99e67d0cc8a89ab6334ba729730e34d0134199"
+    },
+    {
+      "path": "blocked-targets.json",
+      "sha256": "f5064e3bec3325a591fd96b341c6938a55255fdac1d0f6b0e750595fd0bb4cdd"
+    },
+    {
+      "path": "iteration-review.json",
+      "sha256": "90a199784290179c3920cb4738e54d0cdd632ab19e3bf3063028a940987a37d1"
+    },
+    {
+      "path": "generation-prompts.json",
+      "sha256": "aa517ca64736ea625cee1d7c7a3fae2671e275459d326ac11233d732850aa836"
+    },
+    {
+      "path": "source-evidence.json",
+      "sha256": "6b0a158f2c63c8e36ee85d441b61b41f3e89a2a012cbc27042dfc0355456256d"
+    },
+    {
+      "path": "assembly-contract.json",
+      "sha256": "127a8ecbebeee37b77229f3a7ecc175b9c9b70fabeefed4d887ddfe2ed88e640"
+    },
+    {
+      "path": "alpha-review.json",
+      "sha256": "f31a303a569eb65245ae2b16ea91da139a606b36f522f673af5fe0f0dfa44d34"
+    },
+    {
+      "path": "README.md",
+      "sha256": "7d76ca5173115eb65cabb4616bace6a7bad6e17e807ca1b8dab33fc1af8f58f6"
+    }
+  ],
+  "validation": {
+    "sourceFilesMatchPinnedCommit": 21,
+    "allNativeCopiesByteIdentical": true,
+    "allSixCanonicalReplaysByteIdentical": true,
+    "existingSilhouetteTestsPassed": 2,
+    "engineMutated": false,
+    "runtimeIntegrated": false,
+    "pixelsEditedCroppedResizedOrRecompressed": false
+  },
+  "knownLimits": [
+    "No PNG delivered for runnerCable193 after two service refusals.",
+    "Whole static mounted source proposals, not animated replacements.",
+    "No metric 1:1 or pixel identity certification.",
+    "quickCable193 horizontal margin is 9.18%; true alpha verified and source complete.",
+    "Native low-alpha traces retained without editing."
+  ]
+}

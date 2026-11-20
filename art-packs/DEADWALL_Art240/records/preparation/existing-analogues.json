@@ -1,0 +1,62 @@
+[
+  {
+    "key": "compost-bin:v1",
+    "id": "prop:compost-bin:v1",
+    "kind": "compost-bin",
+    "route": "structural205",
+    "canonicalVariant": 1,
+    "priorProposal": {
+      "pack": "Art238",
+      "id": "prop:compost-bin:v0",
+      "canonicalVariant": 0,
+      "selectedSha256": "9ee6fc951f8757749fe861b00bbbc0cd3229a68083f8a2b2107d0a2cf8205297",
+      "regenerated": false
+    },
+    "explanation": "Existing Art157 generic compost images and Art238 painter-v0 source proposal remain available. This is an explicitly requested existing painter-v1 proposal; it does not imply an invisible object, a missing gameplay feature, or runtime integration."
+  },
+  {
+    "key": "compost-bin:v2",
+    "id": "prop:compost-bin:v2",
+    "kind": "compost-bin",
+    "route": "structural205",
+    "canonicalVariant": 2,
+    "priorProposal": {
+      "pack": "Art238",
+      "id": "prop:compost-bin:v0",
+      "canonicalVariant": 0,
+      "selectedSha256": "9ee6fc951f8757749fe861b00bbbc0cd3229a68083f8a2b2107d0a2cf8205297",
+      "regenerated": false
+    },
+    "explanation": "Existing Art157 generic compost images and Art238 painter-v0 source proposal remain available. This is an explicitly requested existing painter-v2 proposal; it does not imply an invisible object, a missing gameplay feature, or runtime integration."
+  },
+  {
+    "key": "closed-pool:v1",
+    "id": "prop:closed-pool:v1",
+    "kind": "closed-pool",
+    "route": "structural205",
+    "canonicalVariant": 1,
+    "priorProposal": {
+      "pack": "Art238",
+      "id": "prop:closed-pool:v0",
+      "canonicalVariant": 0,
+      "selectedSha256": "09024b87a9efd0426bd0bacb7d00cd1e84759fd0853299316766e80ac5706506",
+      "regenerated": false
+    },
+    "explanation": "Existing Art157 generic pool images and Art238 painter-v0 source proposal remain available. This is an explicitly requested existing painter-v1 proposal; it does not imply an invisible object, a missing gameplay feature, or runtime integration."
+  },
+  {
+    "key": "closed-pool:v2",
+    "id": "prop:closed-pool:v2",
+    "kind": "closed-pool",
+    "route": "structural205",
+    "canonicalVariant": 2,
+    "priorProposal": {
+      "pack": "Art238",
+      "id": "prop:closed-pool:v0",
+      "canonicalVariant": 0,
+      "selectedSha256": "09024b87a9efd0426bd0bacb7d00cd1e84759fd0853299316766e80ac5706506",
+      "regenerated": false
+    },
+    "explanation": "Existing Art157 generic pool images and Art238 painter-v0 source proposal remain available. This is an explicitly requested existing painter-v2 proposal; it does not imply an invisible object, a missing gameplay feature, or runtime integration."
+  }
+]

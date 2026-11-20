@@ -1,0 +1,35 @@
+{
+  "key": "closed-pool:v2",
+  "id": "prop:closed-pool:v2",
+  "artId": "prop:closed-pool:v2",
+  "iteration": 1,
+  "requestedAt": "2026-11-17 15:17:08 UTC",
+  "tool": "image_gen.imagegen",
+  "arguments": {
+    "prompt": "Use case: stylized-concept. Asset type: original DEADWALL source sprite, one complete isolated Bassin fermé — variante 2.\nINPUTS: Image 1 is the authoritative geometry/layout reference rendered by the unchanged game public painter for this exact authored fixture, painter variant 2. Image 2 is MATERIAL AND PAINTERLY STYLE ONLY from the original game atlas; ignore its camera angles, other sprites, grid and background.\nCAMERA AND SHAPE: strict orthographic overhead plan, looking vertically downward. Follow image 1 exactly: X points right and Y points down. Preserve its orientation, silhouette, footprint aspect ratio, part count, positions and occlusions. No tilted isometric view or tall exposed facade.\nSUBJECT: One complete long neglected outdoor swimming basin viewed exactly from above, long axis VERTICAL. The OUTER dark edge and pale weathered stone/tile coping remain RECTANGULAR. The INNER muted blue-green water opening has EIGHT straight sides: four long/short axis-aligned edges and four clipped corners, exactly following image 1; do not make the entire outer frame octagonal. Preserve ONE fixed ladder at the RIGHT long edge in the UPPER half, made of two parallel rails extending leftward into the water and THREE short cross-rungs. Preserve the SINGLE faint bent two-segment line near the LEFT side of the water, its centre bending slightly rightward. Preserve FIVE small dull olive residue clusters in the canonical three-right/two-left arrangement, with natural leaf/algae texture instead of literal painted ellipses. Closed means unattended and unavailable to use, with visible quiet water and no cover. No extra lane lines, terrace, lawn, fence, furniture, people, swimmers, diving board, powered pump, active ripples, depth markings or potable-water symbol.\nAUTHOR DESIGN ENVELOPE: 8 m across X by 12 m along Y, separate maximum height 0.4 m; authored basin depth 1.4 m. These are game-author design values, not manufacturer measurements. Keep the existing metric proportions; do not redesign the object to fill the canvas.\nMATERIALS: grounded serious post-apocalyptic game, restrained detailed hand-painted pre-rendered source art. Follow the canonical variant palette with weathered wood, dull metal and worn stone as applicable; modest grain, small scuffs and soft neutral overhead light. Keep major structural features readable. Idle and unattended, no invented damage or new activity.\nOUTPUT: ONE whole object only on true transparent RGBA. Centre the complete silhouette with at least 12 percent clear transparent margin on every side. No crop, detached objects, external ground shadow, ground plane, background scene, UI, lettering, dimensions, logo or watermark. Preserve all thin components. This is a source-art proposal for later calibration, not a claim of metric or pixel-for-pixel certification.",
+    "referenced_image_paths": [
+      "/workspace/scratch/6f470a892a0f/art240-prep/references/canonical/closed-pool_v2.png",
+      "/workspace/scratch/6f470a892a0f/art240-prep/references/repository/assets/art157/yard-atlas.png"
+    ],
+    "transparent_background": true
+  },
+  "referenceFiles": [
+    {
+      "path": "/workspace/scratch/6f470a892a0f/art240-prep/references/canonical/closed-pool_v2.png",
+      "relativePath": "references/canonical/closed-pool_v2.png",
+      "sha256": "86acdb271d95ed15123e34536e214a0cadbc41d58dd375414cbf055fead3670b",
+      "role": "canonical-geometry"
+    },
+    {
+      "path": "/workspace/scratch/6f470a892a0f/art240-prep/references/repository/assets/art157/yard-atlas.png",
+      "relativePath": "references/repository/assets/art157/yard-atlas.png",
+      "sha256": "bc59caf35959c0074987e50d4a2059f63e0e17d8725d21e6b1a0b8a2ffcff6b1",
+      "role": "materials-only"
+    }
+  ],
+  "inspection": {
+    "performed": true,
+    "canonical": "Complete vertical rectangular outer coping inspected. Inner water boundary has exactly eight sides with four clipped corners; ladder at right edge in upper half, two rails and three rungs. Single bent two-segment pale line near left side, centre bends rightward. Five olive residues, three right and two left.",
+    "style": "Original Art157 yard atlas inspected during previous canonical review. It is material/style-only input; the original atlas camera and pool geometry are not copied."
+  }
+}

@@ -1,0 +1,581 @@
+{
+  "pack": "Art238",
+  "checkedOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "method": "Read-only PNG decode, chunk inventory, RGBA histogram, alpha thresholds and SHA256.",
+  "alphaThresholds": [
+    1,
+    8,
+    32,
+    128,
+    240
+  ],
+  "alphaInterpretation": "Transparent pixels and alpha 1–7 are recorded separately. Visible margins at alpha>=8 do not imply zero alpha everywhere and do not certify source geometry.",
+  "assets": [
+    {
+      "file": "assets/art238/props/fence_cloture_bois.png",
+      "sha256": "16617f83fd798df7de6366b049ddcfb2f400df787bc52aec0a279bb3f347b87f",
+      "bytes": 252423,
+      "width": 1983,
+      "height": 793,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 23654
+        },
+        {
+          "type": "IDAT",
+          "bytes": 228700
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "trailingBytesAfterIend": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1485528,
+      "fullyTransparentFraction": 0.9446804776285692,
+      "lowAlphaPixels1to7": 16536,
+      "boundsAlphaAtLeast": {
+        "1": [
+          106,
+          183,
+          1890,
+          591
+        ],
+        "8": [
+          241,
+          356,
+          1742,
+          437
+        ],
+        "32": [
+          241,
+          356,
+          1742,
+          436
+        ],
+        "128": [
+          242,
+          356,
+          1741,
+          436
+        ],
+        "240": [
+          242,
+          357,
+          1741,
+          435
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 106,
+          "top": 183,
+          "right": 93,
+          "bottom": 202
+        },
+        "8": {
+          "left": 241,
+          "top": 356,
+          "right": 241,
+          "bottom": 356
+        },
+        "32": {
+          "left": 241,
+          "top": 356,
+          "right": 241,
+          "bottom": 357
+        },
+        "128": {
+          "left": 242,
+          "top": 356,
+          "right": 242,
+          "bottom": 357
+        },
+        "240": {
+          "left": 242,
+          "top": 357,
+          "right": 242,
+          "bottom": 358
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    },
+    {
+      "file": "assets/art238/props/garden-shed_abri_jardin.png",
+      "sha256": "62f78aac248efeb594ab1882170d6d91a2e64014cd8a44d283901de94bdbf07e",
+      "bytes": 1377572,
+      "width": 1402,
+      "height": 1122,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 23654
+        },
+        {
+          "type": "IDAT",
+          "bytes": 1353849
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "trailingBytesAfterIend": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1022395,
+      "fullyTransparentFraction": 0.6499468546334368,
+      "lowAlphaPixels1to7": 9693,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1388,
+          1122
+        ],
+        "8": [
+          317,
+          205,
+          1085,
+          915
+        ],
+        "32": [
+          319,
+          207,
+          1083,
+          915
+        ],
+        "128": [
+          319,
+          208,
+          1083,
+          914
+        ],
+        "240": [
+          320,
+          209,
+          1082,
+          913
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 14,
+          "bottom": 0
+        },
+        "8": {
+          "left": 317,
+          "top": 205,
+          "right": 317,
+          "bottom": 207
+        },
+        "32": {
+          "left": 319,
+          "top": 207,
+          "right": 319,
+          "bottom": 207
+        },
+        "128": {
+          "left": 319,
+          "top": 208,
+          "right": 319,
+          "bottom": 208
+        },
+        "240": {
+          "left": 320,
+          "top": 209,
+          "right": 320,
+          "bottom": 209
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    },
+    {
+      "file": "assets/art238/props/rain-barrel_tonneau_pluie.png",
+      "sha256": "965fbd60ba7dbb321e84545e31fb6fd350da931573faffe9c10a1bf9567fb5d0",
+      "bytes": 1244816,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 21881
+        },
+        {
+          "type": "IDAT",
+          "bytes": 1222866
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "trailingBytesAfterIend": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1097826,
+      "fullyTransparentFraction": 0.6981334371160611,
+      "lowAlphaPixels1to7": 23149,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          17,
+          1253,
+          1254
+        ],
+        "8": [
+          247,
+          236,
+          995,
+          1010
+        ],
+        "32": [
+          249,
+          237,
+          995,
+          1008
+        ],
+        "128": [
+          249,
+          237,
+          994,
+          1008
+        ],
+        "240": [
+          250,
+          238,
+          993,
+          1007
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 17,
+          "right": 1,
+          "bottom": 0
+        },
+        "8": {
+          "left": 247,
+          "top": 236,
+          "right": 259,
+          "bottom": 244
+        },
+        "32": {
+          "left": 249,
+          "top": 237,
+          "right": 259,
+          "bottom": 246
+        },
+        "128": {
+          "left": 249,
+          "top": 237,
+          "right": 260,
+          "bottom": 246
+        },
+        "240": {
+          "left": 250,
+          "top": 238,
+          "right": 261,
+          "bottom": 247
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    },
+    {
+      "file": "assets/art238/props/compost-bin_composteur_jardin.png",
+      "sha256": "9ee6fc951f8757749fe861b00bbbc0cd3229a68083f8a2b2107d0a2cf8205297",
+      "bytes": 1658335,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 21881
+        },
+        {
+          "type": "IDAT",
+          "bytes": 1636385
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "trailingBytesAfterIend": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 892932,
+      "fullyTransparentFraction": 0.5678365116793724,
+      "lowAlphaPixels1to7": 7243,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          39,
+          1202,
+          1216
+        ],
+        "8": [
+          208,
+          203,
+          1044,
+          1015
+        ],
+        "32": [
+          210,
+          203,
+          1043,
+          1015
+        ],
+        "128": [
+          211,
+          204,
+          1042,
+          1014
+        ],
+        "240": [
+          213,
+          205,
+          1041,
+          1013
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 39,
+          "right": 52,
+          "bottom": 38
+        },
+        "8": {
+          "left": 208,
+          "top": 203,
+          "right": 210,
+          "bottom": 239
+        },
+        "32": {
+          "left": 210,
+          "top": 203,
+          "right": 211,
+          "bottom": 239
+        },
+        "128": {
+          "left": 211,
+          "top": 204,
+          "right": 212,
+          "bottom": 240
+        },
+        "240": {
+          "left": 213,
+          "top": 205,
+          "right": 213,
+          "bottom": 241
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 0,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    },
+    {
+      "file": "assets/art238/props/closed-pool_bassin_ferme.png",
+      "sha256": "09024b87a9efd0426bd0bacb7d00cd1e84759fd0853299316766e80ac5706506",
+      "bytes": 839115,
+      "width": 1122,
+      "height": 1402,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 21881
+        },
+        {
+          "type": "IDAT",
+          "bytes": 817165
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "trailingBytesAfterIend": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1181066,
+      "fullyTransparentFraction": 0.7508156160921119,
+      "lowAlphaPixels1to7": 17716,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          15,
+          1102,
+          1385
+        ],
+        "8": [
+          312,
+          323,
+          813,
+          1076
+        ],
+        "32": [
+          312,
+          324,
+          810,
+          1074
+        ],
+        "128": [
+          313,
+          324,
+          810,
+          1074
+        ],
+        "240": [
+          313,
+          326,
+          809,
+          1073
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 15,
+          "right": 20,
+          "bottom": 17
+        },
+        "8": {
+          "left": 312,
+          "top": 323,
+          "right": 309,
+          "bottom": 326
+        },
+        "32": {
+          "left": 312,
+          "top": 324,
+          "right": 312,
+          "bottom": 328
+        },
+        "128": {
+          "left": 313,
+          "top": 324,
+          "right": 312,
+          "bottom": 328
+        },
+        "240": {
+          "left": 313,
+          "top": 326,
+          "right": 313,
+          "bottom": 329
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 0,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    }
+  ]
+}

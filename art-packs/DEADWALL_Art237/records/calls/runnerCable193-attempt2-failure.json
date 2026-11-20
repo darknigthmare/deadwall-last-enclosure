@@ -1,0 +1,17 @@
+{
+  "key": "runnerCable193",
+  "iteration": 1,
+  "attempt": 2,
+  "status": "failed_before_output_delivery",
+  "httpStatus": 400,
+  "code": "moderation_blocked",
+  "category": "violence",
+  "moderationStage": "output",
+  "requestId": "0af6cfd3-466a-4a34-ae4c-3b28bf99eb5c",
+  "promptRecord": "calls/runnerCable193-iteration1-attempt2.json",
+  "followUp": "No more retries of this mechanism.",
+  "imageDelivered": false,
+  "nativeOutputPath": null,
+  "tool": "image_gen.imagegen",
+  "receiptType": "Structured transcription of the error returned by the tool in this session."
+}

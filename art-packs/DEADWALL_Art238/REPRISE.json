@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 2,
+  "batch": "Art238",
+  "savedOn": "2026-11-17",
+  "publicationBaseRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "completedArtIds": [
+    "prop:fence:v0",
+    "prop:garden-shed:v0",
+    "prop:rain-barrel:v0",
+    "prop:compost-bin:v0",
+    "prop:closed-pool:v0"
+  ],
+  "finalAssets": [
+    {
+      "key": "fence",
+      "id": "prop:fence:v0",
+      "artId": "prop:fence:v0",
+      "kind": "fence",
+      "name": "Segment de clôture en bois",
+      "path": "assets/art238/props/fence_cloture_bois.png",
+      "sha256": "16617f83fd798df7de6366b049ddcfb2f400df787bc52aec0a279bb3f347b87f",
+      "bytes": 252423,
+      "iteration": 1,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated",
+      "existingRoute": "structural205",
+      "canonicalVariant": 0,
+      "dimensionsAuthorDesignMetres": {
+        "w": 3,
+        "h": 0.15,
+        "heightM": 1.2,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "sourceId": "EXT-MONDE-T045-V01:site-fence:north-left",
+      "sourcePlanId": "EXT-MONDE-T045-V01"
+    },
+    {
+      "key": "garden-shed",
+      "id": "prop:garden-shed:v0",
+      "artId": "prop:garden-shed:v0",
+      "kind": "garden-shed",
+      "name": "Abri de jardin fermé",
+      "path": "assets/art238/props/garden-shed_abri_jardin.png",
+      "sha256": "62f78aac248efeb594ab1882170d6d91a2e64014cd8a44d283901de94bdbf07e",
+      "bytes": 1377572,
+      "iteration": 1,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated",
+      "existingRoute": "structural205",
+      "canonicalVariant": 0,
+      "dimensionsAuthorDesignMetres": {
+        "w": 3.4,
+        "h": 3.3,
+        "heightM": 2.4,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "sourceId": "EXT-MONDE-T045-V01:parcel:0:shed",
+      "sourcePlanId": "EXT-MONDE-T045-V01"
+    },
+    {
+      "key": "rain-barrel",
+      "id": "prop:rain-barrel:v0",
+      "artId": "prop:rain-barrel:v0",
+      "kind": "rain-barrel",
+      "name": "Tonneau de pluie inactif",
+      "path": "assets/art238/props/rain-barrel_tonneau_pluie.png",
+      "sha256": "965fbd60ba7dbb321e84545e31fb6fd350da931573faffe9c10a1bf9567fb5d0",
+      "bytes": 1244816,
+      "iteration": 1,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated",
+      "existingRoute": "structural205",
+      "canonicalVariant": 0,
+      "dimensionsAuthorDesignMetres": {
+        "w": 0.7,
+        "h": 0.7,
+        "heightM": 1,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "sourceId": "EXT-MONDE-T045-V01:parcel:0:water-barrel",
+      "sourcePlanId": "EXT-MONDE-T045-V01"
+    },
+    {
+      "key": "compost-bin",
+      "id": "prop:compost-bin:v0",
+      "artId": "prop:compost-bin:v0",
+      "kind": "compost-bin",
+      "name": "Composteur de jardin",
+      "path": "assets/art238/props/compost-bin_composteur_jardin.png",
+      "sha256": "9ee6fc951f8757749fe861b00bbbc0cd3229a68083f8a2b2107d0a2cf8205297",
+      "bytes": 1658335,
+      "iteration": 2,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated",
+      "existingRoute": "structural205",
+      "canonicalVariant": 0,
+      "dimensionsAuthorDesignMetres": {
+        "w": 1,
+        "h": 1,
+        "heightM": 1,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "sourceId": "EXT-MONDE-T045-V01:parcel:0:compost",
+      "sourcePlanId": "EXT-MONDE-T045-V01"
+    },
+    {
+      "key": "closed-pool",
+      "id": "prop:closed-pool:v0",
+      "artId": "prop:closed-pool:v0",
+      "kind": "closed-pool",
+      "name": "Bassin extérieur fermé au public",
+      "path": "assets/art238/props/closed-pool_bassin_ferme.png",
+      "sha256": "09024b87a9efd0426bd0bacb7d00cd1e84759fd0853299316766e80ac5706506",
+      "bytes": 839115,
+      "iteration": 1,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated",
+      "existingRoute": "structural205",
+      "canonicalVariant": 0,
+      "dimensionsAuthorDesignMetres": {
+        "w": 8,
+        "h": 12,
+        "heightM": 0.4,
+        "depthM": 1.4,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "sourceId": "EXT-MONDE-T045-V21:communal-pool",
+      "sourcePlanId": "EXT-MONDE-T045-V21"
+    }
+  ],
+  "supersededCandidates": 1,
+  "priorPacksRegenerated": false,
+  "deliveryStatus": "accepted-source-art-proposals",
+  "plannedArtIds": [
+    "prop:fence:v0",
+    "prop:garden-shed:v0",
+    "prop:rain-barrel:v0",
+    "prop:compost-bin:v0",
+    "prop:closed-pool:v0"
+  ],
+  "blockedTargets": [],
+  "publicationStatusAtAssembly": "prepared_locally_not_published_by_assembler",
+  "runtimeIntegrationPerformed": false,
+  "remainingWork": [
+    "Review proposals against the exact selected author-plan instances before registration.",
+    "Qualify scale, anchors, orientation and clipping in a separate runtime-integration change.",
+    "Preserve existing service, water, collision and world-placement owners.",
+    "Do not extrapolate the selected v0 fixtures to every family instance or rotation."
+  ]
+}

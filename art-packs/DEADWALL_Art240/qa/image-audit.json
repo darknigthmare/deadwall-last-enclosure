@@ -1,0 +1,468 @@
+{
+  "pack": "Art240",
+  "checkedOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "method": "Read-only PNG decode, chunk inventory, RGBA histogram, alpha thresholds and SHA256.",
+  "alphaThresholds": [
+    1,
+    8,
+    32,
+    128,
+    240
+  ],
+  "alphaInterpretation": "Transparent pixels and alpha 1–7 are recorded separately. Visible margins at alpha>=8 do not imply zero alpha everywhere and do not certify source geometry.",
+  "assets": [
+    {
+      "file": "assets/art240/props/compost-bin_composteur_jardin_v1.png",
+      "sha256": "74341943da6e2292c2510df4cabdfeb696a0dfa661c51e8ad8a576a1837ce5eb",
+      "bytes": 1447148,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 23654
+        },
+        {
+          "type": "IDAT",
+          "bytes": 1423425
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "trailingBytesAfterIend": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 988864,
+      "fullyTransparentFraction": 0.6288419322919448,
+      "lowAlphaPixels1to7": 13748,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          15,
+          1230,
+          1254
+        ],
+        "8": [
+          240,
+          253,
+          1014,
+          996
+        ],
+        "32": [
+          240,
+          255,
+          1014,
+          996
+        ],
+        "128": [
+          240,
+          255,
+          1014,
+          996
+        ],
+        "240": [
+          241,
+          256,
+          1013,
+          995
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 15,
+          "right": 24,
+          "bottom": 0
+        },
+        "8": {
+          "left": 240,
+          "top": 253,
+          "right": 240,
+          "bottom": 258
+        },
+        "32": {
+          "left": 240,
+          "top": 255,
+          "right": 240,
+          "bottom": 258
+        },
+        "128": {
+          "left": 240,
+          "top": 255,
+          "right": 240,
+          "bottom": 258
+        },
+        "240": {
+          "left": 241,
+          "top": 256,
+          "right": 241,
+          "bottom": 259
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    },
+    {
+      "file": "assets/art240/props/compost-bin_composteur_jardin_v2.png",
+      "sha256": "450d49d558661f0217fac526ed62146ea74afe30f96885762368274a90a8bfbc",
+      "bytes": 1610623,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 23654
+        },
+        {
+          "type": "IDAT",
+          "bytes": 1586900
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "trailingBytesAfterIend": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 929021,
+      "fullyTransparentFraction": 0.590786357658682,
+      "lowAlphaPixels1to7": 31649,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          9,
+          1226,
+          1254
+        ],
+        "8": [
+          228,
+          233,
+          1022,
+          1011
+        ],
+        "32": [
+          230,
+          234,
+          1021,
+          1009
+        ],
+        "128": [
+          230,
+          234,
+          1020,
+          1008
+        ],
+        "240": [
+          231,
+          235,
+          1019,
+          1007
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 9,
+          "right": 28,
+          "bottom": 0
+        },
+        "8": {
+          "left": 228,
+          "top": 233,
+          "right": 232,
+          "bottom": 243
+        },
+        "32": {
+          "left": 230,
+          "top": 234,
+          "right": 233,
+          "bottom": 245
+        },
+        "128": {
+          "left": 230,
+          "top": 234,
+          "right": 234,
+          "bottom": 246
+        },
+        "240": {
+          "left": 231,
+          "top": 235,
+          "right": 235,
+          "bottom": 247
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    },
+    {
+      "file": "assets/art240/props/closed-pool_bassin_ferme_v1.png",
+      "sha256": "4b511e0eb83c8bba591336e3af21881ea416b14f0d88b7d5c336fd565c7e5df1",
+      "bytes": 761122,
+      "width": 1122,
+      "height": 1402,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 23654
+        },
+        {
+          "type": "IDAT",
+          "bytes": 737399
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "trailingBytesAfterIend": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1206757,
+      "fullyTransparentFraction": 0.7671476449482659,
+      "lowAlphaPixels1to7": 10132,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1108,
+          1376
+        ],
+        "8": [
+          320,
+          329,
+          802,
+          1072
+        ],
+        "32": [
+          320,
+          331,
+          802,
+          1070
+        ],
+        "128": [
+          321,
+          332,
+          801,
+          1070
+        ],
+        "240": [
+          321,
+          333,
+          801,
+          1069
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 14,
+          "bottom": 26
+        },
+        "8": {
+          "left": 320,
+          "top": 329,
+          "right": 320,
+          "bottom": 330
+        },
+        "32": {
+          "left": 320,
+          "top": 331,
+          "right": 320,
+          "bottom": 332
+        },
+        "128": {
+          "left": 321,
+          "top": 332,
+          "right": 321,
+          "bottom": 332
+        },
+        "240": {
+          "left": 321,
+          "top": 333,
+          "right": 321,
+          "bottom": 333
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 0,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    },
+    {
+      "file": "assets/art240/props/closed-pool_bassin_ferme_v2.png",
+      "sha256": "8b4f76904cb66eec85ec824488b03398c3019c00756d7f935c2d910143e567eb",
+      "bytes": 836767,
+      "width": 1122,
+      "height": 1402,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 21881
+        },
+        {
+          "type": "IDAT",
+          "bytes": 814817
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "trailingBytesAfterIend": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1211691,
+      "fullyTransparentFraction": 0.7702842387116953,
+      "lowAlphaPixels1to7": 8383,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          17,
+          1100,
+          1378
+        ],
+        "8": [
+          322,
+          327,
+          800,
+          1072
+        ],
+        "32": [
+          323,
+          329,
+          799,
+          1070
+        ],
+        "128": [
+          323,
+          330,
+          799,
+          1069
+        ],
+        "240": [
+          324,
+          331,
+          798,
+          1069
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 17,
+          "right": 22,
+          "bottom": 24
+        },
+        "8": {
+          "left": 322,
+          "top": 327,
+          "right": 322,
+          "bottom": 330
+        },
+        "32": {
+          "left": 323,
+          "top": 329,
+          "right": 323,
+          "bottom": 332
+        },
+        "128": {
+          "left": 323,
+          "top": 330,
+          "right": 323,
+          "bottom": 333
+        },
+        "240": {
+          "left": 324,
+          "top": 331,
+          "right": 324,
+          "bottom": 333
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 0,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    }
+  ]
+}

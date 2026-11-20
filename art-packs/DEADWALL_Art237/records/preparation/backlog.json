@@ -1,0 +1,35 @@
+{
+  "batch": "Art237",
+  "scope": "Selected targets without a final image only; existing gameplay and composite rendering remain present.",
+  "targets": [
+    {
+      "key": "runnerCable193",
+      "kind": "runnerCable193",
+      "id": "mechanism:runnerCable193:v0:armed-mounted",
+      "artId": "mechanism:runnerCable193:v0:armed-mounted",
+      "runtimeIdentity": "runnerCable193",
+      "label": "Câble anti-coureurs",
+      "status": "blocked-no-image",
+      "reason": "ImageGen safety system returned HTTP 400 moderation_blocked for violence on input, then on output after one clarification of the static fictional depiction. No image was delivered. No further attempt is authorized for this target in this batch.",
+      "attemptCount": 2,
+      "failureReceipts": [
+        {
+          "path": "calls/runnerCable193-attempt1-failure.json",
+          "sha256": "20ae92f1131fb6fccb31a3be5815ef5aa04da19b4c4db693c48f626b116230bb"
+        },
+        {
+          "path": "calls/runnerCable193-attempt2-failure.json",
+          "sha256": "2e0d8e5410526a97fa0254a5d56c3dabc973fc5cac5fa8e562c1a80f3ffc0cdc"
+        }
+      ],
+      "canonicalReferencePreserved": true
+    }
+  ],
+  "acceptedKeys": [
+    "siegeBrake193",
+    "breachClamp193",
+    "shieldTongs193",
+    "enduranceRack193",
+    "quickCable193"
+  ]
+}

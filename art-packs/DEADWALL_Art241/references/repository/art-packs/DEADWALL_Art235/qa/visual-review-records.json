@@ -1,0 +1,260 @@
+{
+  "touring-caravan": {
+    "id": "prop:touring-caravan:v0",
+    "artId": "prop:touring-caravan:v0",
+    "kind": "touring-caravan",
+    "sha256": "49d5f583cfde5c4217598b2dd2c57703ebe74868bdc2dd47855adff5f1dbbbee",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-087362bb-1b2d-4f84-b20f-6eea9af73bec.png",
+    "iteration": 1,
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewer": "root",
+    "dimensions": {
+      "w": 2.4,
+      "h": 6.2,
+      "heightM": 2.8,
+      "units": "metres",
+      "authority": "author-design"
+    },
+    "sourceId": "EXT-MONDE-T046-V01:parcel:1:caravan",
+    "canonicalVariant": 0,
+    "cameraAssessment": "Vue orthographique zénithale, axe long vertical, attelage vers -Y.",
+    "closedRoof": true,
+    "fourWheelPositionsRetained": true,
+    "pixelEditingPerformed": false,
+    "reviewScope": "Proposition source uniquement ; aucune intégration moteur, modification de collision, réaffectation Codex ou certification métrique 1:1.",
+    "alpha": {
+      "key": "touring-caravan",
+      "file": "touring-caravan_caravane_tractable.png",
+      "bytes": 1195406,
+      "sha256": "49d5f583cfde5c4217598b2dd2c57703ebe74868bdc2dd47855adff5f1dbbbee",
+      "width": 887,
+      "height": 1774,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1082965,
+      "fullyTransparentFraction": 0.6882356829005718,
+      "lowAlphaPixels1to7": 8914,
+      "boundsAlphaAtLeast": {
+        "1": [
+          73,
+          35,
+          857,
+          1708
+        ],
+        "8": [
+          220,
+          196,
+          667,
+          1496
+        ],
+        "32": [
+          220,
+          197,
+          667,
+          1494
+        ],
+        "128": [
+          221,
+          197,
+          666,
+          1493
+        ],
+        "240": [
+          222,
+          198,
+          665,
+          1492
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 73,
+          "top": 35,
+          "right": 30,
+          "bottom": 66
+        },
+        "8": {
+          "left": 220,
+          "top": 196,
+          "right": 220,
+          "bottom": 278
+        },
+        "32": {
+          "left": 220,
+          "top": 197,
+          "right": 220,
+          "bottom": 280
+        },
+        "128": {
+          "left": 221,
+          "top": 197,
+          "right": 221,
+          "bottom": 281
+        },
+        "240": {
+          "left": 222,
+          "top": 198,
+          "right": 222,
+          "bottom": 282
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    "decision": "accepted_source_art_proposal",
+    "observation": "Caravane fermée en vue zénithale, axe long vertical, attelage en haut et quatre roues aux deux positions longitudinales de la variante 0. Panneau supérieur, trappe sombre inférieure, deux lignes longitudinales de toit et coins chanfreinés conservés. Usure légère de la peinture crème et sauge, sans équipement ou intérieur ajouté.",
+    "canonicalGeometryAssessment": "Plan et disposition des composants visuellement cohérents avec la référence directement rendue ; proportions et projection artistiques non certifiées pixel pour pixel."
+  },
+  "abandoned-caravan": {
+    "id": "prop:abandoned-caravan:v0",
+    "artId": "prop:abandoned-caravan:v0",
+    "kind": "abandoned-caravan",
+    "sha256": "be15ae950d99461b2351a0295713a36e0091aaec5a37da5191e392f4e3748748",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-39b21c0c-c2c2-4b4c-8034-38fa9c9eae0c.png",
+    "iteration": 2,
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewer": "root",
+    "dimensions": {
+      "w": 2.4,
+      "h": 6.2,
+      "heightM": 2.8,
+      "units": "metres",
+      "authority": "author-design"
+    },
+    "sourceId": "EXT-MONDE-T048-V01:parcel:1:caravan",
+    "canonicalVariant": 0,
+    "cameraAssessment": "Vue orthographique zénithale, axe long vertical, attelage vers -Y.",
+    "closedRoof": true,
+    "fourWheelPositionsRetained": true,
+    "pixelEditingPerformed": false,
+    "reviewScope": "Proposition source uniquement ; aucune intégration moteur, modification de collision, réaffectation Codex ou certification métrique 1:1.",
+    "alpha": {
+      "key": "abandoned-caravan",
+      "file": "abandoned-caravan_caravane_abandonnee.png",
+      "bytes": 1098099,
+      "sha256": "be15ae950d99461b2351a0295713a36e0091aaec5a37da5191e392f4e3748748",
+      "width": 887,
+      "height": 1774,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1071869,
+      "fullyTransparentFraction": 0.6811840578365441,
+      "lowAlphaPixels1to7": 10386,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          23,
+          869,
+          1692
+        ],
+        "8": [
+          212,
+          194,
+          675,
+          1498
+        ],
+        "32": [
+          213,
+          194,
+          675,
+          1496
+        ],
+        "128": [
+          213,
+          195,
+          674,
+          1496
+        ],
+        "240": [
+          214,
+          195,
+          674,
+          1495
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 23,
+          "right": 18,
+          "bottom": 82
+        },
+        "8": {
+          "left": 212,
+          "top": 194,
+          "right": 212,
+          "bottom": 276
+        },
+        "32": {
+          "left": 213,
+          "top": 194,
+          "right": 212,
+          "bottom": 278
+        },
+        "128": {
+          "left": 213,
+          "top": 195,
+          "right": 213,
+          "bottom": 278
+        },
+        "240": {
+          "left": 214,
+          "top": 195,
+          "right": 213,
+          "bottom": 279
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 0,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    "decision": "accepted_source_art_proposal",
+    "observation": "Même caravane fermée et même disposition de variante 0, avec quatre roues, attelage vers le haut, panneau supérieur et trappe inférieure. La deuxième sortie remplace les grands zigzags ressemblant à des symboles peints par des fissures fines et les bandes rectangulaires par une corrosion irrégulière, sans ouvrir le toit ou créer un intérieur.",
+    "canonicalGeometryAssessment": "Plan et emplacement général des dégâts conservés ; les signes procéduraux d’usure sont interprétés en fissures et corrosion physiques. La première sortie est archivée."
+  }
+}

@@ -1,0 +1,250 @@
+{
+  "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "reviewer": "root independent renderer execution",
+  "method": "Fresh canvases, public native entry points, exact pinned source files; compare PNG bytes with prepared canonical references.",
+  "sources": [
+    {
+      "repositoryPath": "AGENTS.md",
+      "sha256": "7d02c6bd7f9c6a8e04c4c18680f9539109ecbc943f240de12a536ab9a8a8ab13",
+      "bytes": 4190,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "README.md",
+      "sha256": "8159b42787bf183ce3c7a7c9674103742740cdfee1c0ecce736aa248499a6174",
+      "bytes": 87028,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/ORIGINAL_BRIEF.txt",
+      "sha256": "64fe23e910f065cdd6ce4f8f84fcc8efd6894d923122c086cd7b16f599492297",
+      "bytes": 1283,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/GAME_DESIGN.md",
+      "sha256": "3f5ce6afc19ca49f5ffe239eee67b7258078098e8d0477a5ef62fd2fc8fd65f9",
+      "bytes": 15746,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/ARCHITECTURE.md",
+      "sha256": "880657b6abfc044a3ef534d8a092ad9a20ad3a0a2a9024bdbbea6642d8eb3f3c",
+      "bytes": 57076,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/BALANCING.md",
+      "sha256": "5caf2749d57201a01f9aafa80de8a3e70e0579a01895283e6d5b05abdc526088",
+      "bytes": 37720,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/CODEX_MASTER_PROMPT.md",
+      "sha256": "9c0280c574ad13d7ba03cb4391713411e8eb8fcdbcc4cc94f2609f277c727c6d",
+      "bytes": 5269,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/GAMEDEV_GUIDANCE.md",
+      "sha256": "0b2df8233ea2c49ff0c1fd959cf43bac8d1245fb6900334e42cb541b0d2f0144",
+      "bytes": 24935,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/GAME_BIBLE.md",
+      "sha256": "3f6f48befcd5408e03ab4ed0c79a68a040cac48c09f087545e334f0b3c738890",
+      "bytes": 98486,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "src/core.js",
+      "sha256": "33a3539f8b80015815303b9425e83d49721c5d88938533508c431cc38854909e",
+      "bytes": 335878,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "src/art.js",
+      "sha256": "e7ea9f8ab6350072a5d7785218522d70f583ca7ae2cc36f1496a780f95e26e47",
+      "bytes": 69066,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "src/trap-art159.js",
+      "sha256": "30f23d3b7a9005cd7599380e2f95f699232faea4aeab8cfef4451e21f7189866",
+      "bytes": 12128,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "src/fortification-pack.js",
+      "sha256": "10c081024e67b6c273715fcec50802030a11da0fe7dc9f2b57cb0c9f216bfec3",
+      "bytes": 43515,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/DEFENSES_193.md",
+      "sha256": "57952de0bf4bbe73ee5ce023e37a01e14fef1d2ea7b7bd94af58526c7d898dac",
+      "bytes": 5631,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "assets/art159/PROVENANCE-traps159.json",
+      "sha256": "abe2229bffc4354423eeb49e86708f965bf519d86e975db1a940e597f2ed3287",
+      "bytes": 12280,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "tests/audit193-trap-art.test.cjs",
+      "sha256": "6a138364f879e93eec94b368f18b2ec94dad3278f42ef511126e414c3aef080e",
+      "bytes": 1804,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "tests/trap-art159.test.cjs",
+      "sha256": "2d68e335d3ae244c14f408eb3cbef86e9c3d9c9140103431075eb1d220652140",
+      "bytes": 15042,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "assets/art159/traps-mechanisms-a.png",
+      "sha256": "c693c8d2c6056fc900a673b2f8ad789e5c36e0660340d07302610c2a8e645f78",
+      "bytes": 2007623,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "assets/art159/traps-supplies-a.png",
+      "sha256": "f6f6695c2d10182302736ed16171b87574e3400cc97b69a4f5ffd3116dfb830a",
+      "bytes": 2199589,
+      "exactRevisionBytes": true
+    }
+  ],
+  "canvasVersion": "0.1.100",
+  "targets": [
+    {
+      "id": "mechanism:runnerCable193:v0:armed-mounted",
+      "canonicalSha256": "0d138bff82599041b800d0542cf55d99199f7a3535ee68a627f8b3055de6e6b1",
+      "replaySha256": "0d138bff82599041b800d0542cf55d99199f7a3535ee68a627f8b3055de6e6b1",
+      "bytes": 246288,
+      "replayedBytesIdentical": true,
+      "entryPoints": [
+        "drawSpikes",
+        "drawMechanism"
+      ],
+      "supportFootprintAuthorMetres": [
+        1,
+        1
+      ],
+      "stateInputsUnchanged": true,
+      "rngCalls": 0,
+      "phase": "armed",
+      "motion": 0,
+      "variant": 0,
+      "heightInferred": false
+    },
+    {
+      "id": "mechanism:breachClamp193:v0:armed-mounted",
+      "canonicalSha256": "ec11451ca852aaa55d362a963ab417df3fb0043cb6f1c28f97c552d2b6111bb3",
+      "replaySha256": "ec11451ca852aaa55d362a963ab417df3fb0043cb6f1c28f97c552d2b6111bb3",
+      "bytes": 474648,
+      "replayedBytesIdentical": true,
+      "entryPoints": [
+        "drawSpikes",
+        "drawMechanism"
+      ],
+      "supportFootprintAuthorMetres": [
+        1,
+        1
+      ],
+      "stateInputsUnchanged": true,
+      "rngCalls": 0,
+      "phase": "armed",
+      "motion": 0,
+      "variant": 0,
+      "heightInferred": false
+    },
+    {
+      "id": "mechanism:enduranceRack193:v0:armed-mounted",
+      "canonicalSha256": "0f32ac82d8235ed472863a84405dc25d37ced14c751a5157e235fd18d7d04172",
+      "replaySha256": "0f32ac82d8235ed472863a84405dc25d37ced14c751a5157e235fd18d7d04172",
+      "bytes": 371491,
+      "replayedBytesIdentical": true,
+      "entryPoints": [
+        "drawSpikes",
+        "drawMechanism"
+      ],
+      "supportFootprintAuthorMetres": [
+        1,
+        1
+      ],
+      "stateInputsUnchanged": true,
+      "rngCalls": 0,
+      "phase": "armed",
+      "motion": 0,
+      "variant": 0,
+      "heightInferred": false
+    },
+    {
+      "id": "mechanism:shieldTongs193:v0:armed-mounted",
+      "canonicalSha256": "c9f045524b3306431d7c3b71b8ae85f5f75db1d8b6c3fd11e77f830d5891e53f",
+      "replaySha256": "c9f045524b3306431d7c3b71b8ae85f5f75db1d8b6c3fd11e77f830d5891e53f",
+      "bytes": 508272,
+      "replayedBytesIdentical": true,
+      "entryPoints": [
+        "drawSpikes",
+        "drawMechanism"
+      ],
+      "supportFootprintAuthorMetres": [
+        1,
+        1
+      ],
+      "stateInputsUnchanged": true,
+      "rngCalls": 0,
+      "phase": "armed",
+      "motion": 0,
+      "variant": 0,
+      "heightInferred": false
+    },
+    {
+      "id": "mechanism:quickCable193:v0:armed-mounted",
+      "canonicalSha256": "1ded2ebb7510a66295f44abf53f3f5f80a57d6aad0730b4804c842d9791d2137",
+      "replaySha256": "1ded2ebb7510a66295f44abf53f3f5f80a57d6aad0730b4804c842d9791d2137",
+      "bytes": 239385,
+      "replayedBytesIdentical": true,
+      "entryPoints": [
+        "drawSpikes",
+        "drawMechanism"
+      ],
+      "supportFootprintAuthorMetres": [
+        1,
+        1
+      ],
+      "stateInputsUnchanged": true,
+      "rngCalls": 0,
+      "phase": "armed",
+      "motion": 0,
+      "variant": 0,
+      "heightInferred": false
+    },
+    {
+      "id": "mechanism:siegeBrake193:v0:armed-mounted",
+      "canonicalSha256": "1384259fe55135898b545458926edf8113d488fe645a63f71c3a1c067e2b3e20",
+      "replaySha256": "1384259fe55135898b545458926edf8113d488fe645a63f71c3a1c067e2b3e20",
+      "bytes": 370429,
+      "replayedBytesIdentical": true,
+      "entryPoints": [
+        "drawSpikes",
+        "drawMechanism"
+      ],
+      "supportFootprintAuthorMetres": [
+        1,
+        1
+      ],
+      "stateInputsUnchanged": true,
+      "rngCalls": 0,
+      "phase": "armed",
+      "motion": 0,
+      "variant": 0,
+      "heightInferred": false
+    }
+  ]
+}

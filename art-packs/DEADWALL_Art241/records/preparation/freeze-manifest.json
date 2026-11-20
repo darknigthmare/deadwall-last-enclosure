@@ -1,0 +1,308 @@
+{
+  "pack": "Art241",
+  "sourceMain": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "publishedParent": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+  "authorFiles": [
+    {
+      "path": "README.md",
+      "sha256": "ec1b609242ea18f617e5e7716b61b9fe4d3c2bb50e3c61a7128626a5e9317b7a",
+      "bytes": 3803
+    },
+    {
+      "path": "alpha-review.json",
+      "sha256": "d6acb462d8bef2aa4c425f07e40af47fddbed5baba024d6d355b32fee1a5a145",
+      "bytes": 12456
+    },
+    {
+      "path": "audit_pngs.py",
+      "sha256": "e231c551c3177e9a38575e93d1f9adc378765393ab5ea6324c5cdf29fe481d6d",
+      "bytes": 2458
+    },
+    {
+      "path": "canonical-render-receipt.json",
+      "sha256": "22b3ee271028e8041d4e9a3af950fac292927321bb4f538e12b012674a7d5e57",
+      "bytes": 8819
+    },
+    {
+      "path": "completed-calls-initial.json",
+      "sha256": "5bc86a2f20f392e5b11ef6ab915e5dc8491607cf645dc7c9e2c22e05b6dab421",
+      "bytes": 18965
+    },
+    {
+      "path": "completed-corrections.json",
+      "sha256": "99712f944761f0a878b16201cb6a82f162e24fccc878e8dfffe07896e31c4cc9",
+      "bytes": 7388
+    },
+    {
+      "path": "completed-length-correction.json",
+      "sha256": "669706573e639d3d7a8c4f070088a9862a24cc49fb64a3bcd951fcc4a3013c61",
+      "bytes": 3356
+    },
+    {
+      "path": "existing-analogues.json",
+      "sha256": "d4d65e28804fb9f84a6be0059f5b391a9012baa43575a1b2f6771225db9f0390",
+      "bytes": 3355
+    },
+    {
+      "path": "finalize_records.py",
+      "sha256": "cb4cf5c4de37705865fbbaffddafec631644ff75605d478849495af9cb3c24cf",
+      "bytes": 8269
+    },
+    {
+      "path": "generation-prompts.json",
+      "sha256": "7ea2e48f45edbd0cd35b5df05506818b90ca9f29a65cd01b79d91729eeac24a2",
+      "bytes": 29749
+    },
+    {
+      "path": "history-results.json",
+      "sha256": "d8ef47876393c7d52acefd6825825f06f0da0f4d1b91adc1897b23ef6902128c",
+      "bytes": 36297
+    },
+    {
+      "path": "iteration-review.json",
+      "sha256": "e0b298fa080417e2bc62a494e329756107f3a7bc98e2aad59ca28ce2a1736efc",
+      "bytes": 3681
+    },
+    {
+      "path": "outputs/iteration-01/abandoned-caravan_v1.png",
+      "sha256": "bc1d4094cb6f76ddb58cd7dd9fa45a56af1c0c80c6d1ab2eb822f4dabf87edcf",
+      "bytes": 1046969
+    },
+    {
+      "path": "outputs/iteration-01/abandoned-caravan_v2.png",
+      "sha256": "91833c4ae39c15308663733dac0aeaf5b032f78281954e292cbb90bd2fb03c77",
+      "bytes": 1140439
+    },
+    {
+      "path": "outputs/iteration-01/touring-caravan_v1.png",
+      "sha256": "9ed37d39104b00b35de4146fb6cfb2ef5323a351374ca7564c2e6905b8e80be6",
+      "bytes": 1111064
+    },
+    {
+      "path": "outputs/iteration-01/touring-caravan_v2.png",
+      "sha256": "e24289d2185870da391b3c3260f1c03fbd41e31732fb113a6082b8d0f38c7841",
+      "bytes": 1198407
+    },
+    {
+      "path": "outputs/iteration-02/abandoned-caravan_v1.png",
+      "sha256": "941c7282cd9b01dd12a88fea3bce77b28ce59e61a45f8ec156933fdc090faa6b",
+      "bytes": 1002005
+    },
+    {
+      "path": "outputs/iteration-02/abandoned-caravan_v2.png",
+      "sha256": "db63a0b14f90d3afafca59a6ea8f254f89c3ad943c7049cbd25ea4662c7cff94",
+      "bytes": 1056984
+    },
+    {
+      "path": "outputs/iteration-03/abandoned-caravan_v2.png",
+      "sha256": "87ca8ebb699f6838a36fccf9741451c5e9eefec33c555097a1476839560348c8",
+      "bytes": 1019029
+    },
+    {
+      "path": "planned-calls.json",
+      "sha256": "863758af7da8363192b25bb71729718b114366865236a18162d1410a82b318a9",
+      "bytes": 16021
+    },
+    {
+      "path": "planned-corrections.json",
+      "sha256": "7caff87afbe52b4feffaa9f80aac89d3e3c65cf5e257ecce5ee448d866a10f3d",
+      "bytes": 5916
+    },
+    {
+      "path": "planned-length-correction.json",
+      "sha256": "d139287790fe6b1a4d1b4fe51ef320523e3a460ba55bb237ae0d4a9414357750",
+      "bytes": 2628
+    },
+    {
+      "path": "prepare.cjs",
+      "sha256": "294bef2fa178c71e429833b305588652ad4c0930549fa7ce3dedb7308b4c6672",
+      "bytes": 12473
+    },
+    {
+      "path": "references/authored-plans/EXT-MONDE-T046-V01.json",
+      "sha256": "e1d657f421bf9e52659677afe3586e632c1ddf65e5804b78564871d7829bad5f",
+      "bytes": 54920
+    },
+    {
+      "path": "references/authored-plans/EXT-MONDE-T048-V01.json",
+      "sha256": "a9e04f886d4541822025dfaea73020af256dc0dd1e0cce8291ab6b09502c0868",
+      "bytes": 58522
+    },
+    {
+      "path": "references/canonical/abandoned-caravan_v1.png",
+      "sha256": "d729ae423cd4c8e1fa6e9b6e39dc1f0cc1e2843dde15b66aed9b847bbab13f95",
+      "bytes": 20641
+    },
+    {
+      "path": "references/canonical/abandoned-caravan_v2.png",
+      "sha256": "e69d60a8a01e1efa9dd97a00b81b177eee5a3c72510ade58c75f7003f6c04183",
+      "bytes": 23922
+    },
+    {
+      "path": "references/canonical/touring-caravan_v1.png",
+      "sha256": "f0bb2a5dbf5dc70082930071362e76e8470ae3b33e1e354291d245ca3bb07522",
+      "bytes": 13710
+    },
+    {
+      "path": "references/canonical/touring-caravan_v2.png",
+      "sha256": "a2c7f68fb0decde7fca80d1ba5dda4bc28492f534c8581d19d69c266ffdd9bba",
+      "bytes": 15880
+    },
+    {
+      "path": "references/repository/AGENTS.md",
+      "sha256": "7d02c6bd7f9c6a8e04c4c18680f9539109ecbc943f240de12a536ab9a8a8ab13",
+      "bytes": 4190
+    },
+    {
+      "path": "references/repository/art-packs/DEADWALL_Art235/PROVENANCE.json",
+      "sha256": "6960cf21c69a770a8854c9a9c746f2a0cce8c06ef732282983cc4504e9ef2945",
+      "bytes": 3544
+    },
+    {
+      "path": "references/repository/art-packs/DEADWALL_Art235/SHA256SUMS.txt",
+      "sha256": "bcafa1773b990f2470dc9602c82eaa49547a55c695b165e09a2a8beb904f1626",
+      "bytes": 4807
+    },
+    {
+      "path": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+      "sha256": "be15ae950d99461b2351a0295713a36e0091aaec5a37da5191e392f4e3748748",
+      "bytes": 1098099
+    },
+    {
+      "path": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png",
+      "sha256": "49d5f583cfde5c4217598b2dd2c57703ebe74868bdc2dd47855adff5f1dbbbee",
+      "bytes": 1195406
+    },
+    {
+      "path": "references/repository/art-packs/DEADWALL_Art235/qa/visual-review-records.json",
+      "sha256": "f652663a7e4dd5299871de5cb0f3a7c73a34e1eab6126a57b302cf18170816bd",
+      "bytes": 7492
+    },
+    {
+      "path": "references/repository/art-packs/DEADWALL_Art235/records/preparation/selection-and-prompts.json",
+      "sha256": "fa064fb2235f4a626afc0698b4ab9203a5d755b5dfd7c2087ef2c11ac1c05adc",
+      "bytes": 15053
+    },
+    {
+      "path": "references/repository/docs/ARCHITECTURE.md",
+      "sha256": "880657b6abfc044a3ef534d8a092ad9a20ad3a0a2a9024bdbbea6642d8eb3f3c",
+      "bytes": 57076
+    },
+    {
+      "path": "references/repository/docs/BALANCING.md",
+      "sha256": "5caf2749d57201a01f9aafa80de8a3e70e0579a01895283e6d5b05abdc526088",
+      "bytes": 37720
+    },
+    {
+      "path": "references/repository/docs/CODEX_MASTER_PROMPT.md",
+      "sha256": "9c0280c574ad13d7ba03cb4391713411e8eb8fcdbcc4cc94f2609f277c727c6d",
+      "bytes": 5269
+    },
+    {
+      "path": "references/repository/docs/GAMEDEV_GUIDANCE.md",
+      "sha256": "0b2df8233ea2c49ff0c1fd959cf43bac8d1245fb6900334e42cb541b0d2f0144",
+      "bytes": 24935
+    },
+    {
+      "path": "references/repository/docs/GAME_BIBLE.md",
+      "sha256": "3f6f48befcd5408e03ab4ed0c79a68a040cac48c09f087545e334f0b3c738890",
+      "bytes": 98486
+    },
+    {
+      "path": "references/repository/docs/GAME_DESIGN.md",
+      "sha256": "3f5ce6afc19ca49f5ffe239eee67b7258078098e8d0477a5ef62fd2fc8fd65f9",
+      "bytes": 15746
+    },
+    {
+      "path": "references/repository/docs/ORIGINAL_BRIEF.txt",
+      "sha256": "64fe23e910f065cdd6ce4f8f84fcc8efd6894d923122c086cd7b16f599492297",
+      "bytes": 1283
+    },
+    {
+      "path": "references/repository/docs/codex/suivi-monde2026/RESIDENTIEL_2026.md",
+      "sha256": "71e3b672505516af97c91b0e8b9c493de189076f764cacbb2e5450eb5095308c",
+      "bytes": 9436
+    },
+    {
+      "path": "references/repository/scripts/codex-residential2026.cjs",
+      "sha256": "6978137b18dc3ea26916efdabeff6a36a26abeb9c09e27bc0549de74d909982d",
+      "bytes": 17963
+    },
+    {
+      "path": "references/repository/scripts/codex-world-foundations2026.cjs",
+      "sha256": "a709d508e1d2c71ed549f2192bd27f0afd7dae37cb1957f54a2ec32ab0b969b3",
+      "bytes": 19639
+    },
+    {
+      "path": "references/repository/src/campaign-site-art205.js",
+      "sha256": "492790bf2aa6c77dd244f4fcd8c164f1960f08eb2654b10b1ca20663bd72e0f2",
+      "bytes": 44852
+    },
+    {
+      "path": "references/repository/src/codex-furnishings2026.js",
+      "sha256": "5aacd2944d7cf44d21997a9b265dac966a873875e9e5cd7a48a43c8dca044b36",
+      "bytes": 40680
+    },
+    {
+      "path": "references/repository/src/codex-layouts2026.js",
+      "sha256": "2ab0b563e26f64877b6d9fbdd0ceb1bcfca4e439b147825a571bd0e446f714cc",
+      "bytes": 311787
+    },
+    {
+      "path": "references/repository/src/interior-art153.js",
+      "sha256": "7b686fc06c7be2b00a8263ce47b42eeb5dc8413fedee71c9f4fed790f50ffd21",
+      "bytes": 18868
+    },
+    {
+      "path": "references/repository/src/seed-detail-art157.js",
+      "sha256": "03978da0de17b4255107b3ee0966d7bb3a160ef14d2eb08efad09afe16eead8a",
+      "bytes": 25806
+    },
+    {
+      "path": "references/repository/src/world-props-art153.js",
+      "sha256": "8366c7fe4d3dc529c64d3f50523f78bd1651c63a287d22818fe18dd065548726",
+      "bytes": 21665
+    },
+    {
+      "path": "references/sources.json",
+      "sha256": "eb694749b1353a4ac9c61a67d0493b1f95558e192806ec94c0a59629c87074ce",
+      "bytes": 12720
+    },
+    {
+      "path": "results.json",
+      "sha256": "8f0b1df497a3410fa8852f6ee4dba35a152e00c2cceac7990c199715728ccb7b",
+      "bytes": 20290
+    },
+    {
+      "path": "review.json",
+      "sha256": "86f876966bc7352374c3a7670c8496915c6029ffcb6579006acd202f6107da3a",
+      "bytes": 16664
+    },
+    {
+      "path": "root-canonical-replay.json",
+      "sha256": "90456e5b11331671e40aab7adce900b53c13ecf8631c3028fe055f41e77aa5d6",
+      "bytes": 11726
+    },
+    {
+      "path": "selection-and-prompts.json",
+      "sha256": "a7823ca004de7ac21de223cafff5ab40c047a004bb796c4c905f1efb16cd5785",
+      "bytes": 38911
+    },
+    {
+      "path": "source-plans.json",
+      "sha256": "bf1ab74db61c1804ba3f960223013b41a4551c38f01528badc1737f833d0c3d1",
+      "bytes": 1988
+    },
+    {
+      "path": "source-verification-final.json",
+      "sha256": "2cc6bda5b18998330677a040105548b8078f1fc81bb09310254950099964fc16",
+      "bytes": 465
+    }
+  ],
+  "fileCount": 59,
+  "totalBytes": 11120692,
+  "finalCount": 4,
+  "nativeOutputCount": 7,
+  "retainedNonfinalOutputCount": 3,
+  "rootReviewMayBeAddedSeparately": true
+}

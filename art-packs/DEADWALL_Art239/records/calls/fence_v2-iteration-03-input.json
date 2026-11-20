@@ -1,0 +1,17 @@
+{
+  "key": "fence:v2",
+  "id": "prop:fence:v2",
+  "artId": "prop:fence:v2",
+  "iteration": 3,
+  "generator": "OpenAI built-in ImageGen",
+  "arguments": {
+    "prompt": "Use case: stylized-concept. Asset type: one original DEADWALL source-art sprite, structural205 fence painter variant 2.\nONE INPUT: the attached image is the authoritative native canonical geometry and layout. Create a fresh detailed source image from this canonical alone. Do not reuse any earlier generated candidate. Preserve its strict vertically-down orthographic view, very narrow horizontal silhouette, exact part count and relative placement.\nSUBJECT: one complete thin METAL fence segment seen in plan, width twenty times its footprint depth. Exactly TWO narrow, straight, parallel horizontal STEEL RAILS. They are genuinely separated: between the rails there is a clear TRANSPARENT gap roughly THREE times the thickness of one rail, except for the fine crossing ties. Exactly THREE short transverse STEEL POST CAPS, at left end, centre and right end. Exactly TWO X shapes, one in each of the two bays, each made from TWO very thin straight metal ties stretching diagonally between the canonical corners. Four diagonal ties total. These must be continuous and readable through restrained lighter steel edge highlights against the transparent gaps. Follow the canonical shallow angles. Do not join the rails into one solid beam, omit either X, or turn the ties into broad wooden braces.\nMATERIAL: all rails, post caps and diagonal ties are matte patinated STEEL. Muted grey with a subtle olive cast, small metal abrasions and a little dull corrosion. No wood grain, knots, planks, timber streaks or dominant brown coating. The three caps are slightly lighter than the rails. Serious, restrained hand-painted pre-rendered DEADWALL game finish; controlled fine details and soft neutral overhead illumination. Keep the object inactive and unattended.\nTRANSPARENCY: true RGBA. Every pixel outside the physical object silhouette must be fully transparent, alpha zero. Transparent clear space around the segment and inside all gaps; absolutely no grey or coloured cloud, halo, haze, smoke, surface wash, ground plane, cast shadow or loose pixel noise. Do not render a checkerboard into the image.\nCOMPOSITION: centre the entire object with at least 15 percent transparent margin on every side. Keep the extremely thin overhead-plan proportions; no perspective, facade elevation, dense chain-link mesh, extra posts, extra rails, gate, surrounding scene, extra object, labels, text, numbers, border, logo, UI or watermark. Do not crop any component. This is an existing painter variant on authored plan V01, not a new runtime object, and the result is a source-art proposal rather than pixel or metric 1:1 certification.",
+    "referenced_image_paths": [
+      "/workspace/scratch/6f470a892a0f/art239-prep/references/canonical/fence_v2.png"
+    ],
+    "transparent_background": true
+  },
+  "promptIsVerbatim": true,
+  "reason": "Last targeted attempt after independent root rejected iteration2: wide low-alpha halo, rails almost joined, X braces insufficiently readable. Canonical reference only to avoid candidate contamination.",
+  "referenceInspection": "Canonical inspected with view_image before all calls; byte-identical reference retained."
+}

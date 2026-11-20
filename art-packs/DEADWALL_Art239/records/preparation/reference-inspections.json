@@ -1,0 +1,127 @@
+{
+  "reviewer": "fallen_art236",
+  "imagesInspected": 9,
+  "targetReferenceUses": 12,
+  "records": [
+    {
+      "key": "fence:v1",
+      "inputIndex": 1,
+      "path": "/workspace/scratch/6f470a892a0f/art239-prep/references/canonical/fence_v1.png",
+      "sha256": "340f4aa5750d99963c1662d8cf40511140470b71df89073507904a76c98110a6",
+      "inspection": "view_image",
+      "seenBeforeGeneration": true,
+      "role": "authoritative canonical geometry and variant palette",
+      "observation": "Segment très mince horizontal, trois caps de poteaux, deux rails et une diagonale descendante dans chacune des deux travées."
+    },
+    {
+      "key": "fence:v1",
+      "inputIndex": 2,
+      "path": "/workspace/scratch/6f470a892a0f/art239-prep/references/style-art238/fence_v0.png",
+      "sha256": "16617f83fd798df7de6366b049ddcfb2f400df787bc52aec0a279bb3f347b87f",
+      "inspection": "view_image",
+      "seenBeforeGeneration": true,
+      "role": "accepted v0 material finish and painterly quality only",
+      "observation": "Art238 v0 accepté : qualité de matière, traitement des bords et usure uniquement. Sa construction ne fait pas autorité sur cette variante."
+    },
+    {
+      "key": "fence:v2",
+      "inputIndex": 1,
+      "path": "/workspace/scratch/6f470a892a0f/art239-prep/references/canonical/fence_v2.png",
+      "sha256": "ccd28aec3c0f5e77875436eea808ae3cbee34b61f2e6e89a388ec231ae1e8b50",
+      "inspection": "view_image",
+      "seenBeforeGeneration": true,
+      "role": "authoritative canonical geometry and variant palette",
+      "observation": "Segment très mince horizontal, trois caps clairs et deux rails métalliques ; un X fin dans chacune des deux travées."
+    },
+    {
+      "key": "fence:v2",
+      "inputIndex": 2,
+      "path": "/workspace/scratch/6f470a892a0f/art239-prep/references/style-art238/fence_v0.png",
+      "sha256": "16617f83fd798df7de6366b049ddcfb2f400df787bc52aec0a279bb3f347b87f",
+      "inspection": "view_image",
+      "seenBeforeGeneration": true,
+      "role": "accepted v0 material finish and painterly quality only",
+      "observation": "Art238 v0 accepté : qualité de matière, traitement des bords et usure uniquement. Sa construction ne fait pas autorité sur cette variante."
+    },
+    {
+      "key": "garden-shed:v1",
+      "inputIndex": 1,
+      "path": "/workspace/scratch/6f470a892a0f/art239-prep/references/canonical/garden-shed_v1.png",
+      "sha256": "ae188121c83fcd18d35ca34512e3d2bd1557dc4510c82433627e17d2c7ed14dd",
+      "inspection": "view_image",
+      "seenBeforeGeneration": true,
+      "role": "authoritative canonical geometry and variant palette",
+      "observation": "Contour fermé presque carré, cadre pâle, toit bleu-gris, six lignes verticales et une traverse centrale horizontale ; marque inférieure centrale."
+    },
+    {
+      "key": "garden-shed:v1",
+      "inputIndex": 2,
+      "path": "/workspace/scratch/6f470a892a0f/art239-prep/references/style-art238/garden-shed_v0.png",
+      "sha256": "62f78aac248efeb594ab1882170d6d91a2e64014cd8a44d283901de94bdbf07e",
+      "inspection": "view_image",
+      "seenBeforeGeneration": true,
+      "role": "accepted v0 material finish and painterly quality only",
+      "observation": "Art238 v0 accepté : qualité de matière, traitement des bords et usure uniquement. Sa construction ne fait pas autorité sur cette variante."
+    },
+    {
+      "key": "garden-shed:v2",
+      "inputIndex": 1,
+      "path": "/workspace/scratch/6f470a892a0f/art239-prep/references/canonical/garden-shed_v2.png",
+      "sha256": "fea30836d637dd5abf445f56db7b3b7f5c0222a6df46675de2032ccabc3fe9a4",
+      "inspection": "view_image",
+      "seenBeforeGeneration": true,
+      "role": "authoritative canonical geometry and variant palette",
+      "observation": "Toit bois fermé, grande plaque dans la partie supérieure gauche avec deux points de fixation, petit panneau inférieur droit ; marque inférieure centrale."
+    },
+    {
+      "key": "garden-shed:v2",
+      "inputIndex": 2,
+      "path": "/workspace/scratch/6f470a892a0f/art239-prep/references/style-art238/garden-shed_v0.png",
+      "sha256": "62f78aac248efeb594ab1882170d6d91a2e64014cd8a44d283901de94bdbf07e",
+      "inspection": "view_image",
+      "seenBeforeGeneration": true,
+      "role": "accepted v0 material finish and painterly quality only",
+      "observation": "Art238 v0 accepté : qualité de matière, traitement des bords et usure uniquement. Sa construction ne fait pas autorité sur cette variante."
+    },
+    {
+      "key": "rain-barrel:v1",
+      "inputIndex": 1,
+      "path": "/workspace/scratch/6f470a892a0f/art239-prep/references/canonical/rain-barrel_v1.png",
+      "sha256": "9c6ef348c08415512baf4faaf1102a7fede3f48a0559ea49bd38a5bbc2f7c114",
+      "inspection": "view_image",
+      "seenBeforeGeneration": true,
+      "role": "authoritative canonical geometry and variant palette",
+      "observation": "Contour métallique ovale, anneau sombre puis beige, disque central métallique, courte barre horizontale, deux fixations latérales et court embout inférieur droit."
+    },
+    {
+      "key": "rain-barrel:v1",
+      "inputIndex": 2,
+      "path": "/workspace/scratch/6f470a892a0f/art239-prep/references/style-art238/rain-barrel_v0.png",
+      "sha256": "965fbd60ba7dbb321e84545e31fb6fd350da931573faffe9c10a1bf9567fb5d0",
+      "inspection": "view_image",
+      "seenBeforeGeneration": true,
+      "role": "accepted v0 material finish and painterly quality only",
+      "observation": "Art238 v0 accepté : qualité de matière, traitement des bords et usure uniquement. Sa construction ne fait pas autorité sur cette variante."
+    },
+    {
+      "key": "rain-barrel:v2",
+      "inputIndex": 1,
+      "path": "/workspace/scratch/6f470a892a0f/art239-prep/references/canonical/rain-barrel_v2.png",
+      "sha256": "44860290361ec9830b0f0fb274a86d0c705042206287f2537965e1eab106316b",
+      "inspection": "view_image",
+      "seenBeforeGeneration": true,
+      "role": "authoritative canonical geometry and variant palette",
+      "observation": "Couronne bois, anneau sombre, couvercle métal, une diagonale descendante, deux ouvertures inégales superposées à cette diagonale et embout inférieur droit."
+    },
+    {
+      "key": "rain-barrel:v2",
+      "inputIndex": 2,
+      "path": "/workspace/scratch/6f470a892a0f/art239-prep/references/style-art238/rain-barrel_v0.png",
+      "sha256": "965fbd60ba7dbb321e84545e31fb6fd350da931573faffe9c10a1bf9567fb5d0",
+      "inspection": "view_image",
+      "seenBeforeGeneration": true,
+      "role": "accepted v0 material finish and painterly quality only",
+      "observation": "Art238 v0 accepté : qualité de matière, traitement des bords et usure uniquement. Sa construction ne fait pas autorité sur cette variante."
+    }
+  ]
+}

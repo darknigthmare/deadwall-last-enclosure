@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "sourceTree": "663ad5750e49ae401fc0b46bfdebc28942ad1617",
+  "createdAt": "2026-11-17T13:23:37.854Z",
+  "entryPoint": "g.succession133.depthEntries(local, null, view).find(entry.id === fallen:<id>:body).draw(ctx)",
+  "fallbackSourcePath": "src/succession133.js",
+  "fallbackSourceSha256": "abf328ba0d7cdd57281673e947962d99ef9fc40fb2a23b084532a3676cbedc54",
+  "seed": "17117",
+  "fixture": "tests/helpers/expansions131.cjs:boot131",
+  "fixtureDeathTransition": "g.player.facing=0; g.player.invulnerable=0; g.damagePlayer(1000)",
+  "fixtureRemainsId": 1,
+  "phase": "rest",
+  "angleRadians": 0,
+  "domain": "local",
+  "canvas": {
+    "width": 1536,
+    "height": 1024,
+    "format": "PNG",
+    "background": "transparent",
+    "renderer": "@napi-rs/canvas",
+    "rendererVersion": "0.1.100",
+    "readOnlyNativeRender": true
+  },
+  "transform": {
+    "outerTranslationPx": {
+      "x": 866.56,
+      "y": 501.44
+    },
+    "outerScale": 22,
+    "removeWorldBodyTranslation": {
+      "x": -2183,
+      "y": -2068
+    },
+    "runtimeLocalScale": 32,
+    "combinedPixelsPerNormalizedUnit": 704
+  },
+  "axes": {
+    "x": "right",
+    "y": "down",
+    "angleZero": "head right, boots left",
+    "positiveRotation": "clockwise in Canvas pixel coordinates",
+    "bodyOrigin": "r.body.x/y; schematic torso origin, not live prone head anchor"
+  },
+  "canonicalBodyGeometry": {
+    "head": [
+      0.39,
+      0
+    ],
+    "upperArm": [
+      [
+        0.13,
+        -0.13
+      ],
+      [
+        0.04,
+        -0.34
+      ],
+      [
+        -0.21,
+        -0.36
+      ]
+    ],
+    "lowerArm": [
+      [
+        0.1,
+        0.14
+      ],
+      [
+        -0.06,
+        0.3
+      ],
+      [
+        -0.27,
+        0.22
+      ]
+    ],
+    "schematicBodyBounds": [
+      -0.84,
+      -0.42,
+      0.56,
+      0.36
+    ]
+  },
+  "stateBeforeSha256": "f3ccdc1fccb250f82baa424c9c1c31e72006e724082e97c958f51abb297d835f",
+  "stateAfterSha256": "f3ccdc1fccb250f82baa424c9c1c31e72006e724082e97c958f51abb297d835f",
+  "serializedGameStateUnchanged": true,
+  "serializationComparison": {
+    "excludedFields": [
+      "timestamp"
+    ],
+    "reason": "src/game.js serialize emits a fresh Date.now() timestamp on each call. Only this metadata field is excluded; all game-state fields are compared verbatim.",
+    "beforeTimestamp": 1794921817586,
+    "afterTimestamp": 1794921817816
+  },
+  "canonicalImage": {
+    "path": "references/canonical/survivor-inert-angle0.png",
+    "sha256": "7db6428a2a8f5e3352190f6870efdcb442c2ce615693a0a4e74c76cac4a1e4ff",
+    "bytes": 40457
+  },
+  "fullFallbackPreserved": true,
+  "groundMark": "The original unchanged fallback includes a translucent dark-red ellipse. It is retained in this canonical reference. The new source sprite is body-only and deliberately excludes ground, blood and this ellipse. No fallback, renderer or runtime ownership is modified.",
+  "metricLimits": "Schematic Canvas geometry is not a metric/anatomical measurement or a certified runtime raster pivot. The generated anatomy may interpret it while preserving the visible orientation and limb arrangement.",
+  "audit": {
+    "path": "references/fallen-survivor-scope-audit.json",
+    "sha256": "9aeda276118d019df80c764070592307e346934ecc6dc47cbfee2f9b80c83ae5",
+    "boundedFinding": "Visible Canvas fallback exists; no specific inert shared-survivor raster identified. Existing Art137 prone is living and includes an olive backpack."
+  }
+}

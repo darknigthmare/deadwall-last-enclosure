@@ -1,0 +1,202 @@
+{
+  "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "reviewer": "root independent renderer execution",
+  "method": "Fresh canvases, public native entry points, exact pinned source files; compare PNG bytes with prepared canonical references.",
+  "sources": [
+    {
+      "repositoryPath": "src/campaign-site-art205.js",
+      "sha256": "492790bf2aa6c77dd244f4fcd8c164f1960f08eb2654b10b1ca20663bd72e0f2",
+      "bytes": 44852,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "src/codex-furnishings2026.js",
+      "sha256": "5aacd2944d7cf44d21997a9b265dac966a873875e9e5cd7a48a43c8dca044b36",
+      "bytes": 40680,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "src/interior-art153.js",
+      "sha256": "7b686fc06c7be2b00a8263ce47b42eeb5dc8413fedee71c9f4fed790f50ffd21",
+      "bytes": 18868,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "src/seed-detail-art157.js",
+      "sha256": "03978da0de17b4255107b3ee0966d7bb3a160ef14d2eb08efad09afe16eead8a",
+      "bytes": 25806,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "src/world-props-art153.js",
+      "sha256": "8366c7fe4d3dc529c64d3f50523f78bd1651c63a287d22818fe18dd065548726",
+      "bytes": 21665,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "src/world-variants158.js",
+      "sha256": "fd131b78b25398bed75de226b8c7d46e4b6547b08d429fc3e888efc6948718db",
+      "bytes": 12786,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "src/codex-layouts2026.js",
+      "sha256": "2ab0b563e26f64877b6d9fbdd0ceb1bcfca4e439b147825a571bd0e446f714cc",
+      "bytes": 311787,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "scripts/codex-residential2026.cjs",
+      "sha256": "6978137b18dc3ea26916efdabeff6a36a26abeb9c09e27bc0549de74d909982d",
+      "bytes": 17963,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "scripts/codex-world-foundations2026.cjs",
+      "sha256": "a709d508e1d2c71ed549f2192bd27f0afd7dae37cb1957f54a2ec32ab0b969b3",
+      "bytes": 19639,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/codex/suivi-monde2026/RESIDENTIEL_2026.md",
+      "sha256": "71e3b672505516af97c91b0e8b9c493de189076f764cacbb2e5450eb5095308c",
+      "bytes": 9436,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/GAME_BIBLE.md",
+      "sha256": "3f6f48befcd5408e03ab4ed0c79a68a040cac48c09f087545e334f0b3c738890",
+      "bytes": 98486,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "assets/art153/props-yard.png",
+      "sha256": "ca1039feaf685e05341bb8b20da56049de409dbf11a3450de042de507288a35c",
+      "bytes": 2554149,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "assets/art153/PROPS_PROVENANCE.json",
+      "sha256": "b6e8aa735f723d82e14824f5114daaa60372f1836ba019a55ccf921a5adce107",
+      "bytes": 38737,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "assets/art157/yard-atlas.png",
+      "sha256": "bc59caf35959c0074987e50d4a2059f63e0e17d8725d21e6b1a0b8a2ffcff6b1",
+      "bytes": 2018982,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "assets/art157/PROVENANCE.json",
+      "sha256": "381ed20c4e2e6fe09ba1d8d0d20173a3f0f0875dd02309dd7bb6ed93fb2bb4f2",
+      "bytes": 114883,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "assets/art158/details.png",
+      "sha256": "f2885adc46fbf9616b49a28eb5b3f1ea72d5625f9be2838b345cd0e6025e59cf",
+      "bytes": 1843048,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "assets/art158/PROVENANCE.json",
+      "sha256": "a0db76f012817a3eac49e8283e1b9d52bff172b833ec3553c914de987c592df4",
+      "bytes": 30752,
+      "exactRevisionBytes": true
+    }
+  ],
+  "canvasVersion": "0.1.100",
+  "targets": [
+    {
+      "id": "prop:fence:v0",
+      "canonicalSha256": "c5213ff0daa33c3b02ad4f067f98e1d746e53b91dbd592e52ab7425bf6443eeb",
+      "replaySha256": "c5213ff0daa33c3b02ad4f067f98e1d746e53b91dbd592e52ab7425bf6443eeb",
+      "bytes": 5712,
+      "replayedBytesIdentical": true,
+      "entryPoint": "campaign-site-art205.drawProp",
+      "sourcePlanId": "EXT-MONDE-T045-V01",
+      "sourceId": "EXT-MONDE-T045-V01:site-fence:north-left",
+      "footprintAuthorMetres": [
+        3,
+        0.15
+      ],
+      "heightAuthorMetres": 1.2,
+      "sourceFixtureUnchanged": true,
+      "gameArgumentOmitted": true,
+      "canonicalVariant": 0
+    },
+    {
+      "id": "prop:garden-shed:v0",
+      "canonicalSha256": "32fdd32d212f3ef9e3c278c9603b9a24b1c794d0a7adbd5cd86c263cf75829c9",
+      "replaySha256": "32fdd32d212f3ef9e3c278c9603b9a24b1c794d0a7adbd5cd86c263cf75829c9",
+      "bytes": 23066,
+      "replayedBytesIdentical": true,
+      "entryPoint": "campaign-site-art205.drawProp",
+      "sourcePlanId": "EXT-MONDE-T045-V01",
+      "sourceId": "EXT-MONDE-T045-V01:parcel:0:shed",
+      "footprintAuthorMetres": [
+        3.4,
+        3.3
+      ],
+      "heightAuthorMetres": 2.4,
+      "sourceFixtureUnchanged": true,
+      "gameArgumentOmitted": true,
+      "canonicalVariant": 0
+    },
+    {
+      "id": "prop:rain-barrel:v0",
+      "canonicalSha256": "97978adf2f4b16e3863f16dfb25a467905305d4a4352240786cd9fad4879abcf",
+      "replaySha256": "97978adf2f4b16e3863f16dfb25a467905305d4a4352240786cd9fad4879abcf",
+      "bytes": 47023,
+      "replayedBytesIdentical": true,
+      "entryPoint": "campaign-site-art205.drawProp",
+      "sourcePlanId": "EXT-MONDE-T045-V01",
+      "sourceId": "EXT-MONDE-T045-V01:parcel:0:water-barrel",
+      "footprintAuthorMetres": [
+        0.7,
+        0.7
+      ],
+      "heightAuthorMetres": 1,
+      "sourceFixtureUnchanged": true,
+      "gameArgumentOmitted": true,
+      "canonicalVariant": 0
+    },
+    {
+      "id": "prop:compost-bin:v0",
+      "canonicalSha256": "c2d78ba6c7e358416379e67748ffdbf7f95df36e68c0dde4ae0aa515c6be174f",
+      "replaySha256": "c2d78ba6c7e358416379e67748ffdbf7f95df36e68c0dde4ae0aa515c6be174f",
+      "bytes": 15035,
+      "replayedBytesIdentical": true,
+      "entryPoint": "campaign-site-art205.drawProp",
+      "sourcePlanId": "EXT-MONDE-T045-V01",
+      "sourceId": "EXT-MONDE-T045-V01:parcel:0:compost",
+      "footprintAuthorMetres": [
+        1,
+        1
+      ],
+      "heightAuthorMetres": 1,
+      "sourceFixtureUnchanged": true,
+      "gameArgumentOmitted": true,
+      "canonicalVariant": 0
+    },
+    {
+      "id": "prop:closed-pool:v0",
+      "canonicalSha256": "ce5a6dce81ffff24d65aedee7876034443da0db3fb8d9dc6b296bad6c6890ac6",
+      "replaySha256": "ce5a6dce81ffff24d65aedee7876034443da0db3fb8d9dc6b296bad6c6890ac6",
+      "bytes": 11717,
+      "replayedBytesIdentical": true,
+      "entryPoint": "campaign-site-art205.drawProp",
+      "sourcePlanId": "EXT-MONDE-T045-V21",
+      "sourceId": "EXT-MONDE-T045-V21:communal-pool",
+      "footprintAuthorMetres": [
+        8,
+        12
+      ],
+      "heightAuthorMetres": 0.4,
+      "sourceFixtureUnchanged": true,
+      "gameArgumentOmitted": true,
+      "canonicalVariant": 0
+    }
+  ]
+}

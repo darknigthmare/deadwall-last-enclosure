@@ -1,0 +1,8 @@
+{
+  "key": "garden-shed:v2",
+  "file": "garden-shed_toiture_pieces_v2.png",
+  "iteration": 1,
+  "output_hint": "Generated images are saved to /workspace/scratch/6f470a892a0f/generated_images as /workspace/scratch/6f470a892a0f/generated_images/exec-9794e64d-60c9-41c2-bb5d-135b4cf77cf4.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+  "generator": "image_gen.imagegen",
+  "imageTransport": "Native PNG to be archived byte-for-byte; image_url transport omitted from JSON."
+}

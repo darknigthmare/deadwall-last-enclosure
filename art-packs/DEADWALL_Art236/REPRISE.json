@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 2,
+  "batch": "Art236",
+  "savedOn": "2026-11-17",
+  "publicationBaseRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "completedArtIds": [
+    "succession:body"
+  ],
+  "finalAssets": [
+    {
+      "key": "survivor-inert-body",
+      "id": "succession:body",
+      "artId": "succession:body",
+      "kind": "survivor-inert",
+      "name": "Dépouille persistante du survivant",
+      "path": "assets/art236/actors/survivor_inert_body.png",
+      "sha256": "f4cd1898b5133ea7acf295151d27e328eed8dbc4c8d4f678f9af8ef4ee58f911",
+      "bytes": 1061317,
+      "iteration": 2,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated"
+    }
+  ],
+  "supersededCandidates": 1,
+  "priorPacksRegenerated": false,
+  "deliveryStatus": "accepted-source-art-proposals",
+  "plannedArtIds": [
+    "succession:body"
+  ],
+  "blockedTargets": [],
+  "publicationStatusAtAssembly": "prepared_locally_not_published_by_assembler",
+  "runtimeIntegrationPerformed": false,
+  "remainingWork": [
+    "Review the selected inert body against the exact succession133 source fixture before registration.",
+    "Qualify scale, pivot, depth ordering, rotations and clipping in a separate runtime-integration change.",
+    "Preserve the existing death, remains, loot and reanimation state owners.",
+    "Keep the canonical ground mark distinct from the body-only source sprite."
+  ]
+}

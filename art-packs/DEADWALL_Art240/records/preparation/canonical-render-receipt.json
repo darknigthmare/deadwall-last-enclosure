@@ -1,0 +1,340 @@
+{
+  "sourceMain": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+  "checkoutTree": "33d089eab2bb23f288e66d57c2794f6a38b3ba84",
+  "canvasVersion": "0.1.100",
+  "nodeVersion": "v24.22.1",
+  "sourceFiles": 22,
+  "renderer": "unchanged exported campaign-site-art205.drawProp",
+  "stateAlpha": false,
+  "servicesAndWaterOverlays": "inactive: no game argument",
+  "randomCalls": 0,
+  "sourceMutationPerformed": false,
+  "imagesEdited": false,
+  "targets": [
+    {
+      "key": "compost-bin:v1",
+      "id": "prop:compost-bin:v1",
+      "kind": "compost-bin",
+      "sourcePlanId": "EXT-MONDE-T045-V01",
+      "sourcePlanVariant": 1,
+      "canonicalVariant": 1,
+      "painterVariant": 1,
+      "sourceObject": {
+        "id": "EXT-MONDE-T045-V01:parcel:0:compost",
+        "kind": "compost-bin",
+        "x": 41,
+        "y": 62.4,
+        "w": 1,
+        "h": 1,
+        "maxHeightM": 1,
+        "heightOrigin": "author-design",
+        "footprintOrigin": "author-design",
+        "interiorStatus": "not-built",
+        "lootAssigned": false,
+        "utilityConnected": false,
+        "parcelId": "EXT-MONDE-T045-V01:parcel:0"
+      },
+      "fixture": {
+        "id": "EXT-MONDE-T045-V01:parcel:0:compost",
+        "kind": "compost-bin",
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "maxHeightM": 1,
+        "heightOrigin": "author-design",
+        "footprintOrigin": "author-design",
+        "interiorStatus": "not-built",
+        "lootAssigned": false,
+        "utilityConnected": false,
+        "parcelId": "EXT-MONDE-T045-V01:parcel:0",
+        "z": 0,
+        "rotationRad": 0,
+        "campaign205": true,
+        "campaign205Structural": true
+      },
+      "options": {
+        "seed": 0,
+        "floor": 0,
+        "variant": 1,
+        "stateAlpha": false,
+        "scale": 720
+      },
+      "publicFrame": {
+        "turn": 0,
+        "w": 1,
+        "h": 1
+      },
+      "gameArgumentOmitted": true,
+      "artArgument": null,
+      "exportedApi": "drawProp",
+      "privateDelegatedFunctions": [
+        "drawPropBase",
+        "structuralProp"
+      ],
+      "canvas": {
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 720,
+        "origin": {
+          "x": 152,
+          "y": 152
+        }
+      },
+      "route": "structural205",
+      "fixtureFrozen": true,
+      "fixtureUnchanged": true,
+      "contextStateRestored": true,
+      "byteIdenticalSecondRender": true,
+      "imagesEdited": false,
+      "file": "references/canonical/compost-bin_v1.png",
+      "sha256": "c9f292fe49a83e47d24d6598db7cd5a0b02461baa8bd55219221a99feeb63caf"
+    },
+    {
+      "key": "compost-bin:v2",
+      "id": "prop:compost-bin:v2",
+      "kind": "compost-bin",
+      "sourcePlanId": "EXT-MONDE-T045-V01",
+      "sourcePlanVariant": 1,
+      "canonicalVariant": 2,
+      "painterVariant": 2,
+      "sourceObject": {
+        "id": "EXT-MONDE-T045-V01:parcel:0:compost",
+        "kind": "compost-bin",
+        "x": 41,
+        "y": 62.4,
+        "w": 1,
+        "h": 1,
+        "maxHeightM": 1,
+        "heightOrigin": "author-design",
+        "footprintOrigin": "author-design",
+        "interiorStatus": "not-built",
+        "lootAssigned": false,
+        "utilityConnected": false,
+        "parcelId": "EXT-MONDE-T045-V01:parcel:0"
+      },
+      "fixture": {
+        "id": "EXT-MONDE-T045-V01:parcel:0:compost",
+        "kind": "compost-bin",
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "maxHeightM": 1,
+        "heightOrigin": "author-design",
+        "footprintOrigin": "author-design",
+        "interiorStatus": "not-built",
+        "lootAssigned": false,
+        "utilityConnected": false,
+        "parcelId": "EXT-MONDE-T045-V01:parcel:0",
+        "z": 0,
+        "rotationRad": 0,
+        "campaign205": true,
+        "campaign205Structural": true
+      },
+      "options": {
+        "seed": 0,
+        "floor": 0,
+        "variant": 2,
+        "stateAlpha": false,
+        "scale": 720
+      },
+      "publicFrame": {
+        "turn": 0,
+        "w": 1,
+        "h": 1
+      },
+      "gameArgumentOmitted": true,
+      "artArgument": null,
+      "exportedApi": "drawProp",
+      "privateDelegatedFunctions": [
+        "drawPropBase",
+        "structuralProp"
+      ],
+      "canvas": {
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 720,
+        "origin": {
+          "x": 152,
+          "y": 152
+        }
+      },
+      "route": "structural205",
+      "fixtureFrozen": true,
+      "fixtureUnchanged": true,
+      "contextStateRestored": true,
+      "byteIdenticalSecondRender": true,
+      "imagesEdited": false,
+      "file": "references/canonical/compost-bin_v2.png",
+      "sha256": "d8d41028c0b5f054ca8a71936f47a4e38d6d6e5bdf4274c2e4b823044b81f1ab"
+    },
+    {
+      "key": "closed-pool:v1",
+      "id": "prop:closed-pool:v1",
+      "kind": "closed-pool",
+      "sourcePlanId": "EXT-MONDE-T045-V21",
+      "sourcePlanVariant": 21,
+      "canonicalVariant": 1,
+      "painterVariant": 1,
+      "sourceObject": {
+        "id": "EXT-MONDE-T045-V21:communal-pool",
+        "kind": "closed-pool",
+        "x": 73,
+        "y": 50,
+        "w": 8,
+        "h": 12,
+        "maxHeightM": 0.4,
+        "heightOrigin": "author-design",
+        "footprintOrigin": "author-design",
+        "interiorStatus": "water-basin-closed",
+        "lootAssigned": false,
+        "utilityConnected": false,
+        "depthM": 1.4,
+        "walkable": false,
+        "waterPotable": false
+      },
+      "fixture": {
+        "id": "EXT-MONDE-T045-V21:communal-pool",
+        "kind": "closed-pool",
+        "x": 0,
+        "y": 0,
+        "w": 8,
+        "h": 12,
+        "maxHeightM": 0.4,
+        "heightOrigin": "author-design",
+        "footprintOrigin": "author-design",
+        "interiorStatus": "water-basin-closed",
+        "lootAssigned": false,
+        "utilityConnected": false,
+        "depthM": 1.4,
+        "walkable": false,
+        "waterPotable": false,
+        "z": 0,
+        "rotationRad": 0,
+        "campaign205": true,
+        "campaign205Structural": true
+      },
+      "options": {
+        "seed": 0,
+        "floor": 0,
+        "variant": 1,
+        "stateAlpha": false,
+        "scale": 60
+      },
+      "publicFrame": {
+        "turn": 0,
+        "w": 8,
+        "h": 12
+      },
+      "gameArgumentOmitted": true,
+      "artArgument": null,
+      "exportedApi": "drawProp",
+      "privateDelegatedFunctions": [
+        "drawPropBase",
+        "structuralProp"
+      ],
+      "canvas": {
+        "width": 1024,
+        "height": 1280,
+        "pixelsPerMetre": 60,
+        "origin": {
+          "x": 272,
+          "y": 280
+        }
+      },
+      "route": "structural205",
+      "fixtureFrozen": true,
+      "fixtureUnchanged": true,
+      "contextStateRestored": true,
+      "byteIdenticalSecondRender": true,
+      "imagesEdited": false,
+      "file": "references/canonical/closed-pool_v1.png",
+      "sha256": "f699e4f65d895fbd7102e67f296113603e41d814ca6a63ca9d02ddf87a0a00fe"
+    },
+    {
+      "key": "closed-pool:v2",
+      "id": "prop:closed-pool:v2",
+      "kind": "closed-pool",
+      "sourcePlanId": "EXT-MONDE-T045-V21",
+      "sourcePlanVariant": 21,
+      "canonicalVariant": 2,
+      "painterVariant": 2,
+      "sourceObject": {
+        "id": "EXT-MONDE-T045-V21:communal-pool",
+        "kind": "closed-pool",
+        "x": 73,
+        "y": 50,
+        "w": 8,
+        "h": 12,
+        "maxHeightM": 0.4,
+        "heightOrigin": "author-design",
+        "footprintOrigin": "author-design",
+        "interiorStatus": "water-basin-closed",
+        "lootAssigned": false,
+        "utilityConnected": false,
+        "depthM": 1.4,
+        "walkable": false,
+        "waterPotable": false
+      },
+      "fixture": {
+        "id": "EXT-MONDE-T045-V21:communal-pool",
+        "kind": "closed-pool",
+        "x": 0,
+        "y": 0,
+        "w": 8,
+        "h": 12,
+        "maxHeightM": 0.4,
+        "heightOrigin": "author-design",
+        "footprintOrigin": "author-design",
+        "interiorStatus": "water-basin-closed",
+        "lootAssigned": false,
+        "utilityConnected": false,
+        "depthM": 1.4,
+        "walkable": false,
+        "waterPotable": false,
+        "z": 0,
+        "rotationRad": 0,
+        "campaign205": true,
+        "campaign205Structural": true
+      },
+      "options": {
+        "seed": 0,
+        "floor": 0,
+        "variant": 2,
+        "stateAlpha": false,
+        "scale": 60
+      },
+      "publicFrame": {
+        "turn": 0,
+        "w": 8,
+        "h": 12
+      },
+      "gameArgumentOmitted": true,
+      "artArgument": null,
+      "exportedApi": "drawProp",
+      "privateDelegatedFunctions": [
+        "drawPropBase",
+        "structuralProp"
+      ],
+      "canvas": {
+        "width": 1024,
+        "height": 1280,
+        "pixelsPerMetre": 60,
+        "origin": {
+          "x": 272,
+          "y": 280
+        }
+      },
+      "route": "structural205",
+      "fixtureFrozen": true,
+      "fixtureUnchanged": true,
+      "contextStateRestored": true,
+      "byteIdenticalSecondRender": true,
+      "imagesEdited": false,
+      "file": "references/canonical/closed-pool_v2.png",
+      "sha256": "86acdb271d95ed15123e34536e214a0cadbc41d58dd375414cbf055fead3670b"
+    }
+  ]
+}

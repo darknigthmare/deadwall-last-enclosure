@@ -1,0 +1,56 @@
+[
+  {
+    "key": "survivor-inert-body",
+    "kind": "survivor-inert",
+    "id": "succession:body",
+    "artId": "succession:body",
+    "label": "Dépouille persistante du survivant",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept.\nAsset type: one isolated transparent 2D game sprite source proposal for DEADWALL, depicting the existing shared survivor's persistent inert body.\n\nInput image 1 is the exact current game's schematic corpse fallback, rendered unchanged: use ONLY its body orientation and bent-back limb arrangement as the pose reference. It has head to the RIGHT, boots to the LEFT, two separated nearly straight legs, the upper leg extending a little farther left. Both elbows point sideways away from the torso, and both forearms fold BACK LEFT toward the waist; both hands remain behind the head and shoulders. The dark reddish oval beneath the schematic is a separate ground mark: OMIT it entirely.\nInput image 2 is the existing living prone survivor: use ONLY its established identity, clothing materials, proportions and painterly sprite finish. Do NOT copy its active forward-reaching pose and do NOT copy its olive backpack or its backpack straps.\n\nCreate ONE complete existing survivor, lying face down, fully slack and inert after falling, without blood, wounds or gore. Preserve the short dark-brown hair, worn mustard/ochre canvas jacket, black work gloves, charcoal cargo trousers with existing practical pockets, and scuffed brown work boots. No new costume, character, faction markings or equipment. The back of the jacket is visible and bare of packs or harness straps; the bag and inventory have their own separate game owner.\n\nSTRICT ORTHOGRAPHIC ZENITHAL camera exactly 90 degrees straight down. Show the top of the hair, jacket back, back of the trousers and boots. No visible face. Head right, boots left, long body axis horizontal. Use natural human anatomy matching the established survivor, while faithfully following image 1's limb layout: arms relaxed on either side, elbows splayed, empty gloved hands folded backward toward the waist, wrists slack. Legs separated, almost straight, with the upper boot slightly farther left. The body lies completely flat and unsupported, with no raised chest, no crawling, aiming, bracing, reaching forward or movement.\n\nMatch image 2's grounded painterly realistic 2D survival-game rendering: muted earthy ochre, charcoal and brown, restrained crisp material detail, fabric folds and scuffed leather, subtle outline definition and soft neutral overhead lighting. This is one static inert pose; no animation, atlas, alternatives or scene.\n\nLandscape framing. Entire body fully visible and centered, with generous transparent margin on all four sides; preserve at least roughly 12 percent margin beyond the silhouette. True transparent RGBA background. Only the person belongs in the pixels. No floor, scenery, contact shadow, cast shadow, ground circle, puddle, blood, red mark, base, weapon, tool, ammunition, backpack, straps, loose bag, loot, labels, text, watermark or extra object.",
+    "promptIsVerbatim": true,
+    "generator": "image_gen.imagegen",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/canonical/survivor-inert-angle0.png",
+        "sha256": "7db6428a2a8f5e3352190f6870efdcb442c2ce615693a0a4e74c76cac4a1e4ff"
+      },
+      {
+        "path": "references/repository/assets/art137/survivor-prone.png",
+        "sha256": "28517c7c9eeb89414d3320ef2807c18fe9b6d2e37022fd4d7051822f64f7978f"
+      }
+    ],
+    "output": "references/iterations/survivor-inert-body-iteration-01.png",
+    "sha256": "5868f518503df917911b54fcc2c430dae1641d19d3a6731b269139af349635c1",
+    "bytes": 1201927,
+    "selected": false,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "survivor-inert-body",
+    "kind": "survivor-inert",
+    "id": "succession:body",
+    "artId": "succession:body",
+    "label": "Dépouille persistante du survivant",
+    "iteration": 2,
+    "prompt": "Use case: precise-object-edit.\nAsset type: one transparent DEADWALL survivor sprite source, a static inert body.\n\nImage 1 is the EDIT TARGET: keep this exact existing person's identity, short dark-brown hair, mustard canvas jacket, black gloves, charcoal trousers, brown boots, painterly material rendering, strict 90-degree overhead camera, horizontal head-right / boots-left orientation, bare jacket back and empty hands.\nImage 2 is the REQUIRED POSE REFERENCE: the actual game's inert body schematic. Its dark-red oval is ground-only and must never be present in the result.\n\nCRITICAL EDIT: the edit target's arms are currently wrong. Repose BOTH arms to the inert bent-BACK arrangement in image 2. Move BOTH gloved hands away from the area in front of the head. The hands must lie to the LEFT of their elbows, back near the waist and hips. Both elbows splay outward beside the torso, one above the body and one below. From each shoulder near the right side of the torso, the upper arm runs outward toward the elbow; the forearm then runs LEFT toward the waist. Empty gloved fingers and wrists lie limp. At the far RIGHT there should only be the hair-covered head, with no hands or arms reaching beyond it. Absolutely no forward-reaching, swimming, crawling, bracing or aiming posture. The chest and head stay slack and flat, viewed from above, with no face shown.\n\nMaintain two separated nearly straight legs with the upper boot extending slightly farther left, as in the inert schematic. Preserve natural human anatomy and the existing wardrobe. No added backpack, harness, shoulder straps, bag, weapon, tool, loot, wound, blood or gore.\n\nRecompose the whole figure slightly smaller inside a landscape transparent canvas, so the entire silhouette has at least 12 percent clear transparent margin on every side. Keep the body complete and horizontal. This is one isolated person only, no scene, floor, cast/contact shadow, dark red oval, ground mark, base, text or other object. Output true RGBA alpha transparency. Preserve the source's painterly realistic sprite finish.",
+    "promptIsVerbatim": true,
+    "generator": "image_gen.imagegen",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/iterations/survivor-inert-body-iteration-01.png",
+        "sha256": "5868f518503df917911b54fcc2c430dae1641d19d3a6731b269139af349635c1"
+      },
+      {
+        "path": "references/canonical/survivor-inert-angle0.png",
+        "sha256": "7db6428a2a8f5e3352190f6870efdcb442c2ce615693a0a4e74c76cac4a1e4ff"
+      }
+    ],
+    "output": "assets/art236/actors/survivor_inert_body.png",
+    "sha256": "f4cd1898b5133ea7acf295151d27e328eed8dbc4c8d4f678f9af8ef4ee58f911",
+    "bytes": 1061317,
+    "selected": true,
+    "nativeBytesPreserved": true
+  }
+]

@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "Art235",
+  "title": "Caravanes fermées",
+  "assembledOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "referenceRepository": "darknigthmare/deadwall-last-enclosure",
+  "publicationBaseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "publicationBaseIsOutputCommit": false,
+  "identityPolicy": "prop:<kind>:v0; exact existing source kind; no DW reassignment",
+  "scope": "Dedicated bitmap proposals for typed props already drawn procedurally. Analogous existing atlas cells are not claimed absent.",
+  "finalSpriteCount": 2,
+  "generationCount": 3,
+  "supersededCandidateCount": 1,
+  "nativeOutputBytesPreserved": true,
+  "imageEditingResizingCroppingPerformed": false,
+  "geometryBasis": "Unchanged exported drawProp with source-author dimensions and variant 0; pure canonical render with no live game argument.",
+  "integration": {
+    "performed": false,
+    "runtimeSourceChanged": false,
+    "runtimeAssetRegistrationChanged": false,
+    "testsChanged": false,
+    "newWorldPlacementCreated": false,
+    "saveOrWorldIdentityChanged": false
+  },
+  "fidelity": {
+    "reviewed": [
+      "canonical overhead layout",
+      "object identity and components",
+      "inactive state",
+      "native PNG and transparency",
+      "exact reference and prompt history"
+    ],
+    "notCertified": [
+      "metric or pixel-for-pixel 1:1 fidelity",
+      "metres per pixel",
+      "runtime anchors and collision alignment",
+      "unseen variants or rotations"
+    ]
+  },
+  "sourcesIndex": "references/verified-sources.json",
+  "sourceMapping": "references/SOURCE_MAP.json",
+  "generationHistory": "generation-history.json",
+  "technicalAudit": "qa/image-audit.json",
+  "visualReview": "qa/visual-review.md",
+  "aggregateCoverage": {
+    "coverage-art222-235.json": "e83181bda4a481c4d864f754d72b938f096988538f6d4ec6e2b47fd1f45a6196",
+    "coverage-art222-235.md": "2f99454128273be6901a1fd433adfd2ecc49542a93278850dbce1915ac45e5df",
+    "prior-coverage-art222-232.json": "4b78dde9619601992c7461836b20ee829de8a403a35e1afda963be9d543165ac"
+  },
+  "validation": {
+    "packTechnicalAudit": "passed",
+    "runtimeTests": "not_run_by_assembler",
+    "browser": "not_run_by_assembler"
+  },
+  "assets": [
+    {
+      "id": "prop:touring-caravan:v0",
+      "artId": "prop:touring-caravan:v0",
+      "kind": "touring-caravan",
+      "name": "Caravane tractable fermée",
+      "path": "assets/art235/props/touring-caravan_caravane_tractable.png",
+      "sha256": "49d5f583cfde5c4217598b2dd2c57703ebe74868bdc2dd47855adff5f1dbbbee",
+      "bytes": 1195406,
+      "iteration": 1,
+      "dimensionsAuthorDesignMetres": {
+        "w": 2.4,
+        "h": 6.2,
+        "heightM": 2.8
+      },
+      "canonicalVariant": 0,
+      "existingRoute": "structural205",
+      "status": "dedicated_source_art_proposal_not_runtime_integrated"
+    },
+    {
+      "id": "prop:abandoned-caravan:v0",
+      "artId": "prop:abandoned-caravan:v0",
+      "kind": "abandoned-caravan",
+      "name": "Caravane abandonnée fermée",
+      "path": "assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+      "sha256": "be15ae950d99461b2351a0295713a36e0091aaec5a37da5191e392f4e3748748",
+      "bytes": 1098099,
+      "iteration": 2,
+      "dimensionsAuthorDesignMetres": {
+        "w": 2.4,
+        "h": 6.2,
+        "heightM": 2.8
+      },
+      "canonicalVariant": 0,
+      "existingRoute": "structural205",
+      "status": "dedicated_source_art_proposal_not_runtime_integrated"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "key": "rain-barrel:v1",
+  "file": "rain-barrel_disque_metal_v1.png",
+  "iteration": 1,
+  "output_hint": "Generated images are saved to /workspace/scratch/6f470a892a0f/generated_images as /workspace/scratch/6f470a892a0f/generated_images/exec-c23382e4-d25a-415c-bd28-a61a94d14ef0.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+  "generator": "image_gen.imagegen",
+  "imageTransport": "Native PNG to be archived byte-for-byte; image_url transport omitted from JSON."
+}

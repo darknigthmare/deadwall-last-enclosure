@@ -1,0 +1,130 @@
+{
+  "scope": "Same three Art238 authored fixtures, each with native painter variants 1 and 2",
+  "sourceMain": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "sourceTree": "33d089eab2bb23f288e66d57c2794f6a38b3ba84",
+  "evidence": {
+    "owner": "src/campaign-site-art205.js",
+    "paletteLines": [
+      13,
+      17
+    ],
+    "variantSelectionLines": [
+      28,
+      34
+    ],
+    "structuralOwnerLines": [
+      236,
+      257
+    ],
+    "publicApiLines": [
+      332,
+      349,
+      486,
+      493
+    ]
+  },
+  "variants": [
+    {
+      "key": "fence:v1",
+      "kind": "fence",
+      "painterVariant": 1,
+      "sourcePlanVariant": 1,
+      "sourcePlanId": "EXT-MONDE-T045-V01",
+      "sourceId": "EXT-MONDE-T045-V01:site-fence:north-left",
+      "dimensions": {
+        "w": 3,
+        "h": 0.15,
+        "heightM": 1.2,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "differenceFromV0": "Same 3 m segment and three posts as v0; adds two wooden diagonal braces, with palette 1. Post count is length-dependent in the source and is three for this fixture."
+    },
+    {
+      "key": "fence:v2",
+      "kind": "fence",
+      "painterVariant": 2,
+      "sourcePlanVariant": 1,
+      "sourcePlanId": "EXT-MONDE-T045-V01",
+      "sourceId": "EXT-MONDE-T045-V01:site-fence:north-left",
+      "dimensions": {
+        "w": 3,
+        "h": 0.15,
+        "heightM": 1.2,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "differenceFromV0": "Same 3 m segment and three posts; metal replaces wood and each bay gains two fine crossing ties, with palette 2. No dense mesh is drawn."
+    },
+    {
+      "key": "garden-shed:v1",
+      "kind": "garden-shed",
+      "painterVariant": 1,
+      "sourcePlanVariant": 1,
+      "sourcePlanId": "EXT-MONDE-T045-V01",
+      "sourceId": "EXT-MONDE-T045-V01:parcel:0:shed",
+      "dimensions": {
+        "w": 3.4,
+        "h": 3.3,
+        "heightM": 2.4,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "differenceFromV0": "Replaces the timber roof by metal; the major seam becomes horizontal and six seams become vertical. The closed outline and bottom entrance mark remain."
+    },
+    {
+      "key": "garden-shed:v2",
+      "kind": "garden-shed",
+      "painterVariant": 2,
+      "sourcePlanVariant": 1,
+      "sourcePlanId": "EXT-MONDE-T045-V01",
+      "sourceId": "EXT-MONDE-T045-V01:parcel:0:shed",
+      "dimensions": {
+        "w": 3.4,
+        "h": 3.3,
+        "heightM": 2.4,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "differenceFromV0": "Timber roof with one large metal patch, two fasteners and one small lower-right panel; no central ridge. Closed outline and entrance mark unchanged."
+    },
+    {
+      "key": "rain-barrel:v1",
+      "kind": "rain-barrel",
+      "painterVariant": 1,
+      "sourcePlanVariant": 1,
+      "sourcePlanId": "EXT-MONDE-T045-V01",
+      "sourceId": "EXT-MONDE-T045-V01:parcel:0:water-barrel",
+      "dimensions": {
+        "w": 0.7,
+        "h": 0.7,
+        "heightM": 1,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "differenceFromV0": "Metal outer shell and central metal disc with one short transverse handle and two side fasteners, replacing v0 two bands and single bung; lower-right outlet retained."
+    },
+    {
+      "key": "rain-barrel:v2",
+      "kind": "rain-barrel",
+      "painterVariant": 2,
+      "sourcePlanVariant": 1,
+      "sourcePlanId": "EXT-MONDE-T045-V01",
+      "sourceId": "EXT-MONDE-T045-V01:parcel:0:water-barrel",
+      "dimensions": {
+        "w": 0.7,
+        "h": 0.7,
+        "heightM": 1,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "differenceFromV0": "Metal inner lid, one diagonal bar and two unequal bung holes replace the v0 horizontal bands and single bung; wooden outer rim and lower-right outlet remain."
+    }
+  ],
+  "limits": [
+    "Painter variants do not create additional world objects or save IDs.",
+    "Metric author dimensions are provenance, not certification of generated bitmap scale.",
+    "An existing procedural renderer is not proof of a missing bitmap.",
+    "No faction, abomination, new gameplay object, integration or runnerCable retry."
+  ]
+}

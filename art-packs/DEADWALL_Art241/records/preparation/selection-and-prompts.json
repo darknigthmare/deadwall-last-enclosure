@@ -1,0 +1,530 @@
+{
+  "project": "DEADWALL — Last Enclosure",
+  "pack": "Art241",
+  "sourceMain": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "sourceCheckoutHead": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+  "sourcePublishedHead": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+  "sourceTree": "33d089eab2bb23f288e66d57c2794f6a38b3ba84",
+  "identityContract": "key kind:vN; id/artId prop:kind:vN; native kind unchanged. Two existing prop families, four existing painter variants. No new runtime identity or accessible caravan interior.",
+  "sourceFiles": [
+    {
+      "path": "references/repository/AGENTS.md",
+      "preparedPath": "references/repository/AGENTS.md",
+      "repositoryPath": "AGENTS.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "9fc35b328129aa19d57642dd6f78b913b94f17aa",
+      "sha256": "7d02c6bd7f9c6a8e04c4c18680f9539109ecbc943f240de12a536ab9a8a8ab13",
+      "bytes": 4190,
+      "workingAndCheckoutMatchMain": true
+    },
+    {
+      "path": "references/repository/docs/ORIGINAL_BRIEF.txt",
+      "preparedPath": "references/repository/docs/ORIGINAL_BRIEF.txt",
+      "repositoryPath": "docs/ORIGINAL_BRIEF.txt",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "4a1d493b07b8094dbaabd21b2682615f7a372af5",
+      "sha256": "64fe23e910f065cdd6ce4f8f84fcc8efd6894d923122c086cd7b16f599492297",
+      "bytes": 1283,
+      "workingAndCheckoutMatchMain": true
+    },
+    {
+      "path": "references/repository/docs/GAME_DESIGN.md",
+      "preparedPath": "references/repository/docs/GAME_DESIGN.md",
+      "repositoryPath": "docs/GAME_DESIGN.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "31bca14159be0eac8986c8e50540936e9482b8e9",
+      "sha256": "3f5ce6afc19ca49f5ffe239eee67b7258078098e8d0477a5ef62fd2fc8fd65f9",
+      "bytes": 15746,
+      "workingAndCheckoutMatchMain": true
+    },
+    {
+      "path": "references/repository/docs/ARCHITECTURE.md",
+      "preparedPath": "references/repository/docs/ARCHITECTURE.md",
+      "repositoryPath": "docs/ARCHITECTURE.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "63b12166f52109d70bf95637b48a96c23f8260fc",
+      "sha256": "880657b6abfc044a3ef534d8a092ad9a20ad3a0a2a9024bdbbea6642d8eb3f3c",
+      "bytes": 57076,
+      "workingAndCheckoutMatchMain": true
+    },
+    {
+      "path": "references/repository/docs/BALANCING.md",
+      "preparedPath": "references/repository/docs/BALANCING.md",
+      "repositoryPath": "docs/BALANCING.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "1b668d20d6e60c7cb05c721e37d396d4a05f5781",
+      "sha256": "5caf2749d57201a01f9aafa80de8a3e70e0579a01895283e6d5b05abdc526088",
+      "bytes": 37720,
+      "workingAndCheckoutMatchMain": true
+    },
+    {
+      "path": "references/repository/docs/CODEX_MASTER_PROMPT.md",
+      "preparedPath": "references/repository/docs/CODEX_MASTER_PROMPT.md",
+      "repositoryPath": "docs/CODEX_MASTER_PROMPT.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "1b15347772ed2da3b22cd33fe572792255db9d51",
+      "sha256": "9c0280c574ad13d7ba03cb4391713411e8eb8fcdbcc4cc94f2609f277c727c6d",
+      "bytes": 5269,
+      "workingAndCheckoutMatchMain": true
+    },
+    {
+      "path": "references/repository/docs/GAMEDEV_GUIDANCE.md",
+      "preparedPath": "references/repository/docs/GAMEDEV_GUIDANCE.md",
+      "repositoryPath": "docs/GAMEDEV_GUIDANCE.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "922952410a6d7efa4eb28c48fc1b4101457e1e55",
+      "sha256": "0b2df8233ea2c49ff0c1fd959cf43bac8d1245fb6900334e42cb541b0d2f0144",
+      "bytes": 24935,
+      "workingAndCheckoutMatchMain": true
+    },
+    {
+      "path": "references/repository/docs/GAME_BIBLE.md",
+      "preparedPath": "references/repository/docs/GAME_BIBLE.md",
+      "repositoryPath": "docs/GAME_BIBLE.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "f13043eae6cad2d009c9287c80f02b6bfb926ef7",
+      "sha256": "3f6f48befcd5408e03ab4ed0c79a68a040cac48c09f087545e334f0b3c738890",
+      "bytes": 98486,
+      "workingAndCheckoutMatchMain": true
+    },
+    {
+      "path": "references/repository/src/campaign-site-art205.js",
+      "preparedPath": "references/repository/src/campaign-site-art205.js",
+      "repositoryPath": "src/campaign-site-art205.js",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "adcceb210d194cdbf4f19359a743c9cec2a8e4e6",
+      "sha256": "492790bf2aa6c77dd244f4fcd8c164f1960f08eb2654b10b1ca20663bd72e0f2",
+      "bytes": 44852,
+      "workingAndCheckoutMatchMain": true
+    },
+    {
+      "path": "references/repository/src/codex-furnishings2026.js",
+      "preparedPath": "references/repository/src/codex-furnishings2026.js",
+      "repositoryPath": "src/codex-furnishings2026.js",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "57648ec1a6e908069734f622eb449166770495d4",
+      "sha256": "5aacd2944d7cf44d21997a9b265dac966a873875e9e5cd7a48a43c8dca044b36",
+      "bytes": 40680,
+      "workingAndCheckoutMatchMain": true
+    },
+    {
+      "path": "references/repository/src/interior-art153.js",
+      "preparedPath": "references/repository/src/interior-art153.js",
+      "repositoryPath": "src/interior-art153.js",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "bd63cd1e0e15d02d03f1c386a35f4f9cc0edf428",
+      "sha256": "7b686fc06c7be2b00a8263ce47b42eeb5dc8413fedee71c9f4fed790f50ffd21",
+      "bytes": 18868,
+      "workingAndCheckoutMatchMain": true
+    },
+    {
+      "path": "references/repository/src/seed-detail-art157.js",
+      "preparedPath": "references/repository/src/seed-detail-art157.js",
+      "repositoryPath": "src/seed-detail-art157.js",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "656725ffab51afa8dc70653748efabf4defa8419",
+      "sha256": "03978da0de17b4255107b3ee0966d7bb3a160ef14d2eb08efad09afe16eead8a",
+      "bytes": 25806,
+      "workingAndCheckoutMatchMain": true
+    },
+    {
+      "path": "references/repository/src/world-props-art153.js",
+      "preparedPath": "references/repository/src/world-props-art153.js",
+      "repositoryPath": "src/world-props-art153.js",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "f47c982f1a30fde8d29c229b2e3f34cea9ba8b8f",
+      "sha256": "8366c7fe4d3dc529c64d3f50523f78bd1651c63a287d22818fe18dd065548726",
+      "bytes": 21665,
+      "workingAndCheckoutMatchMain": true
+    },
+    {
+      "path": "references/repository/src/codex-layouts2026.js",
+      "preparedPath": "references/repository/src/codex-layouts2026.js",
+      "repositoryPath": "src/codex-layouts2026.js",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "e5c4c8d8ff1db8394fcf63068f9e200610945e34",
+      "sha256": "2ab0b563e26f64877b6d9fbdd0ceb1bcfca4e439b147825a571bd0e446f714cc",
+      "bytes": 311787,
+      "workingAndCheckoutMatchMain": true
+    },
+    {
+      "path": "references/repository/scripts/codex-residential2026.cjs",
+      "preparedPath": "references/repository/scripts/codex-residential2026.cjs",
+      "repositoryPath": "scripts/codex-residential2026.cjs",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "731bf90160f921aee9b4550b6846d976a943b4b3",
+      "sha256": "6978137b18dc3ea26916efdabeff6a36a26abeb9c09e27bc0549de74d909982d",
+      "bytes": 17963,
+      "workingAndCheckoutMatchMain": true
+    },
+    {
+      "path": "references/repository/scripts/codex-world-foundations2026.cjs",
+      "preparedPath": "references/repository/scripts/codex-world-foundations2026.cjs",
+      "repositoryPath": "scripts/codex-world-foundations2026.cjs",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "01875362d8fedbe8cad43cd30db148d5e56945b5",
+      "sha256": "a709d508e1d2c71ed549f2192bd27f0afd7dae37cb1957f54a2ec32ab0b969b3",
+      "bytes": 19639,
+      "workingAndCheckoutMatchMain": true
+    },
+    {
+      "path": "references/repository/docs/codex/suivi-monde2026/RESIDENTIEL_2026.md",
+      "preparedPath": "references/repository/docs/codex/suivi-monde2026/RESIDENTIEL_2026.md",
+      "repositoryPath": "docs/codex/suivi-monde2026/RESIDENTIEL_2026.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "225f7f6253ce233d8e8561e734d7c6d58f9f5006",
+      "sha256": "71e3b672505516af97c91b0e8b9c493de189076f764cacbb2e5450eb5095308c",
+      "bytes": 9436,
+      "workingAndCheckoutMatchMain": true
+    },
+    {
+      "path": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png",
+      "preparedPath": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png",
+      "repositoryPath": "art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "728f1f909503e2bea320b5c5f84dfd1f5e31014c",
+      "sha256": "49d5f583cfde5c4217598b2dd2c57703ebe74868bdc2dd47855adff5f1dbbbee",
+      "bytes": 1195406,
+      "workingAndCheckoutMatchMain": true
+    },
+    {
+      "path": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+      "preparedPath": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+      "repositoryPath": "art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "f9a96a6a205cbf330b19eb4ae6e308ef3aae1043",
+      "sha256": "be15ae950d99461b2351a0295713a36e0091aaec5a37da5191e392f4e3748748",
+      "bytes": 1098099,
+      "workingAndCheckoutMatchMain": true
+    },
+    {
+      "path": "references/repository/art-packs/DEADWALL_Art235/PROVENANCE.json",
+      "preparedPath": "references/repository/art-packs/DEADWALL_Art235/PROVENANCE.json",
+      "repositoryPath": "art-packs/DEADWALL_Art235/PROVENANCE.json",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "f30f21ce4a352d696a9ed4e265ee96ad81b19b8d",
+      "sha256": "6960cf21c69a770a8854c9a9c746f2a0cce8c06ef732282983cc4504e9ef2945",
+      "bytes": 3544,
+      "workingAndCheckoutMatchMain": true
+    },
+    {
+      "path": "references/repository/art-packs/DEADWALL_Art235/qa/visual-review-records.json",
+      "preparedPath": "references/repository/art-packs/DEADWALL_Art235/qa/visual-review-records.json",
+      "repositoryPath": "art-packs/DEADWALL_Art235/qa/visual-review-records.json",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "93ef0e3847a5c4580fbcbd92f8dbe05fdf4df667",
+      "sha256": "f652663a7e4dd5299871de5cb0f3a7c73a34e1eab6126a57b302cf18170816bd",
+      "bytes": 7492,
+      "workingAndCheckoutMatchMain": true
+    },
+    {
+      "path": "references/repository/art-packs/DEADWALL_Art235/SHA256SUMS.txt",
+      "preparedPath": "references/repository/art-packs/DEADWALL_Art235/SHA256SUMS.txt",
+      "repositoryPath": "art-packs/DEADWALL_Art235/SHA256SUMS.txt",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "c4e84744bc39bd090c9a1cde73a530baa5ccf646",
+      "sha256": "bcafa1773b990f2470dc9602c82eaa49547a55c695b165e09a2a8beb904f1626",
+      "bytes": 4807,
+      "workingAndCheckoutMatchMain": true
+    },
+    {
+      "path": "references/repository/art-packs/DEADWALL_Art235/records/preparation/selection-and-prompts.json",
+      "preparedPath": "references/repository/art-packs/DEADWALL_Art235/records/preparation/selection-and-prompts.json",
+      "repositoryPath": "art-packs/DEADWALL_Art235/records/preparation/selection-and-prompts.json",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "checkoutRevision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+      "gitBlob": "eee415c75d1dbd8bae45af129ce47235324499b7",
+      "sha256": "fa064fb2235f4a626afc0698b4ab9203a5d755b5dfd7c2087ef2c11ac1c05adc",
+      "bytes": 15053,
+      "workingAndCheckoutMatchMain": true
+    }
+  ],
+  "targets": [
+    {
+      "key": "touring-caravan:v1",
+      "kind": "touring-caravan",
+      "id": "prop:touring-caravan:v1",
+      "artId": "prop:touring-caravan:v1",
+      "label": "Caravane tractable fermée et inoccupée — variante 1",
+      "file": "touring-caravan_v1.png",
+      "sourceId": "EXT-MONDE-T046-V01:parcel:1:caravan",
+      "sourcePlanId": "EXT-MONDE-T046-V01",
+      "sourceType": "EXT-MONDE-T046",
+      "sourcePlanVariant": 1,
+      "sourceObject": {
+        "id": "EXT-MONDE-T046-V01:parcel:1:caravan",
+        "kind": "touring-caravan",
+        "x": 53.3,
+        "y": 47,
+        "w": 2.4,
+        "h": 6.2,
+        "maxHeightM": 2.8,
+        "heightOrigin": "author-design",
+        "footprintOrigin": "author-design",
+        "interiorStatus": "closed-towable-interior-not-built",
+        "lootAssigned": false,
+        "utilityConnected": false,
+        "parcelId": "EXT-MONDE-T046-V01:parcel:1",
+        "condition": "unoccupied"
+      },
+      "dimensions": {
+        "w": 2.4,
+        "h": 6.2,
+        "heightM": 2.8,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "route": "structural205",
+      "canonicalVariant": 1,
+      "painterVariant": 1,
+      "orientation": {
+        "longAxis": "Y",
+        "hitch": "negative-Y",
+        "rotationRad": 0
+      },
+      "existingAnalogue": "Art235 already supplies accepted v0 for this same family and authored instance; this is an optional existing painter variant, not a new family or a runtime replacement.",
+      "prompt": "Use case: stylized-concept. Asset type: original DEADWALL game source-art sprite of ONE complete isolated touring-caravan, painter variant 1.\nINPUT IMAGES: Image 1 is the AUTHORITATIVE canonical geometry and palette, rendered by the unchanged public campaign-site-art205.drawProp API for this exact authored instance, painter variant 1. Image 2 is the already accepted Art235 variant 0 for MATERIAL TEXTURE AND PAINTERLY STYLE ONLY; ignore its v0 roof fittings and follow image 1 for all variant-specific parts.\nCAMERA AND SILHOUETTE: strict orthographic overhead plan, camera looking vertically down. Long axis vertical, short tow hitch pointing straight UP to negative screen Y, no diagonal turn, perspective or visible tall side facade. Preserve the narrow chamfered rectangular closed body, dark outer contour and two longitudinal roof-edge seams. The authored source footprint is 2.4 m across X by 6.2 m along Y, with a separate height envelope of 2.8 m; these are author-design values, not manufacturer dimensions. Retain the source proportions.\nWHEELS AND HITCH: exactly FOUR small visible rubber wheels, two at each side, at TWO widely separated longitudinal stations (roughly one-third and three-quarters down the canonical footprint). Preserve this source geometry, not an ordinary close tandem axle. Keep the short centered tow tongue and transverse tip completely visible at the top.\nVARIANT 1 ROOF: exactly TWO small closed metal roof panels in a vertical sequence, one near the upper quarter and one near the lower third. Preserve the larger central rectangular dark seam/frame that spans between and partly around them, including its two slim longitudinal inset highlights. Follow image 1 for overlap and positions. These are shallow CLOSED roof details, not windows into rooms and not rooftop cargo. Do not retain the v0 single-panel/dark-hatch arrangement from the style image.\nCONDITION: Unoccupied touring caravan. Keep the complete closed shell, modest age and light grime; no severe ruin, inhabitants or signs of occupation. Use the pale desaturated cream/blue-grey palette in canonical variant 1, or the pale cream/tan/olive palette in canonical variant 2. The old v0 reference supplies weathered painted-metal rendering only. Both roof and body remain closed; the source instance has no authored accessible interior, no loot assignment and no utility connection. These decorative source images must not imply a new service, stock, electrical operation or gameplay state.\nSTYLE: detailed restrained hand-painted pre-rendered post-apocalyptic game art matching image 2, with believable worn painted metal, rubber, shallow bevels, modest fine grain and neutral overhead lighting. No photo background, dramatic lighting or exaggerated distress. Preserve image 1's variant colour family rather than forcing the v0 palette.\nOUTPUT: ONE object only, whole and centred, true transparent RGBA background with at least 12 percent empty margin on all sides. Every wheel and the tow hitch must stay inside the image. No ground plane or external cast shadow. No people, animals, plants, ground debris, extra accessories, awning, solar panel, aerial, chimney, ladder, air-conditioning box, spare wheel, open door, exposed interior, readable text, logo, labels, numbers, border or watermark. No active effects. Source-art proposal for later calibration; not a metric or pixel-for-pixel certification.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art241-prep/references/canonical/touring-caravan_v1.png",
+        "/workspace/scratch/6f470a892a0f/art241-prep/references/repository/art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png"
+      ],
+      "referenceFiles": [
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art241-prep/references/canonical/touring-caravan_v1.png",
+          "relativePath": "references/canonical/touring-caravan_v1.png",
+          "sha256": "f0bb2a5dbf5dc70082930071362e76e8470ae3b33e1e354291d245ca3bb07522",
+          "role": "canonical-geometry-and-variant-palette"
+        },
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art241-prep/references/repository/art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png",
+          "relativePath": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png",
+          "sha256": "49d5f583cfde5c4217598b2dd2c57703ebe74868bdc2dd47855adff5f1dbbbee",
+          "role": "Art235-v0-material-texture-and-style-only"
+        }
+      ],
+      "generator": "OpenAI built-in ImageGen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true
+    },
+    {
+      "key": "touring-caravan:v2",
+      "kind": "touring-caravan",
+      "id": "prop:touring-caravan:v2",
+      "artId": "prop:touring-caravan:v2",
+      "label": "Caravane tractable fermée et inoccupée — variante 2",
+      "file": "touring-caravan_v2.png",
+      "sourceId": "EXT-MONDE-T046-V01:parcel:1:caravan",
+      "sourcePlanId": "EXT-MONDE-T046-V01",
+      "sourceType": "EXT-MONDE-T046",
+      "sourcePlanVariant": 1,
+      "sourceObject": {
+        "id": "EXT-MONDE-T046-V01:parcel:1:caravan",
+        "kind": "touring-caravan",
+        "x": 53.3,
+        "y": 47,
+        "w": 2.4,
+        "h": 6.2,
+        "maxHeightM": 2.8,
+        "heightOrigin": "author-design",
+        "footprintOrigin": "author-design",
+        "interiorStatus": "closed-towable-interior-not-built",
+        "lootAssigned": false,
+        "utilityConnected": false,
+        "parcelId": "EXT-MONDE-T046-V01:parcel:1",
+        "condition": "unoccupied"
+      },
+      "dimensions": {
+        "w": 2.4,
+        "h": 6.2,
+        "heightM": 2.8,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "route": "structural205",
+      "canonicalVariant": 2,
+      "painterVariant": 2,
+      "orientation": {
+        "longAxis": "Y",
+        "hitch": "negative-Y",
+        "rotationRad": 0
+      },
+      "existingAnalogue": "Art235 already supplies accepted v0 for this same family and authored instance; this is an optional existing painter variant, not a new family or a runtime replacement.",
+      "prompt": "Use case: stylized-concept. Asset type: original DEADWALL game source-art sprite of ONE complete isolated touring-caravan, painter variant 2.\nINPUT IMAGES: Image 1 is the AUTHORITATIVE canonical geometry and palette, rendered by the unchanged public campaign-site-art205.drawProp API for this exact authored instance, painter variant 2. Image 2 is the already accepted Art235 variant 0 for MATERIAL TEXTURE AND PAINTERLY STYLE ONLY; ignore its v0 roof fittings and follow image 1 for all variant-specific parts.\nCAMERA AND SILHOUETTE: strict orthographic overhead plan, camera looking vertically down. Long axis vertical, short tow hitch pointing straight UP to negative screen Y, no diagonal turn, perspective or visible tall side facade. Preserve the narrow chamfered rectangular closed body, dark outer contour and two longitudinal roof-edge seams. The authored source footprint is 2.4 m across X by 6.2 m along Y, with a separate height envelope of 2.8 m; these are author-design values, not manufacturer dimensions. Retain the source proportions.\nWHEELS AND HITCH: exactly FOUR small visible rubber wheels, two at each side, at TWO widely separated longitudinal stations (roughly one-third and three-quarters down the canonical footprint). Preserve this source geometry, not an ordinary close tandem axle. Keep the short centered tow tongue and transverse tip completely visible at the top.\nVARIANT 2 ROOF: exactly ONE broad shallow closed rectangular metal roof panel in the upper-middle region, ONE small warm-weathered WOODEN rectangular patch in the lower-right roof region with its single diagonal seam, and ONE thin longitudinal metal strip just LEFT of centre, extending from the upper region towards the lower middle. Preserve their exact relative locations and overlaps from image 1. This is a small fixed source-defined patch, not loose planks or roof cargo. Do not retain the v0 single-panel/dark-hatch arrangement from the style image.\nCONDITION: Unoccupied touring caravan. Keep the complete closed shell, modest age and light grime; no severe ruin, inhabitants or signs of occupation. Use the pale desaturated cream/blue-grey palette in canonical variant 1, or the pale cream/tan/olive palette in canonical variant 2. The old v0 reference supplies weathered painted-metal rendering only. Both roof and body remain closed; the source instance has no authored accessible interior, no loot assignment and no utility connection. These decorative source images must not imply a new service, stock, electrical operation or gameplay state.\nSTYLE: detailed restrained hand-painted pre-rendered post-apocalyptic game art matching image 2, with believable worn painted metal, rubber, shallow bevels, modest fine grain and neutral overhead lighting. No photo background, dramatic lighting or exaggerated distress. Preserve image 1's variant colour family rather than forcing the v0 palette.\nOUTPUT: ONE object only, whole and centred, true transparent RGBA background with at least 12 percent empty margin on all sides. Every wheel and the tow hitch must stay inside the image. No ground plane or external cast shadow. No people, animals, plants, ground debris, extra accessories, awning, solar panel, aerial, chimney, ladder, air-conditioning box, spare wheel, open door, exposed interior, readable text, logo, labels, numbers, border or watermark. No active effects. Source-art proposal for later calibration; not a metric or pixel-for-pixel certification.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art241-prep/references/canonical/touring-caravan_v2.png",
+        "/workspace/scratch/6f470a892a0f/art241-prep/references/repository/art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png"
+      ],
+      "referenceFiles": [
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art241-prep/references/canonical/touring-caravan_v2.png",
+          "relativePath": "references/canonical/touring-caravan_v2.png",
+          "sha256": "a2c7f68fb0decde7fca80d1ba5dda4bc28492f534c8581d19d69c266ffdd9bba",
+          "role": "canonical-geometry-and-variant-palette"
+        },
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art241-prep/references/repository/art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png",
+          "relativePath": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png",
+          "sha256": "49d5f583cfde5c4217598b2dd2c57703ebe74868bdc2dd47855adff5f1dbbbee",
+          "role": "Art235-v0-material-texture-and-style-only"
+        }
+      ],
+      "generator": "OpenAI built-in ImageGen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true
+    },
+    {
+      "key": "abandoned-caravan:v1",
+      "kind": "abandoned-caravan",
+      "id": "prop:abandoned-caravan:v1",
+      "artId": "prop:abandoned-caravan:v1",
+      "label": "Caravane abandonnée fermée et évacuée — variante 1",
+      "file": "abandoned-caravan_v1.png",
+      "sourceId": "EXT-MONDE-T048-V01:parcel:1:caravan",
+      "sourcePlanId": "EXT-MONDE-T048-V01",
+      "sourceType": "EXT-MONDE-T048",
+      "sourcePlanVariant": 1,
+      "sourceObject": {
+        "id": "EXT-MONDE-T048-V01:parcel:1:caravan",
+        "kind": "abandoned-caravan",
+        "x": 53.3,
+        "y": 47,
+        "w": 2.4,
+        "h": 6.2,
+        "maxHeightM": 2.8,
+        "heightOrigin": "author-design",
+        "footprintOrigin": "author-design",
+        "interiorStatus": "closed-towable-interior-not-built",
+        "lootAssigned": false,
+        "utilityConnected": false,
+        "parcelId": "EXT-MONDE-T048-V01:parcel:1",
+        "condition": "evacuated"
+      },
+      "dimensions": {
+        "w": 2.4,
+        "h": 6.2,
+        "heightM": 2.8,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "route": "structural205",
+      "canonicalVariant": 1,
+      "painterVariant": 1,
+      "orientation": {
+        "longAxis": "Y",
+        "hitch": "negative-Y",
+        "rotationRad": 0
+      },
+      "existingAnalogue": "Art235 already supplies accepted v0 for this same family and authored instance; this is an optional existing painter variant, not a new family or a runtime replacement.",
+      "prompt": "Use case: stylized-concept. Asset type: original DEADWALL game source-art sprite of ONE complete isolated abandoned-caravan, painter variant 1.\nINPUT IMAGES: Image 1 is the AUTHORITATIVE canonical geometry and palette, rendered by the unchanged public campaign-site-art205.drawProp API for this exact authored instance, painter variant 1. Image 2 is the already accepted Art235 variant 0 for MATERIAL TEXTURE AND PAINTERLY STYLE ONLY; ignore its v0 roof fittings and follow image 1 for all variant-specific parts.\nCAMERA AND SILHOUETTE: strict orthographic overhead plan, camera looking vertically down. Long axis vertical, short tow hitch pointing straight UP to negative screen Y, no diagonal turn, perspective or visible tall side facade. Preserve the narrow chamfered rectangular closed body, dark outer contour and two longitudinal roof-edge seams. The authored source footprint is 2.4 m across X by 6.2 m along Y, with a separate height envelope of 2.8 m; these are author-design values, not manufacturer dimensions. Retain the source proportions.\nWHEELS AND HITCH: exactly FOUR small visible rubber wheels, two at each side, at TWO widely separated longitudinal stations (roughly one-third and three-quarters down the canonical footprint). Preserve this source geometry, not an ordinary close tandem axle. Keep the short centered tow tongue and transverse tip completely visible at the top.\nVARIANT 1 ROOF: exactly TWO small closed metal roof panels in a vertical sequence, one near the upper quarter and one near the lower third. Preserve the larger central rectangular dark seam/frame that spans between and partly around them, including its two slim longitudinal inset highlights. Follow image 1 for overlap and positions. These are shallow CLOSED roof details, not windows into rooms and not rooftop cargo. Do not retain the v0 single-panel/dark-hatch arrangement from the style image.\nCONDITION: Abandoned and evacuated caravan. Retain the closed complete shell with source-defined shallow zigzag cracks and localized dull rust streaks in the same positions as image 1. Muted grey-blue metal in variant 1 or grey-olive metal in variant 2. No roof collapse, holes into a visible interior, missing wheels, wreckage, occupants or active light. Both roof and body remain closed; the source instance has no authored accessible interior, no loot assignment and no utility connection. These decorative source images must not imply a new service, stock, electrical operation or gameplay state.\nSTYLE: detailed restrained hand-painted pre-rendered post-apocalyptic game art matching image 2, with believable worn painted metal, rubber, shallow bevels, modest fine grain and neutral overhead lighting. No photo background, dramatic lighting or exaggerated distress. Preserve image 1's variant colour family rather than forcing the v0 palette.\nOUTPUT: ONE object only, whole and centred, true transparent RGBA background with at least 12 percent empty margin on all sides. Every wheel and the tow hitch must stay inside the image. No ground plane or external cast shadow. No people, animals, plants, ground debris, extra accessories, awning, solar panel, aerial, chimney, ladder, air-conditioning box, spare wheel, open door, exposed interior, readable text, logo, labels, numbers, border or watermark. No active effects. Source-art proposal for later calibration; not a metric or pixel-for-pixel certification.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art241-prep/references/canonical/abandoned-caravan_v1.png",
+        "/workspace/scratch/6f470a892a0f/art241-prep/references/repository/art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png"
+      ],
+      "referenceFiles": [
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art241-prep/references/canonical/abandoned-caravan_v1.png",
+          "relativePath": "references/canonical/abandoned-caravan_v1.png",
+          "sha256": "d729ae423cd4c8e1fa6e9b6e39dc1f0cc1e2843dde15b66aed9b847bbab13f95",
+          "role": "canonical-geometry-and-variant-palette"
+        },
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art241-prep/references/repository/art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+          "relativePath": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+          "sha256": "be15ae950d99461b2351a0295713a36e0091aaec5a37da5191e392f4e3748748",
+          "role": "Art235-v0-material-texture-and-style-only"
+        }
+      ],
+      "generator": "OpenAI built-in ImageGen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true
+    },
+    {
+      "key": "abandoned-caravan:v2",
+      "kind": "abandoned-caravan",
+      "id": "prop:abandoned-caravan:v2",
+      "artId": "prop:abandoned-caravan:v2",
+      "label": "Caravane abandonnée fermée et évacuée — variante 2",
+      "file": "abandoned-caravan_v2.png",
+      "sourceId": "EXT-MONDE-T048-V01:parcel:1:caravan",
+      "sourcePlanId": "EXT-MONDE-T048-V01",
+      "sourceType": "EXT-MONDE-T048",
+      "sourcePlanVariant": 1,
+      "sourceObject": {
+        "id": "EXT-MONDE-T048-V01:parcel:1:caravan",
+        "kind": "abandoned-caravan",
+        "x": 53.3,
+        "y": 47,
+        "w": 2.4,
+        "h": 6.2,
+        "maxHeightM": 2.8,
+        "heightOrigin": "author-design",
+        "footprintOrigin": "author-design",
+        "interiorStatus": "closed-towable-interior-not-built",
+        "lootAssigned": false,
+        "utilityConnected": false,
+        "parcelId": "EXT-MONDE-T048-V01:parcel:1",
+        "condition": "evacuated"
+      },
+      "dimensions": {
+        "w": 2.4,
+        "h": 6.2,
+        "heightM": 2.8,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "route": "structural205",
+      "canonicalVariant": 2,
+      "painterVariant": 2,
+      "orientation": {
+        "longAxis": "Y",
+        "hitch": "negative-Y",
+        "rotationRad": 0
+      },
+      "existingAnalogue": "Art235 already supplies accepted v0 for this same family and authored instance; this is an optional existing painter variant, not a new family or a runtime replacement.",
+      "prompt": "Use case: stylized-concept. Asset type: original DEADWALL game source-art sprite of ONE complete isolated abandoned-caravan, painter variant 2.\nINPUT IMAGES: Image 1 is the AUTHORITATIVE canonical geometry and palette, rendered by the unchanged public campaign-site-art205.drawProp API for this exact authored instance, painter variant 2. Image 2 is the already accepted Art235 variant 0 for MATERIAL TEXTURE AND PAINTERLY STYLE ONLY; ignore its v0 roof fittings and follow image 1 for all variant-specific parts.\nCAMERA AND SILHOUETTE: strict orthographic overhead plan, camera looking vertically down. Long axis vertical, short tow hitch pointing straight UP to negative screen Y, no diagonal turn, perspective or visible tall side facade. Preserve the narrow chamfered rectangular closed body, dark outer contour and two longitudinal roof-edge seams. The authored source footprint is 2.4 m across X by 6.2 m along Y, with a separate height envelope of 2.8 m; these are author-design values, not manufacturer dimensions. Retain the source proportions.\nWHEELS AND HITCH: exactly FOUR small visible rubber wheels, two at each side, at TWO widely separated longitudinal stations (roughly one-third and three-quarters down the canonical footprint). Preserve this source geometry, not an ordinary close tandem axle. Keep the short centered tow tongue and transverse tip completely visible at the top.\nVARIANT 2 ROOF: exactly ONE broad shallow closed rectangular metal roof panel in the upper-middle region, ONE small warm-weathered WOODEN rectangular patch in the lower-right roof region with its single diagonal seam, and ONE thin longitudinal metal strip just LEFT of centre, extending from the upper region towards the lower middle. Preserve their exact relative locations and overlaps from image 1. This is a small fixed source-defined patch, not loose planks or roof cargo. Do not retain the v0 single-panel/dark-hatch arrangement from the style image.\nCONDITION: Abandoned and evacuated caravan. Retain the closed complete shell with source-defined shallow zigzag cracks and localized dull rust streaks in the same positions as image 1. Muted grey-blue metal in variant 1 or grey-olive metal in variant 2. No roof collapse, holes into a visible interior, missing wheels, wreckage, occupants or active light. Both roof and body remain closed; the source instance has no authored accessible interior, no loot assignment and no utility connection. These decorative source images must not imply a new service, stock, electrical operation or gameplay state.\nSTYLE: detailed restrained hand-painted pre-rendered post-apocalyptic game art matching image 2, with believable worn painted metal, rubber, shallow bevels, modest fine grain and neutral overhead lighting. No photo background, dramatic lighting or exaggerated distress. Preserve image 1's variant colour family rather than forcing the v0 palette.\nOUTPUT: ONE object only, whole and centred, true transparent RGBA background with at least 12 percent empty margin on all sides. Every wheel and the tow hitch must stay inside the image. No ground plane or external cast shadow. No people, animals, plants, ground debris, extra accessories, awning, solar panel, aerial, chimney, ladder, air-conditioning box, spare wheel, open door, exposed interior, readable text, logo, labels, numbers, border or watermark. No active effects. Source-art proposal for later calibration; not a metric or pixel-for-pixel certification.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art241-prep/references/canonical/abandoned-caravan_v2.png",
+        "/workspace/scratch/6f470a892a0f/art241-prep/references/repository/art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png"
+      ],
+      "referenceFiles": [
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art241-prep/references/canonical/abandoned-caravan_v2.png",
+          "relativePath": "references/canonical/abandoned-caravan_v2.png",
+          "sha256": "e69d60a8a01e1efa9dd97a00b81b177eee5a3c72510ade58c75f7003f6c04183",
+          "role": "canonical-geometry-and-variant-palette"
+        },
+        {
+          "path": "/workspace/scratch/6f470a892a0f/art241-prep/references/repository/art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+          "relativePath": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+          "sha256": "be15ae950d99461b2351a0295713a36e0091aaec5a37da5191e392f4e3748748",
+          "role": "Art235-v0-material-texture-and-style-only"
+        }
+      ],
+      "generator": "OpenAI built-in ImageGen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true
+    }
+  ]
+}

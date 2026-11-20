@@ -1,0 +1,362 @@
+[
+  {
+    "key": "touring-caravan:v1",
+    "id": "prop:touring-caravan:v1",
+    "kind": "touring-caravan",
+    "name": "Caravane tractable fermée et inoccupée — variante 1",
+    "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "canonicalReference": {
+      "path": "references/canonical/touring-caravan_v1.png",
+      "sha256": "f0bb2a5dbf5dc70082930071362e76e8470ae3b33e1e354291d245ca3bb07522"
+    },
+    "canonicalReplay": {
+      "id": "prop:touring-caravan:v1",
+      "key": "touring-caravan:v1",
+      "canonicalSha256": "f0bb2a5dbf5dc70082930071362e76e8470ae3b33e1e354291d245ca3bb07522",
+      "replaySha256": "f0bb2a5dbf5dc70082930071362e76e8470ae3b33e1e354291d245ca3bb07522",
+      "bytes": 13710,
+      "replayedBytesIdentical": true,
+      "entryPoint": "campaign-site-art205.drawProp",
+      "sourcePlanId": "EXT-MONDE-T046-V01",
+      "sourceId": "EXT-MONDE-T046-V01:parcel:1:caravan",
+      "sourcePlanVariant": 1,
+      "painterVariant": 1,
+      "canonicalVariant": 1,
+      "footprintAuthorMetres": [
+        2.4,
+        6.2
+      ],
+      "heightAuthorMetres": 2.8,
+      "sourceFixtureAndOptionsUnchanged": true,
+      "gameArgumentOmitted": true,
+      "rngCalls": 0,
+      "styleBindings": [
+        {
+          "sha256": "49d5f583cfde5c4217598b2dd2c57703ebe74868bdc2dd47855adff5f1dbbbee",
+          "repositoryPath": "art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png",
+          "verifiedAtRevision": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+          "role": "Art235-v0-material-texture-and-style-only",
+          "existingImageNotNewGeneration": true
+        }
+      ]
+    },
+    "deliveryStatus": "accepted-source-art-proposal",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false,
+    "route": "structural205",
+    "sourceId": "EXT-MONDE-T046-V01:parcel:1:caravan",
+    "sourcePlanId": "EXT-MONDE-T046-V01",
+    "sourceType": "EXT-MONDE-T046",
+    "sourceObject": {
+      "id": "EXT-MONDE-T046-V01:parcel:1:caravan",
+      "kind": "touring-caravan",
+      "x": 53.3,
+      "y": 47,
+      "w": 2.4,
+      "h": 6.2,
+      "maxHeightM": 2.8,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "closed-towable-interior-not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "parcelId": "EXT-MONDE-T046-V01:parcel:1",
+      "condition": "unoccupied"
+    },
+    "dimensions": {
+      "w": 2.4,
+      "h": 6.2,
+      "heightM": 2.8,
+      "units": "metres",
+      "authority": "author-design"
+    },
+    "canonicalVariant": 1,
+    "painterVariant": 1,
+    "sourcePlanVariant": 1,
+    "existingAnalogue": "Art235 already supplies accepted v0 for this same family and authored instance; this is an optional existing painter variant, not a new family or a runtime replacement.",
+    "referenceFiles": [
+      {
+        "path": "references/canonical/touring-caravan_v1.png",
+        "relativePath": "references/canonical/touring-caravan_v1.png",
+        "sha256": "f0bb2a5dbf5dc70082930071362e76e8470ae3b33e1e354291d245ca3bb07522",
+        "role": "canonical-geometry-and-variant-palette"
+      },
+      {
+        "path": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png",
+        "relativePath": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png",
+        "sha256": "49d5f583cfde5c4217598b2dd2c57703ebe74868bdc2dd47855adff5f1dbbbee",
+        "role": "Art235-v0-material-texture-and-style-only"
+      }
+    ]
+  },
+  {
+    "key": "touring-caravan:v2",
+    "id": "prop:touring-caravan:v2",
+    "kind": "touring-caravan",
+    "name": "Caravane tractable fermée et inoccupée — variante 2",
+    "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "canonicalReference": {
+      "path": "references/canonical/touring-caravan_v2.png",
+      "sha256": "a2c7f68fb0decde7fca80d1ba5dda4bc28492f534c8581d19d69c266ffdd9bba"
+    },
+    "canonicalReplay": {
+      "id": "prop:touring-caravan:v2",
+      "key": "touring-caravan:v2",
+      "canonicalSha256": "a2c7f68fb0decde7fca80d1ba5dda4bc28492f534c8581d19d69c266ffdd9bba",
+      "replaySha256": "a2c7f68fb0decde7fca80d1ba5dda4bc28492f534c8581d19d69c266ffdd9bba",
+      "bytes": 15880,
+      "replayedBytesIdentical": true,
+      "entryPoint": "campaign-site-art205.drawProp",
+      "sourcePlanId": "EXT-MONDE-T046-V01",
+      "sourceId": "EXT-MONDE-T046-V01:parcel:1:caravan",
+      "sourcePlanVariant": 1,
+      "painterVariant": 2,
+      "canonicalVariant": 2,
+      "footprintAuthorMetres": [
+        2.4,
+        6.2
+      ],
+      "heightAuthorMetres": 2.8,
+      "sourceFixtureAndOptionsUnchanged": true,
+      "gameArgumentOmitted": true,
+      "rngCalls": 0,
+      "styleBindings": [
+        {
+          "sha256": "49d5f583cfde5c4217598b2dd2c57703ebe74868bdc2dd47855adff5f1dbbbee",
+          "repositoryPath": "art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png",
+          "verifiedAtRevision": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+          "role": "Art235-v0-material-texture-and-style-only",
+          "existingImageNotNewGeneration": true
+        }
+      ]
+    },
+    "deliveryStatus": "accepted-source-art-proposal",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false,
+    "route": "structural205",
+    "sourceId": "EXT-MONDE-T046-V01:parcel:1:caravan",
+    "sourcePlanId": "EXT-MONDE-T046-V01",
+    "sourceType": "EXT-MONDE-T046",
+    "sourceObject": {
+      "id": "EXT-MONDE-T046-V01:parcel:1:caravan",
+      "kind": "touring-caravan",
+      "x": 53.3,
+      "y": 47,
+      "w": 2.4,
+      "h": 6.2,
+      "maxHeightM": 2.8,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "closed-towable-interior-not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "parcelId": "EXT-MONDE-T046-V01:parcel:1",
+      "condition": "unoccupied"
+    },
+    "dimensions": {
+      "w": 2.4,
+      "h": 6.2,
+      "heightM": 2.8,
+      "units": "metres",
+      "authority": "author-design"
+    },
+    "canonicalVariant": 2,
+    "painterVariant": 2,
+    "sourcePlanVariant": 1,
+    "existingAnalogue": "Art235 already supplies accepted v0 for this same family and authored instance; this is an optional existing painter variant, not a new family or a runtime replacement.",
+    "referenceFiles": [
+      {
+        "path": "references/canonical/touring-caravan_v2.png",
+        "relativePath": "references/canonical/touring-caravan_v2.png",
+        "sha256": "a2c7f68fb0decde7fca80d1ba5dda4bc28492f534c8581d19d69c266ffdd9bba",
+        "role": "canonical-geometry-and-variant-palette"
+      },
+      {
+        "path": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png",
+        "relativePath": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png",
+        "sha256": "49d5f583cfde5c4217598b2dd2c57703ebe74868bdc2dd47855adff5f1dbbbee",
+        "role": "Art235-v0-material-texture-and-style-only"
+      }
+    ]
+  },
+  {
+    "key": "abandoned-caravan:v1",
+    "id": "prop:abandoned-caravan:v1",
+    "kind": "abandoned-caravan",
+    "name": "Caravane abandonnée fermée et évacuée — variante 1",
+    "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "canonicalReference": {
+      "path": "references/canonical/abandoned-caravan_v1.png",
+      "sha256": "d729ae423cd4c8e1fa6e9b6e39dc1f0cc1e2843dde15b66aed9b847bbab13f95"
+    },
+    "canonicalReplay": {
+      "id": "prop:abandoned-caravan:v1",
+      "key": "abandoned-caravan:v1",
+      "canonicalSha256": "d729ae423cd4c8e1fa6e9b6e39dc1f0cc1e2843dde15b66aed9b847bbab13f95",
+      "replaySha256": "d729ae423cd4c8e1fa6e9b6e39dc1f0cc1e2843dde15b66aed9b847bbab13f95",
+      "bytes": 20641,
+      "replayedBytesIdentical": true,
+      "entryPoint": "campaign-site-art205.drawProp",
+      "sourcePlanId": "EXT-MONDE-T048-V01",
+      "sourceId": "EXT-MONDE-T048-V01:parcel:1:caravan",
+      "sourcePlanVariant": 1,
+      "painterVariant": 1,
+      "canonicalVariant": 1,
+      "footprintAuthorMetres": [
+        2.4,
+        6.2
+      ],
+      "heightAuthorMetres": 2.8,
+      "sourceFixtureAndOptionsUnchanged": true,
+      "gameArgumentOmitted": true,
+      "rngCalls": 0,
+      "styleBindings": [
+        {
+          "sha256": "be15ae950d99461b2351a0295713a36e0091aaec5a37da5191e392f4e3748748",
+          "repositoryPath": "art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+          "verifiedAtRevision": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+          "role": "Art235-v0-material-texture-and-style-only",
+          "existingImageNotNewGeneration": true
+        }
+      ]
+    },
+    "deliveryStatus": "accepted-source-art-proposal",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false,
+    "route": "structural205",
+    "sourceId": "EXT-MONDE-T048-V01:parcel:1:caravan",
+    "sourcePlanId": "EXT-MONDE-T048-V01",
+    "sourceType": "EXT-MONDE-T048",
+    "sourceObject": {
+      "id": "EXT-MONDE-T048-V01:parcel:1:caravan",
+      "kind": "abandoned-caravan",
+      "x": 53.3,
+      "y": 47,
+      "w": 2.4,
+      "h": 6.2,
+      "maxHeightM": 2.8,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "closed-towable-interior-not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "parcelId": "EXT-MONDE-T048-V01:parcel:1",
+      "condition": "evacuated"
+    },
+    "dimensions": {
+      "w": 2.4,
+      "h": 6.2,
+      "heightM": 2.8,
+      "units": "metres",
+      "authority": "author-design"
+    },
+    "canonicalVariant": 1,
+    "painterVariant": 1,
+    "sourcePlanVariant": 1,
+    "existingAnalogue": "Art235 already supplies accepted v0 for this same family and authored instance; this is an optional existing painter variant, not a new family or a runtime replacement.",
+    "referenceFiles": [
+      {
+        "path": "references/canonical/abandoned-caravan_v1.png",
+        "relativePath": "references/canonical/abandoned-caravan_v1.png",
+        "sha256": "d729ae423cd4c8e1fa6e9b6e39dc1f0cc1e2843dde15b66aed9b847bbab13f95",
+        "role": "canonical-geometry-and-variant-palette"
+      },
+      {
+        "path": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+        "relativePath": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+        "sha256": "be15ae950d99461b2351a0295713a36e0091aaec5a37da5191e392f4e3748748",
+        "role": "Art235-v0-material-texture-and-style-only"
+      }
+    ]
+  },
+  {
+    "key": "abandoned-caravan:v2",
+    "id": "prop:abandoned-caravan:v2",
+    "kind": "abandoned-caravan",
+    "name": "Caravane abandonnée fermée et évacuée — variante 2",
+    "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "canonicalReference": {
+      "path": "references/canonical/abandoned-caravan_v2.png",
+      "sha256": "e69d60a8a01e1efa9dd97a00b81b177eee5a3c72510ade58c75f7003f6c04183"
+    },
+    "canonicalReplay": {
+      "id": "prop:abandoned-caravan:v2",
+      "key": "abandoned-caravan:v2",
+      "canonicalSha256": "e69d60a8a01e1efa9dd97a00b81b177eee5a3c72510ade58c75f7003f6c04183",
+      "replaySha256": "e69d60a8a01e1efa9dd97a00b81b177eee5a3c72510ade58c75f7003f6c04183",
+      "bytes": 23922,
+      "replayedBytesIdentical": true,
+      "entryPoint": "campaign-site-art205.drawProp",
+      "sourcePlanId": "EXT-MONDE-T048-V01",
+      "sourceId": "EXT-MONDE-T048-V01:parcel:1:caravan",
+      "sourcePlanVariant": 1,
+      "painterVariant": 2,
+      "canonicalVariant": 2,
+      "footprintAuthorMetres": [
+        2.4,
+        6.2
+      ],
+      "heightAuthorMetres": 2.8,
+      "sourceFixtureAndOptionsUnchanged": true,
+      "gameArgumentOmitted": true,
+      "rngCalls": 0,
+      "styleBindings": [
+        {
+          "sha256": "be15ae950d99461b2351a0295713a36e0091aaec5a37da5191e392f4e3748748",
+          "repositoryPath": "art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+          "verifiedAtRevision": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+          "role": "Art235-v0-material-texture-and-style-only",
+          "existingImageNotNewGeneration": true
+        }
+      ]
+    },
+    "deliveryStatus": "accepted-source-art-proposal",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false,
+    "route": "structural205",
+    "sourceId": "EXT-MONDE-T048-V01:parcel:1:caravan",
+    "sourcePlanId": "EXT-MONDE-T048-V01",
+    "sourceType": "EXT-MONDE-T048",
+    "sourceObject": {
+      "id": "EXT-MONDE-T048-V01:parcel:1:caravan",
+      "kind": "abandoned-caravan",
+      "x": 53.3,
+      "y": 47,
+      "w": 2.4,
+      "h": 6.2,
+      "maxHeightM": 2.8,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "closed-towable-interior-not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "parcelId": "EXT-MONDE-T048-V01:parcel:1",
+      "condition": "evacuated"
+    },
+    "dimensions": {
+      "w": 2.4,
+      "h": 6.2,
+      "heightM": 2.8,
+      "units": "metres",
+      "authority": "author-design"
+    },
+    "canonicalVariant": 2,
+    "painterVariant": 2,
+    "sourcePlanVariant": 1,
+    "existingAnalogue": "Art235 already supplies accepted v0 for this same family and authored instance; this is an optional existing painter variant, not a new family or a runtime replacement.",
+    "referenceFiles": [
+      {
+        "path": "references/canonical/abandoned-caravan_v2.png",
+        "relativePath": "references/canonical/abandoned-caravan_v2.png",
+        "sha256": "e69d60a8a01e1efa9dd97a00b81b177eee5a3c72510ade58c75f7003f6c04183",
+        "role": "canonical-geometry-and-variant-palette"
+      },
+      {
+        "path": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+        "relativePath": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+        "sha256": "be15ae950d99461b2351a0295713a36e0091aaec5a37da5191e392f4e3748748",
+        "role": "Art235-v0-material-texture-and-style-only"
+      }
+    ]
+  }
+]

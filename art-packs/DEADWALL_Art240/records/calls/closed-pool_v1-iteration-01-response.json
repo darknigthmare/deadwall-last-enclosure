@@ -1,0 +1,12 @@
+{
+  "key": "closed-pool:v1",
+  "id": "prop:closed-pool:v1",
+  "artId": "prop:closed-pool:v1",
+  "iteration": 1,
+  "tool": "image_gen.imagegen",
+  "status": "native-image-generated",
+  "observedAt": "2026-11-17 15:16:54 UTC",
+  "output_hint": "Generated images are saved to /workspace/scratch/6f470a892a0f/generated_images as /workspace/scratch/6f470a892a0f/generated_images/exec-2119105f-29a1-4203-b3e6-d1d411c18b78.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+  "nativeImagePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-2119105f-29a1-4203-b3e6-d1d411c18b78.png",
+  "imagePayloadArchivedAsNativePng": true
+}

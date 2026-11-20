@@ -1,0 +1,37 @@
+{
+  "sourceMain": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "recordedAt": "2026-11-17T13:41:40.015Z",
+  "commands": [
+    {
+      "command": "node art237-prep/prepare-references.cjs",
+      "cwd": "/workspace/scratch/6f470a892a0f",
+      "result": {
+        "status": "fulfilled",
+        "value": {
+          "chunk_id": "4837b7",
+          "wall_time_seconds": 2.146012815,
+          "exit_code": 0,
+          "original_token_count": 333,
+          "output": "{\n  \"sourceMain\": \"12e0aa4aa77b9901bd53eb7a8771382a5f753593\",\n  \"sourceTree\": \"663ad5750e49ae401fc0b46bfdebc28942ad1617\",\n  \"verifiedSources\": 21,\n  \"canonicalReferences\": [\n    {\n      \"key\": \"runnerCable193\",\n      \"sha256\": \"0d138bff82599041b800d0542cf55d99199f7a3535ee68a627f8b3055de6e6b1\",\n      \"bytes\": 246288,\n      \"drawn\": true,\n      \"rngCalls\": 0\n    },\n    {\n      \"key\": \"breachClamp193\",\n      \"sha256\": \"ec11451ca852aaa55d362a963ab417df3fb0043cb6f1c28f97c552d2b6111bb3\",\n      \"bytes\": 474648,\n      \"drawn\": true,\n      \"rngCalls\": 0\n    },\n    {\n      \"key\": \"enduranceRack193\",\n      \"sha256\": \"0f32ac82d8235ed472863a84405dc25d37ced14c751a5157e235fd18d7d04172\",\n      \"bytes\": 371491,\n      \"drawn\": true,\n      \"rngCalls\": 0\n    },\n    {\n      \"key\": \"shieldTongs193\",\n      \"sha256\": \"c9f045524b3306431d7c3b71b8ae85f5f75db1d8b6c3fd11e77f830d5891e53f\",\n      \"bytes\": 508272,\n      \"drawn\": true,\n      \"rngCalls\": 0\n    },\n    {\n      \"key\": \"quickCable193\",\n      \"sha256\": \"1ded2ebb7510a66295f44abf53f3f5f80a57d6aad0730b4804c842d9791d2137\",\n      \"bytes\": 239385,\n      \"drawn\": true,\n      \"rngCalls\": 0\n    },\n    {\n      \"key\": \"siegeBrake193\",\n      \"sha256\": \"1384259fe55135898b545458926edf8113d488fe645a63f71c3a1c067e2b3e20\",\n      \"bytes\": 370429,\n      \"drawn\": true,\n      \"rngCalls\": 0\n    }\n  ]\n}\n"
+        }
+      }
+    },
+    {
+      "command": "node --test tests/audit193-trap-art.test.cjs",
+      "cwd": "/workspace/scratch/6f470a892a0f/deadwall-art236",
+      "result": {
+        "status": "fulfilled",
+        "value": {
+          "chunk_id": "2812d9",
+          "wall_time_seconds": 1.527001858,
+          "exit_code": 0,
+          "original_token_count": 87,
+          "output": "✔ 193 all six specialized traps have distinct native-size visible hardware in both structural forms (215.712702ms)\n✔ 193 specialized trap silhouettes differ from their reused source family at rest and in action (22.704181ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 1473.435145\n"
+        }
+      }
+    }
+  ],
+  "canonicalReplayMatchesInitialSha": true,
+  "fullNpmRunCheckByThisAgent": false,
+  "scope": "Canonical reference extraction/replay and existing specialized silhouette tests; no gameplay change or image-to-runtime integration."
+}
