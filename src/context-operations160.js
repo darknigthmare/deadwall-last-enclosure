@@ -4,6 +4,8 @@
 (function(root){'use strict';
 /* Monde sans bord T1 : lecture par les accesseurs du monde ; repli identique pour un monde sans accesseur. */
 const siteOf217=(w,id)=>w.site?w.site(id):w.pois.find(p=>p.id===id);
+/* Monde sans bord O4 : index des lieux par l'accesseur du monde (même `Map` neuve en région finie) ; repli identique sans accesseur. */
+const siteIndex217=w=>w.siteIndex?w.siteIndex():new Map(w.pois.map(p=>[p.id,p]));
  const dependency=(name,file)=>root[name]||(typeof require==='function'?require(file):null);
  const C=dependency('DeadwallCore','./core.js'),W=dependency('DeadwallFrontierWorld','./frontier-world.js'),
   G=dependency('DeadwallFrontierGeometry','./frontier-geometry.js'),R=C.ContextRules160,references=new Map();
@@ -29,7 +31,7 @@ const siteOf217=(w,id)=>w.site?w.site(id):w.pois.find(p=>p.id===id);
    const cacheKey=full.worldSeed+':'+generation+':'+(full.frontier.ecologyVersion??0)+':'+(full.frontier.detailVersion??0)+':'+(full.frontier.landscape189||'classic')+':'+(full.frontier.hydrologyVersion??0);
    let world=references.get(cacheKey);
    if(!world){world=W.create(full.worldSeed,generation,{detailVersion:full.frontier.detailVersion??0,ecologyVersion:full.frontier.ecologyVersion??0,hydrologyVersion:full.frontier.hydrologyVersion??0,...(full.frontier.landscape189?{landscape189:full.frontier.landscape189}:{})});references.set(cacheKey,world);if(references.size>3)references.delete(references.keys().next().value);}
-   const by=new Map(world.pois.map(p=>[p.id,p]));
+   const by=siteIndex217(world);
    for(const key of state.completed){const[site,,name]=key.split(':'),p=by.get(site),op=operation(p,name),rule=op&&R.operations[op.kind];
     if(!p||p.generation!==10||!op||!rule||rule.repeat||!full.frontier.seen.includes(site))bad();
    }

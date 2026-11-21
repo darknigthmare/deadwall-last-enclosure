@@ -6,6 +6,8 @@
  const C=dependency('DeadwallCore','./core.js');
  const rules=()=>C.CampaignWater214Rules;
  const supports=()=>dependency('DeadwallCampaignWaterSupports214','./campaign-water-supports214.js');
+ /* Monde sans bord O4 : index des lieux par l'accesseur du monde (même `Map` neuve en région finie) ; repli identique sans accesseur. */
+ const siteIndex217=w=>w.siteIndex?w.siteIndex():new Map(w.pois.map(p=>[p.id,p]));
  const worlds=new Map(),copy=value=>JSON.parse(JSON.stringify(value));
  const initial=()=>({version:1,collectors:[]});
  const recordKey=/^(P\d{4}):205:static:(0|[1-9]\d*)$/;
@@ -40,7 +42,7 @@
    if(f.detailVersion!==undefined&&(!Number.isInteger(f.detailVersion)||f.detailVersion<0)||
     f.ecologyVersion!==undefined&&![0,1].includes(f.ecologyVersion)||f.hydrologyVersion!==undefined&&![0,1].includes(f.hydrologyVersion)||
     f.landscape189!==undefined&&(typeof f.landscape189!=='string'||!Object.hasOwn(C.Landscape189Rules.presets,f.landscape189)))bad();
-   const w=reference(full),bySite=new Map(w.pois.map(p=>[p.id,p])),descriptors=new Map();
+   const w=reference(full),bySite=siteIndex217(w),descriptors=new Map();
    for(const item of result.collectors){
     const p=bySite.get(item.siteId);if(!p||!full.frontier.seen.includes(item.siteId))bad();
     if(!descriptors.has(p.id))descriptors.set(p.id,supports().supportsFor(p,w.plan(p,0),w.detailAt(p,0)));
@@ -127,7 +129,7 @@
   }
   function rainSources(w){
    if(rainCache?.world===w&&rainCache.local===g.world&&rainCache.count===state.collectors.length)return rainCache.sources;
-   const bySite=new Map(w.pois.map(p=>[p.id,p])),descriptors=new Map(),sources=new Map();
+   const bySite=siteIndex217(w),descriptors=new Map(),sources=new Map();
    for(const item of state.collectors){
     const p=bySite.get(item.siteId);if(!p)continue;
     if(!descriptors.has(p.id))descriptors.set(p.id,supports().supportsFor(p,w.plan(p,0),w.detailAt(p,0)));

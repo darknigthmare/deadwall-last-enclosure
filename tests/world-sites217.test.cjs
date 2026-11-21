@@ -281,7 +281,7 @@ test('lieux 217 : module isolé, génération 12 refusée, mondes G1–G11 intou
   assert.deepEqual([...source.matchAll(/require\('([^']+)'\)/g)].map(m=>m[1]),['./core.js','./world-cantons217.js','./world-canton-gen217.js','./world-open217.js','./frontier-geometry.js','./codex3000-runtime.js','./world-spawns131.js','./biomes135.js','./frontage174.js','./seed-detail157.js']);
   assert.ok(!/F\.rng|G\.rng|Geography135|geography141|WorldContent|expansions|\.taken\b|Biomes\.sample|scatter\(|pickBuilding/.test(code),'aucun flux des générations 1 à 11');
   for(const file of ['index.html','sw.js','scripts/server.mjs','scripts/build.mjs','scripts/public-manifest183.cjs','src/expansion-kit.js','src/expansion-ui.js'])assert.ok(!read(file).includes('world-sites217')&&!read(file).includes('WorldSites217'),file);
-  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(!['world-sites217.js','core.js'].includes(file)){const text=read('src/'+file);assert.ok(!text.includes('WorldSites217')&&!text.includes('world-sites217'),file+' ne doit pas dépendre des lieux G12');}
+  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(!['world-sites217.js','world-save217.js','core.js'].includes(file)){const text=read('src/'+file);assert.ok(!text.includes('WorldSites217')&&!text.includes('world-sites217'),file+' ne doit pas dépendre des lieux G12');}
   const dist=path.join(ROOT,'dist');if(fs.existsSync(dist))assert.ok(!fs.existsSync(path.join(dist,'src','world-sites217.js')));
   const St=require('../src/frontier-state.js');
   assert.throws(()=>Wd.create(17117,12),/Version du monde inconnue/);assert.throws(()=>St.normalize({...St.initial(),generation:12}),/Génération inconnue/);

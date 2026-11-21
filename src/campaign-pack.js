@@ -5,6 +5,8 @@
 const siteOf217=(w,id)=>w.site?w.site(id):w.pois.find(p=>p.id===id);
 /* Monde sans bord O4 : lieux vus par l'accesseur du monde (ordre de la liste en région finie) ; repli identique sans accesseur. */
 const seenSites217=(w,ids)=>w.seenSites?w.seenSites(ids):w.pois.filter(p=>ids.has(p.id));
+/* Monde sans bord O4 : index des lieux par l'accesseur du monde (même `Map` neuve en région finie) ; repli identique sans accesseur. */
+const siteIndex217=w=>w.siteIndex?w.siteIndex():new Map(w.pois.map(p=>[p.id,p]));
 const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),P=root.DeadwallAtlasProjection||(typeof require==='function'?require('./atlas-projection.js'):null),R=C.CampaignPackRules,D=R.definitions,keys=Object.keys(D),copy=x=>JSON.parse(JSON.stringify(x));
 const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k),integer=(n,a,b)=>Number.isSafeInteger(n)&&n>=a&&n<=b;
 const legacyKeys=['patrol','aid','salvage','evacuation','defense'];
@@ -41,7 +43,7 @@ function normalize(raw,full){
  for(const h of raw.history){if(!h||!own(D,h.kind)||!integer(h.wave,1,R.maxCount)||h.wave>s.lastStarted[h.kind]||!['complete','lost','abandoned'].includes(h.result)||Object.keys(h).some(k=>!['kind','wave','result'].includes(k)))invalid();s.history.push({...h});}
  if(full&&Object.values(s.usedSites).some(a=>a.length)){
   const W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null),key=full.worldSeed+':'+full.frontier.generation+':'+(full.frontier.ecologyVersion??0)+':'+(full.frontier.detailVersion??0)+':'+(full.frontier.hydrologyVersion??0)+':'+(full.frontier.landscape189||'classic');let w=worldCache.get(key);if(!w){w=W.create(full.worldSeed,full.frontier.generation,{detailVersion:full.frontier.detailVersion??0,ecologyVersion:full.frontier.ecologyVersion??0,hydrologyVersion:full.frontier.hydrologyVersion??0,...(full.frontier.landscape189?{landscape189:full.frontier.landscape189}:{})});worldCache.set(key,w);if(worldCache.size>3)worldCache.delete(worldCache.keys().next().value);}
-  const seen=new Set(full.frontier.seen),pois=new Map(w.pois.map(p=>[p.id,p]));
+  const seen=new Set(full.frontier.seen),pois=siteIndex217(w);
   for(const kind of Object.keys(s.usedSites))for(const id of s.usedSites[kind]){const p=pois.get(id);if(!p||!seen.has(id)||D[kind].types&&!D[kind].types.includes(p.type))invalid();}
  }
  return s;

@@ -3588,6 +3588,10 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  C.WorldOpen217Rules=Object.freeze({route:Object.freeze({margin:1,maxCantons:25}),snapRadius:1,nearMaxRadius:2048,pickRadius:1});
  // Lieux complets et obstacles du monde régional G12 hors jeu (specs/monde-sans-bord/ouverture.md, tranche O2).
  C.WorldSites217Rules=Object.freeze({version:1,setback:22,lot:Object.freeze({side:13,front:19,back:29}),prohibited:Object.freeze({side:13,front:17,back:29}),seamMargin:12,homeMargin:16,parcelGap:1,riverClearance:8,typeTries:6,fallback:Object.freeze(['ruin','cabin']),drive:Object.freeze({width:4,front:19,step:4}),detailVersion:13,placeCache:36,planCache:48,detailCache:64,chunk:256,chunkCache:36,trees:Object.freeze({grid:33,spacing:3.4,roadClearance:5,edgeClearance:3,waterClearance:2,slots:1200}),rocks:Object.freeze({grid:10,spacing:2.8,roadClearance:6,edgeClearance:3,waterClearance:2,slots:120,chance:1}),homeClearance:24,lineStep:.5,maxLine:512,footRadius:.32,car:Object.freeze({w:4.8,h:2.03}),budgetMs:8});
+ // Sauvegarde creuse G12 hors jeu (src/world-save217.js, tranche O3) : au plus `maxCantons` cantons chargés par validation, les plus proches
+ // du joueur (au-delà, contrôle de forme seul) ; `maxSeenCantons` cantons vus ; les autres plafonds sont ceux du registre régional G1–G11.
+ // open : registre G12 accepté par frontier-state (faux jusqu'à la tranche O9, qui ouvre la génération 12).
+ C.WorldSave217Rules=Object.freeze({open:false,maxCantons:64,maxSeenCantons:4096,maxSeen:5000,maxTaken:120000,maxEnemies:15000});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),

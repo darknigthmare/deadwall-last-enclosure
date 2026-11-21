@@ -66,7 +66,7 @@ O1 monde régional G12 (interface)  ── livré, hors jeu
 |---|---|---|---|---|---|
 | **O1** | Monde régional G12, interface commune, routage borné | Aucun (hors jeu) | M | nul / moyen | — (**livré**) |
 | O2 | Lieux G12 complets et collisions régionales | Aucun (hors jeu) | L | nul / haut | O4, O5 |
-| O3 | Sauvegarde G12 creuse, validation sans régénération globale | Aucun (G12 non créable) | L | moyen / moyen | O4, O5, O6 |
+| O3 | Sauvegarde G12 creuse, validation sans régénération globale (**livré**) | Aucun (G12 non créable) | L | moyen / moyen | O4, O5, O6 |
 | O4 | Lecteurs de la liste complète des lieux → lecteurs de voisinage (**premier lot livré**) | Aucun (valeurs identiques) | L | moyen / bas | O2, O3, O5–O8 |
 | O5 | Carte de la cité par campagne, taille portée par la sauvegarde | Aucun (128 partout) | L | haut / moyen | O2, O3, O4 |
 | O6 | Carte de 192 m née de `world-local217` : arêtes de falaise, flux, collisions, gisements | Aucun (G12 non créable) | XL → O6a, O6b | moyen / haut | O3, O4 |
@@ -159,7 +159,7 @@ C'est T4.1 plus la façade de mouvement de `plan.md` §3.3.
   détail du codex (chargement des grilles) à mesurer en jeu (O9) ; règle D-O1 à brancher sur
   les projectiles de la cité (O6b) et sur la vue (O8).
 
-### O3 — Sauvegarde G12 creuse (G12 toujours non créable)
+### O3 — Sauvegarde G12 creuse (**livré**, hors jeu ; G12 toujours non créable)
 
 But : qu'une campagne G12 se sauvegarde en ne gardant que ses écarts et se valide sans
 régénérer le monde entier. C'est T4.2 à T4.5.
@@ -189,6 +189,51 @@ régénérer le monde entier. C'est T4.2 à T4.5.
   sauvegarde G1–G11 écrite après (à vérifier champ par champ).
 - Parcours joueur : aucun (test sans interface).
 - Ampleur L, risque G1–G11 moyen (validateurs partagés).
+- **Fait** : module hors jeu `src/world-save217.js` (le chemin G12 lit les lieux d'O2, que
+  `frontier-state.js`, chargé par le jeu, ne doit pas nommer : gardes d'isolement), règles
+  `C.WorldSave217Rules` (`src/core.js`, juste après `C.WorldSites217Rules` : `maxCantons` 64,
+  `maxSeenCantons` 4 096, autres plafonds repris du registre G1–G11) et drapeau d'ouverture
+  `open` (faux) — placé là et non dans `C.WorldOpen217Rules`, dont les valeurs sont figées par
+  `tests/world-open217.test.cjs` ; O9 l'ouvrira avec la création — test `tests/world-save217.test.cjs` (8 cas).
+  `frontier-state.js` : `normalize` et `validate` délèguent au module **seulement** si sa globale
+  est déjà présente et que `opened()` est vrai ; sinon chemin inchangé (`Génération inconnue`).
+  Format : registre version 2 aux clés exactes (inconnue ou absente refusée), plus
+  `reliefVersion` et `sitesVersion` (règles de génération G12 figées dans la sauvegarde : une
+  campagne écrite sous d'autres règles est refusée, base de D-O4), `detailVersion` 13,
+  écologie, hydrologie et faune neutres, et le registre `cantons` (cantons vus, canoniques, sans
+  doublon). Identifiants G12 seulement : lieux `K…:site:n`, contenants `K…:site:n:z:k`,
+  `…:car:k`, `…:out:k`, arbres `K…:arbre:n`, rochers `K…:roche:n` (rang ramené à son morceau
+  de 256 m et refusé hors de la grille), occupants `K…:site:n:eN`. Règles de forme nouvelles :
+  un lieu repéré et la position en sortie appartiennent à un canton vu ; un étage exige un lieu.
+  Validation : cantons cités (lieux, intérieur, prélèvements, occupants, poursuites) triés par
+  distance de Tchebychev au joueur ; les 64 premiers sont générés dans un monde O2 **neuf**
+  (cache de 89 cantons : aucun généré deux fois) et vérifiés comme la région finie (lieu
+  présent, étage, position dans l'étage, prélèvement ≤ contenant, rang d'occupant < menace,
+  intégrité ≤ profil, étage de poursuite) ; au-delà, forme seule (D4). Carnet de reconnaissance
+  G12 : `cell(x, y)` → `K…:cell:n` (8 × 8 mailles de 128 m par canton), `normalizeAtlas`
+  (cellules d'un canton vu ; archives et tournées vides exigées). Validateurs restés sur la
+  liste complète convertis (voir O4) : `frontier-state`, `field-atlas-state`, `world-pack131`
+  (index de `normalize`), `campaign-water214` (43, 130), `campaign-pack` (44),
+  `context-operations160`, `world-evolution-state` → `siteIndex()` ; `essential-state`
+  (`targets`) → `sitesByDistance` en monde sans bord seulement (la région finie garde le parcours
+  de sa propre liste : un monde recopié par un test garde sinon l'accesseur de l'original) ; chacun avec un repli identique pour les mondes factices.
+- **`SAVE_VERSION` reste à 20** : la monter changerait le champ `version` et la clé de stockage
+  de toute sauvegarde G1–G11 écrite après (le parcours de la règle 3 ne serait plus identique
+  octet pour octet), sans rien protéger : une version antérieure du jeu refuse déjà un registre
+  G12 (`Génération inconnue`), et le registre G12 porte ses propres versions de règles. À
+  reconsidérer en O9 si l'ouverture ajoute une section de sauvegarde.
+- Mesures (graine 17117, 60 cantons traversés plein est, 180 cantons vus, 152 lieux repérés,
+  136 prélèvements, 64 occupants) : registre de 9 828 octets ; 58 cantons cités, 58 générés,
+  validation en 1,1 s environ ; 90 cantons traversés : 64 vérifiés, le reste de forme seule.
+- **Reste** : `limitsForGeneration(12)` de `frontier-world.js` n'est pas encore les limites
+  d'O1 (le fichier, chargé par le jeu, ne peut pas lire les cantons sans lever les gardes
+  d'isolement) : avec O9, comme le branchement ; `forage193` / `biome-forage193` : aucun
+  identifiant de cueillette G12 tant qu'il n'existe pas de cueillette G12 (en G12, la
+  cueillette est refusée : écologie 0) ; `field-atlas-state` n'appelle pas encore
+  `normalizeAtlas` (O9) ; ancre de sortie bornée à 4 096 unités (carte de 128 m) jusqu'à O5 ;
+  les autres sections de sauvegarde (services, hordes, campagne…) ne connaissent pas G12 : leur
+  monde vient de `frontier-world.create`, qui refuse 12 (O9) ; au-delà de 64 cantons cités, un
+  identifiant inventé dans un canton lointain passe le contrôle de forme (D4, test à l'appui).
 
 ### O4 — Lecteurs de la liste complète des lieux → lecteurs de voisinage (**premier lot livré**)
 
@@ -238,7 +283,7 @@ le **dernier** doublon comme les `Map` actuelles, cf. T1.6).
   `world-pack131.js:12`, `campaign-water214.js`, `campaign-pack.js:42`,
   `context-operations160.js:32`, `world-evolution-state.js`) et `essential-state.js:12` (appelé
   par sa validation) passent avec O3, qui refait les falsifications (règle 4) ;
-  `chronicles131.js:45` (tri global par hachage), `night-gear.js:156` (cache par canton, O9),
+  **convertis avec O3** (voir O3) ; restent `chronicles131.js:45` (tri global par hachage), `night-gear.js:156` (cache par canton, O9),
   `frontage174.js` (O2).
 - Lieux remarquables en G12 : la sélection finie est une chaîne (espacement contre tous les lieux
   déjà retenus, plafond global) que le monde fini garde à l'identique ; G12 ne peut pas la

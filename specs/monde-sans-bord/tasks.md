@@ -424,12 +424,12 @@ plate de 128 m, ses flux et ses identifiants.
 
 - [x] T4.1 (→ O2, livré hors jeu) Lieux par canton : `K…:site:n`, plans par les fabriques existantes (`G.plan`,
       codex 160, sites 205), occupants par `world-spawns131` et la bande de distance.
-- [ ] T4.2 `frontier-state` : G12 acceptée, bornes de position, expressions d'identifiants
+- [x] T4.2 (→ O3, livré hors jeu) `frontier-state` : G12 acceptée, bornes de position, expressions d'identifiants
       par génération, registre `cantons`, plafonds.
-- [ ] T4.3 Validation par cantons cités ; plafond ; refus croisés G≤11 / G12.
-- [ ] T4.4 `field-atlas-state` : cellules par canton.
-- [ ] T4.5 Version de sauvegarde générale et migration vide ; tests de reprise des
-      sauvegardes de référence existantes.
+- [x] T4.3 (→ O3) Validation par cantons cités ; plafond ; refus croisés G≤11 / G12.
+- [x] T4.4 (→ O3) `field-atlas-state` : cellules par canton (dans `world-save217.js` ; branchement en O9).
+- [x] T4.5 (→ O3) Version de sauvegarde générale **gardée à 20** (voir O3) ; reprise des
+      sauvegardes de référence existantes vérifiée.
 - Décisions requises : D2, D4, D7.
 
 ## T5 (préparation) — Taille de la carte locale par accesseurs, relief local adouci (livré, sans effet en jeu)
@@ -662,8 +662,8 @@ Fiche : [ouverture.md](ouverture.md), O4. Test `tests/world-neighbourhood217.tes
 
   | Fichier | Usage | Pourquoi pas dans ce lot |
   | --- | --- | --- |
-  | `frontier-state.js:33`, `field-atlas-state.js:20`, `world-pack131.js:12`, `campaign-water214.js:43,130`, `campaign-pack.js:42`, `context-operations160.js:32`, `world-evolution-state.js:28` | index ou ensemble de toute la liste dans un validateur de sauvegarde | `siteIndex()` est prêt, mais toucher un validateur exige les falsifications de T1 (règle 4) : avec O3, qui réécrit ces validateurs pour G12 |
-  | `essential-state.js:12` (`targets`) | plus proche lieu d'un type, puis plan intérieur | appelé par la validation de l'état essentiel (ligne 13) : même raison ; `sitesByDistance` le remplace mot pour mot |
+  | ~~`frontier-state.js:33`, `field-atlas-state.js:20`, `world-pack131.js:12`, `campaign-water214.js:43,130`, `campaign-pack.js:42`, `context-operations160.js:32`, `world-evolution-state.js:28`~~ | index ou ensemble de toute la liste dans un validateur de sauvegarde | **converti avec O3** : `siteIndex()` (voir O3) |
+  | ~~`essential-state.js:12` (`targets`)~~ | plus proche lieu d'un type, puis plan intérieur | **converti avec O3** : `sitesByDistance` |
   | `chronicles131.js:45` | lieux d'un type triés par hachage sur toute la région | tri global par hachage, pas une distance : demande une règle par canton (G12), à décider avec O2 |
   | `night-gear.js:156` | panneaux solaires des lieux de six types | cache par canton chargé : avec le chargement par anneau (O9) |
   | `frontage174.js:88,90,114` | index et audit des façades | construction de la région finie ; index par canton avec O2 |
@@ -703,6 +703,56 @@ Fiche : [ouverture.md](ouverture.md), O4. Test `tests/world-neighbourhood217.tes
   le parcours navigateur. Sur la région finie, `sitesIn` et les autres accesseurs parcourent
   encore la liste : même coût qu'avant (les lieux remarquables lisent 49 cantons une fois par
   monde, résultat gardé).
+
+## O3 — Sauvegarde G12 creuse (livré, hors jeu ; G12 toujours non créable)
+
+Fiche : [ouverture.md](ouverture.md), O3. Test `tests/world-save217.test.cjs` (8 cas).
+
+- [x] O3.1 Module hors jeu `src/world-save217.js` : `initial(home)`, `normalize` (forme seule,
+      clés exactes, identifiants `K…` seulement), `cited` (cantons cités, du plus proche du
+      joueur au plus lointain), `validate(état, données)` (au plus `maxCantons` = 64 cantons
+      générés dans un monde O2 neuf, contrôles de la région finie ; au-delà, forme seule),
+      `lastValidation()` (cantons cités, vérifiés, de forme seule, générés), `cell` et
+      `normalizeAtlas` (carnet de reconnaissance `K…:cell:n`). Règles `C.WorldSave217Rules`
+      drapeau `C.WorldSave217Rules.open` (faux ; fiche O3).
+- [x] O3.2 `frontier-state.js` : délégation au module seulement s'il est présent **et** ouvert ;
+      sinon chemin inchangé. En jeu, la globale n'existe pas : génération 12 refusée.
+- [x] O3.3 Validateurs restés sur la liste complète (O4.3) convertis à `siteIndex()` /
+      `sitesByDistance`, repli historique identique : `frontier-state.js`,
+      `field-atlas-state.js`, `world-pack131.js` (`normalize`), `campaign-water214.js` (43, 130),
+      `campaign-pack.js` (44), `context-operations160.js`, `world-evolution-state.js`,
+      `essential-state.js` (`targets`).
+- [x] O3.4 Gardes d'isolement de `world-cantons217`, `world-canton-gen217`, `world-open217` et
+      `world-sites217` étendues au nouveau lecteur (aucune retirée) ; garde propre au module :
+      seul `frontier-state.js` le nomme dans `src/`, sans le charger.
+- [ ] O3.5 (O9) `limitsForGeneration(12)` = limites d'O1 ; `field-atlas-state` appelle
+      `normalizeAtlas` ; identifiants de cueillette G12 (aucune cueillette G12 aujourd'hui) ;
+      sections de sauvegarde qui recréent le monde (services, hordes, campagne…) en G12.
+- `SAVE_VERSION` gardé à 20 (raisons : fiche O3).
+- Preuves (base `c9e60c2`, copie intacte de la base contre le worktree) :
+  - tests `save*`, `frontier*`, `codex-campaign*`, `world-*217`, `audit183-manifest`, `static*`
+    et tous les tests qui nomment un module touché (106 fichiers) : 954 / 954 avant ; après, 959 / 962 au premier passage
+    (nouveau test compris) : `anchor-consumers135` (monde recopié avec d'autres `pois` mais
+    l'accesseur de l'original : `essential-state` ne lit désormais l'accesseur qu'en monde sans
+    bord), `world-open217` (règles figées : le drapeau `open` passe dans `C.WorldSave217Rules`)
+    et `world-neighbourhood217` (liste des lecteurs hors jeu étendue) ; corrigés, 198 / 198 sur
+    ces fichiers, `world-*217` et tous les tests de l'état essentiel ;
+  - mondes G1–G11 des huit graines identiques à `campagne205-eligibilite.json` hors empreintes
+    de sources (seules les tailles des neuf fichiers touchés changent) ;
+  - parcours déterministe de 240 s (graine 17117) : sauvegardes de départ, de mi-parcours et
+    de fin identiques octet pour octet, résultats identiques ; sauvegarde de mi-parcours d'avant
+    relue après : mêmes empreintes que relue avant ;
+  - 2 × 2 100 falsifications de coordonnées (méthode de T1) : verdicts identiques (346
+    acceptées) ; 24 falsifications d'identifiants de lieu d'une sauvegarde G11 en région (dont
+    `worldEvolution.structures`) : verdicts identiques ;
+  - sauvegarde G12 synthétique (17117, 60 cantons plein est) écrite, relue octet pour octet,
+    36 falsifications nommées et 352 identifiants décalés refusés ; refus croisés G≤11 / G12 ;
+  - navigateur (campagne standard 17117) : départ en G8, module G12 absent, drapeau fermé,
+    sauvegarde valide en version 20, registre G12 refusé (`Génération inconnue`), aucune
+    erreur de page.
+- Réserves : aucune campagne G12 jouée (G12 non créable) ; le registre G12 n'est éprouvé que
+  par la campagne synthétique ; au-delà de 64 cantons cités, la validation est de forme seule
+  (D4) ; la validation recrée un monde neuf à chaque relecture (environ 20 ms par canton cité).
 
 ## T5 — Ouverture expérimentale
 

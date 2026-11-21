@@ -110,7 +110,7 @@ test('monde ouvert 217 : module isolé, génération 12 refusée, mondes G1–G1
   assert.deepEqual([...source.matchAll(/require\('([^']+)'\)/g)].map(m=>m[1]),['./core.js','./world-cantons217.js','./world-canton-gen217.js']);
   assert.ok(!/G\.hash|G\.rng|Frontier|Geography135|geography141|WorldContent|expansions|\.taken\b/.test(code),'aucun flux ni registre des générations 1 à 11');
   for(const file of ['index.html','sw.js','scripts/server.mjs','scripts/build.mjs','scripts/public-manifest183.cjs','src/expansion-kit.js','src/expansion-ui.js'])assert.ok(!read(file).includes('world-open217')&&!read(file).includes('WorldOpen217'),file);
-  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(!['world-open217.js','world-sites217.js','core.js'].includes(file)){const text=read('src/'+file);assert.ok(!text.includes('WorldOpen217')&&!text.includes('world-open217'),file+' ne doit pas dépendre du monde ouvert');}
+  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(!['world-open217.js','world-sites217.js','world-save217.js','core.js'].includes(file)){const text=read('src/'+file);assert.ok(!text.includes('WorldOpen217')&&!text.includes('world-open217'),file+' ne doit pas dépendre du monde ouvert');}
   const Wd=require('../src/frontier-world.js'),St=require('../src/frontier-state.js');
   assert.throws(()=>Wd.create(17117,K.RULES.reservedGeneration),/Version du monde inconnue/);
   assert.throws(()=>St.normalize({...St.initial(),generation:K.RULES.reservedGeneration}),/Génération inconnue/);
