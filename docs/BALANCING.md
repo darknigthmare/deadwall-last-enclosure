@@ -535,3 +535,7 @@ Deuxième tranche : escorte `{base 6, perLed 2, max 18, share 0,08, ringMin 46, 
 Grands ouvrages, deuxième tranche : `site = {reach 44, trampleSeconds 2, maxLossShare 0,5}` ; beffroi `{size 4×4, heights 8/16/24 m}` ; nécropole `{size 8×6, heights 2/3,5/5 m, pyreSpeed 1,5, pitCapacity ×2}`. Non éprouvé.
 
 Factions, deuxième tranche (`C.Factions217Rules`) : repaire à 1 200–4 000 m, repéré à 600 m ; renseignement 8 carburant ; Entente entretenue sous 4 vagues ; ralliement après 6 vagues, 3 membres contre 40 nourriture ; assaut {6 fusiliers, 2 tués +1 si Hostile, 30 munitions, signature +90 pendant 2 vagues, gain 20 carburant} ; échange 16 bois contre 10 nourriture ; tribut 6 carburant +2 par âge +1 toutes les 5 vagues, au plus 20. Non éprouvé.
+
+Abominations du siège (`C.Abominations217Rules`) : `cap` 3 ; Comble-fossé `{firstWave 14, every 6, radius 96 px, extra 1, minDitches 1}` ; Traîne-épave `{firstWave 18, every 7, reach 40 px, load 12}`. Non éprouvé.
+
+Avant-postes, troisième tranche (`C.Outposts217Rules`) : convoi 16/24/32, radio 3 000/4 000/5 000 m, tenue 120/240/360 infectés (60 par fusilier et par rang, moitié sans ravitaillement), bruit 300/450/600 m ; chute à 250 m d'une migration, Commandant à plus de 400 m ; réinfestation 3 à 6. Non éprouvé.

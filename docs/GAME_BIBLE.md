@@ -552,6 +552,26 @@ réveillée en plein jour marche sur la cité hors de l'assaut, une pression
 diurne nouvelle. Une sortie bien armée reste une réponse fiable. Le réveil
 ne tient pas compte de la ligne de vue.
 
+**Troisième tranche livrée [LIVRÉ] : Comble-fossé et Traîne-épave**,
+nouvelles campagnes seulement (module `abominationsSiege217`)
+
+- Choix de la vague déterministe (numéro et graine), jamais une vague de
+  géants ni une vague menée, jamais les deux ensemble ; trois abominations
+  au plus à la fois.
+- Aucune n'est ajoutée à la horde : une Errante déjà entrée le devient,
+  avec ses points de vie, son pas et ses coups.
+- **Comble-fossé** (vague 14, puis une sur 6, seulement si la cité a un
+  fossé) : les corps tombés près d'elle comptent double dans les fossés et
+  les douves. Abattue avant les ouvrages, elle n'a aucun effet.
+- **Traîne-épave** (vague 18, puis une sur 7) : au contact d'un mur ou
+  d'une porte, son épave ajoute 12 de charge de corps, une fois ; l'amas
+  fait rampe plus tôt et se déblaie comme les corps.
+
+Réserves : équilibrage non joué ; 12 de charge sur une porte peut ouvrir la
+rampe dès le premier contact. La Traîne-épave est livrée au siège, alors que
+cette section la place en région ; son épave n'est pas un objet de décor
+déplacé. Pas de silhouette propre.
+
 Restent à faire : la Meneuse en région (noyau d'une migration),
 sa présence dans la marée à l'horizon, la Comble-fossé, la Traîne-épave, les
 rôles propres des trois géants.
@@ -1378,6 +1398,20 @@ d'atlas calée sur l'étendue totale.
   plan (une falaise arrête-t-elle un tir ou la vue ? valeurs du repli des
   fronts ; vue à la première personne dès l'ouverture ; gel des règles de
   génération ; repli à 128 m si 192 m coûte trop).
+- **Tranche O3 livrée, sans effet en jeu** : une campagne sans bord se
+  sauvegarde en ne gardant que les écarts (lieux repérés, prélèvements,
+  occupants, cantons vus) ; une campagne synthétique de 60 cantons tient en
+  9,8 Ko. La relecture ne génère que les cantons cités, 64 au plus (au-delà,
+  contrôle de forme seul). Les validateurs de sauvegarde ne parcourent plus
+  la liste complète des lieux. Le numéro de version des sauvegardes reste
+  20 : sauvegardes actuelles identiques octet pour octet.
+- **Tranche O5 livrée, sans effet en jeu** : la taille de la carte de la
+  cité devient une donnée de la campagne (128 cases pour toute campagne
+  actuelle, 192 prévus pour la génération 12) ; tous les systèmes de la
+  cité, vue à la première personne comprise, la lisent. Un essai hors jeu à
+  192 cases passe. Coût du calcul des chemins de la horde mesuré : ×2,4 à
+  ×2,7 à 192 cases, surtout dû aux obstacles du décor — c'est eux qu'il
+  faudra optimiser.
 - **Tranche O2 livrée, sans effet en jeu** : les lieux du monde sans bord
   reçoivent emprise, genre, plan, accès et occupants, avec les mêmes
   fabriques que la région actuelle, de façon déterministe. Falaise et eau
@@ -1866,6 +1900,29 @@ Restent à faire : rangs Relais → Poste → Avant-poste et chantier sur place,
 chute et réinfestation, signature locale, états de route, « une bonne route
 sert aussi l'ennemi », rappel du Commandant par les routes gardées,
 fourgons des territoires, entretien des véhicules.
+
+#### Troisième tranche livrée **[LIVRÉ]** : rangs, chute, signature, retour
+
+- **Rangs** : Relais, puis Poste (40 bois, 30 ferraille, 20 pierre,
+  1 min 30 de chantier), puis Avant-poste (60 bois, 50 ferraille, 30
+  pierre, 20 munitions, 2 min 30), décidés sur place en sortie. Chaque rang
+  agrandit le convoi (16, 24, 32), étend la radio (3, 4, 5 km), rend la
+  garnison plus solide (elle tient contre 120, 240, 360 infectés) et plus
+  bruyante.
+- **Chute** : pendant une sortie, une migration plus nombreuse que ce que
+  la garnison tient (moitié moins sans ravitaillement) fait tomber
+  l'avant-poste : fusiliers tués, route plus gardée, convois arrêtés, lieu
+  réinfesté de 3 à 6 infectés. Annoncé, radio comprise.
+- **Signature** : en sortie, le bruit d'un avant-poste infléchit les
+  migrations et meutes voisines vers lui — diversion et risque de chute.
+- **Retour** : par un côté gardé, le budget de retour du Commandant ne
+  compte plus la marge de détour.
+
+Réserves : jamais joué. Les hordes de la région ne marchent qu'en sortie :
+un avant-poste ne tombe jamais pendant que le Commandant est dans la cité.
+La diversion est faible (environ 14 % du cap d'une migration) et ne réduit
+pas les vagues. Un Relais risque d'être très fragile pendant les sorties
+longues. « Une bonne route sert aussi l'ennemi » n'est pas fait.
 
 ### 7.15 La cité autonome **[DÉCISION]**
 
