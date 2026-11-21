@@ -77,7 +77,7 @@
    if(hello.code!==code)return{ok:false,reply:{type:'refused',protocol:P,reason:'code'}};
    let seat=1;while(seats.has(seat))seat++;
    if(seat>R.maxGuests)return{ok:false,reply:{type:'refused',protocol:P,reason:'full'}};
-   seats.set(seat,{seat,name:hello.name,role:hello.role,last:0,queue:[],refused:0,district:null,joined:tick});
+   seats.set(seat,{seat,name:hello.name,role:hello.role,last:0,done:0,queue:[],refused:0,district:null,joined:tick});
    return{ok:true,seat,reply:{type:'welcome',protocol:P,seat,role:hello.role,name:hello.name,tick}};
   }
   function receive(seat,message){
@@ -96,13 +96,15 @@
    tick=nextTick;const out=[];
    for(const seat of [...seats.keys()].sort((a,b)=>a-b)){
     const s=seats.get(seat),batch=s.queue.splice(0,R.perStep);
+    // L'accusé ne couvre que ce que ce pas a appliqué : une intention encore en file n'est pas confirmée.
+    if(batch.length)s.done=batch[batch.length-1].seq;
     for(const intent of batch){if(intent.kind==='hold')s.district=intent.data.district;out.push(Object.freeze({tick,seat,role:s.role,seq:intent.seq,kind:intent.kind,data:Object.freeze({...intent.data})}));}
    }
    return Object.freeze(out);
   }
   function frame(seat,view){
    const s=seatOf(seat);if(!s||!view||typeof view!=='object'||Array.isArray(view))return null;
-   return{type:'frame',protocol:P,tick,seat,ack:s.last,view:JSON.parse(JSON.stringify(view))};
+   return{type:'frame',protocol:P,tick,seat,ack:s.done,view:JSON.parse(JSON.stringify(view))};
   }
   function leave(seat){return seats.delete(seat);}
   function close(){closed=true;const notices=[...seats.keys()].sort((a,b)=>a-b).map(seat=>({seat,message:{type:'closed',protocol:P,tick}}));seats.clear();return notices;}

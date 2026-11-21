@@ -152,3 +152,15 @@ test('coop 217 : brique isolée — aucun script public, aucun module du jeu ne 
  const P=require('../src/coop.js');assert.deepEqual(Object.keys(P).sort(),['LIMITS','coordinate','install','label','normalizeSpace','normalizeState','parseMessage','spaceKey']);
  assert.ok(read('scripts/coop-server.mjs').includes('protocol:200'));assert.ok(!read('scripts/coop-server.mjs').includes('217'));
 });
+
+test('coop 217 : l’accusé de l’image ne couvre que les intentions appliquées par le pas',()=>{
+ const S=require('../src/coop-session217.js'),R=require('../src/core.js').CoopSession217Rules;
+ const host=S.createHost({code:'ABC123'}),seat=host.admit({type:'hello',protocol:217,code:'ABC123',name:'Lise',role:'district'}).seat;
+ const total=R.perStep+4;
+ for(let seq=1;seq<=total;seq++)assert.equal(host.receive(seat,{type:'intent',protocol:217,seq,kind:'ping',data:{x:1,y:1}}).ok,true);
+ const applied=host.step(1).filter(i=>i.seat===seat);
+ assert.equal(applied.length,R.perStep);
+ assert.equal(host.frame(seat,{}).ack,R.perStep,'les intentions restées en file ne sont pas accusées');
+ host.step(2);
+ assert.equal(host.frame(seat,{}).ack,total);
+});
