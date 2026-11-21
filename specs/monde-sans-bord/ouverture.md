@@ -346,7 +346,7 @@ tableau « Restent en clair » de T5.B3.
     Le coût vient surtout des enveloppes (× 12 sur la carte nue) : c'est elles qu'O6b devra
     optimiser (coût par case mis en cache, reconstruction incrémentale), avant la taille.
 
-### O6 — Carte de la cité de 192 m née de `world-local217` (G12 non créable)
+### O6 — Carte de la cité de 192 m née de `world-local217` (G12 non créable) (**O6a livré**, hors jeu)
 
 Points 2, 3, 4 et 7 de `tasks.md`. Atteinte seulement par un harnais de test qui construit
 une partie à partir de `L.describe(graine)`.
@@ -359,6 +359,32 @@ hors falaise, eau, rampe) ; `placement` (229) refuse une emprise à cheval sur d
 sur l'eau ou sur une rampe (sauf porte et mur) avec un message qui le dit ; `movementCost`
 (255) ajoute rampe et gué (`C.WorldLocal217Rules.costs`) ; `nearestNode` (242) inchangé.
 Ampleur L.
+
+- **Livré O6a** (sans effet en jeu ; détail, mesures et réserves : `tasks.md`, section O6a) :
+  - `WorldMap(graine, géométrie, carte, terrain)` : le 4e argument, la description
+    `DeadwallWorldLocal217.describe(graine)` (génération 12, cadre égal à la carte, 1 m par case),
+    prend un chemin de construction séparé (`buildTerrain217`) : ni `generateNodes`, ni
+    `DeadwallWorldContent.generate` ; les 192 gisements candidats deviennent des `ResourceNode`
+    (`depositId` `K0_0:gite:n`, mètres × 32, variante par hachage). Terrain gardé dans une table
+    faible (`terrain217`, copie des tableaux), enveloppes non énumérables propres à ce monde
+    (`solidForFriendly` : eau profonde ; `movementCost` : gué, `C.CityTerrain217Rules` ; `placement` : refus à cheval sur
+    deux paliers, sur l'eau, sur une rampe sauf mur et porte). Le prototype des cartes plates
+    garde son comportement : aucun champ, aucune clé, aucun appel de plus en G1–G11.
+  - Arêtes de falaise (avance sur O6b) : `canStep` (voisine ou diagonale), `stepClear217`
+    (segment), lus par `moveFriendly`, `moveUnitToward` (ligne directe et `findFriendlyPath`, qui
+    reçoit un prédicat d'arête en 7e argument), `hostilePositionClear` (depuis la position de
+    l'infecté : déplacements ordinaires, charge, repoussée, séparation, couloir du traqueur),
+    `FlowField.rebuild` / `direction`. D-O1 : `sightObstruction217` / `sightClear217` lus par
+    `hasLineOfSight` et `hostileLineClear` ; la fraction d'obstacle est prête pour les
+    projectiles (O6b).
+  - D-O5 : champ de flux du terrain avec coût de case lu une fois par reconstruction (au lieu
+    d'une fois par voisin) ; à 192 m, enveloppes de la partie comprises, 14 à 28 ms contre
+    43 à 47 ms pour la partie actuelle à 128 et 115 à 121 ms pour une carte plate de 192 sans
+    cache. Optimisation propre au chemin G12 : le champ des cartes actuelles n'est pas touché
+    (et le chemin du terrain, sur un terrain plat, rend le même champ octet pour octet).
+  - Restent pour O6b : décor métrique replacé, projectiles (`updateProjectiles`), contrôles
+    directs des ouvriers (1640, 1648, 1692), voirie (`findRoute` sans prédicat d'arête),
+    repli d'un infecté sur une case hors d'atteinte, récolte par les rampes en partie.
 
 **O6b — Arêtes de falaise.** Nouvelle méthode `WorldMap#canStep(gx, gy, nx, ny)` lue par :
 `FlowField.rebuild` (283-299 : voisins développés seulement si `canStep`, case hors d'atteinte

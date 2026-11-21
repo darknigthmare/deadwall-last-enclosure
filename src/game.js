@@ -187,12 +187,45 @@
 
   // Carte locale propre à chaque monde (O5), hors des propriétés du monde : rien de sérialisé ni d'énuméré.
   const WORLD_LOCAL217 = new WeakMap();
+  // Terrain de la cité né de la carte locale de D-17 (O6a, génération 12, harnais hors jeu) : paliers, arêtes
+  // franchissables (rampes), eau, routes. Même table faible : rien de sérialisé ; un monde G1–G11 n'en a pas.
+  const WORLD_TERRAIN217 = new WeakMap();
+  // Obstacle rendu par `solidForFriendly` sur l'eau profonde (mer, lac, rivière sans pont).
+  const TERRAIN217_BLOCK = Object.freeze({ id: -217, type: 'terrain217', dead: false, completed: true, def: Object.freeze({ wall: true }) });
+  // Eau de la carte locale : 1 mer, 2 lac, 3 rivière, 4 ruisseau ; nature 2 = rampe.
+  const WATER217 = Object.freeze({ sea: 1, lake: 2, river: 3, stream: 4 }), RAMP217 = 2;
+  function terrain217(local, map) {
+    const cells = map.cells, arrays = ['levels', 'passes', 'water', 'roads', 'kinds'];
+    if (!local || local.generation !== 12 || local.frame !== map.tiles || local.tile !== 1 || local.unit !== TILE || !Array.isArray(local.deposits) || arrays.some(k => !(local[k] instanceof Uint8Array) || local[k].length !== cells))
+      throw new RangeError('Terrain de la cité invalide : description locale de génération 12 à la taille de la carte attendue.');
+    const own = Object.fromEntries(arrays.map(k => [k, local[k].slice()])), deep = new Uint8Array(cells), ford = new Uint8Array(cells);
+    for (let i = 0; i < cells; i++) {
+      const w = own.water[i], road = own.roads[i] > 0;
+      deep[i] = w === WATER217.sea || w === WATER217.lake || (w === WATER217.river && !road) ? 1 : 0;
+      ford[i] = w === WATER217.stream && !road ? 1 : 0;
+    }
+    return Object.freeze({ seed: local.seed, version: local.version, digest: local.digest, tiles: map.tiles, ...own, deep, ford });
+  }
+  // Arête entre deux cases voisines, comme la carte locale : eau profonde à l'arrivée refusée, même palier
+  // admis, changement de palier par la seule rampe.
+  // `passes` : bit 1 = l'arête est se franchit, bit 2 = l'arête sud.
+  const ramp217 = (t, gx, gy, nx, ny) => { const N = t.tiles; return Boolean(nx > gx ? t.passes[gy * N + gx] & 1 : nx < gx ? t.passes[ny * N + nx] & 1 : ny > gy ? t.passes[gy * N + gx] & 2 : t.passes[ny * N + nx] & 2); };
+  function edge217(t, gx, gy, nx, ny) {
+    const N = t.tiles, i = gy * N + gx, j = ny * N + nx;
+    if (t.deep[j]) return false; if (t.levels[i] === t.levels[j]) return true;
+    return ramp217(t, gx, gy, nx, ny);
+  }
   class WorldMap {
     // Accesseur de taille : la carte reçue à la construction, la carte par défaut sinon.
     get local() { return WORLD_LOCAL217.get(this) || C.LOCAL_MAP217; }
+    // Terrain de génération 12 (O6a) ; `null` pour toute carte plate G1–G11.
+    get terrain217() { return WORLD_TERRAIN217.get(this) || null; }
     // `local` : carte locale de la campagne (`C.localMapOf217`), carte par défaut en repli.
-    constructor(seed = 17117, cityGeometry202 = 0, local = C.LOCAL_MAP217) {
+    // `terrain` (O6a, harnais hors jeu) : description de la carte locale `describe(graine)` ; chemin
+    // de construction séparé, sans tirage : ni `generateNodes` ni contenu généré, gisements de la description.
+    constructor(seed = 17117, cityGeometry202 = 0, local = C.LOCAL_MAP217, terrain = null) {
       if (local !== C.LOCAL_MAP217) WORLD_LOCAL217.set(this, C.localMapOf217(local));
+      if (terrain !== null) { this.buildTerrain217(seed, cityGeometry202, terrain); return; }
       this.seed = seed; this.occupancy = new Int32Array(this.local.cells);
       this.cityGeometry202 = C.CityGeometry202.version(cityGeometry202);
       this.buildings = new Map(); this.nodes = []; this.nodeId = 1; this.flowDirty = true; this.navigationVersion = 0;
@@ -283,12 +316,95 @@
       const starter = [['wood',-330,-170],['wood',330,120],['scrap',-250,290],['scrap',290,-300],['stone',430,30],['food',-100,420],['fuel',120,-430]];
       for (const [type, ox, oy] of starter) addCluster(type, center + ox, center + oy, type === 'wood' ? 6 : 4, 58);
     }
+    // --- Terrain de génération 12 (O6a, hors jeu) -------------------------------------------
+    // Chemin de construction propre : aucune ligne de la génération G1–G11 n'est exécutée.
+    buildTerrain217(seed, cityGeometry202, local) {
+      const t = terrain217(local, this.local);
+      if (t.seed !== seed) throw new RangeError('Terrain de la cité né d’une autre graine.');
+      WORLD_TERRAIN217.set(this, t);
+      this.seed = seed; this.occupancy = new Int32Array(this.local.cells);
+      this.cityGeometry202 = C.CityGeometry202.version(cityGeometry202);
+      this.buildings = new Map(); this.nodes = []; this.nodeId = 1; this.flowDirty = true; this.navigationVersion = 0;
+      // Gisements candidats (`K0_0:gite:n`, mètres) → nœuds de récolte (unités) ; variante par hachage, sans flux.
+      for (const [n, d] of local.deposits.entries()) {
+        const node = new ResourceNode(this.nodeId++, d.type, d.x * TILE, d.y * TILE, d.amount, d.radius * TILE, Math.floor(seededHash(n, seed, 217) * 4) % 4);
+        node.depositId = d.id; this.nodes.push(node);
+      }
+      this.sites = [];
+      // Enveloppes propres au terrain, non énumérables : le prototype des cartes plates ne change pas.
+      const base = { solid: this.solidForFriendly, cost: this.movementCost, place: this.placement }, ford = C.CityTerrain217Rules.fordCost;
+      const hidden = (name, value) => Object.defineProperty(this, name, { value, writable: true, configurable: true, enumerable: false });
+      hidden('solidForFriendly', function solidForFriendly217(x, y) { return base.solid.call(this, x, y) || (this.terrainAt217(x, y)?.deep ? TERRAIN217_BLOCK : null); });
+      // Gué : un ruisseau sans pont coûte en plus ; la rampe se paie sur l'arête (champ de flux).
+      hidden('movementCost', function movementCost217(gx, gy) { const v = base.cost.call(this, gx, gy); return this.local.cellInside(gx, gy) && t.ford[this.local.index(gx, gy)] ? v + ford : v; });
+      hidden('placement', function placement217(def, gx, gy, rotation = 0, ignoreId = 0) {
+        const result = base.place.call(this, def, gx, gy, rotation, ignoreId); if (!result.valid) return result;
+        const id = def?.id, d = id && Object.hasOwn(BUILDINGS, id) ? this.definition(id) : def, [w, h] = rotateSize(d, rotation), L = this.local;
+        const level = t.levels[L.index(gx, gy)], barrier = Boolean(d.wall || d.gate);
+        for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+          const i = L.index(gx + x, gy + y);
+          if (t.levels[i] !== level) return { valid: false, reason: 'Emprise à cheval sur deux paliers : la falaise coupe le chantier.' };
+          if (t.deep[i] || t.ford[i] || t.water[i]) return { valid: false, reason: 'Emprise sur l’eau : choisissez la rive.' };
+          if (t.kinds[i] === RAMP217 && !barrier) return { valid: false, reason: 'Emprise sur une rampe : seuls murs et portes la barrent.' };
+        }
+        return result;
+      });
+    }
+    // Case du terrain sous un point (unités) ; `null` sans terrain ou hors carte.
+    terrainAt217(x, y) {
+      const t = WORLD_TERRAIN217.get(this); if (!t || !Number.isFinite(x) || !Number.isFinite(y)) return null;
+      const L = this.local, gx = Math.floor(x / TILE), gy = Math.floor(y / TILE); if (!L.cellInside(gx, gy)) return null;
+      const i = L.index(gx, gy); return { gx, gy, level: t.levels[i], kind: t.kinds[i], water: t.water[i], road: t.roads[i], deep: t.deep[i] === 1, ford: t.ford[i] === 1 };
+    }
+    // Pas de la case (gx, gy) à (nx, ny), voisine ou diagonale : toujours vrai sur une carte plate.
+    canStep(gx, gy, nx, ny) {
+      const L = this.local; if (!L.cellInside(gx, gy) || !L.cellInside(nx, ny)) return false;
+      const t = WORLD_TERRAIN217.get(this); if (!t) return true;
+      const dx = nx - gx, dy = ny - gy, ax = Math.abs(dx), ay = Math.abs(dy);
+      if (!ax && !ay) return true; if (ax + ay === 1) return edge217(t, gx, gy, nx, ny);
+      if (ax !== 1 || ay !== 1) return false;
+      return (edge217(t, gx, gy, nx, gy) && edge217(t, nx, gy, nx, ny)) || (edge217(t, gx, gy, gx, ny) && edge217(t, gx, ny, nx, ny));
+    }
+    // Cases traversées par un segment (unités), quatre voisins : `visit(gx, gy, nx, ny)` à chaque pas ;
+    // rend la fraction du segment où `visit` refuse, `null` si le segment passe.
+    walk217(x0, y0, x1, y1, visit) {
+      const L = this.local; let gx = L.cellOf(x0), gy = L.cellOf(y0); const tx = L.cellOf(x1), ty = L.cellOf(y1);
+      if (gx === tx && gy === ty) return null;
+      const dx = x1 - x0, dy = y1 - y0, sx = Math.sign(tx - gx), sy = Math.sign(ty - gy);
+      const delta = v => Math.abs(v) < 1e-12 ? Infinity : TILE / Math.abs(v), first = (p, g, s, v) => !s || Math.abs(v) < 1e-12 ? Infinity : ((s > 0 ? (g + 1) * TILE : g * TILE) - p) / v;
+      let mx = first(x0, gx, sx, dx), my = first(y0, gy, sy, dy); const ddx = delta(dx), ddy = delta(dy);
+      for (let guard = 0; (gx !== tx || gy !== ty) && guard < 4 * L.tiles; guard++) {
+        const stepX = gx !== tx && (gy === ty || mx <= my), nx = stepX ? gx + sx : gx, ny = stepX ? gy : gy + sy, at = Math.max(0, Math.min(1, stepX ? mx : my));
+        if (!visit(gx, gy, nx, ny)) return at;
+        if (stepX) { gx = nx; mx += ddx; } else { gy = ny; my += ddy; }
+      }
+      return null;
+    }
+    // Déplacement continu d'un point à un autre sans franchir de falaise ni entrer dans l'eau profonde.
+    stepClear217(x0, y0, x1, y1) {
+      const t = WORLD_TERRAIN217.get(this); if (!t) return true;
+      return this.walk217(x0, y0, x1, y1, (gx, gy, nx, ny) => edge217(t, gx, gy, nx, ny)) === null;
+    }
+    // D-O1 : une falaise arrête la vue et les tirs d'en bas, pas d'en haut. Un segment est coupé quand il
+    // monte une arête de falaise (hors rampe) vers un palier plus haut que celui d'où il part.
+    // Rend la fraction de l'obstacle, `null` si rien n'arrête : accesseur prêt pour les projectiles (O6b).
+    sightObstruction217(from, to, level) {
+      const t = WORLD_TERRAIN217.get(this); if (!t) return null;
+      const N = t.tiles, L = this.local, origin = Number.isFinite(level) ? level : t.levels[L.index(L.cellOf(from.x), L.cellOf(from.y))];
+      return this.walk217(from.x, from.y, to.x, to.y, (gx, gy, nx, ny) => {
+        const a = t.levels[gy * N + gx], b = t.levels[ny * N + nx];
+        return b <= a || b <= origin || ramp217(t, gx, gy, nx, ny);
+      });
+    }
+    sightClear217(from, to, level) { return this.sightObstruction217(from, to, level) === null; }
   }
 
   class FlowField {
     constructor() { this.local = C.LOCAL_MAP217; this.values = new Int32Array(this.local.cells); this.heap = new MinHeap(); }
     rebuild(map, target) {
       const L = local217(map); if (this.values.length !== L.cells) this.values = new Int32Array(L.cells); this.local = L;
+      this.terrain217 = map?.terrain217 || null;
+      if (this.terrain217) return this.rebuildTerrain217(map, target, L, this.terrain217);
       this.values.fill(0x3fffffff); this.heap.clear();
       const N = L.tiles, tx = L.cellOf(target.x), ty = L.cellOf(target.y), start = L.index(tx, ty); this.values[start] = 0; this.heap.push(start, 0);
       const dirs = [[-1,0,10],[1,0,10],[0,-1,10],[0,1,10]];
@@ -303,11 +419,35 @@
       }
       map.flowDirty = false;
     }
+    // Terrain de génération 12 (O6a) : même parcours, mêmes pas, mais une arête de falaise ou l'eau
+    // profonde n'est jamais développée (elle ne se détruit pas, contrairement à un mur), la rampe ajoute
+    // son coût sur l'arête, et le coût d'une case (`movementCost` et ses enveloppes) est lu une seule fois
+    // par reconstruction au lieu d'une fois par voisin. Une case hors d'atteinte garde 0x3fffffff.
+    rebuildTerrain217(map, target, L, t) {
+      const N = L.tiles, cells = L.cells, ramp = C.CityTerrain217Rules.rampCost;
+      if (!this.cost217 || this.cost217.length !== cells) this.cost217 = new Float64Array(cells);
+      const cache = this.cost217; cache.fill(NaN); this.values.fill(0x3fffffff); this.heap.clear();
+      const tx = L.cellOf(target.x), ty = L.cellOf(target.y), start = L.index(tx, ty); this.values[start] = 0; this.heap.push(start, 0);
+      const dirs = [[-1,0,10],[1,0,10],[0,-1,10],[0,1,10]];
+      while (this.heap.size) {
+        const current = this.heap.pop(); if (!current || current.priority !== this.values[current.index]) continue;
+        const x = current.index % N, y = Math.floor(current.index / N);
+        for (const [dx, dy, step] of dirs) {
+          const nx = x + dx, ny = y + dy; if (nx < 0 || ny < 0 || nx >= N || ny >= N || !edge217(t, x, y, nx, ny)) continue;
+          const i = L.index(nx, ny); let c = cache[i]; if (c !== c) c = cache[i] = map.movementCost(nx, ny);
+          const cost = current.priority + step + c + (t.levels[i] !== t.levels[current.index] ? ramp : 0);
+          if (cost < this.values[i]) { this.values[i] = cost; this.heap.push(i, cost); }
+        }
+      }
+      map.flowDirty = false;
+    }
     direction(x, y, bias, time) {
-      const L = this.local, N = L.tiles, gx = L.cellOf(x), gy = L.cellOf(y), dirs = [[-1,0],[1,0],[0,-1],[0,1]];
+      const L = this.local, N = L.tiles, gx = L.cellOf(x), gy = L.cellOf(y), dirs = [[-1,0],[1,0],[0,-1],[0,1]], t = this.terrain217 || null;
       let bx = gx, by = gy, best = this.values[L.index(gx, gy)];
       for (let i = 0; i < dirs.length; i++) {
         const nx = gx + dirs[i][0], ny = gy + dirs[i][1]; if (nx < 0 || ny < 0 || nx >= N || ny >= N) continue;
+        // Terrain : une voisine derrière une falaise n'est pas une direction.
+        if (t && !edge217(t, gx, gy, nx, ny)) continue;
         const score = this.values[L.index(nx, ny)] + Math.sin(bias + i * 4.17 + time * .3) * 2.5;
         if (score < best) { best = score; bx = nx; by = ny; }
       }
@@ -1314,8 +1454,10 @@
 
     moveFriendly(entity, dx, dy) {
       if(this.infrastructure){const boost=this.infrastructure.speed(entity.x,entity.y);dx*=boost;dy*=boost;}
-      const nx = clamp(entity.x + dx, entity.radius + 4, this.local.size - entity.radius - 4); if (this.friendlyPositionClear(entity, nx, entity.y)) entity.x = nx;
-      const ny = clamp(entity.y + dy, entity.radius + 4, this.local.size - entity.radius - 4); if (this.friendlyPositionClear(entity, entity.x, ny)) entity.y = ny;
+      // Terrain G12 (O6a) : un pas qui franchit une falaise ou entre dans l'eau profonde est refusé ; carte plate : toujours admis.
+      const t = this.world.terrain217;
+      const nx = clamp(entity.x + dx, entity.radius + 4, this.local.size - entity.radius - 4); if (this.friendlyPositionClear(entity, nx, entity.y) && (!t || this.world.stepClear217(entity.x, entity.y, nx, entity.y))) entity.x = nx;
+      const ny = clamp(entity.y + dy, entity.radius + 4, this.local.size - entity.radius - 4); if (this.friendlyPositionClear(entity, entity.x, ny) && (!t || this.world.stepClear217(entity.x, entity.y, entity.x, ny))) entity.y = ny;
     }
 
     moveUnitToward(unit, target, dt, speed = unit.speed) {
@@ -1326,9 +1468,11 @@
         const steps = Math.max(1, Math.ceil(dist(unit, target) / (TILE / 3)));
         let direct = true;
         for (let i = 1; i <= steps; i++) if (!this.friendlyPositionClear(unit, lerp(unit.x, target.x, i / steps), lerp(unit.y, target.y, i / steps))) { direct = false; break; }
+        const terrain = this.world.terrain217 ? (x, y, nx, ny) => this.world.canStep(x, y, nx, ny) : undefined;
+        if (direct && terrain && !this.world.stepClear217(unit.x, unit.y, target.x, target.y)) direct = false;
         if (!direct && this.navigationBudget === 0) return false;
         if (!direct && Number.isFinite(this.navigationBudget)) this.navigationBudget--;
-        const cells = direct ? [] : findFriendlyPath({ x: grid(unit.x, this.local), y: grid(unit.y, this.local) }, { x: goalX, y: goalY }, (x, y) => !this.friendlyPositionClear(unit,world(x),world(y)), this.local.tiles, this.local.tiles);
+        const cells = direct ? [] : findFriendlyPath({ x: grid(unit.x, this.local), y: grid(unit.y, this.local) }, { x: goalX, y: goalY }, (x, y) => !this.friendlyPositionClear(unit,world(x),world(y)), this.local.tiles, this.local.tiles, undefined, terrain);
         route = unit.navigation = { goalX, goalY, version, cells, next: 0, direct, retryAt: cells === null ? this.elapsed + STRATEGY_RULES.pathRetrySeconds : 0 };
       }
       if (route.cells === null) return false;
@@ -1824,7 +1968,8 @@
       }
       return null;
     }
-    hostilePositionClear(entity,x,y){return !this.hostileBuildingAt(entity,x,y);}
+    // Terrain G12 (O6a) : depuis la position de l'infecté, ni falaise franchie ni eau profonde ; carte plate inchangée.
+    hostilePositionClear(entity,x,y){if(this.hostileBuildingAt(entity,x,y))return false;const t=this.world.terrain217;return !t||!Number.isFinite(entity?.x)||!Number.isFinite(entity?.y)||this.world.stepClear217(entity.x,entity.y,x,y);}
     stalkerCorridorClear(z,target){
       const steps=Math.max(1,Math.ceil(dist(z,target)/(TILE/3)));
       for(let i=1;i<=steps;i++)if(!this.hostilePositionClear(z,lerp(z.x,target.x,i/steps),lerp(z.y,target.y,i/steps)))return false;
@@ -1836,6 +1981,7 @@
       return prey;
     }
     hostileLineClear(from,to,barriersOnly=true,ignored=null){
+      if(this.world.terrain217&&!this.world.sightClear217(from,to))return false;
       // Exact segment/rectangle clipping also catches the thin edge of a wall corner.
       const seen=new Set();
       for(let gy=grid(Math.min(from.y,to.y), this.local);gy<=grid(Math.max(from.y,to.y), this.local);gy++)for(let gx=grid(Math.min(from.x,to.x), this.local);gx<=grid(Math.max(from.x,to.x), this.local);gx++){
@@ -1945,7 +2091,8 @@
     }
 
     nearestBuilding(x,y,range){let result=null,best=range*range;for(const b of this.world.buildings.values()){if(b.dead)continue;const d=(b.x-x)**2+(b.y-y)**2;if(d<best){best=d;result=b;}}return result;}
-    hasLineOfSight(a,b){const steps=Math.ceil(Math.hypot(a.x-b.x,a.y-b.y)/18);for(let i=1;i<steps;i++){const t=i/steps,hit=this.world.at(lerp(a.x,b.x,t),lerp(a.y,b.y,t));if(T.blocksEnclosure(hit))return false;}return true;}
+    // D-O1 (O6a) : sur un terrain G12, une falaise arrête la vue d'en bas, pas d'en haut.
+    hasLineOfSight(a,b){if(this.world.terrain217&&!this.world.sightClear217(a,b))return false;const steps=Math.ceil(Math.hypot(a.x-b.x,a.y-b.y)/18);for(let i=1;i<steps;i++){const t=i/steps,hit=this.world.at(lerp(a.x,b.x,t),lerp(a.y,b.y,t));if(T.blocksEnclosure(hit))return false;}return true;}
     damageUnit(unit,amount){if(!unit||unit.dead||!(amount>0))return;unit.health=Math.max(0,unit.health-amount);if(unit.health<=0){unit.dead=true;unit.supportActive=false;this.stats.unitsLost++;this.notify(`Un ${(C.SURVIVORS[unit.kind]?.name||'survivant').toLowerCase()} a été perdu.`,'danger');for(let i=0;i<8;i++)this.particles.push(new Particle(unit.x,unit.y,this.random.range(-30,30),this.random.range(-35,15),.7,3,'#6f302e','blood'));}}
     damageBuilding(b,amount){if(b.dead)return;if(b.def.wall&&this.hasResearch('fortification'))amount*=.88;b.health-=amount;b.underAttack=.5;if(b.health<=0)this.destroyBuilding(b);}
     destroyBuilding(b){if(b.dead)return;b.dead=true;const def=b.def;this.world.remove(b);this.stats.buildingsLost++;this.camera.shake=Math.max(this.camera.shake,def.explosive?18:10);for(let i=0;i<(def.explosive?45:20);i++)this.particles.push(new Particle(b.x+this.random.range(-b.w*TILE/2,b.w*TILE/2),b.y+this.random.range(-b.h*TILE/2,b.h*TILE/2),this.random.range(-90,90),this.random.range(-100,60),this.random.range(.6,1.4),this.random.range(2,7),i%3?'#5c5a51':'#b87948',i%3?'debris':'spark'));

@@ -404,7 +404,8 @@
     for (const [key, rate] of Object.entries(consumes || {})) if (rate > 0) fraction = Math.min(fraction, Math.max(0, stock[key] || 0) / (rate * seconds));
     return clamp(fraction, 0, 1);
   }
-  function findFriendlyPath(start, goal, blocked, width = LOCAL_MAP217.tiles, height = LOCAL_MAP217.tiles, maxExpanded = STRATEGY_RULES.pathMaxExpanded) {
+  // `step(x, y, nx, ny)` (facultatif, O6a) : arête franchissable ; une falaise ferme une arête, pas une case.
+  function findFriendlyPath(start, goal, blocked, width = LOCAL_MAP217.tiles, height = LOCAL_MAP217.tiles, maxExpanded = STRATEGY_RULES.pathMaxExpanded, step = null) {
     const valid = point => point.x >= 0 && point.y >= 0 && point.x < width && point.y < height;
     if (!valid(start) || !valid(goal) || blocked(goal.x, goal.y)) return null;
     const key = point => point.y * width + point.x, origin = key(start), target = key(goal);
@@ -425,7 +426,7 @@
       expanded++;
       for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
         const nx = x + dx, ny = y + dy;
-        if (nx < 0 || ny < 0 || nx >= width || ny >= height || blocked(nx, ny)) continue;
+        if (nx < 0 || ny < 0 || nx >= width || ny >= height || blocked(nx, ny) || (step && !step(x, y, nx, ny))) continue;
         const next = ny * width + nx, cost = costs[current.index] + 1;
         if (cost >= costs[next]) continue;
         costs[next] = cost; previous[next] = current.index; open.push(next, cost + distance(nx, ny));
@@ -1637,7 +1638,8 @@
       if(![1,2,3,4,5,6,7].includes(raw.version))return null;const base=old(raw);return base?{...base,version:8,infrastructure:create()}:null;
     };
     const previousPath=C.findFriendlyPath;
-    if(typeof previousPath==='function')C.findFriendlyPath=function(...args){return root.DEADWALL?.infrastructure?root.DEADWALL.infrastructure.findPath(...args):previousPath(...args);};
+    // Un prédicat d'arête (7e argument, terrain G12 hors jeu, O6a) n'est lu que par le chemin ami de base.
+    if(typeof previousPath==='function')C.findFriendlyPath=function(...args){return root.DEADWALL?.infrastructure&&typeof args[6]!=='function'?root.DEADWALL.infrastructure.findPath(...args):previousPath(...args);};
     C.SAVE_VERSION=8;C.SAVE_KEY='deadwall-save-v8';C.SAVE_BACKUP_KEY='deadwall-save-backup-v8';C.LEGACY_SAVE_KEYS=[...new Set(['deadwall-save-v7','deadwall-save-backup-v7',...(C.LEGACY_SAVE_KEYS||[])])];C.INFRASTRUCTURE_RULES=RULES;C.Infrastructure=API;
   }
   const API=Object.freeze({VERSION,RULES,SURFACES,BUILDINGS,surface,surfaceStatus,unfinished,create,normalize,line,quote,findRoute,Engine,install});root.DeadwallInfrastructure=API;
@@ -3627,6 +3629,10 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  C.CoopSession217Rules=Object.freeze({protocol:217,maxGuests:3,codeChars:Object.freeze([6,12]),nameChars:24,maxPending:32,perStep:8,maxSeq:2147483647,maxTick:2147483647,
   roles:Object.freeze({district:Object.freeze(['move','aim','fire','ping','hold']),sortie:Object.freeze(['move','aim','fire','ping'])}),
   view:Object.freeze({radius:900,maxZombies:240,maxBuildings:400,maxDistricts:16})});
+  // Terrain de la cité de génération 12 dans le jeu (ouverture.md, tranche O6a, hors jeu) : surcoûts du champ de flux des hordes,
+  // dans l'unité de son pas (10 par case) — rampe payée sur l'arête qui change de palier, gué sur la case d'un ruisseau sans pont.
+  // Mêmes valeurs que les coûts de chemin de la carte locale (`costs` de ses règles), relues par le test de la tranche.
+  C.CityTerrain217Rules=Object.freeze({version:1,generation:12,rampCost:30,fordCost:20});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),
