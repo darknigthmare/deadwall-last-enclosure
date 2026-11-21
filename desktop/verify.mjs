@@ -38,7 +38,12 @@ if (archiveIndex >= 0) {
   const archive = path.resolve(process.argv[archiveIndex + 1]);
   const unpacked = path.join(reportRoot, 'unpacked');
   await new Promise((resolve,reject) => {
-    const child = spawn('powershell.exe', ['-NoProfile','-NonInteractive','-Command','Expand-Archive -LiteralPath $env:DEADWALL_VERIFY_ARCHIVE -DestinationPath $env:DEADWALL_VERIFY_DESTINATION'], { env:{...env,DEADWALL_VERIFY_ARCHIVE:archive,DEADWALL_VERIFY_DESTINATION:unpacked}, windowsHide:true, stdio:'inherit' });
+    // Windows PowerShell 5.1 must load its own Archive module: a PSModulePath inherited from a PowerShell 7 step
+    // points it at the .NET Core build of Expand-Archive, which fails (ExtractToDirectory overload) without a
+    // non-zero exit code. Drop the inherited path and stop on the first error so a failed extraction is reported.
+    const psEnv = { ...env, DEADWALL_VERIFY_ARCHIVE:archive, DEADWALL_VERIFY_DESTINATION:unpacked };
+    for (const key of Object.keys(psEnv)) if (key.toLowerCase() === 'psmodulepath') delete psEnv[key];
+    const child = spawn('powershell.exe', ['-NoProfile','-NonInteractive','-Command','$ErrorActionPreference = \'Stop\'; Expand-Archive -LiteralPath $env:DEADWALL_VERIFY_ARCHIVE -DestinationPath $env:DEADWALL_VERIFY_DESTINATION'], { env:psEnv, windowsHide:true, stdio:'inherit' });
     child.on('error', reject);
     child.on('close', code => code === 0 ? resolve() : reject(new Error(`Archive extraction failed (${code})`)));
   });
