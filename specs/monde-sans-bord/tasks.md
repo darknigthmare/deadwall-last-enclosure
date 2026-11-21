@@ -908,6 +908,50 @@ reste refusée partout, aucune option de menu, `world-local217.js` toujours abse
   deux paliers ; la vue D-O1 est centrée sur les cases (pas de hauteur d'œil ni de bord de falaise
   adouci, O8).
 
+## O8a — Rendu 2D/2,5D des falaises, rampes, eau et routes (livré, présentation seule, hors jeu)
+
+Fiche : [ouverture.md](ouverture.md), O8 (point 8 de la liste de T4 ; décision D-O1). Atteint seulement par
+un harnais qui remplace le monde d'une partie par une carte de terrain (`tests/helpers/terrain-game217.cjs`) :
+la génération 12 reste refusée, aucune option de menu, le module n'est pas chargé par `index.html`.
+
+- [x] O8a.1 Module `src/terrain-art217.js` (`DeadwallTerrainArt217` : `prepare`, `drawGround`, `depthEntries`,
+      `backEntries`, `hiddenBehind`, `drawMinimap`, `summary`, `colourAt`) ; règles de présentation
+      `C.TerrainArt217Rules` (`cliffMetres` 4, `bevel` .35, `bankMaxCells` 4, `edgeFadeMetres` 6, `grain` 7).
+      Lit `world.terrain217` seulement ; données de peinture dérivées une fois par terrain (table faible).
+- [x] O8a.2 Sol : teinte par palier, grain par hachage de case, image d'un pixel par case agrandie avec
+      lissage (adoucissement des bords de palier, des rives et des routes ; repli par bandes sans canevas).
+      Eau d'après `water` avec lit (berge `Hydrology165Rules.kinds[…].bankWidth`, au plus 4 cases), routes
+      d'après `roads` (trois classes, pont sur l'eau). Sur un monde de terrain : ni croix fixe, ni cour, ni
+      cadre (fondu de 6 m), ni plan d'`exploration-125.js` (routes, stations, cours, minicarte).
+- [x] O8a.3 Falaises : face visible du côté bas, hauteur projetée `cliffMetres` × 16 unités par mètre et par
+      cran (64 unités) ; arêtes est-ouest en ombre latérale ; rebord arrière dans la file de profondeur
+      (`kind` 8, profondeur = arête) : acteur du contrebas derrière le rebord peint avant lui, acteur du
+      plateau après.
+- [x] O8a.4 Rampes : sens de la pente par les arêtes franchies, ombrage, trois marches par case, chevrons.
+- [x] O8a.5 Minicarte (`renderMinimap`) : terrain, traits de falaise, rampes.
+- [x] O8a.6 D-O1 dans `visibility146.js` : rayon local coupé par une falaise vers le haut avant tout autre
+      calcul (couvre aussi le chemin en hauteur : géants, bouches de tir).
+- [x] O8a.7 Tests : `tests/terrain-art217.test.cjs` (6 cas) — isolement et test statique (ni tirage, ni
+      horloge, ni affectation sur la partie, appels gardés par le terrain) ; G1–G11 : séquence d'appels de
+      dessin identique avec et sans le module, module jamais appelé ; falaises (toutes les arêtes de falaise
+      nord-sud une fois, côté bas, hauteur projetée), tri derrière/rebord/dessus ; rampes (graine 0 : deux
+      rampes de 144 cases), routes, teintes, rivière et berge (graine 46), minicarte ; D-O1 (infecté et géant,
+      vu d'en haut, pas d'en bas) ; sonde de 600 images sur 17117 et 46 (aucun tirage ni horloge pendant les
+      appels du module, état, monde, terrain et `streamStats` régionaux inchangés).
+- [x] O8a.8 Innocuité : arbre de travail contre la base `5b0d8ab` (horloges et tirages figés, partie 17117,
+      quatre vues puis vague 1 forcée et 60 s à 30 pas par seconde, un rendu tous les 150 pas, minicarte
+      comprise) : 299 751 appels de dessin et sauvegarde finale identiques. Navigateur : partie 17117 lancée
+      par le menu, harnais de terrain 17117, 0 et 46 (`scripts/browser-terrain-art217.mjs`), aucune erreur
+      de page ; deux infectés témoins par graine (derrière un rebord : masqué ; sur le plateau : visible).
+- Réserves : 17117 n'a **pas de rampe** dans la version 2 de la carte locale (couloir fermé au nord et au
+  sud) ; les rampes sont montrées sur 0 et 46. La hauteur peinte d'un cran (4 m) est une valeur de
+  présentation : la hauteur jouée reste à fixer en O8b (D-O3). Les acteurs ne sont pas décalés par palier
+  (chaque palier peint à sa vraie position) ; projectiles, particules et textes flottants ne passent pas
+  par la file de profondeur et restent visibles devant un rebord. Les modules de la partie qui lisent les
+  lieux et le plan G1–G11 (quartiers, sites nommés, d-17) ne savent pas encore vivre sur un monde de
+  terrain : le harnais met la partie en pause et appelle la minicarte de base (O9/O10). La vue D-O1 reste
+  centrée sur les cases (pas de hauteur d'œil).
+
 ## T5 — Ouverture expérimentale
 
 - [ ] T5.1 `src/world-open217.js` : façade ; aiguillage dans `frontier-world.create`.

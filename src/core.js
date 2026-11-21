@@ -3633,6 +3633,11 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   // dans l'unité de son pas (10 par case) — rampe payée sur l'arête qui change de palier, gué sur la case d'un ruisseau sans pont.
   // Mêmes valeurs que les coûts de chemin de la carte locale (`costs` de ses règles), relues par le test de la tranche.
   C.CityTerrain217Rules=Object.freeze({version:1,generation:12,rampCost:30,fordCost:20});
+  // Rendu du terrain de génération 12 (ouverture.md, tranche O8a, présentation seule, hors jeu) : hauteur d'un cran de
+  // falaise peinte (mètres, projetée à 16 unités par mètre comme les étages ; valeur de présentation, la hauteur jouée
+  // reste à fixer en O8b, D-O3), biseau des extrémités de paroi (fraction de case), berge maximale (cases), fondu du bord
+  // de carte (mètres), grain du sol (écart de teinte).
+  C.TerrainArt217Rules=Object.freeze({version:1,cliffMetres:4,bevel:.35,bankMaxCells:4,edgeFadeMetres:6,grain:7});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),

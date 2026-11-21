@@ -71,7 +71,7 @@ O1 monde régional G12 (interface)  ── livré, hors jeu
 | O5 | Carte de la cité par campagne, taille portée par la sauvegarde (**livré**) | Aucun (128 partout) | L | haut / moyen | O2, O3, O4 |
 | O6 | Carte de 192 m née de `world-local217` : arêtes de falaise, flux, collisions, gisements | Aucun (G12 non créable) | XL → O6a, O6b | moyen / haut | O3, O4 |
 | O7 | Siège adossé : fronts par côté ouvert, enceintes sur falaise, équilibrage à deux côtés | Aucun | L | moyen / haut | O8 |
-| O8 | Rendu des falaises et de l'eau en 2D/2,5D (O8a), vue FPS (O8b) | Aucun | L + L | bas / moyen | O7 |
+| O8 | Rendu des falaises et de l'eau en 2D/2,5D (O8a, **livré**), vue FPS (O8b) | Aucun | L + L | bas / moyen | O7 |
 | O9 | Ouverture : option de menu, fiche, branchement, chargement par anneau | **Oui, derrière l'option** | L | moyen / haut | — |
 | O10 | Atlas et minicarte sans étendue fixe ; rayon d'action (T6) | Oui (G12) | M | bas / bas | après O9 |
 
@@ -435,7 +435,7 @@ Points 5 et 6 de `tasks.md`, et la question (f).
 - Parcours joueur (harnais) : vague 5 sur la graine 17117 — deux fronts, est et ouest.
 - Ampleur L, risque G12 haut (équilibrage), parallélisable avec O8.
 
-### O8 — Rendu des falaises et de l'eau, puis vue FPS
+### O8 — Rendu des falaises et de l'eau, puis vue FPS (**O8a livré**, hors jeu)
 
 Point 8 et point 9 de `tasks.md`. Présentation seule : lit la grille, ne crée ni stock, ni
 dégât, ni tirage, ni horloge.
@@ -447,6 +447,38 @@ d'après `roads` au lieu de la croix fixe de `exploration-125.js` ; tri de profo
 acteurs derrière une falaise ; minicarte (`renderMinimap`, 2594) ; adoucissement de
 présentation des bords qui ne touche pas la collision ; `visibility146.js` : une falaise
 coupe la vue vers le bas (décision D-O1 liée). Ampleur L.
+
+- **Livré O8a** (présentation seule, hors jeu ; détail, mesures et réserves : `tasks.md`, section O8a) :
+  - Module `src/terrain-art217.js` (`DeadwallTerrainArt217`), absent d'`index.html`, de `sw.js` et du
+    build : il ne lit que `world.terrain217` et garde ses données de peinture (traits de falaise,
+    rampes, couleurs des cases, image d'un pixel par case) dans une table faible par terrain. Ni tirage,
+    ni horloge, ni écriture dans la partie ou le monde.
+  - Sol : teinte par palier (contrebas sombre et humide, plateaux plus clairs), grain par hachage de
+    case ; image d'un pixel par case agrandie avec lissage (bords de palier, rives et routes adoucis,
+    la collision reste à la case). Eau d'après la grille (mer, lac, rivière, ruisseau) avec son **lit** :
+    berge de la largeur `bankWidth` de `Hydrology165Rules.kinds`, bornée à 4 cases. Routes d'après
+    `roads` (trois classes, pont sur l'eau) au lieu de la croix fixe : la croix, la cour, le cadre de
+    carte et le plan d'`exploration-125.js` (routes, stations, cours, minicarte) ne sont pas peints sur
+    un monde de terrain ; un fondu de 6 m remplace le cadre du bord.
+  - Falaises : face visible (palier haut au nord) dessinée **du côté bas**, sous l'arête, sur
+    `cliffMetres` 4 × 16 unités par mètre (`CityGeometry202.presentation.projectedHeightUnitsPerMetre`)
+    par cran, extrémités biseautées, strates et ombre au pied ; arêtes est-ouest en ombre latérale ;
+    arête arrière (palier haut au sud) : le rebord du plateau masque le contrebas sur la même hauteur
+    projetée et entre dans la file de profondeur (`kind` 8, profondeur = l'arête) — un acteur du
+    contrebas juste derrière est peint avant (masqué), un acteur du plateau après.
+  - Rampes : composantes de cases de rampe, sens de la pente par les arêtes franchies, ombrage du bas
+    vers le haut, trois marches par case, chevrons vers le haut.
+  - Minicarte : image du terrain, traits de falaise, rampes ; plus de grille fixe ni de cour.
+  - `visibility146.js` (D-O1) : un rayon de vue local qui monte une falaise est coupé avant tout autre
+    calcul, y compris le chemin en hauteur de la citadelle (géants, bouches de tir) qui ne passait pas
+    par `hostileLineClear`.
+  - Points d'appel gardés par `world.terrain217` : `game.js` `drawGround`, `depthEntries`,
+    `renderMinimap` ; `exploration-125.js` (`inHome`, minicarte). En G1–G11, 299 751 appels de dessin
+    enregistrés (16 images, vague 1 jouée 60 s, minicarte comprise) identiques à la base `5b0d8ab`,
+    sauvegarde identique.
+  - Graines de capture : 17117 (couloir est-ouest, falaises au nord et au sud, **aucune rampe** dans la
+    version 2 de la carte locale), 0 (falaise et deux rampes de col), 46 (lac, rivière, six rampes).
+    Harnais : `scripts/browser-terrain-art217.mjs`.
 
 **O8b — Vue FPS.** `vertical-citadel175.js:360`, `vertical-citadel175-render.js:164`
 (sol à `C.WORLD_SIZE`), `vertical-network179.js` : champ de hauteur par palier (hauteur d'un

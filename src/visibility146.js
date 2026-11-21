@@ -162,6 +162,8 @@
       }
       function clear(a, b) {
         metrics.rays++;
+        // D-O1 (terrain de génération 12, O8a) : une falaise coupe la vue vers le haut, jamais vers le bas.
+        if (a.local && b.local && world.terrain217 && !world.sightClear217(localPoint(a), localPoint(b))) return false;
         if (a.local && b.local && (a.altitude !== 0 || b.altitude !== 0 || b.giant)) {
           if (!verticalState || !vertical?.geometry) return false;
           const from = { ...localPoint(a), z: (a.altitude || 0) + a.eye };

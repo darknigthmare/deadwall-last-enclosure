@@ -2486,6 +2486,8 @@
         const depth=this.vertical175?.corpseDepth?.(corpse),height=corpse.altitude*C.VerticalCitadel175.projectedHeight;
         if(Number.isFinite(depth)&&this.visible(corpse.x,corpse.y-height,25,view))entries.push({kind:7,entity:corpse,depth,id:0,order:entries.length,draw:ctx=>this.drawCorpse(ctx,corpse)});
       }
+      // Terrain (O8a) : rebords arrière des falaises dans la même file, triés avec les acteurs.
+      if(this.world.terrain217)globalThis.DeadwallTerrainArt217?.depthEntries(this,view,entries);
       entries.sort((a, b) => a.depth - b.depth || a.kind - b.kind || a.id - b.id || a.order - b.order);
       return entries;
     }
@@ -2532,7 +2534,11 @@
 
     drawGround(ctx,v){
       const pose=this.frontier?.position(),biomeGround=pose?.generation>=6&&globalThis.DeadwallGround135;
-      if(biomeGround){
+      // Terrain de génération 12 (O8a, harnais hors jeu) : paliers, falaises, rampes, eau et routes de la grille ;
+      // une carte plate n'a pas de terrain et garde exactement ses appels de dessin.
+      const art217=this.world.terrain217?globalThis.DeadwallTerrainArt217:null;
+      if(art217)art217.drawGround(ctx,v,this);
+      else if(biomeGround){
         const h=globalThis.DeadwallAtlasProjection.home(this),regionView={left:h.minX+Math.max(0,v.left)/32,right:h.minX+Math.min(this.local.size,v.right)/32,top:h.minY+Math.max(0,v.top)/32,bottom:h.minY+Math.min(this.local.size,v.bottom)/32};
         let ground=this.groundEcology164;
         if(!ground||ground.owner!==this.world||ground.seed!==this.world.seed||ground.generation!==pose.generation||ground.ecologyVersion!==(pose.ecologyVersion||0)||ground.hydrologyVersion!==(pose.hydrologyVersion||0)||ground.landscape189!==(pose.landscape189||'classic')||ground.frontier!==this.frontier){
@@ -2548,17 +2554,17 @@
       this.art?.drawGround(ctx,v,this.local.size);
       }
       const c=this.local.size/2;
-      if(![3,4].includes(this.exploration125?.layoutRevision)){
+      if(!art217&&![3,4].includes(this.exploration125?.layoutRevision)){
       ctx.fillStyle='#242a28';ctx.fillRect(0,c-66,this.local.size,132);ctx.fillRect(c-66,0,132,this.local.size);
       ctx.fillStyle='rgba(7,10,9,.28)';ctx.fillRect(0,c-70,this.local.size,4);ctx.fillRect(0,c+66,this.local.size,4);ctx.fillRect(c-70,0,4,this.local.size);ctx.fillRect(c+66,0,4,this.local.size);
       }
-      if(v.right>c-620&&v.left<c+620&&v.bottom>c-520&&v.top<c+520){
+      if(!art217&&v.right>c-620&&v.left<c+620&&v.bottom>c-520&&v.top<c+520){
         const yard=ctx.createRadialGradient(c,c,70,c,c,560);yard.addColorStop(0,'rgba(55,62,58,.95)');yard.addColorStop(.52,'rgba(45,52,49,.72)');yard.addColorStop(.82,'rgba(38,44,41,.25)');yard.addColorStop(1,'rgba(35,41,38,0)');ctx.fillStyle=yard;ctx.fillRect(c-580,c-500,1160,1000);
         for(let i=0;i<18;i++){const a=seededHash(i,this.world.seed,71)*Math.PI*2,rad=90+seededHash(i,12,this.world.seed)*410,x=c+Math.cos(a)*rad,y=c+Math.sin(a)*rad*.72,w=34+seededHash(i,22,9)*82,h=15+seededHash(i,41,3)*34;ctx.save();ctx.translate(x,y);ctx.rotate((seededHash(i,7,13)-.5)*.55);ctx.fillStyle=`rgba(112,117,108,${.018+seededHash(i,44,2)*.035})`;ctx.fillRect(-w/2,-h/2,w,h);ctx.restore();}
         ctx.strokeStyle='rgba(216,190,112,.055)';ctx.lineWidth=2;for(const radius of [225,355,490]){ctx.beginPath();ctx.ellipse(c,c,radius,radius*.72,0,0,Math.PI*2);ctx.stroke();}
       }
-      if(![3,4].includes(this.exploration125?.layoutRevision)){ctx.strokeStyle='rgba(208,196,142,.13)';ctx.lineWidth=3;ctx.setLineDash([38,32]);ctx.beginPath();ctx.moveTo(0,c);ctx.lineTo(this.local.size,c);ctx.moveTo(c,0);ctx.lineTo(c,this.local.size);ctx.stroke();ctx.setLineDash([]);}
-      ctx.strokeStyle='rgba(220,225,215,.09)';ctx.lineWidth=5;ctx.strokeRect(3,3,this.local.size-6,this.local.size-6);
+      if(!art217&&![3,4].includes(this.exploration125?.layoutRevision)){ctx.strokeStyle='rgba(208,196,142,.13)';ctx.lineWidth=3;ctx.setLineDash([38,32]);ctx.beginPath();ctx.moveTo(0,c);ctx.lineTo(this.local.size,c);ctx.moveTo(c,0);ctx.lineTo(c,this.local.size);ctx.stroke();ctx.setLineDash([]);}
+      if(!art217){ctx.strokeStyle='rgba(220,225,215,.09)';ctx.lineWidth=5;ctx.strokeRect(3,3,this.local.size-6,this.local.size-6);}
       this.infrastructure?.drawRoads(ctx,v);
       if(this.selectedBuild||this.rallyPlacement){const minGX=Math.max(0,Math.floor(v.left/TILE)),maxGX=Math.min(this.local.tiles,Math.ceil(v.right/TILE)),minGY=Math.max(0,Math.floor(v.top/TILE)),maxGY=Math.min(this.local.tiles,Math.ceil(v.bottom/TILE));ctx.strokeStyle='rgba(210,220,210,.055)';ctx.lineWidth=1/this.camera.zoom;ctx.beginPath();for(let x=minGX;x<=maxGX;x++){ctx.moveTo(x*TILE,minGY*TILE);ctx.lineTo(x*TILE,maxGY*TILE);}for(let y=minGY;y<=maxGY;y++){ctx.moveTo(minGX*TILE,y*TILE);ctx.lineTo(maxGX*TILE,y*TILE);}ctx.stroke();}
     }
@@ -2744,7 +2750,7 @@
       if(this.state!=='playing'||this.selectedBuild||this.rallyPlacement||globalThis.matchMedia?.('(pointer: coarse)')?.matches)return;const x=this.input.mouseX,y=this.input.mouseY,gap=this.player.weapon==='shotgun'?8:5;ctx.save();ctx.strokeStyle=this.player.reload>0?'rgba(216,173,77,.78)':'rgba(235,240,235,.88)';ctx.lineWidth=1.25;ctx.beginPath();ctx.moveTo(x-gap-8,y);ctx.lineTo(x-gap,y);ctx.moveTo(x+gap,y);ctx.lineTo(x+gap+8,y);ctx.moveTo(x,y-gap-8);ctx.lineTo(x,y-gap);ctx.moveTo(x,y+gap);ctx.lineTo(x,y+gap+8);ctx.stroke();ctx.fillStyle=this.player.reload>0?'#d8ad4d':'#edf1ec';ctx.fillRect(x-1,y-1,2,2);ctx.restore();
     }
 
-    renderMinimap(){if(this.state!=='playing')return;const ctx=this.mctx,w=this.minimap.width,h=this.minimap.height,sx=w/this.local.size,sy=h/this.local.size;ctx.clearRect(0,0,w,h);ctx.fillStyle='#151b17';ctx.fillRect(0,0,w,h);ctx.strokeStyle='rgba(255,255,255,.035)';for(let i=0;i<=8;i++){const x=i/8*w,y=i/8*h;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}ctx.fillStyle='rgba(125,130,120,.08)';ctx.fillRect((this.local.size/2-430)*sx,(this.local.size/2-320)*sy,860*sx,640*sy);for(const b of this.world.buildings.values()){if(b.dead)continue;ctx.fillStyle=b.type==='core'?'#d2a84a':b.def.defense?'#89958f':'#687a68';ctx.fillRect(b.left*sx,b.top*sy,Math.max(1,b.w*TILE*sx),Math.max(1,b.h*TILE*sy));}this.contentUI?.drawMinimap(ctx,sx,sy);ctx.fillStyle='#b64f45';const vision=this.visibility?.frame?.(),step=this.zombies.length>400?2:1;for(let i=0;i<this.zombies.length;i+=step){const z=this.zombies[i];if(vision?.canSeeLocal(z))ctx.fillRect(z.x*sx,z.y*sy,1.5,1.5);}ctx.fillStyle='#85a975';for(const u of this.units)if(!u.dead)ctx.fillRect(u.x*sx-1,u.y*sy-1,2,2);ctx.fillStyle='#f2d16d';ctx.beginPath();ctx.arc(this.player.x*sx,this.player.y*sy,3,0,Math.PI*2);ctx.fill();const hw=this.width/this.camera.zoom/2,hh=this.height/this.camera.zoom/2;ctx.strokeStyle='rgba(255,255,255,.55)';ctx.strokeRect((this.camera.x-hw)*sx,(this.camera.y-hh)*sy,hw*2*sx,hh*2*sy);}
+    renderMinimap(){if(this.state!=='playing')return;const ctx=this.mctx,w=this.minimap.width,h=this.minimap.height,sx=w/this.local.size,sy=h/this.local.size;ctx.clearRect(0,0,w,h);ctx.fillStyle='#151b17';ctx.fillRect(0,0,w,h);const art217=this.world.terrain217?globalThis.DeadwallTerrainArt217:null;if(art217)art217.drawMinimap(ctx,this,w,h);else{ctx.strokeStyle='rgba(255,255,255,.035)';for(let i=0;i<=8;i++){const x=i/8*w,y=i/8*h;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}ctx.fillStyle='rgba(125,130,120,.08)';ctx.fillRect((this.local.size/2-430)*sx,(this.local.size/2-320)*sy,860*sx,640*sy);}for(const b of this.world.buildings.values()){if(b.dead)continue;ctx.fillStyle=b.type==='core'?'#d2a84a':b.def.defense?'#89958f':'#687a68';ctx.fillRect(b.left*sx,b.top*sy,Math.max(1,b.w*TILE*sx),Math.max(1,b.h*TILE*sy));}this.contentUI?.drawMinimap(ctx,sx,sy);ctx.fillStyle='#b64f45';const vision=this.visibility?.frame?.(),step=this.zombies.length>400?2:1;for(let i=0;i<this.zombies.length;i+=step){const z=this.zombies[i];if(vision?.canSeeLocal(z))ctx.fillRect(z.x*sx,z.y*sy,1.5,1.5);}ctx.fillStyle='#85a975';for(const u of this.units)if(!u.dead)ctx.fillRect(u.x*sx-1,u.y*sy-1,2,2);ctx.fillStyle='#f2d16d';ctx.beginPath();ctx.arc(this.player.x*sx,this.player.y*sy,3,0,Math.PI*2);ctx.fill();const hw=this.width/this.camera.zoom/2,hh=this.height/this.camera.zoom/2;ctx.strokeStyle='rgba(255,255,255,.55)';ctx.strokeRect((this.camera.x-hw)*sx,(this.camera.y-hh)*sy,hw*2*sx,hh*2*sy);}
   }
 
   try {

@@ -1563,7 +1563,8 @@
     const baseEntries = game.depthEntries.bind(game);
     const baseBuilding = game.drawBuilding.bind(game);
     const baseNode = game.drawNode.bind(game);
-    const inHome = view => isGeneration4(game) && (!game.frontier?.active() || view?.homeProjection===true);
+    // Terrain de génération 12 (O8a, harnais hors jeu) : routes et décor viennent de la grille, pas du plan fixe.
+    const inHome = view => isGeneration4(game) && (!game.frontier?.active() || view?.homeProjection===true) && !game.world?.terrain217;
     game.drawGround = function drawGround125(ctx, view) {
       baseGround(ctx, view);
       if (!inHome(view)) return;
@@ -1651,7 +1652,7 @@
   function installMinimap(game, plan, document) {
     const baseMinimap=game.renderMinimap.bind(game);
     game.renderMinimap = function renderMinimap125() {
-      if (!isGeneration4(this) || this.frontier?.active()) return baseMinimap();
+      if (!isGeneration4(this) || this.frontier?.active() || this.world?.terrain217) return baseMinimap();
       if (this.state !== 'playing') return;
       const ctx = this.mctx, w = this.minimap.width, h = this.minimap.height, sx = w / plan.worldSize, sy = h / plan.worldSize;
       ctx.clearRect(0, 0, w, h); ctx.fillStyle = '#121814'; ctx.fillRect(0, 0, w, h);
