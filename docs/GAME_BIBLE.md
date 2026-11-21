@@ -1283,6 +1283,20 @@ et la pêche comme sources, le renommage des onglets d'origine.
   - Les records restent locaux et sans classement.
 - Toute évolution de cette bible passe par un module de sauvegarde additif.
 
+
+**Avancement (rang 22) — cadrage et première tranche livrés.** Cadrage
+dans `specs/cooperation/` (spec, plan, tâches). Constat : la coopération
+actuelle n'est qu'une présence sans autorité, et aucun peintre ne dessine
+encore les autres joueurs. La simulation n'étant pas rejouable à
+l'identique, le choix est un **hôte qui fait autorité**, auquel les invités
+n'envoient que des intentions. Tranche C1 : `src/coop-session217.js`,
+protocole de session pur, non chargé par le jeu (admission par code, trois
+places, rôles responsable de district et chef de sortie, intentions
+validées, ordre stable, image bornée). Le jeu solo est identique au bit
+près. Sept décisions restent à trancher avant de rendre la coopération
+jouable (rôle de l'invité, transport, pause, sauvegarde de l'avatar, droits,
+nombre d'invités, image).
+
 ### 7.13 Un monde procédural sans bord **[DÉCISION]**
 
 #### D'où l'on part **[LIVRÉ]**
@@ -1398,6 +1412,15 @@ d'atlas calée sur l'étendue totale.
   plan (une falaise arrête-t-elle un tir ou la vue ? valeurs du repli des
   fronts ; vue à la première personne dès l'ouverture ; gel des règles de
   génération ; repli à 128 m si 192 m coûte trop).
+- **Tranche O6a livrée, sans effet en jeu** : une carte de cité de 192 m
+  peut être construite, hors partie, à partir de la carte locale de D-17 :
+  paliers, falaises infranchissables, rampes, eau, routes et 192 gisements.
+  Les falaises arrêtent survivants, infectés, chemins et horde ; la vue et
+  la ligne de tir sont coupées d'en bas, pas d'en haut. Le calcul des
+  chemins de la horde y coûte 12 à 28 ms grâce à un cache, contre 41 à
+  47 ms pour la carte actuelle de 128 m : la décision de garder 192 m tient.
+  Restent (O6b) : projectiles en vol, ouvriers, voirie et véhicule face aux
+  falaises ; vivres et carburant dans les gisements.
 - **Tranche O3 livrée, sans effet en jeu** : une campagne sans bord se
   sauvegarde en ne gardant que les écarts (lieux repérés, prélèvements,
   occupants, cantons vus) ; une campagne synthétique de 60 cantons tient en
