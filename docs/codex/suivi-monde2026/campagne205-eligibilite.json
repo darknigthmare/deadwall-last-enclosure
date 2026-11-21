@@ -452,8 +452,8 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 370927,
-      "sha256": "29db3743cf9fb3f616a012a3dc2bc366f56eab3a811148d6617b4a34f6d47c8f"
+      "bytes": 372315,
+      "sha256": "e146ce60c8b7a13b8a32a761a8cc969fb6a80d9e53359935dd3bca2ec1fab251"
     },
     {
       "path": "src/corpse-chain217.js",
@@ -737,8 +737,8 @@
     },
     {
       "path": "src/game.js",
-      "bytes": 460838,
-      "sha256": "0732eff6741a31a68a4dae956317ac811dc96ee8f3e29739f350a57c8d868e08"
+      "bytes": 473297,
+      "sha256": "24dd660dabf80b8ff0a88615ed5e69788647c2f1064f89ba5f815ab56561270b"
     },
     {
       "path": "src/geography135.js",
@@ -1709,8 +1709,8 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 370927,
-      "sha256": "29db3743cf9fb3f616a012a3dc2bc366f56eab3a811148d6617b4a34f6d47c8f"
+      "bytes": 372315,
+      "sha256": "e146ce60c8b7a13b8a32a761a8cc969fb6a80d9e53359935dd3bca2ec1fab251"
     },
     {
       "path": "src/corpse-chain217.js",
@@ -1994,8 +1994,8 @@
     },
     {
       "path": "src/game.js",
-      "bytes": 460838,
-      "sha256": "0732eff6741a31a68a4dae956317ac811dc96ee8f3e29739f350a57c8d868e08"
+      "bytes": 473297,
+      "sha256": "24dd660dabf80b8ff0a88615ed5e69788647c2f1064f89ba5f815ab56561270b"
     },
     {
       "path": "src/geography135.js",
