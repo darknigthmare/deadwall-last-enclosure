@@ -1,0 +1,884 @@
+[
+  {
+    "key": "fence:v1",
+    "decision": "accepted_source_art_proposal",
+    "sha256": "88b6ee1653066ce236aab1fd19693e14286f9aa63930571619f8d3f2f1bedad3",
+    "iteration": 1,
+    "reviewedBy": "fallen_art236 — authored visual review",
+    "reviewedAt": "2026-11-17T16:16:27.673231+01:00",
+    "timezone": "Europe/Paris",
+    "observation": "Segment horizontal entier très mince, trois caps de poteaux, deux rails et une diagonale bois descendante par travée. Les deux diagonales restent parallèles entre elles, sans croix ajoutée. La matière bois et les petites fixations prolongent Art238. Le dessin reste un plan de segment ; aucune façade de clôture ni porte.",
+    "inspectionMethod": "Native ImageGen output displayed and compared with inspected canonical and Art238 v0; both native fence copies additionally opened with view_image.",
+    "canonicalReferenceSha256": "340f4aa5750d99963c1662d8cf40511140470b71df89073507904a76c98110a6",
+    "styleReferenceSha256": "16617f83fd798df7de6366b049ddcfb2f400df787bc52aec0a279bb3f347b87f",
+    "alphaAudit": {
+      "key": "fence:v1",
+      "iteration": 1,
+      "sha256": "88b6ee1653066ce236aab1fd19693e14286f9aa63930571619f8d3f2f1bedad3",
+      "bytes": 167835,
+      "width": 1402,
+      "height": 1122,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1517802,
+      "lowAlpha1to7Pixels": 15851,
+      "boundsAlphaAtLeast": {
+        "1": [
+          25,
+          51,
+          1311,
+          1042
+        ],
+        "8": [
+          202,
+          533,
+          1204,
+          594
+        ],
+        "32": [
+          202,
+          534,
+          1202,
+          593
+        ],
+        "128": [
+          202,
+          535,
+          1201,
+          593
+        ],
+        "240": [
+          203,
+          536,
+          1200,
+          592
+        ]
+      },
+      "marginFractionsAlphaAtLeast": {
+        "1": [
+          0.01783166904422254,
+          0.045454545454545456,
+          0.06490727532097004,
+          0.07130124777183601
+        ],
+        "8": [
+          0.14407988587731813,
+          0.4750445632798574,
+          0.14122681883024252,
+          0.47058823529411764
+        ],
+        "32": [
+          0.14407988587731813,
+          0.47593582887700536,
+          0.14265335235378032,
+          0.4714795008912656
+        ],
+        "128": [
+          0.14407988587731813,
+          0.4768270944741533,
+          0.1433666191155492,
+          0.4714795008912656
+        ],
+        "240": [
+          0.144793152639087,
+          0.47771836007130125,
+          0.14407988587731813,
+          0.47237076648841353
+        ]
+      },
+      "borderAlphaMaximum": 0,
+      "readOnlyDecode": true,
+      "nativeOutputBytesPreserved": true,
+      "pixelEditingPerformed": false
+    },
+    "limitations": [
+      "Proposition de source graphique ; aucune intégration moteur, calibration de pivot, échelle raster ou collision réalisée.",
+      "La variante du peintre est distincte du plan auteur V01 ; le kind et l’ID source du monde ne changent pas.",
+      "Fidélité métrique 1:1 et égalité pixel à pixel non certifiées. Les détails de matière et petits rivets sont interprétés.",
+      "All visible silhouette bounds remain inside the canvas; low alpha border noise is recorded in alphaAudit. No pixel cleanup, crop, resize or re-encoding.",
+      "Les renforts très fins demandent un contrôle ultérieur dans le moteur ; aucune lisibilité à toutes échelles n’est revendiquée. Les proportions de la peinture ne sont pas une conversion métrique certifiée."
+    ],
+    "notRuntimeIntegrated": true,
+    "independentRootReview": "root-review.json, matching SHA and accepted decision verified",
+    "selected": true
+  },
+  {
+    "key": "fence:v2",
+    "decision": "superseded_after_independent_root_review",
+    "sha256": "2be6d0ff6d2cf2d60944c2e893a2fb7a730f99d4beb873ddc31a75263cd72c4e",
+    "iteration": 1,
+    "reviewedBy": "fallen_art236 — authored visual review",
+    "reviewedAt": "2026-11-17T16:16:27.673231+01:00",
+    "timezone": "Europe/Paris",
+    "observation": "Initial author acceptance was superseded by independent root review: material remained too close to timber v0/v1 and the two fine X ties were insufficiently readable. The alpha border was fully transparent; this was not an alpha defect.",
+    "inspectionMethod": "Native ImageGen output displayed and compared with inspected canonical and Art238 v0; both native fence copies additionally opened with view_image.",
+    "canonicalReferenceSha256": "ccd28aec3c0f5e77875436eea808ae3cbee34b61f2e6e89a388ec231ae1e8b50",
+    "styleReferenceSha256": "16617f83fd798df7de6366b049ddcfb2f400df787bc52aec0a279bb3f347b87f",
+    "alphaAudit": {
+      "key": "fence:v2",
+      "iteration": 1,
+      "sha256": "2be6d0ff6d2cf2d60944c2e893a2fb7a730f99d4beb873ddc31a75263cd72c4e",
+      "bytes": 148417,
+      "width": 1402,
+      "height": 1122,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1529393,
+      "lowAlpha1to7Pixels": 9229,
+      "boundsAlphaAtLeast": {
+        "1": [
+          88,
+          231,
+          1332,
+          1050
+        ],
+        "8": [
+          202,
+          535,
+          1200,
+          590
+        ],
+        "32": [
+          204,
+          536,
+          1198,
+          590
+        ],
+        "128": [
+          204,
+          537,
+          1198,
+          589
+        ],
+        "240": [
+          205,
+          537,
+          1197,
+          589
+        ]
+      },
+      "marginFractionsAlphaAtLeast": {
+        "1": [
+          0.06276747503566334,
+          0.20588235294117646,
+          0.04992867332382311,
+          0.06417112299465241
+        ],
+        "8": [
+          0.14407988587731813,
+          0.4768270944741533,
+          0.14407988587731813,
+          0.4741532976827095
+        ],
+        "32": [
+          0.14550641940085593,
+          0.47771836007130125,
+          0.14550641940085593,
+          0.4741532976827095
+        ],
+        "128": [
+          0.14550641940085593,
+          0.4786096256684492,
+          0.14550641940085593,
+          0.4750445632798574
+        ],
+        "240": [
+          0.14621968616262482,
+          0.4786096256684492,
+          0.14621968616262482,
+          0.4750445632798574
+        ]
+      },
+      "borderAlphaMaximum": 0,
+      "readOnlyDecode": true,
+      "nativeOutputBytesPreserved": true,
+      "pixelEditingPerformed": false
+    },
+    "limitations": [
+      "Proposition de source graphique ; aucune intégration moteur, calibration de pivot, échelle raster ou collision réalisée.",
+      "La variante du peintre est distincte du plan auteur V01 ; le kind et l’ID source du monde ne changent pas.",
+      "Fidélité métrique 1:1 et égalité pixel à pixel non certifiées. Les détails de matière et petits rivets sont interprétés.",
+      "All visible silhouette bounds remain inside the canvas; low alpha border noise is recorded in alphaAudit. No pixel cleanup, crop, resize or re-encoding.",
+      "Les renforts très fins demandent un contrôle ultérieur dans le moteur ; aucune lisibilité à toutes échelles n’est revendiquée. Les proportions de la peinture ne sont pas une conversion métrique certifiée."
+    ],
+    "notRuntimeIntegrated": true,
+    "independentRootReview": "Correction requested; original native output retained.",
+    "initialAuthorReviewSnapshot": "pre-correction-records/review.json",
+    "selected": false
+  },
+  {
+    "key": "garden-shed:v1",
+    "decision": "accepted_source_art_proposal",
+    "sha256": "6b4b84fc1a71cd08e7d7aabd53b5f35c8afef5b22dbd811608f463823af32074",
+    "iteration": 1,
+    "reviewedBy": "fallen_art236 — authored visual review",
+    "reviewedAt": "2026-11-17T16:16:27.673231+01:00",
+    "timezone": "Europe/Paris",
+    "observation": "Plan de toiture fermé presque carré, cadre clair et bord sombre, toit métallique bleu-gris, six joints verticaux sombres et une traverse horizontale centrale. La marque sombre au bord inférieur est conservée. Pas de toit ouvert, façade développée ou intérieur nouveau. La matière et les petites fixations restent une interprétation peinte.",
+    "inspectionMethod": "Native ImageGen output displayed and compared with inspected canonical and Art238 v0; both native fence copies additionally opened with view_image.",
+    "canonicalReferenceSha256": "ae188121c83fcd18d35ca34512e3d2bd1557dc4510c82433627e17d2c7ed14dd",
+    "styleReferenceSha256": "62f78aac248efeb594ab1882170d6d91a2e64014cd8a44d283901de94bdbf07e",
+    "alphaAudit": {
+      "key": "garden-shed:v1",
+      "iteration": 1,
+      "sha256": "6b4b84fc1a71cd08e7d7aabd53b5f35c8afef5b22dbd811608f463823af32074",
+      "bytes": 1294875,
+      "width": 1402,
+      "height": 1122,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 991776,
+      "lowAlpha1to7Pixels": 27554,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1372,
+          1122
+        ],
+        "8": [
+          312,
+          202,
+          1090,
+          918
+        ],
+        "32": [
+          314,
+          203,
+          1088,
+          917
+        ],
+        "128": [
+          315,
+          204,
+          1087,
+          917
+        ],
+        "240": [
+          316,
+          205,
+          1086,
+          916
+        ]
+      },
+      "marginFractionsAlphaAtLeast": {
+        "1": [
+          0.0,
+          0.0,
+          0.021398002853067047,
+          0.0
+        ],
+        "8": [
+          0.2225392296718973,
+          0.1800356506238859,
+          0.2225392296718973,
+          0.18181818181818182
+        ],
+        "32": [
+          0.2239657631954351,
+          0.18092691622103388,
+          0.2239657631954351,
+          0.18270944741532977
+        ],
+        "128": [
+          0.22467902995720399,
+          0.18181818181818182,
+          0.22467902995720399,
+          0.18270944741532977
+        ],
+        "240": [
+          0.2253922967189729,
+          0.18270944741532977,
+          0.2253922967189729,
+          0.1836007130124777
+        ]
+      },
+      "borderAlphaMaximum": 1,
+      "readOnlyDecode": true,
+      "nativeOutputBytesPreserved": true,
+      "pixelEditingPerformed": false
+    },
+    "limitations": [
+      "Proposition de source graphique ; aucune intégration moteur, calibration de pivot, échelle raster ou collision réalisée.",
+      "La variante du peintre est distincte du plan auteur V01 ; le kind et l’ID source du monde ne changent pas.",
+      "Fidélité métrique 1:1 et égalité pixel à pixel non certifiées. Les détails de matière et petits rivets sont interprétés.",
+      "All visible silhouette bounds remain inside the canvas; low alpha border noise is recorded in alphaAudit. No pixel cleanup, crop, resize or re-encoding."
+    ],
+    "notRuntimeIntegrated": true,
+    "independentRootReview": "root-review.json, matching SHA and accepted decision verified",
+    "selected": true
+  },
+  {
+    "key": "garden-shed:v2",
+    "decision": "accepted_source_art_proposal",
+    "sha256": "17c9f528b7a4b712b18af839e62b31bc38ce30ee16c14b18d32e2f1d8b821801",
+    "iteration": 1,
+    "reviewedBy": "fallen_art236 — authored visual review",
+    "reviewedAt": "2026-11-17T16:16:27.673231+01:00",
+    "timezone": "Europe/Paris",
+    "observation": "Plan de toiture fermé en bois, cadre clair et bord sombre, grande plaque métallique en partie supérieure gauche avec deux fixations près du haut, petit panneau distinct en bas à droite et marque inférieure centrale. Pas de faîtage vertical de v0, de panneau solaire ni de nouvel équipement fonctionnel.",
+    "inspectionMethod": "Native ImageGen output displayed and compared with inspected canonical and Art238 v0; both native fence copies additionally opened with view_image.",
+    "canonicalReferenceSha256": "fea30836d637dd5abf445f56db7b3b7f5c0222a6df46675de2032ccabc3fe9a4",
+    "styleReferenceSha256": "62f78aac248efeb594ab1882170d6d91a2e64014cd8a44d283901de94bdbf07e",
+    "alphaAudit": {
+      "key": "garden-shed:v2",
+      "iteration": 1,
+      "sha256": "17c9f528b7a4b712b18af839e62b31bc38ce30ee16c14b18d32e2f1d8b821801",
+      "bytes": 1433741,
+      "width": 1402,
+      "height": 1122,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1009326,
+      "lowAlpha1to7Pixels": 14400,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          19,
+          1374,
+          1122
+        ],
+        "8": [
+          311,
+          210,
+          1091,
+          919
+        ],
+        "32": [
+          313,
+          211,
+          1089,
+          917
+        ],
+        "128": [
+          314,
+          212,
+          1089,
+          916
+        ],
+        "240": [
+          315,
+          213,
+          1088,
+          915
+        ]
+      },
+      "marginFractionsAlphaAtLeast": {
+        "1": [
+          0.0,
+          0.01693404634581105,
+          0.019971469329529243,
+          0.0
+        ],
+        "8": [
+          0.22182596291012838,
+          0.18716577540106952,
+          0.22182596291012838,
+          0.18092691622103388
+        ],
+        "32": [
+          0.22325249643366618,
+          0.18805704099821746,
+          0.22325249643366618,
+          0.18270944741532977
+        ],
+        "128": [
+          0.2239657631954351,
+          0.1889483065953654,
+          0.22325249643366618,
+          0.1836007130124777
+        ],
+        "240": [
+          0.22467902995720399,
+          0.18983957219251338,
+          0.2239657631954351,
+          0.18449197860962566
+        ]
+      },
+      "borderAlphaMaximum": 1,
+      "readOnlyDecode": true,
+      "nativeOutputBytesPreserved": true,
+      "pixelEditingPerformed": false
+    },
+    "limitations": [
+      "Proposition de source graphique ; aucune intégration moteur, calibration de pivot, échelle raster ou collision réalisée.",
+      "La variante du peintre est distincte du plan auteur V01 ; le kind et l’ID source du monde ne changent pas.",
+      "Fidélité métrique 1:1 et égalité pixel à pixel non certifiées. Les détails de matière et petits rivets sont interprétés.",
+      "All visible silhouette bounds remain inside the canvas; low alpha border noise is recorded in alphaAudit. No pixel cleanup, crop, resize or re-encoding."
+    ],
+    "notRuntimeIntegrated": true,
+    "independentRootReview": "root-review.json, matching SHA and accepted decision verified",
+    "selected": true
+  },
+  {
+    "key": "rain-barrel:v1",
+    "decision": "accepted_source_art_proposal",
+    "sha256": "cb2f2395e0d0e67bdcdd92458e317558a75ce811e394f0a9cd307740f8d6fb40",
+    "iteration": 1,
+    "reviewedBy": "fallen_art236 — authored visual review",
+    "reviewedAt": "2026-11-17T16:16:27.673231+01:00",
+    "timezone": "Europe/Paris",
+    "observation": "Dessus fermé entier, couronne métallique bleu-gris, anneau sombre et beige, disque métallique central avec une courte traverse horizontale, deux fixations latérales et court embout rouillé en bas à droite. Les deux petits rivets de la traverse sont des détails de matière proposés. Pas de surface d’eau ouverte, indicateur de quantité ou deux bandes de v0.",
+    "inspectionMethod": "Native ImageGen output displayed and compared with inspected canonical and Art238 v0; both native fence copies additionally opened with view_image.",
+    "canonicalReferenceSha256": "9c6ef348c08415512baf4faaf1102a7fede3f48a0559ea49bd38a5bbc2f7c114",
+    "styleReferenceSha256": "965fbd60ba7dbb321e84545e31fb6fd350da931573faffe9c10a1bf9567fb5d0",
+    "alphaAudit": {
+      "key": "rain-barrel:v1",
+      "iteration": 1,
+      "sha256": "cb2f2395e0d0e67bdcdd92458e317558a75ce811e394f0a9cd307740f8d6fb40",
+      "bytes": 1290918,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1060420,
+      "lowAlpha1to7Pixels": 38661,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1244,
+          1254
+        ],
+        "8": [
+          235,
+          210,
+          994,
+          1005
+        ],
+        "32": [
+          235,
+          211,
+          992,
+          1003
+        ],
+        "128": [
+          235,
+          211,
+          992,
+          1003
+        ],
+        "240": [
+          237,
+          212,
+          990,
+          1002
+        ]
+      },
+      "marginFractionsAlphaAtLeast": {
+        "1": [
+          0.0,
+          0.0,
+          0.007974481658692184,
+          0.0
+        ],
+        "8": [
+          0.18740031897926634,
+          0.1674641148325359,
+          0.20733652312599682,
+          0.19856459330143542
+        ],
+        "32": [
+          0.18740031897926634,
+          0.1682615629984051,
+          0.20893141945773525,
+          0.20015948963317384
+        ],
+        "128": [
+          0.18740031897926634,
+          0.1682615629984051,
+          0.20893141945773525,
+          0.20015948963317384
+        ],
+        "240": [
+          0.18899521531100477,
+          0.16905901116427433,
+          0.21052631578947367,
+          0.20095693779904306
+        ]
+      },
+      "borderAlphaMaximum": 1,
+      "readOnlyDecode": true,
+      "nativeOutputBytesPreserved": true,
+      "pixelEditingPerformed": false
+    },
+    "limitations": [
+      "Proposition de source graphique ; aucune intégration moteur, calibration de pivot, échelle raster ou collision réalisée.",
+      "La variante du peintre est distincte du plan auteur V01 ; le kind et l’ID source du monde ne changent pas.",
+      "Fidélité métrique 1:1 et égalité pixel à pixel non certifiées. Les détails de matière et petits rivets sont interprétés.",
+      "All visible silhouette bounds remain inside the canvas; low alpha border noise is recorded in alphaAudit. No pixel cleanup, crop, resize or re-encoding."
+    ],
+    "notRuntimeIntegrated": true,
+    "independentRootReview": "root-review.json, matching SHA and accepted decision verified",
+    "selected": true
+  },
+  {
+    "key": "rain-barrel:v2",
+    "decision": "accepted_source_art_proposal",
+    "sha256": "c271376c312da5491b18783f0d5a9eecc7f8ddad97bbf3eb19b952493fea2159",
+    "iteration": 1,
+    "reviewedBy": "fallen_art236 — authored visual review",
+    "reviewedAt": "2026-11-17T16:16:27.673231+01:00",
+    "timezone": "Europe/Paris",
+    "observation": "Dessus fermé entier, couronne bois, anneau sombre, couvercle métallique gris-olive et une traverse diagonale descendante. Deux bondes sombres inégales sont placées sur cette diagonale, la grande en haut à gauche et la petite en bas à droite ; court embout inférieur droit conservé. Aucun flux d’eau ou équipement actif.",
+    "inspectionMethod": "Native ImageGen output displayed and compared with inspected canonical and Art238 v0; both native fence copies additionally opened with view_image.",
+    "canonicalReferenceSha256": "44860290361ec9830b0f0fb274a86d0c705042206287f2537965e1eab106316b",
+    "styleReferenceSha256": "965fbd60ba7dbb321e84545e31fb6fd350da931573faffe9c10a1bf9567fb5d0",
+    "alphaAudit": {
+      "key": "rain-barrel:v2",
+      "iteration": 1,
+      "sha256": "c271376c312da5491b18783f0d5a9eecc7f8ddad97bbf3eb19b952493fea2159",
+      "bytes": 1086419,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1164039,
+      "lowAlpha1to7Pixels": 7592,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1184,
+          1198
+        ],
+        "8": [
+          263,
+          202,
+          976,
+          924
+        ],
+        "32": [
+          264,
+          203,
+          974,
+          924
+        ],
+        "128": [
+          265,
+          203,
+          973,
+          923
+        ],
+        "240": [
+          266,
+          205,
+          972,
+          922
+        ]
+      },
+      "marginFractionsAlphaAtLeast": {
+        "1": [
+          0.0,
+          0.0,
+          0.05582137161084529,
+          0.044657097288676235
+        ],
+        "8": [
+          0.20972886762360446,
+          0.16108452950558214,
+          0.22169059011164274,
+          0.2631578947368421
+        ],
+        "32": [
+          0.21052631578947367,
+          0.16188197767145135,
+          0.22328548644338117,
+          0.2631578947368421
+        ],
+        "128": [
+          0.2113237639553429,
+          0.16188197767145135,
+          0.2240829346092504,
+          0.26395534290271133
+        ],
+        "240": [
+          0.21212121212121213,
+          0.1634768740031898,
+          0.22488038277511962,
+          0.2647527910685805
+        ]
+      },
+      "borderAlphaMaximum": 1,
+      "readOnlyDecode": true,
+      "nativeOutputBytesPreserved": true,
+      "pixelEditingPerformed": false
+    },
+    "limitations": [
+      "Proposition de source graphique ; aucune intégration moteur, calibration de pivot, échelle raster ou collision réalisée.",
+      "La variante du peintre est distincte du plan auteur V01 ; le kind et l’ID source du monde ne changent pas.",
+      "Fidélité métrique 1:1 et égalité pixel à pixel non certifiées. Les détails de matière et petits rivets sont interprétés.",
+      "All visible silhouette bounds remain inside the canvas; low alpha border noise is recorded in alphaAudit. No pixel cleanup, crop, resize or re-encoding."
+    ],
+    "notRuntimeIntegrated": true,
+    "independentRootReview": "root-review.json, matching SHA and accepted decision verified",
+    "selected": true
+  },
+  {
+    "key": "fence:v2",
+    "iteration": 2,
+    "decision": "rejected_source_art_candidate",
+    "sha256": "860fa7c57994fa212c87f115501b711aa5dc6089a2858b18ebfb296fb5d31d0c",
+    "reviewedBy": "root and fallen_art236",
+    "observation": "Root sees a broad grey cloud around the bar; rails remain almost joined and both X ties insufficiently readable. Author view_image appeared almost empty despite valid colored RGB/alpha samples, while the ImageGen preview showed the broad cloud. The discrepancy is preserved as an observed preview limitation, not proof of corrupted PNG bytes.",
+    "alphaEvidence": "fence-v2-iteration-02-alpha.json",
+    "nativeAlphaFacts": {
+      "alpha1Pixels": 242368,
+      "alpha2to7Pixels": 260300,
+      "pixelsAlphaAtLeast128": 32453,
+      "alphaExactly255Pixels": 39,
+      "borderAlphaMaximum": 1
+    },
+    "originalPngPreserved": true,
+    "pixelEdits": false,
+    "selected": false,
+    "alphaAudit": {
+      "key": "fence:v2",
+      "iteration": 2,
+      "path": "/workspace/scratch/6f470a892a0f/art239-prep/outputs/iteration-02/fence_cloture_croisillons_metal_v2.png",
+      "originalGeneratedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-cae475c1-aec9-41f0-a556-0c658d48921a.png",
+      "sha256": "860fa7c57994fa212c87f115501b711aa5dc6089a2858b18ebfb296fb5d31d0c",
+      "bytes": 404140,
+      "width": 1402,
+      "height": 1122,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1020232,
+      "alpha1Pixels": 242368,
+      "alpha2to7Pixels": 260300,
+      "alpha8to31Pixels": 11345,
+      "alpha32to127Pixels": 6346,
+      "alpha128to254Pixels": 32414,
+      "alpha255Pixels": 39,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          262,
+          1402,
+          988
+        ],
+        "2": [
+          75,
+          357,
+          1356,
+          785
+        ],
+        "8": [
+          199,
+          530,
+          1201,
+          607
+        ],
+        "32": [
+          208,
+          536,
+          1195,
+          596
+        ],
+        "128": [
+          209,
+          537,
+          1194,
+          596
+        ],
+        "240": [
+          210,
+          538,
+          1193,
+          595
+        ]
+      },
+      "marginFractionsAlphaAtLeast": {
+        "1": [
+          0.0,
+          0.23351158645276293,
+          0.0,
+          0.11942959001782531
+        ],
+        "2": [
+          0.05349500713266762,
+          0.3181818181818182,
+          0.03281027104136947,
+          0.3003565062388592
+        ],
+        "8": [
+          0.1419400855920114,
+          0.47237076648841353,
+          0.1433666191155492,
+          0.4590017825311943
+        ],
+        "32": [
+          0.14835948644793154,
+          0.47771836007130125,
+          0.14764621968616262,
+          0.46880570409982175
+        ],
+        "128": [
+          0.14907275320970043,
+          0.4786096256684492,
+          0.14835948644793154,
+          0.46880570409982175
+        ],
+        "240": [
+          0.14978601997146934,
+          0.47950089126559714,
+          0.14907275320970043,
+          0.4696969696969697
+        ]
+      },
+      "borderAlphaMaximum": 1,
+      "readOnlyDecode": true,
+      "nativeOutputBytesPreserved": true,
+      "pixelEditingPerformed": false
+    }
+  },
+  {
+    "key": "fence:v2",
+    "decision": "accepted_source_art_proposal",
+    "sha256": "2f871f6f1d70b64ecb99842a8cd03413c9ed049b3e19ffa45444d13cb1d3b78f",
+    "iteration": 3,
+    "reviewedBy": "fallen_art236 — authored visual review",
+    "reviewedAt": "2026-11-17T16:27:43.428087+01:00",
+    "timezone": "Europe/Paris",
+    "observation": "ImageGen preview and independent root inspection show the complete extremely narrow horizontal steel segment, three post caps, two separated grey-olive rails and two continuous fine X ties. The broad low-alpha cloud of iteration2 is absent. Material is more uniformly metallic and the voids are clearer. The final source used the canonical alone; no earlier generated image was passed.",
+    "inspectionMethod": "Author inspected the ImageGen native preview and decoded native alpha without modifying pixels; root independently viewed the saved candidate and canonical. Author view_image displayed almost no object, an observed viewer discrepancy retained below rather than a claim of corrupted PNG bytes.",
+    "canonicalReferenceSha256": "ccd28aec3c0f5e77875436eea808ae3cbee34b61f2e6e89a388ec231ae1e8b50",
+    "styleReferenceSha256": null,
+    "alphaAudit": {
+      "key": "fence:v2",
+      "iteration": 3,
+      "path": "/workspace/scratch/6f470a892a0f/art239-prep/outputs/iteration-03/fence_cloture_croisillons_metal_v2.png",
+      "originalGeneratedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-99d7b7f3-19ab-432f-bfa3-b78b22622947.png",
+      "sha256": "2f871f6f1d70b64ecb99842a8cd03413c9ed049b3e19ffa45444d13cb1d3b78f",
+      "bytes": 162683,
+      "width": 1402,
+      "height": 1122,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1519324,
+      "alpha1Pixels": 8612,
+      "alpha2to7Pixels": 9340,
+      "lowAlpha1to7Pixels": 17952,
+      "alpha8to31Pixels": 5150,
+      "alpha32to127Pixels": 4507,
+      "alpha128to254Pixels": 26090,
+      "alpha255Pixels": 21,
+      "boundsAlphaAtLeast": {
+        "1": [
+          134,
+          53,
+          1358,
+          1082
+        ],
+        "2": [
+          204,
+          535,
+          1199,
+          591
+        ],
+        "8": [
+          206,
+          537,
+          1196,
+          587
+        ],
+        "32": [
+          206,
+          538,
+          1196,
+          586
+        ],
+        "128": [
+          207,
+          538,
+          1195,
+          586
+        ],
+        "240": [
+          208,
+          539,
+          1195,
+          585
+        ]
+      },
+      "marginFractionsAlphaAtLeast": {
+        "1": [
+          0.09557774607703282,
+          0.04723707664884135,
+          0.03138373751783167,
+          0.035650623885918005
+        ],
+        "2": [
+          0.14550641940085593,
+          0.4768270944741533,
+          0.144793152639087,
+          0.4732620320855615
+        ],
+        "8": [
+          0.14693295292439373,
+          0.4786096256684492,
+          0.14693295292439373,
+          0.4768270944741533
+        ],
+        "32": [
+          0.14693295292439373,
+          0.47950089126559714,
+          0.14693295292439373,
+          0.47771836007130125
+        ],
+        "128": [
+          0.14764621968616262,
+          0.47950089126559714,
+          0.14764621968616262,
+          0.47771836007130125
+        ],
+        "240": [
+          0.14835948644793154,
+          0.4803921568627451,
+          0.14764621968616262,
+          0.4786096256684492
+        ]
+      },
+      "borderAlphaMaximum": 0,
+      "readOnlyDecode": true,
+      "nativeOutputBytesPreserved": true,
+      "pixelEditingPerformed": false
+    },
+    "limitations": [
+      "Source-art proposal only; no runtime integration, pivot calibration, metric scale or collision validation.",
+      "Fine ties still require later engine-scale legibility review; no readability guarantee at every scale.",
+      "Residual very-low-alpha pixels are recorded, including diffuse alpha1 pixels. Exact zero alpha everywhere outside the silhouette is not claimed; borders are alpha0.",
+      "No crop, resize, cleanup, compositing or re-encoding. Native bytes preserved.",
+      "Surface details and exact proportions are interpretations, not pixel-for-pixel or metric 1:1 certification."
+    ],
+    "notRuntimeIntegrated": true,
+    "independentRootReview": "root-review.json, matching iteration3 SHA and accepted decision verified",
+    "viewerLimit": "Author view_image appeared almost empty for iterations2/3 despite valid nonzero RGB and alpha samples; root saw the native final object clearly. No pixel conversion was performed to resolve or hide the discrepancy.",
+    "referencePolicy": "One input: authoritative canonical fence_v2.png only.",
+    "selected": true
+  }
+]

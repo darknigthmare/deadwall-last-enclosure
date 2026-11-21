@@ -6,6 +6,7 @@ import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {parseNativeCounts} from './ci-native-receipt160.mjs';
 import {nativeLogFailures} from './ci-failure-summary.mjs';
+import {assertNativeNodeEnvironment} from './ci-native-node-policy.cjs';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const hash = value => createHash('sha256').update(value).digest('hex');
@@ -98,7 +99,7 @@ export function qualifyFullCheck201(receipt, logBytes) {
   assert.ok(receipt && receipt.version === 1 && receipt.kind === 'literal-fullcheck201', 'Unknown full-check receipt');
   assert.equal(receipt.command, FULL_CHECK_COMMAND201, 'A literal full check with endurance is required');
   assert.equal(receipt.soakEnabled, true, 'Endurance was not enabled for both phases');
-  assert.equal(receipt.filtersAbsent, true, 'Inherited Node test filters/options are prohibited');
+  assert.equal(receipt.filtersAbsent, true, 'Test filters and unapproved inherited Node options are prohibited');
   sourceStable201(receipt.sourceBefore, receipt.sourceAfter, receipt.expectedHead);
   for (const name of ['actualExitCode', 'teeExitCode']) assert.equal(receipt[name], 0, 'Failed actual ' + name);
   assert.equal(receipt.signal, null, 'Interrupted check');
@@ -116,11 +117,10 @@ export function qualifyFullCheck201(receipt, logBytes) {
 }
 
 function writeNew(filename, record) { fs.writeFileSync(filename, JSON.stringify(record, null, 2) + '\n', {flag: 'wx'}); }
-function environment() {
-  assert.equal(process.env.DEADWALL_SOAK, '1', 'DEADWALL_SOAK=1 is mandatory');
-  assert.ok(hex(process.env.DEADWALL_EXPECTED_HEAD, 40), 'DEADWALL_EXPECTED_HEAD must name the exact checked-out commit');
-  assert.ok(!process.env.NODE_OPTIONS && !process.env.NODE_TEST_CONTEXT && !process.env.NODE_TEST_NAME_PATTERN && !process.env.NODE_TEST_SKIP_PATTERN,
-    'No inherited Node options, nested runner or test filters');
+export function assertFullCheckEnvironment201(env = process.env) {
+  assert.equal(env.DEADWALL_SOAK, '1', 'DEADWALL_SOAK=1 is mandatory');
+  assert.ok(hex(env.DEADWALL_EXPECTED_HEAD, 40), 'DEADWALL_EXPECTED_HEAD must name the exact checked-out commit');
+  assertNativeNodeEnvironment(env);
 }
 function main(argv) {
   const [phase, relative, npmCode, teeCode] = argv;
@@ -135,7 +135,7 @@ function main(argv) {
       startedAt: new Date().toISOString(), node: process.version, npm: null, runId: process.env.GITHUB_RUN_ID ?? null,
       runAttempt: process.env.GITHUB_RUN_ATTEMPT ?? null, scope: 'One literal complete npm run check with endurance on the exact requested Git head; no browser, Windows, human campaign, frame-rate or production claim is inferred.', soakEnabled: process.env.DEADWALL_SOAK === '1', filtersAbsent: false, accepted: false};
     try {
-      environment(); record.filtersAbsent = true;
+      assertFullCheckEnvironment201(); record.filtersAbsent = true;
       record.npm = execFileSync('npm', ['--version'], {cwd: root, encoding: 'utf8'}).trim();
       record.sourceBefore = captureSource201(root);
       assertSource201(record.sourceBefore, record.expectedHead);
@@ -157,7 +157,7 @@ function main(argv) {
     record.logBytes = bytes.length; record.logSha256 = hash(bytes); record.counts = parseNativeCounts(bytes.toString('utf8')).counts;
     record.nativeDiagnostics = nativeDiagnostics201(bytes);
     record.soakEnabled = record.soakEnabled === true && process.env.DEADWALL_SOAK === '1';
-    environment(); assert.equal(process.env.DEADWALL_EXPECTED_HEAD, record.expectedHead, 'Expected commit changed between phases');
+    assertFullCheckEnvironment201(); assert.equal(process.env.DEADWALL_EXPECTED_HEAD, record.expectedHead, 'Expected commit changed between phases');
     const result = qualifyFullCheck201(record, bytes); record.accepted = result.accepted;
   } catch (error) { record.failure = error.message; }
   writeNew(receiptFile, record);

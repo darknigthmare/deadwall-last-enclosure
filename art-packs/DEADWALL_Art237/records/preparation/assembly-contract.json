@@ -1,0 +1,716 @@
+{
+  "sourceMain": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "scope": "Static mounted source-art proposals only. All original runtime components and animation owners are preserved.",
+  "metricFrame": {
+    "supportKind": "spikes",
+    "footprintMetres": [
+      1,
+      1
+    ],
+    "nativeOwnerWh": [
+      32,
+      32
+    ],
+    "nativeDrawingInteriorWh": [
+      26,
+      26
+    ],
+    "scaleInCanonical": 24,
+    "heightMetres": null,
+    "rotation": 0
+  },
+  "supportOwnership": {
+    "definition": "src/core.js#BUILDINGS.spikes and CityGeometry202",
+    "renderer": "src/trap-art159.js#drawSpikes",
+    "sourcePieces": {
+      "kind": "spikes",
+      "variant": 0,
+      "atlas": "trap159SuppliesA",
+      "parts": [
+        {
+          "atlas": "trap159SuppliesA",
+          "rect": [
+            18,
+            161,
+            349,
+            109
+          ],
+          "role": "base"
+        },
+        {
+          "atlas": "trap159SuppliesA",
+          "rect": [
+            403,
+            136,
+            355,
+            153
+          ],
+          "role": "mobile1"
+        }
+      ]
+    },
+    "staticPose": {
+      "phase": "idle",
+      "progress": 0,
+      "motion": 0
+    },
+    "drawArguments": [
+      {
+        "role": "base",
+        "xy": [
+          0,
+          0
+        ],
+        "maxWh": [
+          26,
+          26
+        ],
+        "angleRad": 0,
+        "pivot": [
+          0.5,
+          0.5
+        ]
+      },
+      {
+        "role": "mobile1",
+        "xy": [
+          0,
+          0
+        ],
+        "maxWh": [
+          23.4,
+          18.72
+        ],
+        "angleRad": 0,
+        "pivot": [
+          0.5,
+          0.5
+        ]
+      }
+    ],
+    "runtimeMotion": "The existing support contact pulse owns its hinged spike beam; it is independent from the fitting mechanism."
+  },
+  "mechanismOwnership": {
+    "rulesAndSavedType": "src/core.js#FortificationPackRules.mechanisms",
+    "controllerAndPresentation": "src/fortification-pack.js#mechanismPresentation, presentationFor, advanceVisuals",
+    "renderer": "src/trap-art159.js#drawMechanism, hardware193",
+    "phases": [
+      "armed",
+      "trigger",
+      "action",
+      "held",
+      "return",
+      "exhausted"
+    ],
+    "frozenState": {
+      "phase": "armed",
+      "progress": 0,
+      "motion": 0,
+      "cooldown": 0,
+      "caught": []
+    },
+    "integrationConstraint": "A future integration must retain separate fixed/mobile parts and source pivots, derive motion from the existing owner, and avoid drawing the shared support twice. These whole static PNGs are not drop-in animated replacements."
+  },
+  "targets": [
+    {
+      "key": "runnerCable193",
+      "runtimeIdentity": "runnerCable193",
+      "profile": {
+        "family": "guideRail",
+        "color": "#a5aa91",
+        "hardware": "hooks"
+      },
+      "sourceParts": {
+        "kind": "runnerCable193",
+        "variant": 0,
+        "atlas": "trap159MechanismsA",
+        "parts": [
+          {
+            "atlas": "trap159MechanismsA",
+            "rect": [
+              18,
+              466,
+              274,
+              111
+            ],
+            "role": "base"
+          },
+          {
+            "atlas": "trap159MechanismsA",
+            "rect": [
+              314,
+              487,
+              217,
+              136
+            ],
+            "role": "mobile1"
+          },
+          {
+            "atlas": "trap159MechanismsA",
+            "rect": [
+              558,
+              479,
+              188,
+              103
+            ],
+            "role": "mobile2"
+          }
+        ]
+      },
+      "nominalChargesInFixture": 8,
+      "fixedBase": {
+        "role": "base",
+        "xy": [
+          0,
+          0
+        ],
+        "maxWh": [
+          26,
+          26
+        ],
+        "angleRad": 0,
+        "pivot": [
+          0.5,
+          0.5
+        ]
+      },
+      "armedMobilePaintArguments": [
+        {
+          "role": "mobile1",
+          "xy": [
+            -5.46,
+            0
+          ],
+          "maxWh": [
+            11.18,
+            16.64
+          ],
+          "angleRad": 1.5707963267948966,
+          "pivot": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "role": "mobile2",
+          "xy": [
+            5.2,
+            0
+          ],
+          "maxWh": [
+            7.02,
+            16.9
+          ],
+          "angleRad": 0,
+          "pivot": [
+            0.5,
+            0.5
+          ]
+        }
+      ],
+      "runtimeMobileMotion": "mobile1 x=-0.21w+0.39w*motion; mobile2 x=0.20w-0.30w*motion. Angles and pivots remain renderer-owned.",
+      "runtimeHardware": "Two hooks plus one cable. The cable Y=(-0.12+0.24*motion)*h follows the mechanism owner; hook geometry is fixed.",
+      "generationStatus": "blocked-no-image"
+    },
+    {
+      "key": "breachClamp193",
+      "runtimeIdentity": "breachClamp193",
+      "profile": {
+        "family": "clamp",
+        "color": "#968a70",
+        "hardware": "dampers"
+      },
+      "sourceParts": {
+        "kind": "breachClamp193",
+        "variant": 0,
+        "atlas": "trap159MechanismsA",
+        "parts": [
+          {
+            "atlas": "trap159MechanismsA",
+            "rect": [
+              19,
+              704,
+              277,
+              246
+            ],
+            "role": "base"
+          },
+          {
+            "atlas": "trap159MechanismsA",
+            "rect": [
+              324,
+              715,
+              189,
+              223
+            ],
+            "role": "mobile1"
+          },
+          {
+            "atlas": "trap159MechanismsA",
+            "rect": [
+              573,
+              715,
+              186,
+              223
+            ],
+            "role": "mobile2"
+          }
+        ]
+      },
+      "nominalChargesInFixture": 5,
+      "fixedBase": {
+        "role": "base",
+        "xy": [
+          0,
+          0
+        ],
+        "maxWh": [
+          26,
+          26
+        ],
+        "angleRad": 0,
+        "pivot": [
+          0.5,
+          0.5
+        ]
+      },
+      "armedMobilePaintArguments": [
+        {
+          "role": "mobile1",
+          "xy": [
+            -6.5,
+            0
+          ],
+          "maxWh": [
+            14.04,
+            17.42
+          ],
+          "angleRad": -0.46,
+          "pivot": [
+            0.16,
+            0.58
+          ]
+        },
+        {
+          "role": "mobile2",
+          "xy": [
+            6.5,
+            0
+          ],
+          "maxWh": [
+            14.04,
+            17.42
+          ],
+          "angleRad": 0.46,
+          "pivot": [
+            0.84,
+            0.58
+          ]
+        }
+      ],
+      "runtimeMobileMotion": "mobile1 angle=-0.46+0.70*motion; mobile2 angle=0.46-0.70*motion; pivots and positions remain renderer-owned.",
+      "runtimeHardware": "Four fixed corner damper blocks and two fixed diagonal members in an X.",
+      "generationStatus": "accepted_source_art_proposal"
+    },
+    {
+      "key": "enduranceRack193",
+      "runtimeIdentity": "enduranceRack193",
+      "profile": {
+        "family": "ratchet",
+        "color": "#b0a18a",
+        "hardware": "rack"
+      },
+      "sourceParts": {
+        "kind": "enduranceRack193",
+        "variant": 0,
+        "atlas": "trap159MechanismsA",
+        "parts": [
+          {
+            "atlas": "trap159MechanismsA",
+            "rect": [
+              768,
+              421,
+              245,
+              198
+            ],
+            "role": "base"
+          },
+          {
+            "atlas": "trap159MechanismsA",
+            "rect": [
+              1026,
+              479,
+              297,
+              90
+            ],
+            "role": "mobile1"
+          },
+          {
+            "atlas": "trap159MechanismsA",
+            "rect": [
+              1336,
+              428,
+              181,
+              158
+            ],
+            "role": "mobile2"
+          }
+        ]
+      },
+      "nominalChargesInFixture": 18,
+      "fixedBase": {
+        "role": "base",
+        "xy": [
+          0,
+          0
+        ],
+        "maxWh": [
+          26,
+          26
+        ],
+        "angleRad": 0,
+        "pivot": [
+          0.5,
+          0.5
+        ]
+      },
+      "armedMobilePaintArguments": [
+        {
+          "role": "mobile1",
+          "xy": [
+            -7.02,
+            0
+          ],
+          "maxWh": [
+            13.78,
+            14.3
+          ],
+          "angleRad": -0.24,
+          "pivot": [
+            0.1,
+            0.5
+          ]
+        },
+        {
+          "role": "mobile2",
+          "xy": [
+            5.72,
+            0
+          ],
+          "maxWh": [
+            9.1,
+            18.2
+          ],
+          "angleRad": 0,
+          "pivot": [
+            0.5,
+            0.5
+          ]
+        }
+      ],
+      "runtimeMobileMotion": "mobile1 angle=-0.24+0.72*motion; mobile2 x=0.22w-0.08w*motion and width limit=0.35w*(1-0.24*motion).",
+      "runtimeHardware": "One fixed upper rectangular frame and four fixed hanging rectangular rack teeth.",
+      "generationStatus": "accepted_source_art_proposal"
+    },
+    {
+      "key": "shieldTongs193",
+      "runtimeIdentity": "shieldTongs193",
+      "profile": {
+        "family": "clamp",
+        "color": "#7f908b",
+        "hardware": "tongs"
+      },
+      "sourceParts": {
+        "kind": "shieldTongs193",
+        "variant": 0,
+        "atlas": "trap159MechanismsA",
+        "parts": [
+          {
+            "atlas": "trap159MechanismsA",
+            "rect": [
+              19,
+              704,
+              277,
+              246
+            ],
+            "role": "base"
+          },
+          {
+            "atlas": "trap159MechanismsA",
+            "rect": [
+              324,
+              715,
+              189,
+              223
+            ],
+            "role": "mobile1"
+          },
+          {
+            "atlas": "trap159MechanismsA",
+            "rect": [
+              573,
+              715,
+              186,
+              223
+            ],
+            "role": "mobile2"
+          }
+        ]
+      },
+      "nominalChargesInFixture": 4,
+      "fixedBase": {
+        "role": "base",
+        "xy": [
+          0,
+          0
+        ],
+        "maxWh": [
+          26,
+          26
+        ],
+        "angleRad": 0,
+        "pivot": [
+          0.5,
+          0.5
+        ]
+      },
+      "armedMobilePaintArguments": [
+        {
+          "role": "mobile1",
+          "xy": [
+            -6.5,
+            0
+          ],
+          "maxWh": [
+            14.04,
+            17.42
+          ],
+          "angleRad": -0.46,
+          "pivot": [
+            0.16,
+            0.58
+          ]
+        },
+        {
+          "role": "mobile2",
+          "xy": [
+            6.5,
+            0
+          ],
+          "maxWh": [
+            14.04,
+            17.42
+          ],
+          "angleRad": 0.46,
+          "pivot": [
+            0.84,
+            0.58
+          ]
+        }
+      ],
+      "runtimeMobileMotion": "mobile1 angle=-0.46+0.70*motion; mobile2 angle=0.46-0.70*motion; pivots and positions remain renderer-owned.",
+      "runtimeHardware": "Two bars; upper endpoints move inward with motion: left=(-0.20+0.10*motion)*w, right=(0.20-0.10*motion)*w.",
+      "generationStatus": "accepted_source_art_proposal"
+    },
+    {
+      "key": "quickCable193",
+      "runtimeIdentity": "quickCable193",
+      "profile": {
+        "family": "guideRail",
+        "color": "#b9b199",
+        "hardware": "reels"
+      },
+      "sourceParts": {
+        "kind": "quickCable193",
+        "variant": 0,
+        "atlas": "trap159MechanismsA",
+        "parts": [
+          {
+            "atlas": "trap159MechanismsA",
+            "rect": [
+              18,
+              466,
+              274,
+              111
+            ],
+            "role": "base"
+          },
+          {
+            "atlas": "trap159MechanismsA",
+            "rect": [
+              314,
+              487,
+              217,
+              136
+            ],
+            "role": "mobile1"
+          },
+          {
+            "atlas": "trap159MechanismsA",
+            "rect": [
+              558,
+              479,
+              188,
+              103
+            ],
+            "role": "mobile2"
+          }
+        ]
+      },
+      "nominalChargesInFixture": 12,
+      "fixedBase": {
+        "role": "base",
+        "xy": [
+          0,
+          0
+        ],
+        "maxWh": [
+          26,
+          26
+        ],
+        "angleRad": 0,
+        "pivot": [
+          0.5,
+          0.5
+        ]
+      },
+      "armedMobilePaintArguments": [
+        {
+          "role": "mobile1",
+          "xy": [
+            -5.46,
+            0
+          ],
+          "maxWh": [
+            11.18,
+            16.64
+          ],
+          "angleRad": 1.5707963267948966,
+          "pivot": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "role": "mobile2",
+          "xy": [
+            5.2,
+            0
+          ],
+          "maxWh": [
+            7.02,
+            16.9
+          ],
+          "angleRad": 0,
+          "pivot": [
+            0.5,
+            0.5
+          ]
+        }
+      ],
+      "runtimeMobileMotion": "mobile1 x=-0.21w+0.39w*motion; mobile2 x=0.20w-0.30w*motion. Angles and pivots remain renderer-owned.",
+      "runtimeHardware": "Two fixed hollow annular reels; lower cable Y=(0.15-0.30*motion)*h follows the owner.",
+      "generationStatus": "accepted_source_art_proposal"
+    },
+    {
+      "key": "siegeBrake193",
+      "runtimeIdentity": "siegeBrake193",
+      "profile": {
+        "family": "counterweight",
+        "color": "#8b8d7d",
+        "hardware": "chain"
+      },
+      "sourceParts": {
+        "kind": "siegeBrake193",
+        "variant": 0,
+        "atlas": "trap159MechanismsA",
+        "parts": [
+          {
+            "atlas": "trap159MechanismsA",
+            "rect": [
+              762,
+              761,
+              244,
+              168
+            ],
+            "role": "base"
+          },
+          {
+            "atlas": "trap159MechanismsA",
+            "rect": [
+              1007,
+              747,
+              370,
+              114
+            ],
+            "role": "mobile1"
+          },
+          {
+            "atlas": "trap159MechanismsA",
+            "rect": [
+              1380,
+              679,
+              122,
+              274
+            ],
+            "role": "mobile2"
+          }
+        ]
+      },
+      "nominalChargesInFixture": 2,
+      "fixedBase": {
+        "role": "base",
+        "xy": [
+          0,
+          0
+        ],
+        "maxWh": [
+          26,
+          26
+        ],
+        "angleRad": 0,
+        "pivot": [
+          0.5,
+          0.5
+        ]
+      },
+      "armedMobilePaintArguments": [
+        {
+          "role": "mobile1",
+          "xy": [
+            -3.9,
+            0
+          ],
+          "maxWh": [
+            15.6,
+            15.08
+          ],
+          "angleRad": -0.2,
+          "pivot": [
+            0.06,
+            0.5
+          ]
+        },
+        {
+          "role": "mobile2",
+          "xy": [
+            7.8,
+            -4.42
+          ],
+          "maxWh": [
+            6.5,
+            14.3
+          ],
+          "angleRad": 0,
+          "pivot": [
+            0.5,
+            0.5
+          ]
+        }
+      ],
+      "runtimeMobileMotion": "mobile1 angle=-0.20+0.55*motion; mobile2 x=0.30w-0.16w*motion and y=-0.17h+0.34h*motion.",
+      "runtimeHardware": "One fixed upper-left brake block and four fixed V-shaped lower link sections.",
+      "generationStatus": "accepted_source_art_proposal"
+    }
+  ]
+}

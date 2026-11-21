@@ -1,0 +1,260 @@
+[
+  {
+    "id": "DW-0065",
+    "name": "Boulangerie artisanale",
+    "type": "bakery",
+    "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+    "sheet": "references/DW-0065.md",
+    "sheetSha256": "cbb0d3ba53f7f5ef3b51c65eb6ea7f89befc1c366f8a0164f7f66ecc9d612155",
+    "pilotBuildingFootprintMetres": [
+      22,
+      17
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "pilotSource": "src/frontier-places.js::PRESETS",
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        18,
+        14
+      ],
+      "maximum": [
+        90,
+        60
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndAuthorParcelAreDifferentConcepts": true,
+    "program": [
+      "Boutique",
+      "Fournil",
+      "Pétrissage",
+      "Réserve farine"
+    ],
+    "invariants": [
+      "Façade publique côté desserte",
+      "Accès farine et réserve séparé du comptoir",
+      "Fournil distinct de la vente",
+      "Un seul niveau"
+    ],
+    "existingGenericRoofFamily": "retail",
+    "existingRenderer": "src/frontier-art.js::lotRoof → DeadwallInteriorArt153.drawRoof",
+    "newSpriteRegisteredInRuntime": false
+  },
+  {
+    "id": "DW-0153",
+    "name": "Bibliothèque municipale",
+    "type": "library",
+    "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+    "sheet": "references/DW-0153.md",
+    "sheetSha256": "5e39c61a20dbcf763b57c8cd87b96753b92d5c5babaabe3d99b452b04a2b6bd9",
+    "pilotBuildingFootprintMetres": [
+      32,
+      24
+    ],
+    "pilotLevels": [
+      0,
+      1
+    ],
+    "pilotSource": "src/frontier-places.js::PRESETS",
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        28,
+        20
+      ],
+      "maximum": [
+        160,
+        110
+      ]
+    },
+    "authorProposedLevelsText": "0, 1",
+    "pilotAndAuthorParcelAreDifferentConcepts": true,
+    "program": [
+      "Accueil",
+      "Rayons",
+      "Lecture",
+      "Archives"
+    ],
+    "invariants": [
+      "Exactement deux niveaux du pilote",
+      "Archives distinctes du public",
+      "Entrée publique lisible",
+      "Accès de service en retrait"
+    ],
+    "existingGenericRoofFamily": "civic",
+    "existingRenderer": "src/frontier-art.js::lotRoof → DeadwallInteriorArt153.drawRoof",
+    "newSpriteRegisteredInRuntime": false
+  },
+  {
+    "id": "DW-0085",
+    "name": "Laverie automatique",
+    "type": "laundry",
+    "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+    "sheet": "references/DW-0085.md",
+    "sheetSha256": "0a6857e58e2955b8d60e88a8fb9f9d1dcff680a3cc3f3811dd4e3876f27730aa",
+    "pilotBuildingFootprintMetres": [
+      21,
+      15
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "pilotSource": "src/frontier-places.js::PRESETS",
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        12,
+        10
+      ],
+      "maximum": [
+        40,
+        26
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndAuthorParcelAreDifferentConcepts": true,
+    "program": [
+      "Machines",
+      "Pliage",
+      "Local technique",
+      "Attente"
+    ],
+    "invariants": [
+      "Un seul niveau",
+      "Dos des machines accessible à la maintenance",
+      "Public en façade et technique en retrait"
+    ],
+    "existingGenericRoofFamily": "service",
+    "existingRenderer": "src/frontier-art.js::lotRoof → DeadwallInteriorArt153.drawRoof",
+    "newSpriteRegisteredInRuntime": false
+  },
+  {
+    "id": "DW-0082",
+    "name": "Bureau postal",
+    "type": "postoffice",
+    "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+    "sheet": "references/DW-0082.md",
+    "sheetSha256": "df6f5f02f0f999d05c1916a2a01a0367ef43f127d9c1656e0598f38c81eda608",
+    "pilotBuildingFootprintMetres": [
+      28,
+      22
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "pilotSource": "src/frontier-places.js::PRESETS",
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        12,
+        10
+      ],
+      "maximum": [
+        40,
+        26
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndAuthorParcelAreDifferentConcepts": true,
+    "program": [
+      "Accueil",
+      "Tri",
+      "Casier colis",
+      "Quai"
+    ],
+    "invariants": [
+      "Un seul niveau",
+      "Clients séparés du quai",
+      "Tri avant expédition",
+      "Service et stock en retrait"
+    ],
+    "existingGenericRoofFamily": "retail",
+    "existingRenderer": "src/frontier-art.js::lotRoof → DeadwallInteriorArt153.drawRoof",
+    "newSpriteRegisteredInRuntime": false
+  },
+  {
+    "id": "DW-0444",
+    "name": "Gymnase municipal",
+    "type": "gym",
+    "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+    "sheet": "references/DW-0444.md",
+    "sheetSha256": "4aaece7cd71d7fc739e597acf66e693d3a39d6f1f6ae94a5e5ada68346d2b08b",
+    "pilotBuildingFootprintMetres": [
+      38,
+      28
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "pilotSource": "src/frontier-places.js::PRESETS",
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        40,
+        28
+      ],
+      "maximum": [
+        300,
+        200
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndAuthorParcelAreDifferentConcepts": true,
+    "program": [
+      "Hall",
+      "Salle",
+      "Vestiaires",
+      "Stock"
+    ],
+    "invariants": [
+      "Un seul niveau du pilote",
+      "Salle centrale dégagée",
+      "Matériel rangé en réserve",
+      "Vestiaires et stockage liés au volume principal"
+    ],
+    "existingGenericRoofFamily": "school",
+    "existingRenderer": "src/frontier-art.js::lotRoof → DeadwallInteriorArt153.drawRoof",
+    "newSpriteRegisteredInRuntime": false
+  },
+  {
+    "id": "DW-0224",
+    "name": "Garde-meubles",
+    "type": "selfstorage",
+    "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+    "sheet": "references/DW-0224.md",
+    "sheetSha256": "ced5be434af982716e111efd0fb12df7b0230e44ee8a5cb05668355e42b66a4c",
+    "pilotBuildingFootprintMetres": [
+      36,
+      26
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "pilotSource": "src/frontier-places.js::PRESETS",
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        35,
+        24
+      ],
+      "maximum": [
+        200,
+        125
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndAuthorParcelAreDifferentConcepts": true,
+    "program": [
+      "Accueil",
+      "Boxes",
+      "Couloirs",
+      "Chargement"
+    ],
+    "invariants": [
+      "Un seul niveau",
+      "Boxes intérieurs sur couloir commun",
+      "Chargement dégagé",
+      "Huit boxes générés par le pilote (quatre de chaque côté)"
+    ],
+    "existingGenericRoofFamily": "industrial",
+    "existingRenderer": "src/frontier-art.js::lotRoof → DeadwallInteriorArt153.drawRoof",
+    "newSpriteRegisteredInRuntime": false
+  }
+]

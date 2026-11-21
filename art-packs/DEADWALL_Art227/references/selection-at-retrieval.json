@@ -1,0 +1,1422 @@
+{
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "Art227",
+  "selectionStatus": "seven_native_regional_pilots_verified_ready_for_generation",
+  "repository": "darknigthmare/deadwall-last-enclosure",
+  "sourceMainRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "focus": "Habitat et hébergement : sept pilotes directs.",
+  "absenceEvidence": {
+    "imageFilesInspected": 156,
+    "namedDedicatedExteriorImagePaths": [],
+    "nativeRenderer": "src/frontier-art.js::lotRoof delegates to DeadwallInteriorArt153.drawRoof; selected types use the existing generic roof families and roofChoices recorded per target.",
+    "scope": "A dedicated whole-building exterior is missing from the inspected runtime; existing floors, furniture, props and generic roof variants already represent these sites.",
+    "sharedSourcesMainVsSavedPr24": [
+      {
+        "repositoryPath": "src/frontier-places.js",
+        "mainAndSavedPr24BytesEqual": true
+      },
+      {
+        "repositoryPath": "src/interior-art153.js",
+        "mainAndSavedPr24BytesEqual": true
+      },
+      {
+        "repositoryPath": "src/frontier-art.js",
+        "mainAndSavedPr24BytesEqual": false
+      },
+      {
+        "repositoryPath": "assets/buildings-atlas.webp",
+        "mainAndSavedPr24BytesEqual": true
+      }
+    ],
+    "lotRoofMainAndSavedPr24Identical": true,
+    "frontierArtDiffExplanation": "The saved PR24 version adds sitesById217 and uses it for occupied-site lookup. The lotRoof function and its generic roof delegation are byte-identical."
+  },
+  "exclusions": {
+    "art222CodexIds": [
+      "DW-0342",
+      "DW-0132",
+      "DW-0321",
+      "DW-0334",
+      "DW-0541",
+      "DW-0528",
+      "DW-0549",
+      "DW-0097"
+    ],
+    "art223CodexIds": [
+      "DW-0065",
+      "DW-0153",
+      "DW-0085",
+      "DW-0082",
+      "DW-0444",
+      "DW-0224"
+    ],
+    "art221KnownCount": 9,
+    "art221CompleteAssetInventoryRecovered": false,
+    "art221CategoryExclusion": "Les libellés de ces sept pilotes ne correspondent pas aux neuf expressions de remarkable217. Inventaire des sorties Art221 incomplet; les limites de dédoublonnage historique restent explicites.",
+    "art224CodexIds": [
+      "DW-0046",
+      "DW-0367",
+      "DW-0104",
+      "DW-0251",
+      "DW-0306",
+      "DW-0237"
+    ],
+    "art225SelectedCodexIds": [
+      "DW-0053",
+      "DW-0045",
+      "DW-0069",
+      "DW-0241",
+      "DW-0142",
+      "DW-0161"
+    ],
+    "art226SelectedCodexIds": [
+      "DW-0381",
+      "DW-0221",
+      "DW-0289",
+      "DW-0073",
+      "DW-0331",
+      "DW-0403"
+    ],
+    "parallelNextBatchSelectedCodexIds": [
+      "DW-0041",
+      "DW-0061",
+      "DW-0062",
+      "DW-0498",
+      "DW-0181",
+      "DW-0126",
+      "DW-0401"
+    ]
+  },
+  "limits": [
+    "No canonical pixel exterior is supplied by the Codex. Prompts preserve the verified pilot programme, native floor count, dimensions and atlas style; exterior roof/façade details are design choices. Exact metric 1:1 rendering is not certified.",
+    "The larger proposed parcel ranges in the source cards are NOT the pilot building dimensions.",
+    "No images generated, no engine integration, no tests or game code modified.",
+    "Do not apply a whole-building sprite directly to a generic roof rectangle without calibrating metres, anchors, depth, rotated colliders and opened interiors."
+  ],
+  "sources": [
+    {
+      "path": "references/frontier-places.js",
+      "repositoryPath": "src/frontier-places.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "61c2f10383a70ba923682598a5e81bdd73269fdfb7291ef4ee8fd42336ab535a",
+      "gitBlob": "8c9f0e7da52e71de36c8b717ea6a221aac4edcf2",
+      "bytes": 9588,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-places.js"
+    },
+    {
+      "path": "references/frontier-specialists.js",
+      "repositoryPath": "src/frontier-specialists.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "2a08756f31fc62bfc05f90950ce2008d99e0aba0ed9997fa664411ec87b77874",
+      "gitBlob": "31757f4b0f83b5c9532972fac1ac38ed1c74c7d5",
+      "bytes": 6605,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-specialists.js"
+    },
+    {
+      "path": "references/frontier-geometry.js",
+      "repositoryPath": "src/frontier-geometry.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "fbdd65ee4047ed510692fc7e822c4b55339f35a17a721dafe671f79baf5c3a01",
+      "gitBlob": "20ccaa7bfcd3584a7aab4e8cd2dddb2f8c5a84e0",
+      "bytes": 14015,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-geometry.js"
+    },
+    {
+      "path": "references/interior-art153.js",
+      "repositoryPath": "src/interior-art153.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "7b686fc06c7be2b00a8263ce47b42eeb5dc8413fedee71c9f4fed790f50ffd21",
+      "gitBlob": "bd63cd1e0e15d02d03f1c386a35f4f9cc0edf428",
+      "bytes": 18868,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/interior-art153.js"
+    },
+    {
+      "path": "references/frontier-art.js",
+      "repositoryPath": "src/frontier-art.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "50e3f6e92a1a33bbaddc0a98b99472e367ee66834eeb691c9a26e2507837b017",
+      "gitBlob": "bc3933fb70aae5c092fd0a89361eb818c5a9aa7a",
+      "bytes": 35986,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-art.js"
+    },
+    {
+      "path": "references/buildings-atlas.webp",
+      "repositoryPath": "assets/buildings-atlas.webp",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a",
+      "gitBlob": "99f730d209168f7be2e5c8aee1b0e927c9ab02e5",
+      "bytes": 364648,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/assets/buildings-atlas.webp"
+    },
+    {
+      "path": "references/remarkable217.js",
+      "repositoryPath": "src/remarkable217.js",
+      "revision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+      "sha256": "c2aaf40a08f2a5fce22a076d481edcb7aab908688efebfaece118ee31bf062b2",
+      "gitBlob": "b53875eac7d7bdf28201b4beedb7ce33313dc0e5",
+      "bytes": 31652,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/src/remarkable217.js"
+    },
+    {
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0001.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "e72bb792bd2b6acbed1f2f04fc934f80513e910b45a100cdc8f5911f05fe005e",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0001.md",
+      "path": "references/DW-0001.md",
+      "gitBlob": "10d18bf6369687f454a9a3681cebda8b785373a8",
+      "bytes": 9468
+    },
+    {
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0003.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "919f1f707421d5c8d0f327e9ae39ba46618bc019c09be23729d6043591c2f5be",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0003.md",
+      "path": "references/DW-0003.md",
+      "gitBlob": "7153b71973326264dfe13f9eef12cc7c217bc9b6",
+      "bytes": 9104
+    },
+    {
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0010.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "5b6f279db28c8c5f7e1819d9e188cb5f6463393b79b17df1d0cdae7bd04fa096",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0010.md",
+      "path": "references/DW-0010.md",
+      "gitBlob": "92e2fbbe97d0881e5d240ee7c8b917fc92a7a8ef",
+      "bytes": 8429
+    },
+    {
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0021.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "47876fe0eaa8a571d20a2eaa9d1ac486056b4909d446ce21eb9fa55315c799b9",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0021.md",
+      "path": "references/DW-0021.md",
+      "gitBlob": "82bba10b9a491ab78b303f00f500e88b54e0a353",
+      "bytes": 9336
+    },
+    {
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0004.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "141ec20937679d1dc8884f14c0a5419199d48e131322433d4d86bf7ea6d70ecd",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0004.md",
+      "path": "references/DW-0004.md",
+      "gitBlob": "667d0e7577b3c2be744e341a7aa74b9cb80f01d3",
+      "bytes": 10038
+    },
+    {
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0481.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "51b852442dd01c93a191873a1fc96a9c9ac9170f3ffd1ed096e80cfe0843d195",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0481.md",
+      "path": "references/DW-0481.md",
+      "gitBlob": "cf3ad799d40f53da1b472e6f50e7cb3c9e626c68",
+      "bytes": 8499
+    },
+    {
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0101.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "cbb20cee25ceb70553a4d30646be37ab3b63424926ca5440dd938a9b1c94505f",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0101.md",
+      "path": "references/DW-0101.md",
+      "gitBlob": "9a48070daa0edd33874989f977dcb06c7f847bce",
+      "bytes": 9722
+    }
+  ],
+  "targets": [
+    {
+      "type": "house",
+      "preset": {
+        "id": "house",
+        "name": "Maison de lotissement",
+        "w": 14,
+        "h": 12,
+        "levels": [
+          0
+        ],
+        "layout": "home",
+        "codex": "DW-0001"
+      },
+      "roofFamily": "cottage",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "cottage",
+          "variant": 0,
+          "rect": [
+            37,
+            41,
+            286,
+            188
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "cottage",
+          "variant": 1,
+          "rect": [
+            362,
+            47,
+            315,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 2,
+          "model": "terracotta-hipped",
+          "rect": [
+            58,
+            73,
+            291,
+            171
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 3,
+          "model": "terracotta-dormer",
+          "rect": [
+            431,
+            63,
+            298,
+            180
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 4,
+          "model": "slate-mansard",
+          "rect": [
+            815,
+            71,
+            292,
+            173
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 5,
+          "model": "patched-metal",
+          "rect": [
+            1188,
+            71,
+            289,
+            174
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Séjour",
+            "Cuisine",
+            "Chambre",
+            "Garage / rangement"
+          ],
+          "objectKinds": [
+            "sofa",
+            "table",
+            "fridge",
+            "sink",
+            "bed",
+            "workbench",
+            "crate"
+          ],
+          "stairs": []
+        }
+      ],
+      "nativeOutdoorKinds": [
+        "table",
+        "crate"
+      ],
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0001.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "e72bb792bd2b6acbed1f2f04fc934f80513e910b45a100cdc8f5911f05fe005e",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0001.md",
+        "path": "references/DW-0001.md",
+        "gitBlob": "10d18bf6369687f454a9a3681cebda8b785373a8",
+        "bytes": 9468
+      },
+      "codexQuotes": [
+        "# DW-0001 — Maison de lotissement",
+        "**Statut :** pilote_1_15 — Un plan pilote simplifié existe depuis le moteur 1.15. Cette fiche est plus ambitieuse et ne signifie pas que toutes ses variantes et sous-zones sont implémentées.",
+        "### Entrée",
+        "### Séjour",
+        "### Cuisine",
+        "### Garage",
+        "### Jardin",
+        "Plan source : `house`; enveloppe bâtie actuelle [14, 12] m; niveaux [0]. Les autres variantes de la fiche restent des propositions."
+      ],
+      "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art227. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates; do not lower the camera to show the facade. Preserve the native pilot footprint ratio and above-ground floor count. Intact roof, no cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow grounded threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0001 14 m wide by 12 m deep rectangular suburban house, EXACTLY ONE above-ground floor. Simple weathered plaster and restrained brick, a modest low pitched roof, small residential windows and one human-scale ground entrance. Living room, kitchen, bedroom and garage/storage remain inside the single compact envelope. No added upper floor, attic windows, detached garage or garden plot. PROJECTION PRIORITY: projected roof/footprint depth about 81% of its width; combined visible front wall band about 6% of building width, for ALL above-ground floors together. Keep full roof depth and strongly compress the facade. It is acceptable for doors and low windows to be partly hidden by eaves. Do not invent an extra floor to improve readability.",
+      "filename": "DW-0001_maison_lotissement.png",
+      "status": "selected_missing_dedicated_exterior_not_generated",
+      "nativeFunction": "Un seul niveau0 : séjour, cuisine, chambre et garage/rangement. Le jardin proposé dans la fiche n’ajoute aucun volume au pilote.",
+      "cameraTargets": {
+        "downwardDegrees": 70,
+        "projectedRoofDepthPercentWidth": 81,
+        "combinedFrontFacadePercentWidth": 6,
+        "aboveGroundFloorCount": 1,
+        "buriedLevels": [],
+        "metricProjectionCertified": false
+      }
+    },
+    {
+      "type": "duplex",
+      "preset": {
+        "id": "duplex",
+        "name": "Maison à étage",
+        "w": 16,
+        "h": 13,
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "home",
+        "codex": "DW-0003"
+      },
+      "roofFamily": "cottage",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "cottage",
+          "variant": 0,
+          "rect": [
+            37,
+            41,
+            286,
+            188
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "cottage",
+          "variant": 1,
+          "rect": [
+            362,
+            47,
+            315,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 2,
+          "model": "terracotta-hipped",
+          "rect": [
+            58,
+            73,
+            291,
+            171
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 3,
+          "model": "terracotta-dormer",
+          "rect": [
+            431,
+            63,
+            298,
+            180
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 4,
+          "model": "slate-mansard",
+          "rect": [
+            815,
+            71,
+            292,
+            173
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 5,
+          "model": "patched-metal",
+          "rect": [
+            1188,
+            71,
+            289,
+            174
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Séjour",
+            "Cuisine",
+            "Chambre",
+            "Garage / rangement"
+          ],
+          "objectKinds": [
+            "sofa",
+            "table",
+            "fridge",
+            "sink",
+            "bed",
+            "wardrobe",
+            "workbench",
+            "crate"
+          ],
+          "stairs": [
+            {
+              "id": "source-duplex:stairs",
+              "x": 6.95,
+              "y": 9,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "z": 1,
+          "names": [
+            "Chambre",
+            "Chambre",
+            "Salle d’eau",
+            "Réserve"
+          ],
+          "objectKinds": [
+            "bed",
+            "wardrobe",
+            "desk",
+            "sink",
+            "crate"
+          ],
+          "stairs": [
+            {
+              "id": "source-duplex:stairs",
+              "x": 6.95,
+              "y": 9,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1
+              ]
+            }
+          ]
+        }
+      ],
+      "nativeOutdoorKinds": [
+        "table",
+        "crate"
+      ],
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0003.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "919f1f707421d5c8d0f327e9ae39ba46618bc019c09be23729d6043591c2f5be",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0003.md",
+        "path": "references/DW-0003.md",
+        "gitBlob": "7153b71973326264dfe13f9eef12cc7c217bc9b6",
+        "bytes": 9104
+      },
+      "codexQuotes": [
+        "# DW-0003 — Maison à étage avec balcon",
+        "**Statut :** pilote_1_15 — Un plan pilote simplifié existe depuis le moteur 1.15. Cette fiche est plus ambitieuse et ne signifie pas que toutes ses variantes et sous-zones sont implémentées.",
+        "### Vestibule",
+        "### Séjour",
+        "### Chambres",
+        "### Palier",
+        "### Balcon",
+        "Plan source : `duplex`; enveloppe bâtie actuelle [16, 13] m; niveaux [0, 1]. Les autres variantes de la fiche restent des propositions."
+      ],
+      "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art227. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates; do not lower the camera to show the facade. Preserve the native pilot footprint ratio and above-ground floor count. Intact roof, no cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow grounded threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0003 16 m wide by 13 m deep rectangular two-storey house, EXACTLY TWO above-ground floors: ground plus one upper. Simple plaster/masonry, a broad low pitched roof and two compressed rows of residential windows. Small centered ground entrance. No extra attic storey, dormer level, detached annex, projecting balcony or outdoor staircase; the pilot keeps its stair indoors. PROJECTION PRIORITY: projected roof/footprint depth about 76% of its width; combined visible front wall band about 10% of building width, for ALL above-ground floors together. Keep full roof depth and strongly compress the facade. It is acceptable for doors and low windows to be partly hidden by eaves. Do not invent an extra floor to improve readability.",
+      "filename": "DW-0003_maison_etage.png",
+      "status": "selected_missing_dedicated_exterior_not_generated",
+      "nativeFunction": "Niveaux0,1 : pièces de vie au rez-de-chaussée, chambres/salle d’eau/réserve au premier. Le balcon est une proposition de la fiche plus large; aucun balcon extérieur n’est défini par le plan natif.",
+      "cameraTargets": {
+        "downwardDegrees": 70,
+        "projectedRoofDepthPercentWidth": 76,
+        "combinedFrontFacadePercentWidth": 10,
+        "aboveGroundFloorCount": 2,
+        "buriedLevels": [],
+        "metricProjectionCertified": false
+      }
+    },
+    {
+      "type": "cabin",
+      "preset": {
+        "id": "cabin",
+        "name": "Chalet forestier",
+        "w": 9,
+        "h": 8,
+        "levels": [
+          0
+        ],
+        "layout": "cabin",
+        "codex": "DW-0010"
+      },
+      "roofFamily": "cottage",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "cottage",
+          "variant": 0,
+          "rect": [
+            37,
+            41,
+            286,
+            188
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "cottage",
+          "variant": 1,
+          "rect": [
+            362,
+            47,
+            315,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 2,
+          "model": "terracotta-hipped",
+          "rect": [
+            58,
+            73,
+            291,
+            171
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 5,
+          "model": "patched-metal",
+          "rect": [
+            1188,
+            71,
+            289,
+            174
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Vie commune",
+            "Couchage et réserve"
+          ],
+          "objectKinds": [
+            "sofa",
+            "table",
+            "bed",
+            "fridge"
+          ],
+          "stairs": []
+        }
+      ],
+      "nativeOutdoorKinds": [
+        "table",
+        "crate"
+      ],
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0010.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "5b6f279db28c8c5f7e1819d9e188cb5f6463393b79b17df1d0cdae7bd04fa096",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0010.md",
+        "path": "references/DW-0010.md",
+        "gitBlob": "92e2fbbe97d0881e5d240ee7c8b917fc92a7a8ef",
+        "bytes": 8429
+      },
+      "codexQuotes": [
+        "# DW-0010 — Chalet forestier",
+        "**Statut :** pilote_1_15 — Un plan pilote simplifié existe depuis le moteur 1.15. Cette fiche est plus ambitieuse et ne signifie pas que toutes ses variantes et sous-zones sont implémentées.",
+        "### Sas humide",
+        "### Séjour",
+        "### Coin nuit",
+        "### Bûcher",
+        "Plan source : `cabin`; enveloppe bâtie actuelle [9, 8] m; niveaux [0]. Les autres variantes de la fiche restent des propositions."
+      ],
+      "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art227. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates; do not lower the camera to show the facade. Preserve the native pilot footprint ratio and above-ground floor count. Intact roof, no cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow grounded threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0010 9 m wide by 8 m deep compact rectangular forest cabin, EXACTLY ONE above-ground floor. Weathered timber walls on a narrow low foundation, modest low pitched roof, small windows and a small grounded entrance. Common living area and sleeping/storage space share the same small envelope. No loft storey, dormer windows, large porch, woodshed annex or forest terrain. PROJECTION PRIORITY: projected roof/footprint depth about 84% of its width; combined visible front wall band about 6% of building width, for ALL above-ground floors together. Keep full roof depth and strongly compress the facade. It is acceptable for doors and low windows to be partly hidden by eaves. Do not invent an extra floor to improve readability.",
+      "filename": "DW-0010_chalet_forestier.png",
+      "status": "selected_missing_dedicated_exterior_not_generated",
+      "nativeFunction": "Un niveau0 : vie commune, couchage et réserve. Le sas et le bûcher du programme auteur ne constituent pas des annexes natives séparées.",
+      "cameraTargets": {
+        "downwardDegrees": 70,
+        "projectedRoofDepthPercentWidth": 84,
+        "combinedFrontFacadePercentWidth": 6,
+        "aboveGroundFloorCount": 1,
+        "buriedLevels": [],
+        "metricProjectionCertified": false
+      }
+    },
+    {
+      "type": "apartments",
+      "preset": {
+        "id": "apartments",
+        "name": "Immeuble de trois étages",
+        "w": 30,
+        "h": 23,
+        "levels": [
+          0,
+          1,
+          2
+        ],
+        "layout": "apartments",
+        "codex": "DW-0021"
+      },
+      "roofFamily": "collective",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "collective",
+          "variant": 0,
+          "rect": [
+            746,
+            274,
+            377,
+            213
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "collective",
+          "variant": 1,
+          "rect": [
+            1150,
+            279,
+            359,
+            207
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "collective",
+          "variant": 2,
+          "model": "concrete-services",
+          "rect": [
+            55,
+            300,
+            299,
+            180
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "collective",
+          "variant": 3,
+          "model": "flat-water-tank",
+          "rect": [
+            430,
+            302,
+            306,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "collective",
+          "variant": 4,
+          "model": "slate-three-dormers",
+          "rect": [
+            805,
+            289,
+            313,
+            190
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "collective",
+          "variant": 5,
+          "model": "terracotta-double-ridge",
+          "rect": [
+            1188,
+            303,
+            298,
+            175
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Séjour",
+            "Cuisine",
+            "Chambre",
+            "Garage / rangement",
+            "Séjour",
+            "Cuisine",
+            "Chambre",
+            "Garage / rangement"
+          ],
+          "objectKinds": [
+            "sofa",
+            "table",
+            "fridge",
+            "sink",
+            "bed",
+            "workbench",
+            "crate"
+          ],
+          "stairs": [
+            {
+              "id": "source-apartments:stairs",
+              "x": 13.95,
+              "y": 19,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "z": 1,
+          "names": [
+            "Chambre",
+            "Chambre",
+            "Salle d’eau",
+            "Réserve",
+            "Chambre",
+            "Chambre",
+            "Salle d’eau",
+            "Réserve"
+          ],
+          "objectKinds": [
+            "bed",
+            "sink",
+            "wardrobe",
+            "crate"
+          ],
+          "stairs": [
+            {
+              "id": "source-apartments:stairs",
+              "x": 13.95,
+              "y": 19,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "z": 2,
+          "names": [
+            "Chambre",
+            "Chambre",
+            "Salle d’eau",
+            "Réserve",
+            "Chambre",
+            "Chambre",
+            "Salle d’eau",
+            "Réserve"
+          ],
+          "objectKinds": [
+            "bed",
+            "sink",
+            "wardrobe",
+            "crate"
+          ],
+          "stairs": [
+            {
+              "id": "source-apartments:stairs",
+              "x": 13.95,
+              "y": 19,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1,
+                2
+              ]
+            }
+          ]
+        }
+      ],
+      "nativeOutdoorKinds": [
+        "bench",
+        "crate"
+      ],
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0021.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "47876fe0eaa8a571d20a2eaa9d1ac486056b4909d446ce21eb9fa55315c799b9",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0021.md",
+        "path": "references/DW-0021.md",
+        "gitBlob": "82bba10b9a491ab78b303f00f500e88b54e0a353",
+        "bytes": 9336
+      },
+      "codexQuotes": [
+        "# DW-0021 — Immeuble de trois étages",
+        "**Statut :** pilote_1_15 — Un plan pilote simplifié existe depuis le moteur 1.15. Cette fiche est plus ambitieuse et ne signifie pas que toutes ses variantes et sous-zones sont implémentées.",
+        "### Hall",
+        "### Cage d'escalier",
+        "### Appartements",
+        "### Local poubelles",
+        "### Caves",
+        "Plan source : `apartments`; enveloppe bâtie actuelle [30, 23] m; niveaux [0, 1, 2]. Les autres variantes de la fiche restent des propositions."
+      ],
+      "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art227. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates; do not lower the camera to show the facade. Preserve the native pilot footprint ratio and above-ground floor count. Intact roof, no cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow grounded threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0021 30 m wide by 23 m deep rectangular residential apartment block. EXACTLY THREE floors TOTAL: ground floor plus TWO upper floors, not ground plus three. Plain weathered masonry, broad simple low roof, three compact rows of repeated residential windows and one modest ground-level entrance. The combined wall strip of all three floors stays compressed by the overhead camera. No fourth floor, attic, roof dormer storey, detached wing or visible basement. PROJECTION PRIORITY: projected roof/footprint depth about 72% of its width; combined visible front wall band about 12% of building width, for ALL above-ground floors together. Keep full roof depth and strongly compress the facade. It is acceptable for doors and low windows to be partly hidden by eaves. Do not invent an extra floor to improve readability.",
+      "filename": "DW-0021_immeuble_trois_niveaux.png",
+      "status": "selected_missing_dedicated_exterior_not_generated",
+      "nativeFunction": "Trois niveaux natifs[0,1,2], soit trois niveaux totaux. Les caves de la fiche auteur ne sont pas un niveau natif supplémentaire.",
+      "cameraTargets": {
+        "downwardDegrees": 70,
+        "projectedRoofDepthPercentWidth": 72,
+        "combinedFrontFacadePercentWidth": 12,
+        "aboveGroundFloorCount": 3,
+        "buriedLevels": [],
+        "metricProjectionCertified": false
+      }
+    },
+    {
+      "type": "basementHouse",
+      "preset": {
+        "id": "basementHouse",
+        "name": "Maison sur sous-sol",
+        "w": 18,
+        "h": 15,
+        "levels": [
+          -1,
+          0
+        ],
+        "codex": "DW-0004",
+        "layout": "specialists117"
+      },
+      "roofFamily": "cottage",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "cottage",
+          "variant": 0,
+          "rect": [
+            37,
+            41,
+            286,
+            188
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "cottage",
+          "variant": 1,
+          "rect": [
+            362,
+            47,
+            315,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 2,
+          "model": "terracotta-hipped",
+          "rect": [
+            58,
+            73,
+            291,
+            171
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 3,
+          "model": "terracotta-dormer",
+          "rect": [
+            431,
+            63,
+            298,
+            180
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 4,
+          "model": "slate-mansard",
+          "rect": [
+            815,
+            71,
+            292,
+            173
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 5,
+          "model": "patched-metal",
+          "rect": [
+            1188,
+            71,
+            289,
+            174
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": -1,
+          "names": [
+            "Cave à provisions",
+            "Buanderie",
+            "Atelier domestique",
+            "Chaufferie arrêtée"
+          ],
+          "objectKinds": [
+            "shelf",
+            "crate",
+            "washer",
+            "sink",
+            "workbench",
+            "generator",
+            "fuel"
+          ],
+          "stairs": [
+            {
+              "id": "source-basementHouse:stairs",
+              "x": 7.95,
+              "y": 11,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                -1,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "z": 0,
+          "names": [
+            "Séjour et repas",
+            "Cuisine familiale",
+            "Chambre et rangement",
+            "Salle d’eau et cellier"
+          ],
+          "objectKinds": [
+            "sofa",
+            "table",
+            "fridge",
+            "sink",
+            "bed",
+            "wardrobe"
+          ],
+          "stairs": [
+            {
+              "id": "source-basementHouse:stairs",
+              "x": 7.95,
+              "y": 11,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                -1,
+                0
+              ]
+            }
+          ]
+        }
+      ],
+      "nativeOutdoorKinds": [
+        "table",
+        "crate"
+      ],
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0004.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "141ec20937679d1dc8884f14c0a5419199d48e131322433d4d86bf7ea6d70ecd",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0004.md",
+        "path": "references/DW-0004.md",
+        "gitBlob": "667d0e7577b3c2be744e341a7aa74b9cb80f01d3",
+        "bytes": 10038
+      },
+      "codexQuotes": [
+        "# DW-0004 — Maison sur sous-sol",
+        "**Statut :** pilote_1_17 — Plan pilote de la 1.17, génération régionale 3. Le programme construit est défini dans src/frontier-specialists.js; les autres variantes restent des propositions. Les générations 1 et 2 conservent leurs lieux et leurs prélèvements.",
+        "### Entrée",
+        "### Séjour",
+        "### Buanderie",
+        "### Cave",
+        "### Chaufferie",
+        "Plan source : `basementHouse`; enveloppe bâtie actuelle [18, 15] m; niveaux [-1, 0]. Les autres variantes de la fiche restent des propositions."
+      ],
+      "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art227. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates; do not lower the camera to show the facade. Preserve the native pilot footprint ratio and above-ground floor count. Intact roof, no cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow grounded threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0004 18 m wide by 15 m deep rectangular family house. EXACTLY ONE visible ABOVE-GROUND floor. It has one completely BURIED BASEMENT below ground: native levels minus-one and zero. The basement must NOT appear as a second above-ground storey, cutaway, pit, exposed subterranean wall or side-by-side annex. Simple low weathered roof, residential windows and one grounded entrance. Internal stair connects to pantry, laundry, domestic workshop and inactive boiler room hidden below. No outdoor cellar stair or invented walkout basement. PROJECTION PRIORITY: projected roof/footprint depth about 78% of its width; combined visible front wall band about 6% of building width, for ALL above-ground floors together. Keep full roof depth and strongly compress the facade. It is acceptable for doors and low windows to be partly hidden by eaves. Do not invent an extra floor to improve readability.",
+      "filename": "DW-0004_maison_sous_sol.png",
+      "status": "selected_missing_dedicated_exterior_not_generated",
+      "nativeFunction": "Niveaux[-1,0] : sous-sol enterré (provisions, buanderie, atelier, chaufferie) et un seul rez-de-chaussée visible. Escalier intérieur au plan; aucun étage aérien ajouté.",
+      "cameraTargets": {
+        "downwardDegrees": 70,
+        "projectedRoofDepthPercentWidth": 78,
+        "combinedFrontFacadePercentWidth": 6,
+        "aboveGroundFloorCount": 1,
+        "buriedLevels": [
+          -1
+        ],
+        "metricProjectionCertified": false
+      }
+    },
+    {
+      "type": "ruin",
+      "preset": {
+        "id": "ruin",
+        "name": "Maison effondrée visitable",
+        "w": 18,
+        "h": 14,
+        "levels": [
+          0
+        ],
+        "layout": "ruin",
+        "codex": "DW-0481"
+      },
+      "roofFamily": "ruin",
+      "roofChoices": [
+        {
+          "atlas": "habitatServices153",
+          "family": "ruin",
+          "variant": 0,
+          "rect": [
+            776,
+            766,
+            361,
+            229
+          ]
+        },
+        {
+          "atlas": "habitatServices153",
+          "family": "ruin",
+          "variant": 1,
+          "rect": [
+            1158,
+            763,
+            365,
+            241
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Séjour",
+            "Cuisine",
+            "Chambre",
+            "Garage / rangement",
+            "Débris de façade"
+          ],
+          "objectKinds": [
+            "sofa",
+            "table",
+            "fridge",
+            "sink",
+            "bed",
+            "wardrobe",
+            "workbench",
+            "crate"
+          ],
+          "stairs": []
+        }
+      ],
+      "nativeOutdoorKinds": [
+        "rubble",
+        "timberRack"
+      ],
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0481.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "51b852442dd01c93a191873a1fc96a9c9ac9170f3ffd1ed096e80cfe0843d195",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0481.md",
+        "path": "references/DW-0481.md",
+        "gitBlob": "cf3ad799d40f53da1b472e6f50e7cb3c9e626c68",
+        "bytes": 8499
+      },
+      "codexQuotes": [
+        "# DW-0481 — Maison effondrée visitable",
+        "**Statut :** pilote_1_15 — Un plan pilote simplifié existe depuis le moteur 1.15. Cette fiche est plus ambitieuse et ne signifie pas que toutes ses variantes et sous-zones sont implémentées.",
+        "### Façade conservée",
+        "### Pièces",
+        "### Zone de chute",
+        "### Cave",
+        "Plan source : `ruin`; enveloppe bâtie actuelle [18, 14] m; niveaux [0]. Les autres variantes de la fiche restent des propositions."
+      ],
+      "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art227. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates; do not lower the camera to show the facade. Preserve the native pilot footprint ratio and above-ground floor count. Broken roof sections are specific to this damaged building; no clean presentation cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow grounded threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0481 18 m wide by 14 m deep partially collapsed rectangular house, EXACTLY ONE former above-ground floor. Keep a coherent recognizable residential footprint, low surviving walls, one broken facade segment and restrained debris within or immediately against the footprint. Show surviving low roof sections with a localized collapse, no clean architectural cutaway. The existing ground-level access remains readable. No intact second storey, basement pit, giant rubble mountain, surrounding terrain or disconnected ruins. PROJECTION PRIORITY: projected roof/footprint depth about 73% of its width; combined visible front wall band about 6% of building width, for ALL above-ground floors together. Keep full roof depth and strongly compress the facade. It is acceptable for doors and low windows to be partly hidden by eaves. Do not invent an extra floor to improve readability.",
+      "filename": "DW-0481_maison_effondree.png",
+      "status": "selected_missing_dedicated_exterior_not_generated",
+      "nativeFunction": "Niveau0 uniquement : pièces domestiques et zone Débris de façade. Le plan retire un segment de façade. La cave proposée par la fiche n’est pas un niveau piloté.",
+      "cameraTargets": {
+        "downwardDegrees": 70,
+        "projectedRoofDepthPercentWidth": 73,
+        "combinedFrontFacadePercentWidth": 6,
+        "aboveGroundFloorCount": 1,
+        "buriedLevels": [],
+        "metricProjectionCertified": false
+      }
+    },
+    {
+      "type": "hotel",
+      "preset": {
+        "id": "hotel",
+        "name": "Hôtel de centre-ville",
+        "w": 42,
+        "h": 26,
+        "levels": [
+          0,
+          1,
+          2
+        ],
+        "layout": "hotel",
+        "codex": "DW-0101"
+      },
+      "roofFamily": "hotel",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "hotel",
+          "variant": 0,
+          "rect": [
+            26,
+            523,
+            362,
+            223
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "hotel",
+          "variant": 1,
+          "rect": [
+            414,
+            533,
+            333,
+            202
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "hotel",
+          "variant": 2,
+          "model": "concrete-services",
+          "rect": [
+            55,
+            300,
+            299,
+            180
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "hotel",
+          "variant": 3,
+          "model": "flat-water-tank",
+          "rect": [
+            430,
+            302,
+            306,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "hotel",
+          "variant": 4,
+          "model": "slate-three-dormers",
+          "rect": [
+            805,
+            289,
+            313,
+            190
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "hotel",
+          "variant": 5,
+          "model": "terracotta-double-ridge",
+          "rect": [
+            1188,
+            303,
+            298,
+            175
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Réception",
+            "Chambre 7",
+            "Chambre 2",
+            "Chambre 8",
+            "Chambre 3",
+            "Chambre 9",
+            "Chambre 5",
+            "Chambre 11",
+            "Chambre 6",
+            "Chambre 12"
+          ],
+          "objectKinds": [
+            "desk",
+            "wardrobe",
+            "bed"
+          ],
+          "stairs": [
+            {
+              "id": "source-hotel:stairs",
+              "x": 19.95,
+              "y": 22,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "z": 1,
+          "names": [
+            "Chambre 1",
+            "Chambre 7",
+            "Chambre 2",
+            "Chambre 8",
+            "Chambre 3",
+            "Chambre 9",
+            "Chambre 5",
+            "Chambre 11",
+            "Chambre 6",
+            "Chambre 12"
+          ],
+          "objectKinds": [
+            "bed",
+            "wardrobe"
+          ],
+          "stairs": [
+            {
+              "id": "source-hotel:stairs",
+              "x": 19.95,
+              "y": 22,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "z": 2,
+          "names": [
+            "Chambre 1",
+            "Chambre 7",
+            "Chambre 2",
+            "Chambre 8",
+            "Chambre 3",
+            "Chambre 9",
+            "Chambre 5",
+            "Chambre 11",
+            "Chambre 6",
+            "Chambre 12"
+          ],
+          "objectKinds": [
+            "bed",
+            "wardrobe"
+          ],
+          "stairs": [
+            {
+              "id": "source-hotel:stairs",
+              "x": 19.95,
+              "y": 22,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1,
+                2
+              ]
+            }
+          ]
+        }
+      ],
+      "nativeOutdoorKinds": [
+        "washer",
+        "crate",
+        "shelf"
+      ],
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0101.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "cbb20cee25ceb70553a4d30646be37ab3b63424926ca5440dd938a9b1c94505f",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0101.md",
+        "path": "references/DW-0101.md",
+        "gitBlob": "9a48070daa0edd33874989f977dcb06c7f847bce",
+        "bytes": 9722
+      },
+      "codexQuotes": [
+        "# DW-0101 — Hôtel de centre-ville",
+        "**Statut :** pilote_1_15 — Un plan pilote simplifié existe depuis le moteur 1.15. Cette fiche est plus ambitieuse et ne signifie pas que toutes ses variantes et sous-zones sont implémentées.",
+        "### Réception",
+        "### Bagagerie",
+        "### Chambres",
+        "### Linge",
+        "### Petit-déjeuner",
+        "Plan source : `hotel`; enveloppe bâtie actuelle [42, 26] m; niveaux [0, 1, 2]. Les autres variantes de la fiche restent des propositions."
+      ],
+      "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art227. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates; do not lower the camera to show the facade. Preserve the native pilot footprint ratio and above-ground floor count. Intact roof, no cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow grounded threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0101 42 m wide by 26 m deep rectangular town hotel. EXACTLY THREE floors TOTAL: ground floor plus TWO upper floors. Broad restrained low roof, weathered plaster/masonry, three compact rows of repeated guest-room windows and a modest ground-level reception doorway. The rooms and central corridor remain inside. All three visible floors fit a short compressed wall strip. No fourth floor, attic storey, rooftop doorway, detached restaurant, sign or external staircase. PROJECTION PRIORITY: projected roof/footprint depth about 58% of its width; combined visible front wall band about 12% of building width, for ALL above-ground floors together. Keep full roof depth and strongly compress the facade. It is acceptable for doors and low windows to be partly hidden by eaves. Do not invent an extra floor to improve readability.",
+      "filename": "DW-0101_hotel_centre_ville.png",
+      "status": "selected_missing_dedicated_exterior_not_generated",
+      "nativeFunction": "Trois niveaux natifs[0,1,2] : réception au rez-de-chaussée et rangées de chambres desservies par le couloir central. Pas de quatrième niveau.",
+      "cameraTargets": {
+        "downwardDegrees": 70,
+        "projectedRoofDepthPercentWidth": 58,
+        "combinedFrontFacadePercentWidth": 12,
+        "aboveGroundFloorCount": 3,
+        "buriedLevels": [],
+        "metricProjectionCertified": false
+      }
+    }
+  ],
+  "selectionNotes": {
+    "sourceCount": 14,
+    "generationCount": 0,
+    "belowGroundLevelsKeptBuried": [
+      "basementHouse"
+    ],
+    "sourceFidelityScope": "The current native pilot controls footprint and playable levels. Larger author programmes and parcel proposals are preserved as separate context, not automatically drawn.",
+    "historicalArt221Deduplication": "Full nine-output Art221 filename/ID inventory remains unavailable. The three risky direct pilots clinic, bunker, fuel are excluded at parent instruction; other labels are outside the exact remarkable217 name classifier. No exhaustive historical image deduplication is claimed.",
+    "excludedPendingArt221Verification": [
+      "clinic",
+      "bunker",
+      "fuel"
+    ],
+    "settlementTypesExcluded": "All twenty derived preset-to-Codex mismatches remain outside this selection."
+  }
+}

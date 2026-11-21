@@ -1,0 +1,122 @@
+[
+  {
+    "localPath": "/workspace/scratch/55dad3ac334d/references-art222/DW-0342.md",
+    "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0342.md",
+    "revision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+    "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0342.md",
+    "bytes": 8190,
+    "sha256": "489bae10484840c3f9423e9b6cfecb6b125021f6f056f4f1552a755febe79122",
+    "gitBlob": "6ab662e81ab827eae4a69d62565745c28e11b3d7",
+    "packPath": "references/DW-0342.md"
+  },
+  {
+    "localPath": "/workspace/scratch/55dad3ac334d/references-art222/DW-0132.md",
+    "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0132.md",
+    "revision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+    "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0132.md",
+    "bytes": 9220,
+    "sha256": "2ff8afa0f3e8a9e211f2fc00c9c9a62b00e4753130d313e12c73d066bf1b92ae",
+    "gitBlob": "86d5ab20d724b1763e9a842fb06df1b4305b45e6",
+    "packPath": "references/DW-0132.md"
+  },
+  {
+    "localPath": "/workspace/scratch/55dad3ac334d/references-art222/DW-0321.md",
+    "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0321.md",
+    "revision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+    "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0321.md",
+    "bytes": 8238,
+    "sha256": "8b0062422dc31bfe6c83cf7c69aff029d1edb931a85b32ed2573b0ddc1a52490",
+    "gitBlob": "70587e02f11d960c57c3d35f313df9f1a1f20548",
+    "packPath": "references/DW-0321.md"
+  },
+  {
+    "localPath": "/workspace/scratch/55dad3ac334d/references-art222/DW-0334.md",
+    "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0334.md",
+    "revision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+    "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0334.md",
+    "bytes": 8233,
+    "sha256": "d6cfbcab4c8d4ae72da4864aebdc31054317401e6cbe6d4d8687bdea64d4b6d3",
+    "gitBlob": "64d31cf8f6a879c5fbf683631f2ad4f61649ad70",
+    "packPath": "references/DW-0334.md"
+  },
+  {
+    "localPath": "/workspace/scratch/55dad3ac334d/references-art222/DW-0541.md",
+    "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0541.md",
+    "revision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+    "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0541.md",
+    "bytes": 2109,
+    "sha256": "0aa58647238225681a03afae5952f6ac785dc41c56024e89c812ef2243e5cebd",
+    "gitBlob": "512028beff02423e8cf03ec78ac1bd7324f7685d",
+    "packPath": "references/DW-0541.md"
+  },
+  {
+    "localPath": "/workspace/scratch/55dad3ac334d/references-art222/GAME_ART_PROVENANCE.md",
+    "repositoryPath": "docs/GAME_ART_PROVENANCE.md",
+    "revision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+    "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/docs/GAME_ART_PROVENANCE.md",
+    "bytes": 8950,
+    "sha256": "c6539bdf54edb5627fcd0ce8aa725e37ff90240937cefac9fccfd299c728b323",
+    "gitBlob": "8ea4f1f31424d2176338b9e5fb04564d340271c5",
+    "packPath": "references/GAME_ART_PROVENANCE.md"
+  },
+  {
+    "localPath": "/workspace/scratch/55dad3ac334d/references-art222/PROMPTS.md",
+    "repositoryPath": "assets/art160/PROMPTS.md",
+    "revision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+    "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/assets/art160/PROMPTS.md",
+    "bytes": 5845,
+    "sha256": "07b51acec6de13092b296b1e9fadb58e76ba4c44280515f0e897181d1244b20c",
+    "gitBlob": "ce9d4fb0c29d03aa2eed8b5ee6ba5dbebb69cded",
+    "packPath": "references/PROMPTS.md"
+  },
+  {
+    "localPath": "/workspace/scratch/55dad3ac334d/references-art222/DW-0528.md",
+    "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0528.md",
+    "revision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+    "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0528.md",
+    "bytes": 2100,
+    "sha256": "5cb72d67654feb095afac518f8a3919e4e38d7e6a8f5ba456fbd28ef45dfa6d1",
+    "gitBlob": "4f4b126e1cb50b6ca45915160bd865fd08974bd1",
+    "packPath": "references/DW-0528.md"
+  },
+  {
+    "localPath": "/workspace/scratch/55dad3ac334d/references-art222/DW-0549.md",
+    "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0549.md",
+    "revision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+    "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0549.md",
+    "bytes": 1985,
+    "sha256": "950cb9b05d726b257aecb073fe8ac6828b3bee393b14f3f7b23382d620b7afb6",
+    "gitBlob": "22bd20a94496193afc3da5d9e3ee4d6a83d4d0d1",
+    "packPath": "references/DW-0549.md"
+  },
+  {
+    "localPath": "/workspace/scratch/55dad3ac334d/references-art222/DW-0181.md",
+    "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0181.md",
+    "revision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+    "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0181.md",
+    "bytes": 9795,
+    "sha256": "c38c4aa75c78c4a8f78f73a09c40705780110d5169a39fba1263b321324ef0f5",
+    "gitBlob": "71bf3f13af71623398f62bf69d802a1116dd4461",
+    "packPath": "references/DW-0181.md"
+  },
+  {
+    "localPath": "/workspace/scratch/55dad3ac334d/references-art222/DW-0097.md",
+    "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0097.md",
+    "revision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+    "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0097.md",
+    "bytes": 8643,
+    "sha256": "d41939485e5179110a02a6d019407bd08487734424bb3a92466ad8a1f361e70d",
+    "gitBlob": "f20850522fa27c65fbf81a2555b24192db11f9e2",
+    "packPath": "references/DW-0097.md"
+  },
+  {
+    "localPath": "/workspace/scratch/55dad3ac334d/references-art222/buildings-atlas.webp",
+    "repositoryPath": "assets/buildings-atlas.webp",
+    "revision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+    "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/assets/buildings-atlas.webp",
+    "bytes": 364648,
+    "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a",
+    "gitBlob": "99f730d209168f7be2e5c8aee1b0e927c9ab02e5",
+    "packPath": "references/buildings-atlas.webp"
+  }
+]

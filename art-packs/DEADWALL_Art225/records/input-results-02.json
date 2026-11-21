@@ -1,0 +1,144 @@
+[
+  {
+    "key": "pharmacy",
+    "id": "DW-0053",
+    "filename": "DW-0053_pharmacie_commerciale.png",
+    "prompt": "Use case: stylized-concept. Edit ONLY the pharmacy exterior in image 1; image 2 is the original DEADWALL game atlas for style. Preserve the same single compact pharmacy, its 24 m by 18 m native footprint, one ground floor, metal roof, HVAC, vents, glazed sales frontage and central ground-level doorway. Correct the camera to a substantially STEEPER near-overhead orthographic view, around 70–75 degrees down. The facade in image 1 is too tall. Reduce the visible front wall band to about HALF its current height while increasing the visible roof plan depth; target roof depth around 70% of width and front wall only 6–8% of width. Preserve building width and believable one-storey geometry; do not add a floor, loft, roof entrance, medical symbol or signs. The central doorway stays at ground level with a short threshold and may be partially hidden by the eaves from above. Keep horizontal/vertical roof axes, muted gray-olive worn materials and all major features. Entire centered silhouette on genuine transparent RGBA with generous margins, no terrain tile or display plinth. No lettering, logo, people or cars. Preserve transparency. This is a camera/projection refinement of the same asset.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/generated_images/exec-344bf387-4c5e-4a78-9275-de482f0f1aa9.png",
+      "/workspace/scratch/6f470a892a0f/art225-prep/references/buildings-atlas.webp"
+    ],
+    "nativeFootprint": {
+      "w": 24,
+      "h": 18,
+      "levels": [
+        0
+      ]
+    },
+    "label": "Pharmacie commerciale",
+    "file": "DW-0053_pharmacie_commerciale.png",
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 2,
+    "operation": "camera-correction",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-c40e20e3-de3a-468c-aa20-44bb2e68f20f.png"
+  },
+  {
+    "key": "hardware",
+    "id": "DW-0045",
+    "filename": "DW-0045_magasin_bricolage.png",
+    "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art225. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates. Preserve the exact native pilot footprint ratio and floor count. Intact roof, no cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0045 MAGASIN DE BRICOLAGE: 38 m wide by 28 m deep rectangular hardware/DIY store, ONE ground floor. Broad low practical roof, modest customer storefront and discreet rear storage/service frontage. Sales shelves and reserve remain inside. Draw only the native building envelope: no full materials yard, parking, outdoor aisle, oversized warehouse or extra floor. PROJECTION PRIORITY: visible projected roof depth about 69% of its width; the entire front facade band about 6% of building width, both floors combined when present. Do not tilt the camera down to display a tall facade. It is acceptable for ground-level entrances to be partly hidden by eaves.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art225-prep/references/buildings-atlas.webp"
+    ],
+    "nativeFootprint": {
+      "w": 38,
+      "h": 28,
+      "levels": [
+        0
+      ]
+    },
+    "label": "Magasin de bricolage",
+    "file": "DW-0045_magasin_bricolage.png",
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-1fd3cddb-c382-43c6-8b41-dd5154aa9bb1.png"
+  },
+  {
+    "key": "diner",
+    "id": "DW-0069",
+    "filename": "DW-0069_restaurant_routier.png",
+    "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art225. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates. Preserve the exact native pilot footprint ratio and floor count. Intact roof, no cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0069 RESTAURANT ROUTIER: 25 m wide by 17 m deep rectangular roadside restaurant, ONE ground floor. Restrained dining-room windows along the public front, compact ground-level doorway, enclosed rear service/storage band, low simple roof with only modest service ventilation. Tables and kitchen programme stay indoors. No terrace, car park, neon sign, giant chimney, rooftop dining or extra floor. PROJECTION PRIORITY: visible projected roof depth about 64% of its width; the entire front facade band about 6% of building width, both floors combined when present. Do not tilt the camera down to display a tall facade. It is acceptable for ground-level entrances to be partly hidden by eaves.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art225-prep/references/buildings-atlas.webp"
+    ],
+    "nativeFootprint": {
+      "w": 25,
+      "h": 17,
+      "levels": [
+        0
+      ]
+    },
+    "label": "Restaurant routier",
+    "file": "DW-0069_restaurant_routier.png",
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-d19ce034-0da7-429d-8969-be8816c38d1f.png"
+  },
+  {
+    "key": "garage",
+    "id": "DW-0241",
+    "filename": "DW-0241_garage_independant.png",
+    "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art225. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates. Preserve the exact native pilot footprint ratio and floor count. Intact roof, no cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0241 GARAGE AUTOMOBILE INDEPENDANT: 25 m wide by 20 m deep compact rectangular repair workshop, ONE ground floor. Low practical industrial roof, modest closed workshop entrance at ground level, restrained small service windows. The native repair hall contains machinery, with a technical reserve and office at the rear. Keep the coherent built envelope: no petrol pumps, vehicle yard, loose cars, huge multi-bay depot or added storey. PROJECTION PRIORITY: visible projected roof depth about 75% of its width; the entire front facade band about 6% of building width, both floors combined when present. Do not tilt the camera down to display a tall facade. It is acceptable for ground-level entrances to be partly hidden by eaves. The final composition is almost a roof plan seen from directly above: show only a very thin foreshortened strip of the front wall. Do not enlarge the building's vertical walls for readability.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art225-prep/references/buildings-atlas.webp"
+    ],
+    "nativeFootprint": {
+      "w": 25,
+      "h": 20,
+      "levels": [
+        0
+      ]
+    },
+    "label": "Garage automobile indépendant",
+    "file": "DW-0241_garage_independant.png",
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-5d0e20b6-45b7-46d5-8628-801164f72d03.png"
+  },
+  {
+    "key": "school",
+    "id": "DW-0142",
+    "filename": "DW-0142_ecole_primaire.png",
+    "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art225. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates. Preserve the exact native pilot footprint ratio and floor count. Intact roof, no cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0142 ECOLE PRIMAIRE: 38 m wide by 28 m deep rectangular primary school, EXACTLY TWO floors, ground floor plus one upper floor. Broad roof over a plain teaching block; two compact rows of repeated classroom windows and a modest centered ground-floor public entrance. The combined visible wall band for BOTH floors stays short. Classes, library and reserve are inside. No attic floor, dormer storey, tower, detached gym, playground, whole school grounds or signal lettering. PROJECTION PRIORITY: visible projected roof depth about 69% of its width; the entire front facade band about 10% of building width, both floors combined when present. Do not tilt the camera down to display a tall facade. It is acceptable for ground-level entrances to be partly hidden by eaves. The final composition is almost a roof plan seen from directly above: show only a very thin foreshortened strip of the front wall. Do not enlarge the building's vertical walls for readability.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art225-prep/references/buildings-atlas.webp"
+    ],
+    "nativeFootprint": {
+      "w": 38,
+      "h": 28,
+      "levels": [
+        0,
+        1
+      ]
+    },
+    "label": "École primaire",
+    "file": "DW-0142_ecole_primaire.png",
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-5f233bc1-0a40-4524-8ce2-242184a3a761.png"
+  },
+  {
+    "key": "townhall",
+    "id": "DW-0161",
+    "filename": "DW-0161_mairie.png",
+    "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art225. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates. Preserve the exact native pilot footprint ratio and floor count. Intact roof, no cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0161 MAIRIE: 28 m wide by 20 m deep compact rectangular town hall, EXACTLY TWO floors, ground floor plus one upper floor. Sober civic masonry/plaster, simple broad low roof, two compact rows of restrained windows, modest centered doorway at ground level. The combined visible wall band for BOTH floors stays short. Reception, offices, archives and council room remain inside. No attic floor, clock tower, bell tower, giant pediment, rooftop doorway, flag or lettering. PROJECTION PRIORITY: visible projected roof depth about 67% of its width; the entire front facade band about 10% of building width, both floors combined when present. Do not tilt the camera down to display a tall facade. It is acceptable for ground-level entrances to be partly hidden by eaves. The final composition is almost a roof plan seen from directly above: show only a very thin foreshortened strip of the front wall. Do not enlarge the building's vertical walls for readability.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art225-prep/references/buildings-atlas.webp"
+    ],
+    "nativeFootprint": {
+      "w": 28,
+      "h": 20,
+      "levels": [
+        0,
+        1
+      ]
+    },
+    "label": "Mairie",
+    "file": "DW-0161_mairie.png",
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-7439a0dd-8b87-491f-bf62-c4367298729b.png"
+  }
+]

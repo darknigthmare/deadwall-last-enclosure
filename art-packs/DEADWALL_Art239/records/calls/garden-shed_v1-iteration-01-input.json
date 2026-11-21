@@ -1,0 +1,17 @@
+{
+  "key": "garden-shed:v1",
+  "id": "prop:garden-shed:v1",
+  "artId": "prop:garden-shed:v1",
+  "iteration": 1,
+  "generator": "OpenAI built-in ImageGen",
+  "arguments": {
+    "prompt": "Use case: stylized-concept. Asset type: original DEADWALL source-art sprite, one complete isolated Abri fermé à toiture métallique — variante 1.\nINPUTS: Image 1 is the AUTHORITATIVE geometry, arrangement and variant palette, rendered through the unchanged public structural205 game painter on the same authored instance as Art238, painter variant 1. Image 2 is the accepted Art238 variant0, MATERIAL FINISH AND PAINTERLY QUALITY ONLY. Do not copy variant0 parts, roof seams, bands or construction when they differ from image 1. These are already-defined painter variants of an existing object, not new runtime objects.\nVIEW: strict orthographic overhead plan, camera looking vertically down. Source X goes right and source Y goes down; keep image 1 orientation, aspect ratio, silhouette, number of parts and their relative positions. Do not tilt the camera or expose a tall facade.\nSUBJECT AND PARTS: One closed compact garden shed represented only by its complete nearly square ROOF in overhead plan. Retain the dark outer edge and pale perimeter trim. The roof is muted blue-grey metal, with ONE HORIZONTAL central raised seam across the middle and exactly SIX VERTICAL dark seams at the positions in image 1. Do not copy the vertical ridge or paired diagonal timber seams from the v0 style image. Preserve the small dark entrance indication at bottom centre as a narrow edge detail. No front-wall elevation, open roof, accessible interior, chimney, skylight, porch or attached object.\nAUTHOR-DESIGN ENVELOPE: 3.4 m across X by 3.3 m along Y, separate authored height 2.4 m. These dimensions describe the existing fixture, not a manufacturer specification. The source layout remains EXT-MONDE-T045-V01; this plan number is independent of painter variant 1.\nMATERIALS: serious grounded post-apocalyptic game art, restrained detailed hand-painted pre-rendered treatment matching image 2, but material assignment and muted colours from image 1. Fine weathered grain, dull metal, modest scuffs or oxidation, soft neutral overhead illumination. Readable primary shapes; idle and unattended. No invented severe destruction or decoration.\nOUTPUT: ONE whole object only, true transparent RGBA background. Centre the complete silhouette with at least 12 percent transparent margin on all sides. Do not crop thin components. No ground plane, external cast shadow, landscape, scene, border, grid, lettering, labels, dimensions, logo, UI or watermark. No extra detached tools, people, animals or active effects. Preserve native generated output; this is a source-art proposal for later calibration, not pixel-for-pixel or metric 1:1 certification.",
+    "referenced_image_paths": [
+      "/workspace/scratch/6f470a892a0f/art239-prep/references/canonical/garden-shed_v1.png",
+      "/workspace/scratch/6f470a892a0f/art239-prep/references/style-art238/garden-shed_v0.png"
+    ],
+    "transparent_background": true
+  },
+  "promptIsVerbatim": true,
+  "referenceInspectionsFile": "reference-inspections.json"
+}

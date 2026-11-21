@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "art225",
+  "savedOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "intent": "Continuer les sprites manquants depuis le point conservé, sans régénérer les lots précédents.",
+  "completedSpriteIds": [
+    "DW-0053",
+    "DW-0045",
+    "DW-0069",
+    "DW-0241",
+    "DW-0142",
+    "DW-0161"
+  ],
+  "finalAssets": [
+    {
+      "id": "DW-0053",
+      "path": "assets/art225/regional/DW-0053_pharmacie_commerciale.png",
+      "sha256": "52c7ce2e99630091bfbf80dccd1773dfb3cb8731e91624050b05ec43566a2c26"
+    },
+    {
+      "id": "DW-0045",
+      "path": "assets/art225/regional/DW-0045_magasin_bricolage.png",
+      "sha256": "61e9e8f9857b99471a442c09590d2e910f3fc824f6d5f23eac053afd57038919"
+    },
+    {
+      "id": "DW-0069",
+      "path": "assets/art225/regional/DW-0069_restaurant_routier.png",
+      "sha256": "9533f46f825debbf5388c91659256670a34f0fd7254ce8a9d8b8c534d9b56090"
+    },
+    {
+      "id": "DW-0241",
+      "path": "assets/art225/regional/DW-0241_garage_independant.png",
+      "sha256": "47cce51065919feae6271fc0fa5838417f084d25a85379899b6709f3ab57fa63"
+    },
+    {
+      "id": "DW-0142",
+      "path": "assets/art225/regional/DW-0142_ecole_primaire.png",
+      "sha256": "d9ef2bdc5bc0d49d05e72f0d7bc6223d34a529ed31a954244548f34247f1c09c"
+    },
+    {
+      "id": "DW-0161",
+      "path": "assets/art225/regional/DW-0161_mairie.png",
+      "sha256": "f26afa54cf24925d9b046dcbe91a919d083cc6ce252e7b6dfc881d55ed9dff75"
+    }
+  ],
+  "priorArt221Regenerated": false,
+  "priorArt222Regenerated": false,
+  "priorArt223Regenerated": false,
+  "priorArt224Regenerated": false,
+  "exclusionEvidence": {
+    "art222CodexIds": [
+      "DW-0342",
+      "DW-0132",
+      "DW-0321",
+      "DW-0334",
+      "DW-0541",
+      "DW-0528",
+      "DW-0549",
+      "DW-0097"
+    ],
+    "art223CodexIds": [
+      "DW-0065",
+      "DW-0153",
+      "DW-0085",
+      "DW-0082",
+      "DW-0444",
+      "DW-0224"
+    ],
+    "art221KnownCount": 9,
+    "art221CompleteAssetInventoryRecovered": false,
+    "art221CategoryExclusion": "Les six noms sont hors des neuf catégories exactes de remarkable217. Pharmacie ne correspond pas à /hôpital|clinique|centre médical/. Inventaire complet Art221 non retrouvé; aucun dédoublonnage historique exhaustif revendiqué.",
+    "art224CodexIds": [
+      "DW-0046",
+      "DW-0367",
+      "DW-0104",
+      "DW-0251",
+      "DW-0306",
+      "DW-0237"
+    ]
+  },
+  "publicationBaseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "priorPublishedPacks": [
+    {
+      "batch": "art222",
+      "pullRequestLabel": "PR #27",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/27",
+      "headRevision": "f76b216a9b98c1d4ebd5a6c53dc1fc07142c9114",
+      "finalSpriteCount": 8,
+      "supersededCandidateCount": 2
+    },
+    {
+      "batch": "art223",
+      "pullRequestLabel": "PR #28",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/28",
+      "headRevision": "e16e501e3ad18ea5f1088ffd4ba8cbab38f0e149",
+      "finalSpriteCount": 6,
+      "supersededCandidateCount": 9
+    },
+    {
+      "batch": "art224",
+      "pullRequestLabel": "PR #29",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/29",
+      "headRevision": "384f6ebaa5c573dfdedf5621a85f2a36be95b046",
+      "finalSpriteCount": 6,
+      "supersededCandidateCount": 1
+    }
+  ],
+  "continuationCounts": {
+    "art222FinalSprites": 8,
+    "art223FinalSprites": 6,
+    "art224FinalSprites": 6,
+    "art225FinalSprites": 6,
+    "distinctFinalSpritesAcrossArt222To225": 26,
+    "supersededCandidates": {
+      "art222": 2,
+      "art223": 9,
+      "art224": 1,
+      "art225": 1
+    },
+    "countsDescribeArtPacksNotRuntimeIntegration": true
+  },
+  "integration": "not_performed",
+  "publicationStatusAtAssembly": "prepared_locally_not_published_by_assembler",
+  "parallelArt226": {
+    "plannedSpriteCount": 6,
+    "completionNotIncludedInThisPackCounts": true,
+    "separateManifest": "../DEADWALL_Art226/REPRISE.json"
+  },
+  "nativeBacklog": "backlog/remaining-native-inventory.json",
+  "nextSteps": [
+    "Lire les PR et manifestes publiés avant de sélectionner la suite.",
+    "Conserver les six PNG retenus et les itérations remplacées.",
+    "Associer les futurs visuels aux fiches et types exacts.",
+    "Calibrer projection, échelle, ancrages, portes et ouverture des intérieurs avant raccord au moteur.",
+    "Après raccord, qualifier le commit réel par les contrôles du dépôt et le parcours joueur."
+  ],
+  "knownLimits": [
+    "No canonical pixel exterior is supplied by the Codex. Prompts preserve the verified pilot programme, native floor count, dimensions and atlas style; exterior roof/façade details are design choices. Exact metric 1:1 rendering is not certified.",
+    "The larger proposed parcel ranges in the source cards are NOT the pilot building dimensions.",
+    "Inventaire historique Art221 incomplet.",
+    "Intégration au chargement et au rendu du jeu non effectuée.",
+    "Fidélité métrique ou pixel pour pixel 1:1 non certifiée."
+  ]
+}

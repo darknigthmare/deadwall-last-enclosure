@@ -1,0 +1,200 @@
+{
+  "schemaVersion": 1,
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "art230",
+  "assembledOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "referenceRepository": "darknigthmare/deadwall-last-enclosure",
+  "publicationBaseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "publicationBaseIsOutputCommit": false,
+  "generator": "OpenAI ImageGen intégré",
+  "finalSpriteCount": 7,
+  "generationCount": 16,
+  "supersededCandidateCount": 9,
+  "identityPolicy": {
+    "primary": "artId = native:<nativeType>",
+    "filename": "<nativeType>_<native_name_slug>.png",
+    "dwIdRole": "provenance.declaredCodexId only; contradictory_unresolved",
+    "runtimeIdentityChanges": false,
+    "codexRemappingPerformed": false
+  },
+  "scope": "Dedicated closed exteriors identified only by existing native types; contradictory declared Codex references remain unresolved evidence.",
+  "nativeOutputBytesPreserved": true,
+  "pixelEditingResizingCroppingPerformed": false,
+  "geometryBasis": "Existing native preset and unchanged-owner canonical fixture; inherited programme is preserved. No live campaign instance is claimed.",
+  "integration": {
+    "performed": false,
+    "runtimeSourceChanged": false,
+    "runtimeAssetRegistrationChanged": false,
+    "testsChanged": false,
+    "codexRemappingPerformed": false,
+    "saveOrWorldIdentityChanged": false
+  },
+  "fidelity": {
+    "observed": [
+      "Actual game-atlas reference",
+      "SHA-bound visual review",
+      "Native PNG and alpha checks"
+    ],
+    "notCertified": [
+      "Exact metric projection",
+      "Metres per pixel",
+      "Pixel-for-pixel identity",
+      "Runtime anchors, collisions and access alignment"
+    ]
+  },
+  "sourcesIndex": "references/sources.json",
+  "sourceMapping": "references/SOURCE_MAP.json",
+  "prompts": "generation-prompts.json",
+  "generationHistory": "generation-history.json",
+  "technicalAudit": "qa/image-audit.json",
+  "visualReview": "qa/visual-review.md",
+  "aggregateCoverage": null,
+  "historicalArt221Inventory": "incomplete_not_reconstructed",
+  "validation": {
+    "packTechnicalAudit": "passed",
+    "runtimeCheckThisPack": "not_run_by_assembler",
+    "browser": "not_run",
+    "windows": "not_run"
+  },
+  "assets": [
+    {
+      "id": "native:cottageSmall",
+      "artId": "native:cottageSmall",
+      "type": "cottageSmall",
+      "nativeType": "cottageSmall",
+      "name": "Petite maison ouvrière",
+      "path": "assets/art230/native/cottageSmall_petite_maison_ouvriere.png",
+      "sha256": "8d7783838562f4afc20c4e37ff16c2bf5bdbfe21c2dff7cd9627cd5ae0a16302",
+      "bytes": 1790145,
+      "iteration": 2,
+      "nativeBuildingFootprintMetres": [
+        10,
+        10
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "status": "native_type_source_art_not_runtime_integrated"
+    },
+    {
+      "id": "native:rowhouse",
+      "artId": "native:rowhouse",
+      "type": "rowhouse",
+      "nativeType": "rowhouse",
+      "name": "Maison étroite",
+      "path": "assets/art230/native/rowhouse_maison_etroite.png",
+      "sha256": "386e0771eee9a10dceb290a3a9bcec50504d51f154f57658d6ebdcd4a805aee4",
+      "bytes": 1547631,
+      "iteration": 3,
+      "nativeBuildingFootprintMetres": [
+        11,
+        18
+      ],
+      "nativeLevels": [
+        0,
+        1
+      ],
+      "status": "native_type_source_art_not_runtime_integrated"
+    },
+    {
+      "id": "native:bungalow",
+      "artId": "native:bungalow",
+      "type": "bungalow",
+      "nativeType": "bungalow",
+      "name": "Pavillon",
+      "path": "assets/art230/native/bungalow_pavillon.png",
+      "sha256": "274f2cd1d785c159929525b9296dc2c7d0502a73066fc0855eea04342f1512c3",
+      "bytes": 2398689,
+      "iteration": 2,
+      "nativeBuildingFootprintMetres": [
+        20,
+        14
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "status": "native_type_source_art_not_runtime_integrated"
+    },
+    {
+      "id": "native:familyHouse",
+      "artId": "native:familyHouse",
+      "type": "familyHouse",
+      "nativeType": "familyHouse",
+      "name": "Maison familiale",
+      "path": "assets/art230/native/familyHouse_maison_familiale.png",
+      "sha256": "208e1ad317fbb560274c4d5229d7c13e6148148caea54a4fa8f7afeec0716402",
+      "bytes": 1738361,
+      "iteration": 2,
+      "nativeBuildingFootprintMetres": [
+        22,
+        19
+      ],
+      "nativeLevels": [
+        0,
+        1
+      ],
+      "status": "native_type_source_art_not_runtime_integrated"
+    },
+    {
+      "id": "native:farmhouse",
+      "artId": "native:farmhouse",
+      "type": "farmhouse",
+      "nativeType": "farmhouse",
+      "name": "Corps de ferme",
+      "path": "assets/art230/native/farmhouse_corps_de_ferme.png",
+      "sha256": "f037201ca257e23de8f447c316584da37fac7ac3245b4b47b6634b147c18dd0b",
+      "bytes": 1957748,
+      "iteration": 3,
+      "nativeBuildingFootprintMetres": [
+        32,
+        17
+      ],
+      "nativeLevels": [
+        0,
+        1
+      ],
+      "status": "native_type_source_art_not_runtime_integrated"
+    },
+    {
+      "id": "native:villa",
+      "artId": "native:villa",
+      "type": "villa",
+      "nativeType": "villa",
+      "name": "Grande villa",
+      "path": "assets/art230/native/villa_grande_villa.png",
+      "sha256": "94f5fbc89e6029d679a4fefa881d42d7138b7c5db4159bb75eadb169f858974f",
+      "bytes": 2134178,
+      "iteration": 2,
+      "nativeBuildingFootprintMetres": [
+        28,
+        23
+      ],
+      "nativeLevels": [
+        0,
+        1
+      ],
+      "status": "native_type_source_art_not_runtime_integrated"
+    },
+    {
+      "id": "native:duplexWide",
+      "artId": "native:duplexWide",
+      "type": "duplexWide",
+      "nativeType": "duplexWide",
+      "name": "Maison double",
+      "path": "assets/art230/native/duplexWide_maison_double.png",
+      "sha256": "5f27bdcb1ae1e263efd647cd8e0a323559aa435e5851ecae7a13118416ca5a8b",
+      "bytes": 2485810,
+      "iteration": 2,
+      "nativeBuildingFootprintMetres": [
+        30,
+        19
+      ],
+      "nativeLevels": [
+        0,
+        1
+      ],
+      "status": "native_type_source_art_not_runtime_integrated"
+    }
+  ]
+}

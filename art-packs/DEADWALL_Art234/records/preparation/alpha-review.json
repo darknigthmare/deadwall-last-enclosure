@@ -1,0 +1,1007 @@
+[
+  {
+    "key": "conveyor",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-ddb6d2f7-f7f0-46bb-b8d1-b31252caabce.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/conveyor_convoyeur.png",
+    "sha256": "9ee3bf57be086eb1f773d3eb2f5032d3def88c0f00adeb9012182d2ee6af7f75",
+    "bytes": 1207338,
+    "mode": "RGBA",
+    "dimensions": [
+      2172,
+      724
+    ],
+    "alpha": {
+      "min": 0,
+      "max": 255,
+      "zeroPixels": 999171,
+      "opaquePixels": 108,
+      "partialPixels": 573249,
+      "alpha1to15": 27182,
+      "alpha16to127": 2779,
+      "alpha128to249": 9626,
+      "alpha250to255": 533770,
+      "selectedCounts": {
+        "0": 999171,
+        "1": 20133,
+        "2": 2359,
+        "15": 81,
+        "16": 112,
+        "64": 38,
+        "127": 20,
+        "128": 17,
+        "250": 3475,
+        "251": 9121,
+        "252": 160213,
+        "253": 359928,
+        "254": 925,
+        "255": 108
+      },
+      "bboxAlpha1": [
+        49,
+        9,
+        2150,
+        724
+      ],
+      "bboxAlpha16": [
+        365,
+        138,
+        1807,
+        587
+      ],
+      "bboxAlpha128": [
+        366,
+        139,
+        1806,
+        586
+      ],
+      "bboxAlpha250": [
+        368,
+        139,
+        1805,
+        585
+      ],
+      "edgeMaximum": 1,
+      "foregroundRatio128": 3.221477,
+      "metricFidelityCertified": false
+    }
+  },
+  {
+    "key": "dosingUnit",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-8dedd23c-cce5-4bd8-8c7d-0934464c983d.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/dosingUnit_poste_dosage.png",
+    "sha256": "b0d5f94f0ba44836388c7b2f4a09d25add4c2917431c15fd2964cae2082cae53",
+    "bytes": 1492430,
+    "mode": "RGBA",
+    "dimensions": [
+      1402,
+      1122
+    ],
+    "alpha": {
+      "min": 0,
+      "max": 255,
+      "zeroPixels": 920270,
+      "opaquePixels": 224,
+      "partialPixels": 652550,
+      "alpha1to15": 17761,
+      "alpha16to127": 3631,
+      "alpha128to249": 8217,
+      "alpha250to255": 623165,
+      "selectedCounts": {
+        "0": 920270,
+        "1": 11353,
+        "2": 3556,
+        "15": 112,
+        "16": 90,
+        "64": 8,
+        "127": 31,
+        "128": 28,
+        "250": 1814,
+        "251": 4507,
+        "252": 36709,
+        "253": 569122,
+        "254": 10789,
+        "255": 224
+      },
+      "bboxAlpha1": [
+        0,
+        0,
+        1380,
+        1122
+      ],
+      "bboxAlpha16": [
+        233,
+        193,
+        1168,
+        937
+      ],
+      "bboxAlpha128": [
+        234,
+        193,
+        1167,
+        936
+      ],
+      "bboxAlpha250": [
+        235,
+        195,
+        1166,
+        935
+      ],
+      "edgeMaximum": 1,
+      "foregroundRatio128": 1.25572,
+      "metricFidelityCertified": false
+    }
+  },
+  {
+    "key": "foodMixer",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-725baf2b-52ed-482f-9f3e-0e63875714ca.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/foodMixer_melangeur_alimentaire.png",
+    "sha256": "5188463cd7f8210c0e06f7b58dcc780be071964c0047de09713efc6743f22d9c",
+    "bytes": 1799681,
+    "mode": "RGBA",
+    "dimensions": [
+      1330,
+      1182
+    ],
+    "alpha": {
+      "min": 0,
+      "max": 255,
+      "zeroPixels": 699306,
+      "opaquePixels": 604,
+      "partialPixels": 872150,
+      "alpha1to15": 96512,
+      "alpha16to127": 2974,
+      "alpha128to249": 10142,
+      "alpha250to255": 763126,
+      "selectedCounts": {
+        "0": 699306,
+        "1": 85325,
+        "2": 4689,
+        "15": 13,
+        "16": 13,
+        "64": 19,
+        "127": 25,
+        "128": 27,
+        "250": 2649,
+        "251": 6187,
+        "252": 121175,
+        "253": 630196,
+        "254": 2315,
+        "255": 604
+      },
+      "bboxAlpha1": [
+        0,
+        0,
+        1329,
+        1182
+      ],
+      "bboxAlpha16": [
+        185,
+        145,
+        1145,
+        1036
+      ],
+      "bboxAlpha128": [
+        185,
+        146,
+        1144,
+        1035
+      ],
+      "bboxAlpha250": [
+        187,
+        147,
+        1143,
+        1034
+      ],
+      "edgeMaximum": 1,
+      "foregroundRatio128": 1.07874,
+      "metricFidelityCertified": false
+    }
+  },
+  {
+    "key": "heatChamber",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-eaa5a38d-aef6-4114-8e05-fb420295f09c.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/heatChamber_enceinte_thermique.png",
+    "sha256": "020622c09fc3251a28f3a00ffd1bf3aa6274fb86b3e79bd1e9ed57611efb0867",
+    "bytes": 1691105,
+    "mode": "RGBA",
+    "dimensions": [
+      1470,
+      1070
+    ],
+    "alpha": {
+      "min": 0,
+      "max": 255,
+      "zeroPixels": 798666,
+      "opaquePixels": 882,
+      "partialPixels": 773352,
+      "alpha1to15": 38190,
+      "alpha16to127": 2258,
+      "alpha128to249": 10959,
+      "alpha250to255": 722827,
+      "selectedCounts": {
+        "0": 798666,
+        "1": 26812,
+        "2": 3525,
+        "15": 120,
+        "16": 101,
+        "64": 6,
+        "127": 19,
+        "128": 18,
+        "250": 4695,
+        "251": 12070,
+        "252": 182663,
+        "253": 521862,
+        "254": 655,
+        "255": 882
+      },
+      "bboxAlpha1": [
+        0,
+        0,
+        1448,
+        1070
+      ],
+      "bboxAlpha16": [
+        215,
+        133,
+        1254,
+        934
+      ],
+      "bboxAlpha128": [
+        216,
+        135,
+        1253,
+        933
+      ],
+      "bboxAlpha250": [
+        218,
+        135,
+        1252,
+        932
+      ],
+      "edgeMaximum": 1,
+      "foregroundRatio128": 1.299499,
+      "metricFidelityCertified": false
+    }
+  },
+  {
+    "key": "metalSaw",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-59a66afe-5971-4b54-9b21-87aa18372b72.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/metalSaw_scie_debit.png",
+    "sha256": "f4509c89ec24b4953a6155a43fa301b522a55b89e7e5fb1b93697318cc2ca448",
+    "bytes": 1871668,
+    "mode": "RGBA",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "alpha": {
+      "min": 0,
+      "max": 254,
+      "zeroPixels": 1021287,
+      "opaquePixels": 0,
+      "partialPixels": 551577,
+      "alpha1to15": 16055,
+      "alpha16to127": 3110,
+      "alpha128to249": 9004,
+      "alpha250to255": 523408,
+      "selectedCounts": {
+        "0": 1021287,
+        "1": 10023,
+        "2": 1836,
+        "15": 76,
+        "16": 76,
+        "64": 39,
+        "127": 1,
+        "128": 1,
+        "250": 2032,
+        "251": 5099,
+        "252": 66577,
+        "253": 447157,
+        "254": 2543,
+        "255": 0
+      },
+      "bboxAlpha1": [
+        0,
+        0,
+        1530,
+        1014
+      ],
+      "bboxAlpha16": [
+        250,
+        259,
+        1287,
+        810
+      ],
+      "bboxAlpha128": [
+        250,
+        261,
+        1286,
+        808
+      ],
+      "bboxAlpha250": [
+        251,
+        262,
+        1285,
+        807
+      ],
+      "edgeMaximum": 1,
+      "foregroundRatio128": 1.893967,
+      "metricFidelityCertified": false
+    }
+  },
+  {
+    "key": "lathe",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-d56f2040-da56-4f5e-a51b-54dd6684ac56.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/lathe_tour_mecanique.png",
+    "sha256": "bd68fc046deff5d0af50130a367c7a1ced68de274423f8d4af3e291827428f7d",
+    "bytes": 1793930,
+    "mode": "RGBA",
+    "dimensions": [
+      1774,
+      887
+    ],
+    "alpha": {
+      "min": 0,
+      "max": 255,
+      "zeroPixels": 740183,
+      "opaquePixels": 1557,
+      "partialPixels": 831798,
+      "alpha1to15": 82374,
+      "alpha16to127": 4808,
+      "alpha128to249": 7709,
+      "alpha250to255": 738464,
+      "selectedCounts": {
+        "0": 740183,
+        "1": 72829,
+        "2": 3106,
+        "15": 177,
+        "16": 162,
+        "64": 30,
+        "127": 2,
+        "128": 5,
+        "250": 2301,
+        "251": 6461,
+        "252": 65117,
+        "253": 659157,
+        "254": 3871,
+        "255": 1557
+      },
+      "bboxAlpha1": [
+        0,
+        0,
+        1758,
+        887
+      ],
+      "bboxAlpha16": [
+        219,
+        164,
+        1556,
+        727
+      ],
+      "bboxAlpha128": [
+        220,
+        167,
+        1555,
+        726
+      ],
+      "bboxAlpha250": [
+        221,
+        168,
+        1554,
+        725
+      ],
+      "edgeMaximum": 1,
+      "foregroundRatio128": 2.388193,
+      "metricFidelityCertified": false
+    }
+  },
+  {
+    "key": "millingMachine",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-735af68c-1337-431e-a88c-ea05a5334146.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/millingMachine_fraiseuse.png",
+    "sha256": "cd5bd84a6ddbd1579d5797b03b7868b158b8c8ea034b46de1a1aab8fa9e7042b",
+    "bytes": 1500435,
+    "mode": "RGBA",
+    "dimensions": [
+      1470,
+      1070
+    ],
+    "alpha": {
+      "min": 0,
+      "max": 255,
+      "zeroPixels": 874083,
+      "opaquePixels": 655,
+      "partialPixels": 698162,
+      "alpha1to15": 41401,
+      "alpha16to127": 3269,
+      "alpha128to249": 9846,
+      "alpha250to255": 644301,
+      "selectedCounts": {
+        "0": 874083,
+        "1": 35053,
+        "2": 1628,
+        "15": 36,
+        "16": 22,
+        "64": 18,
+        "127": 2,
+        "128": 4,
+        "250": 2798,
+        "251": 7305,
+        "252": 79162,
+        "253": 551862,
+        "254": 2519,
+        "255": 655
+      },
+      "bboxAlpha1": [
+        0,
+        3,
+        1451,
+        1070
+      ],
+      "bboxAlpha16": [
+        245,
+        180,
+        1225,
+        915
+      ],
+      "bboxAlpha128": [
+        246,
+        181,
+        1224,
+        914
+      ],
+      "bboxAlpha250": [
+        247,
+        182,
+        1223,
+        913
+      ],
+      "edgeMaximum": 1,
+      "foregroundRatio128": 1.334243,
+      "metricFidelityCertified": false
+    }
+  },
+  {
+    "key": "assemblyStation",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-a769102b-8b1b-43b2-bf80-6427b1f2cff8.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/assemblyStation_poste_assemblage.png",
+    "sha256": "6a02d4d145d9d1feda46b850a8955509cbabfe11746550f5a22160db2918f781",
+    "bytes": 1617321,
+    "mode": "RGBA",
+    "dimensions": [
+      1774,
+      887
+    ],
+    "alpha": {
+      "min": 0,
+      "max": 255,
+      "zeroPixels": 906640,
+      "opaquePixels": 1686,
+      "partialPixels": 665212,
+      "alpha1to15": 39825,
+      "alpha16to127": 3809,
+      "alpha128to249": 8709,
+      "alpha250to255": 614555,
+      "selectedCounts": {
+        "0": 906640,
+        "1": 32799,
+        "2": 2136,
+        "15": 80,
+        "16": 77,
+        "64": 3,
+        "127": 14,
+        "128": 12,
+        "250": 3152,
+        "251": 7520,
+        "252": 60579,
+        "253": 531670,
+        "254": 9948,
+        "255": 1686
+      },
+      "bboxAlpha1": [
+        0,
+        0,
+        1756,
+        887
+      ],
+      "bboxAlpha16": [
+        247,
+        176,
+        1527,
+        711
+      ],
+      "bboxAlpha128": [
+        249,
+        177,
+        1526,
+        710
+      ],
+      "bboxAlpha250": [
+        250,
+        178,
+        1524,
+        709
+      ],
+      "edgeMaximum": 1,
+      "foregroundRatio128": 2.395872,
+      "metricFidelityCertified": false
+    }
+  },
+  {
+    "key": "inspectionBench",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-51bda2a1-4aea-44f3-a1ed-6f71e98c88aa.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/inspectionBench_banc_controle.png",
+    "sha256": "adbed32de4199e6b97d7f9444269dbd820779bf7e20a1e15567a262799f8bea4",
+    "bytes": 1675217,
+    "mode": "RGBA",
+    "dimensions": [
+      1774,
+      887
+    ],
+    "alpha": {
+      "min": 0,
+      "max": 255,
+      "zeroPixels": 844691,
+      "opaquePixels": 119,
+      "partialPixels": 728728,
+      "alpha1to15": 21220,
+      "alpha16to127": 2897,
+      "alpha128to249": 10395,
+      "alpha250to255": 694335,
+      "selectedCounts": {
+        "0": 844691,
+        "1": 14906,
+        "2": 1996,
+        "15": 63,
+        "16": 61,
+        "64": 6,
+        "127": 68,
+        "128": 65,
+        "250": 3093,
+        "251": 6701,
+        "252": 96331,
+        "253": 583101,
+        "254": 4990,
+        "255": 119
+      },
+      "bboxAlpha1": [
+        0,
+        3,
+        1760,
+        887
+      ],
+      "bboxAlpha16": [
+        235,
+        170,
+        1539,
+        744
+      ],
+      "bboxAlpha128": [
+        236,
+        171,
+        1538,
+        743
+      ],
+      "bboxAlpha250": [
+        237,
+        173,
+        1537,
+        742
+      ],
+      "edgeMaximum": 1,
+      "foregroundRatio128": 2.276224,
+      "metricFidelityCertified": false
+    }
+  },
+  {
+    "key": "loom",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-cfba5daa-037a-436d-89e9-37c5318e9373.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/loom_metier_tisser.png",
+    "sha256": "f9e1f2463a96642d900a6738e9ccbf5a523a52efba7d044019cfd70f7eb1500b",
+    "bytes": 2152216,
+    "mode": "RGBA",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "alpha": {
+      "min": 0,
+      "max": 254,
+      "zeroPixels": 953121,
+      "opaquePixels": 0,
+      "partialPixels": 619743,
+      "alpha1to15": 17777,
+      "alpha16to127": 1902,
+      "alpha128to249": 8346,
+      "alpha250to255": 591718,
+      "selectedCounts": {
+        "0": 953121,
+        "1": 11014,
+        "2": 1405,
+        "15": 104,
+        "16": 73,
+        "64": 4,
+        "127": 12,
+        "128": 20,
+        "250": 1730,
+        "251": 4629,
+        "252": 36257,
+        "253": 522647,
+        "254": 26455,
+        "255": 0
+      },
+      "bboxAlpha1": [
+        0,
+        15,
+        1440,
+        1024
+      ],
+      "bboxAlpha16": [
+        259,
+        200,
+        1276,
+        849
+      ],
+      "bboxAlpha128": [
+        260,
+        201,
+        1275,
+        848
+      ],
+      "bboxAlpha250": [
+        262,
+        204,
+        1274,
+        847
+      ],
+      "edgeMaximum": 1,
+      "foregroundRatio128": 1.568779,
+      "metricFidelityCertified": false
+    }
+  },
+  {
+    "key": "sewingStation",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-5ca532bb-fbbb-4e3f-9d7a-8db4f6b2e958.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/sewingStation_poste_confection.png",
+    "sha256": "eb863d4effbc737e96b2abbc3f6cfa18f0e8e54309a036cdb209c4a10abb3c05",
+    "bytes": 1972290,
+    "mode": "RGBA",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "alpha": {
+      "min": 0,
+      "max": 254,
+      "zeroPixels": 920198,
+      "opaquePixels": 0,
+      "partialPixels": 652666,
+      "alpha1to15": 156407,
+      "alpha16to127": 3106,
+      "alpha128to249": 9746,
+      "alpha250to255": 483407,
+      "selectedCounts": {
+        "0": 920198,
+        "1": 149325,
+        "2": 2500,
+        "15": 67,
+        "16": 74,
+        "64": 31,
+        "127": 17,
+        "128": 14,
+        "250": 4299,
+        "251": 10856,
+        "252": 152179,
+        "253": 315091,
+        "254": 982,
+        "255": 0
+      },
+      "bboxAlpha1": [
+        0,
+        15,
+        1526,
+        1024
+      ],
+      "bboxAlpha16": [
+        227,
+        289,
+        1308,
+        766
+      ],
+      "bboxAlpha128": [
+        228,
+        290,
+        1307,
+        765
+      ],
+      "bboxAlpha250": [
+        230,
+        291,
+        1306,
+        764
+      ],
+      "edgeMaximum": 1,
+      "foregroundRatio128": 2.271579,
+      "metricFidelityCertified": false
+    }
+  },
+  {
+    "key": "cuttingTable",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-fc8c8bbd-353f-4560-a237-8d9fbb3cb186.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/cuttingTable_table_coupe.png",
+    "sha256": "542af0ac9fe5c1baabf36d1a7d6248904b0549e8d7d6e7317ed8f5414b11fa41",
+    "bytes": 1959810,
+    "mode": "RGBA",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "alpha": {
+      "min": 0,
+      "max": 254,
+      "zeroPixels": 963124,
+      "opaquePixels": 0,
+      "partialPixels": 609740,
+      "alpha1to15": 11023,
+      "alpha16to127": 2863,
+      "alpha128to249": 6488,
+      "alpha250to255": 589366,
+      "selectedCounts": {
+        "0": 963124,
+        "1": 5630,
+        "2": 1243,
+        "15": 94,
+        "16": 88,
+        "64": 57,
+        "127": 37,
+        "128": 27,
+        "250": 1420,
+        "251": 2966,
+        "252": 13101,
+        "253": 514875,
+        "254": 57004,
+        "255": 0
+      },
+      "bboxAlpha1": [
+        0,
+        19,
+        1522,
+        1007
+      ],
+      "bboxAlpha16": [
+        226,
+        209,
+        1310,
+        815
+      ],
+      "bboxAlpha128": [
+        227,
+        210,
+        1309,
+        814
+      ],
+      "bboxAlpha250": [
+        228,
+        210,
+        1308,
+        813
+      ],
+      "edgeMaximum": 1,
+      "foregroundRatio128": 1.791391,
+      "metricFidelityCertified": false
+    }
+  },
+  {
+    "key": "materialMixer",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-22c9b061-cdda-4491-8d68-0f7b1664f666.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/materialMixer_malaxeur_materiaux.png",
+    "sha256": "310a92057e0aaf2b79afccae1e310102a268aa9815831eb134278ab0a3dd50ef",
+    "bytes": 1908926,
+    "mode": "RGBA",
+    "dimensions": [
+      1388,
+      1133
+    ],
+    "alpha": {
+      "min": 0,
+      "max": 255,
+      "zeroPixels": 734831,
+      "opaquePixels": 533,
+      "partialPixels": 837240,
+      "alpha1to15": 66043,
+      "alpha16to127": 3355,
+      "alpha128to249": 9204,
+      "alpha250to255": 759171,
+      "selectedCounts": {
+        "0": 734831,
+        "1": 58142,
+        "2": 2452,
+        "15": 82,
+        "16": 91,
+        "64": 8,
+        "127": 22,
+        "128": 23,
+        "250": 2284,
+        "251": 6599,
+        "252": 162325,
+        "253": 583831,
+        "254": 3599,
+        "255": 533
+      },
+      "bboxAlpha1": [
+        0,
+        0,
+        1387,
+        1133
+      ],
+      "bboxAlpha16": [
+        194,
+        154,
+        1194,
+        999
+      ],
+      "bboxAlpha128": [
+        195,
+        155,
+        1193,
+        998
+      ],
+      "bboxAlpha250": [
+        196,
+        156,
+        1192,
+        997
+      ],
+      "edgeMaximum": 1,
+      "foregroundRatio128": 1.183867,
+      "metricFidelityCertified": false
+    }
+  },
+  {
+    "key": "formingPress",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-cc24e6c1-c5d5-4dd4-abd6-fbcc772c6994.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/formingPress_presse_formage.png",
+    "sha256": "ab4ecd04b86621f6a3f1b42dbca372377cd99636df939a1d4aeb9a573b7f0fb0",
+    "bytes": 1503568,
+    "mode": "RGBA",
+    "dimensions": [
+      1388,
+      1133
+    ],
+    "alpha": {
+      "min": 0,
+      "max": 255,
+      "zeroPixels": 879589,
+      "opaquePixels": 94,
+      "partialPixels": 692921,
+      "alpha1to15": 30176,
+      "alpha16to127": 2889,
+      "alpha128to249": 8580,
+      "alpha250to255": 651370,
+      "selectedCounts": {
+        "0": 879589,
+        "1": 23555,
+        "2": 2660,
+        "15": 53,
+        "16": 32,
+        "64": 44,
+        "127": 3,
+        "128": 4,
+        "250": 2805,
+        "251": 6243,
+        "252": 57826,
+        "253": 580169,
+        "254": 4233,
+        "255": 94
+      },
+      "bboxAlpha1": [
+        0,
+        0,
+        1372,
+        1133
+      ],
+      "bboxAlpha16": [
+        228,
+        181,
+        1160,
+        952
+      ],
+      "bboxAlpha128": [
+        229,
+        181,
+        1159,
+        951
+      ],
+      "bboxAlpha250": [
+        230,
+        182,
+        1158,
+        950
+      ],
+      "edgeMaximum": 1,
+      "foregroundRatio128": 1.207792,
+      "metricFidelityCertified": false
+    }
+  },
+  {
+    "key": "curingRack",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-e7a78490-e7d2-442c-8141-951d5ec7f462.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/curingRack_rayonnage_maturation.png",
+    "sha256": "0774e6c7b71a5c98eddaa0780831668a2c3df1383ce9a5b3ed049e77b2e6d26d",
+    "bytes": 1735389,
+    "mode": "RGBA",
+    "dimensions": [
+      1774,
+      887
+    ],
+    "alpha": {
+      "min": 0,
+      "max": 255,
+      "zeroPixels": 813654,
+      "opaquePixels": 274,
+      "partialPixels": 759610,
+      "alpha1to15": 31813,
+      "alpha16to127": 3696,
+      "alpha128to249": 10244,
+      "alpha250to255": 714131,
+      "selectedCounts": {
+        "0": 813654,
+        "1": 18955,
+        "2": 5099,
+        "15": 64,
+        "16": 45,
+        "64": 49,
+        "127": 51,
+        "128": 35,
+        "250": 3864,
+        "251": 10449,
+        "252": 186864,
+        "253": 511870,
+        "254": 810,
+        "255": 274
+      },
+      "bboxAlpha1": [
+        0,
+        0,
+        1758,
+        887
+      ],
+      "bboxAlpha16": [
+        226,
+        138,
+        1549,
+        748
+      ],
+      "bboxAlpha128": [
+        227,
+        139,
+        1548,
+        747
+      ],
+      "bboxAlpha250": [
+        227,
+        140,
+        1547,
+        746
+      ],
+      "edgeMaximum": 1,
+      "foregroundRatio128": 2.172697,
+      "metricFidelityCertified": false
+    }
+  }
+]

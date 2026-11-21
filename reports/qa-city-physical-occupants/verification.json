@@ -1,0 +1,249 @@
+{
+  "generatedAt": "2026-11-17T11:49:50.432196+00:00",
+  "base": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "branch": "codex/qa-city-physical-occupants",
+  "scope": "QA fixture selection and observation only; no gameplay, renderer, Art159, workflow, dependency or art changes.",
+  "incident": {
+    "pullRequest": 33,
+    "runId": 44071701627,
+    "jobId": 133999273438,
+    "step": "Complete native city construction and service regression from dist",
+    "jobUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/44071701627/job/133999273438",
+    "assertion": "Non-worker physical occupants must remain a refusal",
+    "sourceLocation": "scripts/browser-city-content150.mjs:373:16",
+    "targetId": 87,
+    "targetType": "continuityArsenal150",
+    "targetBounds": {
+      "left": 928,
+      "right": 1088,
+      "top": 800,
+      "bottom": 928
+    },
+    "infected": {
+      "id": 85,
+      "x": 1071.9807923404958,
+      "y": 870.0341319904326,
+      "radius": 11,
+      "health": 72
+    },
+    "firstWorkObservationElapsed": 69.0909999999999,
+    "heldInputs": [],
+    "holdCount": 0,
+    "limit": "The runner does not record the complete actor inventory at fixture selection/payment. This fixes a reproduced blind spot; it does not prove the exact instant at which runner infected 85 entered the footprint."
+  },
+  "replay": {
+    "fixture": "Explicit native runner setup, archived once and restored identically on base and patch; no simulation ticks. This is a fixture proof, not an organic campaign.",
+    "sameInputStateSha256": "84434c9ef083807efba7cdebb737a039fec3967999ff005c28f3c95812d7c4d1",
+    "baseSelected": {
+      "gx": 58,
+      "gy": 58,
+      "type": "continuityArsenal150"
+    },
+    "fixedSelected": {
+      "gx": 60,
+      "gy": 66,
+      "type": "continuityArsenal150"
+    },
+    "threat": {
+      "id": 70,
+      "x": 1936,
+      "y": 1920,
+      "radius": 10,
+      "health": 54
+    },
+    "baseAdmitsOccupiedFootprint": true,
+    "fixedEmptyFootprint": true,
+    "statePreservedExceptDeclaredViewpointFields": true,
+    "permittedFields": [
+      "player.x",
+      "player.y",
+      "phase",
+      "phaseTime"
+    ],
+    "exitCodes": {
+      "base": 1,
+      "fixed": 0
+    }
+  },
+  "checks": {
+    "targetedCommand": "node --test tests/audit186-city-placement.test.cjs tests/audit187-city-search.test.cjs tests/audit188-city-reservation.test.cjs tests/audit188-city-physical-occupants.test.cjs",
+    "counts": {
+      "tests": 17,
+      "pass": 17,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "syntax": [
+      "scripts/browser-city-content150.mjs",
+      "scripts/browser-city-fixtures150.mjs",
+      "scripts/browser-city-placement150.mjs"
+    ],
+    "gitDiffCheckExit": 0,
+    "runtimeAndOriginalGuardsUnchanged": {
+      "observedAt": "2026-11-17T11:48:46.496306+00:00",
+      "base": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "protectedPathsUnchanged": [
+        "src",
+        "index.html",
+        "package.json",
+        "package-lock.json",
+        ".github",
+        "tests/expedition-art159.test.cjs",
+        "tests/audit186-city-placement.test.cjs",
+        "tests/audit187-city-search.test.cjs",
+        "tests/audit188-city-reservation.test.cjs"
+      ],
+      "baselineProbeCheckout": "/workspace/scratch/6f470a892a0f/deadwall-ci-fonts",
+      "baselineProbeOwnersIdenticalToBase": [
+        "src",
+        "index.html",
+        "scripts/qa-startup134.cjs",
+        "scripts/browser-city-fixtures150.mjs",
+        "tests/helpers/browser.cjs"
+      ],
+      "unchangedScenarioSections": [
+        {
+          "start": "async function navigate(",
+          "endExclusive": "async function readEconomy(",
+          "unchanged": true,
+          "sha256": "c071e535bbcca8f5f97a0c08bee453825f667e5b14972cc78f1ec9e26d3a33d4"
+        },
+        {
+          "start": "async function clearPlacementWorkers150(",
+          "endExclusive": "async function exposePlannedSite150(",
+          "unchanged": true,
+          "sha256": "a49a6b33c0938841f423e94b4b94bbc4c8db82b5d3457126fa30e4c459b7c1e2"
+        },
+        {
+          "start": "async function placeBuilding(",
+          "endExclusive": "function inspectConstructionWork150(",
+          "unchanged": true,
+          "sha256": "c52adaaffe7a8e97b7dbdf9b32d1acb5a5227d5cc70487d7be14b418211b963f"
+        },
+        {
+          "start": "function inspectConstructionWork150(",
+          "endExclusive": "async function workManually(",
+          "unchanged": true,
+          "sha256": "521cefb258095b5439b4cade94a5fbc38b6a10276585027f2e3b6d8b80b5698c"
+        },
+        {
+          "start": "async function workManually(",
+          "endExclusive": "async function saveContinue150(",
+          "unchanged": true,
+          "sha256": "2e3f7f2956e08d17d83e9b4797af38259e437f5e128b076c7019278104dee816"
+        }
+      ],
+      "gitDiffCheckExit": 0
+    }
+  },
+  "browserAttempt": {
+    "command": "CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium DEADWALL_QA_PROFILES=desktop DEADWALL_QA_OUTPUT=<evidence>/browser npm run test:city",
+    "result": "blocked before game page; no browser assertion exercised",
+    "exitCode": 1,
+    "node": "v24.22.1",
+    "playwright": "1.62.1",
+    "chromium": "156.0.8078.79",
+    "error": "process_singleton_posix.cc:297: socket() failed: Operation not permitted (1)",
+    "rerun": false,
+    "fullSuiteRun": false,
+    "distBuildRun": false
+  },
+  "files": [
+    {
+      "path": "scripts/browser-city-content150.mjs",
+      "sha256": "17bc71096b3acbcc898324665c1fb90ff7f790ca72abb8f789c10eee4b93110f",
+      "bytes": 80093
+    },
+    {
+      "path": "scripts/browser-city-fixtures150.mjs",
+      "sha256": "3e1b28861d8b0219f960ab89b0c957738c353e3d386410f58e7b8273a30e029f",
+      "bytes": 25092
+    },
+    {
+      "path": "scripts/browser-city-placement150.mjs",
+      "sha256": "a5b05bbb01be5b5acdb6eb4e89231ab9618a0eead793932bc82a2c04b7f98233",
+      "bytes": 6261
+    },
+    {
+      "path": "tests/audit188-city-physical-occupants.test.cjs",
+      "sha256": "bcad8a1b26fc10f816ab6506714480ae68e55685f82c35c3e9b604b31bab5236",
+      "bytes": 7683
+    }
+  ],
+  "evidenceDirectory": "ci-followup-20261117-1230",
+  "evidence": [
+    {
+      "path": "status-observation.json",
+      "sha256": "3250e8223e9c1a2349d57bb0f7b56891fffd8e9c000eb9573b6f2c36fd0d201e",
+      "bytes": 116030
+    },
+    {
+      "path": "artifact-receipts.json",
+      "sha256": "ccd665e90e932f589b9c120a1a006443ba6901ead71d090a9d66c4231c96d4d3",
+      "bytes": 3852
+    },
+    {
+      "path": "pr32-native3.excerpt.log",
+      "sha256": "dfe4aba183e8aedf6b511511059230c9a7d638d006c648800d4de63f54a50014",
+      "bytes": 1776
+    },
+    {
+      "path": "pr33-native3.excerpt.log",
+      "sha256": "d1147b9f0eac433f2203fa0b200ffeee00ed2c142c93af1140cd16636ba996d1",
+      "bytes": 1635
+    },
+    {
+      "path": "pr33-audit.excerpt.log",
+      "sha256": "751a08e47bb6f026dc7e76ebcfb1e3f163d14097b0c836c225711538e84faa93",
+      "bytes": 4968
+    },
+    {
+      "path": "pr33-audit-city-report.json",
+      "sha256": "605135ef96a372da7ebaa38dc8142550b546a82c684916fd054f4ce7220586e0",
+      "bytes": 387181
+    },
+    {
+      "path": "reproduce-occupied-fixture.cjs",
+      "sha256": "e8a092952bb96032beba8ac546aff99afc53ab96a6686bdc2dfe9d22af63a077",
+      "bytes": 3041
+    },
+    {
+      "path": "occupied-fixture-state.json",
+      "sha256": "f960f5bf342325f75eba2c8b4e745da21ce4ac1dc888c0f10a3d28794e9f8771",
+      "bytes": 100321
+    },
+    {
+      "path": "occupied-fixture-replay-base.json",
+      "sha256": "ff96017e2a03011060adeb29aa4e050de707e6e5c906ab3b879bc14108390130",
+      "bytes": 1436
+    },
+    {
+      "path": "occupied-fixture-replay-fixed.json",
+      "sha256": "b2608a784d08120adc58e3393abf1bf610d686608bde033b993e2021aef06a47",
+      "bytes": 1649
+    },
+    {
+      "path": "targeted-tests-final.log",
+      "sha256": "a2ce2971b4cde43c67960922f528c0ed1e15ce867fb1a4f986b8c138f41c4bef",
+      "bytes": 2192
+    },
+    {
+      "path": "browser-city-desktop.log",
+      "sha256": "2a8de5347b11231ee49a13b8395fc8437c91bc50b25363ad481b0e1b428e6ac0",
+      "bytes": 7764
+    },
+    {
+      "path": "scope-verification.json",
+      "sha256": "ebcfdbee06a717a88a89e2e77552e4b3ce6f8652db56fd1001e6ae4516c71814",
+      "bytes": 1882
+    }
+  ],
+  "limits": [
+    "No workflow or Vercel rerun, merge or remote mutation.",
+    "No complete npm run check or successful local Chromium result is claimed.",
+    "New threats entering after payment remain a hard refusal; no actor removal, healing, forced movement or guard relaxation.",
+    "The frozen art packs and separate font correction are unchanged."
+  ]
+}

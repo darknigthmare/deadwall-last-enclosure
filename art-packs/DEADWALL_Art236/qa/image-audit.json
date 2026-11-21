@@ -1,0 +1,129 @@
+{
+  "pack": "Art236",
+  "checkedOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "method": "Read-only PNG decode, chunk inventory, RGBA histogram, alpha thresholds and SHA256.",
+  "alphaThresholds": [
+    1,
+    8,
+    32,
+    128,
+    240
+  ],
+  "alphaInterpretation": "Transparent pixels and alpha 1–7 are recorded separately. Visible margins at alpha>=8 do not imply zero alpha everywhere and do not certify source geometry.",
+  "assets": [
+    {
+      "file": "assets/art236/actors/survivor_inert_body.png",
+      "sha256": "f4cd1898b5133ea7acf295151d27e328eed8dbc4c8d4f678f9af8ef4ee58f911",
+      "bytes": 1061317,
+      "width": 1774,
+      "height": 887,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 21881
+        },
+        {
+          "type": "IDAT",
+          "bytes": 1039367
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "trailingBytesAfterIend": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1116934,
+      "fullyTransparentFraction": 0.7098233407772803,
+      "lowAlphaPixels1to7": 18735,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1726,
+          855
+        ],
+        "8": [
+          164,
+          160,
+          1526,
+          752
+        ],
+        "32": [
+          164,
+          160,
+          1526,
+          751
+        ],
+        "128": [
+          164,
+          161,
+          1524,
+          751
+        ],
+        "240": [
+          166,
+          162,
+          1523,
+          750
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 48,
+          "bottom": 32
+        },
+        "8": {
+          "left": 164,
+          "top": 160,
+          "right": 248,
+          "bottom": 135
+        },
+        "32": {
+          "left": 164,
+          "top": 160,
+          "right": 248,
+          "bottom": 136
+        },
+        "128": {
+          "left": 164,
+          "top": 161,
+          "right": 250,
+          "bottom": 136
+        },
+        "240": {
+          "left": 166,
+          "top": 162,
+          "right": 251,
+          "bottom": 137
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 0,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    }
+  ]
+}

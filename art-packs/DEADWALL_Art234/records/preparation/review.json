@@ -1,0 +1,737 @@
+{
+  "conveyor": {
+    "artId": "prop:conveyor:v0",
+    "sha256": "9ee3bf57be086eb1f773d3eb2f5032d3def88c0f00adeb9012182d2ee6af7f75",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-ddb6d2f7-f7f0-46bb-b8d1-b31252caabce.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/conveyor_convoyeur.png",
+    "iteration": 1,
+    "decision": "accepted_source_art_proposal",
+    "observation": "Vue de dessus sans fuite perspective. Sept rouleaux transversaux sont contenus entre les deux rails ; convoyeur vide et arrêté, aucune charge détachée.",
+    "reviewer": "publish_missing",
+    "reviewedOn": "2026-11-17",
+    "visualInspectionPerformed": true,
+    "canonicalReferenceViewedBeforeGeneration": true,
+    "materialAtlasViewedBeforeGeneration": true,
+    "actualReferences": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/conveyor_v0.png",
+        "sha256": "a9ae3320a9ee9e5fa52e465291c989c5020532e3deec579e180afb186dfabe04"
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe"
+      }
+    ],
+    "nativeDimensions": [
+      2172,
+      724
+    ],
+    "nativeBytes": 1207338,
+    "rgbaVerified": true,
+    "transparentPixels": 999171,
+    "borderAlphaMaximum": 1,
+    "lowAlphaPixels1to15": 27182,
+    "alphaObservation": "Pixels totalement transparents présents ; quelques résidus très faibles peuvent atteindre le bord (alpha maximal 1). Le corps visible reste entouré de marge. Aucun fond opaque identifié. PNG conservé sans nettoyage ni réencodage.",
+    "proportionEvidence": {
+      "authorFootprintRatio": 3.2,
+      "canonicalInkBoundsRatioAlpha128": 3.910112,
+      "outputInkBoundsRatioAlpha128": 3.221477,
+      "relativeDifferenceFromCanonicalInkPercent": -17.612,
+      "interpretation": "Les retraits des dessins canoniques font différer le rapport de leur encre de celui de l’emprise w/h. Ces mesures décrivent la silhouette visible ; elles ne définissent pas une échelle en mètres et ne certifient pas une fidélité 1:1."
+    },
+    "imageEditingPerformed": false,
+    "runtimeIntegrationPerformed": false,
+    "metricFidelityCertified": false,
+    "limitations": [
+      "Les dimensions de CATALOGUE sont des choix auteur.",
+      "La proposition conserve l’organisation visible sans certifier une superposition pixel pour pixel.",
+      "Ancrage, échelle, clipping et états réels nécessitent une intégration séparée."
+    ]
+  },
+  "dosingUnit": {
+    "artId": "prop:dosingUnit:v0",
+    "sha256": "b0d5f94f0ba44836388c7b2f4a09d25add4c2917431c15fd2964cae2082cae53",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-8dedd23c-cce5-4bd8-8c7d-0934464c983d.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/dosingUnit_poste_dosage.png",
+    "iteration": 1,
+    "decision": "accepted_source_art_proposal",
+    "observation": "Trémie angulaire sur la partie gauche, sortie orientée vers le bas de la référence et carter brun à droite. Unité cohérente, sans contenant rapporté ni activité.",
+    "reviewer": "publish_missing",
+    "reviewedOn": "2026-11-17",
+    "visualInspectionPerformed": true,
+    "canonicalReferenceViewedBeforeGeneration": true,
+    "materialAtlasViewedBeforeGeneration": true,
+    "actualReferences": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/dosingUnit_v0.png",
+        "sha256": "ab2d6b97aa00e7667ec168018c258a8028e2a6b95075acda5f8eda1bb2455ef2"
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe"
+      }
+    ],
+    "nativeDimensions": [
+      1402,
+      1122
+    ],
+    "nativeBytes": 1492430,
+    "rgbaVerified": true,
+    "transparentPixels": 920270,
+    "borderAlphaMaximum": 1,
+    "lowAlphaPixels1to15": 17761,
+    "alphaObservation": "Pixels totalement transparents présents ; quelques résidus très faibles peuvent atteindre le bord (alpha maximal 1). Le corps visible reste entouré de marge. Aucun fond opaque identifié. PNG conservé sans nettoyage ni réencodage.",
+    "proportionEvidence": {
+      "authorFootprintRatio": 1.25,
+      "canonicalInkBoundsRatioAlpha128": 1.360656,
+      "outputInkBoundsRatioAlpha128": 1.25572,
+      "relativeDifferenceFromCanonicalInkPercent": -7.712,
+      "interpretation": "Les retraits des dessins canoniques font différer le rapport de leur encre de celui de l’emprise w/h. Ces mesures décrivent la silhouette visible ; elles ne définissent pas une échelle en mètres et ne certifient pas une fidélité 1:1."
+    },
+    "imageEditingPerformed": false,
+    "runtimeIntegrationPerformed": false,
+    "metricFidelityCertified": false,
+    "limitations": [
+      "Les dimensions de CATALOGUE sont des choix auteur.",
+      "La proposition conserve l’organisation visible sans certifier une superposition pixel pour pixel.",
+      "Ancrage, échelle, clipping et états réels nécessitent une intégration séparée."
+    ]
+  },
+  "foodMixer": {
+    "artId": "prop:foodMixer:v0",
+    "sha256": "5188463cd7f8210c0e06f7b58dcc780be071964c0047de09713efc6743f22d9c",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-725baf2b-52ed-482f-9f3e-0e63875714ca.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/foodMixer_melangeur_alimentaire.png",
+    "iteration": 1,
+    "decision": "accepted_source_art_proposal",
+    "observation": "Cuve circulaire vide à gauche, colonne à droite et bras clair revenant au centre de la cuve. Plaque de base et pieds attachés, machine arrêtée.",
+    "reviewer": "publish_missing",
+    "reviewedOn": "2026-11-17",
+    "visualInspectionPerformed": true,
+    "canonicalReferenceViewedBeforeGeneration": true,
+    "materialAtlasViewedBeforeGeneration": true,
+    "actualReferences": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/foodMixer_v0.png",
+        "sha256": "19a264080dfffc1368e0655b1d99be7d94049777d0fd2d18dedb6b0dee6738fe"
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe"
+      }
+    ],
+    "nativeDimensions": [
+      1330,
+      1182
+    ],
+    "nativeBytes": 1799681,
+    "rgbaVerified": true,
+    "transparentPixels": 699306,
+    "borderAlphaMaximum": 1,
+    "lowAlphaPixels1to15": 96512,
+    "alphaObservation": "Pixels totalement transparents présents ; quelques résidus très faibles peuvent atteindre le bord (alpha maximal 1). Le corps visible reste entouré de marge. Aucun fond opaque identifié. PNG conservé sans nettoyage ni réencodage.",
+    "proportionEvidence": {
+      "authorFootprintRatio": 1.125,
+      "canonicalInkBoundsRatioAlpha128": 1.222836,
+      "outputInkBoundsRatioAlpha128": 1.07874,
+      "relativeDifferenceFromCanonicalInkPercent": -11.784,
+      "interpretation": "Les retraits des dessins canoniques font différer le rapport de leur encre de celui de l’emprise w/h. Ces mesures décrivent la silhouette visible ; elles ne définissent pas une échelle en mètres et ne certifient pas une fidélité 1:1."
+    },
+    "imageEditingPerformed": false,
+    "runtimeIntegrationPerformed": false,
+    "metricFidelityCertified": false,
+    "limitations": [
+      "Les dimensions de CATALOGUE sont des choix auteur.",
+      "La proposition conserve l’organisation visible sans certifier une superposition pixel pour pixel.",
+      "Ancrage, échelle, clipping et états réels nécessitent une intégration séparée."
+    ]
+  },
+  "heatChamber": {
+    "artId": "prop:heatChamber:v0",
+    "sha256": "020622c09fc3251a28f3a00ffd1bf3aa6274fb86b3e79bd1e9ed57611efb0867",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-eaa5a38d-aef6-4114-8e05-fb420295f09c.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/heatChamber_enceinte_thermique.png",
+    "iteration": 1,
+    "decision": "accepted_source_art_proposal",
+    "observation": "Cadre isolant clair, trappe sombre centrale, deux barres parallèles et petit verrou à droite conservés. Aucun feu, voyant lumineux ou vapeur.",
+    "reviewer": "publish_missing",
+    "reviewedOn": "2026-11-17",
+    "visualInspectionPerformed": true,
+    "canonicalReferenceViewedBeforeGeneration": true,
+    "materialAtlasViewedBeforeGeneration": true,
+    "actualReferences": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/heatChamber_v0.png",
+        "sha256": "897e779c8536b7d3284119b171e1a58f84b23c839d37eb742a0cc1338277c591"
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe"
+      }
+    ],
+    "nativeDimensions": [
+      1470,
+      1070
+    ],
+    "nativeBytes": 1691105,
+    "rgbaVerified": true,
+    "transparentPixels": 798666,
+    "borderAlphaMaximum": 1,
+    "lowAlphaPixels1to15": 38190,
+    "alphaObservation": "Pixels totalement transparents présents ; quelques résidus très faibles peuvent atteindre le bord (alpha maximal 1). Le corps visible reste entouré de marge. Aucun fond opaque identifié. PNG conservé sans nettoyage ni réencodage.",
+    "proportionEvidence": {
+      "authorFootprintRatio": 1.375,
+      "canonicalInkBoundsRatioAlpha128": 1.495495,
+      "outputInkBoundsRatioAlpha128": 1.299499,
+      "relativeDifferenceFromCanonicalInkPercent": -13.106,
+      "interpretation": "Les retraits des dessins canoniques font différer le rapport de leur encre de celui de l’emprise w/h. Ces mesures décrivent la silhouette visible ; elles ne définissent pas une échelle en mètres et ne certifient pas une fidélité 1:1."
+    },
+    "imageEditingPerformed": false,
+    "runtimeIntegrationPerformed": false,
+    "metricFidelityCertified": false,
+    "limitations": [
+      "Les dimensions de CATALOGUE sont des choix auteur.",
+      "La proposition conserve l’organisation visible sans certifier une superposition pixel pour pixel.",
+      "Ancrage, échelle, clipping et états réels nécessitent une intégration séparée."
+    ]
+  },
+  "metalSaw": {
+    "artId": "prop:metalSaw:v0",
+    "sha256": "f4509c89ec24b4953a6155a43fa301b522a55b89e7e5fb1b93697318cc2ca448",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-59a66afe-5971-4b54-9b21-87aa18372b72.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/metalSaw_scie_debit.png",
+    "iteration": 1,
+    "decision": "accepted_source_art_proposal",
+    "observation": "Grand disque sombre à gauche, guide droit à droite et guide brun au bord inférieur conservés. Scie immobile sans pièce, éclat ni outil détaché. Le halo suggéré par l’aperçu n’est pas un fond opaque : les mesures alpha distinguent les résidus très faibles du corps visible.",
+    "reviewer": "publish_missing",
+    "reviewedOn": "2026-11-17",
+    "visualInspectionPerformed": true,
+    "canonicalReferenceViewedBeforeGeneration": true,
+    "materialAtlasViewedBeforeGeneration": true,
+    "actualReferences": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/metalSaw_v0.png",
+        "sha256": "1c60ae21e9b849b86e097548896e31dac4904a802f6b908306dbd506f4ea92fd"
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe"
+      }
+    ],
+    "nativeDimensions": [
+      1536,
+      1024
+    ],
+    "nativeBytes": 1871668,
+    "rgbaVerified": true,
+    "transparentPixels": 1021287,
+    "borderAlphaMaximum": 1,
+    "lowAlphaPixels1to15": 16055,
+    "alphaObservation": "Pixels totalement transparents présents ; quelques résidus très faibles peuvent atteindre le bord (alpha maximal 1). Le corps visible reste entouré de marge. Aucun fond opaque identifié. PNG conservé sans nettoyage ni réencodage.",
+    "proportionEvidence": {
+      "authorFootprintRatio": 1.833333,
+      "canonicalInkBoundsRatioAlpha128": 2.101266,
+      "outputInkBoundsRatioAlpha128": 1.893967,
+      "relativeDifferenceFromCanonicalInkPercent": -9.865,
+      "interpretation": "Les retraits des dessins canoniques font différer le rapport de leur encre de celui de l’emprise w/h. Ces mesures décrivent la silhouette visible ; elles ne définissent pas une échelle en mètres et ne certifient pas une fidélité 1:1."
+    },
+    "imageEditingPerformed": false,
+    "runtimeIntegrationPerformed": false,
+    "metricFidelityCertified": false,
+    "limitations": [
+      "Les dimensions de CATALOGUE sont des choix auteur.",
+      "La proposition conserve l’organisation visible sans certifier une superposition pixel pour pixel.",
+      "Ancrage, échelle, clipping et états réels nécessitent une intégration séparée."
+    ]
+  },
+  "lathe": {
+    "artId": "prop:lathe:v0",
+    "sha256": "bd68fc046deff5d0af50130a367c7a1ced68de274423f8d4af3e291827428f7d",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-d56f2040-da56-4f5e-a51b-54dd6684ac56.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/lathe_tour_mecanique.png",
+    "iteration": 1,
+    "decision": "accepted_source_art_proposal",
+    "observation": "Mandrin et poupée fixe à gauche, axe et rails horizontaux, chariot avec volant près du bas à droite. Arrangement canonique conservé, aucune pièce usinée ni mouvement.",
+    "reviewer": "publish_missing",
+    "reviewedOn": "2026-11-17",
+    "visualInspectionPerformed": true,
+    "canonicalReferenceViewedBeforeGeneration": true,
+    "materialAtlasViewedBeforeGeneration": true,
+    "actualReferences": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/lathe_v0.png",
+        "sha256": "cb699c7ce0db05504eeda6b064adb554f9b81684de854deeb982f38577204267"
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe"
+      }
+    ],
+    "nativeDimensions": [
+      1774,
+      887
+    ],
+    "nativeBytes": 1793930,
+    "rgbaVerified": true,
+    "transparentPixels": 740183,
+    "borderAlphaMaximum": 1,
+    "lowAlphaPixels1to15": 82374,
+    "alphaObservation": "Pixels totalement transparents présents ; quelques résidus très faibles peuvent atteindre le bord (alpha maximal 1). Le corps visible reste entouré de marge. Aucun fond opaque identifié. PNG conservé sans nettoyage ni réencodage.",
+    "proportionEvidence": {
+      "authorFootprintRatio": 2.0,
+      "canonicalInkBoundsRatioAlpha128": 2.344828,
+      "outputInkBoundsRatioAlpha128": 2.388193,
+      "relativeDifferenceFromCanonicalInkPercent": 1.849,
+      "interpretation": "Les retraits des dessins canoniques font différer le rapport de leur encre de celui de l’emprise w/h. Ces mesures décrivent la silhouette visible ; elles ne définissent pas une échelle en mètres et ne certifient pas une fidélité 1:1."
+    },
+    "imageEditingPerformed": false,
+    "runtimeIntegrationPerformed": false,
+    "metricFidelityCertified": false,
+    "limitations": [
+      "Les dimensions de CATALOGUE sont des choix auteur.",
+      "La proposition conserve l’organisation visible sans certifier une superposition pixel pour pixel.",
+      "Ancrage, échelle, clipping et états réels nécessitent une intégration séparée."
+    ]
+  },
+  "millingMachine": {
+    "artId": "prop:millingMachine:v0",
+    "sha256": "cd5bd84a6ddbd1579d5797b03b7868b158b8c8ea034b46de1a1aab8fa9e7042b",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-735af68c-1337-431e-a88c-ea05a5334146.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/millingMachine_fraiseuse.png",
+    "iteration": 1,
+    "decision": "accepted_source_art_proposal",
+    "observation": "Colonne à gauche, traverse claire vers la droite, broche au centre droit et table rainurée en bas. Ensemble complet et inactif, sans copeaux en mouvement.",
+    "reviewer": "publish_missing",
+    "reviewedOn": "2026-11-17",
+    "visualInspectionPerformed": true,
+    "canonicalReferenceViewedBeforeGeneration": true,
+    "materialAtlasViewedBeforeGeneration": true,
+    "actualReferences": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/millingMachine_v0.png",
+        "sha256": "e8c71da3d8ca45b5d4e58d7b7fa56f6d9af4078d1678c2c76aa8d192b8bcc012"
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe"
+      }
+    ],
+    "nativeDimensions": [
+      1470,
+      1070
+    ],
+    "nativeBytes": 1500435,
+    "rgbaVerified": true,
+    "transparentPixels": 874083,
+    "borderAlphaMaximum": 1,
+    "lowAlphaPixels1to15": 41401,
+    "alphaObservation": "Pixels totalement transparents présents ; quelques résidus très faibles peuvent atteindre le bord (alpha maximal 1). Le corps visible reste entouré de marge. Aucun fond opaque identifié. PNG conservé sans nettoyage ni réencodage.",
+    "proportionEvidence": {
+      "authorFootprintRatio": 1.375,
+      "canonicalInkBoundsRatioAlpha128": 1.515982,
+      "outputInkBoundsRatioAlpha128": 1.334243,
+      "relativeDifferenceFromCanonicalInkPercent": -11.988,
+      "interpretation": "Les retraits des dessins canoniques font différer le rapport de leur encre de celui de l’emprise w/h. Ces mesures décrivent la silhouette visible ; elles ne définissent pas une échelle en mètres et ne certifient pas une fidélité 1:1."
+    },
+    "imageEditingPerformed": false,
+    "runtimeIntegrationPerformed": false,
+    "metricFidelityCertified": false,
+    "limitations": [
+      "Les dimensions de CATALOGUE sont des choix auteur.",
+      "La proposition conserve l’organisation visible sans certifier une superposition pixel pour pixel.",
+      "Ancrage, échelle, clipping et états réels nécessitent une intégration séparée."
+    ]
+  },
+  "assemblyStation": {
+    "artId": "prop:assemblyStation:v0",
+    "sha256": "6a02d4d145d9d1feda46b850a8955509cbabfe11746550f5a22160db2918f781",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-a769102b-8b1b-43b2-bf80-6427b1f2cff8.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/assemblyStation_poste_assemblage.png",
+    "iteration": 1,
+    "decision": "accepted_source_art_proposal",
+    "observation": "Plateau de bois, petit logement carré à gauche, logement sombre à droite et trois supports attachés au bord inférieur. Aucun stock ou outil détaché ajouté.",
+    "reviewer": "publish_missing",
+    "reviewedOn": "2026-11-17",
+    "visualInspectionPerformed": true,
+    "canonicalReferenceViewedBeforeGeneration": true,
+    "materialAtlasViewedBeforeGeneration": true,
+    "actualReferences": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/assemblyStation_v0.png",
+        "sha256": "87dc1cacc3cd9c9d1d8ac3ede5e1dcccea4173f22f17c2114cad40a22a0e1555"
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe"
+      }
+    ],
+    "nativeDimensions": [
+      1774,
+      887
+    ],
+    "nativeBytes": 1617321,
+    "rgbaVerified": true,
+    "transparentPixels": 906640,
+    "borderAlphaMaximum": 1,
+    "lowAlphaPixels1to15": 39825,
+    "alphaObservation": "Pixels totalement transparents présents ; quelques résidus très faibles peuvent atteindre le bord (alpha maximal 1). Le corps visible reste entouré de marge. Aucun fond opaque identifié. PNG conservé sans nettoyage ni réencodage.",
+    "proportionEvidence": {
+      "authorFootprintRatio": 2.181818,
+      "canonicalInkBoundsRatioAlpha128": 2.61597,
+      "outputInkBoundsRatioAlpha128": 2.395872,
+      "relativeDifferenceFromCanonicalInkPercent": -8.414,
+      "interpretation": "Les retraits des dessins canoniques font différer le rapport de leur encre de celui de l’emprise w/h. Ces mesures décrivent la silhouette visible ; elles ne définissent pas une échelle en mètres et ne certifient pas une fidélité 1:1."
+    },
+    "imageEditingPerformed": false,
+    "runtimeIntegrationPerformed": false,
+    "metricFidelityCertified": false,
+    "limitations": [
+      "Les dimensions de CATALOGUE sont des choix auteur.",
+      "La proposition conserve l’organisation visible sans certifier une superposition pixel pour pixel.",
+      "Ancrage, échelle, clipping et états réels nécessitent une intégration séparée."
+    ]
+  },
+  "inspectionBench": {
+    "artId": "prop:inspectionBench:v0",
+    "sha256": "adbed32de4199e6b97d7f9444269dbd820779bf7e20a1e15567a262799f8bea4",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-51bda2a1-4aea-44f3-a1ed-6f71e98c88aa.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/inspectionBench_banc_controle.png",
+    "iteration": 1,
+    "decision": "accepted_source_art_proposal",
+    "observation": "Boîtier rectangulaire à gauche et grand cadran circulaire à droite sur le même banc. Aiguille fixe, cadran sans texte ni chiffres, aucun éclairage actif.",
+    "reviewer": "publish_missing",
+    "reviewedOn": "2026-11-17",
+    "visualInspectionPerformed": true,
+    "canonicalReferenceViewedBeforeGeneration": true,
+    "materialAtlasViewedBeforeGeneration": true,
+    "actualReferences": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/inspectionBench_v0.png",
+        "sha256": "aab72d505f89ed6fbafe62dbfd6014b1d73b09303d5ae7cfb0ca96d69a9ec3f0"
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe"
+      }
+    ],
+    "nativeDimensions": [
+      1774,
+      887
+    ],
+    "nativeBytes": 1675217,
+    "rgbaVerified": true,
+    "transparentPixels": 844691,
+    "borderAlphaMaximum": 1,
+    "lowAlphaPixels1to15": 21220,
+    "alphaObservation": "Pixels totalement transparents présents ; quelques résidus très faibles peuvent atteindre le bord (alpha maximal 1). Le corps visible reste entouré de marge. Aucun fond opaque identifié. PNG conservé sans nettoyage ni réencodage.",
+    "proportionEvidence": {
+      "authorFootprintRatio": 2.0,
+      "canonicalInkBoundsRatioAlpha128": 2.397213,
+      "outputInkBoundsRatioAlpha128": 2.276224,
+      "relativeDifferenceFromCanonicalInkPercent": -5.047,
+      "interpretation": "Les retraits des dessins canoniques font différer le rapport de leur encre de celui de l’emprise w/h. Ces mesures décrivent la silhouette visible ; elles ne définissent pas une échelle en mètres et ne certifient pas une fidélité 1:1."
+    },
+    "imageEditingPerformed": false,
+    "runtimeIntegrationPerformed": false,
+    "metricFidelityCertified": false,
+    "limitations": [
+      "Les dimensions de CATALOGUE sont des choix auteur.",
+      "La proposition conserve l’organisation visible sans certifier une superposition pixel pour pixel.",
+      "Ancrage, échelle, clipping et états réels nécessitent une intégration séparée."
+    ]
+  },
+  "loom": {
+    "artId": "prop:loom:v0",
+    "sha256": "f9e1f2463a96642d900a6738e9ccbf5a523a52efba7d044019cfd70f7eb1500b",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-cfba5daa-037a-436d-89e9-37c5318e9373.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/loom_metier_tisser.png",
+    "iteration": 1,
+    "decision": "accepted_source_art_proposal",
+    "observation": "Cadre rectangulaire, fils clairs longitudinaux, traverses et rails latéraux conservés ; les brins proches des bords sont partiellement recouverts par les rails. Pièce diagonale au centre, tissu intégré, métier inactif.",
+    "reviewer": "publish_missing",
+    "reviewedOn": "2026-11-17",
+    "visualInspectionPerformed": true,
+    "canonicalReferenceViewedBeforeGeneration": true,
+    "materialAtlasViewedBeforeGeneration": true,
+    "actualReferences": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/loom_v0.png",
+        "sha256": "34436eb09f2aa504a4d4c6219aa1a4dc6512061beaf6daadd1e05db2c251576b"
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe"
+      }
+    ],
+    "nativeDimensions": [
+      1536,
+      1024
+    ],
+    "nativeBytes": 2152216,
+    "rgbaVerified": true,
+    "transparentPixels": 953121,
+    "borderAlphaMaximum": 1,
+    "lowAlphaPixels1to15": 17777,
+    "alphaObservation": "Pixels totalement transparents présents ; quelques résidus très faibles peuvent atteindre le bord (alpha maximal 1). Le corps visible reste entouré de marge. Aucun fond opaque identifié. PNG conservé sans nettoyage ni réencodage.",
+    "proportionEvidence": {
+      "authorFootprintRatio": 1.555556,
+      "canonicalInkBoundsRatioAlpha128": 1.687345,
+      "outputInkBoundsRatioAlpha128": 1.568779,
+      "relativeDifferenceFromCanonicalInkPercent": -7.027,
+      "interpretation": "Les retraits des dessins canoniques font différer le rapport de leur encre de celui de l’emprise w/h. Ces mesures décrivent la silhouette visible ; elles ne définissent pas une échelle en mètres et ne certifient pas une fidélité 1:1."
+    },
+    "imageEditingPerformed": false,
+    "runtimeIntegrationPerformed": false,
+    "metricFidelityCertified": false,
+    "limitations": [
+      "Les dimensions de CATALOGUE sont des choix auteur.",
+      "La proposition conserve l’organisation visible sans certifier une superposition pixel pour pixel.",
+      "Ancrage, échelle, clipping et états réels nécessitent une intégration séparée."
+    ]
+  },
+  "sewingStation": {
+    "artId": "prop:sewingStation:v0",
+    "sha256": "eb863d4effbc737e96b2abbc3f6cfa18f0e8e54309a036cdb209c4a10abb3c05",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-5ca532bb-fbbb-4e3f-9d7a-8db4f6b2e958.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/sewingStation_poste_confection.png",
+    "iteration": 1,
+    "decision": "accepted_source_art_proposal",
+    "observation": "Volant à gauche, bras de machine vers la droite et aiguille descendante près du centre droit ; pièce de tissu sous l’aiguille. Aucun accessoire détaché ni opérateur.",
+    "reviewer": "publish_missing",
+    "reviewedOn": "2026-11-17",
+    "visualInspectionPerformed": true,
+    "canonicalReferenceViewedBeforeGeneration": true,
+    "materialAtlasViewedBeforeGeneration": true,
+    "actualReferences": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/sewingStation_v0.png",
+        "sha256": "c0bc8843626aef4093bd5c9581d9b083dea758b76e48089b2f61693cd99d9bba"
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe"
+      }
+    ],
+    "nativeDimensions": [
+      1536,
+      1024
+    ],
+    "nativeBytes": 1972290,
+    "rgbaVerified": true,
+    "transparentPixels": 920198,
+    "borderAlphaMaximum": 1,
+    "lowAlphaPixels1to15": 156407,
+    "alphaObservation": "Pixels totalement transparents présents ; quelques résidus très faibles peuvent atteindre le bord (alpha maximal 1). Le corps visible reste entouré de marge. Aucun fond opaque identifié. PNG conservé sans nettoyage ni réencodage.",
+    "proportionEvidence": {
+      "authorFootprintRatio": 2.0,
+      "canonicalInkBoundsRatioAlpha128": 2.397213,
+      "outputInkBoundsRatioAlpha128": 2.271579,
+      "relativeDifferenceFromCanonicalInkPercent": -5.241,
+      "interpretation": "Les retraits des dessins canoniques font différer le rapport de leur encre de celui de l’emprise w/h. Ces mesures décrivent la silhouette visible ; elles ne définissent pas une échelle en mètres et ne certifient pas une fidélité 1:1."
+    },
+    "imageEditingPerformed": false,
+    "runtimeIntegrationPerformed": false,
+    "metricFidelityCertified": false,
+    "limitations": [
+      "Les dimensions de CATALOGUE sont des choix auteur.",
+      "La proposition conserve l’organisation visible sans certifier une superposition pixel pour pixel.",
+      "Ancrage, échelle, clipping et états réels nécessitent une intégration séparée."
+    ]
+  },
+  "cuttingTable": {
+    "artId": "prop:cuttingTable:v0",
+    "sha256": "542af0ac9fe5c1baabf36d1a7d6248904b0549e8d7d6e7317ed8f5414b11fa41",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-fc8c8bbd-353f-4560-a237-8d9fbb3cb186.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/cuttingTable_table_coupe.png",
+    "iteration": 1,
+    "decision": "accepted_source_art_proposal",
+    "observation": "Tapis intégré avec cinq guides verticaux et quatre guides horizontaux, bordure claire et bande inférieure simple. Aucune inscription ni lame ajoutée.",
+    "reviewer": "publish_missing",
+    "reviewedOn": "2026-11-17",
+    "visualInspectionPerformed": true,
+    "canonicalReferenceViewedBeforeGeneration": true,
+    "materialAtlasViewedBeforeGeneration": true,
+    "actualReferences": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/cuttingTable_v0.png",
+        "sha256": "da654cd7e715cb10e8b5b252ffda9186e8ab80bcc0fce2a8a8e97c8b972b1680"
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe"
+      }
+    ],
+    "nativeDimensions": [
+      1536,
+      1024
+    ],
+    "nativeBytes": 1959810,
+    "rgbaVerified": true,
+    "transparentPixels": 963124,
+    "borderAlphaMaximum": 1,
+    "lowAlphaPixels1to15": 11023,
+    "alphaObservation": "Pixels totalement transparents présents ; quelques résidus très faibles peuvent atteindre le bord (alpha maximal 1). Le corps visible reste entouré de marge. Aucun fond opaque identifié. PNG conservé sans nettoyage ni réencodage.",
+    "proportionEvidence": {
+      "authorFootprintRatio": 1.714286,
+      "canonicalInkBoundsRatioAlpha128": 2.053731,
+      "outputInkBoundsRatioAlpha128": 1.791391,
+      "relativeDifferenceFromCanonicalInkPercent": -12.774,
+      "interpretation": "Les retraits des dessins canoniques font différer le rapport de leur encre de celui de l’emprise w/h. Ces mesures décrivent la silhouette visible ; elles ne définissent pas une échelle en mètres et ne certifient pas une fidélité 1:1."
+    },
+    "imageEditingPerformed": false,
+    "runtimeIntegrationPerformed": false,
+    "metricFidelityCertified": false,
+    "limitations": [
+      "Les dimensions de CATALOGUE sont des choix auteur.",
+      "La proposition conserve l’organisation visible sans certifier une superposition pixel pour pixel.",
+      "Ancrage, échelle, clipping et états réels nécessitent une intégration séparée."
+    ]
+  },
+  "materialMixer": {
+    "artId": "prop:materialMixer:v0",
+    "sha256": "310a92057e0aaf2b79afccae1e310102a268aa9815831eb134278ab0a3dd50ef",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-22c9b061-cdda-4491-8d68-0f7b1664f666.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/materialMixer_malaxeur_materiaux.png",
+    "iteration": 1,
+    "decision": "accepted_source_art_proposal",
+    "observation": "Cuve oxydée à gauche, quatre résidus ocres internes, colonne à droite et bras clair ramené au centre ; petite patte brune au bas à gauche. Aucun sac ou tas extérieur.",
+    "reviewer": "publish_missing",
+    "reviewedOn": "2026-11-17",
+    "visualInspectionPerformed": true,
+    "canonicalReferenceViewedBeforeGeneration": true,
+    "materialAtlasViewedBeforeGeneration": true,
+    "actualReferences": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/materialMixer_v0.png",
+        "sha256": "aabed1703763dca811da3d7352b6a39b1c2758d5a383f101676389324f6f08e3"
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe"
+      }
+    ],
+    "nativeDimensions": [
+      1388,
+      1133
+    ],
+    "nativeBytes": 1908926,
+    "rgbaVerified": true,
+    "transparentPixels": 734831,
+    "borderAlphaMaximum": 1,
+    "lowAlphaPixels1to15": 66043,
+    "alphaObservation": "Pixels totalement transparents présents ; quelques résidus très faibles peuvent atteindre le bord (alpha maximal 1). Le corps visible reste entouré de marge. Aucun fond opaque identifié. PNG conservé sans nettoyage ni réencodage.",
+    "proportionEvidence": {
+      "authorFootprintRatio": 1.222222,
+      "canonicalInkBoundsRatioAlpha128": 1.328,
+      "outputInkBoundsRatioAlpha128": 1.183867,
+      "relativeDifferenceFromCanonicalInkPercent": -10.853,
+      "interpretation": "Les retraits des dessins canoniques font différer le rapport de leur encre de celui de l’emprise w/h. Ces mesures décrivent la silhouette visible ; elles ne définissent pas une échelle en mètres et ne certifient pas une fidélité 1:1."
+    },
+    "imageEditingPerformed": false,
+    "runtimeIntegrationPerformed": false,
+    "metricFidelityCertified": false,
+    "limitations": [
+      "Les dimensions de CATALOGUE sont des choix auteur.",
+      "La proposition conserve l’organisation visible sans certifier une superposition pixel pour pixel.",
+      "Ancrage, échelle, clipping et états réels nécessitent une intégration séparée."
+    ]
+  },
+  "formingPress": {
+    "artId": "prop:formingPress:v0",
+    "sha256": "ab4ecd04b86621f6a3f1b42dbca372377cd99636df939a1d4aeb9a573b7f0fb0",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-cc24e6c1-c5d5-4dd4-abd6-fbcc772c6994.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/formingPress_presse_formage.png",
+    "iteration": 1,
+    "decision": "accepted_source_art_proposal",
+    "observation": "Deux montants latéraux, large traverse supérieure, lit transversal inférieur et vérin centré dans une ouverture sombre. Espace de presse vide, machine arrêtée.",
+    "reviewer": "publish_missing",
+    "reviewedOn": "2026-11-17",
+    "visualInspectionPerformed": true,
+    "canonicalReferenceViewedBeforeGeneration": true,
+    "materialAtlasViewedBeforeGeneration": true,
+    "actualReferences": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/formingPress_v0.png",
+        "sha256": "82c7a5a78f2771ef9f9c605de84b06bc017780110001fae75b8878b72db85589"
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe"
+      }
+    ],
+    "nativeDimensions": [
+      1388,
+      1133
+    ],
+    "nativeBytes": 1503568,
+    "rgbaVerified": true,
+    "transparentPixels": 879589,
+    "borderAlphaMaximum": 1,
+    "lowAlphaPixels1to15": 30176,
+    "alphaObservation": "Pixels totalement transparents présents ; quelques résidus très faibles peuvent atteindre le bord (alpha maximal 1). Le corps visible reste entouré de marge. Aucun fond opaque identifié. PNG conservé sans nettoyage ni réencodage.",
+    "proportionEvidence": {
+      "authorFootprintRatio": 1.222222,
+      "canonicalInkBoundsRatioAlpha128": 1.328,
+      "outputInkBoundsRatioAlpha128": 1.207792,
+      "relativeDifferenceFromCanonicalInkPercent": -9.052,
+      "interpretation": "Les retraits des dessins canoniques font différer le rapport de leur encre de celui de l’emprise w/h. Ces mesures décrivent la silhouette visible ; elles ne définissent pas une échelle en mètres et ne certifient pas une fidélité 1:1."
+    },
+    "imageEditingPerformed": false,
+    "runtimeIntegrationPerformed": false,
+    "metricFidelityCertified": false,
+    "limitations": [
+      "Les dimensions de CATALOGUE sont des choix auteur.",
+      "La proposition conserve l’organisation visible sans certifier une superposition pixel pour pixel.",
+      "Ancrage, échelle, clipping et états réels nécessitent une intégration séparée."
+    ]
+  },
+  "curingRack": {
+    "artId": "prop:curingRack:v0",
+    "sha256": "0774e6c7b71a5c98eddaa0780831668a2c3df1383ce9a5b3ed049e77b2e6d26d",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-e7a78490-e7d2-442c-8141-951d5ec7f462.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art234-prep/generated/iteration-1/curingRack_rayonnage_maturation.png",
+    "iteration": 1,
+    "decision": "accepted_source_art_proposal",
+    "observation": "Trois bandes de plateau parallèles et deux inserts ovales bruns par bande, six au total, entre les rails latéraux. Aucun plateau supplémentaire ni stock détaché.",
+    "reviewer": "publish_missing",
+    "reviewedOn": "2026-11-17",
+    "visualInspectionPerformed": true,
+    "canonicalReferenceViewedBeforeGeneration": true,
+    "materialAtlasViewedBeforeGeneration": true,
+    "actualReferences": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/curingRack_v0.png",
+        "sha256": "939121aabe0c2539503c62be2b81011efab309b28887c087540648504b1e6408"
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art234-prep/references/materials/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe"
+      }
+    ],
+    "nativeDimensions": [
+      1774,
+      887
+    ],
+    "nativeBytes": 1735389,
+    "rgbaVerified": true,
+    "transparentPixels": 813654,
+    "borderAlphaMaximum": 1,
+    "lowAlphaPixels1to15": 31813,
+    "alphaObservation": "Pixels totalement transparents présents ; quelques résidus très faibles peuvent atteindre le bord (alpha maximal 1). Le corps visible reste entouré de marge. Aucun fond opaque identifié. PNG conservé sans nettoyage ni réencodage.",
+    "proportionEvidence": {
+      "authorFootprintRatio": 2.181818,
+      "canonicalInkBoundsRatioAlpha128": 2.431095,
+      "outputInkBoundsRatioAlpha128": 2.172697,
+      "relativeDifferenceFromCanonicalInkPercent": -10.629,
+      "interpretation": "Les retraits des dessins canoniques font différer le rapport de leur encre de celui de l’emprise w/h. Ces mesures décrivent la silhouette visible ; elles ne définissent pas une échelle en mètres et ne certifient pas une fidélité 1:1."
+    },
+    "imageEditingPerformed": false,
+    "runtimeIntegrationPerformed": false,
+    "metricFidelityCertified": false,
+    "limitations": [
+      "Les dimensions de CATALOGUE sont des choix auteur.",
+      "La proposition conserve l’organisation visible sans certifier une superposition pixel pour pixel.",
+      "Ancrage, échelle, clipping et états réels nécessitent une intégration séparée."
+    ]
+  }
+}

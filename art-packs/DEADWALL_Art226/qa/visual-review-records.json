@@ -1,0 +1,44 @@
+{
+  "sawmill": {
+    "sha256": "0a9f735108513def3efedba02687e2360d2221e7913d762996e3349845c2bef1",
+    "observation": "Vue corrigée nettement plus plongeante, toiture et trois bandes vitrées préservées, façade courte en bois, entrée de manutention au sol et bois visible à l’intérieur sans obstruer le seuil. La couleur périphérique sera évaluée avec l’alpha ; aucune retouche des octets natifs.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique des sorties finales et comparaison aux références, proportions évaluées visuellement ; pas de certification métrique 1:1 ni de parcours moteur."
+  },
+  "warehouse": {
+    "sha256": "a0ae23dddd27dceaca513e80ed6250a5db0b8dc9cfa149bd38bdb2803fecde39",
+    "observation": "Correction de caméra : toit plus profond et façade raccourcie, deux bandes vitrées et ventilation conservées. Porte de livraison au sol et fenêtre de bureau cohérentes ; aucun quai surélevé ni étage ajouté.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique des sorties finales et comparaison aux références, proportions évaluées visuellement ; pas de certification métrique 1:1 ni de parcours moteur."
+  },
+  "freight": {
+    "sha256": "53fa62641d81eb5621bfd14ff572570afab1d1bbffaf3b5bd2e253cc3cc09dd9",
+    "observation": "Toit auparavant trop comprimé : profondeur apparente accrue et façade raccourcie. Ancienne maçonnerie, portes coulissantes ouvertes, auvent et accès au sol préservés ; aucune voie ferrée ni gare inventée.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique des sorties finales et comparaison aux références, proportions évaluées visuellement ; pas de certification métrique 1:1 ni de parcours moteur."
+  },
+  "centralKitchen": {
+    "sha256": "0cfb8f195d13ebfdd397ea72432f22e9013ac1df164dda039904ce65e05abe25",
+    "observation": "Vue proche du dessus, volume à un niveau, extraction raccordée et équipements arrêtés conservés. Accès central au sol partiellement masqué par l’auvent ; aucune terrasse ni cheminée géante ajoutée.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique des sorties finales et comparaison aux références, proportions évaluées visuellement ; pas de certification métrique 1:1 ni de parcours moteur."
+  },
+  "generatorRoom": {
+    "sha256": "82a9b1482ba8e7c9961624a42108c6769bfd4ba5c85ddd44bab68e6fff5a175b",
+    "observation": "Correction de caméra conservant un petit local technique à un seul niveau, porte double au sol, fenêtre et grilles murales, petit échappement arrêté. La façade forme maintenant une bande courte ; aucun générateur ajouté sur le toit.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique des sorties finales et comparaison aux références, proportions évaluées visuellement ; pas de certification métrique 1:1 ni de parcours moteur."
+  },
+  "quarry": {
+    "sha256": "38b6064fac6db2ce396361e3a0097811d3ba96104e30fde52f633313f82ac69d",
+    "observation": "Vue corrigée plus plongeante de la halle technique, toiture et bandes vitrées intactes, entrée centrale au sol avec pierres à l’intérieur, fenêtre de bureau. Ni fosse ni montagne ni sous-sol inventé.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique des sorties finales et comparaison aux références, proportions évaluées visuellement ; pas de certification métrique 1:1 ni de parcours moteur."
+  }
+}

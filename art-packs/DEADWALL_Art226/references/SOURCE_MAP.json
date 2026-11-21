@@ -1,0 +1,639 @@
+[
+  {
+    "id": "DW-0381",
+    "name": "Scierie de vallée",
+    "type": "sawmill",
+    "sourceSheet": "references/DW-0381.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      40,
+      26
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Réserve technique",
+          "Bureau",
+          "Halle"
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "logs",
+      "logs",
+      "logs"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        90,
+        70
+      ],
+      "maximum": [
+        900,
+        700
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "industrial",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatServices153",
+        "family": "industrial",
+        "variant": 0,
+        "rect": [
+          18,
+          279,
+          359,
+          224
+        ]
+      },
+      {
+        "atlas": "habitatServices153",
+        "family": "industrial",
+        "variant": 1,
+        "rect": [
+          406,
+          284,
+          357,
+          217
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "industrial",
+        "variant": 2,
+        "model": "corrugated-metal",
+        "rect": [
+          53,
+          544,
+          302,
+          177
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "industrial",
+        "variant": 3,
+        "model": "industrial-sawtooth",
+        "rect": [
+          428,
+          534,
+          310,
+          187
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "industrial",
+        "variant": 4,
+        "model": "concrete-ducts",
+        "rect": [
+          809,
+          541,
+          306,
+          182
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "industrial",
+        "variant": 5,
+        "model": "rusted-metal",
+        "rect": [
+          1184,
+          544,
+          307,
+          177
+        ]
+      }
+    ]
+  },
+  {
+    "id": "DW-0221",
+    "name": "Entrepôt de messagerie",
+    "type": "warehouse",
+    "sourceSheet": "references/DW-0221.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      46,
+      29
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Réserve technique",
+          "Bureau",
+          "Halle"
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "crate",
+      "crate",
+      "crate",
+      "shelf"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        35,
+        24
+      ],
+      "maximum": [
+        200,
+        125
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "industrial",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatServices153",
+        "family": "industrial",
+        "variant": 0,
+        "rect": [
+          18,
+          279,
+          359,
+          224
+        ]
+      },
+      {
+        "atlas": "habitatServices153",
+        "family": "industrial",
+        "variant": 1,
+        "rect": [
+          406,
+          284,
+          357,
+          217
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "industrial",
+        "variant": 2,
+        "model": "corrugated-metal",
+        "rect": [
+          53,
+          544,
+          302,
+          177
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "industrial",
+        "variant": 3,
+        "model": "industrial-sawtooth",
+        "rect": [
+          428,
+          534,
+          310,
+          187
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "industrial",
+        "variant": 4,
+        "model": "concrete-ducts",
+        "rect": [
+          809,
+          541,
+          306,
+          182
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "industrial",
+        "variant": 5,
+        "model": "rusted-metal",
+        "rect": [
+          1184,
+          544,
+          307,
+          177
+        ]
+      }
+    ]
+  },
+  {
+    "id": "DW-0289",
+    "name": "Halle fret désaffectée",
+    "type": "freight",
+    "sourceSheet": "references/DW-0289.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      46,
+      24
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Tri et anciens quais",
+          "Stockage avant expédition",
+          "Bureau et archives",
+          "Réserve et petit matériel"
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "palletStack",
+      "crate",
+      "crate"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        60,
+        25
+      ],
+      "maximum": [
+        600,
+        160
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "industrial",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatServices153",
+        "family": "industrial",
+        "variant": 0,
+        "rect": [
+          18,
+          279,
+          359,
+          224
+        ]
+      },
+      {
+        "atlas": "habitatServices153",
+        "family": "industrial",
+        "variant": 1,
+        "rect": [
+          406,
+          284,
+          357,
+          217
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "industrial",
+        "variant": 2,
+        "model": "corrugated-metal",
+        "rect": [
+          53,
+          544,
+          302,
+          177
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "industrial",
+        "variant": 3,
+        "model": "industrial-sawtooth",
+        "rect": [
+          428,
+          534,
+          310,
+          187
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "industrial",
+        "variant": 4,
+        "model": "concrete-ducts",
+        "rect": [
+          809,
+          541,
+          306,
+          182
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "industrial",
+        "variant": 5,
+        "model": "rusted-metal",
+        "rect": [
+          1184,
+          544,
+          307,
+          177
+        ]
+      }
+    ]
+  },
+  {
+    "id": "DW-0073",
+    "name": "Cuisine centrale",
+    "type": "centralKitchen",
+    "sourceSheet": "references/DW-0073.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      38,
+      29
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Réception des denrées",
+          "Réserve alimentaire",
+          "Préparation froide",
+          "Conditionnement et expédition",
+          "Cuisson — four arrêté",
+          "Plonge et retour sale"
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "crate",
+      "crate",
+      "dishRack"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        18,
+        14
+      ],
+      "maximum": [
+        90,
+        60
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "service",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatServices153",
+        "family": "service",
+        "variant": 0,
+        "rect": [
+          43,
+          528,
+          260,
+          228
+        ]
+      },
+      {
+        "atlas": "habitatServices153",
+        "family": "service",
+        "variant": 1,
+        "rect": [
+          341,
+          530,
+          414,
+          227
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "service",
+        "variant": 2,
+        "model": "terracotta-skylight",
+        "rect": [
+          53,
+          774,
+          303,
+          184
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "service",
+        "variant": 3,
+        "model": "concrete-ventilation",
+        "rect": [
+          432,
+          777,
+          304,
+          179
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "service",
+        "variant": 4,
+        "model": "metal-skylights",
+        "rect": [
+          804,
+          777,
+          313,
+          183
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "service",
+        "variant": 5,
+        "model": "weathered-flat",
+        "rect": [
+          1203,
+          777,
+          266,
+          184
+        ]
+      }
+    ]
+  },
+  {
+    "id": "DW-0331",
+    "name": "Local groupe électrogène",
+    "type": "generatorRoom",
+    "sourceSheet": "references/DW-0331.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      16,
+      13
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Groupe arrêté et entretien",
+          "Baies et réserve technique",
+          "Vestiaire",
+          "Réserve"
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "fuel",
+      "electricalRack"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        24,
+        18
+      ],
+      "maximum": [
+        260,
+        180
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "workshop",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatServices153",
+        "family": "workshop",
+        "variant": 0,
+        "rect": [
+          791,
+          291,
+          342,
+          206
+        ]
+      },
+      {
+        "atlas": "habitatServices153",
+        "family": "workshop",
+        "variant": 1,
+        "rect": [
+          1164,
+          295,
+          353,
+          202
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "workshop",
+        "variant": 2,
+        "model": "corrugated-metal",
+        "rect": [
+          53,
+          544,
+          302,
+          177
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "workshop",
+        "variant": 3,
+        "model": "industrial-sawtooth",
+        "rect": [
+          428,
+          534,
+          310,
+          187
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "workshop",
+        "variant": 4,
+        "model": "concrete-ducts",
+        "rect": [
+          809,
+          541,
+          306,
+          182
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "workshop",
+        "variant": 5,
+        "model": "rusted-metal",
+        "rect": [
+          1184,
+          544,
+          307,
+          177
+        ]
+      }
+    ]
+  },
+  {
+    "id": "DW-0403",
+    "name": "Carrière de pierre",
+    "type": "quarry",
+    "sourceSheet": "references/DW-0403.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      30,
+      24
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Réserve technique",
+          "Bureau",
+          "Halle"
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        75,
+        45
+      ],
+      "maximum": [
+        800,
+        500
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "underground",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatServices153",
+        "family": "underground",
+        "variant": 0,
+        "rect": [
+          34,
+          781,
+          333,
+          212
+        ]
+      },
+      {
+        "atlas": "habitatServices153",
+        "family": "underground",
+        "variant": 1,
+        "rect": [
+          402,
+          787,
+          347,
+          204
+        ]
+      }
+    ]
+  }
+]

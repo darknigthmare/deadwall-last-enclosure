@@ -1,0 +1,197 @@
+{
+  "schemaVersion": 2,
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "Art238",
+  "title": "Structures et équipements de parcelles",
+  "assembledOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "referenceRepository": "darknigthmare/deadwall-last-enclosure",
+  "publicationBaseRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "publicationBaseTree": "663ad5750e49ae401fc0b46bfdebc28942ad1617",
+  "publicationBaseIsOutputCommit": false,
+  "identityPolicy": "prop:<kind>:v0 denotes the selected source-art proposal. Exact existing author-plan instance IDs are preserved separately; no DW or world identity is reassigned.",
+  "scope": "Five dedicated structural205 source proposals for exact existing author-plan instances. Related generic images already exist in Art153, Art157 and Art158; this pack does not claim absence of all analogous images.",
+  "deliveryStatus": "accepted-source-art-proposals",
+  "plannedTargetCount": 5,
+  "plannedArtIds": [
+    "prop:fence:v0",
+    "prop:garden-shed:v0",
+    "prop:rain-barrel:v0",
+    "prop:compost-bin:v0",
+    "prop:closed-pool:v0"
+  ],
+  "finalSpriteCount": 5,
+  "generationCount": 6,
+  "supersededCandidateCount": 1,
+  "blockedTargetCount": 0,
+  "blockedArtIds": [],
+  "failureReceiptCount": 0,
+  "blockedTargetRecords": null,
+  "generationFailureRecords": null,
+  "nativeOutputBytesPreserved": true,
+  "imageEditingResizingCroppingPerformed": false,
+  "geometryBasis": "Unmodified exported drawProp delegates to private drawPropBase for exact author-plan fixtures, variant 0, stateAlpha false and no live game argument. Authored dimensions are design choices, not manufacturer measurements.",
+  "integration": {
+    "performed": false,
+    "runtimeSourceChanged": false,
+    "runtimeAssetRegistrationChanged": false,
+    "testsChanged": false,
+    "newWorldPlacementCreated": false,
+    "saveOrWorldIdentityChanged": false
+  },
+  "fidelity": {
+    "reviewed": [
+      "canonical source layout",
+      "existing object identity and components",
+      "selected source presentation",
+      "native PNG and transparency",
+      "exact references and prompt history"
+    ],
+    "notCertified": [
+      "metric or pixel-for-pixel 1:1 fidelity",
+      "generated-sprite metres per pixel",
+      "runtime anchors and collision alignment",
+      "unseen variants, phases or rotations"
+    ]
+  },
+  "sourcesIndex": "references/verified-sources.json",
+  "sourceMapping": "references/SOURCE_MAP.json",
+  "generationHistory": "generation-history.json",
+  "canonicalReplay": "records/preparation/root-canonical-replay.json",
+  "canonicalReplayScript": "records/root_replay_canonicals.cjs",
+  "technicalAudit": "qa/image-audit.json",
+  "visualReview": "qa/visual-review.md",
+  "independentVisualReview": null,
+  "gallery": "gallery.html",
+  "aggregateCoverage": {
+    "coverage/SHA256SUMS.txt": "6d14f82c18c596be2b2b8618f230b3bd7f6ca89cdf83a31aa1d356bbd760c0ad",
+    "coverage/coverage-art222-238.json": "0c07c9a4d5d3f8e2f2b1704e9b043170f0e818677fcb996bcab89e54288f351d",
+    "coverage/coverage-art222-238.md": "56ec1ced3e2dc5ff259b462b430b52f7d37b5e2749bbaebed0bb252015ac6a08",
+    "coverage/new-inputs-snapshot.json": "59845e3ba7ce514ad665d28d84c827bfc20de7170c325e9fe906daee3fa71d11",
+    "coverage/prior-coverage-art222-235.json": "e83181bda4a481c4d864f754d72b938f096988538f6d4ec6e2b47fd1f45a6196",
+    "coverage/prior-files-audit.json": "347ccb8a0ab331e3c9763a93a76613aac43bf0544bad8587848ae01d87b755d3"
+  },
+  "validation": {
+    "packTechnicalAudit": "passed",
+    "runtimeTests": "not_run_by_assembler",
+    "browser": "not_run_by_assembler"
+  },
+  "assets": [
+    {
+      "key": "fence",
+      "id": "prop:fence:v0",
+      "artId": "prop:fence:v0",
+      "kind": "fence",
+      "name": "Segment de clôture en bois",
+      "path": "assets/art238/props/fence_cloture_bois.png",
+      "sha256": "16617f83fd798df7de6366b049ddcfb2f400df787bc52aec0a279bb3f347b87f",
+      "bytes": 252423,
+      "iteration": 1,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated",
+      "existingRoute": "structural205",
+      "canonicalVariant": 0,
+      "dimensionsAuthorDesignMetres": {
+        "w": 3,
+        "h": 0.15,
+        "heightM": 1.2,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "sourceId": "EXT-MONDE-T045-V01:site-fence:north-left",
+      "sourcePlanId": "EXT-MONDE-T045-V01"
+    },
+    {
+      "key": "garden-shed",
+      "id": "prop:garden-shed:v0",
+      "artId": "prop:garden-shed:v0",
+      "kind": "garden-shed",
+      "name": "Abri de jardin fermé",
+      "path": "assets/art238/props/garden-shed_abri_jardin.png",
+      "sha256": "62f78aac248efeb594ab1882170d6d91a2e64014cd8a44d283901de94bdbf07e",
+      "bytes": 1377572,
+      "iteration": 1,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated",
+      "existingRoute": "structural205",
+      "canonicalVariant": 0,
+      "dimensionsAuthorDesignMetres": {
+        "w": 3.4,
+        "h": 3.3,
+        "heightM": 2.4,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "sourceId": "EXT-MONDE-T045-V01:parcel:0:shed",
+      "sourcePlanId": "EXT-MONDE-T045-V01"
+    },
+    {
+      "key": "rain-barrel",
+      "id": "prop:rain-barrel:v0",
+      "artId": "prop:rain-barrel:v0",
+      "kind": "rain-barrel",
+      "name": "Tonneau de pluie inactif",
+      "path": "assets/art238/props/rain-barrel_tonneau_pluie.png",
+      "sha256": "965fbd60ba7dbb321e84545e31fb6fd350da931573faffe9c10a1bf9567fb5d0",
+      "bytes": 1244816,
+      "iteration": 1,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated",
+      "existingRoute": "structural205",
+      "canonicalVariant": 0,
+      "dimensionsAuthorDesignMetres": {
+        "w": 0.7,
+        "h": 0.7,
+        "heightM": 1,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "sourceId": "EXT-MONDE-T045-V01:parcel:0:water-barrel",
+      "sourcePlanId": "EXT-MONDE-T045-V01"
+    },
+    {
+      "key": "compost-bin",
+      "id": "prop:compost-bin:v0",
+      "artId": "prop:compost-bin:v0",
+      "kind": "compost-bin",
+      "name": "Composteur de jardin",
+      "path": "assets/art238/props/compost-bin_composteur_jardin.png",
+      "sha256": "9ee6fc951f8757749fe861b00bbbc0cd3229a68083f8a2b2107d0a2cf8205297",
+      "bytes": 1658335,
+      "iteration": 2,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated",
+      "existingRoute": "structural205",
+      "canonicalVariant": 0,
+      "dimensionsAuthorDesignMetres": {
+        "w": 1,
+        "h": 1,
+        "heightM": 1,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "sourceId": "EXT-MONDE-T045-V01:parcel:0:compost",
+      "sourcePlanId": "EXT-MONDE-T045-V01"
+    },
+    {
+      "key": "closed-pool",
+      "id": "prop:closed-pool:v0",
+      "artId": "prop:closed-pool:v0",
+      "kind": "closed-pool",
+      "name": "Bassin extérieur fermé au public",
+      "path": "assets/art238/props/closed-pool_bassin_ferme.png",
+      "sha256": "09024b87a9efd0426bd0bacb7d00cd1e84759fd0853299316766e80ac5706506",
+      "bytes": 839115,
+      "iteration": 1,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated",
+      "existingRoute": "structural205",
+      "canonicalVariant": 0,
+      "dimensionsAuthorDesignMetres": {
+        "w": 8,
+        "h": 12,
+        "heightM": 0.4,
+        "depthM": 1.4,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "sourceId": "EXT-MONDE-T045-V21:communal-pool",
+      "sourcePlanId": "EXT-MONDE-T045-V21"
+    }
+  ]
+}

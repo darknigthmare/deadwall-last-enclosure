@@ -1,0 +1,573 @@
+{
+  "sourceFiles": [
+    {
+      "path": "references/runtime/campaign-site-art205.js",
+      "sha256": "492790bf2aa6c77dd244f4fcd8c164f1960f08eb2654b10b1ca20663bd72e0f2",
+      "bytes": 44852,
+      "repositoryPath": "src/campaign-site-art205.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "gitBlob": "adcceb210d194cdbf4f19359a743c9cec2a8e4e6"
+    },
+    {
+      "path": "references/runtime/codex-furnishings2026.js",
+      "sha256": "5aacd2944d7cf44d21997a9b265dac966a873875e9e5cd7a48a43c8dca044b36",
+      "bytes": 40680,
+      "repositoryPath": "src/codex-furnishings2026.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "gitBlob": "57648ec1a6e908069734f622eb449166770495d4"
+    },
+    {
+      "path": "references/materials/interior-workshop-atlas.png",
+      "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+      "bytes": 2334203,
+      "repositoryPath": "assets/art153/interior-workshop-atlas.png",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "gitBlob": "3057a2f58d27addab9917511c755edcc0ed5931f"
+    }
+  ],
+  "rendererUnchanged": true,
+  "referenceImagesRenderedNotImageGenerated": true,
+  "render": [
+    {
+      "kind": "conveyor",
+      "prop": {
+        "id": "art234-canonical:conveyor",
+        "kind": "conveyor",
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 3.2,
+        "h": 1,
+        "heightM": 1.1,
+        "rotationRad": 0,
+        "campaign205": true
+      },
+      "options": {
+        "seed": 0,
+        "floor": 0,
+        "variant": 0,
+        "stateAlpha": false,
+        "scale": 240
+      },
+      "call": "DeadwallCampaignSiteArt205.drawProp(ctx, null, prop, {seed:0,floor:0,variant:0,stateAlpha:false,scale:pixelsPerMetre})",
+      "gameSupplied": false,
+      "delegate": "drawPropBase; servicePresentation208 and waterPresentation214 null without game",
+      "canvas": {
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 240,
+        "translate": [
+          128,
+          392
+        ]
+      },
+      "file": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/conveyor_v0.png",
+      "sha256": "a9ae3320a9ee9e5fa52e465291c989c5020532e3deec579e180afb186dfabe04"
+    },
+    {
+      "kind": "dosingUnit",
+      "prop": {
+        "id": "art234-canonical:dosingUnit",
+        "kind": "dosingUnit",
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1.5,
+        "h": 1.2,
+        "heightM": 2.1,
+        "rotationRad": 0,
+        "campaign205": true
+      },
+      "options": {
+        "seed": 0,
+        "floor": 0,
+        "variant": 0,
+        "stateAlpha": false,
+        "scale": 512
+      },
+      "call": "DeadwallCampaignSiteArt205.drawProp(ctx, null, prop, {seed:0,floor:0,variant:0,stateAlpha:false,scale:pixelsPerMetre})",
+      "gameSupplied": false,
+      "delegate": "drawPropBase; servicePresentation208 and waterPresentation214 null without game",
+      "canvas": {
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 512,
+        "translate": [
+          128,
+          204.8
+        ]
+      },
+      "file": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/dosingUnit_v0.png",
+      "sha256": "ab2d6b97aa00e7667ec168018c258a8028e2a6b95075acda5f8eda1bb2455ef2"
+    },
+    {
+      "kind": "foodMixer",
+      "prop": {
+        "id": "art234-canonical:foodMixer",
+        "kind": "foodMixer",
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1.8,
+        "h": 1.6,
+        "heightM": 2,
+        "rotationRad": 0,
+        "campaign205": true
+      },
+      "options": {
+        "seed": 0,
+        "floor": 0,
+        "variant": 0,
+        "stateAlpha": false,
+        "scale": 426.66666666666663
+      },
+      "call": "DeadwallCampaignSiteArt205.drawProp(ctx, null, prop, {seed:0,floor:0,variant:0,stateAlpha:false,scale:pixelsPerMetre})",
+      "gameSupplied": false,
+      "delegate": "drawPropBase; servicePresentation208 and waterPresentation214 null without game",
+      "canvas": {
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 426.66666666666663,
+        "translate": [
+          128,
+          170.66666666666669
+        ]
+      },
+      "file": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/foodMixer_v0.png",
+      "sha256": "19a264080dfffc1368e0655b1d99be7d94049777d0fd2d18dedb6b0dee6738fe"
+    },
+    {
+      "kind": "heatChamber",
+      "prop": {
+        "id": "art234-canonical:heatChamber",
+        "kind": "heatChamber",
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 2.2,
+        "h": 1.6,
+        "heightM": 2.2,
+        "rotationRad": 0,
+        "campaign205": true
+      },
+      "options": {
+        "seed": 0,
+        "floor": 0,
+        "variant": 0,
+        "stateAlpha": false,
+        "scale": 349.09090909090907
+      },
+      "call": "DeadwallCampaignSiteArt205.drawProp(ctx, null, prop, {seed:0,floor:0,variant:0,stateAlpha:false,scale:pixelsPerMetre})",
+      "gameSupplied": false,
+      "delegate": "drawPropBase; servicePresentation208 and waterPresentation214 null without game",
+      "canvas": {
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 349.09090909090907,
+        "translate": [
+          128,
+          232.72727272727275
+        ]
+      },
+      "file": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/heatChamber_v0.png",
+      "sha256": "897e779c8536b7d3284119b171e1a58f84b23c839d37eb742a0cc1338277c591"
+    },
+    {
+      "kind": "metalSaw",
+      "prop": {
+        "id": "art234-canonical:metalSaw",
+        "kind": "metalSaw",
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 2.2,
+        "h": 1.2,
+        "heightM": 1.6,
+        "rotationRad": 0,
+        "campaign205": true
+      },
+      "options": {
+        "seed": 0,
+        "floor": 0,
+        "variant": 0,
+        "stateAlpha": false,
+        "scale": 349.09090909090907
+      },
+      "call": "DeadwallCampaignSiteArt205.drawProp(ctx, null, prop, {seed:0,floor:0,variant:0,stateAlpha:false,scale:pixelsPerMetre})",
+      "gameSupplied": false,
+      "delegate": "drawPropBase; servicePresentation208 and waterPresentation214 null without game",
+      "canvas": {
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 349.09090909090907,
+        "translate": [
+          128,
+          302.54545454545456
+        ]
+      },
+      "file": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/metalSaw_v0.png",
+      "sha256": "1c60ae21e9b849b86e097548896e31dac4904a802f6b908306dbd506f4ea92fd"
+    },
+    {
+      "kind": "lathe",
+      "prop": {
+        "id": "art234-canonical:lathe",
+        "kind": "lathe",
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 2.4,
+        "h": 1.2,
+        "heightM": 1.6,
+        "rotationRad": 0,
+        "campaign205": true
+      },
+      "options": {
+        "seed": 0,
+        "floor": 0,
+        "variant": 0,
+        "stateAlpha": false,
+        "scale": 320
+      },
+      "call": "DeadwallCampaignSiteArt205.drawProp(ctx, null, prop, {seed:0,floor:0,variant:0,stateAlpha:false,scale:pixelsPerMetre})",
+      "gameSupplied": false,
+      "delegate": "drawPropBase; servicePresentation208 and waterPresentation214 null without game",
+      "canvas": {
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 320,
+        "translate": [
+          128,
+          320
+        ]
+      },
+      "file": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/lathe_v0.png",
+      "sha256": "cb699c7ce0db05504eeda6b064adb554f9b81684de854deeb982f38577204267"
+    },
+    {
+      "kind": "millingMachine",
+      "prop": {
+        "id": "art234-canonical:millingMachine",
+        "kind": "millingMachine",
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 2.2,
+        "h": 1.6,
+        "heightM": 2.1,
+        "rotationRad": 0,
+        "campaign205": true
+      },
+      "options": {
+        "seed": 0,
+        "floor": 0,
+        "variant": 0,
+        "stateAlpha": false,
+        "scale": 349.09090909090907
+      },
+      "call": "DeadwallCampaignSiteArt205.drawProp(ctx, null, prop, {seed:0,floor:0,variant:0,stateAlpha:false,scale:pixelsPerMetre})",
+      "gameSupplied": false,
+      "delegate": "drawPropBase; servicePresentation208 and waterPresentation214 null without game",
+      "canvas": {
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 349.09090909090907,
+        "translate": [
+          128,
+          232.72727272727275
+        ]
+      },
+      "file": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/millingMachine_v0.png",
+      "sha256": "e8c71da3d8ca45b5d4e58d7b7fa56f6d9af4078d1678c2c76aa8d192b8bcc012"
+    },
+    {
+      "kind": "assemblyStation",
+      "prop": {
+        "id": "art234-canonical:assemblyStation",
+        "kind": "assemblyStation",
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 2.4,
+        "h": 1.1,
+        "heightM": 1.1,
+        "rotationRad": 0,
+        "campaign205": true
+      },
+      "options": {
+        "seed": 0,
+        "floor": 0,
+        "variant": 0,
+        "stateAlpha": false,
+        "scale": 320
+      },
+      "call": "DeadwallCampaignSiteArt205.drawProp(ctx, null, prop, {seed:0,floor:0,variant:0,stateAlpha:false,scale:pixelsPerMetre})",
+      "gameSupplied": false,
+      "delegate": "drawPropBase; servicePresentation208 and waterPresentation214 null without game",
+      "canvas": {
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 320,
+        "translate": [
+          128,
+          336
+        ]
+      },
+      "file": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/assemblyStation_v0.png",
+      "sha256": "87dc1cacc3cd9c9d1d8ac3ede5e1dcccea4173f22f17c2114cad40a22a0e1555"
+    },
+    {
+      "kind": "inspectionBench",
+      "prop": {
+        "id": "art234-canonical:inspectionBench",
+        "kind": "inspectionBench",
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1.8,
+        "h": 0.9,
+        "heightM": 1.2,
+        "rotationRad": 0,
+        "campaign205": true
+      },
+      "options": {
+        "seed": 0,
+        "floor": 0,
+        "variant": 0,
+        "stateAlpha": false,
+        "scale": 426.66666666666663
+      },
+      "call": "DeadwallCampaignSiteArt205.drawProp(ctx, null, prop, {seed:0,floor:0,variant:0,stateAlpha:false,scale:pixelsPerMetre})",
+      "gameSupplied": false,
+      "delegate": "drawPropBase; servicePresentation208 and waterPresentation214 null without game",
+      "canvas": {
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 426.66666666666663,
+        "translate": [
+          128,
+          320
+        ]
+      },
+      "file": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/inspectionBench_v0.png",
+      "sha256": "aab72d505f89ed6fbafe62dbfd6014b1d73b09303d5ae7cfb0ca96d69a9ec3f0"
+    },
+    {
+      "kind": "loom",
+      "prop": {
+        "id": "art234-canonical:loom",
+        "kind": "loom",
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 2.8,
+        "h": 1.8,
+        "heightM": 1.9,
+        "rotationRad": 0,
+        "campaign205": true
+      },
+      "options": {
+        "seed": 0,
+        "floor": 0,
+        "variant": 0,
+        "stateAlpha": false,
+        "scale": 274.2857142857143
+      },
+      "call": "DeadwallCampaignSiteArt205.drawProp(ctx, null, prop, {seed:0,floor:0,variant:0,stateAlpha:false,scale:pixelsPerMetre})",
+      "gameSupplied": false,
+      "delegate": "drawPropBase; servicePresentation208 and waterPresentation214 null without game",
+      "canvas": {
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 274.2857142857143,
+        "translate": [
+          128.00000000000006,
+          265.1428571428571
+        ]
+      },
+      "file": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/loom_v0.png",
+      "sha256": "34436eb09f2aa504a4d4c6219aa1a4dc6512061beaf6daadd1e05db2c251576b"
+    },
+    {
+      "kind": "sewingStation",
+      "prop": {
+        "id": "art234-canonical:sewingStation",
+        "kind": "sewingStation",
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1.4,
+        "h": 0.7,
+        "heightM": 1.2,
+        "rotationRad": 0,
+        "campaign205": true
+      },
+      "options": {
+        "seed": 0,
+        "floor": 0,
+        "variant": 0,
+        "stateAlpha": false,
+        "scale": 548.5714285714286
+      },
+      "call": "DeadwallCampaignSiteArt205.drawProp(ctx, null, prop, {seed:0,floor:0,variant:0,stateAlpha:false,scale:pixelsPerMetre})",
+      "gameSupplied": false,
+      "delegate": "drawPropBase; servicePresentation208 and waterPresentation214 null without game",
+      "canvas": {
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 548.5714285714286,
+        "translate": [
+          128.00000000000006,
+          320
+        ]
+      },
+      "file": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/sewingStation_v0.png",
+      "sha256": "c0bc8843626aef4093bd5c9581d9b083dea758b76e48089b2f61693cd99d9bba"
+    },
+    {
+      "kind": "cuttingTable",
+      "prop": {
+        "id": "art234-canonical:cuttingTable",
+        "kind": "cuttingTable",
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 2.4,
+        "h": 1.4,
+        "heightM": 0.9,
+        "rotationRad": 0,
+        "campaign205": true
+      },
+      "options": {
+        "seed": 0,
+        "floor": 0,
+        "variant": 0,
+        "stateAlpha": false,
+        "scale": 320
+      },
+      "call": "DeadwallCampaignSiteArt205.drawProp(ctx, null, prop, {seed:0,floor:0,variant:0,stateAlpha:false,scale:pixelsPerMetre})",
+      "gameSupplied": false,
+      "delegate": "drawPropBase; servicePresentation208 and waterPresentation214 null without game",
+      "canvas": {
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 320,
+        "translate": [
+          128,
+          288
+        ]
+      },
+      "file": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/cuttingTable_v0.png",
+      "sha256": "da654cd7e715cb10e8b5b252ffda9186e8ab80bcc0fce2a8a8e97c8b972b1680"
+    },
+    {
+      "kind": "materialMixer",
+      "prop": {
+        "id": "art234-canonical:materialMixer",
+        "kind": "materialMixer",
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 2.2,
+        "h": 1.8,
+        "heightM": 2.2,
+        "rotationRad": 0,
+        "campaign205": true
+      },
+      "options": {
+        "seed": 0,
+        "floor": 0,
+        "variant": 0,
+        "stateAlpha": false,
+        "scale": 349.09090909090907
+      },
+      "call": "DeadwallCampaignSiteArt205.drawProp(ctx, null, prop, {seed:0,floor:0,variant:0,stateAlpha:false,scale:pixelsPerMetre})",
+      "gameSupplied": false,
+      "delegate": "drawPropBase; servicePresentation208 and waterPresentation214 null without game",
+      "canvas": {
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 349.09090909090907,
+        "translate": [
+          128,
+          197.8181818181818
+        ]
+      },
+      "file": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/materialMixer_v0.png",
+      "sha256": "aabed1703763dca811da3d7352b6a39b1c2758d5a383f101676389324f6f08e3"
+    },
+    {
+      "kind": "formingPress",
+      "prop": {
+        "id": "art234-canonical:formingPress",
+        "kind": "formingPress",
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 2.2,
+        "h": 1.8,
+        "heightM": 2.6,
+        "rotationRad": 0,
+        "campaign205": true
+      },
+      "options": {
+        "seed": 0,
+        "floor": 0,
+        "variant": 0,
+        "stateAlpha": false,
+        "scale": 349.09090909090907
+      },
+      "call": "DeadwallCampaignSiteArt205.drawProp(ctx, null, prop, {seed:0,floor:0,variant:0,stateAlpha:false,scale:pixelsPerMetre})",
+      "gameSupplied": false,
+      "delegate": "drawPropBase; servicePresentation208 and waterPresentation214 null without game",
+      "canvas": {
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 349.09090909090907,
+        "translate": [
+          128,
+          197.8181818181818
+        ]
+      },
+      "file": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/formingPress_v0.png",
+      "sha256": "82c7a5a78f2771ef9f9c605de84b06bc017780110001fae75b8878b72db85589"
+    },
+    {
+      "kind": "curingRack",
+      "prop": {
+        "id": "art234-canonical:curingRack",
+        "kind": "curingRack",
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 2.4,
+        "h": 1.1,
+        "heightM": 2.2,
+        "rotationRad": 0,
+        "campaign205": true
+      },
+      "options": {
+        "seed": 0,
+        "floor": 0,
+        "variant": 0,
+        "stateAlpha": false,
+        "scale": 320
+      },
+      "call": "DeadwallCampaignSiteArt205.drawProp(ctx, null, prop, {seed:0,floor:0,variant:0,stateAlpha:false,scale:pixelsPerMetre})",
+      "gameSupplied": false,
+      "delegate": "drawPropBase; servicePresentation208 and waterPresentation214 null without game",
+      "canvas": {
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 320,
+        "translate": [
+          128,
+          336
+        ]
+      },
+      "file": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/curingRack_v0.png",
+      "sha256": "939121aabe0c2539503c62be2b81011efab309b28887c087540648504b1e6408"
+    }
+  ],
+  "analogousSourceNote": "Lathe/table-saw/drill-like generic machine drawings exist in the workshop atlas; these are new typed procedural205 proposals, not an absence of every analogous image."
+}

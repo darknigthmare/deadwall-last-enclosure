@@ -1,0 +1,44 @@
+{
+  "garden": {
+    "sha256": "4d706deaf20a60819a9615f404fb4a3548beef82d3682c8c58e84daa6dbbf3c3",
+    "observation": "Serres vitrées raccordées à une bande technique arrière ; silhouette rectangulaire complète, toiture dominante, plantes visibles derrière le vitrage réel et entrée publique au sol. Aucun défaut majeur relevé dans la revue artistique.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique de la sortie finale et comparaison aux références ; pas de certification métrique 1:1 ni de parcours moteur."
+  },
+  "marketgarden": {
+    "sha256": "ed8a37f3558a46e7b9dee2733010ffb2fd6b946560d05a32f2f429ab3f5b6a42",
+    "observation": "Bâtiment bas de conditionnement, toiture avec éclairage naturel, installation de lavage reliée au bâti, grande ouverture de manutention et porte piétonne au sol. L’image représente le bâtiment de travail et ne prétend pas couvrir toute la parcelle agricole.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique de la sortie finale et comparaison aux références ; pas de certification métrique 1:1 ni de parcours moteur."
+  },
+  "inn": {
+    "sha256": "6546172aabf16ab3ed5ecc8eef5ac77d48829470971fdbaf94328ad7463453f1",
+    "observation": "La correction augmente la profondeur apparente du toit et comprime la façade. Les deux niveaux, les quatre fenêtres de chambres, la maçonnerie, les reprises de couverture, le conduit et les deux accès au sol sont conservés. La projection exacte reste à calibrer.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique de la sortie finale et comparaison aux références ; pas de certification métrique 1:1 ni de parcours moteur."
+  },
+  "scrapyard": {
+    "sha256": "73d8fdd0069419394d4936ad6865d55c0f12c095f07771f82167e9863cc0c858",
+    "observation": "Atelier de démontage à toiture intacte, grande ouverture centrale et entrée piétonne distincte ; casiers de pièces soutenus et petite pile de pneus latérale, hors de l’ouverture. Silhouette entière, sans champ d’épaves ni véhicule ajouté.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique de la sortie finale et comparaison aux références ; pas de certification métrique 1:1 ni de parcours moteur."
+  },
+  "joinery": {
+    "sha256": "40db38e118f5bd187366cae886c594e743fd29d571f822408cd627341326c95c",
+    "observation": "Halle de menuiserie basse, porte de manutention et porte piétonne distinctes au sol, planches rangées horizontalement sous appentis soutenu et ventilation reliée à la toiture. Aucun élément principal coupé ni stockage traversant l’accès observé.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique de la sortie finale et comparaison aux références ; pas de certification métrique 1:1 ni de parcours moteur."
+  },
+  "reuse": {
+    "sha256": "86850c82f7c2b0594818668bdc700fbfcef2594bd5f9a55893a239c89d8c1edb",
+    "observation": "Devanture de revente avec mobilier derrière vitrage, entrée publique au sol et large baie d’apport séparée ; volume bas fermé avec toiture cohérente. Les meubles et casiers restent dans les espaces couverts, sans décharge extérieure ajoutée.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique de la sortie finale et comparaison aux références ; pas de certification métrique 1:1 ni de parcours moteur."
+  }
+}

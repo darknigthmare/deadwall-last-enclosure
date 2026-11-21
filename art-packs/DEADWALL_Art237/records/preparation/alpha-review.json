@@ -1,0 +1,373 @@
+[
+  {
+    "key": "siegeBrake193",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-5eff86e4-442e-4180-aa76-269bf868d5b1.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art237-prep/generated/iteration-1/siegeBrake193_frein_chaine_siege.png",
+    "sha256": "0a2f9a2173c4eb65810d5a8f2a75d164bd4f2557104e00d324a34d9bce29539a",
+    "bytes": 878290,
+    "mode": "RGBA",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "pixelEditingPerformed": false,
+    "nativeCopyByteIdentical": true,
+    "alpha": {
+      "min": 0,
+      "max": 255,
+      "zeroPixels": 1229058,
+      "opaquePixels": 380,
+      "partialPixels": 343078,
+      "alpha1to15": 10743,
+      "alpha16to127": 2703,
+      "alpha128to249": 7398,
+      "alpha250to255": 322614,
+      "bboxAlpha1": [
+        0,
+        19,
+        1238,
+        1240
+      ],
+      "bboxAlpha16": [
+        245,
+        286,
+        1009,
+        889
+      ],
+      "bboxAlpha128": [
+        246,
+        287,
+        1008,
+        888
+      ],
+      "bboxAlpha250": [
+        247,
+        288,
+        1007,
+        887
+      ],
+      "edgeMaximum": 1,
+      "foregroundRatio128": 1.267887,
+      "metricFidelityCertified": false
+    }
+  },
+  {
+    "key": "enduranceRack193",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-1b41c9ee-d97a-4c75-9bc6-e92c7d8524d6.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art237-prep/generated/iteration-1/enduranceRack193_ratelier_dents_releve.png",
+    "sha256": "f256b85ff0dadcb7679ec68fdf59c5ba144c0b9c26687c550c2db9e2c38c9431",
+    "bytes": 1058543,
+    "mode": "RGBA",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "pixelEditingPerformed": false,
+    "nativeCopyByteIdentical": true,
+    "alpha": {
+      "min": 0,
+      "max": 255,
+      "zeroPixels": 1144520,
+      "opaquePixels": 1180,
+      "partialPixels": 426816,
+      "alpha1to15": 25758,
+      "alpha16to127": 4531,
+      "alpha128to249": 12677,
+      "alpha250to255": 385030,
+      "bboxAlpha1": [
+        0,
+        20,
+        1240,
+        1254
+      ],
+      "bboxAlpha16": [
+        234,
+        293,
+        1021,
+        933
+      ],
+      "bboxAlpha128": [
+        235,
+        295,
+        1020,
+        932
+      ],
+      "bboxAlpha250": [
+        236,
+        296,
+        1019,
+        931
+      ],
+      "edgeMaximum": 1,
+      "foregroundRatio128": 1.232339,
+      "metricFidelityCertified": false
+    }
+  },
+  {
+    "key": "quickCable193",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-f9bf07db-dd43-4928-aa98-0ca4409644cc.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art237-prep/generated/iteration-1/quickCable193_bobines_couverture_rapide.png",
+    "sha256": "11247bda33f27be432ef17a86c88c2409c084ebf6b7cd20af36f5b4b360f82d2",
+    "bytes": 2039285,
+    "mode": "RGBA",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "pixelEditingPerformed": false,
+    "nativeCopyByteIdentical": true,
+    "alpha": {
+      "min": 0,
+      "max": 254,
+      "zeroPixels": 986028,
+      "opaquePixels": 0,
+      "partialPixels": 586836,
+      "alpha1to15": 13124,
+      "alpha16to127": 3377,
+      "alpha128to249": 11750,
+      "alpha250to255": 558585,
+      "bboxAlpha1": [
+        41,
+        15,
+        1510,
+        1004
+      ],
+      "bboxAlpha16": [
+        141,
+        233,
+        1395,
+        780
+      ],
+      "bboxAlpha128": [
+        142,
+        234,
+        1394,
+        779
+      ],
+      "bboxAlpha250": [
+        143,
+        237,
+        1393,
+        776
+      ],
+      "edgeMaximum": 0,
+      "foregroundRatio128": 2.297248,
+      "metricFidelityCertified": false
+    }
+  },
+  {
+    "key": "breachClamp193",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-5e48fc8b-04e0-4da1-9af1-b0069b9a8ba6.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art237-prep/generated/iteration-1/breachClamp193_machoire_anti_briseurs.png",
+    "sha256": "81734587dc0ea91ed8610efe90291b124ce17fe054cbdd2fb07809a225bdf81b",
+    "bytes": 1145129,
+    "mode": "RGBA",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "pixelEditingPerformed": false,
+    "nativeCopyByteIdentical": true,
+    "alpha": {
+      "min": 0,
+      "max": 255,
+      "zeroPixels": 1117162,
+      "opaquePixels": 755,
+      "partialPixels": 454599,
+      "alpha1to15": 23840,
+      "alpha16to127": 3426,
+      "alpha128to249": 10766,
+      "alpha250to255": 417322,
+      "bboxAlpha1": [
+        0,
+        20,
+        1240,
+        1230
+      ],
+      "bboxAlpha16": [
+        244,
+        257,
+        1010,
+        966
+      ],
+      "bboxAlpha128": [
+        245,
+        258,
+        1009,
+        965
+      ],
+      "bboxAlpha250": [
+        246,
+        259,
+        1008,
+        964
+      ],
+      "edgeMaximum": 1,
+      "foregroundRatio128": 1.080622,
+      "metricFidelityCertified": false
+    }
+  },
+  {
+    "key": "shieldTongs193",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-185ca233-65dc-4588-b0a0-1511100ae5ad.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art237-prep/generated/iteration-1/shieldTongs193_pinces_anti_protections.png",
+    "sha256": "69272136fb21df3bb8e80039e1abf53819234851dcc15feb854c6476cfdadc9d",
+    "bytes": 1104712,
+    "mode": "RGBA",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "pixelEditingPerformed": false,
+    "nativeCopyByteIdentical": true,
+    "alpha": {
+      "min": 0,
+      "max": 255,
+      "zeroPixels": 1128520,
+      "opaquePixels": 978,
+      "partialPixels": 443018,
+      "alpha1to15": 15033,
+      "alpha16to127": 3653,
+      "alpha128to249": 10378,
+      "alpha250to255": 414932,
+      "bboxAlpha1": [
+        0,
+        9,
+        1230,
+        1254
+      ],
+      "bboxAlpha16": [
+        244,
+        257,
+        1010,
+        966
+      ],
+      "bboxAlpha128": [
+        245,
+        258,
+        1009,
+        965
+      ],
+      "bboxAlpha250": [
+        246,
+        259,
+        1008,
+        964
+      ],
+      "edgeMaximum": 1,
+      "foregroundRatio128": 1.080622,
+      "metricFidelityCertified": false
+    }
+  },
+  {
+    "key": "enduranceRack193",
+    "iteration": 2,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-43f697f3-5b75-4c0f-9ae0-934825dddaa8.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art237-prep/generated/iteration-2/enduranceRack193_ratelier_dents_releve.png",
+    "sha256": "c413868bea8ca403bdacc1d29a6e3232247ff6aa6e25827deb7ff43ec9e8ffba",
+    "bytes": 1065181,
+    "mode": "RGBA",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "pixelEditingPerformed": false,
+    "nativeCopyByteIdentical": true,
+    "alpha": {
+      "min": 0,
+      "max": 255,
+      "zeroPixels": 1124804,
+      "opaquePixels": 1474,
+      "partialPixels": 446238,
+      "alpha1to15": 23033,
+      "alpha16to127": 4328,
+      "alpha128to249": 11423,
+      "alpha250to255": 408928,
+      "bboxAlpha1": [
+        0,
+        9,
+        1224,
+        1230
+      ],
+      "bboxAlpha16": [
+        222,
+        293,
+        1033,
+        949
+      ],
+      "bboxAlpha128": [
+        223,
+        295,
+        1032,
+        948
+      ],
+      "bboxAlpha250": [
+        224,
+        296,
+        1031,
+        947
+      ],
+      "edgeMaximum": 1,
+      "foregroundRatio128": 1.238897,
+      "metricFidelityCertified": false
+    }
+  },
+  {
+    "key": "quickCable193",
+    "iteration": 2,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-2800e328-7327-4f4f-a0f7-50c0d7c5943c.png",
+    "savedCopyPath": "/workspace/scratch/6f470a892a0f/art237-prep/generated/iteration-2/quickCable193_bobines_couverture_rapide.png",
+    "sha256": "1765d89e2e0b6afeb1e82f68cf735382ec278f3ce26373d1918a62bbdd08fe96",
+    "bytes": 1979459,
+    "mode": "RGBA",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "pixelEditingPerformed": false,
+    "nativeCopyByteIdentical": true,
+    "alpha": {
+      "min": 0,
+      "max": 254,
+      "zeroPixels": 991016,
+      "opaquePixels": 0,
+      "partialPixels": 581848,
+      "alpha1to15": 10675,
+      "alpha16to127": 3171,
+      "alpha128to249": 9133,
+      "alpha250to255": 558869,
+      "bboxAlpha1": [
+        41,
+        47,
+        1498,
+        1000
+      ],
+      "bboxAlpha16": [
+        142,
+        233,
+        1395,
+        780
+      ],
+      "bboxAlpha128": [
+        143,
+        233,
+        1394,
+        780
+      ],
+      "bboxAlpha250": [
+        144,
+        236,
+        1392,
+        779
+      ],
+      "edgeMaximum": 0,
+      "foregroundRatio128": 2.28702,
+      "metricFidelityCertified": false
+    }
+  }
+]

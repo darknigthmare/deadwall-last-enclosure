@@ -1,0 +1,214 @@
+[
+  {
+    "key": "fence:v1",
+    "kind": "fence",
+    "id": "prop:fence:v1",
+    "artId": "prop:fence:v1",
+    "label": "Clôture à renforts diagonaux en bois — variante 1",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: original DEADWALL source-art sprite, one complete isolated Clôture à renforts diagonaux en bois — variante 1.\nINPUTS: Image 1 is the AUTHORITATIVE geometry, arrangement and variant palette, rendered through the unchanged public structural205 game painter on the same authored instance as Art238, painter variant 1. Image 2 is the accepted Art238 variant0, MATERIAL FINISH AND PAINTERLY QUALITY ONLY. Do not copy variant0 parts, roof seams, bands or construction when they differ from image 1. These are already-defined painter variants of an existing object, not new runtime objects.\nVIEW: strict orthographic overhead plan, camera looking vertically down. Source X goes right and source Y goes down; keep image 1 orientation, aspect ratio, silhouette, number of parts and their relative positions. Do not tilt the camera or expose a tall facade.\nSUBJECT AND PARTS: A single extremely narrow HORIZONTAL timber boundary segment seen vertically from above. Keep TWO long parallel wooden rails and exactly THREE short transverse post caps at left, centre and right. In each of the TWO bays, add exactly ONE shallow wooden diagonal from upper-left to lower-right, matching image 1: two parallel-slope diagonals total, not X braces. Preserve the twenty-to-one footprint aspect ratio; this must remain a thin strip, not an upright fence facade, broad ladder, gate, or vertical-picket panel. Muted grey-brown aged timber and pale worn wood posts, as in the canonical palette.\nAUTHOR-DESIGN ENVELOPE: 3 m across X by 0.15 m along Y, separate authored height 1.2 m. These dimensions describe the existing fixture, not a manufacturer specification. The source layout remains EXT-MONDE-T045-V01; this plan number is independent of painter variant 1.\nMATERIALS: serious grounded post-apocalyptic game art, restrained detailed hand-painted pre-rendered treatment matching image 2, but material assignment and muted colours from image 1. Fine weathered grain, dull metal, modest scuffs or oxidation, soft neutral overhead illumination. Readable primary shapes; idle and unattended. No invented severe destruction or decoration.\nOUTPUT: ONE whole object only, true transparent RGBA background. Centre the complete silhouette with at least 12 percent transparent margin on all sides. Do not crop thin components. No ground plane, external cast shadow, landscape, scene, border, grid, lettering, labels, dimensions, logo, UI or watermark. No extra detached tools, people, animals or active effects. Preserve native generated output; this is a source-art proposal for later calibration, not pixel-for-pixel or metric 1:1 certification.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI built-in ImageGen",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/canonical/fence_v1.png",
+        "sha256": "340f4aa5750d99963c1662d8cf40511140470b71df89073507904a76c98110a6"
+      },
+      {
+        "path": "references/style-art238/fence_v0.png",
+        "sha256": "16617f83fd798df7de6366b049ddcfb2f400df787bc52aec0a279bb3f347b87f"
+      }
+    ],
+    "output": "assets/art239/props/fence_cloture_renforts_bois_v1.png",
+    "sha256": "88b6ee1653066ce236aab1fd19693e14286f9aa63930571619f8d3f2f1bedad3",
+    "bytes": 167835,
+    "selected": true,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "fence:v2",
+    "kind": "fence",
+    "id": "prop:fence:v2",
+    "artId": "prop:fence:v2",
+    "label": "Clôture métallique à croisillons fins — variante 2",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: original DEADWALL source-art sprite, one complete isolated Clôture métallique à croisillons fins — variante 2.\nINPUTS: Image 1 is the AUTHORITATIVE geometry, arrangement and variant palette, rendered through the unchanged public structural205 game painter on the same authored instance as Art238, painter variant 2. Image 2 is the accepted Art238 variant0, MATERIAL FINISH AND PAINTERLY QUALITY ONLY. Do not copy variant0 parts, roof seams, bands or construction when they differ from image 1. These are already-defined painter variants of an existing object, not new runtime objects.\nVIEW: strict orthographic overhead plan, camera looking vertically down. Source X goes right and source Y goes down; keep image 1 orientation, aspect ratio, silhouette, number of parts and their relative positions. Do not tilt the camera or expose a tall facade.\nSUBJECT AND PARTS: A single extremely narrow HORIZONTAL metal boundary segment seen vertically from above. Keep TWO long parallel dull metal rails and exactly THREE short pale metal transverse post caps at left, centre and right. In each of the TWO bays, preserve one X made of exactly TWO fine dark diagonal ties, as in image 1: two X shapes total. These are sparse thin ties, not a dense chain-link grid or mesh panel. Preserve the twenty-to-one footprint aspect ratio; remain a thin strip, not an upright fence facade, broad ladder or gate. Muted grey-olive metal with restrained wear and slightly lighter post caps.\nAUTHOR-DESIGN ENVELOPE: 3 m across X by 0.15 m along Y, separate authored height 1.2 m. These dimensions describe the existing fixture, not a manufacturer specification. The source layout remains EXT-MONDE-T045-V01; this plan number is independent of painter variant 2.\nMATERIALS: serious grounded post-apocalyptic game art, restrained detailed hand-painted pre-rendered treatment matching image 2, but material assignment and muted colours from image 1. Fine weathered grain, dull metal, modest scuffs or oxidation, soft neutral overhead illumination. Readable primary shapes; idle and unattended. No invented severe destruction or decoration.\nOUTPUT: ONE whole object only, true transparent RGBA background. Centre the complete silhouette with at least 12 percent transparent margin on all sides. Do not crop thin components. No ground plane, external cast shadow, landscape, scene, border, grid, lettering, labels, dimensions, logo, UI or watermark. No extra detached tools, people, animals or active effects. Preserve native generated output; this is a source-art proposal for later calibration, not pixel-for-pixel or metric 1:1 certification.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI built-in ImageGen",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/canonical/fence_v2.png",
+        "sha256": "ccd28aec3c0f5e77875436eea808ae3cbee34b61f2e6e89a388ec231ae1e8b50"
+      },
+      {
+        "path": "references/style-art238/fence_v0.png",
+        "sha256": "16617f83fd798df7de6366b049ddcfb2f400df787bc52aec0a279bb3f347b87f"
+      }
+    ],
+    "output": "references/iterations/fence_v2-iteration-01.png",
+    "sha256": "2be6d0ff6d2cf2d60944c2e893a2fb7a730f99d4beb873ddc31a75263cd72c4e",
+    "bytes": 148417,
+    "selected": false,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "fence:v2",
+    "kind": "fence",
+    "id": "prop:fence:v2",
+    "artId": "prop:fence:v2",
+    "label": "Clôture métallique à croisillons fins — variante 2",
+    "iteration": 2,
+    "prompt": "Use case: precise-object-edit. Asset type: DEADWALL structural205 fence painter variant 2, targeted material and readability correction only.\nINPUTS: Image 1 is the current Art239 fence:v2 candidate to edit. Image 2 is its authoritative unchanged native canonical reference. Preserve image 1 canvas framing, strict vertical overhead view, centre placement, whole extremely narrow horizontal footprint and transparent margins. Preserve the exact count and positions: TWO long parallel rails, THREE short transverse post caps at left/centre/right, and TWO sparse X braces, one X in each bay, each made of TWO thin diagonal ties.\nCHANGE ONLY MATERIAL AND LOCAL READABILITY: the current rails still read too much like aged wood, and their crossing ties are hard to distinguish. Render all structural rails and post caps as MATTE WEATHERED STEEL in muted grey-olive, with restrained oxidation, small metal scuffs and subtle edge highlights. Absolutely no wood grain, knots, planks or timber striations. Make each of the four diagonal metal ties visibly continuous from its canonical corner to the opposite corner, with a restrained contrasting steel edge so that the two X shapes read clearly against the transparent gaps. Keep these ties fine and delicate, not thick braces. Keep the same sparse two-bay construction and the existing thin aspect ratio; do not turn it into a dense chain-link grid, a mesh panel, a gate, a vertical fence facade or a broad ladder.\nLOCKS: exact existing overhead orientation and narrow silhouette; three posts, two rails, two X shapes; one whole isolated object. Preserve the serious restrained hand-painted DEADWALL finish, soft neutral overhead lighting, object-centred framing and ample transparent margins. No added mechanisms, props, letters, numbers, labels, dimensions, logos, UI, ground, scenery, frame, external cast shadow or active effects. The existing background is already transparent; this correction concerns material and legibility only.\nOUTPUT: one complete native RGBA image with true transparency. No crop or clipping. Painter variant 2 remains independent from authored plan V01; no new runtime type and no claim of pixel-for-pixel or metric 1:1 certification.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI built-in ImageGen",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/iterations/fence_v2-iteration-01.png",
+        "sha256": "2be6d0ff6d2cf2d60944c2e893a2fb7a730f99d4beb873ddc31a75263cd72c4e"
+      },
+      {
+        "path": "references/canonical/fence_v2.png",
+        "sha256": "ccd28aec3c0f5e77875436eea808ae3cbee34b61f2e6e89a388ec231ae1e8b50"
+      }
+    ],
+    "output": "references/iterations/fence_v2-iteration-02.png",
+    "sha256": "860fa7c57994fa212c87f115501b711aa5dc6089a2858b18ebfb296fb5d31d0c",
+    "bytes": 404140,
+    "selected": false,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "fence:v2",
+    "kind": "fence",
+    "id": "prop:fence:v2",
+    "artId": "prop:fence:v2",
+    "label": "Clôture métallique à croisillons fins — variante 2",
+    "iteration": 3,
+    "prompt": "Use case: stylized-concept. Asset type: one original DEADWALL source-art sprite, structural205 fence painter variant 2.\nONE INPUT: the attached image is the authoritative native canonical geometry and layout. Create a fresh detailed source image from this canonical alone. Do not reuse any earlier generated candidate. Preserve its strict vertically-down orthographic view, very narrow horizontal silhouette, exact part count and relative placement.\nSUBJECT: one complete thin METAL fence segment seen in plan, width twenty times its footprint depth. Exactly TWO narrow, straight, parallel horizontal STEEL RAILS. They are genuinely separated: between the rails there is a clear TRANSPARENT gap roughly THREE times the thickness of one rail, except for the fine crossing ties. Exactly THREE short transverse STEEL POST CAPS, at left end, centre and right end. Exactly TWO X shapes, one in each of the two bays, each made from TWO very thin straight metal ties stretching diagonally between the canonical corners. Four diagonal ties total. These must be continuous and readable through restrained lighter steel edge highlights against the transparent gaps. Follow the canonical shallow angles. Do not join the rails into one solid beam, omit either X, or turn the ties into broad wooden braces.\nMATERIAL: all rails, post caps and diagonal ties are matte patinated STEEL. Muted grey with a subtle olive cast, small metal abrasions and a little dull corrosion. No wood grain, knots, planks, timber streaks or dominant brown coating. The three caps are slightly lighter than the rails. Serious, restrained hand-painted pre-rendered DEADWALL game finish; controlled fine details and soft neutral overhead illumination. Keep the object inactive and unattended.\nTRANSPARENCY: true RGBA. Every pixel outside the physical object silhouette must be fully transparent, alpha zero. Transparent clear space around the segment and inside all gaps; absolutely no grey or coloured cloud, halo, haze, smoke, surface wash, ground plane, cast shadow or loose pixel noise. Do not render a checkerboard into the image.\nCOMPOSITION: centre the entire object with at least 15 percent transparent margin on every side. Keep the extremely thin overhead-plan proportions; no perspective, facade elevation, dense chain-link mesh, extra posts, extra rails, gate, surrounding scene, extra object, labels, text, numbers, border, logo, UI or watermark. Do not crop any component. This is an existing painter variant on authored plan V01, not a new runtime object, and the result is a source-art proposal rather than pixel or metric 1:1 certification.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI built-in ImageGen",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/canonical/fence_v2.png",
+        "sha256": "ccd28aec3c0f5e77875436eea808ae3cbee34b61f2e6e89a388ec231ae1e8b50"
+      }
+    ],
+    "output": "assets/art239/props/fence_cloture_croisillons_metal_v2.png",
+    "sha256": "2f871f6f1d70b64ecb99842a8cd03413c9ed049b3e19ffa45444d13cb1d3b78f",
+    "bytes": 162683,
+    "selected": true,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "garden-shed:v1",
+    "kind": "garden-shed",
+    "id": "prop:garden-shed:v1",
+    "artId": "prop:garden-shed:v1",
+    "label": "Abri fermé à toiture métallique — variante 1",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: original DEADWALL source-art sprite, one complete isolated Abri fermé à toiture métallique — variante 1.\nINPUTS: Image 1 is the AUTHORITATIVE geometry, arrangement and variant palette, rendered through the unchanged public structural205 game painter on the same authored instance as Art238, painter variant 1. Image 2 is the accepted Art238 variant0, MATERIAL FINISH AND PAINTERLY QUALITY ONLY. Do not copy variant0 parts, roof seams, bands or construction when they differ from image 1. These are already-defined painter variants of an existing object, not new runtime objects.\nVIEW: strict orthographic overhead plan, camera looking vertically down. Source X goes right and source Y goes down; keep image 1 orientation, aspect ratio, silhouette, number of parts and their relative positions. Do not tilt the camera or expose a tall facade.\nSUBJECT AND PARTS: One closed compact garden shed represented only by its complete nearly square ROOF in overhead plan. Retain the dark outer edge and pale perimeter trim. The roof is muted blue-grey metal, with ONE HORIZONTAL central raised seam across the middle and exactly SIX VERTICAL dark seams at the positions in image 1. Do not copy the vertical ridge or paired diagonal timber seams from the v0 style image. Preserve the small dark entrance indication at bottom centre as a narrow edge detail. No front-wall elevation, open roof, accessible interior, chimney, skylight, porch or attached object.\nAUTHOR-DESIGN ENVELOPE: 3.4 m across X by 3.3 m along Y, separate authored height 2.4 m. These dimensions describe the existing fixture, not a manufacturer specification. The source layout remains EXT-MONDE-T045-V01; this plan number is independent of painter variant 1.\nMATERIALS: serious grounded post-apocalyptic game art, restrained detailed hand-painted pre-rendered treatment matching image 2, but material assignment and muted colours from image 1. Fine weathered grain, dull metal, modest scuffs or oxidation, soft neutral overhead illumination. Readable primary shapes; idle and unattended. No invented severe destruction or decoration.\nOUTPUT: ONE whole object only, true transparent RGBA background. Centre the complete silhouette with at least 12 percent transparent margin on all sides. Do not crop thin components. No ground plane, external cast shadow, landscape, scene, border, grid, lettering, labels, dimensions, logo, UI or watermark. No extra detached tools, people, animals or active effects. Preserve native generated output; this is a source-art proposal for later calibration, not pixel-for-pixel or metric 1:1 certification.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI built-in ImageGen",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/canonical/garden-shed_v1.png",
+        "sha256": "ae188121c83fcd18d35ca34512e3d2bd1557dc4510c82433627e17d2c7ed14dd"
+      },
+      {
+        "path": "references/style-art238/garden-shed_v0.png",
+        "sha256": "62f78aac248efeb594ab1882170d6d91a2e64014cd8a44d283901de94bdbf07e"
+      }
+    ],
+    "output": "assets/art239/props/garden-shed_toiture_metal_v1.png",
+    "sha256": "6b4b84fc1a71cd08e7d7aabd53b5f35c8afef5b22dbd811608f463823af32074",
+    "bytes": 1294875,
+    "selected": true,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "garden-shed:v2",
+    "kind": "garden-shed",
+    "id": "prop:garden-shed:v2",
+    "artId": "prop:garden-shed:v2",
+    "label": "Abri fermé à plaques de réparation — variante 2",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: original DEADWALL source-art sprite, one complete isolated Abri fermé à plaques de réparation — variante 2.\nINPUTS: Image 1 is the AUTHORITATIVE geometry, arrangement and variant palette, rendered through the unchanged public structural205 game painter on the same authored instance as Art238, painter variant 2. Image 2 is the accepted Art238 variant0, MATERIAL FINISH AND PAINTERLY QUALITY ONLY. Do not copy variant0 parts, roof seams, bands or construction when they differ from image 1. These are already-defined painter variants of an existing object, not new runtime objects.\nVIEW: strict orthographic overhead plan, camera looking vertically down. Source X goes right and source Y goes down; keep image 1 orientation, aspect ratio, silhouette, number of parts and their relative positions. Do not tilt the camera or expose a tall facade.\nSUBJECT AND PARTS: One closed compact garden shed represented only by its complete nearly square timber ROOF in overhead plan. Retain the dark outer edge and pale perimeter trim. Preserve the LARGE rectangular dull metal patch occupying the upper-left and central roof area, with its dark border and exactly TWO small dark fasteners near its upper edge. Preserve the separate SMALL rectangular metal panel in the lower-right quadrant, including its modest pale edge highlight. Keep the remaining wood roof visible around these pieces and the small dark entrance mark at bottom centre. No central ridge or repeated paired diagonal seams from v0; no solar cells, powered equipment, skylight, chimney, exposed interior or front-wall elevation.\nAUTHOR-DESIGN ENVELOPE: 3.4 m across X by 3.3 m along Y, separate authored height 2.4 m. These dimensions describe the existing fixture, not a manufacturer specification. The source layout remains EXT-MONDE-T045-V01; this plan number is independent of painter variant 2.\nMATERIALS: serious grounded post-apocalyptic game art, restrained detailed hand-painted pre-rendered treatment matching image 2, but material assignment and muted colours from image 1. Fine weathered grain, dull metal, modest scuffs or oxidation, soft neutral overhead illumination. Readable primary shapes; idle and unattended. No invented severe destruction or decoration.\nOUTPUT: ONE whole object only, true transparent RGBA background. Centre the complete silhouette with at least 12 percent transparent margin on all sides. Do not crop thin components. No ground plane, external cast shadow, landscape, scene, border, grid, lettering, labels, dimensions, logo, UI or watermark. No extra detached tools, people, animals or active effects. Preserve native generated output; this is a source-art proposal for later calibration, not pixel-for-pixel or metric 1:1 certification.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI built-in ImageGen",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/canonical/garden-shed_v2.png",
+        "sha256": "fea30836d637dd5abf445f56db7b3b7f5c0222a6df46675de2032ccabc3fe9a4"
+      },
+      {
+        "path": "references/style-art238/garden-shed_v0.png",
+        "sha256": "62f78aac248efeb594ab1882170d6d91a2e64014cd8a44d283901de94bdbf07e"
+      }
+    ],
+    "output": "assets/art239/props/garden-shed_toiture_pieces_v2.png",
+    "sha256": "17c9f528b7a4b712b18af839e62b31bc38ce30ee16c14b18d32e2f1d8b821801",
+    "bytes": 1433741,
+    "selected": true,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "rain-barrel:v1",
+    "kind": "rain-barrel",
+    "id": "prop:rain-barrel:v1",
+    "artId": "prop:rain-barrel:v1",
+    "label": "Tonneau fermé à disque métallique — variante 1",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: original DEADWALL source-art sprite, one complete isolated Tonneau fermé à disque métallique — variante 1.\nINPUTS: Image 1 is the AUTHORITATIVE geometry, arrangement and variant palette, rendered through the unchanged public structural205 game painter on the same authored instance as Art238, painter variant 1. Image 2 is the accepted Art238 variant0, MATERIAL FINISH AND PAINTERLY QUALITY ONLY. Do not copy variant0 parts, roof seams, bands or construction when they differ from image 1. These are already-defined painter variants of an existing object, not new runtime objects.\nVIEW: strict orthographic overhead plan, camera looking vertically down. Source X goes right and source Y goes down; keep image 1 orientation, aspect ratio, silhouette, number of parts and their relative positions. Do not tilt the camera or expose a tall facade.\nSUBJECT AND PARTS: One compact closed rain barrel viewed exactly from above. Preserve the muted blue-grey outer metal rim, dark annular inset, pale beige inner ring, and the smaller CENTRAL circular metal plate with its dark outline. Across the central plate is ONE short pale HORIZONTAL handle/strap at the exact canonical location. Preserve the TWO small dark fasteners at left and right of the plate, and the short dull rust-coloured outlet at lower right. Do not transfer the two broad transverse bands or single upper-right bung from v0. No open blue water surface, bucket, downpipe, extended faucet, flow, splash, active service or fill-level indicator.\nAUTHOR-DESIGN ENVELOPE: 0.7 m across X by 0.7 m along Y, separate authored height 1 m. These dimensions describe the existing fixture, not a manufacturer specification. The source layout remains EXT-MONDE-T045-V01; this plan number is independent of painter variant 1.\nMATERIALS: serious grounded post-apocalyptic game art, restrained detailed hand-painted pre-rendered treatment matching image 2, but material assignment and muted colours from image 1. Fine weathered grain, dull metal, modest scuffs or oxidation, soft neutral overhead illumination. Readable primary shapes; idle and unattended. No invented severe destruction or decoration.\nOUTPUT: ONE whole object only, true transparent RGBA background. Centre the complete silhouette with at least 12 percent transparent margin on all sides. Do not crop thin components. No ground plane, external cast shadow, landscape, scene, border, grid, lettering, labels, dimensions, logo, UI or watermark. No extra detached tools, people, animals or active effects. Preserve native generated output; this is a source-art proposal for later calibration, not pixel-for-pixel or metric 1:1 certification.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI built-in ImageGen",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/canonical/rain-barrel_v1.png",
+        "sha256": "9c6ef348c08415512baf4faaf1102a7fede3f48a0559ea49bd38a5bbc2f7c114"
+      },
+      {
+        "path": "references/style-art238/rain-barrel_v0.png",
+        "sha256": "965fbd60ba7dbb321e84545e31fb6fd350da931573faffe9c10a1bf9567fb5d0"
+      }
+    ],
+    "output": "assets/art239/props/rain-barrel_disque_metal_v1.png",
+    "sha256": "cb2f2395e0d0e67bdcdd92458e317558a75ce811e394f0a9cd307740f8d6fb40",
+    "bytes": 1290918,
+    "selected": true,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "rain-barrel:v2",
+    "kind": "rain-barrel",
+    "id": "prop:rain-barrel:v2",
+    "artId": "prop:rain-barrel:v2",
+    "label": "Tonneau fermé à traverse diagonale — variante 2",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: original DEADWALL source-art sprite, one complete isolated Tonneau fermé à traverse diagonale — variante 2.\nINPUTS: Image 1 is the AUTHORITATIVE geometry, arrangement and variant palette, rendered through the unchanged public structural205 game painter on the same authored instance as Art238, painter variant 2. Image 2 is the accepted Art238 variant0, MATERIAL FINISH AND PAINTERLY QUALITY ONLY. Do not copy variant0 parts, roof seams, bands or construction when they differ from image 1. These are already-defined painter variants of an existing object, not new runtime objects.\nVIEW: strict orthographic overhead plan, camera looking vertically down. Source X goes right and source Y goes down; keep image 1 orientation, aspect ratio, silhouette, number of parts and their relative positions. Do not tilt the camera or expose a tall facade.\nSUBJECT AND PARTS: One compact closed rain barrel viewed exactly from above. Preserve its muted tan-brown outer timber rim, dark annular inset and flat dull grey-olive METAL central lid. Across this lid preserve exactly ONE pale DIAGONAL bar from upper-left to lower-right. Keep the TWO dark round bung openings in their source positions: the LARGER opening in the upper-left part of the lid and the SMALLER opening in the lower-right part. Preserve the short dull rust-coloured outlet on the outer lower-right rim. Do not transfer the two horizontal bands or single upper-right bung from v0. No open water surface, extra handle, bucket, downpipe, extended faucet, water flow, splashes, active service or fill-level indicator.\nAUTHOR-DESIGN ENVELOPE: 0.7 m across X by 0.7 m along Y, separate authored height 1 m. These dimensions describe the existing fixture, not a manufacturer specification. The source layout remains EXT-MONDE-T045-V01; this plan number is independent of painter variant 2.\nMATERIALS: serious grounded post-apocalyptic game art, restrained detailed hand-painted pre-rendered treatment matching image 2, but material assignment and muted colours from image 1. Fine weathered grain, dull metal, modest scuffs or oxidation, soft neutral overhead illumination. Readable primary shapes; idle and unattended. No invented severe destruction or decoration.\nOUTPUT: ONE whole object only, true transparent RGBA background. Centre the complete silhouette with at least 12 percent transparent margin on all sides. Do not crop thin components. No ground plane, external cast shadow, landscape, scene, border, grid, lettering, labels, dimensions, logo, UI or watermark. No extra detached tools, people, animals or active effects. Preserve native generated output; this is a source-art proposal for later calibration, not pixel-for-pixel or metric 1:1 certification.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI built-in ImageGen",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/canonical/rain-barrel_v2.png",
+        "sha256": "44860290361ec9830b0f0fb274a86d0c705042206287f2537965e1eab106316b"
+      },
+      {
+        "path": "references/style-art238/rain-barrel_v0.png",
+        "sha256": "965fbd60ba7dbb321e84545e31fb6fd350da931573faffe9c10a1bf9567fb5d0"
+      }
+    ],
+    "output": "assets/art239/props/rain-barrel_traverse_diagonale_v2.png",
+    "sha256": "c271376c312da5491b18783f0d5a9eecc7f8ddad97bbf3eb19b952493fea2159",
+    "bytes": 1086419,
+    "selected": true,
+    "nativeBytesPreserved": true
+  }
+]

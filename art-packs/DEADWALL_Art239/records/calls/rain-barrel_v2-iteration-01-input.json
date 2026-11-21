@@ -1,0 +1,17 @@
+{
+  "key": "rain-barrel:v2",
+  "id": "prop:rain-barrel:v2",
+  "artId": "prop:rain-barrel:v2",
+  "iteration": 1,
+  "generator": "OpenAI built-in ImageGen",
+  "arguments": {
+    "prompt": "Use case: stylized-concept. Asset type: original DEADWALL source-art sprite, one complete isolated Tonneau fermé à traverse diagonale — variante 2.\nINPUTS: Image 1 is the AUTHORITATIVE geometry, arrangement and variant palette, rendered through the unchanged public structural205 game painter on the same authored instance as Art238, painter variant 2. Image 2 is the accepted Art238 variant0, MATERIAL FINISH AND PAINTERLY QUALITY ONLY. Do not copy variant0 parts, roof seams, bands or construction when they differ from image 1. These are already-defined painter variants of an existing object, not new runtime objects.\nVIEW: strict orthographic overhead plan, camera looking vertically down. Source X goes right and source Y goes down; keep image 1 orientation, aspect ratio, silhouette, number of parts and their relative positions. Do not tilt the camera or expose a tall facade.\nSUBJECT AND PARTS: One compact closed rain barrel viewed exactly from above. Preserve its muted tan-brown outer timber rim, dark annular inset and flat dull grey-olive METAL central lid. Across this lid preserve exactly ONE pale DIAGONAL bar from upper-left to lower-right. Keep the TWO dark round bung openings in their source positions: the LARGER opening in the upper-left part of the lid and the SMALLER opening in the lower-right part. Preserve the short dull rust-coloured outlet on the outer lower-right rim. Do not transfer the two horizontal bands or single upper-right bung from v0. No open water surface, extra handle, bucket, downpipe, extended faucet, water flow, splashes, active service or fill-level indicator.\nAUTHOR-DESIGN ENVELOPE: 0.7 m across X by 0.7 m along Y, separate authored height 1 m. These dimensions describe the existing fixture, not a manufacturer specification. The source layout remains EXT-MONDE-T045-V01; this plan number is independent of painter variant 2.\nMATERIALS: serious grounded post-apocalyptic game art, restrained detailed hand-painted pre-rendered treatment matching image 2, but material assignment and muted colours from image 1. Fine weathered grain, dull metal, modest scuffs or oxidation, soft neutral overhead illumination. Readable primary shapes; idle and unattended. No invented severe destruction or decoration.\nOUTPUT: ONE whole object only, true transparent RGBA background. Centre the complete silhouette with at least 12 percent transparent margin on all sides. Do not crop thin components. No ground plane, external cast shadow, landscape, scene, border, grid, lettering, labels, dimensions, logo, UI or watermark. No extra detached tools, people, animals or active effects. Preserve native generated output; this is a source-art proposal for later calibration, not pixel-for-pixel or metric 1:1 certification.",
+    "referenced_image_paths": [
+      "/workspace/scratch/6f470a892a0f/art239-prep/references/canonical/rain-barrel_v2.png",
+      "/workspace/scratch/6f470a892a0f/art239-prep/references/style-art238/rain-barrel_v0.png"
+    ],
+    "transparent_background": true
+  },
+  "promptIsVerbatim": true,
+  "referenceInspectionsFile": "reference-inspections.json"
+}

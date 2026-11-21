@@ -1,0 +1,297 @@
+{
+  "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "publicationParent": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+  "publicationParentTree": "33d089eab2bb23f288e66d57c2794f6a38b3ba84",
+  "reviewer": "root independent public painter replay",
+  "method": "Fresh canvases; exact authored fixtures; fixed settings derived from the prior v0 preparation; compare full encoded PNG bytes.",
+  "canvasVersion": "0.1.100",
+  "sources": [
+    {
+      "repositoryPath": "AGENTS.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "sha256": "7d02c6bd7f9c6a8e04c4c18680f9539109ecbc943f240de12a536ab9a8a8ab13",
+      "bytes": 4190,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/ORIGINAL_BRIEF.txt",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "sha256": "64fe23e910f065cdd6ce4f8f84fcc8efd6894d923122c086cd7b16f599492297",
+      "bytes": 1283,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/GAME_DESIGN.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "sha256": "3f5ce6afc19ca49f5ffe239eee67b7258078098e8d0477a5ef62fd2fc8fd65f9",
+      "bytes": 15746,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/ARCHITECTURE.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "sha256": "880657b6abfc044a3ef534d8a092ad9a20ad3a0a2a9024bdbbea6642d8eb3f3c",
+      "bytes": 57076,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/BALANCING.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "sha256": "5caf2749d57201a01f9aafa80de8a3e70e0579a01895283e6d5b05abdc526088",
+      "bytes": 37720,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/CODEX_MASTER_PROMPT.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "sha256": "9c0280c574ad13d7ba03cb4391713411e8eb8fcdbcc4cc94f2609f277c727c6d",
+      "bytes": 5269,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/GAMEDEV_GUIDANCE.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "sha256": "0b2df8233ea2c49ff0c1fd959cf43bac8d1245fb6900334e42cb541b0d2f0144",
+      "bytes": 24935,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/GAME_BIBLE.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "sha256": "3f6f48befcd5408e03ab4ed0c79a68a040cac48c09f087545e334f0b3c738890",
+      "bytes": 98486,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "src/campaign-site-art205.js",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "sha256": "492790bf2aa6c77dd244f4fcd8c164f1960f08eb2654b10b1ca20663bd72e0f2",
+      "bytes": 44852,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "src/codex-furnishings2026.js",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "sha256": "5aacd2944d7cf44d21997a9b265dac966a873875e9e5cd7a48a43c8dca044b36",
+      "bytes": 40680,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "src/interior-art153.js",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "sha256": "7b686fc06c7be2b00a8263ce47b42eeb5dc8413fedee71c9f4fed790f50ffd21",
+      "bytes": 18868,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "src/seed-detail-art157.js",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "sha256": "03978da0de17b4255107b3ee0966d7bb3a160ef14d2eb08efad09afe16eead8a",
+      "bytes": 25806,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "src/world-props-art153.js",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "sha256": "8366c7fe4d3dc529c64d3f50523f78bd1651c63a287d22818fe18dd065548726",
+      "bytes": 21665,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "src/codex-layouts2026.js",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "sha256": "2ab0b563e26f64877b6d9fbdd0ceb1bcfca4e439b147825a571bd0e446f714cc",
+      "bytes": 311787,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "scripts/codex-residential2026.cjs",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "sha256": "6978137b18dc3ea26916efdabeff6a36a26abeb9c09e27bc0549de74d909982d",
+      "bytes": 17963,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "scripts/codex-world-foundations2026.cjs",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "sha256": "a709d508e1d2c71ed549f2192bd27f0afd7dae37cb1957f54a2ec32ab0b969b3",
+      "bytes": 19639,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/codex/suivi-monde2026/RESIDENTIEL_2026.md",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "sha256": "71e3b672505516af97c91b0e8b9c493de189076f764cacbb2e5450eb5095308c",
+      "bytes": 9436,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "sha256": "49d5f583cfde5c4217598b2dd2c57703ebe74868bdc2dd47855adff5f1dbbbee",
+      "bytes": 1195406,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "sha256": "be15ae950d99461b2351a0295713a36e0091aaec5a37da5191e392f4e3748748",
+      "bytes": 1098099,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "art-packs/DEADWALL_Art235/PROVENANCE.json",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "sha256": "6960cf21c69a770a8854c9a9c746f2a0cce8c06ef732282983cc4504e9ef2945",
+      "bytes": 3544,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "art-packs/DEADWALL_Art235/qa/visual-review-records.json",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "sha256": "f652663a7e4dd5299871de5cb0f3a7c73a34e1eab6126a57b302cf18170816bd",
+      "bytes": 7492,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "art-packs/DEADWALL_Art235/SHA256SUMS.txt",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "sha256": "bcafa1773b990f2470dc9602c82eaa49547a55c695b165e09a2a8beb904f1626",
+      "bytes": 4807,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "art-packs/DEADWALL_Art235/records/preparation/selection-and-prompts.json",
+      "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+      "sha256": "fa064fb2235f4a626afc0698b4ab9203a5d755b5dfd7c2087ef2c11ac1c05adc",
+      "bytes": 15053,
+      "exactRevisionBytes": true
+    }
+  ],
+  "targets": [
+    {
+      "id": "prop:touring-caravan:v1",
+      "key": "touring-caravan:v1",
+      "canonicalSha256": "f0bb2a5dbf5dc70082930071362e76e8470ae3b33e1e354291d245ca3bb07522",
+      "replaySha256": "f0bb2a5dbf5dc70082930071362e76e8470ae3b33e1e354291d245ca3bb07522",
+      "bytes": 13710,
+      "replayedBytesIdentical": true,
+      "entryPoint": "campaign-site-art205.drawProp",
+      "sourcePlanId": "EXT-MONDE-T046-V01",
+      "sourceId": "EXT-MONDE-T046-V01:parcel:1:caravan",
+      "sourcePlanVariant": 1,
+      "painterVariant": 1,
+      "canonicalVariant": 1,
+      "footprintAuthorMetres": [
+        2.4,
+        6.2
+      ],
+      "heightAuthorMetres": 2.8,
+      "sourceFixtureAndOptionsUnchanged": true,
+      "gameArgumentOmitted": true,
+      "rngCalls": 0,
+      "styleBindings": [
+        {
+          "sha256": "49d5f583cfde5c4217598b2dd2c57703ebe74868bdc2dd47855adff5f1dbbbee",
+          "repositoryPath": "art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png",
+          "verifiedAtRevision": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+          "role": "Art235-v0-material-texture-and-style-only",
+          "existingImageNotNewGeneration": true
+        }
+      ]
+    },
+    {
+      "id": "prop:touring-caravan:v2",
+      "key": "touring-caravan:v2",
+      "canonicalSha256": "a2c7f68fb0decde7fca80d1ba5dda4bc28492f534c8581d19d69c266ffdd9bba",
+      "replaySha256": "a2c7f68fb0decde7fca80d1ba5dda4bc28492f534c8581d19d69c266ffdd9bba",
+      "bytes": 15880,
+      "replayedBytesIdentical": true,
+      "entryPoint": "campaign-site-art205.drawProp",
+      "sourcePlanId": "EXT-MONDE-T046-V01",
+      "sourceId": "EXT-MONDE-T046-V01:parcel:1:caravan",
+      "sourcePlanVariant": 1,
+      "painterVariant": 2,
+      "canonicalVariant": 2,
+      "footprintAuthorMetres": [
+        2.4,
+        6.2
+      ],
+      "heightAuthorMetres": 2.8,
+      "sourceFixtureAndOptionsUnchanged": true,
+      "gameArgumentOmitted": true,
+      "rngCalls": 0,
+      "styleBindings": [
+        {
+          "sha256": "49d5f583cfde5c4217598b2dd2c57703ebe74868bdc2dd47855adff5f1dbbbee",
+          "repositoryPath": "art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png",
+          "verifiedAtRevision": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+          "role": "Art235-v0-material-texture-and-style-only",
+          "existingImageNotNewGeneration": true
+        }
+      ]
+    },
+    {
+      "id": "prop:abandoned-caravan:v1",
+      "key": "abandoned-caravan:v1",
+      "canonicalSha256": "d729ae423cd4c8e1fa6e9b6e39dc1f0cc1e2843dde15b66aed9b847bbab13f95",
+      "replaySha256": "d729ae423cd4c8e1fa6e9b6e39dc1f0cc1e2843dde15b66aed9b847bbab13f95",
+      "bytes": 20641,
+      "replayedBytesIdentical": true,
+      "entryPoint": "campaign-site-art205.drawProp",
+      "sourcePlanId": "EXT-MONDE-T048-V01",
+      "sourceId": "EXT-MONDE-T048-V01:parcel:1:caravan",
+      "sourcePlanVariant": 1,
+      "painterVariant": 1,
+      "canonicalVariant": 1,
+      "footprintAuthorMetres": [
+        2.4,
+        6.2
+      ],
+      "heightAuthorMetres": 2.8,
+      "sourceFixtureAndOptionsUnchanged": true,
+      "gameArgumentOmitted": true,
+      "rngCalls": 0,
+      "styleBindings": [
+        {
+          "sha256": "be15ae950d99461b2351a0295713a36e0091aaec5a37da5191e392f4e3748748",
+          "repositoryPath": "art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+          "verifiedAtRevision": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+          "role": "Art235-v0-material-texture-and-style-only",
+          "existingImageNotNewGeneration": true
+        }
+      ]
+    },
+    {
+      "id": "prop:abandoned-caravan:v2",
+      "key": "abandoned-caravan:v2",
+      "canonicalSha256": "e69d60a8a01e1efa9dd97a00b81b177eee5a3c72510ade58c75f7003f6c04183",
+      "replaySha256": "e69d60a8a01e1efa9dd97a00b81b177eee5a3c72510ade58c75f7003f6c04183",
+      "bytes": 23922,
+      "replayedBytesIdentical": true,
+      "entryPoint": "campaign-site-art205.drawProp",
+      "sourcePlanId": "EXT-MONDE-T048-V01",
+      "sourceId": "EXT-MONDE-T048-V01:parcel:1:caravan",
+      "sourcePlanVariant": 1,
+      "painterVariant": 2,
+      "canonicalVariant": 2,
+      "footprintAuthorMetres": [
+        2.4,
+        6.2
+      ],
+      "heightAuthorMetres": 2.8,
+      "sourceFixtureAndOptionsUnchanged": true,
+      "gameArgumentOmitted": true,
+      "rngCalls": 0,
+      "styleBindings": [
+        {
+          "sha256": "be15ae950d99461b2351a0295713a36e0091aaec5a37da5191e392f4e3748748",
+          "repositoryPath": "art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+          "verifiedAtRevision": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+          "role": "Art235-v0-material-texture-and-style-only",
+          "existingImageNotNewGeneration": true
+        }
+      ]
+    }
+  ]
+}

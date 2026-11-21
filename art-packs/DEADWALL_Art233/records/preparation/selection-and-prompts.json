@@ -1,0 +1,1105 @@
+{
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "Art233",
+  "date": "2026-11-17T11:45:41.570Z",
+  "sourceBase": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "identityContract": "prop:<kind>:v0, native source kind; no DW reassignment, no save migration, no runtime integration",
+  "scope": "13 dedicated source-art proposals for existing procedural205 v0 furniture; existing procedural rendering and analogues are preserved; no metric 1:1 certification",
+  "targets": [
+    {
+      "key": "singleBunk",
+      "kind": "singleBunk",
+      "id": "prop:singleBunk:v0",
+      "artId": "prop:singleBunk:v0",
+      "label": "Couchette individuelle",
+      "file": "singleBunk_couchette_individuelle.png",
+      "variant": 0,
+      "nativeSpec": {
+        "name": "Couchette individuelle",
+        "w": 2,
+        "h": 0.75,
+        "heightM": 1.7,
+        "sourceDimensions": "author-design:single-bunk",
+        "lootEligible": false,
+        "heightOrigin": "author-design-not-manufacturer-dimension"
+      },
+      "sourceDimensions": "author-design:single-bunk",
+      "sourceKind": "CATALOGUE.singleBunk",
+      "geometryOwner": "src/codex-furnishings2026.js",
+      "renderOwner": "src/campaign-site-art205.js#specialisedProp",
+      "route": "procedural205",
+      "sourceStatus": "Current G11 residential service support; no change to its rest transaction.",
+      "existingState": {
+        "proceduralRendererPresent": true,
+        "dedicatedBitmapRegistry": {
+          "world153": null,
+          "interior153": null,
+          "detail157": null
+        },
+        "analogues": [
+          "interior-home-atlas.png includes ordinary beds, not this narrow single-surface bunk and its access ladder."
+        ],
+        "notMissingRendering": true,
+        "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+      },
+      "canonicalReference": {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/singleBunk-v0.png",
+        "preparedPath": "references/canonical/singleBunk-v0.png",
+        "sha256": "a17e2280ad41d7c114b56d85add2b9253439eb6354e05105e9532c0425bd3a78",
+        "bytes": 5767,
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 368,
+        "prop": {
+          "id": "art233-reference:singleBunk",
+          "kind": "singleBunk",
+          "campaign205": true,
+          "x": 0.3913043478260869,
+          "y": 1.016304347826087,
+          "w": 2,
+          "h": 0.75,
+          "rotationRad": 0,
+          "z": 0
+        },
+        "exportedEntryPoint": "DeadwallCampaignSiteArt205.drawProp",
+        "delegatedNativeFunction": "drawPropBase",
+        "rendererSource": "src/campaign-site-art205.js",
+        "variant": 0,
+        "stateAlpha": false,
+        "gameProvided": false,
+        "sourceUnmodified": true,
+        "nativeProceduralExtraction": true,
+        "generatedByImageGen": false
+      },
+      "styleReference": {
+        "repositoryPath": "assets/art153/interior-home-atlas.png",
+        "preparedPath": "references/atlases/interior-home-atlas.png",
+        "absolutePath": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-home-atlas.png",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "gitBlob": "99192fc7417df3e0dead81facad9959ebb358941",
+        "sha256": "7a50be3a0338fec20e7429f20a79dc39c548b61113fbd07326a6b82e70b71be9",
+        "bytes": 2379240,
+        "purpose": "material, palette and paint texture only; do not copy atlas layout, camera tilt or adjacent objects"
+      },
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/singleBunk-v0.png",
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-home-atlas.png"
+      ],
+      "prompt": "Create ONE original DEADWALL production source sprite: Couchette individuelle (singleBunk), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 2 m along X by 0.75 m along Y; its separate authored height envelope is 1.7 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: Exactly ONE narrow sleeping surface on a worn metal support frame. Long sleeping axis is horizontal. One pale pillow at the LEFT short end, a muted olive mattress/blanket, narrow end rails, and the small three-rung access ladder along the LOWER long side near the middle, exactly as reference 1. No second mattress, no lower bed, no stacked bunks, no person, no extra chair or bedside objects. Preserve the narrow 2.00 to 0.75 rectangular plan; height is a separate authored envelope, never permission to invent another sleeping tier.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+      "generator": "image_gen.imagegen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true,
+      "iteration": 1
+    },
+    {
+      "key": "feedTrough",
+      "kind": "feedTrough",
+      "id": "prop:feedTrough:v0",
+      "artId": "prop:feedTrough:v0",
+      "label": "Mangeoire",
+      "file": "feedTrough_mangeoire.png",
+      "variant": 0,
+      "nativeSpec": {
+        "name": "Mangeoire",
+        "w": 2,
+        "h": 0.5,
+        "heightM": 0.65,
+        "sourceDimensions": "author-design:feed-trough",
+        "lootEligible": false,
+        "heightOrigin": "author-design-not-manufacturer-dimension"
+      },
+      "sourceDimensions": "author-design:feed-trough",
+      "sourceKind": "CATALOGUE.feedTrough",
+      "geometryOwner": "src/codex-furnishings2026.js",
+      "renderOwner": "src/campaign-site-art205.js#specialisedProp",
+      "route": "procedural205",
+      "sourceStatus": "Present in authored agriculture plans only; not an assertion of natural campaign placement.",
+      "existingState": {
+        "proceduralRendererPresent": true,
+        "dedicatedBitmapRegistry": {
+          "world153": null,
+          "interior153": null,
+          "detail157": null
+        },
+        "analogues": [],
+        "notMissingRendering": true,
+        "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+      },
+      "canonicalReference": {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/feedTrough-v0.png",
+        "preparedPath": "references/canonical/feedTrough-v0.png",
+        "sha256": "ce148512b2696b4343edda035fd253c223c4a8224bf882045357bc48e4882555",
+        "bytes": 13898,
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 368,
+        "prop": {
+          "id": "art233-reference:feedTrough",
+          "kind": "feedTrough",
+          "campaign205": true,
+          "x": 0.3913043478260869,
+          "y": 1.141304347826087,
+          "w": 2,
+          "h": 0.5,
+          "rotationRad": 0,
+          "z": 0
+        },
+        "exportedEntryPoint": "DeadwallCampaignSiteArt205.drawProp",
+        "delegatedNativeFunction": "drawPropBase",
+        "rendererSource": "src/campaign-site-art205.js",
+        "variant": 0,
+        "stateAlpha": false,
+        "gameProvided": false,
+        "sourceUnmodified": true,
+        "nativeProceduralExtraction": true,
+        "generatedByImageGen": false
+      },
+      "styleReference": {
+        "repositoryPath": "assets/art153/interior-workshop-atlas.png",
+        "preparedPath": "references/atlases/interior-workshop-atlas.png",
+        "absolutePath": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "gitBlob": "3057a2f58d27addab9917511c755edcc0ed5931f",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203,
+        "purpose": "material, palette and paint texture only; do not copy atlas layout, camera tilt or adjacent objects"
+      },
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/feedTrough-v0.png",
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+      ],
+      "prompt": "Create ONE original DEADWALL production source sprite: Mangeoire (feedTrough), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 2 m along X by 0.5 m along Y; its separate authored height envelope is 0.65 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: One long shallow metal feeding trough, plan ratio 4:1. Keep the six-sided flared outline, four small support feet, broad rim, and narrow brown interior at the same positions as reference 1. Interior marks are fixed dry wear or a few residual straw traces, not a heap of feed. No sack, bale, animal or separate feeder.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+      "generator": "image_gen.imagegen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true,
+      "iteration": 1
+    },
+    {
+      "key": "waterTrough",
+      "kind": "waterTrough",
+      "id": "prop:waterTrough:v0",
+      "artId": "prop:waterTrough:v0",
+      "label": "Abreuvoir",
+      "file": "waterTrough_abreuvoir.png",
+      "variant": 0,
+      "nativeSpec": {
+        "name": "Abreuvoir",
+        "w": 1.2,
+        "h": 0.5,
+        "heightM": 0.6,
+        "sourceDimensions": "author-design:water-trough",
+        "lootEligible": false,
+        "heightOrigin": "author-design-not-manufacturer-dimension"
+      },
+      "sourceDimensions": "author-design:water-trough",
+      "sourceKind": "CATALOGUE.waterTrough",
+      "geometryOwner": "src/codex-furnishings2026.js",
+      "renderOwner": "src/campaign-site-art205.js#specialisedProp",
+      "route": "procedural205",
+      "sourceStatus": "Present in authored agriculture plans only; not an assertion of natural campaign placement.",
+      "existingState": {
+        "proceduralRendererPresent": true,
+        "dedicatedBitmapRegistry": {
+          "world153": null,
+          "interior153": null,
+          "detail157": null
+        },
+        "analogues": [
+          "worldPropsScenery153 has larger waterTank silhouettes, not this low open trough."
+        ],
+        "notMissingRendering": true,
+        "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+      },
+      "canonicalReference": {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/waterTrough-v0.png",
+        "preparedPath": "references/canonical/waterTrough-v0.png",
+        "sha256": "4c3e623cd7278611f817ee7cf15d0f0e5e545f241562ece23dd53ef299dd06cd",
+        "bytes": 11190,
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 613.3333333333334,
+        "prop": {
+          "id": "art233-reference:waterTrough",
+          "kind": "waterTrough",
+          "campaign205": true,
+          "x": 0.23478260869565215,
+          "y": 0.5847826086956521,
+          "w": 1.2,
+          "h": 0.5,
+          "rotationRad": 0,
+          "z": 0
+        },
+        "exportedEntryPoint": "DeadwallCampaignSiteArt205.drawProp",
+        "delegatedNativeFunction": "drawPropBase",
+        "rendererSource": "src/campaign-site-art205.js",
+        "variant": 0,
+        "stateAlpha": false,
+        "gameProvided": false,
+        "sourceUnmodified": true,
+        "nativeProceduralExtraction": true,
+        "generatedByImageGen": false
+      },
+      "styleReference": {
+        "repositoryPath": "assets/art153/interior-workshop-atlas.png",
+        "preparedPath": "references/atlases/interior-workshop-atlas.png",
+        "absolutePath": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "gitBlob": "3057a2f58d27addab9917511c755edcc0ed5931f",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203,
+        "purpose": "material, palette and paint texture only; do not copy atlas layout, camera tilt or adjacent objects"
+      },
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/waterTrough-v0.png",
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+      ],
+      "prompt": "Create ONE original DEADWALL production source sprite: Abreuvoir (waterTrough), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 1.2 m along X by 0.5 m along Y; its separate authored height envelope is 0.6 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: One low metal water trough, plan ratio 2.4:1. Keep the six-sided flared outline, four small support feet, blue-grey recessed basin, broad rim and the tiny fitting at the UPPER RIGHT of the basin exactly as reference 1. It is disconnected and idle: no flow, hose reaching outside the object, gauge, powered light or added water container. The subdued basin colour is not a claim of potable water or inventory.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+      "generator": "image_gen.imagegen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true,
+      "iteration": 1
+    },
+    {
+      "key": "fodderRack",
+      "kind": "fodderRack",
+      "id": "prop:fodderRack:v0",
+      "artId": "prop:fodderRack:v0",
+      "label": "Râtelier à fourrage",
+      "file": "fodderRack_ratelier_fourrage.png",
+      "variant": 0,
+      "nativeSpec": {
+        "name": "Râtelier à fourrage",
+        "w": 1.6,
+        "h": 0.6,
+        "heightM": 1.3,
+        "sourceDimensions": "author-design:fodder-rack",
+        "lootEligible": false,
+        "heightOrigin": "author-design-not-manufacturer-dimension"
+      },
+      "sourceDimensions": "author-design:fodder-rack",
+      "sourceKind": "CATALOGUE.fodderRack",
+      "geometryOwner": "src/codex-furnishings2026.js",
+      "renderOwner": "src/campaign-site-art205.js#specialisedProp",
+      "route": "procedural205",
+      "sourceStatus": "Present in authored agriculture plans only; not an assertion of natural campaign placement.",
+      "existingState": {
+        "proceduralRendererPresent": true,
+        "dedicatedBitmapRegistry": {
+          "world153": null,
+          "interior153": null,
+          "detail157": null
+        },
+        "analogues": [],
+        "notMissingRendering": true,
+        "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+      },
+      "canonicalReference": {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/fodderRack-v0.png",
+        "preparedPath": "references/canonical/fodderRack-v0.png",
+        "sha256": "aec6a68d04e589eafb1c96143065dddf819371312e6c40db73b1f529775ec180",
+        "bytes": 12698,
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 460,
+        "prop": {
+          "id": "art233-reference:fodderRack",
+          "kind": "fodderRack",
+          "campaign205": true,
+          "x": 0.31304347826086953,
+          "y": 0.8130434782608695,
+          "w": 1.6,
+          "h": 0.6,
+          "rotationRad": 0,
+          "z": 0
+        },
+        "exportedEntryPoint": "DeadwallCampaignSiteArt205.drawProp",
+        "delegatedNativeFunction": "drawPropBase",
+        "rendererSource": "src/campaign-site-art205.js",
+        "variant": 0,
+        "stateAlpha": false,
+        "gameProvided": false,
+        "sourceUnmodified": true,
+        "nativeProceduralExtraction": true,
+        "generatedByImageGen": false
+      },
+      "styleReference": {
+        "repositoryPath": "assets/art153/interior-workshop-atlas.png",
+        "preparedPath": "references/atlases/interior-workshop-atlas.png",
+        "absolutePath": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "gitBlob": "3057a2f58d27addab9917511c755edcc0ed5931f",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203,
+        "purpose": "material, palette and paint texture only; do not copy atlas layout, camera tilt or adjacent objects"
+      },
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/fodderRack-v0.png",
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+      ],
+      "prompt": "Create ONE original DEADWALL production source sprite: Râtelier à fourrage (fodderRack), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 1.6 m along X by 0.6 m along Y; its separate authored height envelope is 1.3 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: One rectangular wooden fodder rack, plan ratio 1.6:0.6. Preserve its outer timber frame, SIX slender parallel slats running from the upper edge to the lower edge of the image, and muted dry interior traces visible behind them. The long dimension stays horizontal. No hay bale, loose tool, animal, feeding bowl or second rack. Any residual fibre is part of the fixed source illustration, not a harvest pile.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+      "generator": "image_gen.imagegen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true,
+      "iteration": 1
+    },
+    {
+      "key": "milkingUnit",
+      "kind": "milkingUnit",
+      "id": "prop:milkingUnit:v0",
+      "artId": "prop:milkingUnit:v0",
+      "label": "Poste de traite",
+      "file": "milkingUnit_poste_traite.png",
+      "variant": 0,
+      "nativeSpec": {
+        "name": "Poste de traite",
+        "w": 1.1,
+        "h": 0.8,
+        "heightM": 1.6,
+        "sourceDimensions": "author-design:milking-unit",
+        "lootEligible": false,
+        "heightOrigin": "author-design-not-manufacturer-dimension"
+      },
+      "sourceDimensions": "author-design:milking-unit",
+      "sourceKind": "CATALOGUE.milkingUnit",
+      "geometryOwner": "src/codex-furnishings2026.js",
+      "renderOwner": "src/campaign-site-art205.js#specialisedProp",
+      "route": "procedural205",
+      "sourceStatus": "Present in authored agriculture plans only; not an assertion of natural campaign placement.",
+      "existingState": {
+        "proceduralRendererPresent": true,
+        "dedicatedBitmapRegistry": {
+          "world153": null,
+          "interior153": null,
+          "detail157": null
+        },
+        "analogues": [],
+        "notMissingRendering": true,
+        "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+      },
+      "canonicalReference": {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/milkingUnit-v0.png",
+        "preparedPath": "references/canonical/milkingUnit-v0.png",
+        "sha256": "b278f415729b42842633c09e036476e9adfe44d083ca653aec0af2335d73d803",
+        "bytes": 22077,
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 669.090909090909,
+        "prop": {
+          "id": "art233-reference:milkingUnit",
+          "kind": "milkingUnit",
+          "campaign205": true,
+          "x": 0.21521739130434792,
+          "y": 0.36521739130434794,
+          "w": 1.1,
+          "h": 0.8,
+          "rotationRad": 0,
+          "z": 0
+        },
+        "exportedEntryPoint": "DeadwallCampaignSiteArt205.drawProp",
+        "delegatedNativeFunction": "drawPropBase",
+        "rendererSource": "src/campaign-site-art205.js",
+        "variant": 0,
+        "stateAlpha": false,
+        "gameProvided": false,
+        "sourceUnmodified": true,
+        "nativeProceduralExtraction": true,
+        "generatedByImageGen": false
+      },
+      "styleReference": {
+        "repositoryPath": "assets/art153/interior-workshop-atlas.png",
+        "preparedPath": "references/atlases/interior-workshop-atlas.png",
+        "absolutePath": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "gitBlob": "3057a2f58d27addab9917511c755edcc0ed5931f",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203,
+        "purpose": "material, palette and paint texture only; do not copy atlas layout, camera tilt or adjacent objects"
+      },
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/milkingUnit-v0.png",
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+      ],
+      "prompt": "Create ONE original DEADWALL production source sprite: Poste de traite (milkingUnit), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 1.1 m along X by 0.8 m along Y; its separate authored height envelope is 1.6 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: One compact stationary milking unit on its own integrated metal chassis. Preserve ONE oval metal vessel left of centre with its small top cap; the dark hose rises from the vessel toward the upper edge, runs to the right and descends on the RIGHT side. Exactly FOUR small teat-cup components hang together in the LOWER RIGHT portion of the chassis. Preserve their four-part count and source positions. No second vessel, cow, wheeled trolley, loose milk bucket, extra hoses or operating effects.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+      "generator": "image_gen.imagegen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true,
+      "iteration": 1
+    },
+    {
+      "key": "milkVat",
+      "kind": "milkVat",
+      "id": "prop:milkVat:v0",
+      "artId": "prop:milkVat:v0",
+      "label": "Cuve à lait",
+      "file": "milkVat_cuve_lait.png",
+      "variant": 0,
+      "nativeSpec": {
+        "name": "Cuve à lait",
+        "w": 1.5,
+        "h": 1.3,
+        "heightM": 1.8,
+        "sourceDimensions": "author-design:milk-vat",
+        "lootEligible": false,
+        "heightOrigin": "author-design-not-manufacturer-dimension"
+      },
+      "sourceDimensions": "author-design:milk-vat",
+      "sourceKind": "CATALOGUE.milkVat",
+      "geometryOwner": "src/codex-furnishings2026.js",
+      "renderOwner": "src/campaign-site-art205.js#specialisedProp",
+      "route": "procedural205",
+      "sourceStatus": "Present in authored agriculture plans only; not an assertion of natural campaign placement.",
+      "existingState": {
+        "proceduralRendererPresent": true,
+        "dedicatedBitmapRegistry": {
+          "world153": null,
+          "interior153": null,
+          "detail157": null
+        },
+        "analogues": [
+          "waterTank and generic vessels exist as other families; no dedicated typed milkVat bitmap is registered."
+        ],
+        "notMissingRendering": true,
+        "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+      },
+      "canonicalReference": {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/milkVat-v0.png",
+        "preparedPath": "references/canonical/milkVat-v0.png",
+        "sha256": "262513508d0860ff8a667ddae85f8537b27b036e1fdc67ba019c26da3eaa2cd9",
+        "bytes": 45134,
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 490.6666666666667,
+        "prop": {
+          "id": "art233-reference:milkVat",
+          "kind": "milkVat",
+          "campaign205": true,
+          "x": 0.2934782608695652,
+          "y": 0.39347826086956517,
+          "w": 1.5,
+          "h": 1.3,
+          "rotationRad": 0,
+          "z": 0
+        },
+        "exportedEntryPoint": "DeadwallCampaignSiteArt205.drawProp",
+        "delegatedNativeFunction": "drawPropBase",
+        "rendererSource": "src/campaign-site-art205.js",
+        "variant": 0,
+        "stateAlpha": false,
+        "gameProvided": false,
+        "sourceUnmodified": true,
+        "nativeProceduralExtraction": true,
+        "generatedByImageGen": false
+      },
+      "styleReference": {
+        "repositoryPath": "assets/art153/interior-workshop-atlas.png",
+        "preparedPath": "references/atlases/interior-workshop-atlas.png",
+        "absolutePath": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "gitBlob": "3057a2f58d27addab9917511c755edcc0ed5931f",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203,
+        "purpose": "material, palette and paint texture only; do not copy atlas layout, camera tilt or adjacent objects"
+      },
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/milkVat-v0.png",
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+      ],
+      "prompt": "Create ONE original DEADWALL production source sprite: Cuve à lait (milkVat), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 1.5 m along X by 1.3 m along Y; its separate authored height envelope is 1.8 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: One closed stainless milk vat with the rounded slightly wider-than-deep plan silhouette of reference 1. Preserve its inset rounded lid, ONE small pale central inspection cap, the dark seam crossing the lower part, small integrated feet, and the short outlet at the BOTTOM centre turning RIGHT toward the small rust-coloured valve. No extra tank, refrigeration cabinet, ladder, gauge, pipe network, spill or visible milk contents.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+      "generator": "image_gen.imagegen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true,
+      "iteration": 1
+    },
+    {
+      "key": "nestBox",
+      "kind": "nestBox",
+      "id": "prop:nestBox:v0",
+      "artId": "prop:nestBox:v0",
+      "label": "Pondoir",
+      "file": "nestBox_pondoir.png",
+      "variant": 0,
+      "nativeSpec": {
+        "name": "Pondoir",
+        "w": 1.2,
+        "h": 0.5,
+        "heightM": 0.8,
+        "sourceDimensions": "author-design:nest-box",
+        "lootEligible": false,
+        "heightOrigin": "author-design-not-manufacturer-dimension"
+      },
+      "sourceDimensions": "author-design:nest-box",
+      "sourceKind": "CATALOGUE.nestBox",
+      "geometryOwner": "src/codex-furnishings2026.js",
+      "renderOwner": "src/campaign-site-art205.js#specialisedProp",
+      "route": "procedural205",
+      "sourceStatus": "Present in authored agriculture plans only; not an assertion of natural campaign placement.",
+      "existingState": {
+        "proceduralRendererPresent": true,
+        "dedicatedBitmapRegistry": {
+          "world153": null,
+          "interior153": null,
+          "detail157": null
+        },
+        "analogues": [],
+        "notMissingRendering": true,
+        "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+      },
+      "canonicalReference": {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/nestBox-v0.png",
+        "preparedPath": "references/canonical/nestBox-v0.png",
+        "sha256": "7b2a5ed2e43e8b4797312714512ad82b91cc579b42fea31a7011fdd2a85aebf2",
+        "bytes": 15350,
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 613.3333333333334,
+        "prop": {
+          "id": "art233-reference:nestBox",
+          "kind": "nestBox",
+          "campaign205": true,
+          "x": 0.23478260869565215,
+          "y": 0.5847826086956521,
+          "w": 1.2,
+          "h": 0.5,
+          "rotationRad": 0,
+          "z": 0
+        },
+        "exportedEntryPoint": "DeadwallCampaignSiteArt205.drawProp",
+        "delegatedNativeFunction": "drawPropBase",
+        "rendererSource": "src/campaign-site-art205.js",
+        "variant": 0,
+        "stateAlpha": false,
+        "gameProvided": false,
+        "sourceUnmodified": true,
+        "nativeProceduralExtraction": true,
+        "generatedByImageGen": false
+      },
+      "styleReference": {
+        "repositoryPath": "assets/art153/interior-workshop-atlas.png",
+        "preparedPath": "references/atlases/interior-workshop-atlas.png",
+        "absolutePath": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "gitBlob": "3057a2f58d27addab9917511c755edcc0ed5931f",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203,
+        "purpose": "material, palette and paint texture only; do not copy atlas layout, camera tilt or adjacent objects"
+      },
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/nestBox-v0.png",
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+      ],
+      "prompt": "Create ONE original DEADWALL production source sprite: Pondoir (nestBox), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 1.2 m along X by 0.5 m along Y; its separate authored height envelope is 0.8 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: One wooden nesting-box unit, plan ratio 1.2:0.5, exactly THREE side-by-side nesting recesses from LEFT to RIGHT. Keep the dark recesses, muted straw-coloured liners, small pale oval accents already visible in the source, the upper timber panel and the lower perch/rail. No fourth compartment, chicken, freestanding egg tray, loose eggs outside the box, tools or floor.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+      "generator": "image_gen.imagegen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true,
+      "iteration": 1
+    },
+    {
+      "key": "wineVat",
+      "kind": "wineVat",
+      "id": "prop:wineVat:v0",
+      "artId": "prop:wineVat:v0",
+      "label": "Cuve vinicole",
+      "file": "wineVat_cuve_vinicole.png",
+      "variant": 0,
+      "nativeSpec": {
+        "name": "Cuve vinicole",
+        "w": 1.6,
+        "h": 1.6,
+        "heightM": 2.2,
+        "sourceDimensions": "author-design:wine-vat",
+        "lootEligible": false,
+        "heightOrigin": "author-design-not-manufacturer-dimension"
+      },
+      "sourceDimensions": "author-design:wine-vat",
+      "sourceKind": "CATALOGUE.wineVat",
+      "geometryOwner": "src/codex-furnishings2026.js",
+      "renderOwner": "src/campaign-site-art205.js#specialisedProp",
+      "route": "procedural205",
+      "sourceStatus": "Present in authored agriculture plans only; not an assertion of natural campaign placement.",
+      "existingState": {
+        "proceduralRendererPresent": true,
+        "dedicatedBitmapRegistry": {
+          "world153": null,
+          "interior153": null,
+          "detail157": null
+        },
+        "analogues": [
+          "Larger water tanks exist; there is no typed wineVat bitmap."
+        ],
+        "notMissingRendering": true,
+        "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+      },
+      "canonicalReference": {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/wineVat-v0.png",
+        "preparedPath": "references/canonical/wineVat-v0.png",
+        "sha256": "b3d69e067def6225ee35c35e44e684e6ea6ca5675f13b360cf2fef2dc8d1be47",
+        "bytes": 47547,
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 460,
+        "prop": {
+          "id": "art233-reference:wineVat",
+          "kind": "wineVat",
+          "campaign205": true,
+          "x": 0.31304347826086953,
+          "y": 0.31304347826086953,
+          "w": 1.6,
+          "h": 1.6,
+          "rotationRad": 0,
+          "z": 0
+        },
+        "exportedEntryPoint": "DeadwallCampaignSiteArt205.drawProp",
+        "delegatedNativeFunction": "drawPropBase",
+        "rendererSource": "src/campaign-site-art205.js",
+        "variant": 0,
+        "stateAlpha": false,
+        "gameProvided": false,
+        "sourceUnmodified": true,
+        "nativeProceduralExtraction": true,
+        "generatedByImageGen": false
+      },
+      "styleReference": {
+        "repositoryPath": "assets/art153/interior-workshop-atlas.png",
+        "preparedPath": "references/atlases/interior-workshop-atlas.png",
+        "absolutePath": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "gitBlob": "3057a2f58d27addab9917511c755edcc0ed5931f",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203,
+        "purpose": "material, palette and paint texture only; do not copy atlas layout, camera tilt or adjacent objects"
+      },
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/wineVat-v0.png",
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+      ],
+      "prompt": "Create ONE original DEADWALL production source sprite: Cuve vinicole (wineVat), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 1.6 m along X by 1.6 m along Y; its separate authored height envelope is 2.2 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: One closed wine vat with a nearly circular plan within a square 1.6 by 1.6 footprint. Preserve the inset metal lid, ONE small wood-toned central cap, the dark lower seam, small integrated feet, and the short BOTTOM-centre outlet bending RIGHT to the small rust-coloured valve. Follow reference 1, which distinguishes its central cap from the pale milk-vat cap. No separate barrel, grape pile, glass bottle, pipe network, ladder or flowing liquid.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+      "generator": "image_gen.imagegen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true,
+      "iteration": 1
+    },
+    {
+      "key": "wineBarrel",
+      "kind": "wineBarrel",
+      "id": "prop:wineBarrel:v0",
+      "artId": "prop:wineBarrel:v0",
+      "label": "Fût de chai",
+      "file": "wineBarrel_fut_chai.png",
+      "variant": 0,
+      "nativeSpec": {
+        "name": "Fût de chai",
+        "w": 0.8,
+        "h": 0.8,
+        "heightM": 0.95,
+        "sourceDimensions": "author-design:wine-barrel",
+        "lootEligible": false,
+        "heightOrigin": "author-design-not-manufacturer-dimension"
+      },
+      "sourceDimensions": "author-design:wine-barrel",
+      "sourceKind": "CATALOGUE.wineBarrel",
+      "geometryOwner": "src/codex-furnishings2026.js",
+      "renderOwner": "src/campaign-site-art205.js#specialisedProp",
+      "route": "procedural205",
+      "sourceStatus": "Present in authored agriculture plans only; not an assertion of natural campaign placement.",
+      "existingState": {
+        "proceduralRendererPresent": true,
+        "dedicatedBitmapRegistry": {
+          "world153": null,
+          "interior153": null,
+          "detail157": null
+        },
+        "analogues": [
+          "worldPropsYard153 already includes generic metal barrels; this is a new dedicated wooden wineBarrel v0 proposal, not a claim that all barrel art was absent."
+        ],
+        "notMissingRendering": true,
+        "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+      },
+      "canonicalReference": {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/wineBarrel-v0.png",
+        "preparedPath": "references/canonical/wineBarrel-v0.png",
+        "sha256": "21cb64648fdb8ea2ed97c9fb6cb1c7c353771bb59b776271706cdc9c7a4de3d1",
+        "bytes": 30411,
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 920,
+        "prop": {
+          "id": "art233-reference:wineBarrel",
+          "kind": "wineBarrel",
+          "campaign205": true,
+          "x": 0.15652173913043477,
+          "y": 0.15652173913043477,
+          "w": 0.8,
+          "h": 0.8,
+          "rotationRad": 0,
+          "z": 0
+        },
+        "exportedEntryPoint": "DeadwallCampaignSiteArt205.drawProp",
+        "delegatedNativeFunction": "drawPropBase",
+        "rendererSource": "src/campaign-site-art205.js",
+        "variant": 0,
+        "stateAlpha": false,
+        "gameProvided": false,
+        "sourceUnmodified": true,
+        "nativeProceduralExtraction": true,
+        "generatedByImageGen": false
+      },
+      "styleReference": {
+        "repositoryPath": "assets/art153/interior-workshop-atlas.png",
+        "preparedPath": "references/atlases/interior-workshop-atlas.png",
+        "absolutePath": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "gitBlob": "3057a2f58d27addab9917511c755edcc0ed5931f",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203,
+        "purpose": "material, palette and paint texture only; do not copy atlas layout, camera tilt or adjacent objects"
+      },
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/wineBarrel-v0.png",
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+      ],
+      "prompt": "Create ONE original DEADWALL production source sprite: Fût de chai (wineBarrel), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 0.8 m along X by 0.8 m along Y; its separate authored height envelope is 0.95 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: One compact closed wooden wine cask with the rounded plan silhouette in reference 1. Preserve SIX visible lengthwise stave seams running TOP TO BOTTOM and TWO fixed dark metal bands running LEFT TO RIGHT at the source positions. Keep its nearly square 0.8 by 0.8 footprint and exact source orientation. No second cask, support pallet, bottle, loose grape, liquid, label or outside tap. Interpret the native schematic as the design authority; do not substitute an unrelated tall side-view barrel.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+      "generator": "image_gen.imagegen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true,
+      "iteration": 1
+    },
+    {
+      "key": "grapePress",
+      "kind": "grapePress",
+      "id": "prop:grapePress:v0",
+      "artId": "prop:grapePress:v0",
+      "label": "Pressoir",
+      "file": "grapePress_pressoir.png",
+      "variant": 0,
+      "nativeSpec": {
+        "name": "Pressoir",
+        "w": 1.4,
+        "h": 1.2,
+        "heightM": 1.8,
+        "sourceDimensions": "author-design:grape-press",
+        "lootEligible": false,
+        "heightOrigin": "author-design-not-manufacturer-dimension"
+      },
+      "sourceDimensions": "author-design:grape-press",
+      "sourceKind": "CATALOGUE.grapePress",
+      "geometryOwner": "src/codex-furnishings2026.js",
+      "renderOwner": "src/campaign-site-art205.js#specialisedProp",
+      "route": "procedural205",
+      "sourceStatus": "Present in authored agriculture plans only; not an assertion of natural campaign placement.",
+      "existingState": {
+        "proceduralRendererPresent": true,
+        "dedicatedBitmapRegistry": {
+          "world153": null,
+          "interior153": null,
+          "detail157": null
+        },
+        "analogues": [],
+        "notMissingRendering": true,
+        "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+      },
+      "canonicalReference": {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/grapePress-v0.png",
+        "preparedPath": "references/canonical/grapePress-v0.png",
+        "sha256": "341788b3e1315bda6310f6da93a981ffdcbc3bd7d383ebe922b9ac66e27a7b3a",
+        "bytes": 18488,
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 525.7142857142858,
+        "prop": {
+          "id": "art233-reference:grapePress",
+          "kind": "grapePress",
+          "campaign205": true,
+          "x": 0.27391304347826084,
+          "y": 0.3739130434782608,
+          "w": 1.4,
+          "h": 1.2,
+          "rotationRad": 0,
+          "z": 0
+        },
+        "exportedEntryPoint": "DeadwallCampaignSiteArt205.drawProp",
+        "delegatedNativeFunction": "drawPropBase",
+        "rendererSource": "src/campaign-site-art205.js",
+        "variant": 0,
+        "stateAlpha": false,
+        "gameProvided": false,
+        "sourceUnmodified": true,
+        "nativeProceduralExtraction": true,
+        "generatedByImageGen": false
+      },
+      "styleReference": {
+        "repositoryPath": "assets/art153/interior-workshop-atlas.png",
+        "preparedPath": "references/atlases/interior-workshop-atlas.png",
+        "absolutePath": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "gitBlob": "3057a2f58d27addab9917511c755edcc0ed5931f",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203,
+        "purpose": "material, palette and paint texture only; do not copy atlas layout, camera tilt or adjacent objects"
+      },
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/grapePress-v0.png",
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+      ],
+      "prompt": "Create ONE original DEADWALL production source sprite: Pressoir (grapePress), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 1.4 m along X by 1.2 m along Y; its separate authored height envelope is 1.8 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: One compact hand-operated grape press. Preserve the round wooden basket in the lower central area, FIVE visible narrow basket slats, TWO uprights flanking the basket, one upper crossbeam, one vertical central screw and its horizontal T-handle near the TOP edge. Keep the integrated metal frame and small feet within the same outline. No motor, second press, barrel, basket of grapes, spilled juice, loose hand tool or operator.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+      "generator": "image_gen.imagegen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true,
+      "iteration": 1
+    },
+    {
+      "key": "veterinaryTable",
+      "kind": "veterinaryTable",
+      "id": "prop:veterinaryTable:v0",
+      "artId": "prop:veterinaryTable:v0",
+      "label": "Table de soins vétérinaires",
+      "file": "veterinaryTable_table_soins_veterinaires.png",
+      "variant": 0,
+      "nativeSpec": {
+        "name": "Table de soins vétérinaires",
+        "w": 1.3,
+        "h": 0.7,
+        "heightM": 0.85,
+        "sourceDimensions": "author-design:veterinary-table",
+        "lootEligible": false,
+        "heightOrigin": "author-design-not-manufacturer-dimension"
+      },
+      "sourceDimensions": "author-design:veterinary-table",
+      "sourceKind": "CATALOGUE.veterinaryTable",
+      "geometryOwner": "src/codex-furnishings2026.js",
+      "renderOwner": "src/campaign-site-art205.js#specialisedProp",
+      "route": "procedural205",
+      "sourceStatus": "Present in authored agriculture plans only; not an assertion of natural campaign placement.",
+      "existingState": {
+        "proceduralRendererPresent": true,
+        "dedicatedBitmapRegistry": {
+          "world153": null,
+          "interior153": null,
+          "detail157": null
+        },
+        "analogues": [
+          "steelTable and ordinary medical furniture have atlas entries; no dedicated table with this v0 restraint layout is registered."
+        ],
+        "notMissingRendering": true,
+        "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+      },
+      "canonicalReference": {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/veterinaryTable-v0.png",
+        "preparedPath": "references/canonical/veterinaryTable-v0.png",
+        "sha256": "dcbc96a5c38549c0935221cd4ba66e2637e6ad3183df4687d64d9b60552882c9",
+        "bytes": 5788,
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 566.1538461538462,
+        "prop": {
+          "id": "art233-reference:veterinaryTable",
+          "kind": "veterinaryTable",
+          "campaign205": true,
+          "x": 0.2543478260869565,
+          "y": 0.5543478260869565,
+          "w": 1.3,
+          "h": 0.7,
+          "rotationRad": 0,
+          "z": 0
+        },
+        "exportedEntryPoint": "DeadwallCampaignSiteArt205.drawProp",
+        "delegatedNativeFunction": "drawPropBase",
+        "rendererSource": "src/campaign-site-art205.js",
+        "variant": 0,
+        "stateAlpha": false,
+        "gameProvided": false,
+        "sourceUnmodified": true,
+        "nativeProceduralExtraction": true,
+        "generatedByImageGen": false
+      },
+      "styleReference": {
+        "repositoryPath": "assets/art153/interior-workshop-atlas.png",
+        "preparedPath": "references/atlases/interior-workshop-atlas.png",
+        "absolutePath": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "gitBlob": "3057a2f58d27addab9917511c755edcc0ed5931f",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203,
+        "purpose": "material, palette and paint texture only; do not copy atlas layout, camera tilt or adjacent objects"
+      },
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/veterinaryTable-v0.png",
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+      ],
+      "prompt": "Create ONE original DEADWALL production source sprite: Table de soins vétérinaires (veterinaryTable), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 1.3 m along X by 0.7 m along Y; its separate authored height envelope is 0.85 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: One narrow stainless veterinary treatment table. Preserve the pale rectangular tabletop, TWO muted olive restraint straps running TOP TO BOTTOM at roughly one-third and two-thirds of the width, their two central metal buckles, and the single small folded pad already present at the UPPER LEFT. Four integrated feet may be visible only as small source-aligned supports. No animal, person, instruments, cabinet, IV stand or loose equipment.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+      "generator": "image_gen.imagegen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true,
+      "iteration": 1
+    },
+    {
+      "key": "growingBench",
+      "kind": "growingBench",
+      "id": "prop:growingBench:v0",
+      "artId": "prop:growingBench:v0",
+      "label": "Table de semis",
+      "file": "growingBench_table_semis.png",
+      "variant": 0,
+      "nativeSpec": {
+        "name": "Table de semis",
+        "w": 1.6,
+        "h": 0.7,
+        "heightM": 0.85,
+        "sourceDimensions": "author-design:growing-bench",
+        "lootEligible": false,
+        "heightOrigin": "author-design-not-manufacturer-dimension"
+      },
+      "sourceDimensions": "author-design:growing-bench",
+      "sourceKind": "CATALOGUE.growingBench",
+      "geometryOwner": "src/codex-furnishings2026.js",
+      "renderOwner": "src/campaign-site-art205.js#specialisedProp",
+      "route": "procedural205",
+      "sourceStatus": "Present in authored agriculture plans only; not an assertion of natural campaign placement.",
+      "existingState": {
+        "proceduralRendererPresent": true,
+        "dedicatedBitmapRegistry": {
+          "world153": null,
+          "interior153": null,
+          "detail157": null
+        },
+        "analogues": [
+          "Generic crops and greenhouse art exist; no dedicated typed growingBench bitmap is registered."
+        ],
+        "notMissingRendering": true,
+        "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+      },
+      "canonicalReference": {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/growingBench-v0.png",
+        "preparedPath": "references/canonical/growingBench-v0.png",
+        "sha256": "de95d296fc7bd0a054bdeb53b97366248512d43928b8fc3178263f0f9357603b",
+        "bytes": 23868,
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 460,
+        "prop": {
+          "id": "art233-reference:growingBench",
+          "kind": "growingBench",
+          "campaign205": true,
+          "x": 0.31304347826086953,
+          "y": 0.7630434782608696,
+          "w": 1.6,
+          "h": 0.7,
+          "rotationRad": 0,
+          "z": 0
+        },
+        "exportedEntryPoint": "DeadwallCampaignSiteArt205.drawProp",
+        "delegatedNativeFunction": "drawPropBase",
+        "rendererSource": "src/campaign-site-art205.js",
+        "variant": 0,
+        "stateAlpha": false,
+        "gameProvided": false,
+        "sourceUnmodified": true,
+        "nativeProceduralExtraction": true,
+        "generatedByImageGen": false
+      },
+      "styleReference": {
+        "repositoryPath": "assets/art153/interior-workshop-atlas.png",
+        "preparedPath": "references/atlases/interior-workshop-atlas.png",
+        "absolutePath": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "gitBlob": "3057a2f58d27addab9917511c755edcc0ed5931f",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203,
+        "purpose": "material, palette and paint texture only; do not copy atlas layout, camera tilt or adjacent objects"
+      },
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/growingBench-v0.png",
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+      ],
+      "prompt": "Create ONE original DEADWALL production source sprite: Table de semis (growingBench), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 1.6 m along X by 0.7 m along Y; its separate authored height envelope is 0.85 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: One raised seed-starting bench with timber tray, metal rim, two narrow side rails and four integrated support feet. Preserve the dark rectangular growing surface and exactly TWELVE small seedling groups in a THREE-ROW by FOUR-COLUMN arrangement, as reference 1. Long axis horizontal. No additional pot, watering can, greenhouse, sack, detached tool or ground patch. It is a fixed idle source illustration, not an active growth or harvest state.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+      "generator": "image_gen.imagegen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true,
+      "iteration": 1
+    },
+    {
+      "key": "growingBed",
+      "kind": "growingBed",
+      "id": "prop:growingBed:v0",
+      "artId": "prop:growingBed:v0",
+      "label": "Bac de culture",
+      "file": "growingBed_bac_culture.png",
+      "variant": 0,
+      "nativeSpec": {
+        "name": "Bac de culture",
+        "w": 1.8,
+        "h": 0.7,
+        "heightM": 0.65,
+        "sourceDimensions": "author-design:growing-bed",
+        "lootEligible": false,
+        "heightOrigin": "author-design-not-manufacturer-dimension"
+      },
+      "sourceDimensions": "author-design:growing-bed",
+      "sourceKind": "CATALOGUE.growingBed",
+      "geometryOwner": "src/codex-furnishings2026.js",
+      "renderOwner": "src/campaign-site-art205.js#specialisedProp",
+      "route": "procedural205",
+      "sourceStatus": "Present in authored agriculture plans only; not an assertion of natural campaign placement.",
+      "existingState": {
+        "proceduralRendererPresent": true,
+        "dedicatedBitmapRegistry": {
+          "world153": null,
+          "interior153": null,
+          "detail157": null
+        },
+        "analogues": [
+          "Generic planted crops exist; no dedicated typed low growingBed bitmap is registered."
+        ],
+        "notMissingRendering": true,
+        "publishedArt222To232": "No overlap: those 69 proposals cover exterior buildings, not this typed prop v0."
+      },
+      "canonicalReference": {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/growingBed-v0.png",
+        "preparedPath": "references/canonical/growingBed-v0.png",
+        "sha256": "87e133e24a0311b7b5110e00e44100c4ed0ff4e949cd00e4b8b034d60e19ad8c",
+        "bytes": 22587,
+        "width": 1024,
+        "height": 1024,
+        "pixelsPerMetre": 408.88888888888886,
+        "prop": {
+          "id": "art233-reference:growingBed",
+          "kind": "growingBed",
+          "campaign205": true,
+          "x": 0.35217391304347834,
+          "y": 0.9021739130434784,
+          "w": 1.8,
+          "h": 0.7,
+          "rotationRad": 0,
+          "z": 0
+        },
+        "exportedEntryPoint": "DeadwallCampaignSiteArt205.drawProp",
+        "delegatedNativeFunction": "drawPropBase",
+        "rendererSource": "src/campaign-site-art205.js",
+        "variant": 0,
+        "stateAlpha": false,
+        "gameProvided": false,
+        "sourceUnmodified": true,
+        "nativeProceduralExtraction": true,
+        "generatedByImageGen": false
+      },
+      "styleReference": {
+        "repositoryPath": "assets/art153/interior-workshop-atlas.png",
+        "preparedPath": "references/atlases/interior-workshop-atlas.png",
+        "absolutePath": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "gitBlob": "3057a2f58d27addab9917511c755edcc0ed5931f",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203,
+        "purpose": "material, palette and paint texture only; do not copy atlas layout, camera tilt or adjacent objects"
+      },
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/growingBed-v0.png",
+        "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+      ],
+      "prompt": "Create ONE original DEADWALL production source sprite: Bac de culture (growingBed), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 1.8 m along X by 0.7 m along Y; its separate authored height envelope is 0.65 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: One low rectangular wooden growing box with broad timber rim and narrow reinforcement strips along the upper and lower long edges. Preserve the dark interior and exactly TWELVE small seedling groups in a THREE-ROW by FOUR-COLUMN arrangement. Long axis horizontal. Unlike the seed bench, this source has NO tall bench legs, no metal side rails, and no freestanding table frame. No additional pot, watering can, greenhouse, sack, tool or soil island.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+      "generator": "image_gen.imagegen",
+      "transparentBackgroundRequested": true,
+      "promptIsVerbatim": true,
+      "iteration": 1
+    }
+  ]
+}

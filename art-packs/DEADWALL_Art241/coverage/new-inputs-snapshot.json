@@ -1,0 +1,2574 @@
+{
+  "sourceMainRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "publicationParent": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+  "publicationParentTree": "33d089eab2bb23f288e66d57c2794f6a38b3ba84",
+  "inputs": [
+    {
+      "path": "art239-prep/README.md",
+      "sha256": "d676edb1b16727f316c7296210a818d12cea838966e447d927bef34ca181ed59",
+      "bytes": 6877,
+      "gitBlobCalculated": "e8c0670c1ce69cb8d2825f9421b53d08a028e54c",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:receipt-bound-document"
+      ]
+    },
+    {
+      "path": "art239-prep/alpha-history.json",
+      "sha256": "17f3c6ac96a5fce753eebfd095c8cde6557c74409bc7cac0add99e4029baabc0",
+      "bytes": 13889,
+      "gitBlobCalculated": "63d265ace1dc3bcad9909b758cdea291fa74f933",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:receipt-bound-document"
+      ]
+    },
+    {
+      "path": "art239-prep/alpha-review.json",
+      "sha256": "44661d0b5fb5f8c131219b5dc98d2c86c1237060db20615b1dad7720cbb6b27c",
+      "bytes": 10111,
+      "gitBlobCalculated": "d366c7046957dbd1ef0d058da4558ecdf0bc6a17",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:receipt-bound-document"
+      ]
+    },
+    {
+      "path": "art239-prep/calls/fence_v1-iteration-01-input.json",
+      "sha256": "9137d0adc92036599fe672cf13eba5ded60bbd9385249f9c528ccb998f94e695",
+      "bytes": 3183,
+      "gitBlobCalculated": "45ef46a1a8bda094ae9d3ad50e1c8a263d9076da",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/calls/fence_v1-iteration-01-output.json",
+      "sha256": "2030c869bace9c2c1b9769036ad37d4283b8b0b5edfb9dfda1c321726abfc03d",
+      "bytes": 725,
+      "gitBlobCalculated": "03347778e5e8c0b411a4c35ea354ad0c8dbb20d4",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/calls/fence_v2-iteration-01-input.json",
+      "sha256": "e286cebcd1c16a844e8be36e06f9573b4dee5ccf90f5447d3e7121c3bdd01c6f",
+      "bytes": 3183,
+      "gitBlobCalculated": "23dda8d6e8d491798d558c93d5e9625a9bd9e20c",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/calls/fence_v2-iteration-01-output.json",
+      "sha256": "8b2eab7869c464a296cc24cdb1ceb1ef9afe9803a42adaa51d4116f7265abc4b",
+      "bytes": 729,
+      "gitBlobCalculated": "ae9910f1ac61b4deb26aab57fa30b9e4ad36bf80",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/calls/fence_v2-iteration-02-input.json",
+      "sha256": "3a724eb80253849dd1bb081d522ade9738dd88f424315dd3126132fe66570dcd",
+      "bytes": 2922,
+      "gitBlobCalculated": "e910bd66127229e6038e4b7c5d55b08199255441",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/calls/fence_v2-iteration-02-output.json",
+      "sha256": "1e405130f3940b23048ed7c9f197239812c55d110e7594e0e030b88df9d3788c",
+      "bytes": 729,
+      "gitBlobCalculated": "fd044cceb38eea7782c3befc678a53dabdbbe97e",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/calls/fence_v2-iteration-03-input.json",
+      "sha256": "299e137ff3758c6ead85ba45c5821403bc5bea9722c56671c0d3807efad61ad8",
+      "bytes": 3323,
+      "gitBlobCalculated": "be4643e7bdacc47dbf957518970cc95ed717428f",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/calls/fence_v2-iteration-03-output.json",
+      "sha256": "912ba9b768e841b1332c4684015ec21f38ce65f3de99d32d8a5de22d12bb6354",
+      "bytes": 729,
+      "gitBlobCalculated": "35a6f27ee2b289001030f7ad5c2a48a1d4f8c30d",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/calls/garden-shed_v1-iteration-01-input.json",
+      "sha256": "cb5474dbf256f0f42e70c1f84c569595ebc4c2c09dc5ec7a3d6435f7b1fc6a53",
+      "bytes": 3194,
+      "gitBlobCalculated": "bea7440e1e0afb417cf328cbeb119cdd038ab634",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/calls/garden-shed_v1-iteration-01-output.json",
+      "sha256": "3c9e8746580d471f85d0ec2e7158008f052a54b1f97ef403959fafdbf408ec00",
+      "bytes": 729,
+      "gitBlobCalculated": "c6d2b2cda4aefe82e5ff029c957116a20edc8ec2",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/calls/garden-shed_v2-iteration-01-input.json",
+      "sha256": "dc8dd427e706564dfab852e9aea5fb78f103af72c1f9b40ed810f3996099c8b8",
+      "bytes": 3332,
+      "gitBlobCalculated": "1ccc847606fe1643390136df7103329c87042831",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/calls/garden-shed_v2-iteration-01-output.json",
+      "sha256": "0589649c5a506007cb8622073d66fd8e6301a05ed46681cab3da8e593f95f14b",
+      "bytes": 730,
+      "gitBlobCalculated": "111d07b6d89a8d9751e6c7f8e52bfd542e8ccaf2",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/calls/rain-barrel_v1-iteration-01-input.json",
+      "sha256": "075d1ca51fba148bb7e27ef8602be20475242ebd5d907de1280980836ad7a7de",
+      "bytes": 3248,
+      "gitBlobCalculated": "0122961ca0e6b43042a623edad24f6de8df9e175",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/calls/rain-barrel_v1-iteration-01-output.json",
+      "sha256": "f5475b70e0b2b19345634a593906f65345943d92ba54fc71749511533b786ee5",
+      "bytes": 728,
+      "gitBlobCalculated": "0c60eb805a7deafd1391e9ff8c52a6e695589e1c",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/calls/rain-barrel_v2-iteration-01-input.json",
+      "sha256": "53ebc3735b0fe59fb87aa17c03edc162f2766222480746d0a2418083a0435b25",
+      "bytes": 3315,
+      "gitBlobCalculated": "a5f3101be65f55af61bb5beadb7591df269ca8b8",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/calls/rain-barrel_v2-iteration-01-output.json",
+      "sha256": "dae31610453424735beed34ee2b9dda913cd25b3e7cca0dbe63002980d843fe5",
+      "bytes": 734,
+      "gitBlobCalculated": "1ff7fc022e0e71d6f01dfedf13667efc47a7dc6e",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/canonical-render-receipt.json",
+      "sha256": "abbcbebccdeda1f52dea87ec33be97e6d93186b0228f7df296cc9d276d1b4a74",
+      "bytes": 19938,
+      "gitBlobCalculated": "42f48c69b3ed2558faece1cb732b3b9c4ed639c2",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:canonical",
+        "Art239:receipt-bound-document"
+      ]
+    },
+    {
+      "path": "art239-prep/correction-rationale.json",
+      "sha256": "b6ce33326984d22d506fd8a8b3f76da1a21c89adfd345b31f50cffd074d8327e",
+      "bytes": 582,
+      "gitBlobCalculated": "37bfa1ef3f959f9bbc66dfed809ef90a68fceb73",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/fence-v2-iteration-02-alpha.json",
+      "sha256": "654faa5dff0545e33544b3d50e56fed82e6bfc465666d11dc22afe8b22a131e8",
+      "bytes": 1973,
+      "gitBlobCalculated": "71177e9ab54fd0eb27daa5451b627c07b2714cc9",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/fence-v2-iteration-02-review.json",
+      "sha256": "bad00bf85dac2772994c18aaba1064516a85b47a5d4a9df035bc1c69f2869bfd",
+      "bytes": 869,
+      "gitBlobCalculated": "310ade6e4e89921e26a8ada31ba6cc5d5aa99459",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/fence-v2-iteration-03-alpha.json",
+      "sha256": "b139ea17bbb580cc1de8542b7663f68124fd9daab83381784f0bd540c636e714",
+      "bytes": 2034,
+      "gitBlobCalculated": "f3f240d990ca12ecb0ccbdb4ac2f539792651c49",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/finalize-records.py",
+      "sha256": "99e1c95b4d0e9ec35a8613493af5d4c0ecfbee1eb7f765193fec39fa5daa70da",
+      "bytes": 18500,
+      "gitBlobCalculated": "417ddf0b93a4f5792be648b47e85e0a08d814782",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/freeze-manifest.json",
+      "sha256": "7b0fa3af03c92069582aed9c1831422c02ee80708df2cfcb2c66008203f43a15",
+      "bytes": 17215,
+      "gitBlobCalculated": "f5263fc6383897c027b0a6902d049ef0f2b16f71",
+      "roles": [
+        "Art239:author-freeze-manifest"
+      ]
+    },
+    {
+      "path": "art239-prep/geometry-audit.json",
+      "sha256": "19374ec04d25233296a7c4748d8cdb97ff08d5a434c9e8ce5eeceac7cc714606",
+      "bytes": 4280,
+      "gitBlobCalculated": "c5e21a5a170c7e0ec107f15b3e3ab3b5f0550353",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:receipt-bound-document"
+      ]
+    },
+    {
+      "path": "art239-prep/guidance/create-game-assets-SKILL.md",
+      "sha256": "36cd246a434fefe1e36feff066597a6268d9f63364bee387ee65a22f03838b5d",
+      "bytes": 8152,
+      "gitBlobCalculated": "e2e6ecad398e46b0a8b4f910ec75b82885505f8b",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/guidance/provenance.json",
+      "sha256": "926d27cd99f6edcb608059b8c5acf45858d00ba1a5ff919ffe3227810f1e3077",
+      "bytes": 1035,
+      "gitBlobCalculated": "b9ca50bedad71fd660c4f4eef72bc8021f7955b3",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/guidance/raster-pipeline.md",
+      "sha256": "d7a5714628fd8f4b66d03e060488e353b163b811112b164af218beb2b6450a02",
+      "bytes": 4236,
+      "gitBlobCalculated": "d4baad060963b877e56ca809260bbdaecdbe87db",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/handoff-receipt.json",
+      "sha256": "e5c8e223348bebd6f331fee514c4cf70976a5c68bb097e3c7d2a9164f2c7f653",
+      "bytes": 3088,
+      "gitBlobCalculated": "404c7a47882ea62125b583b95c9c68f93d90212e",
+      "roles": [
+        "Art239:author-receipt"
+      ]
+    },
+    {
+      "path": "art239-prep/history-results.json",
+      "sha256": "0c2fefef0cf77183d1df3e5f458b74fdc6158ca7b7d7528284e66a51460bc8a5",
+      "bytes": 65669,
+      "gitBlobCalculated": "096dbccedcfbb27a8ada8c42e401511bfb44a968",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:history",
+        "Art239:receipt-bound-document"
+      ]
+    },
+    {
+      "path": "art239-prep/initial-results.json",
+      "sha256": "0d9263c10f950295f46193f8c12e6a2ff84dfa07e343c0d03230fd2d3b88004e",
+      "bytes": 48553,
+      "gitBlobCalculated": "0a26825adfac67153fc371f41796fce269eec1a9",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/iteration-review.json",
+      "sha256": "2a63b2d53403c6e06448e4d665ac2fcc7159825bdae04ac8b8c2c561b93e4412",
+      "bytes": 29843,
+      "gitBlobCalculated": "d386649975f5342248a065bafc33ca100617522d",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:receipt-bound-document"
+      ]
+    },
+    {
+      "path": "art239-prep/outputs/iteration-01/fence_cloture_croisillons_metal_v2.png",
+      "sha256": "2be6d0ff6d2cf2d60944c2e893a2fb7a730f99d4beb873ddc31a75263cd72c4e",
+      "bytes": 148417,
+      "gitBlobCalculated": "e2c5fea10903acd0ad670215c4620f5e957fc73a",
+      "roles": [
+        "Art239:actual-generation-reference",
+        "Art239:author-frozen-file",
+        "Art239:native-output"
+      ]
+    },
+    {
+      "path": "art239-prep/outputs/iteration-01/fence_cloture_renforts_bois_v1.png",
+      "sha256": "88b6ee1653066ce236aab1fd19693e14286f9aa63930571619f8d3f2f1bedad3",
+      "bytes": 167835,
+      "gitBlobCalculated": "1b651f67b8269621fca655617a7a6afacd3f5c45",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:native-output"
+      ]
+    },
+    {
+      "path": "art239-prep/outputs/iteration-01/garden-shed_toiture_metal_v1.png",
+      "sha256": "6b4b84fc1a71cd08e7d7aabd53b5f35c8afef5b22dbd811608f463823af32074",
+      "bytes": 1294875,
+      "gitBlobCalculated": "517925a44ecb007002742b1a79c0d94b839a4d06",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:native-output"
+      ]
+    },
+    {
+      "path": "art239-prep/outputs/iteration-01/garden-shed_toiture_pieces_v2.png",
+      "sha256": "17c9f528b7a4b712b18af839e62b31bc38ce30ee16c14b18d32e2f1d8b821801",
+      "bytes": 1433741,
+      "gitBlobCalculated": "1e8cff503b80c73321119e0286810fd84f9b31cf",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:native-output"
+      ]
+    },
+    {
+      "path": "art239-prep/outputs/iteration-01/rain-barrel_disque_metal_v1.png",
+      "sha256": "cb2f2395e0d0e67bdcdd92458e317558a75ce811e394f0a9cd307740f8d6fb40",
+      "bytes": 1290918,
+      "gitBlobCalculated": "1d9c5657918235052f7f74262c4ba62014890fb4",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:native-output"
+      ]
+    },
+    {
+      "path": "art239-prep/outputs/iteration-01/rain-barrel_traverse_diagonale_v2.png",
+      "sha256": "c271376c312da5491b18783f0d5a9eecc7f8ddad97bbf3eb19b952493fea2159",
+      "bytes": 1086419,
+      "gitBlobCalculated": "1e6f89389257bf8fe0b9c8fb0cf830c3599423ad",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:native-output"
+      ]
+    },
+    {
+      "path": "art239-prep/outputs/iteration-02/fence_cloture_croisillons_metal_v2.png",
+      "sha256": "860fa7c57994fa212c87f115501b711aa5dc6089a2858b18ebfb296fb5d31d0c",
+      "bytes": 404140,
+      "gitBlobCalculated": "99486cc70ef613fa9f435f77b7e51a6f5f454ccb",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:native-output"
+      ]
+    },
+    {
+      "path": "art239-prep/outputs/iteration-03/fence_cloture_croisillons_metal_v2.png",
+      "sha256": "2f871f6f1d70b64ecb99842a8cd03413c9ed049b3e19ffa45444d13cb1d3b78f",
+      "bytes": 162683,
+      "gitBlobCalculated": "acc7a045ed4f3f426c0b7660477bc0752fcbac45",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:native-output"
+      ]
+    },
+    {
+      "path": "art239-prep/pre-correction-records/README.md",
+      "sha256": "cb44caadd580259448551fef39dc409d73b288a040b2f9fb3a349d993a265661",
+      "bytes": 5653,
+      "gitBlobCalculated": "428c2a117c50018b09dd11f58b8eeadaa99206a0",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/pre-correction-records/freeze-manifest.json",
+      "sha256": "8171ce188695dfa78d3edbcf8a19063323f18944ece4daec820377178fdf5d36",
+      "bytes": 13067,
+      "gitBlobCalculated": "207378b3427ae44ab0a9e4b056b066bbfd32f442",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/pre-correction-records/handoff-receipt.json",
+      "sha256": "924819ba3d83c44811ea43c91988ccc8255656578717ae104a3d4e6ca0693814",
+      "bytes": 1833,
+      "gitBlobCalculated": "b1581582040261b7ce194cd0146cf57d8363914e",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/pre-correction-records/history-results.json",
+      "sha256": "2899c3c46ccd54e5826f4cabf91f28f2463ae0bacb886a2ddbda85a74bf0629c",
+      "bytes": 48535,
+      "gitBlobCalculated": "731b279159ca1154c842e7314b912fb4db4ef720",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/pre-correction-records/iteration-review.json",
+      "sha256": "1317699537d4fde5280165cf0962b34525948e0bc57e2d614e689719d0a6018d",
+      "bytes": 21521,
+      "gitBlobCalculated": "d68dc6261556915e8e14d611c092822e973a3365",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/pre-correction-records/prepare.cjs",
+      "sha256": "e8ecffa6f96955767eb5eca4a29e4402071dc6ca5e1923edfea8a2d0c67af53b",
+      "bytes": 18162,
+      "gitBlobCalculated": "cdc36199b371d849905c97e21e211a9aef07f621",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/pre-correction-records/results.json",
+      "sha256": "2899c3c46ccd54e5826f4cabf91f28f2463ae0bacb886a2ddbda85a74bf0629c",
+      "bytes": 48535,
+      "gitBlobCalculated": "731b279159ca1154c842e7314b912fb4db4ef720",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/pre-correction-records/review.json",
+      "sha256": "deccdc76a40b8c270b7947cbf3ae99412c407269cbfb8e187c5ca44622902e00",
+      "bytes": 21617,
+      "gitBlobCalculated": "a4935d7afdc80a66388ec32ca61339c406a629dd",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/pre-correction-records/selection-and-prompts.json",
+      "sha256": "853bfe4e811ceea8f7d32ad9a6246c6117ee44a1863b1d53dd506aee8850950b",
+      "bytes": 68644,
+      "gitBlobCalculated": "a7204869fc277133d4b25149e8f01433bbdd1e1b",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/prepare.cjs",
+      "sha256": "e8ecffa6f96955767eb5eca4a29e4402071dc6ca5e1923edfea8a2d0c67af53b",
+      "bytes": 18162,
+      "gitBlobCalculated": "cdc36199b371d849905c97e21e211a9aef07f621",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/reference-inspections.json",
+      "sha256": "6ff0aa91aed00ee8a6554b10468a0272df868af69ae9aa22d0bcc37bff6d1f1b",
+      "bytes": 6809,
+      "gitBlobCalculated": "0fb85d845430805a6b0cba78d8c6d2f4c3ae5115",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/references/canonical/fence_v0.png",
+      "sha256": "c5213ff0daa33c3b02ad4f067f98e1d746e53b91dbd592e52ab7425bf6443eeb",
+      "bytes": 5712,
+      "gitBlobCalculated": "e29fe17f64ca074bf5877cde785a21ff2947910d",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/references/canonical/fence_v1.png",
+      "sha256": "340f4aa5750d99963c1662d8cf40511140470b71df89073507904a76c98110a6",
+      "bytes": 8375,
+      "gitBlobCalculated": "df25b71f327ddf01e78ccf86b936d171e4855b98",
+      "roles": [
+        "Art239:actual-generation-reference",
+        "Art239:author-frozen-file",
+        "Art239:canonical-reference"
+      ]
+    },
+    {
+      "path": "art239-prep/references/canonical/fence_v2.png",
+      "sha256": "ccd28aec3c0f5e77875436eea808ae3cbee34b61f2e6e89a388ec231ae1e8b50",
+      "bytes": 9297,
+      "gitBlobCalculated": "5dbcbb987f59bd79aec3b400b22854b27e7395da",
+      "roles": [
+        "Art239:actual-generation-reference",
+        "Art239:author-frozen-file",
+        "Art239:canonical-reference"
+      ]
+    },
+    {
+      "path": "art239-prep/references/canonical/garden-shed_v0.png",
+      "sha256": "32fdd32d212f3ef9e3c278c9603b9a24b1c794d0a7adbd5cd86c263cf75829c9",
+      "bytes": 23066,
+      "gitBlobCalculated": "929df0e409c3e7541bab60aa61a9a5768785292a",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/references/canonical/garden-shed_v1.png",
+      "sha256": "ae188121c83fcd18d35ca34512e3d2bd1557dc4510c82433627e17d2c7ed14dd",
+      "bytes": 7704,
+      "gitBlobCalculated": "74a99740f646b8dfdb2bcc147c27e793e37d116d",
+      "roles": [
+        "Art239:actual-generation-reference",
+        "Art239:author-frozen-file",
+        "Art239:canonical-reference"
+      ]
+    },
+    {
+      "path": "art239-prep/references/canonical/garden-shed_v2.png",
+      "sha256": "fea30836d637dd5abf445f56db7b3b7f5c0222a6df46675de2032ccabc3fe9a4",
+      "bytes": 8749,
+      "gitBlobCalculated": "0ca32c36231304f14a97e92b811c920164eb9aa2",
+      "roles": [
+        "Art239:actual-generation-reference",
+        "Art239:author-frozen-file",
+        "Art239:canonical-reference"
+      ]
+    },
+    {
+      "path": "art239-prep/references/canonical/rain-barrel_v0.png",
+      "sha256": "97978adf2f4b16e3863f16dfb25a467905305d4a4352240786cd9fad4879abcf",
+      "bytes": 47023,
+      "gitBlobCalculated": "e9741faf0e04efd96b27915dd447064cdbf3cfbd",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/references/canonical/rain-barrel_v1.png",
+      "sha256": "9c6ef348c08415512baf4faaf1102a7fede3f48a0559ea49bd38a5bbc2f7c114",
+      "bytes": 60327,
+      "gitBlobCalculated": "746f08c7682662422bee782d8040915cf31c0d98",
+      "roles": [
+        "Art239:actual-generation-reference",
+        "Art239:author-frozen-file",
+        "Art239:canonical-reference"
+      ]
+    },
+    {
+      "path": "art239-prep/references/canonical/rain-barrel_v2.png",
+      "sha256": "44860290361ec9830b0f0fb274a86d0c705042206287f2537965e1eab106316b",
+      "bytes": 53875,
+      "gitBlobCalculated": "2511922d1c00be396bcc947c59d57d8c2ac4c50a",
+      "roles": [
+        "Art239:actual-generation-reference",
+        "Art239:author-frozen-file",
+        "Art239:canonical-reference"
+      ]
+    },
+    {
+      "path": "art239-prep/references/provenance/late-direct-remote-commit-check.json",
+      "sha256": "25416eba971b14377c488c6786b8fdc303cb1b7ffdfebfd517a58a8a5fd483aa",
+      "bytes": 7537,
+      "gitBlobCalculated": "ca3ded7ee9bd5c22c741378b34e753e897c24248",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/references/provenance/remote-commit-verification.json",
+      "sha256": "f4af79d509645b827d1a14ab1d39544999c47843444a0ba5bfd9d01329cb297c",
+      "bytes": 783,
+      "gitBlobCalculated": "dd9b2e95ceeb0ff1e784d05c80f1bf7f81a4c3f8",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/references/provenance/root-independent-remote-review.json",
+      "sha256": "1f5694bc9b806387a6fdfb5f6ac3d710f04b6bc7535b4505ec25fd82a6d5b426",
+      "bytes": 17643,
+      "gitBlobCalculated": "0233098330cfb903a9516218adafcabd36987cf1",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/references/repository/AGENTS.md",
+      "sha256": "7d02c6bd7f9c6a8e04c4c18680f9539109ecbc943f240de12a536ab9a8a8ab13",
+      "bytes": 4190,
+      "gitBlobCalculated": "9fc35b328129aa19d57642dd6f78b913b94f17aa",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art239-prep/references/repository/assets/art153/PROPS_PROVENANCE.json",
+      "sha256": "b6e8aa735f723d82e14824f5114daaa60372f1836ba019a55ccf921a5adce107",
+      "bytes": 38737,
+      "gitBlobCalculated": "8ed32a67a5b514ca8e6c4b8a09a4a0e4e42645b5",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art239-prep/references/repository/assets/art153/props-yard.png",
+      "sha256": "ca1039feaf685e05341bb8b20da56049de409dbf11a3450de042de507288a35c",
+      "bytes": 2554149,
+      "gitBlobCalculated": "ed3d23edb190584560287cf39b1bceae3b635ecb",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art239-prep/references/repository/assets/art157/PROVENANCE.json",
+      "sha256": "381ed20c4e2e6fe09ba1d8d0d20173a3f0f0875dd02309dd7bb6ed93fb2bb4f2",
+      "bytes": 114883,
+      "gitBlobCalculated": "75fd837aac8d9d7bb0398533aa601e49c47e1fd8",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art239-prep/references/repository/assets/art157/yard-atlas.png",
+      "sha256": "bc59caf35959c0074987e50d4a2059f63e0e17d8725d21e6b1a0b8a2ffcff6b1",
+      "bytes": 2018982,
+      "gitBlobCalculated": "d3f0b43f144d3a13e1949ec87b642857a64cad39",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art239-prep/references/repository/assets/art158/PROVENANCE.json",
+      "sha256": "a0db76f012817a3eac49e8283e1b9d52bff172b833ec3553c914de987c592df4",
+      "bytes": 30752,
+      "gitBlobCalculated": "8cd13996f4b0d22b86304dbe2ccb497d62d88a18",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art239-prep/references/repository/assets/art158/details.png",
+      "sha256": "f2885adc46fbf9616b49a28eb5b3f1ea72d5625f9be2838b345cd0e6025e59cf",
+      "bytes": 1843048,
+      "gitBlobCalculated": "97efcb38976e839ff502fee9cd30255efdc47c4b",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art239-prep/references/repository/docs/ARCHITECTURE.md",
+      "sha256": "880657b6abfc044a3ef534d8a092ad9a20ad3a0a2a9024bdbbea6642d8eb3f3c",
+      "bytes": 57076,
+      "gitBlobCalculated": "63b12166f52109d70bf95637b48a96c23f8260fc",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art239-prep/references/repository/docs/BALANCING.md",
+      "sha256": "5caf2749d57201a01f9aafa80de8a3e70e0579a01895283e6d5b05abdc526088",
+      "bytes": 37720,
+      "gitBlobCalculated": "1b668d20d6e60c7cb05c721e37d396d4a05f5781",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art239-prep/references/repository/docs/CODEX_MASTER_PROMPT.md",
+      "sha256": "9c0280c574ad13d7ba03cb4391713411e8eb8fcdbcc4cc94f2609f277c727c6d",
+      "bytes": 5269,
+      "gitBlobCalculated": "1b15347772ed2da3b22cd33fe572792255db9d51",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art239-prep/references/repository/docs/GAMEDEV_GUIDANCE.md",
+      "sha256": "0b2df8233ea2c49ff0c1fd959cf43bac8d1245fb6900334e42cb541b0d2f0144",
+      "bytes": 24935,
+      "gitBlobCalculated": "922952410a6d7efa4eb28c48fc1b4101457e1e55",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art239-prep/references/repository/docs/GAME_BIBLE.md",
+      "sha256": "3f6f48befcd5408e03ab4ed0c79a68a040cac48c09f087545e334f0b3c738890",
+      "bytes": 98486,
+      "gitBlobCalculated": "f13043eae6cad2d009c9287c80f02b6bfb926ef7",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art239-prep/references/repository/docs/GAME_DESIGN.md",
+      "sha256": "3f5ce6afc19ca49f5ffe239eee67b7258078098e8d0477a5ef62fd2fc8fd65f9",
+      "bytes": 15746,
+      "gitBlobCalculated": "31bca14159be0eac8986c8e50540936e9482b8e9",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art239-prep/references/repository/docs/ORIGINAL_BRIEF.txt",
+      "sha256": "64fe23e910f065cdd6ce4f8f84fcc8efd6894d923122c086cd7b16f599492297",
+      "bytes": 1283,
+      "gitBlobCalculated": "4a1d493b07b8094dbaabd21b2682615f7a372af5",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art239-prep/references/repository/docs/codex/suivi-monde2026/RESIDENTIEL_2026.md",
+      "sha256": "71e3b672505516af97c91b0e8b9c493de189076f764cacbb2e5450eb5095308c",
+      "bytes": 9436,
+      "gitBlobCalculated": "225f7f6253ce233d8e8561e734d7c6d58f9f5006",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art239-prep/references/repository/scripts/codex-residential2026.cjs",
+      "sha256": "6978137b18dc3ea26916efdabeff6a36a26abeb9c09e27bc0549de74d909982d",
+      "bytes": 17963,
+      "gitBlobCalculated": "731bf90160f921aee9b4550b6846d976a943b4b3",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art239-prep/references/repository/scripts/codex-world-foundations2026.cjs",
+      "sha256": "a709d508e1d2c71ed549f2192bd27f0afd7dae37cb1957f54a2ec32ab0b969b3",
+      "bytes": 19639,
+      "gitBlobCalculated": "01875362d8fedbe8cad43cd30db148d5e56945b5",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art239-prep/references/repository/src/campaign-site-art205.js",
+      "sha256": "492790bf2aa6c77dd244f4fcd8c164f1960f08eb2654b10b1ca20663bd72e0f2",
+      "bytes": 44852,
+      "gitBlobCalculated": "adcceb210d194cdbf4f19359a743c9cec2a8e4e6",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art239-prep/references/repository/src/codex-furnishings2026.js",
+      "sha256": "5aacd2944d7cf44d21997a9b265dac966a873875e9e5cd7a48a43c8dca044b36",
+      "bytes": 40680,
+      "gitBlobCalculated": "57648ec1a6e908069734f622eb449166770495d4",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art239-prep/references/repository/src/codex-layouts2026.js",
+      "sha256": "2ab0b563e26f64877b6d9fbdd0ceb1bcfca4e439b147825a571bd0e446f714cc",
+      "bytes": 311787,
+      "gitBlobCalculated": "e5c4c8d8ff1db8394fcf63068f9e200610945e34",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art239-prep/references/repository/src/interior-art153.js",
+      "sha256": "7b686fc06c7be2b00a8263ce47b42eeb5dc8413fedee71c9f4fed790f50ffd21",
+      "bytes": 18868,
+      "gitBlobCalculated": "bd63cd1e0e15d02d03f1c386a35f4f9cc0edf428",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art239-prep/references/repository/src/seed-detail-art157.js",
+      "sha256": "03978da0de17b4255107b3ee0966d7bb3a160ef14d2eb08efad09afe16eead8a",
+      "bytes": 25806,
+      "gitBlobCalculated": "656725ffab51afa8dc70653748efabf4defa8419",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art239-prep/references/repository/src/world-props-art153.js",
+      "sha256": "8366c7fe4d3dc529c64d3f50523f78bd1651c63a287d22818fe18dd065548726",
+      "bytes": 21665,
+      "gitBlobCalculated": "f47c982f1a30fde8d29c229b2e3f34cea9ba8b8f",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art239-prep/references/repository/src/world-variants158.js",
+      "sha256": "fd131b78b25398bed75de226b8c7d46e4b6547b08d429fc3e888efc6948718db",
+      "bytes": 12786,
+      "gitBlobCalculated": "90faf681eb06c0cf5c3795e53946fad862503c4b",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art239-prep/references/sources.json",
+      "sha256": "0baf2e581f65214c5c97ee8f7a6dee4933a2117295a2890be8abd9df71ab308f",
+      "bytes": 19111,
+      "gitBlobCalculated": "3cdcc07d9492e90c7a885cab3a47fde8a0779a6e",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/references/style-art238/fence_v0.png",
+      "sha256": "16617f83fd798df7de6366b049ddcfb2f400df787bc52aec0a279bb3f347b87f",
+      "bytes": 252423,
+      "gitBlobCalculated": "7cfacdc1bf3388ac4e1ff2e6b7a4a31a14409511",
+      "roles": [
+        "Art239:actual-generation-reference",
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/references/style-art238/garden-shed_v0.png",
+      "sha256": "62f78aac248efeb594ab1882170d6d91a2e64014cd8a44d283901de94bdbf07e",
+      "bytes": 1377572,
+      "gitBlobCalculated": "5fde73c9c1426296bd027d6ea82d410cd37d2b6c",
+      "roles": [
+        "Art239:actual-generation-reference",
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/references/style-art238/rain-barrel_v0.png",
+      "sha256": "965fbd60ba7dbb321e84545e31fb6fd350da931573faffe9c10a1bf9567fb5d0",
+      "bytes": 1244816,
+      "gitBlobCalculated": "09e5826aca9daeeca0d0b8e3c3a8747515602d9a",
+      "roles": [
+        "Art239:actual-generation-reference",
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/replay-canonicals.cjs",
+      "sha256": "d3703b4a12d4a3d1cbe5be196c450248955791092272da09bb2eb465edf7260c",
+      "bytes": 1780,
+      "gitBlobCalculated": "e314e3ee1c5a7130c16f95fed0cfdab6b57de40a",
+      "roles": [
+        "Art239:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art239-prep/results.json",
+      "sha256": "52f52ef3d78ae339880aa139c9b2930ca94e9493d2425920744f3c4156c33071",
+      "bytes": 49842,
+      "gitBlobCalculated": "c441d38460371bd171d309c5f7ffae304dedc2d6",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:receipt-bound-document",
+        "Art239:results"
+      ]
+    },
+    {
+      "path": "art239-prep/review.json",
+      "sha256": "f58222c1207f8631727802b9824afa1b776befe5bc4ba73cfcc997952ab0f879",
+      "bytes": 22839,
+      "gitBlobCalculated": "9813f943199b724ce89e224928ea1347c49bc6c4",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:receipt-bound-document",
+        "Art239:review"
+      ]
+    },
+    {
+      "path": "art239-prep/root-canonical-replay.json",
+      "sha256": "0f81b8ca93e120791dc21a68ba197c6e14add81bbce25cb66454346829b4b5ce",
+      "bytes": 14153,
+      "gitBlobCalculated": "18ec13f3a30276a86cc5e1993d72fc66d303844c",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:replay"
+      ]
+    },
+    {
+      "path": "art239-prep/root-review.json",
+      "sha256": "c48e1a1365981692dc1c6f64971c941eee4f3f64bfd8f34d3f71d99d9ba60c6e",
+      "bytes": 6094,
+      "gitBlobCalculated": "f9740c641b42ff6dbd893b6d2003b9127618b184",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:receipt-bound-document",
+        "Art239:rootReview"
+      ]
+    },
+    {
+      "path": "art239-prep/selection-and-prompts.json",
+      "sha256": "303dab412c7d63d3d078b56356fef421fa93e84088aa4d5e263a1d23e211ff96",
+      "bytes": 74328,
+      "gitBlobCalculated": "287a56536c38c3b868af79d2157299e7427c0a82",
+      "roles": [
+        "Art239:author-frozen-file",
+        "Art239:receipt-bound-document",
+        "Art239:selection"
+      ]
+    },
+    {
+      "path": "art240-prep/README.md",
+      "sha256": "ffcc9f3997a72176306521ffca2043e962273e9b8fc2f0f116c69803e3ffd9aa",
+      "bytes": 10570,
+      "gitBlobCalculated": "a32ad95f609ddc9cc75fc7c2025774f1a6b900dc",
+      "roles": [
+        "Art240:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art240-prep/alpha-audit.json",
+      "sha256": "6975eb5a26d80a7c7bea581c1ef08ba3673e24abe1c5e48d600479f098fa09a8",
+      "bytes": 6969,
+      "gitBlobCalculated": "6563a216f5fee73174071aa4e999da11ed23c1de",
+      "roles": [
+        "Art240:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art240-prep/calls/closed-pool_v1-iteration-01-input.json",
+      "sha256": "d0b340666b958879ef8318225656b0970110baf7840bb1b33b30f4addeefb1e6",
+      "bytes": 4529,
+      "gitBlobCalculated": "a9245c33efc727db43202c8d6589749971158673",
+      "roles": [
+        "Art240:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art240-prep/calls/closed-pool_v1-iteration-01-response.json",
+      "sha256": "3e2c5734cd340d09a60a77c5f2abf11f46c9f7cb1220ca58b23567f22247dd34",
+      "bytes": 883,
+      "gitBlobCalculated": "a71a5e396cdc476e60c513a2b9f038e51668df43",
+      "roles": [
+        "Art240:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art240-prep/calls/closed-pool_v2-iteration-01-input.json",
+      "sha256": "1bf4ddafe301ebbb514a3d92d3dcd6c071abfa5ad24046bd77af46abd7a0f784",
+      "bytes": 4537,
+      "gitBlobCalculated": "3b9f9bbcaf417d63cd2d3bd42a0fe549e936ac7d",
+      "roles": [
+        "Art240:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art240-prep/calls/closed-pool_v2-iteration-01-response.json",
+      "sha256": "1e4f4bd3997271bd6ba2b35feee1d35c1db09ffc6026f8bbc154e1c36ef86f27",
+      "bytes": 883,
+      "gitBlobCalculated": "3825b9b0889a7e8c7edc807e11a8f45d95fa7c66",
+      "roles": [
+        "Art240:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art240-prep/calls/compost-bin_v1-iteration-01-input.json",
+      "sha256": "48612c5df38320ce5cfa94301df4e748ca195c75f05685235c43c5ea1f8ee67a",
+      "bytes": 3996,
+      "gitBlobCalculated": "73d3e506059d437a93523861aeffe34d71f41a10",
+      "roles": [
+        "Art240:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art240-prep/calls/compost-bin_v1-iteration-01-response.json",
+      "sha256": "509472137d1505bd7921c846e283a6c2a3825d4b855b9f05d1652ee2661563ce",
+      "bytes": 883,
+      "gitBlobCalculated": "73c41520bf82300163fc524ecc273ecbcc2df480",
+      "roles": [
+        "Art240:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art240-prep/calls/compost-bin_v2-iteration-01-input.json",
+      "sha256": "313d12600a5e60963d52e1597bf0a393536a1648e053b20991027e6e98079430",
+      "bytes": 4053,
+      "gitBlobCalculated": "f7969e54b1c3f679062fe1f0cdb2bc2fb0497036",
+      "roles": [
+        "Art240:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art240-prep/calls/compost-bin_v2-iteration-01-response.json",
+      "sha256": "886783adf65c08f8776f12ca8c1c0a75b3191cafd0dc9ceb69ca37ba50f0ddac",
+      "bytes": 883,
+      "gitBlobCalculated": "a3c8ab6858bbb93d69f0b50c7e715e1fc091fa67",
+      "roles": [
+        "Art240:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art240-prep/canonical-render-receipt.json",
+      "sha256": "2b0bafdb190b668f48d9097173fff3b73929ee4df3cd1fd072e16c8c50b87f69",
+      "bytes": 9324,
+      "gitBlobCalculated": "7a0cbc53df47df37381ddea0cda0c8d104b6a563",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:canonical"
+      ]
+    },
+    {
+      "path": "art240-prep/checkout-transition.json",
+      "sha256": "a88955fac5ab3874036ffa73afd1ed658751ccfe5df90048179286fd66fabf48",
+      "bytes": 4442,
+      "gitBlobCalculated": "938627eedf9d6cd9c9aa6f78102274b3fee59d1e",
+      "roles": [
+        "Art240:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art240-prep/existing-analogues.json",
+      "sha256": "79b4f6ab5f13cba92e0be4f648c8ba8273fe862c654fba6bb5462a97d265adf8",
+      "bytes": 2641,
+      "gitBlobCalculated": "1423f70184b8d5e883c1604bd8e4c8bdae875bc9",
+      "roles": [
+        "Art240:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art240-prep/freeze-manifest.json",
+      "sha256": "12ae4dc5ac53298227e7519c3166f8816aec8d0d7c134317874859e23ac747c4",
+      "bytes": 10290,
+      "gitBlobCalculated": "76ed4e74c62082370d39863d3b3ad57f0a305a17",
+      "roles": [
+        "Art240:author-freeze-manifest"
+      ]
+    },
+    {
+      "path": "art240-prep/guidance/create-game-assets-SKILL.md",
+      "sha256": "36cd246a434fefe1e36feff066597a6268d9f63364bee387ee65a22f03838b5d",
+      "bytes": 8152,
+      "gitBlobCalculated": "e2e6ecad398e46b0a8b4f910ec75b82885505f8b",
+      "roles": [
+        "Art240:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art240-prep/guidance/provenance.json",
+      "sha256": "83d7dd97d6b3aba1587c1e9c0c73089bd6218d7dd8ded1d94c91d87eb5fbeee6",
+      "bytes": 975,
+      "gitBlobCalculated": "7087f5df12a86367fe8b743c3036b416827192a2",
+      "roles": [
+        "Art240:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art240-prep/guidance/raster-pipeline.md",
+      "sha256": "d7a5714628fd8f4b66d03e060488e353b163b811112b164af218beb2b6450a02",
+      "bytes": 4236,
+      "gitBlobCalculated": "d4baad060963b877e56ca809260bbdaecdbe87db",
+      "roles": [
+        "Art240:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art240-prep/handoff-receipt.json",
+      "sha256": "9bdd82c419944dfd463fdc0ecfc0cf94bce57502d98bbfb24d47d9b63f6bf49f",
+      "bytes": 3298,
+      "gitBlobCalculated": "fb03f32268f3a8bc6b731c2b6db58a6e690cbbdb",
+      "roles": [
+        "Art240:author-receipt"
+      ]
+    },
+    {
+      "path": "art240-prep/history-results.json",
+      "sha256": "f40e1a24c80f723a253929337957a347c3b368d5a755f22ac48ef96c5898afd0",
+      "bytes": 19476,
+      "gitBlobCalculated": "b3453526446126f84339cfe53621f92c8c617570",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:history"
+      ]
+    },
+    {
+      "path": "art240-prep/instructions-receipt.json",
+      "sha256": "eae0ba8423daa3bd8071a6e982202cb3f662df4d206980a21659f525b57fa083",
+      "bytes": 5214,
+      "gitBlobCalculated": "000bd85eee242741abe68745da73e1f52543cf66",
+      "roles": [
+        "Art240:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art240-prep/integrity-receipt.json",
+      "sha256": "c98d31b6911419bbacffa7e759a444692c4fb3c7450cb9e0e1233df4e6f12370",
+      "bytes": 8237,
+      "gitBlobCalculated": "7e762db0f7818f83ab2f296e66a839bf62347e4b",
+      "roles": [
+        "Art240:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art240-prep/optional-pr36-ci-observation.json",
+      "sha256": "25e3611fa6789bad22371d20eef04236a8c1a94a5ea7b03b952bdc4a10835da1",
+      "bytes": 4987,
+      "gitBlobCalculated": "623724d6bdad77abb79d8ed9519da10c7e4ce903",
+      "roles": [
+        "Art240:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art240-prep/outputs/iteration-01/closed-pool_bassin_ferme_v1.png",
+      "sha256": "4b511e0eb83c8bba591336e3af21881ea416b14f0d88b7d5c336fd565c7e5df1",
+      "bytes": 761122,
+      "gitBlobCalculated": "944ed1a62a3b9bdaf4f962febcd8636c3b31928f",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:native-output"
+      ]
+    },
+    {
+      "path": "art240-prep/outputs/iteration-01/closed-pool_bassin_ferme_v2.png",
+      "sha256": "8b4f76904cb66eec85ec824488b03398c3019c00756d7f935c2d910143e567eb",
+      "bytes": 836767,
+      "gitBlobCalculated": "1deb7af06b1382dc44a2c85d2dc84ee101f44fe0",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:native-output"
+      ]
+    },
+    {
+      "path": "art240-prep/outputs/iteration-01/compost-bin_composteur_jardin_v1.png",
+      "sha256": "74341943da6e2292c2510df4cabdfeb696a0dfa661c51e8ad8a576a1837ce5eb",
+      "bytes": 1447148,
+      "gitBlobCalculated": "72fad30ad71a96aa7df0a593da7e810b6bafc52c",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:native-output"
+      ]
+    },
+    {
+      "path": "art240-prep/outputs/iteration-01/compost-bin_composteur_jardin_v2.png",
+      "sha256": "450d49d558661f0217fac526ed62146ea74afe30f96885762368274a90a8bfbc",
+      "bytes": 1610623,
+      "gitBlobCalculated": "8769f65592deb57c2adbedc2aedccc1172c65740",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:native-output"
+      ]
+    },
+    {
+      "path": "art240-prep/prepare.cjs",
+      "sha256": "4545a169388f44c98bc54c8cc063e4f228c757d69db241ab0039e1beb0aa2297",
+      "bytes": 17036,
+      "gitBlobCalculated": "ade69c9b0c07281d85eb89a058dd093ab6c1b8de",
+      "roles": [
+        "Art240:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art240-prep/record-native.py",
+      "sha256": "53dddab14988a6e080fed7be7eea25cb0c7ffbd284d073f39f60e6c5dc617bb9",
+      "bytes": 5218,
+      "gitBlobCalculated": "f62be892aee48e92d4ce98ebd01e037c5e2597f0",
+      "roles": [
+        "Art240:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art240-prep/references/canonical/closed-pool_v1.png",
+      "sha256": "f699e4f65d895fbd7102e67f296113603e41d814ca6a63ca9d02ddf87a0a00fe",
+      "bytes": 10409,
+      "gitBlobCalculated": "1d88319967bf607ea75a044774411584355cf7d4",
+      "roles": [
+        "Art240:actual-generation-reference",
+        "Art240:author-frozen-file",
+        "Art240:canonical-reference"
+      ]
+    },
+    {
+      "path": "art240-prep/references/canonical/closed-pool_v2.png",
+      "sha256": "86acdb271d95ed15123e34536e214a0cadbc41d58dd375414cbf055fead3670b",
+      "bytes": 16241,
+      "gitBlobCalculated": "7abbff6635922826201e2a3e86462df0556b6d75",
+      "roles": [
+        "Art240:actual-generation-reference",
+        "Art240:author-frozen-file",
+        "Art240:canonical-reference"
+      ]
+    },
+    {
+      "path": "art240-prep/references/canonical/compost-bin_v1.png",
+      "sha256": "c9f292fe49a83e47d24d6598db7cd5a0b02461baa8bd55219221a99feeb63caf",
+      "bytes": 28111,
+      "gitBlobCalculated": "228d35bed086dedc692b43cc3028284d2c0aa598",
+      "roles": [
+        "Art240:actual-generation-reference",
+        "Art240:author-frozen-file",
+        "Art240:canonical-reference"
+      ]
+    },
+    {
+      "path": "art240-prep/references/canonical/compost-bin_v2.png",
+      "sha256": "d8d41028c0b5f054ca8a71936f47a4e38d6d6e5bdf4274c2e4b823044b81f1ab",
+      "bytes": 16476,
+      "gitBlobCalculated": "9ca49a4ce7302826369b984cb0e50aed3f503191",
+      "roles": [
+        "Art240:actual-generation-reference",
+        "Art240:author-frozen-file",
+        "Art240:canonical-reference"
+      ]
+    },
+    {
+      "path": "art240-prep/references/repository/AGENTS.md",
+      "sha256": "7d02c6bd7f9c6a8e04c4c18680f9539109ecbc943f240de12a536ab9a8a8ab13",
+      "bytes": 4190,
+      "gitBlobCalculated": "9fc35b328129aa19d57642dd6f78b913b94f17aa",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art240-prep/references/repository/assets/art157/PROVENANCE.json",
+      "sha256": "381ed20c4e2e6fe09ba1d8d0d20173a3f0f0875dd02309dd7bb6ed93fb2bb4f2",
+      "bytes": 114883,
+      "gitBlobCalculated": "75fd837aac8d9d7bb0398533aa601e49c47e1fd8",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art240-prep/references/repository/assets/art157/yard-atlas.png",
+      "sha256": "bc59caf35959c0074987e50d4a2059f63e0e17d8725d21e6b1a0b8a2ffcff6b1",
+      "bytes": 2018982,
+      "gitBlobCalculated": "d3f0b43f144d3a13e1949ec87b642857a64cad39",
+      "roles": [
+        "Art240:actual-generation-reference",
+        "Art240:author-frozen-file",
+        "Art240:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art240-prep/references/repository/docs/ARCHITECTURE.md",
+      "sha256": "880657b6abfc044a3ef534d8a092ad9a20ad3a0a2a9024bdbbea6642d8eb3f3c",
+      "bytes": 57076,
+      "gitBlobCalculated": "63b12166f52109d70bf95637b48a96c23f8260fc",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art240-prep/references/repository/docs/BALANCING.md",
+      "sha256": "5caf2749d57201a01f9aafa80de8a3e70e0579a01895283e6d5b05abdc526088",
+      "bytes": 37720,
+      "gitBlobCalculated": "1b668d20d6e60c7cb05c721e37d396d4a05f5781",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art240-prep/references/repository/docs/CODEX_MASTER_PROMPT.md",
+      "sha256": "9c0280c574ad13d7ba03cb4391713411e8eb8fcdbcc4cc94f2609f277c727c6d",
+      "bytes": 5269,
+      "gitBlobCalculated": "1b15347772ed2da3b22cd33fe572792255db9d51",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art240-prep/references/repository/docs/GAMEDEV_GUIDANCE.md",
+      "sha256": "0b2df8233ea2c49ff0c1fd959cf43bac8d1245fb6900334e42cb541b0d2f0144",
+      "bytes": 24935,
+      "gitBlobCalculated": "922952410a6d7efa4eb28c48fc1b4101457e1e55",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art240-prep/references/repository/docs/GAME_BIBLE.md",
+      "sha256": "3f6f48befcd5408e03ab4ed0c79a68a040cac48c09f087545e334f0b3c738890",
+      "bytes": 98486,
+      "gitBlobCalculated": "f13043eae6cad2d009c9287c80f02b6bfb926ef7",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art240-prep/references/repository/docs/GAME_DESIGN.md",
+      "sha256": "3f5ce6afc19ca49f5ffe239eee67b7258078098e8d0477a5ef62fd2fc8fd65f9",
+      "bytes": 15746,
+      "gitBlobCalculated": "31bca14159be0eac8986c8e50540936e9482b8e9",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art240-prep/references/repository/docs/ORIGINAL_BRIEF.txt",
+      "sha256": "64fe23e910f065cdd6ce4f8f84fcc8efd6894d923122c086cd7b16f599492297",
+      "bytes": 1283,
+      "gitBlobCalculated": "4a1d493b07b8094dbaabd21b2682615f7a372af5",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art240-prep/references/repository/docs/codex/suivi-monde2026/RESIDENTIEL_2026.md",
+      "sha256": "71e3b672505516af97c91b0e8b9c493de189076f764cacbb2e5450eb5095308c",
+      "bytes": 9436,
+      "gitBlobCalculated": "225f7f6253ce233d8e8561e734d7c6d58f9f5006",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art240-prep/references/repository/package-lock.json",
+      "sha256": "41cd5573880263b30206dbb78766b789f65702fa2ffebe2401601b1bd2205c53",
+      "bytes": 35109,
+      "gitBlobCalculated": "6a7a8a9c1a0df6304c4297123169a0c3420c64ed",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art240-prep/references/repository/package.json",
+      "sha256": "722c28f9946e5c9c2095e2b3a03774c595aa4bd9bfc1655484dcb34396c0cea0",
+      "bytes": 3159,
+      "gitBlobCalculated": "7e4caf5ad3abd91c38fd0977bf714e54469d8e92",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art240-prep/references/repository/scripts/codex-residential2026.cjs",
+      "sha256": "6978137b18dc3ea26916efdabeff6a36a26abeb9c09e27bc0549de74d909982d",
+      "bytes": 17963,
+      "gitBlobCalculated": "731bf90160f921aee9b4550b6846d976a943b4b3",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art240-prep/references/repository/scripts/codex-world-foundations2026.cjs",
+      "sha256": "a709d508e1d2c71ed549f2192bd27f0afd7dae37cb1957f54a2ec32ab0b969b3",
+      "bytes": 19639,
+      "gitBlobCalculated": "01875362d8fedbe8cad43cd30db148d5e56945b5",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art240-prep/references/repository/src/campaign-site-art205.js",
+      "sha256": "492790bf2aa6c77dd244f4fcd8c164f1960f08eb2654b10b1ca20663bd72e0f2",
+      "bytes": 44852,
+      "gitBlobCalculated": "adcceb210d194cdbf4f19359a743c9cec2a8e4e6",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art240-prep/references/repository/src/codex-furnishings2026.js",
+      "sha256": "5aacd2944d7cf44d21997a9b265dac966a873875e9e5cd7a48a43c8dca044b36",
+      "bytes": 40680,
+      "gitBlobCalculated": "57648ec1a6e908069734f622eb449166770495d4",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art240-prep/references/repository/src/codex-layouts2026.js",
+      "sha256": "2ab0b563e26f64877b6d9fbdd0ceb1bcfca4e439b147825a571bd0e446f714cc",
+      "bytes": 311787,
+      "gitBlobCalculated": "e5c4c8d8ff1db8394fcf63068f9e200610945e34",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art240-prep/references/repository/src/interior-art153.js",
+      "sha256": "7b686fc06c7be2b00a8263ce47b42eeb5dc8413fedee71c9f4fed790f50ffd21",
+      "bytes": 18868,
+      "gitBlobCalculated": "bd63cd1e0e15d02d03f1c386a35f4f9cc0edf428",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art240-prep/references/repository/src/seed-detail-art157.js",
+      "sha256": "03978da0de17b4255107b3ee0966d7bb3a160ef14d2eb08efad09afe16eead8a",
+      "bytes": 25806,
+      "gitBlobCalculated": "656725ffab51afa8dc70653748efabf4defa8419",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art240-prep/references/repository/src/world-props-art153.js",
+      "sha256": "8366c7fe4d3dc529c64d3f50523f78bd1651c63a287d22818fe18dd065548726",
+      "bytes": 21665,
+      "gitBlobCalculated": "f47c982f1a30fde8d29c229b2e3f34cea9ba8b8f",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art240-prep/references/repository/src/world-variants158.js",
+      "sha256": "fd131b78b25398bed75de226b8c7d46e4b6547b08d429fc3e888efc6948718db",
+      "bytes": 12786,
+      "gitBlobCalculated": "90faf681eb06c0cf5c3795e53946fad862503c4b",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art240-prep/references/sources.json",
+      "sha256": "8e334f5eb593fefd2ffebfccc2e8859457473c3bb2d1c69b963a776c2680ee8d",
+      "bytes": 11422,
+      "gitBlobCalculated": "bc5c958ca92cd15b210cfd80574f60849154ad7f",
+      "roles": [
+        "Art240:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art240-prep/results.json",
+      "sha256": "f40e1a24c80f723a253929337957a347c3b368d5a755f22ac48ef96c5898afd0",
+      "bytes": 19476,
+      "gitBlobCalculated": "b3453526446126f84339cfe53621f92c8c617570",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:results"
+      ]
+    },
+    {
+      "path": "art240-prep/review-history.json",
+      "sha256": "d78e14806e17d272b9f3a6d0a519eb82998c0c026115bb1395f907201bedb51c",
+      "bytes": 14521,
+      "gitBlobCalculated": "83650af0582f7ef356dfb0f1ecba9ded88b8a8ad",
+      "roles": [
+        "Art240:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art240-prep/review.json",
+      "sha256": "5cd44c96c16102e431e9cba44716d748336261d9ac42e6b4e5cf45629130010a",
+      "bytes": 14477,
+      "gitBlobCalculated": "b4659b0d7e38baf437d64358b983d44b24d62e6e",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:review"
+      ]
+    },
+    {
+      "path": "art240-prep/root-canonical-replay.json",
+      "sha256": "f7ba7ff1ce1b6d4c5b16a1327937bf471e595d35be849f4d6a63c3a985deba98",
+      "bytes": 10816,
+      "gitBlobCalculated": "5daa60b60ef8ee84e6c5075997bcfafa1905b0b1",
+      "roles": [
+        "Art240:replay"
+      ]
+    },
+    {
+      "path": "art240-prep/root-review.json",
+      "sha256": "b0fc74b951690bbe6190185cd4d6e1699ee828bd0bbcb516ed78c9cdbb53ddea",
+      "bytes": 3892,
+      "gitBlobCalculated": "a257b79cc1500803de470d27be2846859ef3d492",
+      "roles": [
+        "Art240:rootReview"
+      ]
+    },
+    {
+      "path": "art240-prep/selection-and-prompts.json",
+      "sha256": "dc1115e77863f2bc1bec12a9f628fa8dd3765d3a284093b045d0701c03ab41eb",
+      "bytes": 39951,
+      "gitBlobCalculated": "aed406f3ce267b38e6f6a3c606668b0a40c26ce4",
+      "roles": [
+        "Art240:author-frozen-file",
+        "Art240:selection"
+      ]
+    },
+    {
+      "path": "art240-prep/verify-integrity.py",
+      "sha256": "b38b2021bbc2b84049e64f6e0ce21c8bbd015a9738e46759f1cde68850ae73c5",
+      "bytes": 7091,
+      "gitBlobCalculated": "3007bb17552d49a91295a09353721999d99b2526",
+      "roles": [
+        "Art240:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art241-prep/README.md",
+      "sha256": "ec1b609242ea18f617e5e7716b61b9fe4d3c2bb50e3c61a7128626a5e9317b7a",
+      "bytes": 3803,
+      "gitBlobCalculated": "9f9011dac6345d969bb581acceedbe882c567f56",
+      "roles": [
+        "Art241:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art241-prep/alpha-review.json",
+      "sha256": "d6acb462d8bef2aa4c425f07e40af47fddbed5baba024d6d355b32fee1a5a145",
+      "bytes": 12456,
+      "gitBlobCalculated": "ec6b6c82a6d60582924b4a4f611890593921a09b",
+      "roles": [
+        "Art241:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art241-prep/audit_pngs.py",
+      "sha256": "e231c551c3177e9a38575e93d1f9adc378765393ab5ea6324c5cdf29fe481d6d",
+      "bytes": 2458,
+      "gitBlobCalculated": "da4dcf16cc1eed533c7467d3a4aa1b7851d54243",
+      "roles": [
+        "Art241:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art241-prep/canonical-render-receipt.json",
+      "sha256": "22b3ee271028e8041d4e9a3af950fac292927321bb4f538e12b012674a7d5e57",
+      "bytes": 8819,
+      "gitBlobCalculated": "166330a83aab30fb5b5d755b3af57f79945d62c8",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:canonical"
+      ]
+    },
+    {
+      "path": "art241-prep/completed-calls-initial.json",
+      "sha256": "5bc86a2f20f392e5b11ef6ab915e5dc8491607cf645dc7c9e2c22e05b6dab421",
+      "bytes": 18965,
+      "gitBlobCalculated": "182f77ca109756a3a1ec628018557c6f83aad1ad",
+      "roles": [
+        "Art241:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art241-prep/completed-corrections.json",
+      "sha256": "99712f944761f0a878b16201cb6a82f162e24fccc878e8dfffe07896e31c4cc9",
+      "bytes": 7388,
+      "gitBlobCalculated": "aec191e6235046253a8dcf7b6e05a04e3365d59d",
+      "roles": [
+        "Art241:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art241-prep/completed-length-correction.json",
+      "sha256": "669706573e639d3d7a8c4f070088a9862a24cc49fb64a3bcd951fcc4a3013c61",
+      "bytes": 3356,
+      "gitBlobCalculated": "3e8d1dc19cae2c2a29fb8869068040108e290321",
+      "roles": [
+        "Art241:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art241-prep/delivery-receipt.json",
+      "sha256": "f898161b87a6ff5d408047cc5883dbd214f50305fbda128d698abbd0457de987",
+      "bytes": 1396,
+      "gitBlobCalculated": "743a367d6598853dc5f06b037640fc13a6ee8800",
+      "roles": [
+        "Art241:author-receipt"
+      ]
+    },
+    {
+      "path": "art241-prep/existing-analogues.json",
+      "sha256": "d4d65e28804fb9f84a6be0059f5b391a9012baa43575a1b2f6771225db9f0390",
+      "bytes": 3355,
+      "gitBlobCalculated": "dd65e776889709b5830dec05e83b8eea60719b19",
+      "roles": [
+        "Art241:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art241-prep/finalize_records.py",
+      "sha256": "cb4cf5c4de37705865fbbaffddafec631644ff75605d478849495af9cb3c24cf",
+      "bytes": 8269,
+      "gitBlobCalculated": "15cfb75737030ec07f52974e0deaeedd8571ac15",
+      "roles": [
+        "Art241:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art241-prep/freeze-manifest.json",
+      "sha256": "20593201b65ca7aa6944afead037c698dea26f8a5036bb8d37eb1c7c74efb568",
+      "bytes": 10746,
+      "gitBlobCalculated": "89e6b664648b4d371a0709666b00bbd52f26b1ed",
+      "roles": [
+        "Art241:author-freeze-manifest"
+      ]
+    },
+    {
+      "path": "art241-prep/generation-prompts.json",
+      "sha256": "7ea2e48f45edbd0cd35b5df05506818b90ca9f29a65cd01b79d91729eeac24a2",
+      "bytes": 29749,
+      "gitBlobCalculated": "1f10e0df0ce4bff883067a95c7dfb9666a4a7503",
+      "roles": [
+        "Art241:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art241-prep/history-results.json",
+      "sha256": "d8ef47876393c7d52acefd6825825f06f0da0f4d1b91adc1897b23ef6902128c",
+      "bytes": 36297,
+      "gitBlobCalculated": "d3914bedb9a9daa571737d31783f88c28a0e48f0",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:history"
+      ]
+    },
+    {
+      "path": "art241-prep/iteration-review.json",
+      "sha256": "e0b298fa080417e2bc62a494e329756107f3a7bc98e2aad59ca28ce2a1736efc",
+      "bytes": 3681,
+      "gitBlobCalculated": "e8e838db2e4fa8708193f8b0ba04840a61465089",
+      "roles": [
+        "Art241:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art241-prep/outputs/iteration-01/abandoned-caravan_v1.png",
+      "sha256": "bc1d4094cb6f76ddb58cd7dd9fa45a56af1c0c80c6d1ab2eb822f4dabf87edcf",
+      "bytes": 1046969,
+      "gitBlobCalculated": "12d049f7f8676a34f801b74bbe41b032769f4ae5",
+      "roles": [
+        "Art241:actual-generation-reference",
+        "Art241:author-frozen-file",
+        "Art241:native-output"
+      ]
+    },
+    {
+      "path": "art241-prep/outputs/iteration-01/abandoned-caravan_v2.png",
+      "sha256": "91833c4ae39c15308663733dac0aeaf5b032f78281954e292cbb90bd2fb03c77",
+      "bytes": 1140439,
+      "gitBlobCalculated": "558eb337e824eaa6082b61616fec6887782460b2",
+      "roles": [
+        "Art241:actual-generation-reference",
+        "Art241:author-frozen-file",
+        "Art241:native-output"
+      ]
+    },
+    {
+      "path": "art241-prep/outputs/iteration-01/touring-caravan_v1.png",
+      "sha256": "9ed37d39104b00b35de4146fb6cfb2ef5323a351374ca7564c2e6905b8e80be6",
+      "bytes": 1111064,
+      "gitBlobCalculated": "4ba62da4903c35ab9aa22db418485151be70bb80",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:native-output"
+      ]
+    },
+    {
+      "path": "art241-prep/outputs/iteration-01/touring-caravan_v2.png",
+      "sha256": "e24289d2185870da391b3c3260f1c03fbd41e31732fb113a6082b8d0f38c7841",
+      "bytes": 1198407,
+      "gitBlobCalculated": "c038aba71b3f0b5c3cf60f4c399a2c14de544cd9",
+      "roles": [
+        "Art241:actual-generation-reference",
+        "Art241:author-frozen-file",
+        "Art241:native-output"
+      ]
+    },
+    {
+      "path": "art241-prep/outputs/iteration-02/abandoned-caravan_v1.png",
+      "sha256": "941c7282cd9b01dd12a88fea3bce77b28ce59e61a45f8ec156933fdc090faa6b",
+      "bytes": 1002005,
+      "gitBlobCalculated": "dc338a68110199911439b5dbcb9975d6f13ff729",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:native-output"
+      ]
+    },
+    {
+      "path": "art241-prep/outputs/iteration-02/abandoned-caravan_v2.png",
+      "sha256": "db63a0b14f90d3afafca59a6ea8f254f89c3ad943c7049cbd25ea4662c7cff94",
+      "bytes": 1056984,
+      "gitBlobCalculated": "e69d4057045e8624504688e0240324dd39a829ff",
+      "roles": [
+        "Art241:actual-generation-reference",
+        "Art241:author-frozen-file",
+        "Art241:native-output"
+      ]
+    },
+    {
+      "path": "art241-prep/outputs/iteration-03/abandoned-caravan_v2.png",
+      "sha256": "87ca8ebb699f6838a36fccf9741451c5e9eefec33c555097a1476839560348c8",
+      "bytes": 1019029,
+      "gitBlobCalculated": "beadbc169e38b2f337f781e0f1474097d67c16b7",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:native-output"
+      ]
+    },
+    {
+      "path": "art241-prep/planned-calls.json",
+      "sha256": "863758af7da8363192b25bb71729718b114366865236a18162d1410a82b318a9",
+      "bytes": 16021,
+      "gitBlobCalculated": "b43da56481eb888718c50585812bac0b1a169340",
+      "roles": [
+        "Art241:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art241-prep/planned-corrections.json",
+      "sha256": "7caff87afbe52b4feffaa9f80aac89d3e3c65cf5e257ecce5ee448d866a10f3d",
+      "bytes": 5916,
+      "gitBlobCalculated": "00619b1a3b00b9aec5a4e0444bdf276f43a92f28",
+      "roles": [
+        "Art241:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art241-prep/planned-length-correction.json",
+      "sha256": "d139287790fe6b1a4d1b4fe51ef320523e3a460ba55bb237ae0d4a9414357750",
+      "bytes": 2628,
+      "gitBlobCalculated": "4ee7467b517ba0b7970da222047301c217c80bc3",
+      "roles": [
+        "Art241:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art241-prep/prepare.cjs",
+      "sha256": "294bef2fa178c71e429833b305588652ad4c0930549fa7ce3dedb7308b4c6672",
+      "bytes": 12473,
+      "gitBlobCalculated": "83d5f58ed875a124816c5543643662c7c6dd85bf",
+      "roles": [
+        "Art241:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art241-prep/references/authored-plans/EXT-MONDE-T046-V01.json",
+      "sha256": "e1d657f421bf9e52659677afe3586e632c1ddf65e5804b78564871d7829bad5f",
+      "bytes": 54920,
+      "gitBlobCalculated": "e52a1e8f3a924bbd9e89c0fe94c9407e8b1dd342",
+      "roles": [
+        "Art241:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art241-prep/references/authored-plans/EXT-MONDE-T048-V01.json",
+      "sha256": "a9e04f886d4541822025dfaea73020af256dc0dd1e0cce8291ab6b09502c0868",
+      "bytes": 58522,
+      "gitBlobCalculated": "dafbd2b0a5ca4430c69133dda61a6f58265ec389",
+      "roles": [
+        "Art241:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art241-prep/references/canonical/abandoned-caravan_v1.png",
+      "sha256": "d729ae423cd4c8e1fa6e9b6e39dc1f0cc1e2843dde15b66aed9b847bbab13f95",
+      "bytes": 20641,
+      "gitBlobCalculated": "be288e5cbc35b844382a6b86ee6a2fc2502c24d8",
+      "roles": [
+        "Art241:actual-generation-reference",
+        "Art241:author-frozen-file",
+        "Art241:canonical-reference"
+      ]
+    },
+    {
+      "path": "art241-prep/references/canonical/abandoned-caravan_v2.png",
+      "sha256": "e69d60a8a01e1efa9dd97a00b81b177eee5a3c72510ade58c75f7003f6c04183",
+      "bytes": 23922,
+      "gitBlobCalculated": "5810eee9c44537c264c239a37df74b741c9544a2",
+      "roles": [
+        "Art241:actual-generation-reference",
+        "Art241:author-frozen-file",
+        "Art241:canonical-reference"
+      ]
+    },
+    {
+      "path": "art241-prep/references/canonical/touring-caravan_v1.png",
+      "sha256": "f0bb2a5dbf5dc70082930071362e76e8470ae3b33e1e354291d245ca3bb07522",
+      "bytes": 13710,
+      "gitBlobCalculated": "20b70ff919c84e7ee0207b447c539fe005db116b",
+      "roles": [
+        "Art241:actual-generation-reference",
+        "Art241:author-frozen-file",
+        "Art241:canonical-reference"
+      ]
+    },
+    {
+      "path": "art241-prep/references/canonical/touring-caravan_v2.png",
+      "sha256": "a2c7f68fb0decde7fca80d1ba5dda4bc28492f534c8581d19d69c266ffdd9bba",
+      "bytes": 15880,
+      "gitBlobCalculated": "f220a7704381e52088424545fe7dc3f044bbe928",
+      "roles": [
+        "Art241:actual-generation-reference",
+        "Art241:author-frozen-file",
+        "Art241:canonical-reference"
+      ]
+    },
+    {
+      "path": "art241-prep/references/repository/AGENTS.md",
+      "sha256": "7d02c6bd7f9c6a8e04c4c18680f9539109ecbc943f240de12a536ab9a8a8ab13",
+      "bytes": 4190,
+      "gitBlobCalculated": "9fc35b328129aa19d57642dd6f78b913b94f17aa",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art241-prep/references/repository/art-packs/DEADWALL_Art235/PROVENANCE.json",
+      "sha256": "6960cf21c69a770a8854c9a9c746f2a0cce8c06ef732282983cc4504e9ef2945",
+      "bytes": 3544,
+      "gitBlobCalculated": "f30f21ce4a352d696a9ed4e265ee96ad81b19b8d",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art241-prep/references/repository/art-packs/DEADWALL_Art235/SHA256SUMS.txt",
+      "sha256": "bcafa1773b990f2470dc9602c82eaa49547a55c695b165e09a2a8beb904f1626",
+      "bytes": 4807,
+      "gitBlobCalculated": "c4e84744bc39bd090c9a1cde73a530baa5ccf646",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art241-prep/references/repository/art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+      "sha256": "be15ae950d99461b2351a0295713a36e0091aaec5a37da5191e392f4e3748748",
+      "bytes": 1098099,
+      "gitBlobCalculated": "f9a96a6a205cbf330b19eb4ae6e308ef3aae1043",
+      "roles": [
+        "Art241:actual-generation-reference",
+        "Art241:author-frozen-file",
+        "Art241:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art241-prep/references/repository/art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png",
+      "sha256": "49d5f583cfde5c4217598b2dd2c57703ebe74868bdc2dd47855adff5f1dbbbee",
+      "bytes": 1195406,
+      "gitBlobCalculated": "728f1f909503e2bea320b5c5f84dfd1f5e31014c",
+      "roles": [
+        "Art241:actual-generation-reference",
+        "Art241:author-frozen-file",
+        "Art241:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art241-prep/references/repository/art-packs/DEADWALL_Art235/qa/visual-review-records.json",
+      "sha256": "f652663a7e4dd5299871de5cb0f3a7c73a34e1eab6126a57b302cf18170816bd",
+      "bytes": 7492,
+      "gitBlobCalculated": "93ef0e3847a5c4580fbcbd92f8dbe05fdf4df667",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art241-prep/references/repository/art-packs/DEADWALL_Art235/records/preparation/selection-and-prompts.json",
+      "sha256": "fa064fb2235f4a626afc0698b4ab9203a5d755b5dfd7c2087ef2c11ac1c05adc",
+      "bytes": 15053,
+      "gitBlobCalculated": "eee415c75d1dbd8bae45af129ce47235324499b7",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art241-prep/references/repository/docs/ARCHITECTURE.md",
+      "sha256": "880657b6abfc044a3ef534d8a092ad9a20ad3a0a2a9024bdbbea6642d8eb3f3c",
+      "bytes": 57076,
+      "gitBlobCalculated": "63b12166f52109d70bf95637b48a96c23f8260fc",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art241-prep/references/repository/docs/BALANCING.md",
+      "sha256": "5caf2749d57201a01f9aafa80de8a3e70e0579a01895283e6d5b05abdc526088",
+      "bytes": 37720,
+      "gitBlobCalculated": "1b668d20d6e60c7cb05c721e37d396d4a05f5781",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art241-prep/references/repository/docs/CODEX_MASTER_PROMPT.md",
+      "sha256": "9c0280c574ad13d7ba03cb4391713411e8eb8fcdbcc4cc94f2609f277c727c6d",
+      "bytes": 5269,
+      "gitBlobCalculated": "1b15347772ed2da3b22cd33fe572792255db9d51",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art241-prep/references/repository/docs/GAMEDEV_GUIDANCE.md",
+      "sha256": "0b2df8233ea2c49ff0c1fd959cf43bac8d1245fb6900334e42cb541b0d2f0144",
+      "bytes": 24935,
+      "gitBlobCalculated": "922952410a6d7efa4eb28c48fc1b4101457e1e55",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art241-prep/references/repository/docs/GAME_BIBLE.md",
+      "sha256": "3f6f48befcd5408e03ab4ed0c79a68a040cac48c09f087545e334f0b3c738890",
+      "bytes": 98486,
+      "gitBlobCalculated": "f13043eae6cad2d009c9287c80f02b6bfb926ef7",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art241-prep/references/repository/docs/GAME_DESIGN.md",
+      "sha256": "3f5ce6afc19ca49f5ffe239eee67b7258078098e8d0477a5ef62fd2fc8fd65f9",
+      "bytes": 15746,
+      "gitBlobCalculated": "31bca14159be0eac8986c8e50540936e9482b8e9",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art241-prep/references/repository/docs/ORIGINAL_BRIEF.txt",
+      "sha256": "64fe23e910f065cdd6ce4f8f84fcc8efd6894d923122c086cd7b16f599492297",
+      "bytes": 1283,
+      "gitBlobCalculated": "4a1d493b07b8094dbaabd21b2682615f7a372af5",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art241-prep/references/repository/docs/codex/suivi-monde2026/RESIDENTIEL_2026.md",
+      "sha256": "71e3b672505516af97c91b0e8b9c493de189076f764cacbb2e5450eb5095308c",
+      "bytes": 9436,
+      "gitBlobCalculated": "225f7f6253ce233d8e8561e734d7c6d58f9f5006",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art241-prep/references/repository/scripts/codex-residential2026.cjs",
+      "sha256": "6978137b18dc3ea26916efdabeff6a36a26abeb9c09e27bc0549de74d909982d",
+      "bytes": 17963,
+      "gitBlobCalculated": "731bf90160f921aee9b4550b6846d976a943b4b3",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art241-prep/references/repository/scripts/codex-world-foundations2026.cjs",
+      "sha256": "a709d508e1d2c71ed549f2192bd27f0afd7dae37cb1957f54a2ec32ab0b969b3",
+      "bytes": 19639,
+      "gitBlobCalculated": "01875362d8fedbe8cad43cd30db148d5e56945b5",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art241-prep/references/repository/src/campaign-site-art205.js",
+      "sha256": "492790bf2aa6c77dd244f4fcd8c164f1960f08eb2654b10b1ca20663bd72e0f2",
+      "bytes": 44852,
+      "gitBlobCalculated": "adcceb210d194cdbf4f19359a743c9cec2a8e4e6",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art241-prep/references/repository/src/codex-furnishings2026.js",
+      "sha256": "5aacd2944d7cf44d21997a9b265dac966a873875e9e5cd7a48a43c8dca044b36",
+      "bytes": 40680,
+      "gitBlobCalculated": "57648ec1a6e908069734f622eb449166770495d4",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art241-prep/references/repository/src/codex-layouts2026.js",
+      "sha256": "2ab0b563e26f64877b6d9fbdd0ceb1bcfca4e439b147825a571bd0e446f714cc",
+      "bytes": 311787,
+      "gitBlobCalculated": "e5c4c8d8ff1db8394fcf63068f9e200610945e34",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art241-prep/references/repository/src/interior-art153.js",
+      "sha256": "7b686fc06c7be2b00a8263ce47b42eeb5dc8413fedee71c9f4fed790f50ffd21",
+      "bytes": 18868,
+      "gitBlobCalculated": "bd63cd1e0e15d02d03f1c386a35f4f9cc0edf428",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art241-prep/references/repository/src/seed-detail-art157.js",
+      "sha256": "03978da0de17b4255107b3ee0966d7bb3a160ef14d2eb08efad09afe16eead8a",
+      "bytes": 25806,
+      "gitBlobCalculated": "656725ffab51afa8dc70653748efabf4defa8419",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art241-prep/references/repository/src/world-props-art153.js",
+      "sha256": "8366c7fe4d3dc529c64d3f50523f78bd1651c63a287d22818fe18dd065548726",
+      "bytes": 21665,
+      "gitBlobCalculated": "f47c982f1a30fde8d29c229b2e3f34cea9ba8b8f",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:verified-source-copy"
+      ]
+    },
+    {
+      "path": "art241-prep/references/sources.json",
+      "sha256": "eb694749b1353a4ac9c61a67d0493b1f95558e192806ec94c0a59629c87074ce",
+      "bytes": 12720,
+      "gitBlobCalculated": "2eaf89a42ba99cf8146e40c492e90de8d9ea1838",
+      "roles": [
+        "Art241:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art241-prep/results.json",
+      "sha256": "8f0b1df497a3410fa8852f6ee4dba35a152e00c2cceac7990c199715728ccb7b",
+      "bytes": 20290,
+      "gitBlobCalculated": "37fb3d3f7b88d92ec92e10867fbb902e3c38f14d",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:results"
+      ]
+    },
+    {
+      "path": "art241-prep/review.json",
+      "sha256": "86f876966bc7352374c3a7670c8496915c6029ffcb6579006acd202f6107da3a",
+      "bytes": 16664,
+      "gitBlobCalculated": "6aad29294a267fa9acbb0a6fa0ae938edfbb0642",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:review"
+      ]
+    },
+    {
+      "path": "art241-prep/root-canonical-replay.json",
+      "sha256": "90456e5b11331671e40aab7adce900b53c13ecf8631c3028fe055f41e77aa5d6",
+      "bytes": 11726,
+      "gitBlobCalculated": "0ab97c29a01484ad3d88b744839cfa020e13f794",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:replay"
+      ]
+    },
+    {
+      "path": "art241-prep/root-review.json",
+      "sha256": "9f267b1f01210329eee4677688127cbd9aacb5fa3e83f6039467188a6db5e0de",
+      "bytes": 4151,
+      "gitBlobCalculated": "8a81f6ae3186789d57ae2d1d9ce41f3954485f67",
+      "roles": [
+        "Art241:rootReview"
+      ]
+    },
+    {
+      "path": "art241-prep/selection-and-prompts.json",
+      "sha256": "a7823ca004de7ac21de223cafff5ab40c047a004bb796c4c905f1efb16cd5785",
+      "bytes": 38911,
+      "gitBlobCalculated": "3a021ae38a05e66ed473c289f51d777f1ba0a8cd",
+      "roles": [
+        "Art241:author-frozen-file",
+        "Art241:selection"
+      ]
+    },
+    {
+      "path": "art241-prep/source-plans.json",
+      "sha256": "bf1ab74db61c1804ba3f960223013b41a4551c38f01528badc1737f833d0c3d1",
+      "bytes": 1988,
+      "gitBlobCalculated": "1dfaf4edf1eb9c539734ad98d6cf7f6f8ce145df",
+      "roles": [
+        "Art241:author-frozen-file"
+      ]
+    },
+    {
+      "path": "art241-prep/source-verification-final.json",
+      "sha256": "2cc6bda5b18998330677a040105548b8078f1fc81bb09310254950099964fc16",
+      "bytes": 465,
+      "gitBlobCalculated": "34146f2f4b48f22f57034ffbaf2d549ba63698d2",
+      "roles": [
+        "Art241:author-frozen-file"
+      ]
+    },
+    {
+      "path": "generated_images/exec-04e4cfcc-bda0-4b16-983a-6c64079a538e.png",
+      "sha256": "88b6ee1653066ce236aab1fd19693e14286f9aa63930571619f8d3f2f1bedad3",
+      "bytes": 167835,
+      "gitBlobCalculated": "1b651f67b8269621fca655617a7a6afacd3f5c45",
+      "roles": [
+        "Art239:original-tool-output"
+      ]
+    },
+    {
+      "path": "generated_images/exec-0cf8d838-782c-4d64-82b7-49d5b0da1a30.png",
+      "sha256": "941c7282cd9b01dd12a88fea3bce77b28ce59e61a45f8ec156933fdc090faa6b",
+      "bytes": 1002005,
+      "gitBlobCalculated": "dc338a68110199911439b5dbcb9975d6f13ff729",
+      "roles": [
+        "Art241:original-tool-output"
+      ]
+    },
+    {
+      "path": "generated_images/exec-103a0d02-7b98-4fb9-98b9-ba70dd30a673.png",
+      "sha256": "db63a0b14f90d3afafca59a6ea8f254f89c3ad943c7049cbd25ea4662c7cff94",
+      "bytes": 1056984,
+      "gitBlobCalculated": "e69d4057045e8624504688e0240324dd39a829ff",
+      "roles": [
+        "Art241:original-tool-output"
+      ]
+    },
+    {
+      "path": "generated_images/exec-2119105f-29a1-4203-b3e6-d1d411c18b78.png",
+      "sha256": "4b511e0eb83c8bba591336e3af21881ea416b14f0d88b7d5c336fd565c7e5df1",
+      "bytes": 761122,
+      "gitBlobCalculated": "944ed1a62a3b9bdaf4f962febcd8636c3b31928f",
+      "roles": [
+        "Art240:original-tool-output"
+      ]
+    },
+    {
+      "path": "generated_images/exec-4a7b9857-c581-4d23-bd1d-2f6c194b414d.png",
+      "sha256": "8b4f76904cb66eec85ec824488b03398c3019c00756d7f935c2d910143e567eb",
+      "bytes": 836767,
+      "gitBlobCalculated": "1deb7af06b1382dc44a2c85d2dc84ee101f44fe0",
+      "roles": [
+        "Art240:original-tool-output"
+      ]
+    },
+    {
+      "path": "generated_images/exec-52062e32-633e-49a0-b16d-12b867c7b434.png",
+      "sha256": "74341943da6e2292c2510df4cabdfeb696a0dfa661c51e8ad8a576a1837ce5eb",
+      "bytes": 1447148,
+      "gitBlobCalculated": "72fad30ad71a96aa7df0a593da7e810b6bafc52c",
+      "roles": [
+        "Art240:original-tool-output"
+      ]
+    },
+    {
+      "path": "generated_images/exec-56e36a1f-9152-41d2-97e7-8a9772084c37.png",
+      "sha256": "87ca8ebb699f6838a36fccf9741451c5e9eefec33c555097a1476839560348c8",
+      "bytes": 1019029,
+      "gitBlobCalculated": "beadbc169e38b2f337f781e0f1474097d67c16b7",
+      "roles": [
+        "Art241:original-tool-output"
+      ]
+    },
+    {
+      "path": "generated_images/exec-6a24306f-afce-45d8-b4bc-fbfd9082019a.png",
+      "sha256": "450d49d558661f0217fac526ed62146ea74afe30f96885762368274a90a8bfbc",
+      "bytes": 1610623,
+      "gitBlobCalculated": "8769f65592deb57c2adbedc2aedccc1172c65740",
+      "roles": [
+        "Art240:original-tool-output"
+      ]
+    },
+    {
+      "path": "generated_images/exec-76c9d12e-347d-438c-917a-111ba7e3a6b6.png",
+      "sha256": "91833c4ae39c15308663733dac0aeaf5b032f78281954e292cbb90bd2fb03c77",
+      "bytes": 1140439,
+      "gitBlobCalculated": "558eb337e824eaa6082b61616fec6887782460b2",
+      "roles": [
+        "Art241:original-tool-output"
+      ]
+    },
+    {
+      "path": "generated_images/exec-82e09bbe-4eb6-4618-ad5b-341e867a4cdc.png",
+      "sha256": "c271376c312da5491b18783f0d5a9eecc7f8ddad97bbf3eb19b952493fea2159",
+      "bytes": 1086419,
+      "gitBlobCalculated": "1e6f89389257bf8fe0b9c8fb0cf830c3599423ad",
+      "roles": [
+        "Art239:original-tool-output"
+      ]
+    },
+    {
+      "path": "generated_images/exec-9794e64d-60c9-41c2-bb5d-135b4cf77cf4.png",
+      "sha256": "17c9f528b7a4b712b18af839e62b31bc38ce30ee16c14b18d32e2f1d8b821801",
+      "bytes": 1433741,
+      "gitBlobCalculated": "1e8cff503b80c73321119e0286810fd84f9b31cf",
+      "roles": [
+        "Art239:original-tool-output"
+      ]
+    },
+    {
+      "path": "generated_images/exec-99d7b7f3-19ab-432f-bfa3-b78b22622947.png",
+      "sha256": "2f871f6f1d70b64ecb99842a8cd03413c9ed049b3e19ffa45444d13cb1d3b78f",
+      "bytes": 162683,
+      "gitBlobCalculated": "acc7a045ed4f3f426c0b7660477bc0752fcbac45",
+      "roles": [
+        "Art239:original-tool-output"
+      ]
+    },
+    {
+      "path": "generated_images/exec-9eb2e631-fb8a-46e8-b60b-3b32dedcacca.png",
+      "sha256": "2be6d0ff6d2cf2d60944c2e893a2fb7a730f99d4beb873ddc31a75263cd72c4e",
+      "bytes": 148417,
+      "gitBlobCalculated": "e2c5fea10903acd0ad670215c4620f5e957fc73a",
+      "roles": [
+        "Art239:original-tool-output"
+      ]
+    },
+    {
+      "path": "generated_images/exec-bcf66d64-4042-481c-966c-6f6ed5078805.png",
+      "sha256": "6b4b84fc1a71cd08e7d7aabd53b5f35c8afef5b22dbd811608f463823af32074",
+      "bytes": 1294875,
+      "gitBlobCalculated": "517925a44ecb007002742b1a79c0d94b839a4d06",
+      "roles": [
+        "Art239:original-tool-output"
+      ]
+    },
+    {
+      "path": "generated_images/exec-c23382e4-d25a-415c-bd28-a61a94d14ef0.png",
+      "sha256": "cb2f2395e0d0e67bdcdd92458e317558a75ce811e394f0a9cd307740f8d6fb40",
+      "bytes": 1290918,
+      "gitBlobCalculated": "1d9c5657918235052f7f74262c4ba62014890fb4",
+      "roles": [
+        "Art239:original-tool-output"
+      ]
+    },
+    {
+      "path": "generated_images/exec-c535705e-d400-4967-9807-73b0d56651d0.png",
+      "sha256": "9ed37d39104b00b35de4146fb6cfb2ef5323a351374ca7564c2e6905b8e80be6",
+      "bytes": 1111064,
+      "gitBlobCalculated": "4ba62da4903c35ab9aa22db418485151be70bb80",
+      "roles": [
+        "Art241:original-tool-output"
+      ]
+    },
+    {
+      "path": "generated_images/exec-cae475c1-aec9-41f0-a556-0c658d48921a.png",
+      "sha256": "860fa7c57994fa212c87f115501b711aa5dc6089a2858b18ebfb296fb5d31d0c",
+      "bytes": 404140,
+      "gitBlobCalculated": "99486cc70ef613fa9f435f77b7e51a6f5f454ccb",
+      "roles": [
+        "Art239:original-tool-output"
+      ]
+    },
+    {
+      "path": "generated_images/exec-d3790c87-9502-4fdc-9bdb-59694d5989e2.png",
+      "sha256": "bc1d4094cb6f76ddb58cd7dd9fa45a56af1c0c80c6d1ab2eb822f4dabf87edcf",
+      "bytes": 1046969,
+      "gitBlobCalculated": "12d049f7f8676a34f801b74bbe41b032769f4ae5",
+      "roles": [
+        "Art241:original-tool-output"
+      ]
+    },
+    {
+      "path": "generated_images/exec-db6c0310-d878-4d4c-8d5a-c290046d2c5a.png",
+      "sha256": "e24289d2185870da391b3c3260f1c03fbd41e31732fb113a6082b8d0f38c7841",
+      "bytes": 1198407,
+      "gitBlobCalculated": "c038aba71b3f0b5c3cf60f4c399a2c14de544cd9",
+      "roles": [
+        "Art241:original-tool-output"
+      ]
+    }
+  ],
+  "nativeOutputs": [
+    {
+      "batch": "Art239",
+      "key": "fence:v1",
+      "iteration": 1,
+      "sha256": "88b6ee1653066ce236aab1fd19693e14286f9aa63930571619f8d3f2f1bedad3",
+      "bytes": 167835,
+      "width": 1402,
+      "height": 1122,
+      "nativeSourcePath": "/workspace/scratch/6f470a892a0f/art239-prep/outputs/iteration-01/fence_cloture_renforts_bois_v1.png",
+      "promptIsVerbatim": true,
+      "selectedFinal": true
+    },
+    {
+      "batch": "Art239",
+      "key": "fence:v2",
+      "iteration": 1,
+      "sha256": "2be6d0ff6d2cf2d60944c2e893a2fb7a730f99d4beb873ddc31a75263cd72c4e",
+      "bytes": 148417,
+      "width": 1402,
+      "height": 1122,
+      "nativeSourcePath": "/workspace/scratch/6f470a892a0f/art239-prep/outputs/iteration-01/fence_cloture_croisillons_metal_v2.png",
+      "promptIsVerbatim": true,
+      "selectedFinal": false
+    },
+    {
+      "batch": "Art239",
+      "key": "garden-shed:v1",
+      "iteration": 1,
+      "sha256": "6b4b84fc1a71cd08e7d7aabd53b5f35c8afef5b22dbd811608f463823af32074",
+      "bytes": 1294875,
+      "width": 1402,
+      "height": 1122,
+      "nativeSourcePath": "/workspace/scratch/6f470a892a0f/art239-prep/outputs/iteration-01/garden-shed_toiture_metal_v1.png",
+      "promptIsVerbatim": true,
+      "selectedFinal": true
+    },
+    {
+      "batch": "Art239",
+      "key": "garden-shed:v2",
+      "iteration": 1,
+      "sha256": "17c9f528b7a4b712b18af839e62b31bc38ce30ee16c14b18d32e2f1d8b821801",
+      "bytes": 1433741,
+      "width": 1402,
+      "height": 1122,
+      "nativeSourcePath": "/workspace/scratch/6f470a892a0f/art239-prep/outputs/iteration-01/garden-shed_toiture_pieces_v2.png",
+      "promptIsVerbatim": true,
+      "selectedFinal": true
+    },
+    {
+      "batch": "Art239",
+      "key": "rain-barrel:v1",
+      "iteration": 1,
+      "sha256": "cb2f2395e0d0e67bdcdd92458e317558a75ce811e394f0a9cd307740f8d6fb40",
+      "bytes": 1290918,
+      "width": 1254,
+      "height": 1254,
+      "nativeSourcePath": "/workspace/scratch/6f470a892a0f/art239-prep/outputs/iteration-01/rain-barrel_disque_metal_v1.png",
+      "promptIsVerbatim": true,
+      "selectedFinal": true
+    },
+    {
+      "batch": "Art239",
+      "key": "rain-barrel:v2",
+      "iteration": 1,
+      "sha256": "c271376c312da5491b18783f0d5a9eecc7f8ddad97bbf3eb19b952493fea2159",
+      "bytes": 1086419,
+      "width": 1254,
+      "height": 1254,
+      "nativeSourcePath": "/workspace/scratch/6f470a892a0f/art239-prep/outputs/iteration-01/rain-barrel_traverse_diagonale_v2.png",
+      "promptIsVerbatim": true,
+      "selectedFinal": true
+    },
+    {
+      "batch": "Art239",
+      "key": "fence:v2",
+      "iteration": 2,
+      "sha256": "860fa7c57994fa212c87f115501b711aa5dc6089a2858b18ebfb296fb5d31d0c",
+      "bytes": 404140,
+      "width": 1402,
+      "height": 1122,
+      "nativeSourcePath": "/workspace/scratch/6f470a892a0f/art239-prep/outputs/iteration-02/fence_cloture_croisillons_metal_v2.png",
+      "promptIsVerbatim": true,
+      "selectedFinal": false
+    },
+    {
+      "batch": "Art239",
+      "key": "fence:v2",
+      "iteration": 3,
+      "sha256": "2f871f6f1d70b64ecb99842a8cd03413c9ed049b3e19ffa45444d13cb1d3b78f",
+      "bytes": 162683,
+      "width": 1402,
+      "height": 1122,
+      "nativeSourcePath": "/workspace/scratch/6f470a892a0f/art239-prep/outputs/iteration-03/fence_cloture_croisillons_metal_v2.png",
+      "promptIsVerbatim": true,
+      "selectedFinal": true
+    },
+    {
+      "batch": "Art240",
+      "key": "compost-bin:v1",
+      "iteration": 1,
+      "sha256": "74341943da6e2292c2510df4cabdfeb696a0dfa661c51e8ad8a576a1837ce5eb",
+      "bytes": 1447148,
+      "width": 1254,
+      "height": 1254,
+      "nativeSourcePath": "/workspace/scratch/6f470a892a0f/art240-prep/outputs/iteration-01/compost-bin_composteur_jardin_v1.png",
+      "promptIsVerbatim": true,
+      "selectedFinal": true
+    },
+    {
+      "batch": "Art240",
+      "key": "compost-bin:v2",
+      "iteration": 1,
+      "sha256": "450d49d558661f0217fac526ed62146ea74afe30f96885762368274a90a8bfbc",
+      "bytes": 1610623,
+      "width": 1254,
+      "height": 1254,
+      "nativeSourcePath": "/workspace/scratch/6f470a892a0f/art240-prep/outputs/iteration-01/compost-bin_composteur_jardin_v2.png",
+      "promptIsVerbatim": true,
+      "selectedFinal": true
+    },
+    {
+      "batch": "Art240",
+      "key": "closed-pool:v1",
+      "iteration": 1,
+      "sha256": "4b511e0eb83c8bba591336e3af21881ea416b14f0d88b7d5c336fd565c7e5df1",
+      "bytes": 761122,
+      "width": 1122,
+      "height": 1402,
+      "nativeSourcePath": "/workspace/scratch/6f470a892a0f/art240-prep/outputs/iteration-01/closed-pool_bassin_ferme_v1.png",
+      "promptIsVerbatim": true,
+      "selectedFinal": true
+    },
+    {
+      "batch": "Art240",
+      "key": "closed-pool:v2",
+      "iteration": 1,
+      "sha256": "8b4f76904cb66eec85ec824488b03398c3019c00756d7f935c2d910143e567eb",
+      "bytes": 836767,
+      "width": 1122,
+      "height": 1402,
+      "nativeSourcePath": "/workspace/scratch/6f470a892a0f/art240-prep/outputs/iteration-01/closed-pool_bassin_ferme_v2.png",
+      "promptIsVerbatim": true,
+      "selectedFinal": true
+    },
+    {
+      "batch": "Art241",
+      "key": "touring-caravan:v1",
+      "iteration": 1,
+      "sha256": "9ed37d39104b00b35de4146fb6cfb2ef5323a351374ca7564c2e6905b8e80be6",
+      "bytes": 1111064,
+      "width": 887,
+      "height": 1774,
+      "nativeSourcePath": "/workspace/scratch/6f470a892a0f/art241-prep/outputs/iteration-01/touring-caravan_v1.png",
+      "promptIsVerbatim": true,
+      "selectedFinal": true
+    },
+    {
+      "batch": "Art241",
+      "key": "touring-caravan:v2",
+      "iteration": 1,
+      "sha256": "e24289d2185870da391b3c3260f1c03fbd41e31732fb113a6082b8d0f38c7841",
+      "bytes": 1198407,
+      "width": 887,
+      "height": 1774,
+      "nativeSourcePath": "/workspace/scratch/6f470a892a0f/art241-prep/outputs/iteration-01/touring-caravan_v2.png",
+      "promptIsVerbatim": true,
+      "selectedFinal": true
+    },
+    {
+      "batch": "Art241",
+      "key": "abandoned-caravan:v1",
+      "iteration": 1,
+      "sha256": "bc1d4094cb6f76ddb58cd7dd9fa45a56af1c0c80c6d1ab2eb822f4dabf87edcf",
+      "bytes": 1046969,
+      "width": 887,
+      "height": 1774,
+      "nativeSourcePath": "/workspace/scratch/6f470a892a0f/art241-prep/outputs/iteration-01/abandoned-caravan_v1.png",
+      "promptIsVerbatim": true,
+      "selectedFinal": false
+    },
+    {
+      "batch": "Art241",
+      "key": "abandoned-caravan:v2",
+      "iteration": 1,
+      "sha256": "91833c4ae39c15308663733dac0aeaf5b032f78281954e292cbb90bd2fb03c77",
+      "bytes": 1140439,
+      "width": 887,
+      "height": 1774,
+      "nativeSourcePath": "/workspace/scratch/6f470a892a0f/art241-prep/outputs/iteration-01/abandoned-caravan_v2.png",
+      "promptIsVerbatim": true,
+      "selectedFinal": false
+    },
+    {
+      "batch": "Art241",
+      "key": "abandoned-caravan:v1",
+      "iteration": 2,
+      "sha256": "941c7282cd9b01dd12a88fea3bce77b28ce59e61a45f8ec156933fdc090faa6b",
+      "bytes": 1002005,
+      "width": 887,
+      "height": 1774,
+      "nativeSourcePath": "/workspace/scratch/6f470a892a0f/art241-prep/outputs/iteration-02/abandoned-caravan_v1.png",
+      "promptIsVerbatim": true,
+      "selectedFinal": true
+    },
+    {
+      "batch": "Art241",
+      "key": "abandoned-caravan:v2",
+      "iteration": 2,
+      "sha256": "db63a0b14f90d3afafca59a6ea8f254f89c3ad943c7049cbd25ea4662c7cff94",
+      "bytes": 1056984,
+      "width": 887,
+      "height": 1774,
+      "nativeSourcePath": "/workspace/scratch/6f470a892a0f/art241-prep/outputs/iteration-02/abandoned-caravan_v2.png",
+      "promptIsVerbatim": true,
+      "selectedFinal": false
+    },
+    {
+      "batch": "Art241",
+      "key": "abandoned-caravan:v2",
+      "iteration": 3,
+      "sha256": "87ca8ebb699f6838a36fccf9741451c5e9eefec33c555097a1476839560348c8",
+      "bytes": 1019029,
+      "width": 887,
+      "height": 1774,
+      "nativeSourcePath": "/workspace/scratch/6f470a892a0f/art241-prep/outputs/iteration-03/abandoned-caravan_v2.png",
+      "promptIsVerbatim": true,
+      "selectedFinal": true
+    }
+  ],
+  "newFinalCount": 14,
+  "newNativeOutputCount": 19,
+  "newBlockedTargets": []
+}

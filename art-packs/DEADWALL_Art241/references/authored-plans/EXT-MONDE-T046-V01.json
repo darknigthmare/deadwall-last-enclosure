@@ -1,0 +1,2115 @@
+{
+  "id": "EXT-MONDE-T046-V01",
+  "type": "EXT-MONDE-T046",
+  "number": 1,
+  "version": 1,
+  "units": "m",
+  "scope": "author-metric-layout-not-live-world",
+  "playable": false,
+  "name": "Camping caravanes",
+  "sourceIds": [],
+  "heightOrigin": "author-design",
+  "maxHeightM": 3.2,
+  "designAssumptions": [
+    "Toutes les cotes sont des choix auteur originaux en mètres, sans relevé de constructeur ni conformité de bâtiment revendiquée.",
+    "Les logements visitables sont des modules résidentiels élargis. Les caravanes tractables étroites conservent une coque fermée à leur propre gabarit.",
+    "Les routes sont des réservations géométriques : le parcours inspecté reste piéton et ne certifie pas les girations des véhicules."
+  ],
+  "bounds": {
+    "x": 0,
+    "y": 0,
+    "w": 118,
+    "h": 122
+  },
+  "buildings": [
+    {
+      "id": "EXT-MONDE-T046-V01:welcome",
+      "kind": "reception",
+      "x": 22,
+      "y": 12,
+      "w": 12,
+      "h": 12,
+      "rotationRad": 0,
+      "entrySide": "north",
+      "heightM": 3.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "levels": [
+        0
+      ],
+      "rooms": [
+        {
+          "id": "EXT-MONDE-T046-V01:welcome:circulation",
+          "name": "circulation",
+          "kind": "circulation",
+          "x": 5.4,
+          "y": 0,
+          "w": 1.2,
+          "h": 12,
+          "level": 0,
+          "clearHeightM": 2.5
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:welcome:room:0",
+          "name": "accueil",
+          "x": 0.2,
+          "y": 0.2,
+          "w": 5,
+          "h": 5.6,
+          "level": 0,
+          "clearHeightM": 2.5,
+          "slots": []
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:welcome:room:1",
+          "name": "bureau exploitation",
+          "x": 6.8,
+          "y": 0.2,
+          "w": 5,
+          "h": 5.6,
+          "level": 0,
+          "clearHeightM": 2.5,
+          "slots": []
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:welcome:room:2",
+          "name": "local nettoyage",
+          "x": 0.2,
+          "y": 6.2,
+          "w": 5,
+          "h": 5.6,
+          "level": 0,
+          "clearHeightM": 2.5,
+          "slots": []
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:welcome:room:3",
+          "name": "réserve accueil",
+          "x": 6.8,
+          "y": 6.2,
+          "w": 5,
+          "h": 5.6,
+          "level": 0,
+          "clearHeightM": 2.5,
+          "slots": []
+        }
+      ],
+      "portals": [
+        {
+          "id": "EXT-MONDE-T046-V01:welcome:room:0:door",
+          "from": "EXT-MONDE-T046-V01:welcome:circulation",
+          "to": "EXT-MONDE-T046-V01:welcome:room:0",
+          "x": 5.4,
+          "y": 3,
+          "widthM": 1.1,
+          "wallGapM": 0.2,
+          "axis": "y"
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:welcome:room:1:door",
+          "from": "EXT-MONDE-T046-V01:welcome:circulation",
+          "to": "EXT-MONDE-T046-V01:welcome:room:1",
+          "x": 6.6000000000000005,
+          "y": 3,
+          "widthM": 1.1,
+          "wallGapM": 0.2,
+          "axis": "y"
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:welcome:room:2:door",
+          "from": "EXT-MONDE-T046-V01:welcome:circulation",
+          "to": "EXT-MONDE-T046-V01:welcome:room:2",
+          "x": 5.4,
+          "y": 9,
+          "widthM": 1.1,
+          "wallGapM": 0.2,
+          "axis": "y"
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:welcome:room:3:door",
+          "from": "EXT-MONDE-T046-V01:welcome:circulation",
+          "to": "EXT-MONDE-T046-V01:welcome:room:3",
+          "x": 6.6000000000000005,
+          "y": 9,
+          "widthM": 1.1,
+          "wallGapM": 0.2,
+          "axis": "y"
+        }
+      ],
+      "entry": {
+        "x": 6,
+        "y": 0,
+        "level": 0,
+        "widthM": 1.1
+      }
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:hygiene",
+      "kind": "sanitary",
+      "x": 47,
+      "y": 12,
+      "w": 14,
+      "h": 12,
+      "rotationRad": 0,
+      "entrySide": "north",
+      "heightM": 3.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "levels": [
+        0
+      ],
+      "rooms": [
+        {
+          "id": "EXT-MONDE-T046-V01:hygiene:circulation",
+          "name": "circulation",
+          "kind": "circulation",
+          "x": 6.4,
+          "y": 0,
+          "w": 1.2,
+          "h": 12,
+          "level": 0,
+          "clearHeightM": 2.5
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:hygiene:room:0",
+          "name": "sanitaires A",
+          "x": 0.2,
+          "y": 0.2,
+          "w": 6,
+          "h": 5.6,
+          "level": 0,
+          "clearHeightM": 2.5,
+          "slots": []
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:hygiene:room:1",
+          "name": "douches A",
+          "x": 7.8,
+          "y": 0.2,
+          "w": 6,
+          "h": 5.6,
+          "level": 0,
+          "clearHeightM": 2.5,
+          "slots": []
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:hygiene:room:2",
+          "name": "buanderie",
+          "x": 0.2,
+          "y": 6.2,
+          "w": 6,
+          "h": 5.6,
+          "level": 0,
+          "clearHeightM": 2.5,
+          "slots": []
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:hygiene:room:3",
+          "name": "réserve hygiène",
+          "x": 7.8,
+          "y": 6.2,
+          "w": 6,
+          "h": 5.6,
+          "level": 0,
+          "clearHeightM": 2.5,
+          "slots": []
+        }
+      ],
+      "portals": [
+        {
+          "id": "EXT-MONDE-T046-V01:hygiene:room:0:door",
+          "from": "EXT-MONDE-T046-V01:hygiene:circulation",
+          "to": "EXT-MONDE-T046-V01:hygiene:room:0",
+          "x": 6.4,
+          "y": 3,
+          "widthM": 1.1,
+          "wallGapM": 0.2,
+          "axis": "y"
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:hygiene:room:1:door",
+          "from": "EXT-MONDE-T046-V01:hygiene:circulation",
+          "to": "EXT-MONDE-T046-V01:hygiene:room:1",
+          "x": 7.6000000000000005,
+          "y": 3,
+          "widthM": 1.1,
+          "wallGapM": 0.2,
+          "axis": "y"
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:hygiene:room:2:door",
+          "from": "EXT-MONDE-T046-V01:hygiene:circulation",
+          "to": "EXT-MONDE-T046-V01:hygiene:room:2",
+          "x": 6.4,
+          "y": 9,
+          "widthM": 1.1,
+          "wallGapM": 0.2,
+          "axis": "y"
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:hygiene:room:3:door",
+          "from": "EXT-MONDE-T046-V01:hygiene:circulation",
+          "to": "EXT-MONDE-T046-V01:hygiene:room:3",
+          "x": 7.6000000000000005,
+          "y": 9,
+          "widthM": 1.1,
+          "wallGapM": 0.2,
+          "axis": "y"
+        }
+      ],
+      "entry": {
+        "x": 7,
+        "y": 0,
+        "level": 0,
+        "widthM": 1.1
+      }
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:common",
+      "kind": "common-services",
+      "x": 72,
+      "y": 12,
+      "w": 16,
+      "h": 12,
+      "rotationRad": 0,
+      "entrySide": "north",
+      "heightM": 3.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "levels": [
+        0
+      ],
+      "rooms": [
+        {
+          "id": "EXT-MONDE-T046-V01:common:circulation",
+          "name": "circulation",
+          "kind": "circulation",
+          "x": 7.4,
+          "y": 0,
+          "w": 1.2,
+          "h": 12,
+          "level": 0,
+          "clearHeightM": 2.5
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:common:room:0",
+          "name": "réfectoire",
+          "x": 0.2,
+          "y": 0.2,
+          "w": 7,
+          "h": 5.6,
+          "level": 0,
+          "clearHeightM": 2.5,
+          "slots": []
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:common:room:1",
+          "name": "cuisine commune",
+          "x": 8.799999999999999,
+          "y": 0.2,
+          "w": 7,
+          "h": 5.6,
+          "level": 0,
+          "clearHeightM": 2.5,
+          "slots": []
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:common:room:2",
+          "name": "atelier maintenance",
+          "x": 0.2,
+          "y": 6.2,
+          "w": 7,
+          "h": 5.6,
+          "level": 0,
+          "clearHeightM": 2.5,
+          "slots": []
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:common:room:3",
+          "name": "réserve sèche",
+          "x": 8.799999999999999,
+          "y": 6.2,
+          "w": 7,
+          "h": 5.6,
+          "level": 0,
+          "clearHeightM": 2.5,
+          "slots": []
+        }
+      ],
+      "portals": [
+        {
+          "id": "EXT-MONDE-T046-V01:common:room:0:door",
+          "from": "EXT-MONDE-T046-V01:common:circulation",
+          "to": "EXT-MONDE-T046-V01:common:room:0",
+          "x": 7.4,
+          "y": 3,
+          "widthM": 1.1,
+          "wallGapM": 0.2,
+          "axis": "y"
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:common:room:1:door",
+          "from": "EXT-MONDE-T046-V01:common:circulation",
+          "to": "EXT-MONDE-T046-V01:common:room:1",
+          "x": 8.6,
+          "y": 3,
+          "widthM": 1.1,
+          "wallGapM": 0.2,
+          "axis": "y"
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:common:room:2:door",
+          "from": "EXT-MONDE-T046-V01:common:circulation",
+          "to": "EXT-MONDE-T046-V01:common:room:2",
+          "x": 7.4,
+          "y": 9,
+          "widthM": 1.1,
+          "wallGapM": 0.2,
+          "axis": "y"
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:common:room:3:door",
+          "from": "EXT-MONDE-T046-V01:common:circulation",
+          "to": "EXT-MONDE-T046-V01:common:room:3",
+          "x": 8.6,
+          "y": 9,
+          "widthM": 1.1,
+          "wallGapM": 0.2,
+          "axis": "y"
+        }
+      ],
+      "entry": {
+        "x": 8,
+        "y": 0,
+        "level": 0,
+        "widthM": 1.1
+      }
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:0:home",
+      "kind": "mobile-home",
+      "x": 27.7,
+      "y": 47,
+      "w": 9.6,
+      "h": 14.4,
+      "rotationRad": 0,
+      "entrySide": "north",
+      "heightM": 3.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "levels": [
+        0
+      ],
+      "rooms": [
+        {
+          "id": "EXT-MONDE-T046-V01:parcel:0:home:circulation",
+          "name": "circulation",
+          "kind": "circulation",
+          "x": 4.2,
+          "y": 0,
+          "w": 1.2,
+          "h": 14.4,
+          "level": 0,
+          "clearHeightM": 2.5
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:parcel:0:home:room:0",
+          "name": "salon familial",
+          "x": 0.2,
+          "y": 0.2,
+          "w": 3.8000000000000003,
+          "h": 5.936,
+          "level": 0,
+          "clearHeightM": 2.5,
+          "slots": []
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:parcel:0:home:room:1",
+          "name": "cuisine",
+          "x": 5.6,
+          "y": 0.2,
+          "w": 3.8000000000000003,
+          "h": 5.936,
+          "level": 0,
+          "clearHeightM": 2.5,
+          "slots": []
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:parcel:0:home:room:2",
+          "name": "cabine parents",
+          "x": 0.2,
+          "y": 6.5360000000000005,
+          "w": 3.8000000000000003,
+          "h": 3.632,
+          "level": 0,
+          "clearHeightM": 2.5,
+          "slots": []
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:parcel:0:home:room:3",
+          "name": "cabine enfants",
+          "x": 5.6,
+          "y": 6.5360000000000005,
+          "w": 3.8000000000000003,
+          "h": 3.632,
+          "level": 0,
+          "clearHeightM": 2.5,
+          "slots": []
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:parcel:0:home:room:4",
+          "name": "sanitaires",
+          "x": 0.2,
+          "y": 10.568,
+          "w": 3.8000000000000003,
+          "h": 3.632,
+          "level": 0,
+          "clearHeightM": 2.5,
+          "slots": []
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:parcel:0:home:room:5",
+          "name": "buanderie",
+          "x": 5.6,
+          "y": 10.568,
+          "w": 3.8000000000000003,
+          "h": 3.632,
+          "level": 0,
+          "clearHeightM": 2.5,
+          "slots": []
+        }
+      ],
+      "portals": [
+        {
+          "id": "EXT-MONDE-T046-V01:parcel:0:home:room:0:door",
+          "from": "EXT-MONDE-T046-V01:parcel:0:home:circulation",
+          "to": "EXT-MONDE-T046-V01:parcel:0:home:room:0",
+          "x": 4.2,
+          "y": 3.168,
+          "widthM": 1.1,
+          "wallGapM": 0.2,
+          "axis": "y"
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:parcel:0:home:room:1:door",
+          "from": "EXT-MONDE-T046-V01:parcel:0:home:circulation",
+          "to": "EXT-MONDE-T046-V01:parcel:0:home:room:1",
+          "x": 5.4,
+          "y": 3.168,
+          "widthM": 1.1,
+          "wallGapM": 0.2,
+          "axis": "y"
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:parcel:0:home:room:2:door",
+          "from": "EXT-MONDE-T046-V01:parcel:0:home:circulation",
+          "to": "EXT-MONDE-T046-V01:parcel:0:home:room:2",
+          "x": 4.2,
+          "y": 8.352,
+          "widthM": 1.1,
+          "wallGapM": 0.2,
+          "axis": "y"
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:parcel:0:home:room:3:door",
+          "from": "EXT-MONDE-T046-V01:parcel:0:home:circulation",
+          "to": "EXT-MONDE-T046-V01:parcel:0:home:room:3",
+          "x": 5.4,
+          "y": 8.352,
+          "widthM": 1.1,
+          "wallGapM": 0.2,
+          "axis": "y"
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:parcel:0:home:room:4:door",
+          "from": "EXT-MONDE-T046-V01:parcel:0:home:circulation",
+          "to": "EXT-MONDE-T046-V01:parcel:0:home:room:4",
+          "x": 4.2,
+          "y": 12.384,
+          "widthM": 1.1,
+          "wallGapM": 0.2,
+          "axis": "y"
+        },
+        {
+          "id": "EXT-MONDE-T046-V01:parcel:0:home:room:5:door",
+          "from": "EXT-MONDE-T046-V01:parcel:0:home:circulation",
+          "to": "EXT-MONDE-T046-V01:parcel:0:home:room:5",
+          "x": 5.4,
+          "y": 12.384,
+          "widthM": 1.1,
+          "wallGapM": 0.2,
+          "axis": "y"
+        }
+      ],
+      "entry": {
+        "x": 4.8,
+        "y": 0,
+        "level": 0,
+        "widthM": 1.1
+      }
+    }
+  ],
+  "structures": [
+    {
+      "id": "EXT-MONDE-T046-V01:site-fence:north-left",
+      "kind": "fence",
+      "x": 2,
+      "y": 2,
+      "w": 3,
+      "h": 0.15,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:site-fence:north-right",
+      "kind": "fence",
+      "x": 11,
+      "y": 2,
+      "w": 105,
+      "h": 0.15,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:site-fence:west",
+      "kind": "fence",
+      "x": 2,
+      "y": 2.15,
+      "w": 0.15,
+      "h": 117.7,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:site-fence:east",
+      "kind": "fence",
+      "x": 115.85,
+      "y": 2.15,
+      "w": 0.15,
+      "h": 117.7,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:site-fence:south-left",
+      "kind": "fence",
+      "x": 2,
+      "y": 119.85,
+      "w": 105,
+      "h": 0.15,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:site-fence:south-right",
+      "kind": "fence",
+      "x": 113,
+      "y": 119.85,
+      "w": 3,
+      "h": 0.15,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:0:fence:north-left",
+      "kind": "fence",
+      "x": 22,
+      "y": 42,
+      "w": 9.5,
+      "h": 0.15,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:0:fence:north-right",
+      "kind": "fence",
+      "x": 33.5,
+      "y": 42,
+      "w": 9.5,
+      "h": 0.15,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:0:fence:west",
+      "kind": "fence",
+      "x": 22,
+      "y": 42.15,
+      "w": 0.15,
+      "h": 27.7,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:0:fence:east",
+      "kind": "fence",
+      "x": 42.85,
+      "y": 42.15,
+      "w": 0.15,
+      "h": 27.7,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:0:fence:south",
+      "kind": "fence",
+      "x": 22,
+      "y": 69.85,
+      "w": 21,
+      "h": 0.15,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:0:shed",
+      "kind": "garden-shed",
+      "x": 23.3,
+      "y": 65.2,
+      "w": 3.4,
+      "h": 3.3,
+      "maxHeightM": 2.4,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "parcelId": "EXT-MONDE-T046-V01:parcel:0"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:0:water-barrel",
+      "kind": "rain-barrel",
+      "x": 38.699999999999996,
+      "y": 47.5,
+      "w": 0.7,
+      "h": 0.7,
+      "maxHeightM": 1,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "parcelId": "EXT-MONDE-T046-V01:parcel:0"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:0:compost",
+      "kind": "compost-bin",
+      "x": 41,
+      "y": 62.4,
+      "w": 1,
+      "h": 1,
+      "maxHeightM": 1,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "parcelId": "EXT-MONDE-T046-V01:parcel:0"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:1:fence:north-left",
+      "kind": "fence",
+      "x": 44,
+      "y": 42,
+      "w": 9.5,
+      "h": 0.15,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:1:fence:north-right",
+      "kind": "fence",
+      "x": 55.5,
+      "y": 42,
+      "w": 9.5,
+      "h": 0.15,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:1:fence:west",
+      "kind": "fence",
+      "x": 44,
+      "y": 42.15,
+      "w": 0.15,
+      "h": 27.7,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:1:fence:east",
+      "kind": "fence",
+      "x": 64.85,
+      "y": 42.15,
+      "w": 0.15,
+      "h": 27.7,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:1:fence:south",
+      "kind": "fence",
+      "x": 44,
+      "y": 69.85,
+      "w": 21,
+      "h": 0.15,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:1:caravan",
+      "kind": "touring-caravan",
+      "x": 53.3,
+      "y": 47,
+      "w": 2.4,
+      "h": 6.2,
+      "maxHeightM": 2.8,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "closed-towable-interior-not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "parcelId": "EXT-MONDE-T046-V01:parcel:1",
+      "condition": "unoccupied"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:1:shed",
+      "kind": "garden-shed",
+      "x": 45.3,
+      "y": 65.2,
+      "w": 3.4,
+      "h": 3.3,
+      "maxHeightM": 2.4,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "parcelId": "EXT-MONDE-T046-V01:parcel:1"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:2:fence:north-left",
+      "kind": "fence",
+      "x": 22,
+      "y": 80,
+      "w": 9.5,
+      "h": 0.15,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:2:fence:north-right",
+      "kind": "fence",
+      "x": 33.5,
+      "y": 80,
+      "w": 9.5,
+      "h": 0.15,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:2:fence:west",
+      "kind": "fence",
+      "x": 22,
+      "y": 80.15,
+      "w": 0.15,
+      "h": 27.7,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:2:fence:east",
+      "kind": "fence",
+      "x": 42.85,
+      "y": 80.15,
+      "w": 0.15,
+      "h": 27.7,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:2:fence:south",
+      "kind": "fence",
+      "x": 22,
+      "y": 107.85,
+      "w": 21,
+      "h": 0.15,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:2:caravan",
+      "kind": "touring-caravan",
+      "x": 31.3,
+      "y": 85,
+      "w": 2.4,
+      "h": 6.2,
+      "maxHeightM": 2.8,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "closed-towable-interior-not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "parcelId": "EXT-MONDE-T046-V01:parcel:2",
+      "condition": "unoccupied"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:2:shed",
+      "kind": "garden-shed",
+      "x": 23.3,
+      "y": 103.2,
+      "w": 3.4,
+      "h": 3.3,
+      "maxHeightM": 2.4,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "parcelId": "EXT-MONDE-T046-V01:parcel:2"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:2:water-barrel",
+      "kind": "rain-barrel",
+      "x": 35.1,
+      "y": 85.5,
+      "w": 0.7,
+      "h": 0.7,
+      "maxHeightM": 1,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "parcelId": "EXT-MONDE-T046-V01:parcel:2"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:3:fence:north-left",
+      "kind": "fence",
+      "x": 44,
+      "y": 80,
+      "w": 9.5,
+      "h": 0.15,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:3:fence:north-right",
+      "kind": "fence",
+      "x": 55.5,
+      "y": 80,
+      "w": 9.5,
+      "h": 0.15,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:3:fence:west",
+      "kind": "fence",
+      "x": 44,
+      "y": 80.15,
+      "w": 0.15,
+      "h": 27.7,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:3:fence:east",
+      "kind": "fence",
+      "x": 64.85,
+      "y": 80.15,
+      "w": 0.15,
+      "h": 27.7,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:3:fence:south",
+      "kind": "fence",
+      "x": 44,
+      "y": 107.85,
+      "w": 21,
+      "h": 0.15,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:3:caravan",
+      "kind": "touring-caravan",
+      "x": 53.3,
+      "y": 85,
+      "w": 2.4,
+      "h": 6.2,
+      "maxHeightM": 2.8,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "closed-towable-interior-not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "parcelId": "EXT-MONDE-T046-V01:parcel:3",
+      "condition": "unoccupied"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:3:shed",
+      "kind": "garden-shed",
+      "x": 45.3,
+      "y": 103.2,
+      "w": 3.4,
+      "h": 3.3,
+      "maxHeightM": 2.4,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "parcelId": "EXT-MONDE-T046-V01:parcel:3"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:3:compost",
+      "kind": "compost-bin",
+      "x": 63,
+      "y": 92.2,
+      "w": 1,
+      "h": 1,
+      "maxHeightM": 1,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "parcelId": "EXT-MONDE-T046-V01:parcel:3"
+    }
+  ],
+  "reservedAreas": [
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:0:garden",
+      "kind": "vegetable-garden",
+      "name": "Potager familial",
+      "x": 28,
+      "y": 64.7,
+      "w": 13,
+      "h": 4,
+      "level": 0,
+      "origin": "author-design",
+      "lootAssigned": false,
+      "utilityConnected": false
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:1:garden",
+      "kind": "flower-garden",
+      "name": "Jardin fleuri",
+      "x": 50,
+      "y": 64.7,
+      "w": 13,
+      "h": 4,
+      "level": 0,
+      "origin": "author-design",
+      "lootAssigned": false,
+      "utilityConnected": false
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:2:garden",
+      "kind": "gravel-garden",
+      "name": "Jardin minéral",
+      "x": 28,
+      "y": 102.7,
+      "w": 13,
+      "h": 4,
+      "level": 0,
+      "origin": "author-design",
+      "lootAssigned": false,
+      "utilityConnected": false
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:3:garden",
+      "kind": "herb-garden",
+      "name": "Carré aromatique",
+      "x": 50,
+      "y": 102.7,
+      "w": 13,
+      "h": 4,
+      "level": 0,
+      "origin": "author-design",
+      "lootAssigned": false,
+      "utilityConnected": false
+    }
+  ],
+  "outdoorAreas": [
+    {
+      "id": "EXT-MONDE-T046-V01:communal-court",
+      "kind": "court",
+      "name": "Cour commune et accès de service",
+      "x": 22,
+      "y": 28,
+      "w": 74,
+      "h": 4,
+      "level": 0,
+      "walkable": true,
+      "origin": "author-design"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:0:terrace",
+      "kind": "terrace",
+      "name": "Terrasse latérale de la parcelle",
+      "x": 23.2,
+      "y": 47.4,
+      "w": 3.6999999999999993,
+      "h": 6,
+      "level": 0,
+      "walkable": true,
+      "origin": "author-design"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:0:parking",
+      "kind": "parking",
+      "name": "Emplacement de stationnement réservé",
+      "x": 38.8,
+      "y": 49,
+      "w": 2.6,
+      "h": 5.2,
+      "level": 0,
+      "walkable": true,
+      "origin": "author-design"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:1:terrace",
+      "kind": "terrace",
+      "name": "Terrasse latérale de la parcelle",
+      "x": 45.2,
+      "y": 47.4,
+      "w": 7.299999999999997,
+      "h": 5.2,
+      "level": 0,
+      "walkable": true,
+      "origin": "author-design"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:1:parking",
+      "kind": "parking",
+      "name": "Emplacement de stationnement réservé",
+      "x": 57.199999999999996,
+      "y": 49,
+      "w": 2.6,
+      "h": 5.2,
+      "level": 0,
+      "walkable": true,
+      "origin": "author-design"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:2:terrace",
+      "kind": "terrace",
+      "name": "Terrasse latérale de la parcelle",
+      "x": 23.2,
+      "y": 85.4,
+      "w": 7.300000000000001,
+      "h": 5.2,
+      "level": 0,
+      "walkable": true,
+      "origin": "author-design"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:2:parking",
+      "kind": "parking",
+      "name": "Emplacement de stationnement réservé",
+      "x": 35.2,
+      "y": 87,
+      "w": 2.6,
+      "h": 5.2,
+      "level": 0,
+      "walkable": true,
+      "origin": "author-design"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:3:terrace",
+      "kind": "terrace",
+      "name": "Terrasse latérale de la parcelle",
+      "x": 45.2,
+      "y": 85.4,
+      "w": 7.299999999999997,
+      "h": 5.2,
+      "level": 0,
+      "walkable": true,
+      "origin": "author-design"
+    },
+    {
+      "id": "EXT-MONDE-T046-V01:parcel:3:parking",
+      "kind": "parking",
+      "name": "Emplacement de stationnement réservé",
+      "x": 57.199999999999996,
+      "y": 87,
+      "w": 2.6,
+      "h": 5.2,
+      "level": 0,
+      "walkable": true,
+      "origin": "author-design"
+    }
+  ],
+  "network": {
+    "nodes": [
+      {
+        "id": "EXT-MONDE-T046-V01:entrance",
+        "x": 8,
+        "y": 0,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:front-west",
+        "x": 8,
+        "y": 6,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:front-east",
+        "x": 110,
+        "y": 6,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:street:0:west",
+        "x": 8,
+        "y": 36,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:street:0:east",
+        "x": 110,
+        "y": 36,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:street:1:west",
+        "x": 8,
+        "y": 74,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:street:1:east",
+        "x": 110,
+        "y": 74,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:street:2:west",
+        "x": 8,
+        "y": 112,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:street:2:east",
+        "x": 110,
+        "y": 112,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:service-exit",
+        "x": 110,
+        "y": 122,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:welcome:junction",
+        "x": 28,
+        "y": 6,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:welcome:entry",
+        "x": 28,
+        "y": 12,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:hygiene:junction",
+        "x": 54,
+        "y": 6,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:hygiene:entry",
+        "x": 54,
+        "y": 12,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:common:junction",
+        "x": 80,
+        "y": 6,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:common:entry",
+        "x": 80,
+        "y": 12,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:0:junction",
+        "x": 32.5,
+        "y": 36,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:0:gate",
+        "x": 32.5,
+        "y": 42,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:0:front",
+        "x": 32.5,
+        "y": 44,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:0:side",
+        "x": 26.5,
+        "y": 44,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:0:rear",
+        "x": 26.5,
+        "y": 62.6,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:0:back",
+        "x": 32.5,
+        "y": 62.6,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:0:garden-access",
+        "x": 32.5,
+        "y": 63.5,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:0:home-entry",
+        "x": 32.5,
+        "y": 47,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:1:junction",
+        "x": 54.5,
+        "y": 36,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:1:gate",
+        "x": 54.5,
+        "y": 42,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:1:front",
+        "x": 54.5,
+        "y": 44,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:1:side",
+        "x": 52.099999999999994,
+        "y": 44,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:1:rear",
+        "x": 52.099999999999994,
+        "y": 54.400000000000006,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:1:back",
+        "x": 54.5,
+        "y": 54.400000000000006,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:1:garden-access",
+        "x": 54.5,
+        "y": 63.5,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:1:door-approach",
+        "x": 52.699999999999996,
+        "y": 50.1,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:1:door-turn",
+        "x": 52.099999999999994,
+        "y": 50.1,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:2:junction",
+        "x": 32.5,
+        "y": 74,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:2:gate",
+        "x": 32.5,
+        "y": 80,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:2:front",
+        "x": 32.5,
+        "y": 82,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:2:side",
+        "x": 30.1,
+        "y": 82,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:2:rear",
+        "x": 30.1,
+        "y": 92.4,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:2:back",
+        "x": 32.5,
+        "y": 92.4,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:2:garden-access",
+        "x": 32.5,
+        "y": 101.5,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:2:door-approach",
+        "x": 30.7,
+        "y": 88.1,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:2:door-turn",
+        "x": 30.1,
+        "y": 88.1,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:3:junction",
+        "x": 54.5,
+        "y": 74,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:3:gate",
+        "x": 54.5,
+        "y": 80,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:3:front",
+        "x": 54.5,
+        "y": 82,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:3:side",
+        "x": 52.099999999999994,
+        "y": 82,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:3:rear",
+        "x": 52.099999999999994,
+        "y": 92.4,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:3:back",
+        "x": 54.5,
+        "y": 92.4,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:3:garden-access",
+        "x": 54.5,
+        "y": 101.5,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:3:door-approach",
+        "x": 52.699999999999996,
+        "y": 88.1,
+        "z": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:3:door-turn",
+        "x": 52.099999999999994,
+        "y": 88.1,
+        "z": 0
+      }
+    ],
+    "edges": [
+      {
+        "id": "EXT-MONDE-T046-V01:edge:0",
+        "from": "EXT-MONDE-T046-V01:entrance",
+        "to": "EXT-MONDE-T046-V01:front-west",
+        "widthM": 5,
+        "mode": "service",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:1",
+        "from": "EXT-MONDE-T046-V01:front-west",
+        "to": "EXT-MONDE-T046-V01:front-east",
+        "widthM": 5,
+        "mode": "service",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:2",
+        "from": "EXT-MONDE-T046-V01:front-west",
+        "to": "EXT-MONDE-T046-V01:street:0:west",
+        "widthM": 5,
+        "mode": "service",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:3",
+        "from": "EXT-MONDE-T046-V01:front-east",
+        "to": "EXT-MONDE-T046-V01:street:0:east",
+        "widthM": 5,
+        "mode": "service",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:4",
+        "from": "EXT-MONDE-T046-V01:street:0:west",
+        "to": "EXT-MONDE-T046-V01:street:0:east",
+        "widthM": 5,
+        "mode": "service",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:5",
+        "from": "EXT-MONDE-T046-V01:street:0:west",
+        "to": "EXT-MONDE-T046-V01:street:1:west",
+        "widthM": 5,
+        "mode": "service",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:6",
+        "from": "EXT-MONDE-T046-V01:street:0:east",
+        "to": "EXT-MONDE-T046-V01:street:1:east",
+        "widthM": 5,
+        "mode": "service",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:7",
+        "from": "EXT-MONDE-T046-V01:street:1:west",
+        "to": "EXT-MONDE-T046-V01:street:1:east",
+        "widthM": 5,
+        "mode": "service",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:8",
+        "from": "EXT-MONDE-T046-V01:street:1:west",
+        "to": "EXT-MONDE-T046-V01:street:2:west",
+        "widthM": 5,
+        "mode": "service",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:9",
+        "from": "EXT-MONDE-T046-V01:street:1:east",
+        "to": "EXT-MONDE-T046-V01:street:2:east",
+        "widthM": 5,
+        "mode": "service",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:10",
+        "from": "EXT-MONDE-T046-V01:street:2:west",
+        "to": "EXT-MONDE-T046-V01:street:2:east",
+        "widthM": 5,
+        "mode": "service",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:11",
+        "from": "EXT-MONDE-T046-V01:street:2:east",
+        "to": "EXT-MONDE-T046-V01:service-exit",
+        "widthM": 5,
+        "mode": "service",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:12",
+        "from": "EXT-MONDE-T046-V01:front-west",
+        "to": "EXT-MONDE-T046-V01:welcome:junction",
+        "widthM": 5,
+        "mode": "service",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:13",
+        "from": "EXT-MONDE-T046-V01:welcome:junction",
+        "to": "EXT-MONDE-T046-V01:welcome:entry",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:14",
+        "from": "EXT-MONDE-T046-V01:front-west",
+        "to": "EXT-MONDE-T046-V01:hygiene:junction",
+        "widthM": 5,
+        "mode": "service",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:15",
+        "from": "EXT-MONDE-T046-V01:hygiene:junction",
+        "to": "EXT-MONDE-T046-V01:hygiene:entry",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:16",
+        "from": "EXT-MONDE-T046-V01:front-west",
+        "to": "EXT-MONDE-T046-V01:common:junction",
+        "widthM": 5,
+        "mode": "service",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:17",
+        "from": "EXT-MONDE-T046-V01:common:junction",
+        "to": "EXT-MONDE-T046-V01:common:entry",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:18",
+        "from": "EXT-MONDE-T046-V01:street:0:west",
+        "to": "EXT-MONDE-T046-V01:parcel:0:junction",
+        "widthM": 5,
+        "mode": "service",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:19",
+        "from": "EXT-MONDE-T046-V01:parcel:0:junction",
+        "to": "EXT-MONDE-T046-V01:parcel:0:gate",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:20",
+        "from": "EXT-MONDE-T046-V01:parcel:0:gate",
+        "to": "EXT-MONDE-T046-V01:parcel:0:front",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:21",
+        "from": "EXT-MONDE-T046-V01:parcel:0:front",
+        "to": "EXT-MONDE-T046-V01:parcel:0:side",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:22",
+        "from": "EXT-MONDE-T046-V01:parcel:0:side",
+        "to": "EXT-MONDE-T046-V01:parcel:0:rear",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:23",
+        "from": "EXT-MONDE-T046-V01:parcel:0:rear",
+        "to": "EXT-MONDE-T046-V01:parcel:0:back",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:24",
+        "from": "EXT-MONDE-T046-V01:parcel:0:back",
+        "to": "EXT-MONDE-T046-V01:parcel:0:garden-access",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:25",
+        "from": "EXT-MONDE-T046-V01:parcel:0:front",
+        "to": "EXT-MONDE-T046-V01:parcel:0:home-entry",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:26",
+        "from": "EXT-MONDE-T046-V01:street:0:west",
+        "to": "EXT-MONDE-T046-V01:parcel:1:junction",
+        "widthM": 5,
+        "mode": "service",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:27",
+        "from": "EXT-MONDE-T046-V01:parcel:1:junction",
+        "to": "EXT-MONDE-T046-V01:parcel:1:gate",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:28",
+        "from": "EXT-MONDE-T046-V01:parcel:1:gate",
+        "to": "EXT-MONDE-T046-V01:parcel:1:front",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:29",
+        "from": "EXT-MONDE-T046-V01:parcel:1:front",
+        "to": "EXT-MONDE-T046-V01:parcel:1:side",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:30",
+        "from": "EXT-MONDE-T046-V01:parcel:1:side",
+        "to": "EXT-MONDE-T046-V01:parcel:1:rear",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:31",
+        "from": "EXT-MONDE-T046-V01:parcel:1:rear",
+        "to": "EXT-MONDE-T046-V01:parcel:1:back",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:32",
+        "from": "EXT-MONDE-T046-V01:parcel:1:back",
+        "to": "EXT-MONDE-T046-V01:parcel:1:garden-access",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:33",
+        "from": "EXT-MONDE-T046-V01:parcel:1:side",
+        "to": "EXT-MONDE-T046-V01:parcel:1:door-turn",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:34",
+        "from": "EXT-MONDE-T046-V01:parcel:1:door-turn",
+        "to": "EXT-MONDE-T046-V01:parcel:1:door-approach",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:35",
+        "from": "EXT-MONDE-T046-V01:street:1:west",
+        "to": "EXT-MONDE-T046-V01:parcel:2:junction",
+        "widthM": 5,
+        "mode": "service",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:36",
+        "from": "EXT-MONDE-T046-V01:parcel:2:junction",
+        "to": "EXT-MONDE-T046-V01:parcel:2:gate",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:37",
+        "from": "EXT-MONDE-T046-V01:parcel:2:gate",
+        "to": "EXT-MONDE-T046-V01:parcel:2:front",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:38",
+        "from": "EXT-MONDE-T046-V01:parcel:2:front",
+        "to": "EXT-MONDE-T046-V01:parcel:2:side",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:39",
+        "from": "EXT-MONDE-T046-V01:parcel:2:side",
+        "to": "EXT-MONDE-T046-V01:parcel:2:rear",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:40",
+        "from": "EXT-MONDE-T046-V01:parcel:2:rear",
+        "to": "EXT-MONDE-T046-V01:parcel:2:back",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:41",
+        "from": "EXT-MONDE-T046-V01:parcel:2:back",
+        "to": "EXT-MONDE-T046-V01:parcel:2:garden-access",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:42",
+        "from": "EXT-MONDE-T046-V01:parcel:2:side",
+        "to": "EXT-MONDE-T046-V01:parcel:2:door-turn",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:43",
+        "from": "EXT-MONDE-T046-V01:parcel:2:door-turn",
+        "to": "EXT-MONDE-T046-V01:parcel:2:door-approach",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:44",
+        "from": "EXT-MONDE-T046-V01:street:1:west",
+        "to": "EXT-MONDE-T046-V01:parcel:3:junction",
+        "widthM": 5,
+        "mode": "service",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:45",
+        "from": "EXT-MONDE-T046-V01:parcel:3:junction",
+        "to": "EXT-MONDE-T046-V01:parcel:3:gate",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:46",
+        "from": "EXT-MONDE-T046-V01:parcel:3:gate",
+        "to": "EXT-MONDE-T046-V01:parcel:3:front",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:47",
+        "from": "EXT-MONDE-T046-V01:parcel:3:front",
+        "to": "EXT-MONDE-T046-V01:parcel:3:side",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:48",
+        "from": "EXT-MONDE-T046-V01:parcel:3:side",
+        "to": "EXT-MONDE-T046-V01:parcel:3:rear",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:49",
+        "from": "EXT-MONDE-T046-V01:parcel:3:rear",
+        "to": "EXT-MONDE-T046-V01:parcel:3:back",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:50",
+        "from": "EXT-MONDE-T046-V01:parcel:3:back",
+        "to": "EXT-MONDE-T046-V01:parcel:3:garden-access",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:51",
+        "from": "EXT-MONDE-T046-V01:parcel:3:side",
+        "to": "EXT-MONDE-T046-V01:parcel:3:door-turn",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:edge:52",
+        "from": "EXT-MONDE-T046-V01:parcel:3:door-turn",
+        "to": "EXT-MONDE-T046-V01:parcel:3:door-approach",
+        "widthM": 1.2,
+        "mode": "pedestrian",
+        "level": 0
+      }
+    ],
+    "externalPorts": [
+      {
+        "node": "EXT-MONDE-T046-V01:entrance",
+        "requires": "local-road",
+        "connectedToWorld": false
+      },
+      {
+        "node": "EXT-MONDE-T046-V01:service-exit",
+        "requires": "service-road",
+        "connectedToWorld": false
+      }
+    ]
+  },
+  "composition": {
+    "layout": "deux rangées courtes",
+    "layoutIndex": 0,
+    "dimensionGroup": 1,
+    "plotWidthM": 22,
+    "plotDepthM": 28,
+    "parcels": [
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:0",
+        "bounds": {
+          "x": 22,
+          "y": 42,
+          "w": 21,
+          "h": 28
+        },
+        "unit": "EXT-MONDE-T046-V01:parcel:0:home",
+        "gate": {
+          "x": 32.5,
+          "y": 42,
+          "widthM": 2
+        },
+        "garden": "EXT-MONDE-T046-V01:parcel:0:garden",
+        "interiorVisit": true,
+        "utilitiesConnected": false
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:1",
+        "bounds": {
+          "x": 44,
+          "y": 42,
+          "w": 21,
+          "h": 28
+        },
+        "unit": "EXT-MONDE-T046-V01:parcel:1:caravan",
+        "gate": {
+          "x": 54.5,
+          "y": 42,
+          "widthM": 2
+        },
+        "garden": "EXT-MONDE-T046-V01:parcel:1:garden",
+        "interiorVisit": false,
+        "utilitiesConnected": false
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:2",
+        "bounds": {
+          "x": 22,
+          "y": 80,
+          "w": 21,
+          "h": 28
+        },
+        "unit": "EXT-MONDE-T046-V01:parcel:2:caravan",
+        "gate": {
+          "x": 32.5,
+          "y": 80,
+          "widthM": 2
+        },
+        "garden": "EXT-MONDE-T046-V01:parcel:2:garden",
+        "interiorVisit": false,
+        "utilitiesConnected": false
+      },
+      {
+        "id": "EXT-MONDE-T046-V01:parcel:3",
+        "bounds": {
+          "x": 44,
+          "y": 80,
+          "w": 21,
+          "h": 28
+        },
+        "unit": "EXT-MONDE-T046-V01:parcel:3:caravan",
+        "gate": {
+          "x": 54.5,
+          "y": 80,
+          "widthM": 2
+        },
+        "garden": "EXT-MONDE-T046-V01:parcel:3:garden",
+        "interiorVisit": false,
+        "utilitiesConnected": false
+      }
+    ]
+  },
+  "unresolved": [
+    "implantation et raccord réel au seed",
+    "eau potable, assainissement et énergie",
+    "budgets finis de butin",
+    "occupation et rencontres",
+    "intérieurs des caravanes tractables et abris fermés",
+    "navigation et giration des véhicules",
+    "art définitif",
+    "sauvegarde et qualification de campagne"
+  ]
+}

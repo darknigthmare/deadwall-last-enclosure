@@ -1,0 +1,622 @@
+{
+  "schemaVersion": 1,
+  "batch": "art226",
+  "checkedOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "method": "PNG signature/IHDR and Pillow verify, native RGBA alpha histogram and bounds, SHA-256. No write, crop, resize or pixel transformation.",
+  "alphaThresholds": [
+    1,
+    8,
+    32,
+    128,
+    240
+  ],
+  "boundsConvention": "left/top inclusive, right/bottom exclusive",
+  "alphaInterpretation": "Hidden RGB colors with alpha=0 are transparent. Low alpha1–7 noise is reported separately. Alpha>=8 margins are a technical visibility indicator, not a physical footprint or fidelity certificate.",
+  "finalSpriteCount": 6,
+  "allRgba": true,
+  "allVisibleBodiesWithinCanvasAtAlpha8": true,
+  "nativeBytesPreserved": true,
+  "assets": [
+    {
+      "file": "assets/art226/regional/DW-0381_scierie-de-vallee.png",
+      "bytes": 2450016,
+      "sha256": "0a9f735108513def3efedba02687e2360d2221e7913d762996e3349845c2bef1",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "fullyTransparentPixels": 655447,
+      "fullyTransparentFraction": 0.41672197977701825,
+      "lowAlphaPixels1to7": 25762,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1520,
+          1024
+        ],
+        "8": [
+          149,
+          155,
+          1389,
+          894
+        ],
+        "32": [
+          151,
+          155,
+          1387,
+          890
+        ],
+        "128": [
+          152,
+          156,
+          1386,
+          885
+        ],
+        "240": [
+          153,
+          157,
+          1385,
+          883
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 16,
+          "bottom": 0
+        },
+        "8": {
+          "left": 149,
+          "top": 155,
+          "right": 147,
+          "bottom": 130
+        },
+        "32": {
+          "left": 151,
+          "top": 155,
+          "right": 149,
+          "bottom": 134
+        },
+        "128": {
+          "left": 152,
+          "top": 156,
+          "right": 150,
+          "bottom": 139
+        },
+        "240": {
+          "left": 153,
+          "top": 157,
+          "right": 151,
+          "bottom": 141
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art226/regional/DW-0221_entrepot-de-messagerie.png",
+      "bytes": 2473624,
+      "sha256": "a0ae23dddd27dceaca513e80ed6250a5db0b8dc9cfa149bd38bdb2803fecde39",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "fullyTransparentPixels": 595333,
+      "fullyTransparentFraction": 0.3785025278727214,
+      "lowAlphaPixels1to7": 57581,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1530,
+          1024
+        ],
+        "8": [
+          126,
+          165,
+          1412,
+          897
+        ],
+        "32": [
+          130,
+          167,
+          1408,
+          893
+        ],
+        "128": [
+          132,
+          168,
+          1405,
+          887
+        ],
+        "240": [
+          133,
+          169,
+          1403,
+          883
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 6,
+          "bottom": 0
+        },
+        "8": {
+          "left": 126,
+          "top": 165,
+          "right": 124,
+          "bottom": 127
+        },
+        "32": {
+          "left": 130,
+          "top": 167,
+          "right": 128,
+          "bottom": 131
+        },
+        "128": {
+          "left": 132,
+          "top": 168,
+          "right": 131,
+          "bottom": 137
+        },
+        "240": {
+          "left": 133,
+          "top": 169,
+          "right": 133,
+          "bottom": 141
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 2,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art226/regional/DW-0289_halle-fret-desaffectee.png",
+      "bytes": 2772448,
+      "sha256": "53fa62641d81eb5621bfd14ff572570afab1d1bbffaf3b5bd2e253cc3cc09dd9",
+      "width": 1734,
+      "height": 907,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 408106,
+      "fullyTransparentFraction": 0.259487594246467,
+      "lowAlphaPixels1to7": 34063,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          23,
+          1682,
+          907
+        ],
+        "8": [
+          82,
+          93,
+          1654,
+          836
+        ],
+        "32": [
+          83,
+          95,
+          1651,
+          831
+        ],
+        "128": [
+          84,
+          95,
+          1650,
+          828
+        ],
+        "240": [
+          85,
+          96,
+          1649,
+          827
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 23,
+          "right": 52,
+          "bottom": 0
+        },
+        "8": {
+          "left": 82,
+          "top": 93,
+          "right": 80,
+          "bottom": 71
+        },
+        "32": {
+          "left": 83,
+          "top": 95,
+          "right": 83,
+          "bottom": 76
+        },
+        "128": {
+          "left": 84,
+          "top": 95,
+          "right": 84,
+          "bottom": 79
+        },
+        "240": {
+          "left": 85,
+          "top": 96,
+          "right": 85,
+          "bottom": 80
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art226/regional/DW-0073_cuisine-centrale.png",
+      "bytes": 2372882,
+      "sha256": "0cfb8f195d13ebfdd397ea72432f22e9013ac1df164dda039904ce65e05abe25",
+      "width": 1437,
+      "height": 1094,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 573868,
+      "fullyTransparentFraction": 0.3650378670778422,
+      "lowAlphaPixels1to7": 32931,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          17,
+          1421,
+          1094
+        ],
+        "8": [
+          122,
+          143,
+          1317,
+          973
+        ],
+        "32": [
+          124,
+          143,
+          1314,
+          968
+        ],
+        "128": [
+          124,
+          144,
+          1312,
+          964
+        ],
+        "240": [
+          126,
+          145,
+          1311,
+          962
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 17,
+          "right": 16,
+          "bottom": 0
+        },
+        "8": {
+          "left": 122,
+          "top": 143,
+          "right": 120,
+          "bottom": 121
+        },
+        "32": {
+          "left": 124,
+          "top": 143,
+          "right": 123,
+          "bottom": 126
+        },
+        "128": {
+          "left": 124,
+          "top": 144,
+          "right": 125,
+          "bottom": 130
+        },
+        "240": {
+          "left": 126,
+          "top": 145,
+          "right": 126,
+          "bottom": 132
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art226/regional/DW-0331_local-groupe-electrogene.png",
+      "bytes": 1602503,
+      "sha256": "82a9b1482ba8e7c9961624a42108c6769bfd4ba5c85ddd44bab68e6fff5a175b",
+      "width": 1391,
+      "height": 1131,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 833658,
+      "fullyTransparentFraction": 0.5299052072150067,
+      "lowAlphaPixels1to7": 63499,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1355,
+          1131
+        ],
+        "8": [
+          230,
+          210,
+          1163,
+          955
+        ],
+        "32": [
+          233,
+          210,
+          1160,
+          953
+        ],
+        "128": [
+          236,
+          211,
+          1155,
+          950
+        ],
+        "240": [
+          240,
+          212,
+          1152,
+          947
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 36,
+          "bottom": 0
+        },
+        "8": {
+          "left": 230,
+          "top": 210,
+          "right": 228,
+          "bottom": 176
+        },
+        "32": {
+          "left": 233,
+          "top": 210,
+          "right": 231,
+          "bottom": 178
+        },
+        "128": {
+          "left": 236,
+          "top": 211,
+          "right": 236,
+          "bottom": 181
+        },
+        "240": {
+          "left": 240,
+          "top": 212,
+          "right": 239,
+          "bottom": 184
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art226/regional/DW-0403_halle-technique-carriere.png",
+      "bytes": 2178707,
+      "sha256": "38b6064fac6db2ce396361e3a0097811d3ba96104e30fde52f633313f82ac69d",
+      "width": 1402,
+      "height": 1122,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 640494,
+      "fullyTransparentFraction": 0.40716852166881534,
+      "lowAlphaPixels1to7": 45975,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1396,
+          1122
+        ],
+        "8": [
+          160,
+          134,
+          1241,
+          979
+        ],
+        "32": [
+          162,
+          136,
+          1238,
+          976
+        ],
+        "128": [
+          164,
+          137,
+          1235,
+          973
+        ],
+        "240": [
+          165,
+          138,
+          1234,
+          971
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 6,
+          "bottom": 0
+        },
+        "8": {
+          "left": 160,
+          "top": 134,
+          "right": 161,
+          "bottom": 143
+        },
+        "32": {
+          "left": 162,
+          "top": 136,
+          "right": 164,
+          "bottom": 146
+        },
+        "128": {
+          "left": 164,
+          "top": 137,
+          "right": 167,
+          "bottom": 149
+        },
+        "240": {
+          "left": 165,
+          "top": 138,
+          "right": 168,
+          "bottom": 151
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    }
+  ]
+}

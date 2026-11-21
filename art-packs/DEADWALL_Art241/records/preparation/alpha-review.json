@@ -1,0 +1,695 @@
+[
+  {
+    "key": "touring-caravan:v1",
+    "iteration": 1,
+    "file": "outputs/iteration-01/touring-caravan_v1.png",
+    "sha256": "9ed37d39104b00b35de4146fb6cfb2ef5323a351374ca7564c2e6905b8e80be6",
+    "bytes": 1111064,
+    "width": 887,
+    "height": 1774,
+    "mode": "RGBA",
+    "pngBitDepth": 8,
+    "pngColorType": 6,
+    "pillowVerifyPassed": true,
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "fullyTransparentPixels": 1080025,
+    "fullyTransparentFraction": 0.6863672818832466,
+    "lowAlpha1to7Pixels": 14898,
+    "boundsAlphaAtLeast": {
+      "1": [
+        0,
+        21,
+        867,
+        1741
+      ],
+      "8": [
+        219,
+        194,
+        668,
+        1494
+      ],
+      "32": [
+        219,
+        195,
+        668,
+        1492
+      ],
+      "128": [
+        220,
+        195,
+        667,
+        1491
+      ],
+      "240": [
+        221,
+        196,
+        666,
+        1490
+      ]
+    },
+    "marginsAlphaAtLeast": {
+      "1": {
+        "left": 0,
+        "top": 21,
+        "right": 20,
+        "bottom": 33
+      },
+      "8": {
+        "left": 219,
+        "top": 194,
+        "right": 219,
+        "bottom": 280
+      },
+      "32": {
+        "left": 219,
+        "top": 195,
+        "right": 219,
+        "bottom": 282
+      },
+      "128": {
+        "left": 220,
+        "top": 195,
+        "right": 220,
+        "bottom": 283
+      },
+      "240": {
+        "left": 221,
+        "top": 196,
+        "right": 221,
+        "bottom": 284
+      }
+    },
+    "borderAlphaMaximum": {
+      "top": 0,
+      "bottom": 0,
+      "left": 1,
+      "right": 0
+    },
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "readOnlyDecode": true,
+    "nativeOutputBytesPreserved": true,
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "touring-caravan:v2",
+    "iteration": 1,
+    "file": "outputs/iteration-01/touring-caravan_v2.png",
+    "sha256": "e24289d2185870da391b3c3260f1c03fbd41e31732fb113a6082b8d0f38c7841",
+    "bytes": 1198407,
+    "width": 887,
+    "height": 1774,
+    "mode": "RGBA",
+    "pngBitDepth": 8,
+    "pngColorType": 6,
+    "pillowVerifyPassed": true,
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "fullyTransparentPixels": 1067551,
+    "fullyTransparentFraction": 0.6784399232811664,
+    "lowAlpha1to7Pixels": 16263,
+    "boundsAlphaAtLeast": {
+      "1": [
+        0,
+        19,
+        878,
+        1774
+      ],
+      "8": [
+        215,
+        196,
+        672,
+        1495
+      ],
+      "32": [
+        217,
+        196,
+        671,
+        1495
+      ],
+      "128": [
+        217,
+        197,
+        670,
+        1494
+      ],
+      "240": [
+        218,
+        197,
+        669,
+        1493
+      ]
+    },
+    "marginsAlphaAtLeast": {
+      "1": {
+        "left": 0,
+        "top": 19,
+        "right": 9,
+        "bottom": 0
+      },
+      "8": {
+        "left": 215,
+        "top": 196,
+        "right": 215,
+        "bottom": 279
+      },
+      "32": {
+        "left": 217,
+        "top": 196,
+        "right": 216,
+        "bottom": 279
+      },
+      "128": {
+        "left": 217,
+        "top": 197,
+        "right": 217,
+        "bottom": 280
+      },
+      "240": {
+        "left": 218,
+        "top": 197,
+        "right": 218,
+        "bottom": 281
+      }
+    },
+    "borderAlphaMaximum": {
+      "top": 0,
+      "bottom": 1,
+      "left": 1,
+      "right": 0
+    },
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "readOnlyDecode": true,
+    "nativeOutputBytesPreserved": true,
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "abandoned-caravan:v1",
+    "iteration": 1,
+    "file": "outputs/iteration-01/abandoned-caravan_v1.png",
+    "sha256": "bc1d4094cb6f76ddb58cd7dd9fa45a56af1c0c80c6d1ab2eb822f4dabf87edcf",
+    "bytes": 1046969,
+    "width": 887,
+    "height": 1774,
+    "mode": "RGBA",
+    "pngBitDepth": 8,
+    "pngColorType": 6,
+    "pillowVerifyPassed": true,
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "fullyTransparentPixels": 1068119,
+    "fullyTransparentFraction": 0.6788008932736292,
+    "lowAlpha1to7Pixels": 9442,
+    "boundsAlphaAtLeast": {
+      "1": [
+        0,
+        8,
+        884,
+        1750
+      ],
+      "8": [
+        209,
+        190,
+        678,
+        1498
+      ],
+      "32": [
+        209,
+        190,
+        678,
+        1497
+      ],
+      "128": [
+        210,
+        191,
+        677,
+        1497
+      ],
+      "240": [
+        211,
+        192,
+        677,
+        1496
+      ]
+    },
+    "marginsAlphaAtLeast": {
+      "1": {
+        "left": 0,
+        "top": 8,
+        "right": 3,
+        "bottom": 24
+      },
+      "8": {
+        "left": 209,
+        "top": 190,
+        "right": 209,
+        "bottom": 276
+      },
+      "32": {
+        "left": 209,
+        "top": 190,
+        "right": 209,
+        "bottom": 277
+      },
+      "128": {
+        "left": 210,
+        "top": 191,
+        "right": 210,
+        "bottom": 277
+      },
+      "240": {
+        "left": 211,
+        "top": 192,
+        "right": 210,
+        "bottom": 278
+      }
+    },
+    "borderAlphaMaximum": {
+      "top": 0,
+      "bottom": 0,
+      "left": 1,
+      "right": 0
+    },
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "readOnlyDecode": true,
+    "nativeOutputBytesPreserved": true,
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "abandoned-caravan:v2",
+    "iteration": 1,
+    "file": "outputs/iteration-01/abandoned-caravan_v2.png",
+    "sha256": "91833c4ae39c15308663733dac0aeaf5b032f78281954e292cbb90bd2fb03c77",
+    "bytes": 1140439,
+    "width": 887,
+    "height": 1774,
+    "mode": "RGBA",
+    "pngBitDepth": 8,
+    "pngColorType": 6,
+    "pillowVerifyPassed": true,
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "fullyTransparentPixels": 1062922,
+    "fullyTransparentFraction": 0.6754981449447043,
+    "lowAlpha1to7Pixels": 15744,
+    "boundsAlphaAtLeast": {
+      "1": [
+        0,
+        0,
+        873,
+        1774
+      ],
+      "8": [
+        210,
+        194,
+        678,
+        1503
+      ],
+      "32": [
+        210,
+        194,
+        677,
+        1503
+      ],
+      "128": [
+        211,
+        195,
+        677,
+        1502
+      ],
+      "240": [
+        212,
+        195,
+        676,
+        1501
+      ]
+    },
+    "marginsAlphaAtLeast": {
+      "1": {
+        "left": 0,
+        "top": 0,
+        "right": 14,
+        "bottom": 0
+      },
+      "8": {
+        "left": 210,
+        "top": 194,
+        "right": 209,
+        "bottom": 271
+      },
+      "32": {
+        "left": 210,
+        "top": 194,
+        "right": 210,
+        "bottom": 271
+      },
+      "128": {
+        "left": 211,
+        "top": 195,
+        "right": 210,
+        "bottom": 272
+      },
+      "240": {
+        "left": 212,
+        "top": 195,
+        "right": 211,
+        "bottom": 273
+      }
+    },
+    "borderAlphaMaximum": {
+      "top": 1,
+      "bottom": 1,
+      "left": 1,
+      "right": 0
+    },
+    "cornerAlpha": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "readOnlyDecode": true,
+    "nativeOutputBytesPreserved": true,
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "abandoned-caravan:v1",
+    "iteration": 2,
+    "file": "outputs/iteration-02/abandoned-caravan_v1.png",
+    "sha256": "941c7282cd9b01dd12a88fea3bce77b28ce59e61a45f8ec156933fdc090faa6b",
+    "bytes": 1002005,
+    "width": 887,
+    "height": 1774,
+    "mode": "RGBA",
+    "pngBitDepth": 8,
+    "pngColorType": 6,
+    "pillowVerifyPassed": true,
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "fullyTransparentPixels": 1068521,
+    "fullyTransparentFraction": 0.6790563685147737,
+    "lowAlpha1to7Pixels": 8271,
+    "boundsAlphaAtLeast": {
+      "1": [
+        0,
+        37,
+        863,
+        1750
+      ],
+      "8": [
+        210,
+        191,
+        678,
+        1498
+      ],
+      "32": [
+        210,
+        191,
+        677,
+        1497
+      ],
+      "128": [
+        211,
+        191,
+        677,
+        1497
+      ],
+      "240": [
+        211,
+        192,
+        676,
+        1496
+      ]
+    },
+    "marginsAlphaAtLeast": {
+      "1": {
+        "left": 0,
+        "top": 37,
+        "right": 24,
+        "bottom": 24
+      },
+      "8": {
+        "left": 210,
+        "top": 191,
+        "right": 209,
+        "bottom": 276
+      },
+      "32": {
+        "left": 210,
+        "top": 191,
+        "right": 210,
+        "bottom": 277
+      },
+      "128": {
+        "left": 211,
+        "top": 191,
+        "right": 210,
+        "bottom": 277
+      },
+      "240": {
+        "left": 211,
+        "top": 192,
+        "right": 211,
+        "bottom": 278
+      }
+    },
+    "borderAlphaMaximum": {
+      "top": 0,
+      "bottom": 0,
+      "left": 1,
+      "right": 0
+    },
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "readOnlyDecode": true,
+    "nativeOutputBytesPreserved": true,
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "abandoned-caravan:v2",
+    "iteration": 2,
+    "file": "outputs/iteration-02/abandoned-caravan_v2.png",
+    "sha256": "db63a0b14f90d3afafca59a6ea8f254f89c3ad943c7049cbd25ea4662c7cff94",
+    "bytes": 1056984,
+    "width": 887,
+    "height": 1774,
+    "mode": "RGBA",
+    "pngBitDepth": 8,
+    "pngColorType": 6,
+    "pillowVerifyPassed": true,
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "fullyTransparentPixels": 1064330,
+    "fullyTransparentFraction": 0.67639294379926,
+    "lowAlpha1to7Pixels": 10262,
+    "boundsAlphaAtLeast": {
+      "1": [
+        0,
+        49,
+        843,
+        1746
+      ],
+      "8": [
+        208,
+        193,
+        679,
+        1504
+      ],
+      "32": [
+        208,
+        193,
+        679,
+        1503
+      ],
+      "128": [
+        209,
+        194,
+        678,
+        1503
+      ],
+      "240": [
+        210,
+        194,
+        677,
+        1502
+      ]
+    },
+    "marginsAlphaAtLeast": {
+      "1": {
+        "left": 0,
+        "top": 49,
+        "right": 44,
+        "bottom": 28
+      },
+      "8": {
+        "left": 208,
+        "top": 193,
+        "right": 208,
+        "bottom": 270
+      },
+      "32": {
+        "left": 208,
+        "top": 193,
+        "right": 208,
+        "bottom": 271
+      },
+      "128": {
+        "left": 209,
+        "top": 194,
+        "right": 209,
+        "bottom": 271
+      },
+      "240": {
+        "left": 210,
+        "top": 194,
+        "right": 210,
+        "bottom": 272
+      }
+    },
+    "borderAlphaMaximum": {
+      "top": 0,
+      "bottom": 0,
+      "left": 1,
+      "right": 0
+    },
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "readOnlyDecode": true,
+    "nativeOutputBytesPreserved": true,
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "abandoned-caravan:v2",
+    "iteration": 3,
+    "file": "outputs/iteration-03/abandoned-caravan_v2.png",
+    "sha256": "87ca8ebb699f6838a36fccf9741451c5e9eefec33c555097a1476839560348c8",
+    "bytes": 1019029,
+    "width": 887,
+    "height": 1774,
+    "mode": "RGBA",
+    "pngBitDepth": 8,
+    "pngColorType": 6,
+    "pillowVerifyPassed": true,
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "fullyTransparentPixels": 1065631,
+    "fullyTransparentFraction": 0.6772197430249539,
+    "lowAlpha1to7Pixels": 6117,
+    "boundsAlphaAtLeast": {
+      "1": [
+        41,
+        9,
+        802,
+        1750
+      ],
+      "8": [
+        208,
+        192,
+        680,
+        1502
+      ],
+      "32": [
+        208,
+        193,
+        680,
+        1502
+      ],
+      "128": [
+        209,
+        193,
+        679,
+        1502
+      ],
+      "240": [
+        209,
+        194,
+        678,
+        1501
+      ]
+    },
+    "marginsAlphaAtLeast": {
+      "1": {
+        "left": 41,
+        "top": 9,
+        "right": 85,
+        "bottom": 24
+      },
+      "8": {
+        "left": 208,
+        "top": 192,
+        "right": 207,
+        "bottom": 272
+      },
+      "32": {
+        "left": 208,
+        "top": 193,
+        "right": 207,
+        "bottom": 272
+      },
+      "128": {
+        "left": 209,
+        "top": 193,
+        "right": 208,
+        "bottom": 272
+      },
+      "240": {
+        "left": 209,
+        "top": 194,
+        "right": 209,
+        "bottom": 273
+      }
+    },
+    "borderAlphaMaximum": {
+      "top": 0,
+      "bottom": 0,
+      "left": 0,
+      "right": 0
+    },
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "readOnlyDecode": true,
+    "nativeOutputBytesPreserved": true,
+    "pixelEditingPerformed": false
+  }
+]

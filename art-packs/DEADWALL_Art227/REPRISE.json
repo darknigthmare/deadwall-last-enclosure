@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "art227",
+  "savedOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "intent": "Continuer les sprites manquants depuis le point conservé, sans régénérer les lots précédents.",
+  "completedSpriteIds": [
+    "DW-0001",
+    "DW-0003",
+    "DW-0010",
+    "DW-0021",
+    "DW-0004",
+    "DW-0481",
+    "DW-0101"
+  ],
+  "finalAssets": [
+    {
+      "id": "DW-0001",
+      "path": "assets/art227/regional/DW-0001_maison_lotissement.png",
+      "sha256": "edcf77b66f5a2154a9fce27129913753db406df3326d538d2f5e27199f8bd009"
+    },
+    {
+      "id": "DW-0003",
+      "path": "assets/art227/regional/DW-0003_maison_etage.png",
+      "sha256": "f8f18c1649d2fd20e7ec4f883652e70382f0e8c4a1d141ba27011819cc133aed"
+    },
+    {
+      "id": "DW-0010",
+      "path": "assets/art227/regional/DW-0010_chalet_forestier.png",
+      "sha256": "cb3ffadd531a92721bcba520804dbdc377469f28fa37d99bc9006fdf3f5e4a97"
+    },
+    {
+      "id": "DW-0021",
+      "path": "assets/art227/regional/DW-0021_immeuble_trois_niveaux.png",
+      "sha256": "09c6622cbb82855a463800c0e246530fbd8420dec862b2533e0f15744032b530"
+    },
+    {
+      "id": "DW-0004",
+      "path": "assets/art227/regional/DW-0004_maison_sous_sol.png",
+      "sha256": "88d1438eb979cb5cf398497621707be5ec5caef2cc9d1814e003ecaee7d558c6"
+    },
+    {
+      "id": "DW-0481",
+      "path": "assets/art227/regional/DW-0481_maison_effondree.png",
+      "sha256": "4ac2a7402c2afecbe3839e088a5cbc4ad198fd3bb5f508f6c02c3dfff5b1c18b"
+    },
+    {
+      "id": "DW-0101",
+      "path": "assets/art227/regional/DW-0101_hotel_centre_ville.png",
+      "sha256": "d094fee5e66fddfee0a7edf38b2eaa0f3cc1f1633b5ea535d598e1d8f1451f1b"
+    }
+  ],
+  "priorArt221IntentionallyRegenerated": false,
+  "priorArt221HistoricalOverlapFullyExcluded": false,
+  "priorArt222Regenerated": false,
+  "priorArt223Regenerated": false,
+  "priorArt224Regenerated": false,
+  "priorArt225Regenerated": false,
+  "priorArt226Regenerated": false,
+  "exclusionEvidence": {
+    "art222CodexIds": [
+      "DW-0342",
+      "DW-0132",
+      "DW-0321",
+      "DW-0334",
+      "DW-0541",
+      "DW-0528",
+      "DW-0549",
+      "DW-0097"
+    ],
+    "art223CodexIds": [
+      "DW-0065",
+      "DW-0153",
+      "DW-0085",
+      "DW-0082",
+      "DW-0444",
+      "DW-0224"
+    ],
+    "art221KnownCount": 9,
+    "art221CompleteAssetInventoryRecovered": false,
+    "art221CategoryExclusion": "Les libellés de ces sept pilotes ne correspondent pas aux neuf expressions de remarkable217. Inventaire des sorties Art221 incomplet; les limites de dédoublonnage historique restent explicites.",
+    "art224CodexIds": [
+      "DW-0046",
+      "DW-0367",
+      "DW-0104",
+      "DW-0251",
+      "DW-0306",
+      "DW-0237"
+    ],
+    "art225SelectedCodexIds": [
+      "DW-0053",
+      "DW-0045",
+      "DW-0069",
+      "DW-0241",
+      "DW-0142",
+      "DW-0161"
+    ],
+    "art226SelectedCodexIds": [
+      "DW-0381",
+      "DW-0221",
+      "DW-0289",
+      "DW-0073",
+      "DW-0331",
+      "DW-0403"
+    ],
+    "parallelNextBatchSelectedCodexIds": [
+      "DW-0041",
+      "DW-0061",
+      "DW-0062",
+      "DW-0498",
+      "DW-0181",
+      "DW-0126",
+      "DW-0401"
+    ]
+  },
+  "publicationBaseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "priorPublishedPacks": [
+    {
+      "batch": "art222",
+      "pullRequestLabel": "PR #27",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/27",
+      "headRevision": "f76b216a9b98c1d4ebd5a6c53dc1fc07142c9114",
+      "finalSpriteCount": 8,
+      "supersededCandidateCount": 2
+    },
+    {
+      "batch": "art223",
+      "pullRequestLabel": "PR #28",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/28",
+      "headRevision": "e16e501e3ad18ea5f1088ffd4ba8cbab38f0e149",
+      "finalSpriteCount": 6,
+      "supersededCandidateCount": 9
+    },
+    {
+      "batch": "art224",
+      "pullRequestLabel": "PR #29",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/29",
+      "headRevision": "384f6ebaa5c573dfdedf5621a85f2a36be95b046",
+      "finalSpriteCount": 6,
+      "supersededCandidateCount": 1
+    },
+    {
+      "batch": "art225",
+      "pullRequestLabel": "PR #30",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/30",
+      "headRevision": "bb14d13aae1619e79fab6b5c4b8d2329aff1c2c6",
+      "finalSpriteCount": 6,
+      "supersededCandidateCount": 1
+    },
+    {
+      "batch": "art226",
+      "pullRequestLabel": "PR #30",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/30",
+      "headRevision": "bb14d13aae1619e79fab6b5c4b8d2329aff1c2c6",
+      "finalSpriteCount": 6,
+      "supersededCandidateCount": 6
+    }
+  ],
+  "continuationCounts": {
+    "priorPublishedFinalSpriteCount": 32,
+    "art227FinalSprites": 7,
+    "distinctFinalSpritesAcrossArt222To227": 39,
+    "supersededCandidates": {
+      "art222": 2,
+      "art223": 9,
+      "art224": 1,
+      "art225": 1,
+      "art226": 6,
+      "art227": 0
+    },
+    "countsDescribeArtPacksNotRuntimeIntegration": true
+  },
+  "integration": "not_performed",
+  "publicationStatusAtAssembly": "prepared_locally_not_published_by_assembler",
+  "parallelArt228": {
+    "plannedSpriteCount": 7,
+    "completionNotIncludedInThisPackCounts": true,
+    "separateManifest": "../DEADWALL_Art228/REPRISE.json"
+  },
+  "parallelArt229": {
+    "plannedSpriteCount": 3,
+    "completionNotIncludedInThisPackCounts": true,
+    "separateManifest": "../DEADWALL_Art229/REPRISE.json"
+  },
+  "nativeBacklog": "backlog/remaining-native-inventory.json",
+  "nextSteps": [
+    "Lire les PR et manifestes publiés avant de sélectionner la suite.",
+    "Conserver les sept PNG retenus et les itérations remplacées.",
+    "Associer les futurs visuels aux fiches et types exacts.",
+    "Calibrer projection, échelle, ancrages, portes et ouverture des intérieurs avant raccord au moteur.",
+    "Après raccord, qualifier le commit réel par les contrôles du dépôt et le parcours joueur."
+  ],
+  "knownLimits": [
+    "No canonical pixel exterior is supplied by the Codex. Prompts preserve the verified pilot programme, native floor count, dimensions and atlas style; exterior roof/façade details are design choices. Exact metric 1:1 rendering is not certified.",
+    "The larger proposed parcel ranges in the source cards are NOT the pilot building dimensions.",
+    "Inventaire historique Art221 incomplet.",
+    "Intégration au chargement et au rendu du jeu non effectuée.",
+    "Fidélité métrique ou pixel pour pixel 1:1 non certifiée."
+  ]
+}

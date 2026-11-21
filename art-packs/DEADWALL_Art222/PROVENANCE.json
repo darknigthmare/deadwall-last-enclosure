@@ -1,0 +1,432 @@
+{
+  "schemaVersion": 1,
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "art222",
+  "createdAt": "2026-11-17T04:44:22+01:00",
+  "timezone": "Europe/Paris",
+  "finalSpriteCount": 8,
+  "generationCount": 10,
+  "supersededCandidateCount": 2,
+  "generator": "OpenAI ImageGen intégré",
+  "referenceRepository": "darknigthmare/deadwall-last-enclosure",
+  "referenceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+  "referenceRevisionIsOutputCommit": false,
+  "styleReference": {
+    "localPath": "/workspace/scratch/55dad3ac334d/references-art222/buildings-atlas.webp",
+    "repositoryPath": "assets/buildings-atlas.webp",
+    "revision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+    "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/assets/buildings-atlas.webp",
+    "bytes": 364648,
+    "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a",
+    "gitBlob": "99f730d209168f7be2e5c8aee1b0e927c9ab02e5",
+    "packPath": "references/buildings-atlas.webp"
+  },
+  "nativeOutputBytesPreserved": true,
+  "pixelEditingResizingCroppingPerformed": false,
+  "scope": "Sprites extérieurs dédiés de lieux régionaux. Le lot ne prétend pas établir l’absence de chaque composant générique dans le jeu.",
+  "fidelity": {
+    "verified": [
+      "référence réelle de style et de caméra fournie à chaque génération",
+      "programmes extérieurs comparés aux fiches",
+      "revue visuelle des objets complets",
+      "présence d’un canal alpha réel",
+      "intégrité des PNG natifs"
+    ],
+    "notCertified": [
+      "identité pixel pour pixel avec une vue canonique propre à chaque lieu",
+      "mètres par pixel et emprise exacte dans le moteur",
+      "agencement intérieur",
+      "collisions, ancrages, animations et comportement en jeu"
+    ],
+    "reason": "Les fiches sont des programmes de lieux ; elles ne fournissent pas toutes une vue canonique complète. Une image générée ne prouve pas une projection métrique 1:1."
+  },
+  "integration": {
+    "performed": false,
+    "gameTestsRunThisBatch": false,
+    "githubWritePerformed": false
+  },
+  "sourcesIndex": "references/sources.json",
+  "prompts": "generation-prompts.json",
+  "generationHistory": "generation-history.json",
+  "technicalAudit": "qa/image-audit.json",
+  "visualReview": "qa/visual-review.md",
+  "assets": [
+    {
+      "id": "DW-0342",
+      "name": "Station de pompage",
+      "path": "assets/art222/regional/DW-0342_station-pompage.png",
+      "programConstraints": {
+        "name": "Station de pompage",
+        "levels": [
+          0
+        ],
+        "buildingFootprintMetres": null,
+        "exteriorProgram": [
+          "prise d’eau reliée aux pompes",
+          "pompes accessibles",
+          "commande",
+          "maintenance"
+        ],
+        "sourceLimit": "La fiche ne prescrit pas une emprise bâtie unique ; ses plages de parcelles ne constituent pas les dimensions du bâtiment."
+      },
+      "file": "assets/art222/regional/DW-0342_station-pompage.png",
+      "bytes": 2409190,
+      "sha256": "b03ba974465b8cd04bacc92fb60fd283bfcf49fb9caf018cff7f4841ac1a85c5",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "fullyTransparentFraction": 0.5230375925699869,
+      "visibleBoundsAlphaAbove8": [
+        171,
+        131,
+        1344,
+        907
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "nativeBytesPreserved": true
+    },
+    {
+      "id": "DW-0132",
+      "name": "Clinique chirurgicale",
+      "path": "assets/art222/regional/DW-0132_clinique-chirurgicale.png",
+      "programConstraints": {
+        "name": "Clinique chirurgicale",
+        "levels": [
+          0
+        ],
+        "buildingFootprintMetres": null,
+        "exteriorProgram": [
+          "accès public en façade",
+          "accès de service distinct",
+          "enveloppe de clinique de plain-pied"
+        ],
+        "interiorProgramNotVerifiedByExteriorSprite": [
+          "accueil",
+          "préparation",
+          "chirurgie",
+          "réveil",
+          "stérilisation",
+          "séparation des circuits propre et sale"
+        ],
+        "sourceLimit": "Aucun plan de toiture ni modèle visuel canonique propre à ce lieu dans la fiche récupérée."
+      },
+      "file": "assets/art222/regional/DW-0132_clinique-chirurgicale.png",
+      "bytes": 2256901,
+      "sha256": "12d009eaa57d831bb7d28ed27e5b8b54c84e8390355eea96085c8ad4720f19e0",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "fullyTransparentFraction": 0.5505847930908203,
+      "visibleBoundsAlphaAbove8": [
+        179,
+        157,
+        1359,
+        890
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "nativeBytesPreserved": true
+    },
+    {
+      "id": "DW-0321",
+      "name": "Poste électrique de quartier",
+      "path": "assets/art222/regional/DW-0321_poste-electrique-quartier.png",
+      "programConstraints": {
+        "name": "Poste électrique de quartier",
+        "levels": [
+          0
+        ],
+        "buildingFootprintMetres": null,
+        "exteriorProgram": [
+          "enceinte",
+          "appareillages sur socles",
+          "local opérateur",
+          "accès de maintenance"
+        ],
+        "sourceLimit": "Aucun calepinage métrique unique de l’installation n’est fourni par la fiche."
+      },
+      "file": "assets/art222/regional/DW-0321_poste-electrique-quartier.png",
+      "bytes": 3187881,
+      "sha256": "da21ba0dcb99785f4d6a897a909754fb588a6f11aecfd738bbfd8f423739e730",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "fullyTransparentFraction": 0.35535113016764325,
+      "visibleBoundsAlphaAbove8": [
+        128,
+        73,
+        1406,
+        951
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "nativeBytesPreserved": true
+    },
+    {
+      "id": "DW-0334",
+      "name": "Relais radio rural",
+      "path": "assets/art222/regional/DW-0334_relais-radio-rural.png",
+      "programConstraints": {
+        "name": "Relais radio rural",
+        "levels": [
+          0
+        ],
+        "buildingFootprintMetres": null,
+        "exteriorProgram": [
+          "petite antenne reliée au local",
+          "énergie",
+          "atelier",
+          "accès rural"
+        ],
+        "sourceLimit": "Installation distincte du grand émetteur du lot précédent ; implantation détaillée interprétée depuis le programme."
+      },
+      "file": "assets/art222/regional/DW-0334_relais-radio-rural.png",
+      "bytes": 1276907,
+      "sha256": "2cc0a824ee14287a228bb65f51a1c1163389e1db6d42fece3227c15ee01f3bc3",
+      "width": 1312,
+      "height": 1199,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentFraction": 0.7046509794747655,
+      "visibleBoundsAlphaAbove8": [
+        199,
+        167,
+        1118,
+        995
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "nativeBytesPreserved": true
+    },
+    {
+      "id": "DW-0541",
+      "name": "Bunker de défense civile — variante 01",
+      "path": "assets/art222/regional/DW-0541_bunker-defense-civile-v01.png",
+      "programConstraints": {
+        "name": "Bunker de défense civile — variante 01",
+        "levelCount": 2,
+        "buildingFootprintMetres": [
+          18,
+          41
+        ],
+        "exteriorProgram": [
+          "entrée protégée",
+          "enveloppe allongée",
+          "ventilation",
+          "petit équipement radio"
+        ],
+        "interiorProgramNotVerifiedByExteriorSprite": [
+          "sas",
+          "dortoir",
+          "réserve",
+          "groupe électrogène",
+          "radio"
+        ],
+        "sourceLimit": "Deux niveaux sont prescrits sans obligation qu’ils soient tous deux souterrains. Les mètres et la rotation de placement restent des contraintes d’intégration."
+      },
+      "file": "assets/art222/regional/DW-0541_bunker-defense-civile-v01.png",
+      "bytes": 2837296,
+      "sha256": "46b2e5d55607a7a47c8378cffeb95536c83f341031e74286115d1be4c9a53309",
+      "width": 830,
+      "height": 1895,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentFraction": 0.3035407063610643,
+      "visibleBoundsAlphaAbove8": [
+        85,
+        10,
+        751,
+        1883
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "nativeBytesPreserved": true
+    },
+    {
+      "id": "DW-0528",
+      "name": "Caserne de pompiers — variante 01",
+      "path": "assets/art222/regional/DW-0528_caserne-pompiers-v01.png",
+      "programConstraints": {
+        "name": "Caserne de pompiers — variante 01",
+        "levelCount": 1,
+        "buildingFootprintMetres": [
+          19,
+          36
+        ],
+        "exteriorProgram": [
+          "remises avec sortie dégagée",
+          "accès piéton séparé",
+          "cour",
+          "approche latérale"
+        ],
+        "interiorProgramNotVerifiedByExteriorSprite": [
+          "vestiaires",
+          "dortoir",
+          "atelier",
+          "réserve"
+        ],
+        "sourceLimit": "Variante 19 × 36 m à un niveau ; ne pas substituer le pilote DW-0181 de 36 × 28 m. Correction visuelle de proportions effectuée, échelle métrique non certifiée par le PNG."
+      },
+      "file": "assets/art222/regional/DW-0528_caserne-pompiers-v01.png",
+      "bytes": 2423245,
+      "sha256": "5cd2493e07f7b44849d59ff8c6473d5eab9b86c7819dc405157a497ff1629a6f",
+      "width": 1184,
+      "height": 1328,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "fullyTransparentFraction": 0.4772849845327255,
+      "visibleBoundsAlphaAbove8": [
+        217,
+        92,
+        967,
+        1243
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "nativeBytesPreserved": true
+    },
+    {
+      "id": "DW-0549",
+      "name": "Gare routière — variante 01",
+      "path": "assets/art222/regional/DW-0549_gare-routiere-v01.png",
+      "programConstraints": {
+        "name": "Gare routière — variante 01",
+        "levelCount": 1,
+        "buildingFootprintMetres": [
+          34,
+          15
+        ],
+        "exteriorProgram": [
+          "hall",
+          "bureaux",
+          "atelier léger",
+          "quai couvert",
+          "approche sur asphalte"
+        ],
+        "sourceLimit": "Transport par autobus sans rails. Profondeur augmentée après revue ; l’emprise de 34 × 15 m n’est pas une mesure déduite du canevas PNG."
+      },
+      "file": "assets/art222/regional/DW-0549_gare-routiere-v01.png",
+      "bytes": 3156619,
+      "sha256": "59929ac12222ae8c54022a5c954b1edcc08dd7c5147f2ebed8ac601ac6486e72",
+      "width": 1774,
+      "height": 887,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentFraction": 0.19781918199624032,
+      "visibleBoundsAlphaAbove8": [
+        68,
+        63,
+        1710,
+        854
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "nativeBytesPreserved": true
+    },
+    {
+      "id": "DW-0097",
+      "name": "Clinique vétérinaire",
+      "path": "assets/art222/regional/DW-0097_clinique-veterinaire.png",
+      "programConstraints": {
+        "name": "Clinique vétérinaire",
+        "levels": [
+          0
+        ],
+        "buildingFootprintMetres": [
+          26,
+          20
+        ],
+        "exteriorProgram": [
+          "entrée publique",
+          "accès de service distinct",
+          "chenil vide"
+        ],
+        "interiorProgramNotVerifiedByExteriorSprite": [
+          "accueil et dossiers",
+          "consultation",
+          "soins et nettoyage",
+          "pharmacie vétérinaire séparée",
+          "réserve alimentaire"
+        ],
+        "sourceLimit": "Emprise du pilote actuel 26 × 20 m ; la plage de parcelle proposée dans la fiche ne remplace pas cette emprise."
+      },
+      "file": "assets/art222/regional/DW-0097_clinique-veterinaire.png",
+      "bytes": 2166450,
+      "sha256": "74a259003e431bc6a4c0bd2888ae00687239ecc8dd4e571627c0dacc3a41edcf",
+      "width": 1430,
+      "height": 1100,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentFraction": 0.4661309599491418,
+      "visibleBoundsAlphaAbove8": [
+        148,
+        157,
+        1277,
+        973
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "nativeBytesPreserved": true
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "art223",
+  "savedOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "intent": "Continuer les sprites manquants depuis le point conservé, sans régénérer les lots précédents.",
+  "completedSpriteIds": [
+    "DW-0065",
+    "DW-0153",
+    "DW-0085",
+    "DW-0082",
+    "DW-0444",
+    "DW-0224"
+  ],
+  "finalAssets": [
+    {
+      "id": "DW-0065",
+      "path": "assets/art223/regional/DW-0065_boulangerie-artisanale.png",
+      "sha256": "14967654138df62aac926ad4a8847e9df6fe5d51f339f2cc07b0110078bc9b6e"
+    },
+    {
+      "id": "DW-0153",
+      "path": "assets/art223/regional/DW-0153_bibliotheque-municipale.png",
+      "sha256": "91ff2610137571b5467785a9f77166d5ae868797d2fbfab08919eed1670ea39e"
+    },
+    {
+      "id": "DW-0085",
+      "path": "assets/art223/regional/DW-0085_laverie-automatique.png",
+      "sha256": "a30aaec3b793d163499572621c0a9aa7c4a0fb5733b53f00be391e3d42fa516e"
+    },
+    {
+      "id": "DW-0082",
+      "path": "assets/art223/regional/DW-0082_bureau-postal.png",
+      "sha256": "4dd8cd481bd11a3287d793dc946cde66bf3e403a0df366e46802406e978de121"
+    },
+    {
+      "id": "DW-0444",
+      "path": "assets/art223/regional/DW-0444_gymnase-municipal.png",
+      "sha256": "d481e296f9ca9b80cba79497afb5dbbd11187e2904d20df500ac4223dfbcd13a"
+    },
+    {
+      "id": "DW-0224",
+      "path": "assets/art223/regional/DW-0224_garde-meubles.png",
+      "sha256": "e218863d9be7324e60ef3789301b79aaa133b25cf4985df1e5b9cbff97dc645a"
+    }
+  ],
+  "priorArt222Regenerated": false,
+  "priorArt221Regenerated": false,
+  "priorArt221HistoricalInventoryFullyVerified": false,
+  "publicationBaseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "referenceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+  "integration": "not_performed",
+  "publicationStatusAtAssembly": "prepared_locally_not_published_by_assembler",
+  "nextSteps": [
+    "Conserver les six versions finales et les neuf étapes précédentes.",
+    "Vérifier les PR et les manifestes existants avant de choisir d’autres manquants.",
+    "Associer les futurs sprites au type et à la fiche exacts.",
+    "Calibrer projection, échelle, ancrages, accès et visibilité des intérieurs avant raccord au rendu.",
+    "Après intégration, exécuter les contrôles du dépôt et le parcours joueur sur le commit réel."
+  ],
+  "gendarmerie": {
+    "status": "source_required",
+    "reason": "Aucune fiche dédiée retrouvée dans les index inspectés; une occurrence de regex ne suffit pas à revendiquer une référence canonique."
+  },
+  "knownLimits": [
+    "Inventaire exhaustif des manquants non certifié.",
+    "Fidélité métrique 1:1 non certifiée.",
+    "Contrôle global antérieur interrompu; aucun succès global annoncé.",
+    "Pack non enregistré dans le chargement du jeu."
+  ]
+}

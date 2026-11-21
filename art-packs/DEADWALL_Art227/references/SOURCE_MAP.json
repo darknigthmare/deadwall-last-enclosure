@@ -1,0 +1,1115 @@
+[
+  {
+    "id": "DW-0001",
+    "name": "Maison de lotissement",
+    "type": "house",
+    "sourceSheet": "references/DW-0001.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      14,
+      12
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Séjour",
+          "Cuisine",
+          "Chambre",
+          "Garage / rangement"
+        ],
+        "objectKinds": [
+          "sofa",
+          "table",
+          "fridge",
+          "sink",
+          "bed",
+          "workbench",
+          "crate"
+        ],
+        "stairs": []
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "table",
+      "crate"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        12,
+        10
+      ],
+      "maximum": [
+        28,
+        24
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "cottage",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatResidential153",
+        "family": "cottage",
+        "variant": 0,
+        "rect": [
+          37,
+          41,
+          286,
+          188
+        ]
+      },
+      {
+        "atlas": "habitatResidential153",
+        "family": "cottage",
+        "variant": 1,
+        "rect": [
+          362,
+          47,
+          315,
+          179
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "cottage",
+        "variant": 2,
+        "model": "terracotta-hipped",
+        "rect": [
+          58,
+          73,
+          291,
+          171
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "cottage",
+        "variant": 3,
+        "model": "terracotta-dormer",
+        "rect": [
+          431,
+          63,
+          298,
+          180
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "cottage",
+        "variant": 4,
+        "model": "slate-mansard",
+        "rect": [
+          815,
+          71,
+          292,
+          173
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "cottage",
+        "variant": 5,
+        "model": "patched-metal",
+        "rect": [
+          1188,
+          71,
+          289,
+          174
+        ]
+      }
+    ],
+    "nativeFunction": "Un seul niveau0 : séjour, cuisine, chambre et garage/rangement. Le jardin proposé dans la fiche n’ajoute aucun volume au pilote.",
+    "cameraTargets": {
+      "downwardDegrees": 70,
+      "projectedRoofDepthPercentWidth": 81,
+      "combinedFrontFacadePercentWidth": 6,
+      "aboveGroundFloorCount": 1,
+      "buriedLevels": [],
+      "metricProjectionCertified": false
+    }
+  },
+  {
+    "id": "DW-0003",
+    "name": "Maison à étage",
+    "type": "duplex",
+    "sourceSheet": "references/DW-0003.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      16,
+      13
+    ],
+    "pilotLevels": [
+      0,
+      1
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Séjour",
+          "Cuisine",
+          "Chambre",
+          "Garage / rangement"
+        ],
+        "objectKinds": [
+          "sofa",
+          "table",
+          "fridge",
+          "sink",
+          "bed",
+          "wardrobe",
+          "workbench",
+          "crate"
+        ],
+        "stairs": [
+          {
+            "id": "source-duplex:stairs",
+            "x": 6.95,
+            "y": 9,
+            "w": 2.1,
+            "h": 2.9,
+            "levels": [
+              0,
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "z": 1,
+        "names": [
+          "Chambre",
+          "Chambre",
+          "Salle d’eau",
+          "Réserve"
+        ],
+        "objectKinds": [
+          "bed",
+          "wardrobe",
+          "desk",
+          "sink",
+          "crate"
+        ],
+        "stairs": [
+          {
+            "id": "source-duplex:stairs",
+            "x": 6.95,
+            "y": 9,
+            "w": 2.1,
+            "h": 2.9,
+            "levels": [
+              0,
+              1
+            ]
+          }
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "table",
+      "crate"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        12,
+        10
+      ],
+      "maximum": [
+        28,
+        24
+      ]
+    },
+    "authorProposedLevelsText": "0, 1",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "cottage",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatResidential153",
+        "family": "cottage",
+        "variant": 0,
+        "rect": [
+          37,
+          41,
+          286,
+          188
+        ]
+      },
+      {
+        "atlas": "habitatResidential153",
+        "family": "cottage",
+        "variant": 1,
+        "rect": [
+          362,
+          47,
+          315,
+          179
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "cottage",
+        "variant": 2,
+        "model": "terracotta-hipped",
+        "rect": [
+          58,
+          73,
+          291,
+          171
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "cottage",
+        "variant": 3,
+        "model": "terracotta-dormer",
+        "rect": [
+          431,
+          63,
+          298,
+          180
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "cottage",
+        "variant": 4,
+        "model": "slate-mansard",
+        "rect": [
+          815,
+          71,
+          292,
+          173
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "cottage",
+        "variant": 5,
+        "model": "patched-metal",
+        "rect": [
+          1188,
+          71,
+          289,
+          174
+        ]
+      }
+    ],
+    "nativeFunction": "Niveaux0,1 : pièces de vie au rez-de-chaussée, chambres/salle d’eau/réserve au premier. Le balcon est une proposition de la fiche plus large; aucun balcon extérieur n’est défini par le plan natif.",
+    "cameraTargets": {
+      "downwardDegrees": 70,
+      "projectedRoofDepthPercentWidth": 76,
+      "combinedFrontFacadePercentWidth": 10,
+      "aboveGroundFloorCount": 2,
+      "buriedLevels": [],
+      "metricProjectionCertified": false
+    }
+  },
+  {
+    "id": "DW-0010",
+    "name": "Chalet forestier",
+    "type": "cabin",
+    "sourceSheet": "references/DW-0010.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      9,
+      8
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Vie commune",
+          "Couchage et réserve"
+        ],
+        "objectKinds": [
+          "sofa",
+          "table",
+          "bed",
+          "fridge"
+        ],
+        "stairs": []
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "table",
+      "crate"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        12,
+        10
+      ],
+      "maximum": [
+        28,
+        24
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "cottage",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatResidential153",
+        "family": "cottage",
+        "variant": 0,
+        "rect": [
+          37,
+          41,
+          286,
+          188
+        ]
+      },
+      {
+        "atlas": "habitatResidential153",
+        "family": "cottage",
+        "variant": 1,
+        "rect": [
+          362,
+          47,
+          315,
+          179
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "cottage",
+        "variant": 2,
+        "model": "terracotta-hipped",
+        "rect": [
+          58,
+          73,
+          291,
+          171
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "cottage",
+        "variant": 5,
+        "model": "patched-metal",
+        "rect": [
+          1188,
+          71,
+          289,
+          174
+        ]
+      }
+    ],
+    "nativeFunction": "Un niveau0 : vie commune, couchage et réserve. Le sas et le bûcher du programme auteur ne constituent pas des annexes natives séparées.",
+    "cameraTargets": {
+      "downwardDegrees": 70,
+      "projectedRoofDepthPercentWidth": 84,
+      "combinedFrontFacadePercentWidth": 6,
+      "aboveGroundFloorCount": 1,
+      "buriedLevels": [],
+      "metricProjectionCertified": false
+    }
+  },
+  {
+    "id": "DW-0021",
+    "name": "Immeuble de trois étages",
+    "type": "apartments",
+    "sourceSheet": "references/DW-0021.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      30,
+      23
+    ],
+    "pilotLevels": [
+      0,
+      1,
+      2
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Séjour",
+          "Cuisine",
+          "Chambre",
+          "Garage / rangement",
+          "Séjour",
+          "Cuisine",
+          "Chambre",
+          "Garage / rangement"
+        ],
+        "objectKinds": [
+          "sofa",
+          "table",
+          "fridge",
+          "sink",
+          "bed",
+          "workbench",
+          "crate"
+        ],
+        "stairs": [
+          {
+            "id": "source-apartments:stairs",
+            "x": 13.95,
+            "y": 19,
+            "w": 2.1,
+            "h": 2.9,
+            "levels": [
+              0,
+              1,
+              2
+            ]
+          }
+        ]
+      },
+      {
+        "z": 1,
+        "names": [
+          "Chambre",
+          "Chambre",
+          "Salle d’eau",
+          "Réserve",
+          "Chambre",
+          "Chambre",
+          "Salle d’eau",
+          "Réserve"
+        ],
+        "objectKinds": [
+          "bed",
+          "sink",
+          "wardrobe",
+          "crate"
+        ],
+        "stairs": [
+          {
+            "id": "source-apartments:stairs",
+            "x": 13.95,
+            "y": 19,
+            "w": 2.1,
+            "h": 2.9,
+            "levels": [
+              0,
+              1,
+              2
+            ]
+          }
+        ]
+      },
+      {
+        "z": 2,
+        "names": [
+          "Chambre",
+          "Chambre",
+          "Salle d’eau",
+          "Réserve",
+          "Chambre",
+          "Chambre",
+          "Salle d’eau",
+          "Réserve"
+        ],
+        "objectKinds": [
+          "bed",
+          "sink",
+          "wardrobe",
+          "crate"
+        ],
+        "stairs": [
+          {
+            "id": "source-apartments:stairs",
+            "x": 13.95,
+            "y": 19,
+            "w": 2.1,
+            "h": 2.9,
+            "levels": [
+              0,
+              1,
+              2
+            ]
+          }
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "bench",
+      "crate"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        25,
+        18
+      ],
+      "maximum": [
+        85,
+        60
+      ]
+    },
+    "authorProposedLevelsText": "0, 1, 2",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "collective",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatResidential153",
+        "family": "collective",
+        "variant": 0,
+        "rect": [
+          746,
+          274,
+          377,
+          213
+        ]
+      },
+      {
+        "atlas": "habitatResidential153",
+        "family": "collective",
+        "variant": 1,
+        "rect": [
+          1150,
+          279,
+          359,
+          207
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "collective",
+        "variant": 2,
+        "model": "concrete-services",
+        "rect": [
+          55,
+          300,
+          299,
+          180
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "collective",
+        "variant": 3,
+        "model": "flat-water-tank",
+        "rect": [
+          430,
+          302,
+          306,
+          179
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "collective",
+        "variant": 4,
+        "model": "slate-three-dormers",
+        "rect": [
+          805,
+          289,
+          313,
+          190
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "collective",
+        "variant": 5,
+        "model": "terracotta-double-ridge",
+        "rect": [
+          1188,
+          303,
+          298,
+          175
+        ]
+      }
+    ],
+    "nativeFunction": "Trois niveaux natifs[0,1,2], soit trois niveaux totaux. Les caves de la fiche auteur ne sont pas un niveau natif supplémentaire.",
+    "cameraTargets": {
+      "downwardDegrees": 70,
+      "projectedRoofDepthPercentWidth": 72,
+      "combinedFrontFacadePercentWidth": 12,
+      "aboveGroundFloorCount": 3,
+      "buriedLevels": [],
+      "metricProjectionCertified": false
+    }
+  },
+  {
+    "id": "DW-0004",
+    "name": "Maison sur sous-sol",
+    "type": "basementHouse",
+    "sourceSheet": "references/DW-0004.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      18,
+      15
+    ],
+    "pilotLevels": [
+      -1,
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": -1,
+        "names": [
+          "Cave à provisions",
+          "Buanderie",
+          "Atelier domestique",
+          "Chaufferie arrêtée"
+        ],
+        "objectKinds": [
+          "shelf",
+          "crate",
+          "washer",
+          "sink",
+          "workbench",
+          "generator",
+          "fuel"
+        ],
+        "stairs": [
+          {
+            "id": "source-basementHouse:stairs",
+            "x": 7.95,
+            "y": 11,
+            "w": 2.1,
+            "h": 2.9,
+            "levels": [
+              -1,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "z": 0,
+        "names": [
+          "Séjour et repas",
+          "Cuisine familiale",
+          "Chambre et rangement",
+          "Salle d’eau et cellier"
+        ],
+        "objectKinds": [
+          "sofa",
+          "table",
+          "fridge",
+          "sink",
+          "bed",
+          "wardrobe"
+        ],
+        "stairs": [
+          {
+            "id": "source-basementHouse:stairs",
+            "x": 7.95,
+            "y": 11,
+            "w": 2.1,
+            "h": 2.9,
+            "levels": [
+              -1,
+              0
+            ]
+          }
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "table",
+      "crate"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        12,
+        10
+      ],
+      "maximum": [
+        28,
+        24
+      ]
+    },
+    "authorProposedLevelsText": "-1, 0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "cottage",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatResidential153",
+        "family": "cottage",
+        "variant": 0,
+        "rect": [
+          37,
+          41,
+          286,
+          188
+        ]
+      },
+      {
+        "atlas": "habitatResidential153",
+        "family": "cottage",
+        "variant": 1,
+        "rect": [
+          362,
+          47,
+          315,
+          179
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "cottage",
+        "variant": 2,
+        "model": "terracotta-hipped",
+        "rect": [
+          58,
+          73,
+          291,
+          171
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "cottage",
+        "variant": 3,
+        "model": "terracotta-dormer",
+        "rect": [
+          431,
+          63,
+          298,
+          180
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "cottage",
+        "variant": 4,
+        "model": "slate-mansard",
+        "rect": [
+          815,
+          71,
+          292,
+          173
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "cottage",
+        "variant": 5,
+        "model": "patched-metal",
+        "rect": [
+          1188,
+          71,
+          289,
+          174
+        ]
+      }
+    ],
+    "nativeFunction": "Niveaux[-1,0] : sous-sol enterré (provisions, buanderie, atelier, chaufferie) et un seul rez-de-chaussée visible. Escalier intérieur au plan; aucun étage aérien ajouté.",
+    "cameraTargets": {
+      "downwardDegrees": 70,
+      "projectedRoofDepthPercentWidth": 78,
+      "combinedFrontFacadePercentWidth": 6,
+      "aboveGroundFloorCount": 1,
+      "buriedLevels": [
+        -1
+      ],
+      "metricProjectionCertified": false
+    }
+  },
+  {
+    "id": "DW-0481",
+    "name": "Maison effondrée visitable",
+    "type": "ruin",
+    "sourceSheet": "references/DW-0481.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      18,
+      14
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Séjour",
+          "Cuisine",
+          "Chambre",
+          "Garage / rangement",
+          "Débris de façade"
+        ],
+        "objectKinds": [
+          "sofa",
+          "table",
+          "fridge",
+          "sink",
+          "bed",
+          "wardrobe",
+          "workbench",
+          "crate"
+        ],
+        "stairs": []
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "rubble",
+      "timberRack"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        20,
+        16
+      ],
+      "maximum": [
+        180,
+        120
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "ruin",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatServices153",
+        "family": "ruin",
+        "variant": 0,
+        "rect": [
+          776,
+          766,
+          361,
+          229
+        ]
+      },
+      {
+        "atlas": "habitatServices153",
+        "family": "ruin",
+        "variant": 1,
+        "rect": [
+          1158,
+          763,
+          365,
+          241
+        ]
+      }
+    ],
+    "nativeFunction": "Niveau0 uniquement : pièces domestiques et zone Débris de façade. Le plan retire un segment de façade. La cave proposée par la fiche n’est pas un niveau piloté.",
+    "cameraTargets": {
+      "downwardDegrees": 70,
+      "projectedRoofDepthPercentWidth": 73,
+      "combinedFrontFacadePercentWidth": 6,
+      "aboveGroundFloorCount": 1,
+      "buriedLevels": [],
+      "metricProjectionCertified": false
+    }
+  },
+  {
+    "id": "DW-0101",
+    "name": "Hôtel de centre-ville",
+    "type": "hotel",
+    "sourceSheet": "references/DW-0101.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      42,
+      26
+    ],
+    "pilotLevels": [
+      0,
+      1,
+      2
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Réception",
+          "Chambre 7",
+          "Chambre 2",
+          "Chambre 8",
+          "Chambre 3",
+          "Chambre 9",
+          "Chambre 5",
+          "Chambre 11",
+          "Chambre 6",
+          "Chambre 12"
+        ],
+        "objectKinds": [
+          "desk",
+          "wardrobe",
+          "bed"
+        ],
+        "stairs": [
+          {
+            "id": "source-hotel:stairs",
+            "x": 19.95,
+            "y": 22,
+            "w": 2.1,
+            "h": 2.9,
+            "levels": [
+              0,
+              1,
+              2
+            ]
+          }
+        ]
+      },
+      {
+        "z": 1,
+        "names": [
+          "Chambre 1",
+          "Chambre 7",
+          "Chambre 2",
+          "Chambre 8",
+          "Chambre 3",
+          "Chambre 9",
+          "Chambre 5",
+          "Chambre 11",
+          "Chambre 6",
+          "Chambre 12"
+        ],
+        "objectKinds": [
+          "bed",
+          "wardrobe"
+        ],
+        "stairs": [
+          {
+            "id": "source-hotel:stairs",
+            "x": 19.95,
+            "y": 22,
+            "w": 2.1,
+            "h": 2.9,
+            "levels": [
+              0,
+              1,
+              2
+            ]
+          }
+        ]
+      },
+      {
+        "z": 2,
+        "names": [
+          "Chambre 1",
+          "Chambre 7",
+          "Chambre 2",
+          "Chambre 8",
+          "Chambre 3",
+          "Chambre 9",
+          "Chambre 5",
+          "Chambre 11",
+          "Chambre 6",
+          "Chambre 12"
+        ],
+        "objectKinds": [
+          "bed",
+          "wardrobe"
+        ],
+        "stairs": [
+          {
+            "id": "source-hotel:stairs",
+            "x": 19.95,
+            "y": 22,
+            "w": 2.1,
+            "h": 2.9,
+            "levels": [
+              0,
+              1,
+              2
+            ]
+          }
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "washer",
+      "crate",
+      "shelf"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        26,
+        18
+      ],
+      "maximum": [
+        100,
+        65
+      ]
+    },
+    "authorProposedLevelsText": "0, 1, 2",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "hotel",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatResidential153",
+        "family": "hotel",
+        "variant": 0,
+        "rect": [
+          26,
+          523,
+          362,
+          223
+        ]
+      },
+      {
+        "atlas": "habitatResidential153",
+        "family": "hotel",
+        "variant": 1,
+        "rect": [
+          414,
+          533,
+          333,
+          202
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "hotel",
+        "variant": 2,
+        "model": "concrete-services",
+        "rect": [
+          55,
+          300,
+          299,
+          180
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "hotel",
+        "variant": 3,
+        "model": "flat-water-tank",
+        "rect": [
+          430,
+          302,
+          306,
+          179
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "hotel",
+        "variant": 4,
+        "model": "slate-three-dormers",
+        "rect": [
+          805,
+          289,
+          313,
+          190
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "hotel",
+        "variant": 5,
+        "model": "terracotta-double-ridge",
+        "rect": [
+          1188,
+          303,
+          298,
+          175
+        ]
+      }
+    ],
+    "nativeFunction": "Trois niveaux natifs[0,1,2] : réception au rez-de-chaussée et rangées de chambres desservies par le couloir central. Pas de quatrième niveau.",
+    "cameraTargets": {
+      "downwardDegrees": 70,
+      "projectedRoofDepthPercentWidth": 58,
+      "combinedFrontFacadePercentWidth": 12,
+      "aboveGroundFloorCount": 3,
+      "buriedLevels": [],
+      "metricProjectionCertified": false
+    }
+  }
+]

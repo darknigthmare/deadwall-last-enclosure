@@ -1,0 +1,44 @@
+{
+  "pharmacy": {
+    "sha256": "52c7ce2e99630091bfbf80dccd1773dfb3cb8731e91624050b05ec43566a2c26",
+    "observation": "Correction de caméra : façade comprimée et profondeur apparente du toit augmentée ; même pharmacie à un niveau, vitrine et entrée centrale au sol, ventilation conservée. La projection reste une interprétation artistique à calibrer.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique de la sortie finale et comparaison aux références ; pas de certification métrique 1:1 ni de parcours moteur."
+  },
+  "hardware": {
+    "sha256": "61e9e8f9857b99471a442c09590d2e910f3fc824f6d5f23eac053afd57038919",
+    "observation": "Volume commercial bas à un seul niveau, toiture dominante, vitrine et entrée publique au sol avec petit auvent. Silhouette entière ; la proportion projetée reste approximative, sans certification métrique.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique de la sortie finale et comparaison aux références ; pas de certification métrique 1:1 ni de parcours moteur."
+  },
+  "diner": {
+    "sha256": "9533f46f825debbf5388c91659256670a34f0fd7254ce8a9d8b8c534d9b56090",
+    "observation": "Restaurant bas fermé, fenêtres de salle le long de la façade, entrée centrale au sol et ventilation de service sur toiture. Aucun étage ajouté ni terrasse extérieure.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique de la sortie finale et comparaison aux références ; pas de certification métrique 1:1 ni de parcours moteur."
+  },
+  "garage": {
+    "sha256": "47cce51065919feae6271fc0fa5838417f084d25a85379899b6709f3ab57fa63",
+    "observation": "Atelier à un seul niveau avec porte de remise centrale au sol, fenêtres de service et éclairage naturel en toiture. Silhouette complète, sans véhicule ni cour ajoutée.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique de la sortie finale et comparaison aux références ; pas de certification métrique 1:1 ni de parcours moteur."
+  },
+  "school": {
+    "sha256": "d9ef2bdc5bc0d49d05e72f0d7bc6223d34a529ed31a954244548f34247f1c09c",
+    "observation": "Deux niveaux visibles par deux rangées de fenêtres, entrée centrale au rez-de-chaussée et toiture dominante. Aucun comble habitable, annexe ou accès sur toiture.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique de la sortie finale et comparaison aux références ; pas de certification métrique 1:1 ni de parcours moteur."
+  },
+  "townhall": {
+    "sha256": "f26afa54cf24925d9b046dcbe91a919d083cc6ce252e7b6dfc881d55ed9dff75",
+    "observation": "Deux niveaux visibles, volume civique compact et entrée centrale au sol. Toit à croupes sans tour, drapeau ou comble habitable. Silhouette entière.",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "reviewScope": "Revue artistique de la sortie finale et comparaison aux références ; pas de certification métrique 1:1 ni de parcours moteur."
+  }
+}

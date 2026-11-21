@@ -1,0 +1,74 @@
+[
+  {
+    "key": "singleBunk",
+    "kind": "singleBunk",
+    "id": "prop:singleBunk:v0",
+    "artId": "prop:singleBunk:v0",
+    "label": "Couchette individuelle",
+    "file": "singleBunk_couchette_individuelle.png",
+    "prompt": "Edit image 1 with ONE targeted correction to the singleBunk source sprite. Image 2 is the exact native variant-0 design; image 3 is material reference only. Preserve the perfectly overhead orthographic camera, horizontal long axis, one and only one olive sleeping surface, pale pillow on the LEFT, aged metal frame, complete silhouette and existing material quality. Correct the small access ladder at the LOWER long edge near the centre so that it has exactly THREE distinct parallel horizontal metal rungs between its two vertical side rails, as in image 2. All three rungs must be visibly separate; the bed frame itself does not count as a rung. Extend the ladder slightly down if necessary to reveal its three crossbars, while keeping it small and integrated. Do not add another mattress, lower bunk, platform, footboard, loose prop or any new feature. Retain true transparent RGBA background, clean isolated cutout and generous margins; remove no real object part. No floor, background, outer drop shadow, lettering or watermark. The task is only to restore the three-rung ladder in the same source design, with no change to the canonical plan axes.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/generated_images/exec-8e7ec820-697b-4aa4-9f6b-857a8316faeb.png",
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/singleBunk-v0.png",
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-home-atlas.png"
+    ],
+    "generator": "image_gen.imagegen",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 2
+  },
+  {
+    "key": "feedTrough",
+    "kind": "feedTrough",
+    "id": "prop:feedTrough:v0",
+    "artId": "prop:feedTrough:v0",
+    "label": "Mangeoire",
+    "file": "feedTrough_mangeoire.png",
+    "prompt": "Edit image 1 with the following targeted material/count correction. Image 2 is the exact native game painter for this kind, variant 0, canonical rotation 0. Image 3 is existing game style for worn muted materials only. Keep the perfectly overhead orthographic PLAN view, horizontal and vertical source axes, complete object, proportions and source part layout. Do not turn the object into a perspective scene.\n\nInside the same brown recess, replace the seven large regular diagonal gouges/wooden-looking sticks with a thin natural layer of granular feed residue and recognisable fine dried straw. Preserve seven subtle diagonal directional groups at the same positions as native reference 2, but each group must read as a few irregular fibrous straw stems, not a rigid carved groove, dark slot or manufactured strip. The surface should be sparse, dusty and organic; no heap, bale, loose pile outside the trough or extra ration. Preserve the six-sided flared aged-metal body, all four small corner supports, long horizontal axis and narrow 4:1 authored footprint.\n\nKeep the grounded DEADWALL worn material quality and restrained muted palette. This is an idle standalone source-art prop; fixed illustrated contents do not imply loot, production or campaign placement. Preserve TRUE transparent RGBA background and the full thin-parts silhouette with clear margins. No floor, terrain, plinth, external drop shadow, framing, text, watermark, extra component or neighbouring object. Perform only the targeted correction, retaining the rest of the object.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/generated_images/exec-09264aea-aab2-465a-aa8e-c6e9c0d789a7.png",
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/feedTrough-v0.png",
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+    ],
+    "generator": "image_gen.imagegen",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 2
+  },
+  {
+    "key": "waterTrough",
+    "kind": "waterTrough",
+    "id": "prop:waterTrough:v0",
+    "artId": "prop:waterTrough:v0",
+    "label": "Abreuvoir",
+    "file": "waterTrough_abreuvoir.png",
+    "prompt": "Edit image 1 with the following targeted material/count correction. Image 2 is the exact native game painter for this kind, variant 0, canonical rotation 0. Image 3 is existing game style for worn muted materials only. Keep the perfectly overhead orthographic PLAN view, horizontal and vertical source axes, complete object, proportions and source part layout. Do not turn the object into a perspective scene.\n\nMake the blue interior read as a genuine calm shallow water surface inside the same metal recess, with subtle natural translucent teal water and a delicate irregular reflected highlight near the source position. Replace the rigid white painted stripe with a fine soft water reflection: no painted line, tape, plank or flat blue enamel bottom. The water is completely still, with no flow, spray or animated ripples. Remove the invented support tab at the exact centre of the LOWER edge. Keep only the four source corner supports: near left, near right, far left, far right; far supports may be partly occluded by the rim as in native reference 2. Preserve the existing upper-right small fitting, six-sided silhouette, horizontal long axis and authored 2.4:1 plan ratio. Do not add a tap, hose, pump, drain or extra object.\n\nKeep the grounded DEADWALL worn material quality and restrained muted palette. This is an idle standalone source-art prop; fixed illustrated contents do not imply loot, production or campaign placement. Preserve TRUE transparent RGBA background and the full thin-parts silhouette with clear margins. No floor, terrain, plinth, external drop shadow, framing, text, watermark, extra component or neighbouring object. Perform only the targeted correction, retaining the rest of the object.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/generated_images/exec-12796b17-a5a9-42b2-93da-65e2ab98fe07.png",
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/waterTrough-v0.png",
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+    ],
+    "generator": "image_gen.imagegen",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 2
+  },
+  {
+    "key": "fodderRack",
+    "kind": "fodderRack",
+    "id": "prop:fodderRack:v0",
+    "artId": "prop:fodderRack:v0",
+    "label": "Râtelier à fourrage",
+    "file": "fodderRack_ratelier_fourrage.png",
+    "prompt": "Edit image 1 with the following targeted material/count correction. Image 2 is the exact native game painter for this kind, variant 0, canonical rotation 0. Image 3 is existing game style for worn muted materials only. Keep the perfectly overhead orthographic PLAN view, horizontal and vertical source axes, complete object, proportions and source part layout. Do not turn the object into a perspective scene.\n\nThe six vertical wooden slats and timber outer frame must stay unchanged. Behind those six slats, replace the seven flat green diagonal geometric bands/planks with recognisable thin strands of fodder: fibrous dried grass and muted green-brown hay stems. Keep the same seven diagonal directional groups and modest amount indicated by native reference 2, with irregular organic ends and fine grassy texture, seen through the spaces behind the six wooden slats. The background recess should read as a shallow rack containing this fixed residue, not a painted board with decorative green stripes. Do not add a hay bale, a mound, loose stock outside the rack, another rail or more slats. Preserve the horizontal long axis and narrow authored 1.6 by 0.6 plan footprint.\n\nKeep the grounded DEADWALL worn material quality and restrained muted palette. This is an idle standalone source-art prop; fixed illustrated contents do not imply loot, production or campaign placement. Preserve TRUE transparent RGBA background and the full thin-parts silhouette with clear margins. No floor, terrain, plinth, external drop shadow, framing, text, watermark, extra component or neighbouring object. Perform only the targeted correction, retaining the rest of the object.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/generated_images/exec-9cfa0173-265f-4b3b-9c24-bf4dc7f6e200.png",
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/fodderRack-v0.png",
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+    ],
+    "generator": "image_gen.imagegen",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 2
+  }
+]

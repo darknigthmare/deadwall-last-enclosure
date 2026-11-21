@@ -1,0 +1,258 @@
+{
+  "breachClamp193": {
+    "decision": "accepted_source_art_proposal",
+    "sha256": "81734587dc0ea91ed8610efe90291b124ce17fe054cbdd2fb07809a225bdf81b",
+    "iteration": 1,
+    "reviewer": "root independent visual comparison",
+    "observation": "Canonique et finale examinés : mâchoires et pivots sur le support existant, quatre blocs de renfort et deux barres croisées en X. Positions, silhouette et matières du montage conservées ; boulons et usure sont des détails illustrés.",
+    "canonicalReplayFile": "root-canonical-replay.json",
+    "audit": {
+      "mode": "RGBA",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1145129,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1117162,
+      "lowAlphaPixels1to7": 23126,
+      "boundsAlpha8": [
+        243,
+        257,
+        1011,
+        966
+      ],
+      "marginFractionsAlpha8": [
+        0.1937799043062201,
+        0.20494417862838915,
+        0.1937799043062201,
+        0.22966507177033493
+      ],
+      "borderAlphaMaximum": 1,
+      "readOnlyDecode": true,
+      "nativeBytesUnchanged": true
+    },
+    "limitations": [
+      "Assemblage statique de la phase armée ; aucune intégration ou substitution des pièces animées.",
+      "Le support auteur mesure1×1m ; échelle raster et hauteur propre du mécanisme non certifiées.",
+      "Aucune égalité pixel à pixel ni fidélité métrique1:1 certifiée."
+    ]
+  },
+  "enduranceRack193": {
+    "decision": "accepted_source_art_proposal",
+    "sha256": "c413868bea8ca403bdacc1d29a6e3232247ff6aa6e25827deb7ff43ec9e8ffba",
+    "iteration": 2,
+    "reviewer": "root independent visual comparison",
+    "observation": "Canonique, v1 et v2 examinés. La v2 conserve le cadre rectangulaire avec quatre plaques verticales, le pivot à gauche, le ressort et le crochet à droite. La traverse inférieure du cadre passe maintenant devant le levier denté comme dans le rendu source. Les dents partiellement occultées ne reçoivent pas une certification de tracé exact.",
+    "canonicalReplayFile": "root-canonical-replay.json",
+    "audit": {
+      "mode": "RGBA",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1065181,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1124804,
+      "lowAlphaPixels1to7": 22046,
+      "boundsAlpha8": [
+        222,
+        292,
+        1033,
+        949
+      ],
+      "marginFractionsAlpha8": [
+        0.17703349282296652,
+        0.23285486443381181,
+        0.1762360446570973,
+        0.24322169059011164
+      ],
+      "borderAlphaMaximum": 1,
+      "readOnlyDecode": true,
+      "nativeBytesUnchanged": true
+    },
+    "limitations": [
+      "Assemblage statique de la phase armée ; aucune intégration ou substitution des pièces animées.",
+      "Le support auteur mesure1×1m ; échelle raster et hauteur propre du mécanisme non certifiées.",
+      "Aucune égalité pixel à pixel ni fidélité métrique1:1 certifiée."
+    ]
+  },
+  "shieldTongs193": {
+    "decision": "accepted_source_art_proposal",
+    "sha256": "69272136fb21df3bb8e80039e1abf53819234851dcc15feb854c6476cfdadc9d",
+    "iteration": 1,
+    "reviewer": "root independent visual comparison",
+    "observation": "Canonique et finale examinés : base de mâchoires conservée, deux longues pièces latérales inclinées légèrement vers le centre en haut, pivots et ouvertures lisibles. Aucun renfort croisé ajouté. Les faces obliques déjà peintes dans les pièces source sont conservées.",
+    "canonicalReplayFile": "root-canonical-replay.json",
+    "audit": {
+      "mode": "RGBA",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1104712,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1128520,
+      "lowAlphaPixels1to7": 14522,
+      "boundsAlpha8": [
+        243,
+        257,
+        1010,
+        966
+      ],
+      "marginFractionsAlpha8": [
+        0.1937799043062201,
+        0.20494417862838915,
+        0.19457735247208932,
+        0.22966507177033493
+      ],
+      "borderAlphaMaximum": 1,
+      "readOnlyDecode": true,
+      "nativeBytesUnchanged": true
+    },
+    "limitations": [
+      "Assemblage statique de la phase armée ; aucune intégration ou substitution des pièces animées.",
+      "Le support auteur mesure1×1m ; échelle raster et hauteur propre du mécanisme non certifiées.",
+      "Aucune égalité pixel à pixel ni fidélité métrique1:1 certifiée."
+    ]
+  },
+  "quickCable193": {
+    "decision": "accepted_source_art_proposal",
+    "sha256": "1765d89e2e0b6afeb1e82f68cf735382ec278f3ce26373d1918a62bbdd08fe96",
+    "iteration": 2,
+    "reviewer": "root independent visual comparison",
+    "observation": "Canonique, v1 et v2 examinés : montage horizontal avec deux anneaux creux, barre inférieure, traverse verticale décalée à gauche, pièce dentée à droite et crochet à gauche. L’aperçu direct montre une couleur brune dans des pixels dont alpha=0 ; le contrôle composé sur fond clair la fait disparaître. Ce constat ne prouve pas un fond opaque défectueux. La v2 garde la géométrie et un bord alpha nul ; la marge horizontale mesurée reste proche de9,18%, sans coupe.",
+    "canonicalReplayFile": "root-canonical-replay.json",
+    "audit": {
+      "mode": "RGBA",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1979459,
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "fullyTransparentPixels": 991016,
+      "lowAlphaPixels1to7": 9908,
+      "boundsAlpha8": [
+        142,
+        232,
+        1395,
+        781
+      ],
+      "marginFractionsAlpha8": [
+        0.09244791666666667,
+        0.2265625,
+        0.091796875,
+        0.2373046875
+      ],
+      "borderAlphaMaximum": 0,
+      "readOnlyDecode": true,
+      "nativeBytesUnchanged": true
+    },
+    "limitations": [
+      "Assemblage statique de la phase armée ; aucune intégration ou substitution des pièces animées.",
+      "Le support auteur mesure1×1m ; échelle raster et hauteur propre du mécanisme non certifiées.",
+      "Aucune égalité pixel à pixel ni fidélité métrique1:1 certifiée."
+    ],
+    "backgroundDiagnostic": {
+      "samples": [
+        {
+          "xy": [
+            600,
+            220
+          ],
+          "rgba": [
+            92,
+            63,
+            47,
+            0
+          ]
+        },
+        {
+          "xy": [
+            100,
+            512
+          ],
+          "rgba": [
+            55,
+            34,
+            18,
+            0
+          ]
+        },
+        {
+          "xy": [
+            768,
+            150
+          ],
+          "rgba": [
+            19,
+            13,
+            7,
+            0
+          ]
+        },
+        {
+          "xy": [
+            10,
+            10
+          ],
+          "rgba": [
+            1,
+            1,
+            0,
+            0
+          ]
+        }
+      ],
+      "alphaCompositePreviewInspected": true,
+      "nativeFilePathLoadInCanvas0100Succeeded": true,
+      "sourcePixelsNotEdited": true,
+      "interpretation": "Hidden RGB at alpha0 is invisible in correct alpha compositing; raw preview appearance alone is not an opacity failure."
+    }
+  },
+  "siegeBrake193": {
+    "decision": "accepted_source_art_proposal",
+    "sha256": "0a2f9a2173c4eb65810d5a8f2a75d164bd4f2557104e00d324a34d9bce29539a",
+    "iteration": 1,
+    "reviewer": "root independent visual comparison",
+    "observation": "Canonique et finale examinés : pivot haut au centre, levier oblique, contrepoids avec chaîne à droite, bloc de frein en haut à gauche et quatre creux en V de la pièce basse. Support complet ; aucun effet actif, compteur ou interface ajouté.",
+    "canonicalReplayFile": "root-canonical-replay.json",
+    "audit": {
+      "mode": "RGBA",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 878290,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1229058,
+      "lowAlphaPixels1to7": 10401,
+      "boundsAlpha8": [
+        243,
+        284,
+        1009,
+        889
+      ],
+      "marginFractionsAlpha8": [
+        0.1937799043062201,
+        0.22647527910685805,
+        0.19537480063795853,
+        0.29106858054226475
+      ],
+      "borderAlphaMaximum": 1,
+      "readOnlyDecode": true,
+      "nativeBytesUnchanged": true
+    },
+    "limitations": [
+      "Assemblage statique de la phase armée ; aucune intégration ou substitution des pièces animées.",
+      "Le support auteur mesure1×1m ; échelle raster et hauteur propre du mécanisme non certifiées.",
+      "Aucune égalité pixel à pixel ni fidélité métrique1:1 certifiée."
+    ]
+  }
+}

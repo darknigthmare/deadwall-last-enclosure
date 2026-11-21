@@ -1,0 +1,15 @@
+{
+  "key": "quickCable193",
+  "iteration": 2,
+  "correctionReason": "Root review observed a broad brown halo/backdrop in the native preview. Remove outside-object backdrop with ImageGen while preserving all mechanical parts; also request larger clear margins.",
+  "replaces": "/workspace/scratch/6f470a892a0f/generated_images/exec-f9bf07db-dd43-4928-aa98-0ca4409644cc.png",
+  "arguments": {
+    "prompt": "Edit image 1, the existing static DEADWALL quickCable193 mechanical game-art sprite. Perform a targeted background correction: remove the entire soft brown haze, dark ambient backdrop and diffuse surrounding shadow from outside the equipment. The space outside the actual hard silhouette, and all genuinely open gaps between its parts, must be completely clear transparent alpha with no coloured glow or matte. This is an isolated RGBA sprite, not equipment photographed on a dark background.\n\nKeep the complete mechanism itself unchanged: the same horizontal timber twin-rail base, four end mounting bands, vertical hooked slider left of centre, small toothed slider right of centre, exactly TWO hollow circular metal rings at the left and right ends on the centreline, and exactly ONE straight lower horizontal metal/cable bar. Preserve the exact colours, worn timber, rust, bolts, component topology, proportions, overlaps and same camera/axes. Image 2 is the native canonical assembly, supplied only to lock that existing layout. No extra parts, no target, no action and no stock.\n\nPlace the complete isolated object centrally with at least 15 percent clear transparent margin to the outermost piece at every canvas edge, without cropping any hardware. Produce a new native PNG with true RGBA transparency, no floor, shadow outside the object, text, grid, frame or additional object. Do not alter or replace the original input file.",
+    "referenced_image_paths": [
+      "/workspace/scratch/6f470a892a0f/generated_images/exec-f9bf07db-dd43-4928-aa98-0ca4409644cc.png",
+      "/workspace/scratch/6f470a892a0f/art237-prep/references/canonical/quickCable193-v0-armed-mounted.png"
+    ],
+    "transparent_background": true
+  },
+  "initiatedAt": "2026-11-17T13:39:22.217Z"
+}

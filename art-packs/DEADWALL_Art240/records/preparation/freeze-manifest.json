@@ -1,0 +1,298 @@
+{
+  "schemaVersion": 1,
+  "pack": "Art240",
+  "frozenAt": "2026-11-17T15:23:00.632910+00:00",
+  "scope": "Author-owned preparation, calls, sources, outputs and QA. Independent root-* receipts are maintained separately.",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "ffcc9f3997a72176306521ffca2043e962273e9b8fc2f0f116c69803e3ffd9aa",
+      "bytes": 10570
+    },
+    {
+      "path": "alpha-audit.json",
+      "sha256": "6975eb5a26d80a7c7bea581c1ef08ba3673e24abe1c5e48d600479f098fa09a8",
+      "bytes": 6969
+    },
+    {
+      "path": "calls/closed-pool_v1-iteration-01-input.json",
+      "sha256": "d0b340666b958879ef8318225656b0970110baf7840bb1b33b30f4addeefb1e6",
+      "bytes": 4529
+    },
+    {
+      "path": "calls/closed-pool_v1-iteration-01-response.json",
+      "sha256": "3e2c5734cd340d09a60a77c5f2abf11f46c9f7cb1220ca58b23567f22247dd34",
+      "bytes": 883
+    },
+    {
+      "path": "calls/closed-pool_v2-iteration-01-input.json",
+      "sha256": "1bf4ddafe301ebbb514a3d92d3dcd6c071abfa5ad24046bd77af46abd7a0f784",
+      "bytes": 4537
+    },
+    {
+      "path": "calls/closed-pool_v2-iteration-01-response.json",
+      "sha256": "1e4f4bd3997271bd6ba2b35feee1d35c1db09ffc6026f8bbc154e1c36ef86f27",
+      "bytes": 883
+    },
+    {
+      "path": "calls/compost-bin_v1-iteration-01-input.json",
+      "sha256": "48612c5df38320ce5cfa94301df4e748ca195c75f05685235c43c5ea1f8ee67a",
+      "bytes": 3996
+    },
+    {
+      "path": "calls/compost-bin_v1-iteration-01-response.json",
+      "sha256": "509472137d1505bd7921c846e283a6c2a3825d4b855b9f05d1652ee2661563ce",
+      "bytes": 883
+    },
+    {
+      "path": "calls/compost-bin_v2-iteration-01-input.json",
+      "sha256": "313d12600a5e60963d52e1597bf0a393536a1648e053b20991027e6e98079430",
+      "bytes": 4053
+    },
+    {
+      "path": "calls/compost-bin_v2-iteration-01-response.json",
+      "sha256": "886783adf65c08f8776f12ca8c1c0a75b3191cafd0dc9ceb69ca37ba50f0ddac",
+      "bytes": 883
+    },
+    {
+      "path": "canonical-render-receipt.json",
+      "sha256": "2b0bafdb190b668f48d9097173fff3b73929ee4df3cd1fd072e16c8c50b87f69",
+      "bytes": 9324
+    },
+    {
+      "path": "checkout-transition.json",
+      "sha256": "a88955fac5ab3874036ffa73afd1ed658751ccfe5df90048179286fd66fabf48",
+      "bytes": 4442
+    },
+    {
+      "path": "existing-analogues.json",
+      "sha256": "79b4f6ab5f13cba92e0be4f648c8ba8273fe862c654fba6bb5462a97d265adf8",
+      "bytes": 2641
+    },
+    {
+      "path": "guidance/create-game-assets-SKILL.md",
+      "sha256": "36cd246a434fefe1e36feff066597a6268d9f63364bee387ee65a22f03838b5d",
+      "bytes": 8152
+    },
+    {
+      "path": "guidance/provenance.json",
+      "sha256": "83d7dd97d6b3aba1587c1e9c0c73089bd6218d7dd8ded1d94c91d87eb5fbeee6",
+      "bytes": 975
+    },
+    {
+      "path": "guidance/raster-pipeline.md",
+      "sha256": "d7a5714628fd8f4b66d03e060488e353b163b811112b164af218beb2b6450a02",
+      "bytes": 4236
+    },
+    {
+      "path": "history-results.json",
+      "sha256": "f40e1a24c80f723a253929337957a347c3b368d5a755f22ac48ef96c5898afd0",
+      "bytes": 19476
+    },
+    {
+      "path": "instructions-receipt.json",
+      "sha256": "eae0ba8423daa3bd8071a6e982202cb3f662df4d206980a21659f525b57fa083",
+      "bytes": 5214
+    },
+    {
+      "path": "integrity-receipt.json",
+      "sha256": "c98d31b6911419bbacffa7e759a444692c4fb3c7450cb9e0e1233df4e6f12370",
+      "bytes": 8237
+    },
+    {
+      "path": "optional-pr36-ci-observation.json",
+      "sha256": "25e3611fa6789bad22371d20eef04236a8c1a94a5ea7b03b952bdc4a10835da1",
+      "bytes": 4987
+    },
+    {
+      "path": "outputs/iteration-01/closed-pool_bassin_ferme_v1.png",
+      "sha256": "4b511e0eb83c8bba591336e3af21881ea416b14f0d88b7d5c336fd565c7e5df1",
+      "bytes": 761122
+    },
+    {
+      "path": "outputs/iteration-01/closed-pool_bassin_ferme_v2.png",
+      "sha256": "8b4f76904cb66eec85ec824488b03398c3019c00756d7f935c2d910143e567eb",
+      "bytes": 836767
+    },
+    {
+      "path": "outputs/iteration-01/compost-bin_composteur_jardin_v1.png",
+      "sha256": "74341943da6e2292c2510df4cabdfeb696a0dfa661c51e8ad8a576a1837ce5eb",
+      "bytes": 1447148
+    },
+    {
+      "path": "outputs/iteration-01/compost-bin_composteur_jardin_v2.png",
+      "sha256": "450d49d558661f0217fac526ed62146ea74afe30f96885762368274a90a8bfbc",
+      "bytes": 1610623
+    },
+    {
+      "path": "prepare.cjs",
+      "sha256": "4545a169388f44c98bc54c8cc063e4f228c757d69db241ab0039e1beb0aa2297",
+      "bytes": 17036
+    },
+    {
+      "path": "record-native.py",
+      "sha256": "53dddab14988a6e080fed7be7eea25cb0c7ffbd284d073f39f60e6c5dc617bb9",
+      "bytes": 5218
+    },
+    {
+      "path": "references/canonical/closed-pool_v1.png",
+      "sha256": "f699e4f65d895fbd7102e67f296113603e41d814ca6a63ca9d02ddf87a0a00fe",
+      "bytes": 10409
+    },
+    {
+      "path": "references/canonical/closed-pool_v2.png",
+      "sha256": "86acdb271d95ed15123e34536e214a0cadbc41d58dd375414cbf055fead3670b",
+      "bytes": 16241
+    },
+    {
+      "path": "references/canonical/compost-bin_v1.png",
+      "sha256": "c9f292fe49a83e47d24d6598db7cd5a0b02461baa8bd55219221a99feeb63caf",
+      "bytes": 28111
+    },
+    {
+      "path": "references/canonical/compost-bin_v2.png",
+      "sha256": "d8d41028c0b5f054ca8a71936f47a4e38d6d6e5bdf4274c2e4b823044b81f1ab",
+      "bytes": 16476
+    },
+    {
+      "path": "references/repository/AGENTS.md",
+      "sha256": "7d02c6bd7f9c6a8e04c4c18680f9539109ecbc943f240de12a536ab9a8a8ab13",
+      "bytes": 4190
+    },
+    {
+      "path": "references/repository/assets/art157/PROVENANCE.json",
+      "sha256": "381ed20c4e2e6fe09ba1d8d0d20173a3f0f0875dd02309dd7bb6ed93fb2bb4f2",
+      "bytes": 114883
+    },
+    {
+      "path": "references/repository/assets/art157/yard-atlas.png",
+      "sha256": "bc59caf35959c0074987e50d4a2059f63e0e17d8725d21e6b1a0b8a2ffcff6b1",
+      "bytes": 2018982
+    },
+    {
+      "path": "references/repository/docs/ARCHITECTURE.md",
+      "sha256": "880657b6abfc044a3ef534d8a092ad9a20ad3a0a2a9024bdbbea6642d8eb3f3c",
+      "bytes": 57076
+    },
+    {
+      "path": "references/repository/docs/BALANCING.md",
+      "sha256": "5caf2749d57201a01f9aafa80de8a3e70e0579a01895283e6d5b05abdc526088",
+      "bytes": 37720
+    },
+    {
+      "path": "references/repository/docs/CODEX_MASTER_PROMPT.md",
+      "sha256": "9c0280c574ad13d7ba03cb4391713411e8eb8fcdbcc4cc94f2609f277c727c6d",
+      "bytes": 5269
+    },
+    {
+      "path": "references/repository/docs/GAMEDEV_GUIDANCE.md",
+      "sha256": "0b2df8233ea2c49ff0c1fd959cf43bac8d1245fb6900334e42cb541b0d2f0144",
+      "bytes": 24935
+    },
+    {
+      "path": "references/repository/docs/GAME_BIBLE.md",
+      "sha256": "3f6f48befcd5408e03ab4ed0c79a68a040cac48c09f087545e334f0b3c738890",
+      "bytes": 98486
+    },
+    {
+      "path": "references/repository/docs/GAME_DESIGN.md",
+      "sha256": "3f5ce6afc19ca49f5ffe239eee67b7258078098e8d0477a5ef62fd2fc8fd65f9",
+      "bytes": 15746
+    },
+    {
+      "path": "references/repository/docs/ORIGINAL_BRIEF.txt",
+      "sha256": "64fe23e910f065cdd6ce4f8f84fcc8efd6894d923122c086cd7b16f599492297",
+      "bytes": 1283
+    },
+    {
+      "path": "references/repository/docs/codex/suivi-monde2026/RESIDENTIEL_2026.md",
+      "sha256": "71e3b672505516af97c91b0e8b9c493de189076f764cacbb2e5450eb5095308c",
+      "bytes": 9436
+    },
+    {
+      "path": "references/repository/package-lock.json",
+      "sha256": "41cd5573880263b30206dbb78766b789f65702fa2ffebe2401601b1bd2205c53",
+      "bytes": 35109
+    },
+    {
+      "path": "references/repository/package.json",
+      "sha256": "722c28f9946e5c9c2095e2b3a03774c595aa4bd9bfc1655484dcb34396c0cea0",
+      "bytes": 3159
+    },
+    {
+      "path": "references/repository/scripts/codex-residential2026.cjs",
+      "sha256": "6978137b18dc3ea26916efdabeff6a36a26abeb9c09e27bc0549de74d909982d",
+      "bytes": 17963
+    },
+    {
+      "path": "references/repository/scripts/codex-world-foundations2026.cjs",
+      "sha256": "a709d508e1d2c71ed549f2192bd27f0afd7dae37cb1957f54a2ec32ab0b969b3",
+      "bytes": 19639
+    },
+    {
+      "path": "references/repository/src/campaign-site-art205.js",
+      "sha256": "492790bf2aa6c77dd244f4fcd8c164f1960f08eb2654b10b1ca20663bd72e0f2",
+      "bytes": 44852
+    },
+    {
+      "path": "references/repository/src/codex-furnishings2026.js",
+      "sha256": "5aacd2944d7cf44d21997a9b265dac966a873875e9e5cd7a48a43c8dca044b36",
+      "bytes": 40680
+    },
+    {
+      "path": "references/repository/src/codex-layouts2026.js",
+      "sha256": "2ab0b563e26f64877b6d9fbdd0ceb1bcfca4e439b147825a571bd0e446f714cc",
+      "bytes": 311787
+    },
+    {
+      "path": "references/repository/src/interior-art153.js",
+      "sha256": "7b686fc06c7be2b00a8263ce47b42eeb5dc8413fedee71c9f4fed790f50ffd21",
+      "bytes": 18868
+    },
+    {
+      "path": "references/repository/src/seed-detail-art157.js",
+      "sha256": "03978da0de17b4255107b3ee0966d7bb3a160ef14d2eb08efad09afe16eead8a",
+      "bytes": 25806
+    },
+    {
+      "path": "references/repository/src/world-props-art153.js",
+      "sha256": "8366c7fe4d3dc529c64d3f50523f78bd1651c63a287d22818fe18dd065548726",
+      "bytes": 21665
+    },
+    {
+      "path": "references/repository/src/world-variants158.js",
+      "sha256": "fd131b78b25398bed75de226b8c7d46e4b6547b08d429fc3e888efc6948718db",
+      "bytes": 12786
+    },
+    {
+      "path": "references/sources.json",
+      "sha256": "8e334f5eb593fefd2ffebfccc2e8859457473c3bb2d1c69b963a776c2680ee8d",
+      "bytes": 11422
+    },
+    {
+      "path": "results.json",
+      "sha256": "f40e1a24c80f723a253929337957a347c3b368d5a755f22ac48ef96c5898afd0",
+      "bytes": 19476
+    },
+    {
+      "path": "review-history.json",
+      "sha256": "d78e14806e17d272b9f3a6d0a519eb82998c0c026115bb1395f907201bedb51c",
+      "bytes": 14521
+    },
+    {
+      "path": "review.json",
+      "sha256": "5cd44c96c16102e431e9cba44716d748336261d9ac42e6b4e5cf45629130010a",
+      "bytes": 14477
+    },
+    {
+      "path": "selection-and-prompts.json",
+      "sha256": "dc1115e77863f2bc1bec12a9f628fa8dd3765d3a284093b045d0701c03ab41eb",
+      "bytes": 39951
+    },
+    {
+      "path": "verify-integrity.py",
+      "sha256": "b38b2021bbc2b84049e64f6e0ce21c8bbd015a9738e46759f1cde68850ae73c5",
+      "bytes": 7091
+    }
+  ]
+}

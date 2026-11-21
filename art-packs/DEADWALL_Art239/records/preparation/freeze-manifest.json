@@ -1,0 +1,496 @@
+{
+  "kind": "art239-final-freeze-manifest",
+  "createdAt": "2026-11-17T16:27:43.428087+01:00",
+  "timezone": "Europe/Paris",
+  "finalImages": 6,
+  "nativeGenerations": 8,
+  "supersededImages": 2,
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 6877,
+      "sha256": "d676edb1b16727f316c7296210a818d12cea838966e447d927bef34ca181ed59"
+    },
+    {
+      "path": "alpha-history.json",
+      "bytes": 13889,
+      "sha256": "17f3c6ac96a5fce753eebfd095c8cde6557c74409bc7cac0add99e4029baabc0"
+    },
+    {
+      "path": "alpha-review.json",
+      "bytes": 10111,
+      "sha256": "44661d0b5fb5f8c131219b5dc98d2c86c1237060db20615b1dad7720cbb6b27c"
+    },
+    {
+      "path": "calls/fence_v1-iteration-01-input.json",
+      "bytes": 3183,
+      "sha256": "9137d0adc92036599fe672cf13eba5ded60bbd9385249f9c528ccb998f94e695"
+    },
+    {
+      "path": "calls/fence_v1-iteration-01-output.json",
+      "bytes": 725,
+      "sha256": "2030c869bace9c2c1b9769036ad37d4283b8b0b5edfb9dfda1c321726abfc03d"
+    },
+    {
+      "path": "calls/fence_v2-iteration-01-input.json",
+      "bytes": 3183,
+      "sha256": "e286cebcd1c16a844e8be36e06f9573b4dee5ccf90f5447d3e7121c3bdd01c6f"
+    },
+    {
+      "path": "calls/fence_v2-iteration-01-output.json",
+      "bytes": 729,
+      "sha256": "8b2eab7869c464a296cc24cdb1ceb1ef9afe9803a42adaa51d4116f7265abc4b"
+    },
+    {
+      "path": "calls/fence_v2-iteration-02-input.json",
+      "bytes": 2922,
+      "sha256": "3a724eb80253849dd1bb081d522ade9738dd88f424315dd3126132fe66570dcd"
+    },
+    {
+      "path": "calls/fence_v2-iteration-02-output.json",
+      "bytes": 729,
+      "sha256": "1e405130f3940b23048ed7c9f197239812c55d110e7594e0e030b88df9d3788c"
+    },
+    {
+      "path": "calls/fence_v2-iteration-03-input.json",
+      "bytes": 3323,
+      "sha256": "299e137ff3758c6ead85ba45c5821403bc5bea9722c56671c0d3807efad61ad8"
+    },
+    {
+      "path": "calls/fence_v2-iteration-03-output.json",
+      "bytes": 729,
+      "sha256": "912ba9b768e841b1332c4684015ec21f38ce65f3de99d32d8a5de22d12bb6354"
+    },
+    {
+      "path": "calls/garden-shed_v1-iteration-01-input.json",
+      "bytes": 3194,
+      "sha256": "cb5474dbf256f0f42e70c1f84c569595ebc4c2c09dc5ec7a3d6435f7b1fc6a53"
+    },
+    {
+      "path": "calls/garden-shed_v1-iteration-01-output.json",
+      "bytes": 729,
+      "sha256": "3c9e8746580d471f85d0ec2e7158008f052a54b1f97ef403959fafdbf408ec00"
+    },
+    {
+      "path": "calls/garden-shed_v2-iteration-01-input.json",
+      "bytes": 3332,
+      "sha256": "dc8dd427e706564dfab852e9aea5fb78f103af72c1f9b40ed810f3996099c8b8"
+    },
+    {
+      "path": "calls/garden-shed_v2-iteration-01-output.json",
+      "bytes": 730,
+      "sha256": "0589649c5a506007cb8622073d66fd8e6301a05ed46681cab3da8e593f95f14b"
+    },
+    {
+      "path": "calls/rain-barrel_v1-iteration-01-input.json",
+      "bytes": 3248,
+      "sha256": "075d1ca51fba148bb7e27ef8602be20475242ebd5d907de1280980836ad7a7de"
+    },
+    {
+      "path": "calls/rain-barrel_v1-iteration-01-output.json",
+      "bytes": 728,
+      "sha256": "f5475b70e0b2b19345634a593906f65345943d92ba54fc71749511533b786ee5"
+    },
+    {
+      "path": "calls/rain-barrel_v2-iteration-01-input.json",
+      "bytes": 3315,
+      "sha256": "53ebc3735b0fe59fb87aa17c03edc162f2766222480746d0a2418083a0435b25"
+    },
+    {
+      "path": "calls/rain-barrel_v2-iteration-01-output.json",
+      "bytes": 734,
+      "sha256": "dae31610453424735beed34ee2b9dda913cd25b3e7cca0dbe63002980d843fe5"
+    },
+    {
+      "path": "canonical-render-receipt.json",
+      "bytes": 19938,
+      "sha256": "abbcbebccdeda1f52dea87ec33be97e6d93186b0228f7df296cc9d276d1b4a74"
+    },
+    {
+      "path": "correction-rationale.json",
+      "bytes": 582,
+      "sha256": "b6ce33326984d22d506fd8a8b3f76da1a21c89adfd345b31f50cffd074d8327e"
+    },
+    {
+      "path": "fence-v2-iteration-02-alpha.json",
+      "bytes": 1973,
+      "sha256": "654faa5dff0545e33544b3d50e56fed82e6bfc465666d11dc22afe8b22a131e8"
+    },
+    {
+      "path": "fence-v2-iteration-02-review.json",
+      "bytes": 869,
+      "sha256": "bad00bf85dac2772994c18aaba1064516a85b47a5d4a9df035bc1c69f2869bfd"
+    },
+    {
+      "path": "fence-v2-iteration-03-alpha.json",
+      "bytes": 2034,
+      "sha256": "b139ea17bbb580cc1de8542b7663f68124fd9daab83381784f0bd540c636e714"
+    },
+    {
+      "path": "finalize-records.py",
+      "bytes": 18500,
+      "sha256": "99e1c95b4d0e9ec35a8613493af5d4c0ecfbee1eb7f765193fec39fa5daa70da"
+    },
+    {
+      "path": "geometry-audit.json",
+      "bytes": 4280,
+      "sha256": "19374ec04d25233296a7c4748d8cdb97ff08d5a434c9e8ce5eeceac7cc714606"
+    },
+    {
+      "path": "guidance/create-game-assets-SKILL.md",
+      "bytes": 8152,
+      "sha256": "36cd246a434fefe1e36feff066597a6268d9f63364bee387ee65a22f03838b5d"
+    },
+    {
+      "path": "guidance/provenance.json",
+      "bytes": 1035,
+      "sha256": "926d27cd99f6edcb608059b8c5acf45858d00ba1a5ff919ffe3227810f1e3077"
+    },
+    {
+      "path": "guidance/raster-pipeline.md",
+      "bytes": 4236,
+      "sha256": "d7a5714628fd8f4b66d03e060488e353b163b811112b164af218beb2b6450a02"
+    },
+    {
+      "path": "history-results.json",
+      "bytes": 65669,
+      "sha256": "0c2fefef0cf77183d1df3e5f458b74fdc6158ca7b7d7528284e66a51460bc8a5"
+    },
+    {
+      "path": "initial-results.json",
+      "bytes": 48553,
+      "sha256": "0d9263c10f950295f46193f8c12e6a2ff84dfa07e343c0d03230fd2d3b88004e"
+    },
+    {
+      "path": "iteration-review.json",
+      "bytes": 29843,
+      "sha256": "2a63b2d53403c6e06448e4d665ac2fcc7159825bdae04ac8b8c2c561b93e4412"
+    },
+    {
+      "path": "outputs/iteration-01/fence_cloture_croisillons_metal_v2.png",
+      "bytes": 148417,
+      "sha256": "2be6d0ff6d2cf2d60944c2e893a2fb7a730f99d4beb873ddc31a75263cd72c4e"
+    },
+    {
+      "path": "outputs/iteration-01/fence_cloture_renforts_bois_v1.png",
+      "bytes": 167835,
+      "sha256": "88b6ee1653066ce236aab1fd19693e14286f9aa63930571619f8d3f2f1bedad3"
+    },
+    {
+      "path": "outputs/iteration-01/garden-shed_toiture_metal_v1.png",
+      "bytes": 1294875,
+      "sha256": "6b4b84fc1a71cd08e7d7aabd53b5f35c8afef5b22dbd811608f463823af32074"
+    },
+    {
+      "path": "outputs/iteration-01/garden-shed_toiture_pieces_v2.png",
+      "bytes": 1433741,
+      "sha256": "17c9f528b7a4b712b18af839e62b31bc38ce30ee16c14b18d32e2f1d8b821801"
+    },
+    {
+      "path": "outputs/iteration-01/rain-barrel_disque_metal_v1.png",
+      "bytes": 1290918,
+      "sha256": "cb2f2395e0d0e67bdcdd92458e317558a75ce811e394f0a9cd307740f8d6fb40"
+    },
+    {
+      "path": "outputs/iteration-01/rain-barrel_traverse_diagonale_v2.png",
+      "bytes": 1086419,
+      "sha256": "c271376c312da5491b18783f0d5a9eecc7f8ddad97bbf3eb19b952493fea2159"
+    },
+    {
+      "path": "outputs/iteration-02/fence_cloture_croisillons_metal_v2.png",
+      "bytes": 404140,
+      "sha256": "860fa7c57994fa212c87f115501b711aa5dc6089a2858b18ebfb296fb5d31d0c"
+    },
+    {
+      "path": "outputs/iteration-03/fence_cloture_croisillons_metal_v2.png",
+      "bytes": 162683,
+      "sha256": "2f871f6f1d70b64ecb99842a8cd03413c9ed049b3e19ffa45444d13cb1d3b78f"
+    },
+    {
+      "path": "pre-correction-records/README.md",
+      "bytes": 5653,
+      "sha256": "cb44caadd580259448551fef39dc409d73b288a040b2f9fb3a349d993a265661"
+    },
+    {
+      "path": "pre-correction-records/freeze-manifest.json",
+      "bytes": 13067,
+      "sha256": "8171ce188695dfa78d3edbcf8a19063323f18944ece4daec820377178fdf5d36"
+    },
+    {
+      "path": "pre-correction-records/handoff-receipt.json",
+      "bytes": 1833,
+      "sha256": "924819ba3d83c44811ea43c91988ccc8255656578717ae104a3d4e6ca0693814"
+    },
+    {
+      "path": "pre-correction-records/history-results.json",
+      "bytes": 48535,
+      "sha256": "2899c3c46ccd54e5826f4cabf91f28f2463ae0bacb886a2ddbda85a74bf0629c"
+    },
+    {
+      "path": "pre-correction-records/iteration-review.json",
+      "bytes": 21521,
+      "sha256": "1317699537d4fde5280165cf0962b34525948e0bc57e2d614e689719d0a6018d"
+    },
+    {
+      "path": "pre-correction-records/prepare.cjs",
+      "bytes": 18162,
+      "sha256": "e8ecffa6f96955767eb5eca4a29e4402071dc6ca5e1923edfea8a2d0c67af53b"
+    },
+    {
+      "path": "pre-correction-records/results.json",
+      "bytes": 48535,
+      "sha256": "2899c3c46ccd54e5826f4cabf91f28f2463ae0bacb886a2ddbda85a74bf0629c"
+    },
+    {
+      "path": "pre-correction-records/review.json",
+      "bytes": 21617,
+      "sha256": "deccdc76a40b8c270b7947cbf3ae99412c407269cbfb8e187c5ca44622902e00"
+    },
+    {
+      "path": "pre-correction-records/selection-and-prompts.json",
+      "bytes": 68644,
+      "sha256": "853bfe4e811ceea8f7d32ad9a6246c6117ee44a1863b1d53dd506aee8850950b"
+    },
+    {
+      "path": "prepare.cjs",
+      "bytes": 18162,
+      "sha256": "e8ecffa6f96955767eb5eca4a29e4402071dc6ca5e1923edfea8a2d0c67af53b"
+    },
+    {
+      "path": "reference-inspections.json",
+      "bytes": 6809,
+      "sha256": "6ff0aa91aed00ee8a6554b10468a0272df868af69ae9aa22d0bcc37bff6d1f1b"
+    },
+    {
+      "path": "references/canonical/fence_v0.png",
+      "bytes": 5712,
+      "sha256": "c5213ff0daa33c3b02ad4f067f98e1d746e53b91dbd592e52ab7425bf6443eeb"
+    },
+    {
+      "path": "references/canonical/fence_v1.png",
+      "bytes": 8375,
+      "sha256": "340f4aa5750d99963c1662d8cf40511140470b71df89073507904a76c98110a6"
+    },
+    {
+      "path": "references/canonical/fence_v2.png",
+      "bytes": 9297,
+      "sha256": "ccd28aec3c0f5e77875436eea808ae3cbee34b61f2e6e89a388ec231ae1e8b50"
+    },
+    {
+      "path": "references/canonical/garden-shed_v0.png",
+      "bytes": 23066,
+      "sha256": "32fdd32d212f3ef9e3c278c9603b9a24b1c794d0a7adbd5cd86c263cf75829c9"
+    },
+    {
+      "path": "references/canonical/garden-shed_v1.png",
+      "bytes": 7704,
+      "sha256": "ae188121c83fcd18d35ca34512e3d2bd1557dc4510c82433627e17d2c7ed14dd"
+    },
+    {
+      "path": "references/canonical/garden-shed_v2.png",
+      "bytes": 8749,
+      "sha256": "fea30836d637dd5abf445f56db7b3b7f5c0222a6df46675de2032ccabc3fe9a4"
+    },
+    {
+      "path": "references/canonical/rain-barrel_v0.png",
+      "bytes": 47023,
+      "sha256": "97978adf2f4b16e3863f16dfb25a467905305d4a4352240786cd9fad4879abcf"
+    },
+    {
+      "path": "references/canonical/rain-barrel_v1.png",
+      "bytes": 60327,
+      "sha256": "9c6ef348c08415512baf4faaf1102a7fede3f48a0559ea49bd38a5bbc2f7c114"
+    },
+    {
+      "path": "references/canonical/rain-barrel_v2.png",
+      "bytes": 53875,
+      "sha256": "44860290361ec9830b0f0fb274a86d0c705042206287f2537965e1eab106316b"
+    },
+    {
+      "path": "references/provenance/late-direct-remote-commit-check.json",
+      "bytes": 7537,
+      "sha256": "25416eba971b14377c488c6786b8fdc303cb1b7ffdfebfd517a58a8a5fd483aa"
+    },
+    {
+      "path": "references/provenance/remote-commit-verification.json",
+      "bytes": 783,
+      "sha256": "f4af79d509645b827d1a14ab1d39544999c47843444a0ba5bfd9d01329cb297c"
+    },
+    {
+      "path": "references/provenance/root-independent-remote-review.json",
+      "bytes": 17643,
+      "sha256": "1f5694bc9b806387a6fdfb5f6ac3d710f04b6bc7535b4505ec25fd82a6d5b426"
+    },
+    {
+      "path": "references/repository/AGENTS.md",
+      "bytes": 4190,
+      "sha256": "7d02c6bd7f9c6a8e04c4c18680f9539109ecbc943f240de12a536ab9a8a8ab13"
+    },
+    {
+      "path": "references/repository/assets/art153/PROPS_PROVENANCE.json",
+      "bytes": 38737,
+      "sha256": "b6e8aa735f723d82e14824f5114daaa60372f1836ba019a55ccf921a5adce107"
+    },
+    {
+      "path": "references/repository/assets/art153/props-yard.png",
+      "bytes": 2554149,
+      "sha256": "ca1039feaf685e05341bb8b20da56049de409dbf11a3450de042de507288a35c"
+    },
+    {
+      "path": "references/repository/assets/art157/PROVENANCE.json",
+      "bytes": 114883,
+      "sha256": "381ed20c4e2e6fe09ba1d8d0d20173a3f0f0875dd02309dd7bb6ed93fb2bb4f2"
+    },
+    {
+      "path": "references/repository/assets/art157/yard-atlas.png",
+      "bytes": 2018982,
+      "sha256": "bc59caf35959c0074987e50d4a2059f63e0e17d8725d21e6b1a0b8a2ffcff6b1"
+    },
+    {
+      "path": "references/repository/assets/art158/PROVENANCE.json",
+      "bytes": 30752,
+      "sha256": "a0db76f012817a3eac49e8283e1b9d52bff172b833ec3553c914de987c592df4"
+    },
+    {
+      "path": "references/repository/assets/art158/details.png",
+      "bytes": 1843048,
+      "sha256": "f2885adc46fbf9616b49a28eb5b3f1ea72d5625f9be2838b345cd0e6025e59cf"
+    },
+    {
+      "path": "references/repository/docs/ARCHITECTURE.md",
+      "bytes": 57076,
+      "sha256": "880657b6abfc044a3ef534d8a092ad9a20ad3a0a2a9024bdbbea6642d8eb3f3c"
+    },
+    {
+      "path": "references/repository/docs/BALANCING.md",
+      "bytes": 37720,
+      "sha256": "5caf2749d57201a01f9aafa80de8a3e70e0579a01895283e6d5b05abdc526088"
+    },
+    {
+      "path": "references/repository/docs/CODEX_MASTER_PROMPT.md",
+      "bytes": 5269,
+      "sha256": "9c0280c574ad13d7ba03cb4391713411e8eb8fcdbcc4cc94f2609f277c727c6d"
+    },
+    {
+      "path": "references/repository/docs/GAMEDEV_GUIDANCE.md",
+      "bytes": 24935,
+      "sha256": "0b2df8233ea2c49ff0c1fd959cf43bac8d1245fb6900334e42cb541b0d2f0144"
+    },
+    {
+      "path": "references/repository/docs/GAME_BIBLE.md",
+      "bytes": 98486,
+      "sha256": "3f6f48befcd5408e03ab4ed0c79a68a040cac48c09f087545e334f0b3c738890"
+    },
+    {
+      "path": "references/repository/docs/GAME_DESIGN.md",
+      "bytes": 15746,
+      "sha256": "3f5ce6afc19ca49f5ffe239eee67b7258078098e8d0477a5ef62fd2fc8fd65f9"
+    },
+    {
+      "path": "references/repository/docs/ORIGINAL_BRIEF.txt",
+      "bytes": 1283,
+      "sha256": "64fe23e910f065cdd6ce4f8f84fcc8efd6894d923122c086cd7b16f599492297"
+    },
+    {
+      "path": "references/repository/docs/codex/suivi-monde2026/RESIDENTIEL_2026.md",
+      "bytes": 9436,
+      "sha256": "71e3b672505516af97c91b0e8b9c493de189076f764cacbb2e5450eb5095308c"
+    },
+    {
+      "path": "references/repository/scripts/codex-residential2026.cjs",
+      "bytes": 17963,
+      "sha256": "6978137b18dc3ea26916efdabeff6a36a26abeb9c09e27bc0549de74d909982d"
+    },
+    {
+      "path": "references/repository/scripts/codex-world-foundations2026.cjs",
+      "bytes": 19639,
+      "sha256": "a709d508e1d2c71ed549f2192bd27f0afd7dae37cb1957f54a2ec32ab0b969b3"
+    },
+    {
+      "path": "references/repository/src/campaign-site-art205.js",
+      "bytes": 44852,
+      "sha256": "492790bf2aa6c77dd244f4fcd8c164f1960f08eb2654b10b1ca20663bd72e0f2"
+    },
+    {
+      "path": "references/repository/src/codex-furnishings2026.js",
+      "bytes": 40680,
+      "sha256": "5aacd2944d7cf44d21997a9b265dac966a873875e9e5cd7a48a43c8dca044b36"
+    },
+    {
+      "path": "references/repository/src/codex-layouts2026.js",
+      "bytes": 311787,
+      "sha256": "2ab0b563e26f64877b6d9fbdd0ceb1bcfca4e439b147825a571bd0e446f714cc"
+    },
+    {
+      "path": "references/repository/src/interior-art153.js",
+      "bytes": 18868,
+      "sha256": "7b686fc06c7be2b00a8263ce47b42eeb5dc8413fedee71c9f4fed790f50ffd21"
+    },
+    {
+      "path": "references/repository/src/seed-detail-art157.js",
+      "bytes": 25806,
+      "sha256": "03978da0de17b4255107b3ee0966d7bb3a160ef14d2eb08efad09afe16eead8a"
+    },
+    {
+      "path": "references/repository/src/world-props-art153.js",
+      "bytes": 21665,
+      "sha256": "8366c7fe4d3dc529c64d3f50523f78bd1651c63a287d22818fe18dd065548726"
+    },
+    {
+      "path": "references/repository/src/world-variants158.js",
+      "bytes": 12786,
+      "sha256": "fd131b78b25398bed75de226b8c7d46e4b6547b08d429fc3e888efc6948718db"
+    },
+    {
+      "path": "references/sources.json",
+      "bytes": 19111,
+      "sha256": "0baf2e581f65214c5c97ee8f7a6dee4933a2117295a2890be8abd9df71ab308f"
+    },
+    {
+      "path": "references/style-art238/fence_v0.png",
+      "bytes": 252423,
+      "sha256": "16617f83fd798df7de6366b049ddcfb2f400df787bc52aec0a279bb3f347b87f"
+    },
+    {
+      "path": "references/style-art238/garden-shed_v0.png",
+      "bytes": 1377572,
+      "sha256": "62f78aac248efeb594ab1882170d6d91a2e64014cd8a44d283901de94bdbf07e"
+    },
+    {
+      "path": "references/style-art238/rain-barrel_v0.png",
+      "bytes": 1244816,
+      "sha256": "965fbd60ba7dbb321e84545e31fb6fd350da931573faffe9c10a1bf9567fb5d0"
+    },
+    {
+      "path": "replay-canonicals.cjs",
+      "bytes": 1780,
+      "sha256": "d3703b4a12d4a3d1cbe5be196c450248955791092272da09bb2eb465edf7260c"
+    },
+    {
+      "path": "results.json",
+      "bytes": 49842,
+      "sha256": "52f52ef3d78ae339880aa139c9b2930ca94e9493d2425920744f3c4156c33071"
+    },
+    {
+      "path": "review.json",
+      "bytes": 22839,
+      "sha256": "f58222c1207f8631727802b9824afa1b776befe5bc4ba73cfcc997952ab0f879"
+    },
+    {
+      "path": "root-canonical-replay.json",
+      "bytes": 14153,
+      "sha256": "0f81b8ca93e120791dc21a68ba197c6e14add81bbce25cb66454346829b4b5ce"
+    },
+    {
+      "path": "root-review.json",
+      "bytes": 6094,
+      "sha256": "c48e1a1365981692dc1c6f64971c941eee4f3f64bfd8f34d3f71d99d9ba60c6e"
+    },
+    {
+      "path": "selection-and-prompts.json",
+      "bytes": 74328,
+      "sha256": "303dab412c7d63d3d078b56356fef421fa93e84088aa4d5e263a1d23e211ff96"
+    }
+  ],
+  "rootReviewIncludedUnmodified": true
+}

@@ -1,0 +1,613 @@
+[
+  {
+    "id": "DW-0046",
+    "name": "Jardinerie",
+    "type": "garden",
+    "sourceSheet": "references/DW-0046.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      36,
+      28
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Serre de vente",
+          "Préparation et réserve",
+          "Bureau",
+          "Stock et livraison"
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "plantTray",
+      "crate",
+      "plantTray",
+      "crate",
+      "plantTray",
+      "crate"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        25,
+        20
+      ],
+      "maximum": [
+        180,
+        120
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "greenhouse",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatServices153",
+        "family": "greenhouse",
+        "variant": 0,
+        "rect": [
+          786,
+          537,
+          346,
+          214
+        ]
+      },
+      {
+        "atlas": "habitatServices153",
+        "family": "greenhouse",
+        "variant": 1,
+        "rect": [
+          1164,
+          534,
+          354,
+          216
+        ]
+      }
+    ]
+  },
+  {
+    "id": "DW-0367",
+    "name": "Exploitation maraîchère",
+    "type": "marketgarden",
+    "sourceSheet": "references/DW-0367.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      32,
+      24
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Lavage et tri des récoltes",
+          "Préparation et réserve",
+          "Bureau",
+          "Stock et livraison"
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "plantTray",
+      "crate",
+      "plantTray",
+      "crate",
+      "plantTray",
+      "crate"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        90,
+        60
+      ],
+      "maximum": [
+        700,
+        450
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "greenhouse",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatServices153",
+        "family": "greenhouse",
+        "variant": 0,
+        "rect": [
+          786,
+          537,
+          346,
+          214
+        ]
+      },
+      {
+        "atlas": "habitatServices153",
+        "family": "greenhouse",
+        "variant": 1,
+        "rect": [
+          1164,
+          534,
+          354,
+          216
+        ]
+      }
+    ]
+  },
+  {
+    "id": "DW-0104",
+    "name": "Auberge de village",
+    "type": "inn",
+    "sourceSheet": "references/DW-0104.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      28,
+      23
+    ],
+    "pilotLevels": [
+      0,
+      1
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Salle commune",
+          "Comptoir et repas",
+          "Cuisine",
+          "Cellier et livraison"
+        ]
+      },
+      {
+        "z": 1,
+        "names": [
+          "Chambre 1",
+          "Chambre 2",
+          "Chambre 3",
+          "Chambre 4",
+          "Lingerie",
+          "Salle d’eau"
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "table",
+      "crate"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        26,
+        18
+      ],
+      "maximum": [
+        100,
+        65
+      ]
+    },
+    "authorProposedLevelsText": "0, 1",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "hotel",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatResidential153",
+        "family": "hotel",
+        "variant": 0,
+        "rect": [
+          26,
+          523,
+          362,
+          223
+        ]
+      },
+      {
+        "atlas": "habitatResidential153",
+        "family": "hotel",
+        "variant": 1,
+        "rect": [
+          414,
+          533,
+          333,
+          202
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "hotel",
+        "variant": 2,
+        "model": "concrete-services",
+        "rect": [
+          55,
+          300,
+          299,
+          180
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "hotel",
+        "variant": 3,
+        "model": "flat-water-tank",
+        "rect": [
+          430,
+          302,
+          306,
+          179
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "hotel",
+        "variant": 4,
+        "model": "slate-three-dormers",
+        "rect": [
+          805,
+          289,
+          313,
+          190
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "hotel",
+        "variant": 5,
+        "model": "terracotta-double-ridge",
+        "rect": [
+          1188,
+          303,
+          298,
+          175
+        ]
+      }
+    ]
+  },
+  {
+    "id": "DW-0251",
+    "name": "Casse automobile",
+    "type": "scrapyard",
+    "sourceSheet": "references/DW-0251.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      35,
+      25
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Atelier de démontage",
+          "Pièces détachées",
+          "Bureau",
+          "Stock et livraison"
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "fuel",
+      "tirePile",
+      "workbench"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        22,
+        18
+      ],
+      "maximum": [
+        100,
+        85
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "workshop",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatServices153",
+        "family": "workshop",
+        "variant": 0,
+        "rect": [
+          791,
+          291,
+          342,
+          206
+        ]
+      },
+      {
+        "atlas": "habitatServices153",
+        "family": "workshop",
+        "variant": 1,
+        "rect": [
+          1164,
+          295,
+          353,
+          202
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "workshop",
+        "variant": 2,
+        "model": "corrugated-metal",
+        "rect": [
+          53,
+          544,
+          302,
+          177
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "workshop",
+        "variant": 3,
+        "model": "industrial-sawtooth",
+        "rect": [
+          428,
+          534,
+          310,
+          187
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "workshop",
+        "variant": 4,
+        "model": "concrete-ducts",
+        "rect": [
+          809,
+          541,
+          306,
+          182
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "workshop",
+        "variant": 5,
+        "model": "rusted-metal",
+        "rect": [
+          1184,
+          544,
+          307,
+          177
+        ]
+      }
+    ]
+  },
+  {
+    "id": "DW-0306",
+    "name": "Atelier de menuiserie",
+    "type": "joinery",
+    "sourceSheet": "references/DW-0306.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      35,
+      26
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Bois et débit — machines arrêtées",
+          "Assemblage et finition",
+          "Bureau et archives",
+          "Réserve et petit matériel"
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "timberRack",
+      "palletStack",
+      "logs"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        45,
+        30
+      ],
+      "maximum": [
+        240,
+        170
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "industrial",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatServices153",
+        "family": "industrial",
+        "variant": 0,
+        "rect": [
+          18,
+          279,
+          359,
+          224
+        ]
+      },
+      {
+        "atlas": "habitatServices153",
+        "family": "industrial",
+        "variant": 1,
+        "rect": [
+          406,
+          284,
+          357,
+          217
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "industrial",
+        "variant": 2,
+        "model": "corrugated-metal",
+        "rect": [
+          53,
+          544,
+          302,
+          177
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "industrial",
+        "variant": 3,
+        "model": "industrial-sawtooth",
+        "rect": [
+          428,
+          534,
+          310,
+          187
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "industrial",
+        "variant": 4,
+        "model": "concrete-ducts",
+        "rect": [
+          809,
+          541,
+          306,
+          182
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "industrial",
+        "variant": 5,
+        "model": "rusted-metal",
+        "rect": [
+          1184,
+          544,
+          307,
+          177
+        ]
+      }
+    ]
+  },
+  {
+    "id": "DW-0237",
+    "name": "Recyclerie",
+    "type": "reuse",
+    "sourceSheet": "references/DW-0237.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      40,
+      28
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Réception et tri",
+          "Meubles remis en vente",
+          "Réparation et diagnostic",
+          "Réserve et petit matériel"
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "palletStack",
+      "crate",
+      "crate"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        35,
+        24
+      ],
+      "maximum": [
+        200,
+        125
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "retail",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatResidential153",
+        "family": "retail",
+        "variant": 0,
+        "rect": [
+          773,
+          535,
+          332,
+          199
+        ]
+      },
+      {
+        "atlas": "habitatResidential153",
+        "family": "retail",
+        "variant": 1,
+        "rect": [
+          1127,
+          533,
+          390,
+          203
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 2,
+        "model": "terracotta-skylight",
+        "rect": [
+          53,
+          774,
+          303,
+          184
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 3,
+        "model": "concrete-ventilation",
+        "rect": [
+          432,
+          777,
+          304,
+          179
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 4,
+        "model": "metal-skylights",
+        "rect": [
+          804,
+          777,
+          313,
+          183
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 5,
+        "model": "weathered-flat",
+        "rect": [
+          1203,
+          777,
+          266,
+          184
+        ]
+      }
+    ]
+  }
+]

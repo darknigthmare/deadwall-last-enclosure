@@ -1,0 +1,464 @@
+[
+  {
+    "key": "officeBlock",
+    "id": "native:officeBlock",
+    "artId": "native:officeBlock",
+    "nativeType": "officeBlock",
+    "name": "Immeuble de bureaux",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card.  BATCH art232; nativeType=officeBlock. SUBJECT: Immeuble de bureaux: one rectangular office building 44 m wide by 32 m deep, exactly TWO total above-ground levels, ground floor plus one upper storey. Weathered concrete and muted light plaster, low broad flat roof with discreet vents, repeated small office-like windows, one central ground-level entry. The current native plan actually inherits school rooms, including classroom, library and storage; do not imply a newly authored specialized office interior. Only exterior office massing is interpreted. No third storey, curtain-wall skyscraper, atrium, schoolyard, rooftop terrace or annex. STRICT CAMERA OVERRIDE: this is nearly a TOP-DOWN ROOF PLAN. At a roof width of 1000 image pixels, the entire visible front wall (all 2 native floor levels together) occupies at most 40 image pixels vertically. Squash door/window heights by the camera foreshortening; do not enlarge the facade for legibility. Keep 2 total above-ground floor levels in that narrow band. The main roof's projected front-to-back depth is approximately 70% of its horizontal width. Roof and footprint edges stay parallel, without converging perspective. These are projection targets for the source art, not a certified metric render.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      }
+    ],
+    "output": "references/iterations/officeBlock-v1.png",
+    "selected": false,
+    "sha256": "3de91cfd8ee8291a11302ce16141d4a32d6bba0f07c2400356b4cc7d8f2480a6",
+    "bytes": 2029861,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "officeBlock",
+    "id": "native:officeBlock",
+    "artId": "native:officeBlock",
+    "nativeType": "officeBlock",
+    "name": "Immeuble de bureaux",
+    "iteration": 2,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card.  BATCH art232; nativeType=officeBlock. SUBJECT: Immeuble de bureaux: one rectangular office building 44 m wide by 32 m deep, exactly TWO total above-ground levels, ground floor plus one upper storey. Weathered concrete and muted light plaster, low broad flat roof with discreet vents, repeated small office-like windows, one central ground-level entry. The current native plan actually inherits school rooms, including classroom, library and storage; do not imply a newly authored specialized office interior. Only exterior office massing is interpreted. No third storey, curtain-wall skyscraper, atrium, schoolyard, rooftop terrace or annex. STRICT CAMERA OVERRIDE: this is nearly a TOP-DOWN ROOF PLAN. At a roof width of 1000 image pixels, the entire visible front wall (all 2 native floor levels together) occupies at most 40 image pixels vertically. Squash door/window heights by the camera foreshortening; do not enlarge the facade for legibility. Keep 2 total above-ground floor levels in that narrow band. The main roof's projected front-to-back depth is approximately 70% of its horizontal width. Roof and footprint edges stay parallel, without converging perspective. These are projection targets for the source art, not a certified metric render.\n\nTARGETED CAMERA CORRECTION, HIGHEST PRIORITY: Image 2 is the existing sprite to edit; Image 1 remains style reference only. Preserve the single building, weathered materials, roof fittings, exactly 2 total above-ground floor levels, centered ground-level doorway and true transparent alpha. Change only camera projection and footprint proportions. The existing front facade is too tall and the roof too shallow. Raise the camera to the specified 75-degree high orthographic view and actually foreshorten the front wall. Treat the MAIN ROOF as a flat plan rectangle: for every 1000 pixels of roof width, its projected back-to-front depth must be about 700 pixels. The ENTIRE front wall under the eave must occupy NO MORE THAN 40 pixels vertically per 1000 pixels of roof width, including all 2 floor levels together. Do not keep the old facade height. Compress its windows and doorway vertically with the camera; never enlarge them for readability. Retain two visibly separate extremely short horizontal storey bands within that single total wall strip. Do not rotate the axes or introduce perspective convergence. Keep the roof closed and coherent. Retain generous transparent margins and only a tiny contact shadow. Outside the building must be true alpha transparency, never a painted matte or glow. No text, guides, measurements, extra annexes, people, vehicles or loose props.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      },
+      {
+        "path": "references/iterations/officeBlock-v1.png",
+        "sha256": "3de91cfd8ee8291a11302ce16141d4a32d6bba0f07c2400356b4cc7d8f2480a6"
+      }
+    ],
+    "output": "references/iterations/officeBlock-v2.png",
+    "selected": false,
+    "sha256": "439941494b00dfbc29a7e26f8b658c89cc621bb7c6612b981eddc56e7ee9f3aa",
+    "bytes": 1782402,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "officeBlock",
+    "id": "native:officeBlock",
+    "artId": "native:officeBlock",
+    "nativeType": "officeBlock",
+    "name": "Immeuble de bureaux",
+    "iteration": 3,
+    "prompt": "Use case: precise-object-edit. Image 1 is the original DEADWALL buildings atlas, a painting-style reference only. Image 2 is the sprite to correct. The roof in Image 2 is still much too short from back to front. Correct ONLY the building footprint proportions, preserving its now-thin facade. Native footprint: 44 metres wide and 32 metres deep, viewed in high 75-degree orthographic projection. Redraw the MAIN ROOF RECTANGLE with an on-image width-to-depth ratio of 1000:700. This means the roof alone must be 70% as tall on the screen as it is wide, BEFORE the small front wall is added. Make this substantial change visibly, by increasing roof depth, not by reusing the old flattened rectangle. Do NOT preserve the source image's composition or aspect ratio. Use a square transparent canvas. The roof should appear almost square, only moderately wider than deep. Preserve the current front-wall height ratio: all 2 above-ground floor levels together occupy only 4% of the roof width. Keep exactly two extremely compressed window bands. Keep roof fixtures small and coherent instead of stretching them into giant objects. Maintain the same one intact closed rectangular building, weathered muted materials and restrained game-sprite painting style. Orthographic overhead roof view, image-aligned axes, no perspective convergence, no isometric rotation. Ground-level door stays on the front wall. No extra volumes, annexes, people, vehicles, loose props, text, labels or measurement graphics. True RGBA transparent background, generous margins on all sides, no painted matte, glow or ground tile; only a tiny contact shadow. Do not create a comparative sheet: return one corrected isolated sprite.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      },
+      {
+        "path": "references/iterations/officeBlock-v2.png",
+        "sha256": "439941494b00dfbc29a7e26f8b658c89cc621bb7c6612b981eddc56e7ee9f3aa"
+      }
+    ],
+    "output": "references/iterations/officeBlock-v3.png",
+    "selected": false,
+    "sha256": "9508f1c6c61857d13df33f27e7a483197b907d99ddaee61098342e4645faadba",
+    "bytes": 2121373,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "officeBlock",
+    "id": "native:officeBlock",
+    "artId": "native:officeBlock",
+    "nativeType": "officeBlock",
+    "name": "Immeuble de bureaux",
+    "iteration": 4,
+    "prompt": "Use case: precise-object-edit. Image 1 is the DEADWALL atlas for painting style. Edit only Image 2, the two-floor office source sprite. Make one precise proportional correction: reduce ONLY the roof rectangle's vertical front-to-back depth by about 20 percent, keeping its horizontal width exactly unchanged. Its current roof depth is about 88 percent of width; the corrected roof must be about 70 percent of width. Move the front eave and attached facade upward to follow the shortened roof. Keep the facade's existing narrow height, exactly two compressed window bands, the same central ground-level entrance, roof vents, concrete and aged plaster materials. Do not widen or narrow the building. Do not change the floor count or invent additional structure. Preserve the high orthographic roof-dominant view with horizontal and vertical aligned axes and closed roof. One centered intact rectangular building, real RGBA transparent background, tiny contact shadow only; no ground tile, matte, lettering, people, vehicles, annexes or loose props. Return one isolated corrected sprite.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      },
+      {
+        "path": "references/iterations/officeBlock-v3.png",
+        "sha256": "9508f1c6c61857d13df33f27e7a483197b907d99ddaee61098342e4645faadba"
+      }
+    ],
+    "output": "assets/art232/native/officeBlock_immeuble_de_bureaux.png",
+    "selected": true,
+    "sha256": "0f4103daf6c700479df84192a2e4f66b197d58cae50343c0d7294d2d7b972e86",
+    "bytes": 1489897,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "medicalCentre",
+    "id": "native:medicalCentre",
+    "artId": "native:medicalCentre",
+    "nativeType": "medicalCentre",
+    "name": "Maison de santé",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card.  BATCH art232; nativeType=medicalCentre. SUBJECT: Maison de santé: one broad low medical centre 46 m wide by 34 m deep, exactly ONE ground-floor level. A single rectangular weathered light-concrete/plaster building, wide low flat roof, discreet practical vents, modest windows and an accessible central ground-level entrance with a narrow threshold. Inherited clinic rooms are reception, consultation, treatment and medical stock. No hospital tower, ambulance, operating-theatre wing, giant medical cross, signs, roof access door, second floor or campus. STRICT CAMERA OVERRIDE: this is nearly a TOP-DOWN ROOF PLAN. At a roof width of 1000 image pixels, the entire visible front wall (all 1 native floor levels together) occupies at most 40 image pixels vertically. Squash door/window heights by the camera foreshortening; do not enlarge the facade for legibility. Keep 1 total above-ground floor level in that narrow band. The main roof's projected front-to-back depth is approximately 71% of its horizontal width. Roof and footprint edges stay parallel, without converging perspective. These are projection targets for the source art, not a certified metric render.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      }
+    ],
+    "output": "references/iterations/medicalCentre-v1.png",
+    "selected": false,
+    "sha256": "046163b17a987ce850fb70ec9fcfeaed7320d54b373449ca94a277500683262f",
+    "bytes": 2433611,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "medicalCentre",
+    "id": "native:medicalCentre",
+    "artId": "native:medicalCentre",
+    "nativeType": "medicalCentre",
+    "name": "Maison de santé",
+    "iteration": 2,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card.  BATCH art232; nativeType=medicalCentre. SUBJECT: Maison de santé: one broad low medical centre 46 m wide by 34 m deep, exactly ONE ground-floor level. A single rectangular weathered light-concrete/plaster building, wide low flat roof, discreet practical vents, modest windows and an accessible central ground-level entrance with a narrow threshold. Inherited clinic rooms are reception, consultation, treatment and medical stock. No hospital tower, ambulance, operating-theatre wing, giant medical cross, signs, roof access door, second floor or campus. STRICT CAMERA OVERRIDE: this is nearly a TOP-DOWN ROOF PLAN. At a roof width of 1000 image pixels, the entire visible front wall (all 1 native floor levels together) occupies at most 40 image pixels vertically. Squash door/window heights by the camera foreshortening; do not enlarge the facade for legibility. Keep 1 total above-ground floor level in that narrow band. The main roof's projected front-to-back depth is approximately 71% of its horizontal width. Roof and footprint edges stay parallel, without converging perspective. These are projection targets for the source art, not a certified metric render.\n\nTARGETED CAMERA CORRECTION, HIGHEST PRIORITY: Image 2 is the existing sprite to edit; Image 1 remains style reference only. Preserve the single building, weathered materials, roof fittings, exactly 1 total above-ground floor level, centered ground-level doorway and true transparent alpha. Change only camera projection and footprint proportions. The existing front facade is too tall and the roof too shallow. Raise the camera to the specified 75-degree high orthographic view and actually foreshorten the front wall. Treat the MAIN ROOF as a flat plan rectangle: for every 1000 pixels of roof width, its projected back-to-front depth must be about 710 pixels. The ENTIRE front wall under the eave must occupy NO MORE THAN 40 pixels vertically per 1000 pixels of roof width, including all 1 floor levels together. Do not keep the old facade height. Compress its windows and doorway vertically with the camera; never enlarge them for readability. Retain one and only one ground-floor band. Do not rotate the axes or introduce perspective convergence. Keep the roof closed and coherent. Retain generous transparent margins and only a tiny contact shadow. Outside the building must be true alpha transparency, never a painted matte or glow. No text, guides, measurements, extra annexes, people, vehicles or loose props.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      },
+      {
+        "path": "references/iterations/medicalCentre-v1.png",
+        "sha256": "046163b17a987ce850fb70ec9fcfeaed7320d54b373449ca94a277500683262f"
+      }
+    ],
+    "output": "references/iterations/medicalCentre-v2.png",
+    "selected": false,
+    "sha256": "daef492bd8446797bada0621af2593ee4c4fb8340ef03c9cefefbd50376e6b0f",
+    "bytes": 1957186,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "medicalCentre",
+    "id": "native:medicalCentre",
+    "artId": "native:medicalCentre",
+    "nativeType": "medicalCentre",
+    "name": "Maison de santé",
+    "iteration": 3,
+    "prompt": "Use case: precise-object-edit. Image 1 is the original DEADWALL buildings atlas, a painting-style reference only. Image 2 is the sprite to correct. The roof in Image 2 is still much too short from back to front. Correct ONLY the building footprint proportions, preserving its now-thin facade. Native footprint: 46 metres wide and 34 metres deep, viewed in high 75-degree orthographic projection. Redraw the MAIN ROOF RECTANGLE with an on-image width-to-depth ratio of 1000:710. This means the roof alone must be 71% as tall on the screen as it is wide, BEFORE the small front wall is added. Make this substantial change visibly, by increasing roof depth, not by reusing the old flattened rectangle. Do NOT preserve the source image's composition or aspect ratio. Use a square transparent canvas. The roof should appear almost square, only moderately wider than deep. Preserve the current front-wall height ratio: all 1 above-ground floor levels together occupy only 4% of the roof width. Keep exactly one floor. Keep roof fixtures small and coherent instead of stretching them into giant objects. Maintain the same one intact closed rectangular building, weathered muted materials and restrained game-sprite painting style. Orthographic overhead roof view, image-aligned axes, no perspective convergence, no isometric rotation. Ground-level door stays on the front wall. No extra volumes, annexes, people, vehicles, loose props, text, labels or measurement graphics. True RGBA transparent background, generous margins on all sides, no painted matte, glow or ground tile; only a tiny contact shadow. Do not create a comparative sheet: return one corrected isolated sprite.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      },
+      {
+        "path": "references/iterations/medicalCentre-v2.png",
+        "sha256": "daef492bd8446797bada0621af2593ee4c4fb8340ef03c9cefefbd50376e6b0f"
+      }
+    ],
+    "output": "assets/art232/native/medicalCentre_maison_de_sante.png",
+    "selected": true,
+    "sha256": "338077b17697f2ad47827b717db88ae34610f82e6775b84d68a59044c174dd0b",
+    "bytes": 1836967,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "smallWorkshop",
+    "id": "native:smallWorkshop",
+    "artId": "native:smallWorkshop",
+    "nativeType": "smallWorkshop",
+    "name": "Atelier artisanal",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card.  BATCH art232; nativeType=smallWorkshop. SUBJECT: Atelier artisanal: one small craft workshop 18 m wide by 15 m deep, exactly ONE ground-floor level. Modest worn brick and gray corrugated metal, shallow pitched or low gable metal roof, one modest central industrial doorway touching the ground and a few small high workshop windows. It inherits a garage plan: hall, technical reserve and office. No specialized sawmill or new machinery programme is implied. No outdoor vehicle, detached shed, giant shutter wall, second floor, timber yard or extra annex. STRICT CAMERA OVERRIDE: this is nearly a TOP-DOWN ROOF PLAN. At a roof width of 1000 image pixels, the entire visible front wall (all 1 native floor levels together) occupies at most 50 image pixels vertically. Squash door/window heights by the camera foreshortening; do not enlarge the facade for legibility. Keep 1 total above-ground floor level in that narrow band. The main roof's projected front-to-back depth is approximately 80% of its horizontal width. Roof and footprint edges stay parallel, without converging perspective. These are projection targets for the source art, not a certified metric render.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      }
+    ],
+    "output": "references/iterations/smallWorkshop-v1.png",
+    "selected": false,
+    "sha256": "9a16dd48e4234d8ff4ebf53c62839ef39404c3734145de84f51c09efc9c68cbc",
+    "bytes": 1698209,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "smallWorkshop",
+    "id": "native:smallWorkshop",
+    "artId": "native:smallWorkshop",
+    "nativeType": "smallWorkshop",
+    "name": "Atelier artisanal",
+    "iteration": 2,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card.  BATCH art232; nativeType=smallWorkshop. SUBJECT: Atelier artisanal: one small craft workshop 18 m wide by 15 m deep, exactly ONE ground-floor level. Modest worn brick and gray corrugated metal, shallow pitched or low gable metal roof, one modest central industrial doorway touching the ground and a few small high workshop windows. It inherits a garage plan: hall, technical reserve and office. No specialized sawmill or new machinery programme is implied. No outdoor vehicle, detached shed, giant shutter wall, second floor, timber yard or extra annex. STRICT CAMERA OVERRIDE: this is nearly a TOP-DOWN ROOF PLAN. At a roof width of 1000 image pixels, the entire visible front wall (all 1 native floor levels together) occupies at most 50 image pixels vertically. Squash door/window heights by the camera foreshortening; do not enlarge the facade for legibility. Keep 1 total above-ground floor level in that narrow band. The main roof's projected front-to-back depth is approximately 80% of its horizontal width. Roof and footprint edges stay parallel, without converging perspective. These are projection targets for the source art, not a certified metric render.\n\nTARGETED CAMERA CORRECTION, HIGHEST PRIORITY: Image 2 is the existing sprite to edit; Image 1 remains style reference only. Preserve the single building, weathered materials, roof fittings, exactly 1 total above-ground floor level, centered ground-level doorway and true transparent alpha. Change only camera projection and footprint proportions. The existing front facade is too tall and the roof too shallow. Raise the camera to the specified 75-degree high orthographic view and actually foreshorten the front wall. Treat the MAIN ROOF as a flat plan rectangle: for every 1000 pixels of roof width, its projected back-to-front depth must be about 800 pixels. The ENTIRE front wall under the eave must occupy NO MORE THAN 50 pixels vertically per 1000 pixels of roof width, including all 1 floor levels together. Do not keep the old facade height. Compress its windows and doorway vertically with the camera; never enlarge them for readability. Retain one and only one ground-floor band. Do not rotate the axes or introduce perspective convergence. Keep the roof closed and coherent. Retain generous transparent margins and only a tiny contact shadow. Outside the building must be true alpha transparency, never a painted matte or glow. No text, guides, measurements, extra annexes, people, vehicles or loose props.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      },
+      {
+        "path": "references/iterations/smallWorkshop-v1.png",
+        "sha256": "9a16dd48e4234d8ff4ebf53c62839ef39404c3734145de84f51c09efc9c68cbc"
+      }
+    ],
+    "output": "assets/art232/native/smallWorkshop_atelier_artisanal.png",
+    "selected": true,
+    "sha256": "25c6843792033343b6f3fd810e8ea3adf24e5e2531068dcd7faddcccdc8f26a2",
+    "bytes": 1654674,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "logisticsHall",
+    "id": "native:logisticsHall",
+    "artId": "native:logisticsHall",
+    "nativeType": "logisticsHall",
+    "name": "Plateforme logistique",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card.  BATCH art232; nativeType=logisticsHall. SUBJECT: Plateforme logistique: one broad logistics hall 70 m wide by 42 m deep, exactly ONE ground-floor level. Large low rectangular warehouse, weathered concrete plinth and muted corrugated metal cladding, broad shallow gray metal roof with restrained skylight strips and vents, sparse service windows and central understated access. Its inherited warehouse plan contains a hall, technical reserve and office. Keep all structural volume within the single rectangle. No second floor, external dock platform, trucks, cargo containers, full yard, cranes or detached loading wing. STRICT CAMERA OVERRIDE: this is nearly a TOP-DOWN ROOF PLAN. At a roof width of 1000 image pixels, the entire visible front wall (all 1 native floor levels together) occupies at most 40 image pixels vertically. Squash door/window heights by the camera foreshortening; do not enlarge the facade for legibility. Keep 1 total above-ground floor level in that narrow band. The main roof's projected front-to-back depth is approximately 58% of its horizontal width. Roof and footprint edges stay parallel, without converging perspective. These are projection targets for the source art, not a certified metric render.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      }
+    ],
+    "output": "references/iterations/logisticsHall-v1.png",
+    "selected": false,
+    "sha256": "8c3a36ee157ad45ea2825998afaf3eb3764668ed9a21055f3387698578894817",
+    "bytes": 2386713,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "logisticsHall",
+    "id": "native:logisticsHall",
+    "artId": "native:logisticsHall",
+    "nativeType": "logisticsHall",
+    "name": "Plateforme logistique",
+    "iteration": 2,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card.  BATCH art232; nativeType=logisticsHall. SUBJECT: Plateforme logistique: one broad logistics hall 70 m wide by 42 m deep, exactly ONE ground-floor level. Large low rectangular warehouse, weathered concrete plinth and muted corrugated metal cladding, broad shallow gray metal roof with restrained skylight strips and vents, sparse service windows and central understated access. Its inherited warehouse plan contains a hall, technical reserve and office. Keep all structural volume within the single rectangle. No second floor, external dock platform, trucks, cargo containers, full yard, cranes or detached loading wing. STRICT CAMERA OVERRIDE: this is nearly a TOP-DOWN ROOF PLAN. At a roof width of 1000 image pixels, the entire visible front wall (all 1 native floor levels together) occupies at most 40 image pixels vertically. Squash door/window heights by the camera foreshortening; do not enlarge the facade for legibility. Keep 1 total above-ground floor level in that narrow band. The main roof's projected front-to-back depth is approximately 58% of its horizontal width. Roof and footprint edges stay parallel, without converging perspective. These are projection targets for the source art, not a certified metric render.\n\nTARGETED CAMERA CORRECTION, HIGHEST PRIORITY: Image 2 is the existing sprite to edit; Image 1 remains style reference only. Preserve the single building, weathered materials, roof fittings, exactly 1 total above-ground floor level, centered ground-level doorway and true transparent alpha. Change only camera projection and footprint proportions. The existing front facade is too tall and the roof too shallow. Raise the camera to the specified 75-degree high orthographic view and actually foreshorten the front wall. Treat the MAIN ROOF as a flat plan rectangle: for every 1000 pixels of roof width, its projected back-to-front depth must be about 580 pixels. The ENTIRE front wall under the eave must occupy NO MORE THAN 40 pixels vertically per 1000 pixels of roof width, including all 1 floor levels together. Do not keep the old facade height. Compress its windows and doorway vertically with the camera; never enlarge them for readability. Retain one and only one ground-floor band. Do not rotate the axes or introduce perspective convergence. Keep the roof closed and coherent. Retain generous transparent margins and only a tiny contact shadow. Outside the building must be true alpha transparency, never a painted matte or glow. No text, guides, measurements, extra annexes, people, vehicles or loose props.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      },
+      {
+        "path": "references/iterations/logisticsHall-v1.png",
+        "sha256": "8c3a36ee157ad45ea2825998afaf3eb3764668ed9a21055f3387698578894817"
+      }
+    ],
+    "output": "references/iterations/logisticsHall-v2.png",
+    "selected": false,
+    "sha256": "ab0dd5b1d2f6d0d61573d2a17872e8bc587869d7c213f5418ca41667d57a5857",
+    "bytes": 2097048,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "logisticsHall",
+    "id": "native:logisticsHall",
+    "artId": "native:logisticsHall",
+    "nativeType": "logisticsHall",
+    "name": "Plateforme logistique",
+    "iteration": 3,
+    "prompt": "Use case: precise-object-edit. Image 1 is the original DEADWALL buildings atlas, a painting-style reference only. Image 2 is the sprite to correct. The roof in Image 2 is still much too short from back to front. Correct ONLY the building footprint proportions, preserving its now-thin facade. Native footprint: 70 metres wide and 42 metres deep, viewed in high 75-degree orthographic projection. Redraw the MAIN ROOF RECTANGLE with an on-image width-to-depth ratio of 1000:580. This means the roof alone must be 58% as tall on the screen as it is wide, BEFORE the small front wall is added. Make this substantial change visibly, by increasing roof depth, not by reusing the old flattened rectangle. Do NOT preserve the source image's composition or aspect ratio. Use a spacious landscape canvas; reduce oversized top and bottom margins as necessary to fit the deeper roof. Preserve the current front-wall height ratio: all 1 above-ground floor levels together occupy only 4% of the roof width. Keep exactly one floor. Keep roof fixtures small and coherent instead of stretching them into giant objects. Maintain the same one intact closed rectangular building, weathered muted materials and restrained game-sprite painting style. Orthographic overhead roof view, image-aligned axes, no perspective convergence, no isometric rotation. Ground-level door stays on the front wall. No extra volumes, annexes, people, vehicles, loose props, text, labels or measurement graphics. True RGBA transparent background, generous margins on all sides, no painted matte, glow or ground tile; only a tiny contact shadow. Do not create a comparative sheet: return one corrected isolated sprite.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      },
+      {
+        "path": "references/iterations/logisticsHall-v2.png",
+        "sha256": "ab0dd5b1d2f6d0d61573d2a17872e8bc587869d7c213f5418ca41667d57a5857"
+      }
+    ],
+    "output": "assets/art232/native/logisticsHall_plateforme_logistique.png",
+    "selected": true,
+    "sha256": "f2af6d7457a45217af7fd2a7167b06623c532732d0adc0862ac7458f6c07febb",
+    "bytes": 2427864,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "chapel",
+    "id": "native:chapel",
+    "artId": "native:chapel",
+    "nativeType": "chapel",
+    "name": "Chapelle et salle commune",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card.  BATCH art232; nativeType=chapel. SUBJECT: Chapelle et salle commune: one compact civic chapel and common hall 24 m wide by 33 m deep, exactly TWO total above-ground levels, ground floor plus one upper storey. A visibly deeper-than-wide single rectangular weathered stone and plaster envelope, subdued low-pitched slate roof, restrained tall but human-scale arched public windows and one central ground-level doorway. Its actual native layout inherits townhall/civic rooms on two levels, not an authored church nave; keep a modest civic chapel identity without inventing sanctuary or tower geometry. No steeple, bell tower, apse annex, cross, cemetery, detached parish hall, third floor or raised ceremonial platform. STRICT CAMERA OVERRIDE: this is nearly a TOP-DOWN ROOF PLAN. At a roof width of 1000 image pixels, the entire visible front wall (all 2 native floor levels together) occupies at most 70 image pixels vertically. Squash door/window heights by the camera foreshortening; do not enlarge the facade for legibility. Keep 2 total above-ground floor levels in that narrow band. The main roof's projected front-to-back depth is approximately 133% of its horizontal width. Roof and footprint edges stay parallel, without converging perspective. These are projection targets for the source art, not a certified metric render.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      }
+    ],
+    "output": "references/iterations/chapel-v1.png",
+    "selected": false,
+    "sha256": "c10dc78b51704f78dba9901126cf7f1397cb5ded38972dd63caf23e95c1f9931",
+    "bytes": 2146803,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "chapel",
+    "id": "native:chapel",
+    "artId": "native:chapel",
+    "nativeType": "chapel",
+    "name": "Chapelle et salle commune",
+    "iteration": 2,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card.  BATCH art232; nativeType=chapel. SUBJECT: Chapelle et salle commune: one compact civic chapel and common hall 24 m wide by 33 m deep, exactly TWO total above-ground levels, ground floor plus one upper storey. A visibly deeper-than-wide single rectangular weathered stone and plaster envelope, subdued low-pitched slate roof, restrained tall but human-scale arched public windows and one central ground-level doorway. Its actual native layout inherits townhall/civic rooms on two levels, not an authored church nave; keep a modest civic chapel identity without inventing sanctuary or tower geometry. No steeple, bell tower, apse annex, cross, cemetery, detached parish hall, third floor or raised ceremonial platform. STRICT CAMERA OVERRIDE: this is nearly a TOP-DOWN ROOF PLAN. At a roof width of 1000 image pixels, the entire visible front wall (all 2 native floor levels together) occupies at most 70 image pixels vertically. Squash door/window heights by the camera foreshortening; do not enlarge the facade for legibility. Keep 2 total above-ground floor levels in that narrow band. The main roof's projected front-to-back depth is approximately 133% of its horizontal width. Roof and footprint edges stay parallel, without converging perspective. These are projection targets for the source art, not a certified metric render.\n\nTARGETED CAMERA CORRECTION, HIGHEST PRIORITY: Image 2 is the existing sprite to edit; Image 1 remains style reference only. Preserve the single building, weathered materials, roof fittings, exactly 2 total above-ground floor levels, centered ground-level doorway and true transparent alpha. Change only camera projection and footprint proportions. The existing front facade is too tall and the roof too shallow. Raise the camera to the specified 75-degree high orthographic view and actually foreshorten the front wall. Treat the MAIN ROOF as a flat plan rectangle: for every 1000 pixels of roof width, its projected back-to-front depth must be about 1330 pixels. The ENTIRE front wall under the eave must occupy NO MORE THAN 70 pixels vertically per 1000 pixels of roof width, including all 2 floor levels together. Do not keep the old facade height. Compress its windows and doorway vertically with the camera; never enlarge them for readability. Retain two visibly separate extremely short horizontal storey bands within that single total wall strip. Use a portrait composition with a deeper-than-wide roof; no tower, steeple, cross, apse or invented floor. Do not rotate the axes or introduce perspective convergence. Keep the roof closed and coherent. Retain generous transparent margins and only a tiny contact shadow. Outside the building must be true alpha transparency, never a painted matte or glow. No text, guides, measurements, extra annexes, people, vehicles or loose props.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      },
+      {
+        "path": "references/iterations/chapel-v1.png",
+        "sha256": "c10dc78b51704f78dba9901126cf7f1397cb5ded38972dd63caf23e95c1f9931"
+      }
+    ],
+    "output": "references/iterations/chapel-v2.png",
+    "selected": false,
+    "sha256": "2d820a11242737ecbfbe1c0010ef216f8c2c4539f2d90909fdd11aedc5e6344f",
+    "bytes": 1989808,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "chapel",
+    "id": "native:chapel",
+    "artId": "native:chapel",
+    "nativeType": "chapel",
+    "name": "Chapelle et salle commune",
+    "iteration": 3,
+    "prompt": "Use case: precise-object-edit. Image 1 is the original DEADWALL buildings atlas, a painting-style reference only. Image 2 is the sprite to correct. Change ONLY the front facade of Image 2, whose two floor bands are still twice too high. Preserve the existing deeper-than-wide roof, its 1000:1330 projected rectangle, low slate shape, chimneys, stonework style and all roof details. Reduce the entire front facade under the eave to HALF of its current image height, while keeping exactly TWO total above-ground levels as two extremely narrow horizontal window bands. At 1000 pixels of roof width, the entire front wall, both floors together, must be only 70 pixels high. Compress windows and the central ground-level doorway with the wall; do not remove a floor, add a floor or enlarge the entry. This is a native civic two-floor chapel envelope, not a church nave. No tower, steeple, cross, apse or raised platform. Maintain the same one intact closed rectangular building, weathered muted materials and restrained game-sprite painting style. Orthographic overhead roof view, image-aligned axes, no perspective convergence, no isometric rotation. Ground-level door stays on the front wall. No extra volumes, annexes, people, vehicles, loose props, text, labels or measurement graphics. True RGBA transparent background, generous margins on all sides, no painted matte, glow or ground tile; only a tiny contact shadow. Do not create a comparative sheet: return one corrected isolated sprite.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      },
+      {
+        "path": "references/iterations/chapel-v2.png",
+        "sha256": "2d820a11242737ecbfbe1c0010ef216f8c2c4539f2d90909fdd11aedc5e6344f"
+      }
+    ],
+    "output": "assets/art232/native/chapel_chapelle_et_salle_commune.png",
+    "selected": true,
+    "sha256": "20add16248a8d9846e690aa70740707d9834a3399781e33c066420bd1c7e26af",
+    "bytes": 1839541,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "waterStation",
+    "id": "native:waterStation",
+    "artId": "native:waterStation",
+    "nativeType": "waterStation",
+    "name": "Station de pompage",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card.  BATCH art232; nativeType=waterStation. SUBJECT: Station de pompage: one low rectangular pumping service building 28 m wide by 21 m deep, exactly ONE ground-floor level. Weathered concrete and gray corrugated metal, broad shallow industrial roof with a few discreet vents, small high utility windows and one central ground-level service door. Its current native programme inherits a garage hall, technical reserve and office; this is the service hall envelope only, not a designed reservoir or pipe network. No water tower, outdoor tanks, giant exposed pumps, trench, reservoir, second floor, river scene or detached annex. STRICT CAMERA OVERRIDE: this is nearly a TOP-DOWN ROOF PLAN. At a roof width of 1000 image pixels, the entire visible front wall (all 1 native floor levels together) occupies at most 40 image pixels vertically. Squash door/window heights by the camera foreshortening; do not enlarge the facade for legibility. Keep 1 total above-ground floor level in that narrow band. The main roof's projected front-to-back depth is approximately 72% of its horizontal width. Roof and footprint edges stay parallel, without converging perspective. These are projection targets for the source art, not a certified metric render.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      }
+    ],
+    "output": "references/iterations/waterStation-v1.png",
+    "selected": false,
+    "sha256": "d8fa7e3569933eaeafd229feb4ffef14fa083c59885eb99a22b49844dfd4c65a",
+    "bytes": 1858557,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "waterStation",
+    "id": "native:waterStation",
+    "artId": "native:waterStation",
+    "nativeType": "waterStation",
+    "name": "Station de pompage",
+    "iteration": 2,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card.  BATCH art232; nativeType=waterStation. SUBJECT: Station de pompage: one low rectangular pumping service building 28 m wide by 21 m deep, exactly ONE ground-floor level. Weathered concrete and gray corrugated metal, broad shallow industrial roof with a few discreet vents, small high utility windows and one central ground-level service door. Its current native programme inherits a garage hall, technical reserve and office; this is the service hall envelope only, not a designed reservoir or pipe network. No water tower, outdoor tanks, giant exposed pumps, trench, reservoir, second floor, river scene or detached annex. STRICT CAMERA OVERRIDE: this is nearly a TOP-DOWN ROOF PLAN. At a roof width of 1000 image pixels, the entire visible front wall (all 1 native floor levels together) occupies at most 40 image pixels vertically. Squash door/window heights by the camera foreshortening; do not enlarge the facade for legibility. Keep 1 total above-ground floor level in that narrow band. The main roof's projected front-to-back depth is approximately 72% of its horizontal width. Roof and footprint edges stay parallel, without converging perspective. These are projection targets for the source art, not a certified metric render.\n\nTARGETED CAMERA CORRECTION, HIGHEST PRIORITY: Image 2 is the existing sprite to edit; Image 1 remains style reference only. Preserve the single building, weathered materials, roof fittings, exactly 1 total above-ground floor level, centered ground-level doorway and true transparent alpha. Change only camera projection and footprint proportions. The existing front facade is too tall and the roof too shallow. Raise the camera to the specified 75-degree high orthographic view and actually foreshorten the front wall. Treat the MAIN ROOF as a flat plan rectangle: for every 1000 pixels of roof width, its projected back-to-front depth must be about 720 pixels. The ENTIRE front wall under the eave must occupy NO MORE THAN 40 pixels vertically per 1000 pixels of roof width, including all 1 floor levels together. Do not keep the old facade height. Compress its windows and doorway vertically with the camera; never enlarge them for readability. Retain one and only one ground-floor band. Keep only the enclosed service hall; no pumps, tanks, basin or detached apparatus. Do not rotate the axes or introduce perspective convergence. Keep the roof closed and coherent. Retain generous transparent margins and only a tiny contact shadow. Outside the building must be true alpha transparency, never a painted matte or glow. No text, guides, measurements, extra annexes, people, vehicles or loose props.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      },
+      {
+        "path": "references/iterations/waterStation-v1.png",
+        "sha256": "d8fa7e3569933eaeafd229feb4ffef14fa083c59885eb99a22b49844dfd4c65a"
+      }
+    ],
+    "output": "references/iterations/waterStation-v2.png",
+    "selected": false,
+    "sha256": "1ca0789c5df79c60af7725ac52cb3474e67674bfc9222e0b7fb3a07842e8f9aa",
+    "bytes": 1492024,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "waterStation",
+    "id": "native:waterStation",
+    "artId": "native:waterStation",
+    "nativeType": "waterStation",
+    "name": "Station de pompage",
+    "iteration": 3,
+    "prompt": "Use case: precise-object-edit. Image 1 is the original DEADWALL buildings atlas, a painting-style reference only. Image 2 is the sprite to correct. The roof in Image 2 is still much too short from back to front. Correct ONLY the building footprint proportions, preserving its now-thin facade. Native footprint: 28 metres wide and 21 metres deep, viewed in high 75-degree orthographic projection. Redraw the MAIN ROOF RECTANGLE with an on-image width-to-depth ratio of 1000:720. This means the roof alone must be 72% as tall on the screen as it is wide, BEFORE the small front wall is added. Make this substantial change visibly, by increasing roof depth, not by reusing the old flattened rectangle. Do NOT preserve the source image's composition or aspect ratio. Use a square transparent canvas. The roof should appear almost square, only moderately wider than deep. Preserve the current front-wall height ratio: all 1 above-ground floor levels together occupy only 4% of the roof width. Keep exactly one floor. Keep roof fixtures small and coherent instead of stretching them into giant objects. Maintain the same one intact closed rectangular building, weathered muted materials and restrained game-sprite painting style. Orthographic overhead roof view, image-aligned axes, no perspective convergence, no isometric rotation. Ground-level door stays on the front wall. No extra volumes, annexes, people, vehicles, loose props, text, labels or measurement graphics. This is only a service hall; no pumps, tanks, reservoirs or exposed pipe systems. True RGBA transparent background, generous margins on all sides, no painted matte, glow or ground tile; only a tiny contact shadow. Do not create a comparative sheet: return one corrected isolated sprite.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      },
+      {
+        "path": "references/iterations/waterStation-v2.png",
+        "sha256": "1ca0789c5df79c60af7725ac52cb3474e67674bfc9222e0b7fb3a07842e8f9aa"
+      }
+    ],
+    "output": "assets/art232/native/waterStation_station_de_pompage.png",
+    "selected": true,
+    "sha256": "26db9796f60122493e6dbeeb28bd69d30d01479e5c579f2d0234161f75999f0f",
+    "bytes": 1714127,
+    "nativeBytesPreserved": true
+  }
+]

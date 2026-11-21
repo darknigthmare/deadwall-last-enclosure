@@ -1,0 +1,1000 @@
+[
+  {
+    "id": "DW-0041",
+    "name": "Centre commercial régional",
+    "type": "mall",
+    "sourceSheet": "references/DW-0041.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      82,
+      56
+    ],
+    "pilotLevels": [
+      0,
+      1
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Boutique 1",
+          "Boutique 7",
+          "Boutique 2",
+          "Boutique 8",
+          "Boutique 5",
+          "Boutique 11",
+          "Boutique 6",
+          "Boutique 12",
+          "Boutique ancre",
+          "Boutique ancre"
+        ],
+        "objectKinds": [
+          "shelf",
+          "crate",
+          "desk",
+          "fridge"
+        ],
+        "stairs": [
+          {
+            "id": "source-mall:stairs",
+            "x": 39.95,
+            "y": 52,
+            "w": 2.1,
+            "h": 2.9,
+            "levels": [
+              0,
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "z": 1,
+        "names": [
+          "Boutique 1",
+          "Boutique 7",
+          "Boutique 2",
+          "Boutique 8",
+          "Boutique 5",
+          "Boutique 11",
+          "Boutique 6",
+          "Boutique 12",
+          "Boutique ancre",
+          "Boutique ancre"
+        ],
+        "objectKinds": [
+          "shelf",
+          "crate",
+          "desk",
+          "fridge"
+        ],
+        "stairs": [
+          {
+            "id": "source-mall:stairs",
+            "x": 39.95,
+            "y": 52,
+            "w": 2.1,
+            "h": 2.9,
+            "levels": [
+              0,
+              1
+            ]
+          }
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "crate",
+      "shelf"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        25,
+        20
+      ],
+      "maximum": [
+        180,
+        120
+      ]
+    },
+    "authorProposedLevelsText": "0, 1",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "retail",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatResidential153",
+        "family": "retail",
+        "variant": 0,
+        "rect": [
+          773,
+          535,
+          332,
+          199
+        ]
+      },
+      {
+        "atlas": "habitatResidential153",
+        "family": "retail",
+        "variant": 1,
+        "rect": [
+          1127,
+          533,
+          390,
+          203
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 2,
+        "model": "terracotta-skylight",
+        "rect": [
+          53,
+          774,
+          303,
+          184
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 3,
+        "model": "concrete-ventilation",
+        "rect": [
+          432,
+          777,
+          304,
+          179
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 4,
+        "model": "metal-skylights",
+        "rect": [
+          804,
+          777,
+          313,
+          183
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 5,
+        "model": "weathered-flat",
+        "rect": [
+          1203,
+          777,
+          266,
+          184
+        ]
+      }
+    ]
+  },
+  {
+    "id": "DW-0061",
+    "name": "Supérette de quartier",
+    "type": "grocer",
+    "sourceSheet": "references/DW-0061.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      19,
+      15
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Réserve",
+          "Service et caisse"
+        ],
+        "objectKinds": [
+          "shelf",
+          "crate",
+          "workbench"
+        ],
+        "stairs": []
+      }
+    ],
+    "nativeOutdoorKinds": [],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        18,
+        14
+      ],
+      "maximum": [
+        90,
+        60
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "retail",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatResidential153",
+        "family": "retail",
+        "variant": 0,
+        "rect": [
+          773,
+          535,
+          332,
+          199
+        ]
+      },
+      {
+        "atlas": "habitatResidential153",
+        "family": "retail",
+        "variant": 1,
+        "rect": [
+          1127,
+          533,
+          390,
+          203
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 2,
+        "model": "terracotta-skylight",
+        "rect": [
+          53,
+          774,
+          303,
+          184
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 3,
+        "model": "concrete-ventilation",
+        "rect": [
+          432,
+          777,
+          304,
+          179
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 4,
+        "model": "metal-skylights",
+        "rect": [
+          804,
+          777,
+          313,
+          183
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 5,
+        "model": "weathered-flat",
+        "rect": [
+          1203,
+          777,
+          266,
+          184
+        ]
+      }
+    ]
+  },
+  {
+    "id": "DW-0062",
+    "name": "Supermarché avec quai",
+    "type": "market",
+    "sourceSheet": "references/DW-0062.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      42,
+      30
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Réserve",
+          "Service et caisse"
+        ],
+        "objectKinds": [
+          "shelf",
+          "crate",
+          "fridge",
+          "workbench",
+          "desk"
+        ],
+        "stairs": []
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "crate",
+      "shelf"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        18,
+        14
+      ],
+      "maximum": [
+        90,
+        60
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "retail",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatResidential153",
+        "family": "retail",
+        "variant": 0,
+        "rect": [
+          773,
+          535,
+          332,
+          199
+        ]
+      },
+      {
+        "atlas": "habitatResidential153",
+        "family": "retail",
+        "variant": 1,
+        "rect": [
+          1127,
+          533,
+          390,
+          203
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 2,
+        "model": "terracotta-skylight",
+        "rect": [
+          53,
+          774,
+          303,
+          184
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 3,
+        "model": "concrete-ventilation",
+        "rect": [
+          432,
+          777,
+          304,
+          179
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 4,
+        "model": "metal-skylights",
+        "rect": [
+          804,
+          777,
+          313,
+          183
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 5,
+        "model": "weathered-flat",
+        "rect": [
+          1203,
+          777,
+          266,
+          184
+        ]
+      }
+    ]
+  },
+  {
+    "id": "DW-0498",
+    "name": "Motel gagné par la forêt",
+    "type": "motel",
+    "sourceSheet": "references/DW-0498.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      44,
+      19
+    ],
+    "pilotLevels": [
+      0,
+      1
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Réception",
+          "Chambre 7",
+          "Chambre 2",
+          "Chambre 8",
+          "Chambre 3",
+          "Chambre 9",
+          "Chambre 5",
+          "Chambre 11",
+          "Chambre 6",
+          "Chambre 12"
+        ],
+        "objectKinds": [
+          "desk",
+          "wardrobe",
+          "bed"
+        ],
+        "stairs": [
+          {
+            "id": "source-motel:stairs",
+            "x": 20.95,
+            "y": 15,
+            "w": 2.1,
+            "h": 2.9,
+            "levels": [
+              0,
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "z": 1,
+        "names": [
+          "Chambre 1",
+          "Chambre 7",
+          "Chambre 2",
+          "Chambre 8",
+          "Chambre 3",
+          "Chambre 9",
+          "Chambre 5",
+          "Chambre 11",
+          "Chambre 6",
+          "Chambre 12"
+        ],
+        "objectKinds": [
+          "bed",
+          "wardrobe"
+        ],
+        "stairs": [
+          {
+            "id": "source-motel:stairs",
+            "x": 20.95,
+            "y": 15,
+            "w": 2.1,
+            "h": 2.9,
+            "levels": [
+              0,
+              1
+            ]
+          }
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "washer",
+      "crate",
+      "shelf"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        20,
+        16
+      ],
+      "maximum": [
+        180,
+        120
+      ]
+    },
+    "authorProposedLevelsText": "0, 1",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "hotel",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatResidential153",
+        "family": "hotel",
+        "variant": 0,
+        "rect": [
+          26,
+          523,
+          362,
+          223
+        ]
+      },
+      {
+        "atlas": "habitatResidential153",
+        "family": "hotel",
+        "variant": 1,
+        "rect": [
+          414,
+          533,
+          333,
+          202
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "hotel",
+        "variant": 2,
+        "model": "concrete-services",
+        "rect": [
+          55,
+          300,
+          299,
+          180
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "hotel",
+        "variant": 3,
+        "model": "flat-water-tank",
+        "rect": [
+          430,
+          302,
+          306,
+          179
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "hotel",
+        "variant": 4,
+        "model": "slate-three-dormers",
+        "rect": [
+          805,
+          289,
+          313,
+          190
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "hotel",
+        "variant": 5,
+        "model": "terracotta-double-ridge",
+        "rect": [
+          1188,
+          303,
+          298,
+          175
+        ]
+      }
+    ]
+  },
+  {
+    "id": "DW-0181",
+    "name": "Caserne de pompiers",
+    "type": "firestation",
+    "sourceSheet": "references/DW-0181.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      36,
+      28
+    ],
+    "pilotLevels": [
+      0,
+      1
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Remise matériel",
+          "Atelier et équipements",
+          "Accueil",
+          "Réserve secours"
+        ],
+        "objectKinds": [
+          "hoseRack",
+          "workbench",
+          "medical",
+          "machine",
+          "wardrobe",
+          "fuel",
+          "counter",
+          "desk",
+          "crate"
+        ],
+        "stairs": [
+          {
+            "id": "source-firestation:stairs",
+            "x": 16.95,
+            "y": 24,
+            "w": 2.1,
+            "h": 2.9,
+            "levels": [
+              0,
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "z": 1,
+        "names": [
+          "Repos de garde",
+          "Vestiaires",
+          "Repos de garde",
+          "Salle de coordination",
+          "Réfectoire",
+          "Archives techniques"
+        ],
+        "objectKinds": [
+          "bed",
+          "wardrobe",
+          "medical",
+          "desk",
+          "counter",
+          "table",
+          "fridge",
+          "shelf",
+          "workbench"
+        ],
+        "stairs": [
+          {
+            "id": "source-firestation:stairs",
+            "x": 16.95,
+            "y": 24,
+            "w": 2.1,
+            "h": 2.9,
+            "levels": [
+              0,
+              1
+            ]
+          }
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "fuel",
+      "tirePile",
+      "workbench"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        24,
+        18
+      ],
+      "maximum": [
+        85,
+        65
+      ]
+    },
+    "authorProposedLevelsText": "0, 1",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "service",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatServices153",
+        "family": "service",
+        "variant": 0,
+        "rect": [
+          43,
+          528,
+          260,
+          228
+        ]
+      },
+      {
+        "atlas": "habitatServices153",
+        "family": "service",
+        "variant": 1,
+        "rect": [
+          341,
+          530,
+          414,
+          227
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "service",
+        "variant": 2,
+        "model": "terracotta-skylight",
+        "rect": [
+          53,
+          774,
+          303,
+          184
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "service",
+        "variant": 3,
+        "model": "concrete-ventilation",
+        "rect": [
+          432,
+          777,
+          304,
+          179
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "service",
+        "variant": 4,
+        "model": "metal-skylights",
+        "rect": [
+          804,
+          777,
+          313,
+          183
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "service",
+        "variant": 5,
+        "model": "weathered-flat",
+        "rect": [
+          1203,
+          777,
+          266,
+          184
+        ]
+      }
+    ]
+  },
+  {
+    "id": "DW-0126",
+    "name": "Cabinet dentaire",
+    "type": "dental",
+    "sourceSheet": "references/DW-0126.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      25,
+      20
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Accueil et attente",
+          "Stérilisation",
+          "Salle de soins A",
+          "Stock propre",
+          "Salle de soins B",
+          "Vestiaire et bureau"
+        ],
+        "objectKinds": [
+          "counter",
+          "bench",
+          "sterilizer",
+          "sink",
+          "dentalChair",
+          "medical",
+          "shelf",
+          "desk",
+          "wardrobe"
+        ],
+        "stairs": []
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "crate"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        20,
+        16
+      ],
+      "maximum": [
+        150,
+        100
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "clinic",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatServices153",
+        "family": "clinic",
+        "variant": 0,
+        "rect": [
+          789,
+          39,
+          345,
+          212
+        ]
+      },
+      {
+        "atlas": "habitatServices153",
+        "family": "clinic",
+        "variant": 1,
+        "rect": [
+          1167,
+          41,
+          352,
+          209
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "clinic",
+        "variant": 2,
+        "model": "terracotta-skylight",
+        "rect": [
+          53,
+          774,
+          303,
+          184
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "clinic",
+        "variant": 3,
+        "model": "concrete-ventilation",
+        "rect": [
+          432,
+          777,
+          304,
+          179
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "clinic",
+        "variant": 4,
+        "model": "metal-skylights",
+        "rect": [
+          804,
+          777,
+          313,
+          183
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "clinic",
+        "variant": 5,
+        "model": "weathered-flat",
+        "rect": [
+          1203,
+          777,
+          266,
+          184
+        ]
+      }
+    ]
+  },
+  {
+    "id": "DW-0401",
+    "name": "Mine à galerie",
+    "type": "mine",
+    "sourceSheet": "references/DW-0401.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      32,
+      25
+    ],
+    "pilotLevels": [
+      -1,
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": -1,
+        "names": [
+          "Galerie boisée",
+          "Chambre de taille",
+          "Refuge",
+          "Front de roche"
+        ],
+        "objectKinds": [
+          "logs",
+          "rubble",
+          "crate",
+          "fuel",
+          "machine"
+        ],
+        "stairs": [
+          {
+            "id": "source-mine:stairs",
+            "x": 14.95,
+            "y": 21,
+            "w": 2.1,
+            "h": 2.9,
+            "levels": [
+              -1,
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "z": 0,
+        "names": [
+          "Réserve technique",
+          "Bureau"
+        ],
+        "objectKinds": [
+          "shelf",
+          "workbench",
+          "fuel",
+          "desk",
+          "crate"
+        ],
+        "stairs": [
+          {
+            "id": "source-mine:stairs",
+            "x": 14.95,
+            "y": 21,
+            "w": 2.1,
+            "h": 2.9,
+            "levels": [
+              -1,
+              0
+            ]
+          }
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "rubble",
+      "timberRack",
+      "fuel"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        75,
+        45
+      ],
+      "maximum": [
+        800,
+        500
+      ]
+    },
+    "authorProposedLevelsText": "-1, 0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "underground",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatServices153",
+        "family": "underground",
+        "variant": 0,
+        "rect": [
+          34,
+          781,
+          333,
+          212
+        ]
+      },
+      {
+        "atlas": "habitatServices153",
+        "family": "underground",
+        "variant": 1,
+        "rect": [
+          402,
+          787,
+          347,
+          204
+        ]
+      }
+    ]
+  }
+]

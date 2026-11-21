@@ -1,0 +1,194 @@
+[
+  {
+    "key": "sawmill",
+    "id": "DW-0381",
+    "label": "Scierie de vallée",
+    "file": "DW-0381_scierie-de-vallee.png",
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE new isolated exterior building sprite for DEADWALL — Last Enclosure, batch art226. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, a strict style and camera reference only. Match the serious hand-painted semi-realistic abandoned strategy-game rendering, muted steel gray, olive, dusty earth, worn concrete/metal and restrained rust. Very high near-overhead orthographic camera at about 70 degrees down; footprint axes aligned to image horizontal/vertical, front wall facing the image bottom. No rotated isometric diamond, lens perspective or cinematic low view. A complete intact exterior roof, no dollhouse cutaway. Ground-level entrances must meet a narrow ground-level threshold, never sit on the roof; the rear entrance may be correctly hidden by the roof. One cohesive centered silhouette with generous true transparent margins. RGBA with real alpha, no checkerboard copied from the atlas, matte, gradient, halo, surrounding terrain tile, display plinth or big cast shadow; a short subtle contact shadow only. No text, lettering, logos, pictograms, UI, watermarks, people, animals, vehicles, fire, smoke, giant props or disconnected annexes. PROJECTION: native footprint 40 m wide by 26 m deep, one ground-floor level only. The projected roof depth is about 0.61 of the roof width; visible front facade is very short, about 0.06 of the roof width, consistent with the steep overhead camera. Preserve this low building read, not a tall elevated miniature. SUBJECT DW-0381 SCIERIE DE VALLEE: the native single-storey 40 m wide by 26 m deep sawmill hall. A practical weathered timber-processing industrial hall with a low corrugated roof, restrained daylight strips and a ground-level central handling entrance. Modest timber cladding and dusty concrete base, believable roof trusses suggested only through the loading opening. The hall contains the timber-working space with technical reserve and office in the rear band. Convey timber handling with a few small aligned timber ends visible inside the ground-level entrance, never piles blocking the threshold. Do not draw the full proposed 900 m forestry site, detached log yard, conveyors, smokestacks, vehicles or additional storeys. Roof material and small external fittings are an inferred visual design, not an exact measured Codex facade.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art226-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-856eb54b-0e57-4c1f-8651-7e67f6e2b185.png"
+  },
+  {
+    "key": "warehouse",
+    "id": "DW-0221",
+    "label": "Entrepôt de messagerie",
+    "file": "DW-0221_entrepot-de-messagerie.png",
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE new isolated exterior building sprite for DEADWALL — Last Enclosure, batch art226. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, a strict style and camera reference only. Match the serious hand-painted semi-realistic abandoned strategy-game rendering, muted steel gray, olive, dusty earth, worn concrete/metal and restrained rust. Very high near-overhead orthographic camera at about 70 degrees down; footprint axes aligned to image horizontal/vertical, front wall facing the image bottom. No rotated isometric diamond, lens perspective or cinematic low view. A complete intact exterior roof, no dollhouse cutaway. Ground-level entrances must meet a narrow ground-level threshold, never sit on the roof; the rear entrance may be correctly hidden by the roof. One cohesive centered silhouette with generous true transparent margins. RGBA with real alpha, no checkerboard copied from the atlas, matte, gradient, halo, surrounding terrain tile, display plinth or big cast shadow; a short subtle contact shadow only. No text, lettering, logos, pictograms, UI, watermarks, people, animals, vehicles, fire, smoke, giant props or disconnected annexes. PROJECTION: native footprint 46 m wide by 29 m deep, one ground-floor level only. The projected roof depth is about 0.59 of the roof width; visible front facade is very short, about 0.06 of the roof width, consistent with the steep overhead camera. Preserve this low building read, not a tall elevated miniature. SUBJECT DW-0221 ENTREPOT DE MESSAGERIE: the native single-storey 46 m wide by 29 m deep parcel-sorting warehouse. A broad low rectangular hall with practical aging metal roof and restrained skylight bands, light dusty concrete and metal walls. A central ground-level goods entrance on the front face aligned with clear internal handling circulation; keep the narrow loading threshold accessible at ground level, with only small believable door framing. Rear technical reserve and office stay within the same envelope. Make the service purpose legible through a modest loading door and an office window, not through labels or huge dock machinery. Do not draw the full proposed 200 m distribution parcel, truck courts, trucks, detached annexes, raised platforms that block pedestrian access, piles of boxes across entrances, or an extra floor.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art226-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-1c187fe9-1ac7-4d8d-97ec-40dde9337dd8.png"
+  },
+  {
+    "key": "freight",
+    "id": "DW-0289",
+    "label": "Halle fret désaffectée",
+    "file": "DW-0289_halle-fret-desaffectee.png",
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE new isolated exterior building sprite for DEADWALL — Last Enclosure, batch art226. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, a strict style and camera reference only. Match the serious hand-painted semi-realistic abandoned strategy-game rendering, muted steel gray, olive, dusty earth, worn concrete/metal and restrained rust. Very high near-overhead orthographic camera at about 70 degrees down; footprint axes aligned to image horizontal/vertical, front wall facing the image bottom. No rotated isometric diamond, lens perspective or cinematic low view. A complete intact exterior roof, no dollhouse cutaway. Ground-level entrances must meet a narrow ground-level threshold, never sit on the roof; the rear entrance may be correctly hidden by the roof. One cohesive centered silhouette with generous true transparent margins. RGBA with real alpha, no checkerboard copied from the atlas, matte, gradient, halo, surrounding terrain tile, display plinth or big cast shadow; a short subtle contact shadow only. No text, lettering, logos, pictograms, UI, watermarks, people, animals, vehicles, fire, smoke, giant props or disconnected annexes. PROJECTION: native footprint 46 m wide by 24 m deep, one ground-floor level only. The projected roof depth is about 0.49 of the roof width; visible front facade is very short, about 0.06 of the roof width, consistent with the steep overhead camera. Preserve this low building read, not a tall elevated miniature. SUBJECT DW-0289 HALLE FRET DESAFFECTEE: the native single-storey 46 m wide by 24 m deep disused freight hall, a long modest older masonry goods shed with a weathered low-pitched metal roof. Keep a broad central ground-level freight doorway and practical low loading threshold on the visible front. A narrow weathered wall-attached rain canopy may suggest former handling activity without becoming a separate building. Sorting and former loading area, intermediate storage, rear office/archive and small reserve all belong inside this one envelope. Restrained old brick and patched concrete differentiate this older hall from a modern parcel warehouse. No tracks, train, railway station passenger concourse, full rail yard, loading crane, freight wagons, platform plinth, detached annex, active logistics, lettering, or second floor. This depicts the pilot hall only, not the ambitious full 600 m parcel.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art226-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-ce37321b-9e97-438d-859c-ee0e812d7f86.png"
+  },
+  {
+    "key": "centralKitchen",
+    "id": "DW-0073",
+    "label": "Cuisine centrale",
+    "file": "DW-0073_cuisine-centrale.png",
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE new isolated exterior building sprite for DEADWALL — Last Enclosure, batch art226. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, a strict style and camera reference only. Match the serious hand-painted semi-realistic abandoned strategy-game rendering, muted steel gray, olive, dusty earth, worn concrete/metal and restrained rust. Very high near-overhead orthographic camera at about 70 degrees down; footprint axes aligned to image horizontal/vertical, front wall facing the image bottom. No rotated isometric diamond, lens perspective or cinematic low view. A complete intact exterior roof, no dollhouse cutaway. Ground-level entrances must meet a narrow ground-level threshold, never sit on the roof; the rear entrance may be correctly hidden by the roof. One cohesive centered silhouette with generous true transparent margins. RGBA with real alpha, no checkerboard copied from the atlas, matte, gradient, halo, surrounding terrain tile, display plinth or big cast shadow; a short subtle contact shadow only. No text, lettering, logos, pictograms, UI, watermarks, people, animals, vehicles, fire, smoke, giant props or disconnected annexes. PROJECTION: native footprint 38 m wide by 29 m deep, one ground-floor level only. The projected roof depth is about 0.72 of the roof width; visible front facade is very short, about 0.06 of the roof width, consistent with the steep overhead camera. Preserve this low building read, not a tall elevated miniature. SUBJECT DW-0073 CUISINE CENTRALE: the native single-storey 38 m wide by 29 m deep central food-preparation building. Low rectangular institutional service building with a weathered mostly flat gray roof, modest shut-down extraction ducts and small ventilation housings sized for a real kitchen. Dusty rendered walls, restrained small service windows, a central accessible ground-level staff/goods doorway. The functional chain is food receiving and storage, cold preparation, stopped cooking, packing and dispatch, with a separate dirty washing-return circuit inside; do not expose or invent an exterior second entrance where it would conflict with the native central entries. Rear service access can be hidden. Convey the function through believable low ventilation, not food icons, giant utensils, restaurant terrace or customer seating. No smoke, steam, active cooking, extra roof storey, huge chimney, surrounding site or display plinth.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art226-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-526034ec-e25f-4114-adce-7ad30b8b0bcd.png"
+  },
+  {
+    "key": "generatorRoom",
+    "id": "DW-0331",
+    "label": "Local groupe électrogène",
+    "file": "DW-0331_local-groupe-electrogene.png",
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE new isolated exterior building sprite for DEADWALL — Last Enclosure, batch art226. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, a strict style and camera reference only. Match the serious hand-painted semi-realistic abandoned strategy-game rendering, muted steel gray, olive, dusty earth, worn concrete/metal and restrained rust. Very high near-overhead orthographic camera at about 70 degrees down; footprint axes aligned to image horizontal/vertical, front wall facing the image bottom. No rotated isometric diamond, lens perspective or cinematic low view. A complete intact exterior roof, no dollhouse cutaway. Ground-level entrances must meet a narrow ground-level threshold, never sit on the roof; the rear entrance may be correctly hidden by the roof. One cohesive centered silhouette with generous true transparent margins. RGBA with real alpha, no checkerboard copied from the atlas, matte, gradient, halo, surrounding terrain tile, display plinth or big cast shadow; a short subtle contact shadow only. No text, lettering, logos, pictograms, UI, watermarks, people, animals, vehicles, fire, smoke, giant props or disconnected annexes. PROJECTION: native footprint 16 m wide by 13 m deep, one ground-floor level only. The projected roof depth is about 0.76 of the roof width; visible front facade is very short, about 0.06 of the roof width, consistent with the steep overhead camera. Preserve this low building read, not a tall elevated miniature. SUBJECT DW-0331 LOCAL GROUPE ELECTROGENE: the native single-storey 16 m wide by 13 m deep small generator maintenance building. A compact stout gray utility block, low weathered shallow metal or concrete roof, discreet genuine ventilation louvers in walls, a small inactive exhaust pipe scaled to the building, central ground-level double maintenance doors and a modest service window. Generator and electrical bays are inside with room for maintenance, rear changing/storage band, not visible giant equipment sitting on the roof. Keep doorway human scale appropriate to this smaller footprint. No power-station cooling towers, transformer field, glowing electricity, running engine smoke, rooftop generator, outside fuel tank farm, labels, warning symbols or second floor. A modest isolated service building only, not the proposed 260 m energy parcel.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art226-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-89fc4d30-3eee-4892-9813-85b69ac99ff5.png"
+  },
+  {
+    "key": "quarry",
+    "id": "DW-0403",
+    "label": "Carrière de pierre",
+    "file": "DW-0403_halle-technique-carriere.png",
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE new isolated exterior building sprite for DEADWALL — Last Enclosure, batch art226. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, a strict style and camera reference only. Match the serious hand-painted semi-realistic abandoned strategy-game rendering, muted steel gray, olive, dusty earth, worn concrete/metal and restrained rust. Very high near-overhead orthographic camera at about 70 degrees down; footprint axes aligned to image horizontal/vertical, front wall facing the image bottom. No rotated isometric diamond, lens perspective or cinematic low view. A complete intact exterior roof, no dollhouse cutaway. Ground-level entrances must meet a narrow ground-level threshold, never sit on the roof; the rear entrance may be correctly hidden by the roof. One cohesive centered silhouette with generous true transparent margins. RGBA with real alpha, no checkerboard copied from the atlas, matte, gradient, halo, surrounding terrain tile, display plinth or big cast shadow; a short subtle contact shadow only. No text, lettering, logos, pictograms, UI, watermarks, people, animals, vehicles, fire, smoke, giant props or disconnected annexes. PROJECTION: native footprint 30 m wide by 24 m deep, one ground-floor level only. The projected roof depth is about 0.75 of the roof width; visible front facade is very short, about 0.06 of the roof width, consistent with the steep overhead camera. Preserve this low building read, not a tall elevated miniature. SUBJECT DW-0403 CARRIERE DE PIERRE — PILOT TECHNICAL HALL ONLY: the actual native plan is a closed single-storey 30 m wide by 24 m deep building envelope containing a hall with stone material, a rear technical reserve and an office. Render that modest stone-working/maintenance hall, NOT an entire open-pit quarry landscape. Dusty robust gray masonry and patched low metal roof with restrained daylight strips, a central accessible ground-level work entrance and a small office window within the same envelope. A few small stone pieces may be visible just inside the hall door without obstructing passage. Weathering is pale mineral dust and concrete wear. No quarry pit, cliffs, rock mountain, mining tunnel, underground bunker portal, excavator, conveyor, massive stone pile, detached sheds, platform base or extra storey. The generic renderer's underground roof-family alias is not a reason to invent underground levels; this native pilot has floor0 only.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art226-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-2f96caec-e335-4803-aff4-314a8f8e2d22.png"
+  },
+  {
+    "key": "freight",
+    "id": "DW-0289",
+    "label": "Halle fret désaffectée",
+    "file": "DW-0289_halle-fret-desaffectee.png",
+    "prompt": "Use case: stylized-concept. Refine ONLY the freight hall in image 1. Image 2 is the original DEADWALL atlas for rendering style. Preserve the SAME long single-storey 46 m wide by 24 m deep masonry freight shed, worn low metal roof, four roof vents, patched brick/plaster, central open goods doorway with sliding leaves, small rain canopy and ground-level threshold. Correct the shallow viewing angle: turn the camera much closer to directly overhead, orthographic, about 70–75 degrees downward. The current roof is far too compressed in front-to-back depth. Expand the visible ROOF PLAN DEPTH until it is approximately HALF the roof width, while maintaining building width. Reduce the projected front wall height to about HALF its current height, around 6% of roof width. Make both roof plan axes align with the image axes, no dramatic perspective convergence, no isometric diamond. Preserve one ground floor only and all doors at ground level. Do not add a second floor or roof doorway to expose service areas. No tracks, train, detached shed, loading yard, plinth, text, logo or persons. Entire building centered with generous genuinely transparent RGBA margins and only a very short contact shadow. Keep muted gray, brown and olive hand-painted worn materials. Preserve transparency. Deliver a corrected camera view of the same hall.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/generated_images/exec-ce37321b-9e97-438d-859c-ee0e812d7f86.png",
+      "/workspace/scratch/6f470a892a0f/art226-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 2,
+    "operation": "camera-correction",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-79f7210b-d0c2-4c26-a1cf-471062d07544.png"
+  },
+  {
+    "key": "sawmill",
+    "id": "DW-0381",
+    "label": "Scierie de vallée",
+    "file": "DW-0381_scierie-de-vallee.png",
+    "prompt": "Use case: stylized-concept. Edit ONLY the existing Scierie de vallée in image 1. Image 2 is the original DEADWALL atlas for the painted strategy-game style. Preserve the SAME native 40 m wide by 26 m deep single-storey building and all these features: the weathered corrugated roof, three narrow skylight strips, small HVAC and vents, timber facade, central ground-level handling doorway and a few timber ends INSIDE the hall. Correct the camera/projection: it is currently too low. View it from nearly directly above, only 15–20 degrees away from a vertical downward camera, with ORTHOGRAPHIC projection. Increase the visible front-to-back ROOF PLAN depth substantially, toward 61% of roof width, while preserving building width. Reduce the current facade's projected vertical height by about HALF so the entire visible front wall forms a very thin band, about 6% of roof width. Ground doors and windows may be foreshortened and partly hidden by the roof eaves. Do not compensate by raising the walls, adding an upper floor, changing the footprint or putting a doorway on the roof. Roof axes remain aligned horizontally/vertically with the image, no diamond isometric or converging camera perspective. Keep the worn muted gray/olive/earth materials and restrained details, coherent original structure and ground-level accesses. All equipment is switched off. One complete centered silhouette with generous real transparent RGBA margins, preserve alpha, only a short contact shadow. No surrounding terrain, broad base, opaque matte, text, symbol, people or vehicles. This is a camera correction of the same sprite, not a new design.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/generated_images/exec-856eb54b-0e57-4c1f-8651-7e67f6e2b185.png",
+      "/workspace/scratch/6f470a892a0f/art226-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 2,
+    "operation": "camera-correction",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-150d3bf7-e4ce-41a8-8cc6-a2ffd10d31ce.png"
+  },
+  {
+    "key": "warehouse",
+    "id": "DW-0221",
+    "label": "Entrepôt de messagerie",
+    "file": "DW-0221_entrepot-de-messagerie.png",
+    "prompt": "Use case: stylized-concept. Edit ONLY the existing Entrepôt de messagerie in image 1. Image 2 is the original DEADWALL atlas for the painted strategy-game style. Preserve the SAME native 46 m wide by 29 m deep single-storey building and all these features: the worn metal roof with two horizontal skylight bands, small ventilation equipment, central ground-level roller loading door, office window and restrained service panels. Correct the camera/projection: it is currently too low. View it from nearly directly above, only 15–20 degrees away from a vertical downward camera, with ORTHOGRAPHIC projection. Increase the visible front-to-back ROOF PLAN depth substantially, toward 59% of roof width, while preserving building width. Reduce the current facade's projected vertical height by about HALF so the entire visible front wall forms a very thin band, about 6% of roof width. Ground doors and windows may be foreshortened and partly hidden by the roof eaves. Do not compensate by raising the walls, adding an upper floor, changing the footprint or putting a doorway on the roof. Roof axes remain aligned horizontally/vertically with the image, no diamond isometric or converging camera perspective. Keep the worn muted gray/olive/earth materials and restrained details, coherent original structure and ground-level accesses. All equipment is switched off. One complete centered silhouette with generous real transparent RGBA margins, preserve alpha, only a short contact shadow. No surrounding terrain, broad base, opaque matte, text, symbol, people or vehicles. This is a camera correction of the same sprite, not a new design.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/generated_images/exec-1c187fe9-1ac7-4d8d-97ec-40dde9337dd8.png",
+      "/workspace/scratch/6f470a892a0f/art226-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 2,
+    "operation": "camera-correction",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-80f1f134-6688-46ba-817c-426f4cdb99bd.png"
+  },
+  {
+    "key": "centralKitchen",
+    "id": "DW-0073",
+    "label": "Cuisine centrale",
+    "file": "DW-0073_cuisine-centrale.png",
+    "prompt": "Use case: stylized-concept. Edit ONLY the existing Cuisine centrale in image 1. Image 2 is the original DEADWALL atlas for the painted strategy-game style. Preserve the SAME native 38 m wide by 29 m deep single-storey building and all these features: the low gray flat roof, connected kitchen extraction ductwork and ventilation, central skylight, rendered facade, service windows and central ground-level staff/goods doors. Correct the camera/projection: it is currently too low. View it from nearly directly above, only 15–20 degrees away from a vertical downward camera, with ORTHOGRAPHIC projection. Increase the visible front-to-back ROOF PLAN depth substantially, toward 72% of roof width, while preserving building width. Reduce the current facade's projected vertical height by about HALF so the entire visible front wall forms a very thin band, about 6% of roof width. Ground doors and windows may be foreshortened and partly hidden by the roof eaves. Do not compensate by raising the walls, adding an upper floor, changing the footprint or putting a doorway on the roof. Roof axes remain aligned horizontally/vertically with the image, no diamond isometric or converging camera perspective. Keep the worn muted gray/olive/earth materials and restrained details, coherent original structure and ground-level accesses. All equipment is switched off. One complete centered silhouette with generous real transparent RGBA margins, preserve alpha, only a short contact shadow. No surrounding terrain, broad base, opaque matte, text, symbol, people or vehicles. This is a camera correction of the same sprite, not a new design.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/generated_images/exec-526034ec-e25f-4114-adce-7ad30b8b0bcd.png",
+      "/workspace/scratch/6f470a892a0f/art226-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 2,
+    "operation": "camera-correction",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-52c7acea-ab5a-44db-8ca8-e5aa374f7af9.png"
+  },
+  {
+    "key": "generatorRoom",
+    "id": "DW-0331",
+    "label": "Local groupe électrogène",
+    "file": "DW-0331_local-groupe-electrogene.png",
+    "prompt": "Use case: stylized-concept. Edit ONLY the existing Local groupe électrogène in image 1. Image 2 is the original DEADWALL atlas for the painted strategy-game style. Preserve the SAME native 16 m wide by 13 m deep single-storey building and all these features: the compact gray utility building, shallow roof, small inactive exhaust, modest vents and louvers, service window and central ground-level double maintenance doors. Correct the camera/projection: it is currently too low. View it from nearly directly above, only 15–20 degrees away from a vertical downward camera, with ORTHOGRAPHIC projection. Increase the visible front-to-back ROOF PLAN depth substantially, toward 76% of roof width, while preserving building width. Reduce the current facade's projected vertical height by about HALF so the entire visible front wall forms a very thin band, about 6% of roof width. Ground doors and windows may be foreshortened and partly hidden by the roof eaves. Do not compensate by raising the walls, adding an upper floor, changing the footprint or putting a doorway on the roof. Roof axes remain aligned horizontally/vertically with the image, no diamond isometric or converging camera perspective. Keep the worn muted gray/olive/earth materials and restrained details, coherent original structure and ground-level accesses. All equipment is switched off. One complete centered silhouette with generous real transparent RGBA margins, preserve alpha, only a short contact shadow. No surrounding terrain, broad base, opaque matte, text, symbol, people or vehicles. This is a camera correction of the same sprite, not a new design.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/generated_images/exec-89fc4d30-3eee-4892-9813-85b69ac99ff5.png",
+      "/workspace/scratch/6f470a892a0f/art226-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 2,
+    "operation": "camera-correction",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-47e497af-f626-4a52-b25b-4fabd94ee59f.png"
+  },
+  {
+    "key": "quarry",
+    "id": "DW-0403",
+    "label": "Carrière de pierre",
+    "file": "DW-0403_halle-technique-carriere.png",
+    "prompt": "Use case: stylized-concept. Edit ONLY the existing Carrière de pierre in image 1. Image 2 is the original DEADWALL atlas for the painted strategy-game style. Preserve the SAME native 30 m wide by 24 m deep single-storey building and all these features: the pale mineral-dust masonry hall, patched metal roof, three narrow skylight strips, modest vents, central ground-level work entrance, stone pieces INSIDE the hall and the small office window. Correct the camera/projection: it is currently too low. View it from nearly directly above, only 15–20 degrees away from a vertical downward camera, with ORTHOGRAPHIC projection. Increase the visible front-to-back ROOF PLAN depth substantially, toward 75% of roof width, while preserving building width. Reduce the current facade's projected vertical height by about HALF so the entire visible front wall forms a very thin band, about 6% of roof width. Ground doors and windows may be foreshortened and partly hidden by the roof eaves. Do not compensate by raising the walls, adding an upper floor, changing the footprint or putting a doorway on the roof. Roof axes remain aligned horizontally/vertically with the image, no diamond isometric or converging camera perspective. Keep the worn muted gray/olive/earth materials and restrained details, coherent original structure and ground-level accesses. All equipment is switched off. One complete centered silhouette with generous real transparent RGBA margins, preserve alpha, only a short contact shadow. No surrounding terrain, broad base, opaque matte, text, symbol, people or vehicles. This is a camera correction of the same sprite, not a new design.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/generated_images/exec-2f96caec-e335-4803-aff4-314a8f8e2d22.png",
+      "/workspace/scratch/6f470a892a0f/art226-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 2,
+    "operation": "camera-correction",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-0f52deb2-e6ec-42a8-a456-05b75a51f862.png"
+  }
+]

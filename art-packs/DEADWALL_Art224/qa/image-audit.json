@@ -1,0 +1,622 @@
+{
+  "schemaVersion": 1,
+  "batch": "art224",
+  "checkedOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "method": "PNG signature/IHDR and Pillow verify, native RGBA alpha histogram and bounds, SHA-256. No write, crop, resize or pixel transformation.",
+  "alphaThresholds": [
+    1,
+    8,
+    32,
+    128,
+    240
+  ],
+  "boundsConvention": "left/top inclusive, right/bottom exclusive",
+  "alphaInterpretation": "Hidden RGB colors with alpha=0 are transparent. Low alpha1–7 noise is reported separately. Alpha>=8 margins are a technical visibility indicator, not a physical footprint or fidelity certificate.",
+  "finalSpriteCount": 6,
+  "allRgba": true,
+  "allVisibleBodiesWithinCanvasAtAlpha8": true,
+  "nativeBytesPreserved": true,
+  "assets": [
+    {
+      "file": "assets/art224/regional/DW-0046_jardinerie.png",
+      "bytes": 2509793,
+      "sha256": "4d706deaf20a60819a9615f404fb4a3548beef82d3682c8c58e84daa6dbbf3c3",
+      "width": 1424,
+      "height": 1104,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "fullyTransparentPixels": 764320,
+      "fullyTransparentFraction": 0.48617896108125713,
+      "lowAlphaPixels1to7": 37792,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1408,
+          1104
+        ],
+        "8": [
+          187,
+          202,
+          1244,
+          964
+        ],
+        "32": [
+          193,
+          202,
+          1235,
+          960
+        ],
+        "128": [
+          195,
+          203,
+          1230,
+          956
+        ],
+        "240": [
+          196,
+          204,
+          1229,
+          955
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 16,
+          "bottom": 0
+        },
+        "8": {
+          "left": 187,
+          "top": 202,
+          "right": 180,
+          "bottom": 140
+        },
+        "32": {
+          "left": 193,
+          "top": 202,
+          "right": 189,
+          "bottom": 144
+        },
+        "128": {
+          "left": 195,
+          "top": 203,
+          "right": 194,
+          "bottom": 148
+        },
+        "240": {
+          "left": 196,
+          "top": 204,
+          "right": 195,
+          "bottom": 149
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art224/regional/DW-0367_exploitation-maraichere.png",
+      "bytes": 1844526,
+      "sha256": "ed8a37f3558a46e7b9dee2733010ffb2fd6b946560d05a32f2f429ab3f5b6a42",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 822275,
+      "fullyTransparentFraction": 0.5229000691879572,
+      "lowAlphaPixels1to7": 32858,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1432,
+          1086
+        ],
+        "8": [
+          197,
+          201,
+          1254,
+          915
+        ],
+        "32": [
+          201,
+          201,
+          1248,
+          908
+        ],
+        "128": [
+          202,
+          202,
+          1243,
+          905
+        ],
+        "240": [
+          203,
+          203,
+          1242,
+          904
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 16,
+          "bottom": 0
+        },
+        "8": {
+          "left": 197,
+          "top": 201,
+          "right": 194,
+          "bottom": 171
+        },
+        "32": {
+          "left": 201,
+          "top": 201,
+          "right": 200,
+          "bottom": 178
+        },
+        "128": {
+          "left": 202,
+          "top": 202,
+          "right": 205,
+          "bottom": 181
+        },
+        "240": {
+          "left": 203,
+          "top": 203,
+          "right": 206,
+          "bottom": 182
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art224/regional/DW-0104_auberge-village.png",
+      "bytes": 1916954,
+      "sha256": "6546172aabf16ab3ed5ecc8eef5ac77d48829470971fdbaf94328ad7463453f1",
+      "width": 1385,
+      "height": 1136,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 791518,
+      "fullyTransparentFraction": 0.5030749478822393,
+      "lowAlphaPixels1to7": 39841,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1361,
+          1136
+        ],
+        "8": [
+          213,
+          185,
+          1172,
+          1017
+        ],
+        "32": [
+          214,
+          185,
+          1170,
+          1014
+        ],
+        "128": [
+          214,
+          186,
+          1169,
+          1011
+        ],
+        "240": [
+          215,
+          188,
+          1168,
+          1010
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 24,
+          "bottom": 0
+        },
+        "8": {
+          "left": 213,
+          "top": 185,
+          "right": 213,
+          "bottom": 119
+        },
+        "32": {
+          "left": 214,
+          "top": 185,
+          "right": 215,
+          "bottom": 122
+        },
+        "128": {
+          "left": 214,
+          "top": 186,
+          "right": 216,
+          "bottom": 125
+        },
+        "240": {
+          "left": 215,
+          "top": 188,
+          "right": 217,
+          "bottom": 126
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art224/regional/DW-0251_casse-automobile.png",
+      "bytes": 1781331,
+      "sha256": "73d8fdd0069419394d4936ad6865d55c0f12c095f07771f82167e9863cc0c858",
+      "width": 1484,
+      "height": 1060,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 849365,
+      "fullyTransparentFraction": 0.5399513044804963,
+      "lowAlphaPixels1to7": 23968,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1428,
+          1060
+        ],
+        "8": [
+          213,
+          206,
+          1274,
+          894
+        ],
+        "32": [
+          217,
+          207,
+          1270,
+          893
+        ],
+        "128": [
+          221,
+          208,
+          1264,
+          888
+        ],
+        "240": [
+          222,
+          209,
+          1262,
+          883
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 56,
+          "bottom": 0
+        },
+        "8": {
+          "left": 213,
+          "top": 206,
+          "right": 210,
+          "bottom": 166
+        },
+        "32": {
+          "left": 217,
+          "top": 207,
+          "right": 214,
+          "bottom": 167
+        },
+        "128": {
+          "left": 221,
+          "top": 208,
+          "right": 220,
+          "bottom": 172
+        },
+        "240": {
+          "left": 222,
+          "top": 209,
+          "right": 222,
+          "bottom": 177
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art224/regional/DW-0306_atelier-menuiserie.png",
+      "bytes": 1855342,
+      "sha256": "40db38e118f5bd187366cae886c594e743fd29d571f822408cd627341326c95c",
+      "width": 1434,
+      "height": 1097,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 821416,
+      "fullyTransparentFraction": 0.5221645441034188,
+      "lowAlphaPixels1to7": 28283,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1420,
+          1097
+        ],
+        "8": [
+          156,
+          196,
+          1287,
+          885
+        ],
+        "32": [
+          163,
+          197,
+          1279,
+          879
+        ],
+        "128": [
+          165,
+          197,
+          1269,
+          870
+        ],
+        "240": [
+          166,
+          198,
+          1263,
+          860
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 14,
+          "bottom": 0
+        },
+        "8": {
+          "left": 156,
+          "top": 196,
+          "right": 147,
+          "bottom": 212
+        },
+        "32": {
+          "left": 163,
+          "top": 197,
+          "right": 155,
+          "bottom": 218
+        },
+        "128": {
+          "left": 165,
+          "top": 197,
+          "right": 165,
+          "bottom": 227
+        },
+        "240": {
+          "left": 166,
+          "top": 198,
+          "right": 171,
+          "bottom": 237
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art224/regional/DW-0237_recyclerie.png",
+      "bytes": 2169861,
+      "sha256": "86850c82f7c2b0594818668bdc700fbfcef2594bd5f9a55893a239c89d8c1edb",
+      "width": 1499,
+      "height": 1049,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 716243,
+      "fullyTransparentFraction": 0.4554946386246694,
+      "lowAlphaPixels1to7": 26337,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1496,
+          1035
+        ],
+        "8": [
+          165,
+          171,
+          1335,
+          910
+        ],
+        "32": [
+          170,
+          171,
+          1329,
+          904
+        ],
+        "128": [
+          170,
+          172,
+          1327,
+          898
+        ],
+        "240": [
+          171,
+          173,
+          1326,
+          896
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 3,
+          "bottom": 14
+        },
+        "8": {
+          "left": 165,
+          "top": 171,
+          "right": 164,
+          "bottom": 139
+        },
+        "32": {
+          "left": 170,
+          "top": 171,
+          "right": 170,
+          "bottom": 145
+        },
+        "128": {
+          "left": 170,
+          "top": 172,
+          "right": 172,
+          "bottom": 151
+        },
+        "240": {
+          "left": 171,
+          "top": 173,
+          "right": 173,
+          "bottom": 153
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 0,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    }
+  ]
+}

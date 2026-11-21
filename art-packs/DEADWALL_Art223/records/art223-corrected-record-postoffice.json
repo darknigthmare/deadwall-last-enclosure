@@ -1,0 +1,16 @@
+{
+  "key": "postoffice",
+  "id": "DW-0082",
+  "label": "Bureau postal — quai de chargement au sol",
+  "file": "DW-0082_bureau-postal.png",
+  "input": "/workspace/scratch/55dad3ac334d/generated_images/exec-b5a4d0c7-15f2-4177-91f1-3034595c1d20.png",
+  "prompt": "Use case: stylized-concept. Correct the physically impossible loading access in this DEADWALL post-office sprite while preserving its identity. Keep the compact28-by22-metre single-storey footprint, atlas materials/palette, high near-overhead orthographic camera, front public entrance, modest yellow parcel-locker units, roof vents, window rhythm and genuine transparent background. ERROR: a loading roller door with two bollards and hazard-marked loading apron has been placed at the TOP CENTER ON THE ROOF. Remove that ENTIRE rooftop loading doorway/raised wall/canopy, its two bollards and its hazard-marked apron. Restore a continuous intact low roof and parapet there with no door and no rooftop dock. Place ONE modest postal loading roller door on the visible lower LEFT SIDE WALL at GROUND LEVEL, using a short recessed corner contained within the rectangular building envelope. Its small loading threshold must touch the GROUND beside the building, at the same ground elevation as the public front entrance; it must not touch or stand on the roof. Put any necessary two protective bollards at the ground-level loading threshold. Keep public customer access and parcel lockers on the front, clearly apart from this side handling entrance. It is acceptable to show a short wall return to make the ground-level entrance legible while keeping the same high camera and roof axes; do not rotate the building into a diamond, lower the camera, add a second storey or add a detached warehouse. No vehicles, people, large terrain apron, brand logo, readable text or extra decoration. Whole coherent building centered with generous transparent margin, no checkerboard, color matte, vignette or background. Native RGBA.",
+  "iteration": 2,
+  "generatedSourcePath": "/workspace/scratch/55dad3ac334d/generated_images/exec-a50f3210-1f75-4acc-9ccd-8cc5346ae0fc.png",
+  "referenceImages": [
+    "/workspace/scratch/55dad3ac334d/generated_images/exec-b5a4d0c7-15f2-4177-91f1-3034595c1d20.png"
+  ],
+  "transparentBackgroundRequested": true,
+  "generator": "OpenAI ImageGen intégré",
+  "promptIsVerbatim": true
+}

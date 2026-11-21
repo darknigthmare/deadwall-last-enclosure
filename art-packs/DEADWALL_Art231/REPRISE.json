@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "batch": "art231",
+  "savedOn": "2026-11-17",
+  "publicationBaseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "completedArtIds": [
+    "native:studioBlock",
+    "native:longBlock",
+    "native:residence",
+    "native:cornerShop",
+    "native:superstore",
+    "native:cafe",
+    "native:bank"
+  ],
+  "finalAssets": [
+    {
+      "id": "native:studioBlock",
+      "path": "assets/art231/native/studioBlock_petit_collectif.png",
+      "sha256": "810d9598ba6c4556bec8e68c6371776b3abbec0a9a4bf23ee93554fb6695c079"
+    },
+    {
+      "id": "native:longBlock",
+      "path": "assets/art231/native/longBlock_barre_de_logements.png",
+      "sha256": "b8bdaf01d22f873d98384ebdd4a6ae7f1ca1d8f4c5eafa5bf27f0fc5c4146873"
+    },
+    {
+      "id": "native:residence",
+      "path": "assets/art231/native/residence_grande_residence.png",
+      "sha256": "b52322ca933a9c8611dfd704b327a64d5acc218ae33feaf3bb6d871192cb6956"
+    },
+    {
+      "id": "native:cornerShop",
+      "path": "assets/art231/native/cornerShop_commerce_dangle.png",
+      "sha256": "723c7c5d3f428440451975d5f82d753d46aa3e0860a1cc6b12cf1e096ddbc64b"
+    },
+    {
+      "id": "native:superstore",
+      "path": "assets/art231/native/superstore_grande_surface.png",
+      "sha256": "fea1150eedd61e4922008c349462c4450aeb48cb00d121b38ee862bc3984ecde"
+    },
+    {
+      "id": "native:cafe",
+      "path": "assets/art231/native/cafe_cafe_de_quartier.png",
+      "sha256": "c1efae61845fe965defd92c1bd9ecac91d3016e6744df5e8c4b30e83a6a95104"
+    },
+    {
+      "id": "native:bank",
+      "path": "assets/art231/native/bank_agence_bancaire.png",
+      "sha256": "6b2b71a080fdb58c29f88fbd92958077fbdd75ba7c021ca3622d3d3f4ac10dcd"
+    }
+  ],
+  "priorPublishedPacks": [
+    {
+      "batch": "art222",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/27",
+      "pullRequestLabel": "PR #27",
+      "headRevision": "f76b216a9b98c1d4ebd5a6c53dc1fc07142c9114",
+      "finalSpriteCount": 8,
+      "supersededCandidateCount": 2
+    },
+    {
+      "batch": "art223",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/28",
+      "pullRequestLabel": "PR #28",
+      "headRevision": "e16e501e3ad18ea5f1088ffd4ba8cbab38f0e149",
+      "finalSpriteCount": 6,
+      "supersededCandidateCount": 9
+    },
+    {
+      "batch": "art224",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/29",
+      "pullRequestLabel": "PR #29",
+      "headRevision": "384f6ebaa5c573dfdedf5621a85f2a36be95b046",
+      "finalSpriteCount": 6,
+      "supersededCandidateCount": 1
+    },
+    {
+      "batch": "art225",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/30",
+      "pullRequestLabel": "PR #30",
+      "headRevision": "bb14d13aae1619e79fab6b5c4b8d2329aff1c2c6",
+      "finalSpriteCount": 6,
+      "supersededCandidateCount": 1
+    },
+    {
+      "batch": "art226",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/30",
+      "pullRequestLabel": "PR #30",
+      "headRevision": "bb14d13aae1619e79fab6b5c4b8d2329aff1c2c6",
+      "finalSpriteCount": 6,
+      "supersededCandidateCount": 6
+    },
+    {
+      "batch": "art227",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/31",
+      "pullRequestLabel": "PR #31",
+      "headRevision": "5cc184d4cfeb6d62ddf4f5ae043c1dd6b852ffaf",
+      "finalSpriteCount": 7,
+      "supersededCandidateCount": 0
+    },
+    {
+      "batch": "art228",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/31",
+      "pullRequestLabel": "PR #31",
+      "headRevision": "5cc184d4cfeb6d62ddf4f5ae043c1dd6b852ffaf",
+      "finalSpriteCount": 7,
+      "supersededCandidateCount": 1
+    },
+    {
+      "batch": "art229",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/31",
+      "pullRequestLabel": "PR #31",
+      "headRevision": "5cc184d4cfeb6d62ddf4f5ae043c1dd6b852ffaf",
+      "finalSpriteCount": 3,
+      "supersededCandidateCount": 0
+    }
+  ],
+  "priorPacksRegenerated": false,
+  "counts": {
+    "thisPackFinalSprites": 7,
+    "thisPackSupersededCandidates": 8,
+    "priorPublishedFinalSprites": 49,
+    "parallelSiblingPacksCountedAsPublished": false
+  },
+  "codexMappingStatus": "contradictory_unresolved",
+  "codexRemappingPerformed": false,
+  "integration": "not_performed",
+  "publicationStatusAtAssembly": "prepared_locally_not_published_by_assembler",
+  "knownLimits": [
+    "Art221 exact inventory remains incomplete.",
+    "Declared Codex assignments remain contradictory and unresolved.",
+    "No runtime registration or metric 1:1 certification."
+  ],
+  "nextSteps": [
+    "Read the final PNG hashes and the native source map before continuing.",
+    "Resolve Codex identity contradictions as a separate explicit decision, without silent remapping.",
+    "Calibrate projection, scale, anchors and entrances before any runtime integration.",
+    "Qualify an integration commit through the existing game checks and real player path."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "baseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "dateEuropeParis": "2026-11-17",
+  "selectionSha256": "1d720c0340bdcb434f5f568a9e933ac892a17040606cf7e09254d9b3d02aa7c3",
+  "historyRecordSha256": [
+    "46034960945f7374111d6ccdf51b5d6ae607d98a46a3077ffe648fe0c5649f08"
+  ],
+  "finalRecordsSha256": "46034960945f7374111d6ccdf51b5d6ae607d98a46a3077ffe648fe0c5649f08",
+  "visualReviewSha256": "b15ba967c4c9268e96eaa0427f9b765aecbfb3ab2acc9f2614d3e887e43b3e5d",
+  "priorPublicationsSha256": "20f630f67f95863f60d7d43561248a0983871353ae76bfdebab9e2952f30566d",
+  "historicalEvidenceSha256": "77aa0637e1f0d4e815edf31c67aba2837affc4ebed5a3c318660b63d0b71e16c",
+  "coverageReportSha256": "bc357cd7679f20ba8da585fd94f8d9388762a2104c4aeb7225556a1aa8802aac",
+  "coverageExplanationSha256": "f1e6ed02329400f9c88e52a693a2c43b031e5b950f27f3cddd7769105c067984",
+  "assemblerSha256": "7ef3a782973871dc2a50d41979b3e7e67dccbbf1bcb9e24cb15bbb55839b4209",
+  "nativePngBytesPreserved": true,
+  "outputDeterministicForSameInputsAndExplicitDate": true,
+  "assemblerIsLocalNotPartOfRuntime": true
+}

@@ -1,0 +1,258 @@
+[
+  {
+    "key": "quickCable193",
+    "iteration": 1,
+    "path": "/workspace/scratch/6f470a892a0f/generated_images/exec-f9bf07db-dd43-4928-aa98-0ca4409644cc.png",
+    "samples": [
+      {
+        "xy": [
+          0,
+          0
+        ],
+        "rgba": [
+          1,
+          1,
+          1,
+          0
+        ]
+      },
+      {
+        "xy": [
+          768,
+          50
+        ],
+        "rgba": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "xy": [
+          768,
+          100
+        ],
+        "rgba": [
+          3,
+          3,
+          1,
+          0
+        ]
+      },
+      {
+        "xy": [
+          768,
+          150
+        ],
+        "rgba": [
+          16,
+          12,
+          7,
+          0
+        ]
+      },
+      {
+        "xy": [
+          600,
+          180
+        ],
+        "rgba": [
+          44,
+          31,
+          24,
+          0
+        ]
+      },
+      {
+        "xy": [
+          100,
+          512
+        ],
+        "rgba": [
+          44,
+          28,
+          16,
+          0
+        ]
+      },
+      {
+        "xy": [
+          50,
+          512
+        ],
+        "rgba": [
+          24,
+          15,
+          7,
+          0
+        ]
+      },
+      {
+        "xy": [
+          768,
+          900
+        ],
+        "rgba": [
+          2,
+          1,
+          0,
+          0
+        ]
+      },
+      {
+        "xy": [
+          768,
+          1000
+        ],
+        "rgba": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "xy": [
+          600,
+          220
+        ],
+        "rgba": [
+          76,
+          53,
+          41,
+          0
+        ]
+      }
+    ],
+    "interpretation": "All sampled apparent halo pixels have alpha=0; RGB hidden under zero alpha is not evidence of an opaque backdrop. No pixel transformation performed."
+  },
+  {
+    "key": "quickCable193",
+    "iteration": 2,
+    "path": "/workspace/scratch/6f470a892a0f/generated_images/exec-2800e328-7327-4f4f-a0f7-50c0d7c5943c.png",
+    "samples": [
+      {
+        "xy": [
+          0,
+          0
+        ],
+        "rgba": [
+          1,
+          1,
+          1,
+          0
+        ]
+      },
+      {
+        "xy": [
+          768,
+          50
+        ],
+        "rgba": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "xy": [
+          768,
+          100
+        ],
+        "rgba": [
+          5,
+          3,
+          2,
+          0
+        ]
+      },
+      {
+        "xy": [
+          768,
+          150
+        ],
+        "rgba": [
+          19,
+          13,
+          7,
+          0
+        ]
+      },
+      {
+        "xy": [
+          600,
+          180
+        ],
+        "rgba": [
+          52,
+          35,
+          27,
+          0
+        ]
+      },
+      {
+        "xy": [
+          100,
+          512
+        ],
+        "rgba": [
+          55,
+          34,
+          18,
+          0
+        ]
+      },
+      {
+        "xy": [
+          50,
+          512
+        ],
+        "rgba": [
+          31,
+          19,
+          9,
+          0
+        ]
+      },
+      {
+        "xy": [
+          768,
+          900
+        ],
+        "rgba": [
+          4,
+          2,
+          1,
+          0
+        ]
+      },
+      {
+        "xy": [
+          768,
+          1000
+        ],
+        "rgba": [
+          1,
+          1,
+          0,
+          0
+        ]
+      },
+      {
+        "xy": [
+          600,
+          220
+        ],
+        "rgba": [
+          92,
+          63,
+          47,
+          0
+        ]
+      }
+    ],
+    "interpretation": "All sampled apparent halo pixels have alpha=0; RGB hidden under zero alpha is not evidence of an opaque backdrop. No pixel transformation performed."
+  }
+]

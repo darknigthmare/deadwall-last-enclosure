@@ -1,0 +1,231 @@
+{
+  "sourceBase": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "checkedAt": "2026-11-17T12:07:15.832705+00:00",
+  "sources": [
+    {
+      "preparedPath": "references/runtime/codex-furnishings2026.js",
+      "sha256": "5aacd2944d7cf44d21997a9b265dac966a873875e9e5cd7a48a43c8dca044b36",
+      "bytes": 40680,
+      "verified": true,
+      "repositoryPath": "src/codex-furnishings2026.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "gitBlob": "57648ec1a6e908069734f622eb449166770495d4"
+    },
+    {
+      "preparedPath": "references/runtime/campaign-site-art205.js",
+      "sha256": "492790bf2aa6c77dd244f4fcd8c164f1960f08eb2654b10b1ca20663bd72e0f2",
+      "bytes": 44852,
+      "verified": true,
+      "repositoryPath": "src/campaign-site-art205.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "gitBlob": "adcceb210d194cdbf4f19359a743c9cec2a8e4e6"
+    },
+    {
+      "preparedPath": "references/runtime/codex-plan-art204.js",
+      "sha256": "69d76592a6dcdac46ee6b1d2005f4b80b028e9f6a7c129b570a7d33922a58a4b",
+      "bytes": 13076,
+      "verified": true,
+      "repositoryPath": "src/codex-plan-art204.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "gitBlob": "ace5c858fa1c2ee52865e8288adf9a122b826811"
+    },
+    {
+      "preparedPath": "references/runtime/codex-campaign205.js",
+      "sha256": "b57d1c1dcb0e1e77fe3a9514b66f1e87557873c422815682baebd56601b1e3b5",
+      "bytes": 10663,
+      "verified": true,
+      "repositoryPath": "src/codex-campaign205.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "gitBlob": "f0009b10d3faa929cd12f04649f691f27a515793"
+    },
+    {
+      "preparedPath": "references/runtime/world-props-art153.js",
+      "sha256": "8366c7fe4d3dc529c64d3f50523f78bd1651c63a287d22818fe18dd065548726",
+      "bytes": 21665,
+      "verified": true,
+      "repositoryPath": "src/world-props-art153.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "gitBlob": "f47c982f1a30fde8d29c229b2e3f34cea9ba8b8f"
+    },
+    {
+      "preparedPath": "references/runtime/interior-art153.js",
+      "sha256": "7b686fc06c7be2b00a8263ce47b42eeb5dc8413fedee71c9f4fed790f50ffd21",
+      "bytes": 18868,
+      "verified": true,
+      "repositoryPath": "src/interior-art153.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "gitBlob": "bd63cd1e0e15d02d03f1c386a35f4f9cc0edf428"
+    },
+    {
+      "preparedPath": "references/runtime/seed-detail-art157.js",
+      "sha256": "03978da0de17b4255107b3ee0966d7bb3a160ef14d2eb08efad09afe16eead8a",
+      "bytes": 25806,
+      "verified": true,
+      "repositoryPath": "src/seed-detail-art157.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "gitBlob": "656725ffab51afa8dc70653748efabf4defa8419"
+    },
+    {
+      "preparedPath": "references/runtime/codex-agriculture2026.cjs",
+      "sha256": "3813da7aace3ce9e2707f1007932327936213e00bbf5f340fe5f9d505d94baaa",
+      "bytes": 24180,
+      "verified": true,
+      "repositoryPath": "scripts/codex-agriculture2026.cjs",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "gitBlob": "9fec621c704fead753d53717bdf2593c86ed733a"
+    },
+    {
+      "preparedPath": "references/runtime/codex-residential2026.cjs",
+      "sha256": "6978137b18dc3ea26916efdabeff6a36a26abeb9c09e27bc0549de74d909982d",
+      "bytes": 17963,
+      "verified": true,
+      "repositoryPath": "scripts/codex-residential2026.cjs",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "gitBlob": "731bf90160f921aee9b4550b6846d976a943b4b3"
+    },
+    {
+      "preparedPath": "references/policy/AGRICULTURE_2026.md",
+      "sha256": "78e73ff807a7c4f24997983568b32a5764b02c445db7ee83841656a73c9cd4d3",
+      "bytes": 9741,
+      "verified": true,
+      "repositoryPath": "docs/codex/suivi-monde2026/AGRICULTURE_2026.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "gitBlob": "4631d001e55cbbe2f0213e83c08d3d96391348bc"
+    },
+    {
+      "preparedPath": "references/policy/RESIDENTIEL_2026.md",
+      "sha256": "71e3b672505516af97c91b0e8b9c493de189076f764cacbb2e5450eb5095308c",
+      "bytes": 9436,
+      "verified": true,
+      "repositoryPath": "docs/codex/suivi-monde2026/RESIDENTIEL_2026.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "gitBlob": "225f7f6253ce233d8e8561e734d7c6d58f9f5006"
+    },
+    {
+      "preparedPath": "references/policy/SERVICES_G11_2026.md",
+      "sha256": "54c9e04de7723fa01f34f7b76d1166f4272e1d10f401346b7ace701660b9e840",
+      "bytes": 4429,
+      "verified": true,
+      "repositoryPath": "docs/codex/suivi-monde2026/SERVICES_G11_2026.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "gitBlob": "4ca31c9046ae6ec2d2eb1cccb900054b95983818"
+    },
+    {
+      "preparedPath": "references/runtime/campaign-site-art205.test.cjs",
+      "sha256": "3d4d03795e8e935235c7d31efd12d15de3a99993d1a342afb7da50be65dd205a",
+      "bytes": 19939,
+      "verified": true,
+      "repositoryPath": "tests/campaign-site-art205.test.cjs",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "gitBlob": "b96aa75f24b905bb6642c9a882aa074a414e009e"
+    }
+  ],
+  "atlases": [
+    {
+      "preparedPath": "references/atlases/interior-workshop-atlas.png",
+      "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+      "bytes": 2334203,
+      "verified": true,
+      "repositoryPath": "assets/art153/interior-workshop-atlas.png",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "gitBlob": "3057a2f58d27addab9917511c755edcc0ed5931f"
+    },
+    {
+      "preparedPath": "references/atlases/interior-home-atlas.png",
+      "sha256": "7a50be3a0338fec20e7429f20a79dc39c548b61113fbd07326a6b82e70b71be9",
+      "bytes": 2379240,
+      "verified": true,
+      "repositoryPath": "assets/art153/interior-home-atlas.png",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "gitBlob": "99192fc7417df3e0dead81facad9959ebb358941"
+    }
+  ],
+  "canonicalReferences": [
+    {
+      "preparedPath": "references/canonical/singleBunk-v0.png",
+      "sha256": "a17e2280ad41d7c114b56d85add2b9253439eb6354e05105e9532c0425bd3a78",
+      "bytes": 5767,
+      "verified": true
+    },
+    {
+      "preparedPath": "references/canonical/feedTrough-v0.png",
+      "sha256": "ce148512b2696b4343edda035fd253c223c4a8224bf882045357bc48e4882555",
+      "bytes": 13898,
+      "verified": true
+    },
+    {
+      "preparedPath": "references/canonical/waterTrough-v0.png",
+      "sha256": "4c3e623cd7278611f817ee7cf15d0f0e5e545f241562ece23dd53ef299dd06cd",
+      "bytes": 11190,
+      "verified": true
+    },
+    {
+      "preparedPath": "references/canonical/fodderRack-v0.png",
+      "sha256": "aec6a68d04e589eafb1c96143065dddf819371312e6c40db73b1f529775ec180",
+      "bytes": 12698,
+      "verified": true
+    },
+    {
+      "preparedPath": "references/canonical/milkingUnit-v0.png",
+      "sha256": "b278f415729b42842633c09e036476e9adfe44d083ca653aec0af2335d73d803",
+      "bytes": 22077,
+      "verified": true
+    },
+    {
+      "preparedPath": "references/canonical/milkVat-v0.png",
+      "sha256": "262513508d0860ff8a667ddae85f8537b27b036e1fdc67ba019c26da3eaa2cd9",
+      "bytes": 45134,
+      "verified": true
+    },
+    {
+      "preparedPath": "references/canonical/nestBox-v0.png",
+      "sha256": "7b2a5ed2e43e8b4797312714512ad82b91cc579b42fea31a7011fdd2a85aebf2",
+      "bytes": 15350,
+      "verified": true
+    },
+    {
+      "preparedPath": "references/canonical/wineVat-v0.png",
+      "sha256": "b3d69e067def6225ee35c35e44e684e6ea6ca5675f13b360cf2fef2dc8d1be47",
+      "bytes": 47547,
+      "verified": true
+    },
+    {
+      "preparedPath": "references/canonical/wineBarrel-v0.png",
+      "sha256": "21cb64648fdb8ea2ed97c9fb6cb1c7c353771bb59b776271706cdc9c7a4de3d1",
+      "bytes": 30411,
+      "verified": true
+    },
+    {
+      "preparedPath": "references/canonical/grapePress-v0.png",
+      "sha256": "341788b3e1315bda6310f6da93a981ffdcbc3bd7d383ebe922b9ac66e27a7b3a",
+      "bytes": 18488,
+      "verified": true
+    },
+    {
+      "preparedPath": "references/canonical/veterinaryTable-v0.png",
+      "sha256": "dcbc96a5c38549c0935221cd4ba66e2637e6ad3183df4687d64d9b60552882c9",
+      "bytes": 5788,
+      "verified": true
+    },
+    {
+      "preparedPath": "references/canonical/growingBench-v0.png",
+      "sha256": "de95d296fc7bd0a054bdeb53b97366248512d43928b8fc3178263f0f9357603b",
+      "bytes": 23868,
+      "verified": true
+    },
+    {
+      "preparedPath": "references/canonical/growingBed-v0.png",
+      "sha256": "87e133e24a0311b7b5110e00e44100c4ed0ff4e949cd00e4b8b034d60e19ad8c",
+      "bytes": 22587,
+      "verified": true
+    }
+  ],
+  "renderScript": {
+    "preparedPath": "prepare-art233.cjs",
+    "sha256": "e6752ee33eb769e2b54f895b577694ab306404b4103310aff43dc7da6081b818",
+    "bytes": 17585,
+    "verified": true
+  },
+  "sourceRuntimeModified": false,
+  "allPreparedCopiesVerified": true
+}

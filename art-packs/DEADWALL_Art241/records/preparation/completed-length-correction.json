@@ -1,0 +1,21 @@
+{
+  "key": "abandoned-caravan:v2",
+  "iteration": 3,
+  "preparedAtUtc": "2026-11-17 15:16:23 UTC",
+  "status": "completed-with-image",
+  "tool": "image_gen.imagegen",
+  "correctionReason": "The legitimate left longitudinal metal strip in v2 must extend above the central roof panel as in the canonical source.",
+  "arguments": {
+    "prompt": "Use case: precise-object-edit. DEADWALL abandoned caravan, painter variant 2, one complete transparent source sprite.\nINPUTS: Image 1 is the edit target with corrected natural corrosion. Image 2 is the authoritative unchanged game painter canonical geometry. Image 3 is the touring variant 2 solely to clarify the full length of the narrow metal strip.\nCHANGE ONLY THE TOP EXTENT OF ONE EXISTING PIECE: In image 1, the long thin vertical GREY METAL STRIP immediately LEFT of the central closed roof panel starts too low, at about the top edge of that panel. Extend the SAME strip straight UP, without changing its width, horizontal position or bottom end. Its top must reach the UPPER FIFTH of the canonical footprint, clearly ABOVE the roof panel, at the same longitudinal height as the upper rust patch. Match its full span in images 2 and 3: it starts roughly 13 percent down from the chamfered body top and extends to roughly 72 percent down the body. Keep it one continuous slender strip; do not add a second strip or extra component. Preserve the natural rusty paint around it.\nKEEP EVERYTHING ELSE UNCHANGED: closed broad roof panel, genuine rectangular wooden patch with diagonal seam at lower right, natural shallow fine cracks and three irregular corrosion areas, grey-olive weathered metal palette, chamfered shell, two outer roof seams, FOUR wheels at their two far-separated stations, short complete centred hitch pointing UP, exact directly-overhead orthographic camera and current silhouette proportions. No raised letter-shaped cracks or rectangular rust plates.\nOutput ONE complete isolated caravan on genuine transparent RGBA, all parts inside canvas with generous empty margins, no ground shadow or matte. No new accessory, inhabitants, interior, stock, operation, text, logo, frame or watermark. This is a precise component-length correction; preserve the established natural surface weathering.",
+    "referenced_image_paths": [
+      "/workspace/scratch/6f470a892a0f/art241-prep/outputs/iteration-02/abandoned-caravan_v2.png",
+      "/workspace/scratch/6f470a892a0f/art241-prep/references/canonical/abandoned-caravan_v2.png",
+      "/workspace/scratch/6f470a892a0f/art241-prep/outputs/iteration-01/touring-caravan_v2.png"
+    ],
+    "transparent_background": true
+  },
+  "startedAtUtc": "2026-11-17 15:16:29 UTC",
+  "finishedAtUtc": "2026-11-17 15:17:00 UTC",
+  "originalGeneratedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-56e36a1f-9152-41d2-97e7-8a9772084c37.png",
+  "outputHint": "Generated images are saved to /workspace/scratch/6f470a892a0f/generated_images as /workspace/scratch/6f470a892a0f/generated_images/exec-56e36a1f-9152-41d2-97e7-8a9772084c37.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+}

@@ -34,9 +34,15 @@ jobs:
         env:
           ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
         run: npm ci
+      - name: Préparer les polices latines du Canvas natif
+        id: native_fonts
+        uses: ./.github/actions/setup-native-fonts
+        with:
+          report: artifacts/qa/native186/font-preflight.json
       - name: Syntaxe, build et partition native exhaustive avec endurance
         env:
           DEADWALL_SOAK: '1'
+          NODE_OPTIONS: ${{ steps.native_fonts.outputs.node_options }}
         run: node scripts/ci-native186.mjs run ${{ matrix.shard }} artifacts/qa/native186
       - name: Résumer les échecs natifs
         if: failure()

@@ -1,0 +1,165 @@
+{
+  "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "reviewer": "root independent renderer execution",
+  "method": "Fresh canvases, public native entry points, exact pinned source files; compare PNG bytes with prepared canonical references.",
+  "sources": [
+    {
+      "repositoryPath": "src/succession133.js",
+      "sha256": "abf328ba0d7cdd57281673e947962d99ef9fc40fb2a23b084532a3676cbedc54",
+      "bytes": 29336,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "src/art.js",
+      "sha256": "e7ea9f8ab6350072a5d7785218522d70f583ca7ae2cc36f1496a780f95e26e47",
+      "bytes": 69066,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "src/core.js",
+      "sha256": "33a3539f8b80015815303b9425e83d49721c5d88938533508c431cc38854909e",
+      "bytes": 335878,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "src/game.js",
+      "sha256": "f27835cee4505f1c18d168402f525867a8e3665b367daf8b12fb677ecef35e98",
+      "bytes": 457783,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "src/actor-presentation.js",
+      "sha256": "115900704feb838293177ea0606325b9fe50dcb1b0d638365dbd68e45b6d6022",
+      "bytes": 9691,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "src/hero-actions133.js",
+      "sha256": "2d70c7ec3e85243143a7e10d6890670f2de7464e3f4a7a4053af8636a6e0e9c4",
+      "bytes": 15599,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "assets/art137/survivor-prone.png",
+      "sha256": "28517c7c9eeb89414d3320ef2807c18fe9b6d2e37022fd4d7051822f64f7978f",
+      "bytes": 1171859,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "assets/commander-rig130.png",
+      "sha256": "f619945032bc04c2a23ed92efe7cd384692335468121b6b3ef71120f991eee6a",
+      "bytes": 890093,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "assets/commander-rig130.json",
+      "sha256": "573e79f199e6b47035656629ffff1abddaed54ced1ed526c38d75e8b05bd3421",
+      "bytes": 1681,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "assets/hero-actions133.png",
+      "sha256": "0d08fdb4ca33685959078da5e5de31b88e8616549a3da5143b0ac7a732b26408",
+      "bytes": 2303066,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/SUCCESSION_1_33.md",
+      "sha256": "7a9767c2ee8bdbb9ff7540f3f072275657a842485dd0d7057c8da91cd85d29a4",
+      "bytes": 5566,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/VISUEL_1_37.md",
+      "sha256": "8c7faf2a9f0968f697444252930b4146b4821a316c245a192625e8028f89a2d1",
+      "bytes": 4370,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "assets/art137/PROMPTS.md",
+      "sha256": "c04beab44dfa0293258579edca98ae84424fc32bdf4bf22c8a3b3f2a4de9a02e",
+      "bytes": 2556,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "AGENTS.md",
+      "sha256": "7d02c6bd7f9c6a8e04c4c18680f9539109ecbc943f240de12a536ab9a8a8ab13",
+      "bytes": 4190,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/ORIGINAL_BRIEF.txt",
+      "sha256": "64fe23e910f065cdd6ce4f8f84fcc8efd6894d923122c086cd7b16f599492297",
+      "bytes": 1283,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/GAME_DESIGN.md",
+      "sha256": "3f5ce6afc19ca49f5ffe239eee67b7258078098e8d0477a5ef62fd2fc8fd65f9",
+      "bytes": 15746,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/ARCHITECTURE.md",
+      "sha256": "880657b6abfc044a3ef534d8a092ad9a20ad3a0a2a9024bdbbea6642d8eb3f3c",
+      "bytes": 57076,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/BALANCING.md",
+      "sha256": "5caf2749d57201a01f9aafa80de8a3e70e0579a01895283e6d5b05abdc526088",
+      "bytes": 37720,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/CODEX_MASTER_PROMPT.md",
+      "sha256": "9c0280c574ad13d7ba03cb4391713411e8eb8fcdbcc4cc94f2609f277c727c6d",
+      "bytes": 5269,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/GAMEDEV_GUIDANCE.md",
+      "sha256": "0b2df8233ea2c49ff0c1fd959cf43bac8d1245fb6900334e42cb541b0d2f0144",
+      "bytes": 24935,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "docs/GAME_BIBLE.md",
+      "sha256": "3f6f48befcd5408e03ab4ed0c79a68a040cac48c09f087545e334f0b3c738890",
+      "bytes": 98486,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "tests/helpers/expansions131.cjs",
+      "sha256": "cbfda405edda4ca2b7d2061e36b81127aac4618572b5d8e49f515517d8f5b9c6",
+      "bytes": 812,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "tests/helpers/navigation130.cjs",
+      "sha256": "405da824d42923d4efdce01af1a7a5ae87d462885d6f18f4f86d9ed53aebdb94",
+      "bytes": 2925,
+      "exactRevisionBytes": true
+    },
+    {
+      "repositoryPath": "tests/succession133.test.cjs",
+      "sha256": "f40eab06b9a169c76ab01d01c947dc05f6054c0b60f581bbb5ce095ba23b3740",
+      "bytes": 11598,
+      "exactRevisionBytes": true
+    }
+  ],
+  "canvasVersion": "0.1.100",
+  "targets": [
+    {
+      "id": "succession:body",
+      "canonicalSha256": "7db6428a2a8f5e3352190f6870efdcb442c2ce615693a0a4e74c76cac4a1e4ff",
+      "replaySha256": "7db6428a2a8f5e3352190f6870efdcb442c2ce615693a0a4e74c76cac4a1e4ff",
+      "bytes": 40457,
+      "replayedBytesIdentical": true,
+      "entryPoint": "succession133.depthEntries / fallen body draw",
+      "serializedStateUnchangedExcludingFreshTimestamp": true,
+      "fullGroundMarkPreserved": true,
+      "metricGeometryCertified": false
+    }
+  ]
+}

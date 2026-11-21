@@ -1,0 +1,648 @@
+[
+  {
+    "key": "singleBunk",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-8e7ec820-697b-4aa4-9f6b-857a8316faeb.png",
+    "sha256": "2d11918b0521add4b3168aa320cb5968bdc91a52510d11c447c8da98c3f4cbfa",
+    "bytes": 1578684,
+    "format": "PNG",
+    "mode": "RGBA",
+    "width": 1536,
+    "height": 1024,
+    "alphaMin": 0,
+    "alphaMax": 254,
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "maximumBorderAlpha": 1,
+    "fullyTransparentPixels": 1129703,
+    "alphaOnePixels": 12847,
+    "visibleAlphaCriterion": ">8",
+    "visibleBbox": [
+      211,
+      322,
+      1325,
+      737
+    ],
+    "minimumVisibleMargin": 211,
+    "marginsFractionAbove8": [
+      0.13736979166666666,
+      0.314453125,
+      0.13736979166666666,
+      0.2802734375
+    ],
+    "nonblackRGBAtAlphaZero": 825799,
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "singleBunk",
+    "iteration": 2,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-83aa0527-cff6-4905-bd1d-8a3c7169955f.png",
+    "sha256": "b57ef02052f6239b68c9b9483647beb92ff0698b1f7b8d5e1edfb8cea93b9245",
+    "bytes": 1545813,
+    "format": "PNG",
+    "mode": "RGBA",
+    "width": 1536,
+    "height": 1024,
+    "alphaMin": 0,
+    "alphaMax": 254,
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "maximumBorderAlpha": 1,
+    "fullyTransparentPixels": 1129398,
+    "alphaOnePixels": 7485,
+    "visibleAlphaCriterion": ">8",
+    "visibleBbox": [
+      210,
+      321,
+      1326,
+      764
+    ],
+    "minimumVisibleMargin": 210,
+    "marginsFractionAbove8": [
+      0.13671875,
+      0.3134765625,
+      0.13671875,
+      0.25390625
+    ],
+    "nonblackRGBAtAlphaZero": 879684,
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "feedTrough",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-09264aea-aab2-465a-aa8e-c6e9c0d789a7.png",
+    "sha256": "62cc2b744a5926938ebeeb6d6c95f22134b797d41864337a25f76274a4862086",
+    "bytes": 984566,
+    "format": "PNG",
+    "mode": "RGBA",
+    "width": 1773,
+    "height": 887,
+    "alphaMin": 0,
+    "alphaMax": 255,
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "maximumBorderAlpha": 1,
+    "fullyTransparentPixels": 1165916,
+    "alphaOnePixels": 4568,
+    "visibleAlphaCriterion": ">8",
+    "visibleBbox": [
+      155,
+      291,
+      1617,
+      616
+    ],
+    "minimumVisibleMargin": 155,
+    "marginsFractionAbove8": [
+      0.0874224478285392,
+      0.32807215332581735,
+      0.08798646362098139,
+      0.3055242390078918
+    ],
+    "nonblackRGBAtAlphaZero": 976,
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "feedTrough",
+    "iteration": 2,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-47a8ba0c-1d51-44a9-a07d-d20379c9c703.png",
+    "sha256": "60030226d034de24233669d9da537afd20d209e1828cbd0d84e90d322298f65e",
+    "bytes": 981717,
+    "format": "PNG",
+    "mode": "RGBA",
+    "width": 1774,
+    "height": 887,
+    "alphaMin": 0,
+    "alphaMax": 255,
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "maximumBorderAlpha": 0,
+    "fullyTransparentPixels": 1169030,
+    "alphaOnePixels": 2830,
+    "visibleAlphaCriterion": ">8",
+    "visibleBbox": [
+      155,
+      290,
+      1617,
+      617
+    ],
+    "minimumVisibleMargin": 155,
+    "marginsFractionAbove8": [
+      0.08737316798196167,
+      0.3269447576099211,
+      0.08850056369785794,
+      0.3043968432919955
+    ],
+    "nonblackRGBAtAlphaZero": 719,
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "waterTrough",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-12796b17-a5a9-42b2-93da-65e2ab98fe07.png",
+    "sha256": "ce4e1945976b8510a4d655e15f652b85d3ab32caa1a01b72eea987b10e2ad9d3",
+    "bytes": 1258462,
+    "format": "PNG",
+    "mode": "RGBA",
+    "width": 1942,
+    "height": 809,
+    "alphaMin": 0,
+    "alphaMax": 255,
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "maximumBorderAlpha": 1,
+    "fullyTransparentPixels": 988639,
+    "alphaOnePixels": 32288,
+    "visibleAlphaCriterion": ">8",
+    "visibleBbox": [
+      306,
+      189,
+      1635,
+      656
+    ],
+    "minimumVisibleMargin": 153,
+    "marginsFractionAbove8": [
+      0.15756951596292482,
+      0.23362175525339926,
+      0.1580844490216272,
+      0.18912237330037082
+    ],
+    "nonblackRGBAtAlphaZero": 254,
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "waterTrough",
+    "iteration": 2,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-aa7a56f7-f27c-477b-b121-ac3f1bcde819.png",
+    "sha256": "74b0852f38b8472db9a2e340a04bb4bf02dcef283822587a7cc53a0302fe3639",
+    "bytes": 1201022,
+    "format": "PNG",
+    "mode": "RGBA",
+    "width": 1944,
+    "height": 809,
+    "alphaMin": 0,
+    "alphaMax": 255,
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "maximumBorderAlpha": 1,
+    "fullyTransparentPixels": 998936,
+    "alphaOnePixels": 4510,
+    "visibleAlphaCriterion": ">8",
+    "visibleBbox": [
+      289,
+      185,
+      1655,
+      658
+    ],
+    "minimumVisibleMargin": 151,
+    "marginsFractionAbove8": [
+      0.14866255144032922,
+      0.22867737948084055,
+      0.14866255144032922,
+      0.18665018541409148
+    ],
+    "nonblackRGBAtAlphaZero": 85,
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "fodderRack",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-9cfa0173-265f-4b3b-9c24-bf4dc7f6e200.png",
+    "sha256": "166762e52be67982caa6bee786b8cda48b753dbba98cf99d29b78bc1381f3329",
+    "bytes": 1517519,
+    "format": "PNG",
+    "mode": "RGBA",
+    "width": 1619,
+    "height": 971,
+    "alphaMin": 0,
+    "alphaMax": 255,
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "maximumBorderAlpha": 1,
+    "fullyTransparentPixels": 950705,
+    "alphaOnePixels": 7832,
+    "visibleAlphaCriterion": ">8",
+    "visibleBbox": [
+      163,
+      245,
+      1457,
+      717
+    ],
+    "minimumVisibleMargin": 162,
+    "marginsFractionAbove8": [
+      0.10067943174799258,
+      0.25231719876416064,
+      0.10006176652254478,
+      0.2615859938208033
+    ],
+    "nonblackRGBAtAlphaZero": 347,
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "fodderRack",
+    "iteration": 2,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-18e52fee-dbd0-4034-9209-d5ba447a73e3.png",
+    "sha256": "8ffe95acdc78655d0eccaeb5ff4402e3adc8519788024483371c633871935cc4",
+    "bytes": 1405542,
+    "format": "PNG",
+    "mode": "RGBA",
+    "width": 1620,
+    "height": 971,
+    "alphaMin": 0,
+    "alphaMax": 255,
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "maximumBorderAlpha": 1,
+    "fullyTransparentPixels": 948636,
+    "alphaOnePixels": 5029,
+    "visibleAlphaCriterion": ">8",
+    "visibleBbox": [
+      161,
+      243,
+      1460,
+      718
+    ],
+    "minimumVisibleMargin": 160,
+    "marginsFractionAbove8": [
+      0.09938271604938272,
+      0.25025746652935116,
+      0.09876543209876543,
+      0.26055612770339853
+    ],
+    "nonblackRGBAtAlphaZero": 83,
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "milkingUnit",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-71c3235f-4595-400c-b65f-da25f84f1c60.png",
+    "sha256": "6e5fbf069388434fa63983c4bbaff999604fbb5900dae6aa6b821471ec3272c2",
+    "bytes": 1768332,
+    "format": "PNG",
+    "mode": "RGBA",
+    "width": 1254,
+    "height": 1254,
+    "alphaMin": 0,
+    "alphaMax": 255,
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "maximumBorderAlpha": 1,
+    "fullyTransparentPixels": 815229,
+    "alphaOnePixels": 16901,
+    "visibleAlphaCriterion": ">8",
+    "visibleBbox": [
+      121,
+      253,
+      1133,
+      982
+    ],
+    "minimumVisibleMargin": 121,
+    "marginsFractionAbove8": [
+      0.09649122807017543,
+      0.20175438596491227,
+      0.09649122807017543,
+      0.21690590111642744
+    ],
+    "nonblackRGBAtAlphaZero": 376,
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "milkVat",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-66dd67f3-150a-497a-8e31-fa028958d4f2.png",
+    "sha256": "3c0e19f2477492542d7b983dd30788a34f560ac49e98c328d5e377fa868b1eb9",
+    "bytes": 1287736,
+    "format": "PNG",
+    "mode": "RGBA",
+    "width": 1254,
+    "height": 1254,
+    "alphaMin": 0,
+    "alphaMax": 255,
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "maximumBorderAlpha": 1,
+    "fullyTransparentPixels": 1036386,
+    "alphaOnePixels": 6314,
+    "visibleAlphaCriterion": ">8",
+    "visibleBbox": [
+      178,
+      268,
+      1066,
+      1032
+    ],
+    "minimumVisibleMargin": 178,
+    "marginsFractionAbove8": [
+      0.1419457735247209,
+      0.21371610845295055,
+      0.14992025518341306,
+      0.17703349282296652
+    ],
+    "nonblackRGBAtAlphaZero": 301,
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "nestBox",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-6a679a3f-ff25-4533-8121-f1f8c2d39cb4.png",
+    "sha256": "ce6450ea7fe75d4de8cb5a4a8ddfc670a58648e30349568a14639ec9657f74cb",
+    "bytes": 1648512,
+    "format": "PNG",
+    "mode": "RGBA",
+    "width": 1942,
+    "height": 809,
+    "alphaMin": 0,
+    "alphaMax": 255,
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "maximumBorderAlpha": 1,
+    "fullyTransparentPixels": 926057,
+    "alphaOnePixels": 13557,
+    "visibleAlphaCriterion": ">8",
+    "visibleBbox": [
+      341,
+      155,
+      1601,
+      653
+    ],
+    "minimumVisibleMargin": 155,
+    "marginsFractionAbove8": [
+      0.17559217301750774,
+      0.1915945611866502,
+      0.17559217301750774,
+      0.19283065512978986
+    ],
+    "nonblackRGBAtAlphaZero": 227,
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "wineVat",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-ba805d50-f16c-415e-935d-a85d0bf6779c.png",
+    "sha256": "94fdc6d80419d2aac8d414b7f0fb0476edcd2e117615fd52620ff054e9a1e477",
+    "bytes": 1690686,
+    "format": "PNG",
+    "mode": "RGBA",
+    "width": 1254,
+    "height": 1254,
+    "alphaMin": 0,
+    "alphaMax": 255,
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "maximumBorderAlpha": 1,
+    "fullyTransparentPixels": 868697,
+    "alphaOnePixels": 9398,
+    "visibleAlphaCriterion": ">8",
+    "visibleBbox": [
+      175,
+      153,
+      1062,
+      1138
+    ],
+    "minimumVisibleMargin": 116,
+    "marginsFractionAbove8": [
+      0.13955342902711323,
+      0.12200956937799043,
+      0.15311004784688995,
+      0.09250398724082935
+    ],
+    "nonblackRGBAtAlphaZero": 252,
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "wineBarrel",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-e992df8e-f162-4a5b-a4f1-74c2af24d96c.png",
+    "sha256": "e2cde5890abda4259bfba1be400848c6b3a7eec52a759391c54a7170be2bc81f",
+    "bytes": 1715843,
+    "format": "PNG",
+    "mode": "RGBA",
+    "width": 1254,
+    "height": 1254,
+    "alphaMin": 0,
+    "alphaMax": 255,
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "maximumBorderAlpha": 1,
+    "fullyTransparentPixels": 904801,
+    "alphaOnePixels": 4620,
+    "visibleAlphaCriterion": ">8",
+    "visibleBbox": [
+      167,
+      158,
+      1077,
+      1091
+    ],
+    "minimumVisibleMargin": 158,
+    "marginsFractionAbove8": [
+      0.1331738437001595,
+      0.12599681020733652,
+      0.14114832535885166,
+      0.12998405103668262
+    ],
+    "nonblackRGBAtAlphaZero": 126,
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "grapePress",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-ce628ea5-f218-406e-ab92-ed554144d661.png",
+    "sha256": "1b3641093d145090af5a7be4a405c978694a168086194e87f7a04f39378fb088",
+    "bytes": 1567039,
+    "format": "PNG",
+    "mode": "RGBA",
+    "width": 1355,
+    "height": 1161,
+    "alphaMin": 0,
+    "alphaMax": 255,
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "maximumBorderAlpha": 1,
+    "fullyTransparentPixels": 919063,
+    "alphaOnePixels": 9204,
+    "visibleAlphaCriterion": ">8",
+    "visibleBbox": [
+      230,
+      197,
+      1125,
+      962
+    ],
+    "minimumVisibleMargin": 197,
+    "marginsFractionAbove8": [
+      0.16974169741697417,
+      0.16968130921619293,
+      0.16974169741697417,
+      0.17140396210163653
+    ],
+    "nonblackRGBAtAlphaZero": 320,
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "veterinaryTable",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-4b568201-1f5c-44f6-8f09-9e66a5497c5d.png",
+    "sha256": "e71f18be263898eb03e8f618dace7321858daef43ff608d591431df60b938873",
+    "bytes": 1140127,
+    "format": "PNG",
+    "mode": "RGBA",
+    "width": 1254,
+    "height": 1254,
+    "alphaMin": 0,
+    "alphaMax": 255,
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "maximumBorderAlpha": 1,
+    "fullyTransparentPixels": 1106211,
+    "alphaOnePixels": 20670,
+    "visibleAlphaCriterion": ">8",
+    "visibleBbox": [
+      149,
+      396,
+      1105,
+      862
+    ],
+    "minimumVisibleMargin": 149,
+    "marginsFractionAbove8": [
+      0.11881977671451356,
+      0.3157894736842105,
+      0.11881977671451356,
+      0.31259968102073366
+    ],
+    "nonblackRGBAtAlphaZero": 125,
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "growingBench",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-36e999df-2c62-4750-8991-9d3ce6b8c107.png",
+    "sha256": "cac434c2f82b06f63c6320d20d47e5474a4dbeae04bb910e321b0d3d271d8898",
+    "bytes": 1533323,
+    "format": "PNG",
+    "mode": "RGBA",
+    "width": 1586,
+    "height": 992,
+    "alphaMin": 0,
+    "alphaMax": 255,
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "maximumBorderAlpha": 1,
+    "fullyTransparentPixels": 946657,
+    "alphaOnePixels": 9098,
+    "visibleAlphaCriterion": ">8",
+    "visibleBbox": [
+      170,
+      229,
+      1417,
+      721
+    ],
+    "minimumVisibleMargin": 169,
+    "marginsFractionAbove8": [
+      0.10718789407313997,
+      0.23084677419354838,
+      0.10655737704918032,
+      0.27318548387096775
+    ],
+    "nonblackRGBAtAlphaZero": 22,
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "growingBed",
+    "iteration": 1,
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-f2896146-3aa3-4243-9848-a41b6749908f.png",
+    "sha256": "d194af56ede2ca57b53620349d2baaa27d17f18d07df35d126de1629c62b2199",
+    "bytes": 1770166,
+    "format": "PNG",
+    "mode": "RGBA",
+    "width": 1536,
+    "height": 1024,
+    "alphaMin": 0,
+    "alphaMax": 254,
+    "cornerAlpha": [
+      0,
+      0,
+      0,
+      1
+    ],
+    "maximumBorderAlpha": 1,
+    "fullyTransparentPixels": 1106283,
+    "alphaOnePixels": 10845,
+    "visibleAlphaCriterion": ">8",
+    "visibleBbox": [
+      209,
+      309,
+      1326,
+      713
+    ],
+    "minimumVisibleMargin": 209,
+    "marginsFractionAbove8": [
+      0.13606770833333334,
+      0.3017578125,
+      0.13671875,
+      0.3037109375
+    ],
+    "nonblackRGBAtAlphaZero": 861451,
+    "pixelEditingPerformed": false
+  }
+]

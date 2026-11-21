@@ -1,0 +1,18 @@
+{
+  "key": "fence:v2",
+  "id": "prop:fence:v2",
+  "artId": "prop:fence:v2",
+  "iteration": 2,
+  "generator": "OpenAI built-in ImageGen",
+  "arguments": {
+    "prompt": "Use case: precise-object-edit. Asset type: DEADWALL structural205 fence painter variant 2, targeted material and readability correction only.\nINPUTS: Image 1 is the current Art239 fence:v2 candidate to edit. Image 2 is its authoritative unchanged native canonical reference. Preserve image 1 canvas framing, strict vertical overhead view, centre placement, whole extremely narrow horizontal footprint and transparent margins. Preserve the exact count and positions: TWO long parallel rails, THREE short transverse post caps at left/centre/right, and TWO sparse X braces, one X in each bay, each made of TWO thin diagonal ties.\nCHANGE ONLY MATERIAL AND LOCAL READABILITY: the current rails still read too much like aged wood, and their crossing ties are hard to distinguish. Render all structural rails and post caps as MATTE WEATHERED STEEL in muted grey-olive, with restrained oxidation, small metal scuffs and subtle edge highlights. Absolutely no wood grain, knots, planks or timber striations. Make each of the four diagonal metal ties visibly continuous from its canonical corner to the opposite corner, with a restrained contrasting steel edge so that the two X shapes read clearly against the transparent gaps. Keep these ties fine and delicate, not thick braces. Keep the same sparse two-bay construction and the existing thin aspect ratio; do not turn it into a dense chain-link grid, a mesh panel, a gate, a vertical fence facade or a broad ladder.\nLOCKS: exact existing overhead orientation and narrow silhouette; three posts, two rails, two X shapes; one whole isolated object. Preserve the serious restrained hand-painted DEADWALL finish, soft neutral overhead lighting, object-centred framing and ample transparent margins. No added mechanisms, props, letters, numbers, labels, dimensions, logos, UI, ground, scenery, frame, external cast shadow or active effects. The existing background is already transparent; this correction concerns material and legibility only.\nOUTPUT: one complete native RGBA image with true transparency. No crop or clipping. Painter variant 2 remains independent from authored plan V01; no new runtime type and no claim of pixel-for-pixel or metric 1:1 certification.",
+    "referenced_image_paths": [
+      "/workspace/scratch/6f470a892a0f/art239-prep/outputs/iteration-01/fence_cloture_croisillons_metal_v2.png",
+      "/workspace/scratch/6f470a892a0f/art239-prep/references/canonical/fence_v2.png"
+    ],
+    "transparent_background": true
+  },
+  "promptIsVerbatim": true,
+  "reason": "Root and author review: initial material too close to timber, two X braces insufficiently readable; not an alpha defect.",
+  "referenceInspection": "Both files already opened using view_image before this correction."
+}

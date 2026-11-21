@@ -1,0 +1,16 @@
+[
+  {
+    "key": "runnerCable193",
+    "id": "mechanism:runnerCable193:v0:armed-mounted",
+    "path": "records/calls/runnerCable193-attempt1-failure.json",
+    "sha256": "20ae92f1131fb6fccb31a3be5815ef5aa04da19b4c4db693c48f626b116230bb",
+    "bytes": 598
+  },
+  {
+    "key": "runnerCable193",
+    "id": "mechanism:runnerCable193:v0:armed-mounted",
+    "path": "records/calls/runnerCable193-attempt2-failure.json",
+    "sha256": "2e0d8e5410526a97fa0254a5d56c3dabc973fc5cac5fa8e562c1a80f3ffc0cdc",
+    "bytes": 576
+  }
+]

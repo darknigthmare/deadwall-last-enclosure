@@ -1,0 +1,25 @@
+{
+  "baseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "dateEuropeParis": "2026-11-17",
+  "selectionSha256": "426f3e325136b0682ad90385f17ea64e1f7479b2ddafd86809e3e9a9651504f9",
+  "historyRecordSha256": [
+    "e3ac1adf4dc967a1ef5bf35205aa3eadf4f37166b1bacfd0d315dc168b96e838"
+  ],
+  "finalRecordsSha256": "655fc1fc81b03298220cf1fdd83fe6c2d85d4f9cd04d41c7bd17f1b2fb7caeb3",
+  "visualReviewSha256": "c562f9f2507fb89834e9c77083aebf7bbfc4508af2e8f82835af7786d9e97e85",
+  "priorPublicationsSha256": "bfe13bb813ac445efe831fdb66313574baed665ebe076b62724e19927740c169",
+  "assemblerSha256": "bfcaa67eff714e71cbc0a388765c3aeb2ddc4a6a1d7ac106c06b1b8dc1720dda",
+  "inventoryInputSha256": {
+    "remaining-native-inventory.json": "5495f7e34281c0641fb98bff6bf393bd9d3a24a4c4782a8231f7bdee68744a34",
+    "RESTE_A_EXPLORER.md": "e2c9911ded493e77a85c17bc388c257bd21ceb4aad09bba02338549682398fb3",
+    "inventory-references/DW-0056.md": "c8a4cdda2168287ad57658313ec0cc30ee78393084c12c523bc55904baa213a6",
+    "inventory-references/DW-0066.md": "fde86e8442e939e836f8fb21eadc4ffbba972feb007492c0257ca2cf0a6b3747",
+    "inventory-references/DW-0505.md": "7d503a500d5398399b4de9c434ddbc391486a96edd9215f6da9c757492025322",
+    "inventory-references/DW-0518.md": "58f82c0bcdb928f8bafee5384e6aba341b1de42290ae6c31d7337ab214112402",
+    "inventory-references/provenance.json": "8a8fd07b6da6839f72e85e64d8ca13016de082201745d6f4141359193b32b567",
+    "inventory-references/settlement-plans.js": "b6753636ae6b075af11b3c49da9616c3853f3a5c3cdb28b03707752b70ac2f1c"
+  },
+  "nativePngBytesPreserved": true,
+  "outputDeterministicForSameInputsAndExplicitDate": true,
+  "assemblerIsLocalNotPartOfRuntime": true
+}

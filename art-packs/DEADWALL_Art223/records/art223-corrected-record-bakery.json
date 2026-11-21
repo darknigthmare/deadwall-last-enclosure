@@ -1,0 +1,16 @@
+{
+  "key": "bakery",
+  "id": "DW-0065",
+  "label": "Boulangerie — accès de livraison au sol",
+  "file": "DW-0065_boulangerie-artisanale.png",
+  "input": "/workspace/scratch/55dad3ac334d/generated_images/exec-97ddcb75-bc93-4070-a8d6-3e624db9789b.png",
+  "prompt": "Use case: stylized-concept. Correct ONE physical-access error in this DEADWALL bakery sprite. Preserve the same building identity, 22-by-17-metre compact footprint, ONE floor, high near-overhead orthographic camera, worn atlas style, colors, intact low roof, oven flue, front awning, glazed bread displays, public central entrance, realistic scale and native transparency. ERROR: the door at the TOP CENTER is standing on the roof and its threshold opens onto the roof. REMOVE that entire rooftop doorway, its frame and raised masonry; restore a continuous flat roof/parapet there with NO door, no rooftop room, no stair enclosure. The separate flour-delivery access must instead be a modest single service door on the VISIBLE lower LEFT SIDE WALL at GROUND LEVEL, in a small recessed corner contained within the same building envelope. Its threshold must touch the narrow ground contact strip beside the building, at the same ground elevation as the public entrance, not the roof. Make that service door physically plausible and distinct from the public shop door; do not block the side path with crates. If necessary expose a small side-wall return solely to make the ground-level door legible, without changing to a low or isometric camera. No added storey, detached annex, roof staircase, outdoor bread sculpture, lettering, people or vehicles. Keep the whole isolated asset fully inside the image with generous genuine transparent margins; no colored background, matte, gradient, halo, checkerboard or presentation platform. Transparent RGBA output.",
+  "iteration": 2,
+  "generatedSourcePath": "/workspace/scratch/55dad3ac334d/generated_images/exec-e9571785-ca5f-4d70-81bd-857236184c8a.png",
+  "referenceImages": [
+    "/workspace/scratch/55dad3ac334d/generated_images/exec-97ddcb75-bc93-4070-a8d6-3e624db9789b.png"
+  ],
+  "transparentBackgroundRequested": true,
+  "generator": "OpenAI ImageGen intégré",
+  "promptIsVerbatim": true
+}

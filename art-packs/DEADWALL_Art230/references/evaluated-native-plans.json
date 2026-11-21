@@ -1,0 +1,3955 @@
+{
+  "schemaVersion": 1,
+  "batch": "Art230",
+  "sourceMainRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "nodeVersion": "v24.22.1",
+  "evaluationPurpose": "Read-only evaluation of native plans, roofs and outdoor definitions, not a generated campaign or gameplay test",
+  "targets": [
+    {
+      "type": "cottageSmall",
+      "artId": "native:cottageSmall",
+      "preset": {
+        "id": "cottageSmall",
+        "name": "Petite maison ouvrière",
+        "w": 10,
+        "h": 10,
+        "parent": "house",
+        "levels": [
+          0
+        ],
+        "layout": "settlements123"
+      },
+      "fixture": {
+        "id": "source-native-cottageSmall-1",
+        "type": "cottageSmall",
+        "x": 0,
+        "y": 0,
+        "a": 0,
+        "w": 10,
+        "h": 10,
+        "levels": [
+          0
+        ],
+        "generation": 7
+      },
+      "floors": [
+        {
+          "z": 0,
+          "walls": [
+            {
+              "x": 0,
+              "y": 0,
+              "w": 3.7,
+              "h": 0.24
+            },
+            {
+              "x": 6.3,
+              "y": 0,
+              "w": 3.7,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 9.76,
+              "w": 4,
+              "h": 0.24
+            },
+            {
+              "x": 6,
+              "y": 9.76,
+              "w": 4,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "w": 0.24,
+              "h": 10
+            },
+            {
+              "x": 9.76,
+              "y": 0,
+              "w": 0.24,
+              "h": 10
+            },
+            {
+              "x": 3.6,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 1.5
+            },
+            {
+              "x": 3.6,
+              "y": 3.5,
+              "w": 0.24,
+              "h": 1.5
+            },
+            {
+              "x": 6.4,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 1.5
+            },
+            {
+              "x": 6.4,
+              "y": 3.5,
+              "w": 0.24,
+              "h": 1.5
+            },
+            {
+              "x": 3.6,
+              "y": 5,
+              "w": 0.24,
+              "h": 1.5
+            },
+            {
+              "x": 3.6,
+              "y": 8,
+              "w": 0.24,
+              "h": 1.5
+            },
+            {
+              "x": 6.4,
+              "y": 5,
+              "w": 0.24,
+              "h": 1.5
+            },
+            {
+              "x": 6.4,
+              "y": 8,
+              "w": 0.24,
+              "h": 1.5
+            },
+            {
+              "x": 0.25,
+              "y": 5,
+              "w": 3.35,
+              "h": 0.24
+            },
+            {
+              "x": 6.4,
+              "y": 5,
+              "w": 3.3499999999999996,
+              "h": 0.24
+            }
+          ],
+          "objects": [
+            {
+              "id": "source-native-cottageSmall-1:0:0",
+              "kind": "sofa",
+              "x": 0.95,
+              "y": 1.4,
+              "w": 2.2,
+              "h": 0.95,
+              "a": 0,
+              "resource": "wood",
+              "amount": 21,
+              "room": "Séjour"
+            },
+            {
+              "id": "source-native-cottageSmall-1:0:2",
+              "kind": "fridge",
+              "x": 7.35,
+              "y": 1.4,
+              "w": 0.8,
+              "h": 0.8,
+              "a": 0,
+              "resource": "food",
+              "amount": 16,
+              "room": "Cuisine"
+            },
+            {
+              "id": "source-native-cottageSmall-1:0:4",
+              "kind": "bed",
+              "x": 0.95,
+              "y": 5.9,
+              "w": 2.05,
+              "h": 1.6,
+              "a": 0,
+              "resource": "wood",
+              "amount": 23,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-cottageSmall-1:0:6",
+              "kind": "workbench",
+              "x": 7.35,
+              "y": 5.9,
+              "w": 2,
+              "h": 0.85,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 13,
+              "room": "Garage / rangement"
+            }
+          ],
+          "rooms": [
+            {
+              "name": "Séjour",
+              "x": 0.35,
+              "y": 0.75,
+              "w": 3,
+              "h": 4
+            },
+            {
+              "name": "Cuisine",
+              "x": 6.75,
+              "y": 0.75,
+              "w": 2.8999999999999995,
+              "h": 4
+            },
+            {
+              "name": "Chambre",
+              "x": 0.35,
+              "y": 5.25,
+              "w": 3,
+              "h": 4
+            },
+            {
+              "name": "Garage / rangement",
+              "x": 6.75,
+              "y": 5.25,
+              "w": 2.8999999999999995,
+              "h": 4
+            }
+          ],
+          "stairs": [],
+          "floor": {
+            "x": 0.25,
+            "y": 0.25,
+            "w": 9.5,
+            "h": 9.5
+          },
+          "entry": {
+            "x": 0,
+            "y": -6
+          },
+          "exit": {
+            "x": 0,
+            "y": 6
+          },
+          "layoutVariant141": "original"
+        }
+      ],
+      "outdoor": [
+        {
+          "id": "source-native-cottageSmall-1:out:0",
+          "kind": "table",
+          "x": 2,
+          "y": 15,
+          "w": 1.6,
+          "h": 0.85,
+          "a": 0,
+          "resource": "wood",
+          "amount": 20,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-cottageSmall-1:out:1",
+          "kind": "crate",
+          "x": 7,
+          "y": 15,
+          "w": 1.2,
+          "h": 0.8,
+          "a": 0,
+          "resource": "wood",
+          "amount": 5,
+          "room": "Cour de service"
+        }
+      ],
+      "roofFamily": "cottage",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "cottage",
+          "variant": 0,
+          "rect": [
+            37,
+            41,
+            286,
+            188
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "cottage",
+          "variant": 1,
+          "rect": [
+            362,
+            47,
+            315,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 2,
+          "model": "terracotta-hipped",
+          "rect": [
+            58,
+            73,
+            291,
+            171
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 3,
+          "model": "terracotta-dormer",
+          "rect": [
+            431,
+            63,
+            298,
+            180
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 4,
+          "model": "slate-mansard",
+          "rect": [
+            815,
+            71,
+            292,
+            173
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 5,
+          "model": "patched-metal",
+          "rect": [
+            1188,
+            71,
+            289,
+            174
+          ]
+        }
+      ],
+      "codexFieldInvariantForGeometryOnly": true,
+      "prototypeScope": "Synthetic canonical unmirrored G7 fixture evaluated with the unchanged owners; not a live campaign instance. Native Pxxxx identities and saved records are untouched.",
+      "canonicalPayloadSha256": "f756f4649631e46817a313bee30fef240a66c77094848c2d90e3a681947ef84f"
+    },
+    {
+      "type": "rowhouse",
+      "artId": "native:rowhouse",
+      "preset": {
+        "id": "rowhouse",
+        "name": "Maison étroite",
+        "w": 11,
+        "h": 18,
+        "parent": "duplex",
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "settlements123"
+      },
+      "fixture": {
+        "id": "source-native-rowhouse-3",
+        "type": "rowhouse",
+        "x": 0,
+        "y": 0,
+        "a": 0,
+        "w": 11,
+        "h": 18,
+        "levels": [
+          0,
+          1
+        ],
+        "generation": 7
+      },
+      "floors": [
+        {
+          "z": 0,
+          "walls": [
+            {
+              "x": 0,
+              "y": 0,
+              "w": 4.2,
+              "h": 0.24
+            },
+            {
+              "x": 6.8,
+              "y": 0,
+              "w": 4.2,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 17.76,
+              "w": 4.5,
+              "h": 0.24
+            },
+            {
+              "x": 6.5,
+              "y": 17.76,
+              "w": 4.5,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "w": 0.24,
+              "h": 18
+            },
+            {
+              "x": 10.76,
+              "y": 0,
+              "w": 0.24,
+              "h": 18
+            },
+            {
+              "x": 4.1,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 3.5
+            },
+            {
+              "x": 4.1,
+              "y": 5.5,
+              "w": 0.24,
+              "h": 3.5
+            },
+            {
+              "x": 6.9,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 3.5
+            },
+            {
+              "x": 6.9,
+              "y": 5.5,
+              "w": 0.24,
+              "h": 3.5
+            },
+            {
+              "x": 4.1,
+              "y": 9,
+              "w": 0.24,
+              "h": 3.5
+            },
+            {
+              "x": 4.1,
+              "y": 14,
+              "w": 0.24,
+              "h": 3.5
+            },
+            {
+              "x": 6.9,
+              "y": 9,
+              "w": 0.24,
+              "h": 3.5
+            },
+            {
+              "x": 6.9,
+              "y": 14,
+              "w": 0.24,
+              "h": 3.5
+            },
+            {
+              "x": 0.25,
+              "y": 9,
+              "w": 3.8499999999999996,
+              "h": 0.24
+            },
+            {
+              "x": 6.9,
+              "y": 9,
+              "w": 3.8499999999999996,
+              "h": 0.24
+            }
+          ],
+          "objects": [
+            {
+              "id": "source-native-rowhouse-3:0:0",
+              "kind": "sofa",
+              "x": 0.95,
+              "y": 1.4,
+              "w": 2.2,
+              "h": 0.95,
+              "a": 0,
+              "resource": "wood",
+              "amount": 15,
+              "room": "Séjour"
+            },
+            {
+              "id": "source-native-rowhouse-3:0:1",
+              "kind": "table",
+              "x": 0.95,
+              "y": 6.15,
+              "w": 1.6,
+              "h": 0.85,
+              "a": 0,
+              "resource": "wood",
+              "amount": 14,
+              "room": "Séjour"
+            },
+            {
+              "id": "source-native-rowhouse-3:0:2",
+              "kind": "fridge",
+              "x": 7.85,
+              "y": 1.4,
+              "w": 0.8,
+              "h": 0.8,
+              "a": 0,
+              "resource": "food",
+              "amount": 21,
+              "room": "Cuisine"
+            },
+            {
+              "id": "source-native-rowhouse-3:0:3",
+              "kind": "sink",
+              "x": 7.85,
+              "y": 6.15,
+              "w": 0.8,
+              "h": 0.65,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 12,
+              "room": "Cuisine"
+            },
+            {
+              "id": "source-native-rowhouse-3:0:4",
+              "kind": "bed",
+              "x": 0.95,
+              "y": 9.9,
+              "w": 2.05,
+              "h": 1.6,
+              "a": 0,
+              "resource": "wood",
+              "amount": 19,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-rowhouse-3:0:5",
+              "kind": "wardrobe",
+              "x": 0.95,
+              "y": 14.65,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 18,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-rowhouse-3:0:6",
+              "kind": "workbench",
+              "x": 7.85,
+              "y": 9.9,
+              "w": 2,
+              "h": 0.85,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 8,
+              "room": "Garage / rangement"
+            },
+            {
+              "id": "source-native-rowhouse-3:0:7",
+              "kind": "crate",
+              "x": 7.85,
+              "y": 14.65,
+              "w": 1.2,
+              "h": 0.8,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 23,
+              "room": "Garage / rangement"
+            }
+          ],
+          "rooms": [
+            {
+              "name": "Séjour",
+              "x": 0.35,
+              "y": 0.75,
+              "w": 3.4999999999999996,
+              "h": 8
+            },
+            {
+              "name": "Cuisine",
+              "x": 7.25,
+              "y": 0.75,
+              "w": 3.3999999999999995,
+              "h": 8
+            },
+            {
+              "name": "Chambre",
+              "x": 0.35,
+              "y": 9.25,
+              "w": 3.4999999999999996,
+              "h": 8
+            },
+            {
+              "name": "Garage / rangement",
+              "x": 7.25,
+              "y": 9.25,
+              "w": 3.3999999999999995,
+              "h": 8
+            }
+          ],
+          "stairs": [
+            {
+              "id": "source-native-rowhouse-3:stairs",
+              "x": 4.45,
+              "y": 14,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1
+              ]
+            }
+          ],
+          "floor": {
+            "x": 0.25,
+            "y": 0.25,
+            "w": 10.5,
+            "h": 17.5
+          },
+          "entry": {
+            "x": 0,
+            "y": -10
+          },
+          "exit": {
+            "x": 0,
+            "y": 10
+          },
+          "layoutVariant141": "original"
+        },
+        {
+          "z": 1,
+          "walls": [
+            {
+              "x": 0,
+              "y": 0,
+              "w": 4.2,
+              "h": 0.24
+            },
+            {
+              "x": 6.8,
+              "y": 0,
+              "w": 4.2,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 17.76,
+              "w": 4.5,
+              "h": 0.24
+            },
+            {
+              "x": 6.5,
+              "y": 17.76,
+              "w": 4.5,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "w": 0.24,
+              "h": 18
+            },
+            {
+              "x": 10.76,
+              "y": 0,
+              "w": 0.24,
+              "h": 18
+            },
+            {
+              "x": 4.1,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 3.5
+            },
+            {
+              "x": 4.1,
+              "y": 5.5,
+              "w": 0.24,
+              "h": 3.5
+            },
+            {
+              "x": 6.9,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 3.5
+            },
+            {
+              "x": 6.9,
+              "y": 5.5,
+              "w": 0.24,
+              "h": 3.5
+            },
+            {
+              "x": 4.1,
+              "y": 9,
+              "w": 0.24,
+              "h": 3.5
+            },
+            {
+              "x": 4.1,
+              "y": 14,
+              "w": 0.24,
+              "h": 3.5
+            },
+            {
+              "x": 6.9,
+              "y": 9,
+              "w": 0.24,
+              "h": 3.5
+            },
+            {
+              "x": 6.9,
+              "y": 14,
+              "w": 0.24,
+              "h": 3.5
+            },
+            {
+              "x": 0.25,
+              "y": 9,
+              "w": 3.8499999999999996,
+              "h": 0.24
+            },
+            {
+              "x": 6.9,
+              "y": 9,
+              "w": 3.8499999999999996,
+              "h": 0.24
+            }
+          ],
+          "objects": [
+            {
+              "id": "source-native-rowhouse-3:1:0",
+              "kind": "bed",
+              "x": 0.95,
+              "y": 1.4,
+              "w": 2.05,
+              "h": 1.6,
+              "a": 0,
+              "resource": "wood",
+              "amount": 23,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-rowhouse-3:1:1",
+              "kind": "wardrobe",
+              "x": 0.95,
+              "y": 6.15,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 19,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-rowhouse-3:1:2",
+              "kind": "bed",
+              "x": 7.85,
+              "y": 1.4,
+              "w": 2.05,
+              "h": 1.6,
+              "a": 0,
+              "resource": "wood",
+              "amount": 18,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-rowhouse-3:1:3",
+              "kind": "desk",
+              "x": 7.85,
+              "y": 6.15,
+              "w": 1.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 9,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-rowhouse-3:1:4",
+              "kind": "sink",
+              "x": 0.95,
+              "y": 9.9,
+              "w": 0.8,
+              "h": 0.65,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 16,
+              "room": "Salle d’eau"
+            },
+            {
+              "id": "source-native-rowhouse-3:1:5",
+              "kind": "wardrobe",
+              "x": 0.95,
+              "y": 14.65,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 16,
+              "room": "Salle d’eau"
+            },
+            {
+              "id": "source-native-rowhouse-3:1:6",
+              "kind": "wardrobe",
+              "x": 7.85,
+              "y": 9.9,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 21,
+              "room": "Réserve"
+            },
+            {
+              "id": "source-native-rowhouse-3:1:7",
+              "kind": "crate",
+              "x": 7.85,
+              "y": 14.65,
+              "w": 1.2,
+              "h": 0.8,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 12,
+              "room": "Réserve"
+            }
+          ],
+          "rooms": [
+            {
+              "name": "Chambre",
+              "x": 0.35,
+              "y": 0.75,
+              "w": 3.4999999999999996,
+              "h": 8
+            },
+            {
+              "name": "Chambre",
+              "x": 7.25,
+              "y": 0.75,
+              "w": 3.3999999999999995,
+              "h": 8
+            },
+            {
+              "name": "Salle d’eau",
+              "x": 0.35,
+              "y": 9.25,
+              "w": 3.4999999999999996,
+              "h": 8
+            },
+            {
+              "name": "Réserve",
+              "x": 7.25,
+              "y": 9.25,
+              "w": 3.3999999999999995,
+              "h": 8
+            }
+          ],
+          "stairs": [
+            {
+              "id": "source-native-rowhouse-3:stairs",
+              "x": 4.45,
+              "y": 14,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1
+              ]
+            }
+          ],
+          "floor": {
+            "x": 0.25,
+            "y": 0.25,
+            "w": 10.5,
+            "h": 17.5
+          },
+          "entry": {
+            "x": 0,
+            "y": -10
+          },
+          "exit": {
+            "x": 0,
+            "y": 10
+          },
+          "layoutVariant141": "original"
+        }
+      ],
+      "outdoor": [
+        {
+          "id": "source-native-rowhouse-3:out:0",
+          "kind": "table",
+          "x": 2,
+          "y": 23,
+          "w": 1.6,
+          "h": 0.85,
+          "a": 0,
+          "resource": "wood",
+          "amount": 20,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-rowhouse-3:out:1",
+          "kind": "crate",
+          "x": 8,
+          "y": 23,
+          "w": 1.2,
+          "h": 0.8,
+          "a": 0,
+          "resource": "wood",
+          "amount": 19,
+          "room": "Cour de service"
+        }
+      ],
+      "roofFamily": "rowhouse",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "rowhouse",
+          "variant": 0,
+          "rect": [
+            26,
+            299,
+            362,
+            171
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "rowhouse",
+          "variant": 1,
+          "rect": [
+            413,
+            299,
+            302,
+            173
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "rowhouse",
+          "variant": 2,
+          "model": "concrete-services",
+          "rect": [
+            55,
+            300,
+            299,
+            180
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "rowhouse",
+          "variant": 3,
+          "model": "flat-water-tank",
+          "rect": [
+            430,
+            302,
+            306,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "rowhouse",
+          "variant": 4,
+          "model": "slate-three-dormers",
+          "rect": [
+            805,
+            289,
+            313,
+            190
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "rowhouse",
+          "variant": 5,
+          "model": "terracotta-double-ridge",
+          "rect": [
+            1188,
+            303,
+            298,
+            175
+          ]
+        }
+      ],
+      "codexFieldInvariantForGeometryOnly": true,
+      "prototypeScope": "Synthetic canonical unmirrored G7 fixture evaluated with the unchanged owners; not a live campaign instance. Native Pxxxx identities and saved records are untouched.",
+      "canonicalPayloadSha256": "6545e1c5bfaa2a346c946d65a86cc4ccc69d9240cd6cdc3a1d93406b79b883b9"
+    },
+    {
+      "type": "bungalow",
+      "artId": "native:bungalow",
+      "preset": {
+        "id": "bungalow",
+        "name": "Pavillon",
+        "w": 20,
+        "h": 14,
+        "parent": "house",
+        "levels": [
+          0
+        ],
+        "layout": "settlements123"
+      },
+      "fixture": {
+        "id": "source-native-bungalow-1",
+        "type": "bungalow",
+        "x": 0,
+        "y": 0,
+        "a": 0,
+        "w": 20,
+        "h": 14,
+        "levels": [
+          0
+        ],
+        "generation": 7
+      },
+      "floors": [
+        {
+          "z": 0,
+          "walls": [
+            {
+              "x": 0,
+              "y": 0,
+              "w": 8.7,
+              "h": 0.24
+            },
+            {
+              "x": 11.3,
+              "y": 0,
+              "w": 8.7,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 13.76,
+              "w": 9,
+              "h": 0.24
+            },
+            {
+              "x": 11,
+              "y": 13.76,
+              "w": 9,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "w": 0.24,
+              "h": 14
+            },
+            {
+              "x": 19.76,
+              "y": 0,
+              "w": 0.24,
+              "h": 14
+            },
+            {
+              "x": 8.6,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 2.5
+            },
+            {
+              "x": 8.6,
+              "y": 4.5,
+              "w": 0.24,
+              "h": 2.5
+            },
+            {
+              "x": 11.4,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 2.5
+            },
+            {
+              "x": 11.4,
+              "y": 4.5,
+              "w": 0.24,
+              "h": 2.5
+            },
+            {
+              "x": 8.6,
+              "y": 7,
+              "w": 0.24,
+              "h": 2.5
+            },
+            {
+              "x": 8.6,
+              "y": 11,
+              "w": 0.24,
+              "h": 2.5
+            },
+            {
+              "x": 11.4,
+              "y": 7,
+              "w": 0.24,
+              "h": 2.5
+            },
+            {
+              "x": 11.4,
+              "y": 11,
+              "w": 0.24,
+              "h": 2.5
+            },
+            {
+              "x": 0.25,
+              "y": 7,
+              "w": 8.35,
+              "h": 0.24
+            },
+            {
+              "x": 11.4,
+              "y": 7,
+              "w": 8.35,
+              "h": 0.24
+            }
+          ],
+          "objects": [
+            {
+              "id": "source-native-bungalow-1:0:0",
+              "kind": "sofa",
+              "x": 0.95,
+              "y": 1.4,
+              "w": 2.2,
+              "h": 0.95,
+              "a": 0,
+              "resource": "wood",
+              "amount": 7,
+              "room": "Séjour"
+            },
+            {
+              "id": "source-native-bungalow-1:0:1",
+              "kind": "table",
+              "x": 0.95,
+              "y": 4.15,
+              "w": 1.6,
+              "h": 0.85,
+              "a": 0,
+              "resource": "wood",
+              "amount": 16,
+              "room": "Séjour"
+            },
+            {
+              "id": "source-native-bungalow-1:0:2",
+              "kind": "fridge",
+              "x": 12.35,
+              "y": 1.4,
+              "w": 0.8,
+              "h": 0.8,
+              "a": 0,
+              "resource": "food",
+              "amount": 11,
+              "room": "Cuisine"
+            },
+            {
+              "id": "source-native-bungalow-1:0:3",
+              "kind": "sink",
+              "x": 12.35,
+              "y": 4.15,
+              "w": 0.8,
+              "h": 0.65,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 14,
+              "room": "Cuisine"
+            },
+            {
+              "id": "source-native-bungalow-1:0:4",
+              "kind": "bed",
+              "x": 0.95,
+              "y": 7.9,
+              "w": 2.05,
+              "h": 1.6,
+              "a": 0,
+              "resource": "wood",
+              "amount": 8,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-bungalow-1:0:5",
+              "kind": "wardrobe",
+              "x": 0.95,
+              "y": 10.65,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 22,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-bungalow-1:0:6",
+              "kind": "workbench",
+              "x": 12.35,
+              "y": 7.9,
+              "w": 2,
+              "h": 0.85,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 9,
+              "room": "Garage / rangement"
+            },
+            {
+              "id": "source-native-bungalow-1:0:7",
+              "kind": "crate",
+              "x": 12.35,
+              "y": 10.65,
+              "w": 1.2,
+              "h": 0.8,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 16,
+              "room": "Garage / rangement"
+            }
+          ],
+          "rooms": [
+            {
+              "name": "Séjour",
+              "x": 0.35,
+              "y": 0.75,
+              "w": 8,
+              "h": 6
+            },
+            {
+              "name": "Cuisine",
+              "x": 11.75,
+              "y": 0.75,
+              "w": 7.8999999999999995,
+              "h": 6
+            },
+            {
+              "name": "Chambre",
+              "x": 0.35,
+              "y": 7.25,
+              "w": 8,
+              "h": 6
+            },
+            {
+              "name": "Garage / rangement",
+              "x": 11.75,
+              "y": 7.25,
+              "w": 7.8999999999999995,
+              "h": 6
+            }
+          ],
+          "stairs": [],
+          "floor": {
+            "x": 0.25,
+            "y": 0.25,
+            "w": 19.5,
+            "h": 13.5
+          },
+          "entry": {
+            "x": 0,
+            "y": -8
+          },
+          "exit": {
+            "x": 0,
+            "y": 8
+          },
+          "layoutVariant141": "original"
+        }
+      ],
+      "outdoor": [
+        {
+          "id": "source-native-bungalow-1:out:0",
+          "kind": "table",
+          "x": 2,
+          "y": 19,
+          "w": 1.6,
+          "h": 0.85,
+          "a": 0,
+          "resource": "wood",
+          "amount": 17,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-bungalow-1:out:1",
+          "kind": "crate",
+          "x": 17,
+          "y": 19,
+          "w": 1.2,
+          "h": 0.8,
+          "a": 0,
+          "resource": "wood",
+          "amount": 17,
+          "room": "Cour de service"
+        }
+      ],
+      "roofFamily": "cottage",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "cottage",
+          "variant": 0,
+          "rect": [
+            37,
+            41,
+            286,
+            188
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "cottage",
+          "variant": 1,
+          "rect": [
+            362,
+            47,
+            315,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 2,
+          "model": "terracotta-hipped",
+          "rect": [
+            58,
+            73,
+            291,
+            171
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 3,
+          "model": "terracotta-dormer",
+          "rect": [
+            431,
+            63,
+            298,
+            180
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 4,
+          "model": "slate-mansard",
+          "rect": [
+            815,
+            71,
+            292,
+            173
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 5,
+          "model": "patched-metal",
+          "rect": [
+            1188,
+            71,
+            289,
+            174
+          ]
+        }
+      ],
+      "codexFieldInvariantForGeometryOnly": true,
+      "prototypeScope": "Synthetic canonical unmirrored G7 fixture evaluated with the unchanged owners; not a live campaign instance. Native Pxxxx identities and saved records are untouched.",
+      "canonicalPayloadSha256": "2e9437b7e00e92cf47c949e23f16a75b537738265fb50838652a4b9c50cc4836"
+    },
+    {
+      "type": "familyHouse",
+      "artId": "native:familyHouse",
+      "preset": {
+        "id": "familyHouse",
+        "name": "Maison familiale",
+        "w": 22,
+        "h": 19,
+        "parent": "duplex",
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "settlements123"
+      },
+      "fixture": {
+        "id": "source-native-familyHouse-0",
+        "type": "familyHouse",
+        "x": 0,
+        "y": 0,
+        "a": 0,
+        "w": 22,
+        "h": 19,
+        "levels": [
+          0,
+          1
+        ],
+        "generation": 7
+      },
+      "floors": [
+        {
+          "z": 0,
+          "walls": [
+            {
+              "x": 0,
+              "y": 0,
+              "w": 9.7,
+              "h": 0.24
+            },
+            {
+              "x": 12.3,
+              "y": 0,
+              "w": 9.7,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 18.76,
+              "w": 10,
+              "h": 0.24
+            },
+            {
+              "x": 12,
+              "y": 18.76,
+              "w": 10,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "w": 0.24,
+              "h": 19
+            },
+            {
+              "x": 21.76,
+              "y": 0,
+              "w": 0.24,
+              "h": 19
+            },
+            {
+              "x": 9.6,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 9.6,
+              "y": 5.75,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 12.4,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 12.4,
+              "y": 5.75,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 9.6,
+              "y": 9.5,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 9.6,
+              "y": 14.75,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 12.4,
+              "y": 9.5,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 12.4,
+              "y": 14.75,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 0.25,
+              "y": 9.5,
+              "w": 9.35,
+              "h": 0.24
+            },
+            {
+              "x": 12.4,
+              "y": 9.5,
+              "w": 9.35,
+              "h": 0.24
+            }
+          ],
+          "objects": [
+            {
+              "id": "source-native-familyHouse-0:0:0",
+              "kind": "sofa",
+              "x": 0.95,
+              "y": 1.4,
+              "w": 2.2,
+              "h": 0.95,
+              "a": 0,
+              "resource": "wood",
+              "amount": 18,
+              "room": "Séjour"
+            },
+            {
+              "id": "source-native-familyHouse-0:0:1",
+              "kind": "table",
+              "x": 0.95,
+              "y": 6.65,
+              "w": 1.6,
+              "h": 0.85,
+              "a": 0,
+              "resource": "wood",
+              "amount": 16,
+              "room": "Séjour"
+            },
+            {
+              "id": "source-native-familyHouse-0:0:2",
+              "kind": "fridge",
+              "x": 13.35,
+              "y": 1.4,
+              "w": 0.8,
+              "h": 0.8,
+              "a": 0,
+              "resource": "food",
+              "amount": 15,
+              "room": "Cuisine"
+            },
+            {
+              "id": "source-native-familyHouse-0:0:3",
+              "kind": "sink",
+              "x": 13.35,
+              "y": 6.65,
+              "w": 0.8,
+              "h": 0.65,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 12,
+              "room": "Cuisine"
+            },
+            {
+              "id": "source-native-familyHouse-0:0:4",
+              "kind": "bed",
+              "x": 0.95,
+              "y": 10.4,
+              "w": 2.05,
+              "h": 1.6,
+              "a": 0,
+              "resource": "wood",
+              "amount": 8,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-familyHouse-0:0:5",
+              "kind": "wardrobe",
+              "x": 0.95,
+              "y": 15.65,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 8,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-familyHouse-0:0:6",
+              "kind": "workbench",
+              "x": 13.35,
+              "y": 10.4,
+              "w": 2,
+              "h": 0.85,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 10,
+              "room": "Garage / rangement"
+            },
+            {
+              "id": "source-native-familyHouse-0:0:7",
+              "kind": "crate",
+              "x": 13.35,
+              "y": 15.65,
+              "w": 1.2,
+              "h": 0.8,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 15,
+              "room": "Garage / rangement"
+            }
+          ],
+          "rooms": [
+            {
+              "name": "Séjour",
+              "x": 0.35,
+              "y": 0.75,
+              "w": 9,
+              "h": 8.5
+            },
+            {
+              "name": "Cuisine",
+              "x": 12.75,
+              "y": 0.75,
+              "w": 8.9,
+              "h": 8.5
+            },
+            {
+              "name": "Chambre",
+              "x": 0.35,
+              "y": 9.75,
+              "w": 9,
+              "h": 8.5
+            },
+            {
+              "name": "Garage / rangement",
+              "x": 12.75,
+              "y": 9.75,
+              "w": 8.9,
+              "h": 8.5
+            }
+          ],
+          "stairs": [
+            {
+              "id": "source-native-familyHouse-0:stairs",
+              "x": 9.95,
+              "y": 15,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1
+              ]
+            }
+          ],
+          "floor": {
+            "x": 0.25,
+            "y": 0.25,
+            "w": 21.5,
+            "h": 18.5
+          },
+          "entry": {
+            "x": 0,
+            "y": -10.5
+          },
+          "exit": {
+            "x": 0,
+            "y": 10.5
+          },
+          "layoutVariant141": "original"
+        },
+        {
+          "z": 1,
+          "walls": [
+            {
+              "x": 0,
+              "y": 0,
+              "w": 9.7,
+              "h": 0.24
+            },
+            {
+              "x": 12.3,
+              "y": 0,
+              "w": 9.7,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 18.76,
+              "w": 10,
+              "h": 0.24
+            },
+            {
+              "x": 12,
+              "y": 18.76,
+              "w": 10,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "w": 0.24,
+              "h": 19
+            },
+            {
+              "x": 21.76,
+              "y": 0,
+              "w": 0.24,
+              "h": 19
+            },
+            {
+              "x": 9.6,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 9.6,
+              "y": 5.75,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 12.4,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 12.4,
+              "y": 5.75,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 9.6,
+              "y": 9.5,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 9.6,
+              "y": 14.75,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 12.4,
+              "y": 9.5,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 12.4,
+              "y": 14.75,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 0.25,
+              "y": 9.5,
+              "w": 9.35,
+              "h": 0.24
+            },
+            {
+              "x": 12.4,
+              "y": 9.5,
+              "w": 9.35,
+              "h": 0.24
+            }
+          ],
+          "objects": [
+            {
+              "id": "source-native-familyHouse-0:1:0",
+              "kind": "bed",
+              "x": 0.95,
+              "y": 1.4,
+              "w": 2.05,
+              "h": 1.6,
+              "a": 0,
+              "resource": "wood",
+              "amount": 21,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-familyHouse-0:1:1",
+              "kind": "wardrobe",
+              "x": 0.95,
+              "y": 6.65,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 12,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-familyHouse-0:1:2",
+              "kind": "bed",
+              "x": 13.35,
+              "y": 1.4,
+              "w": 2.05,
+              "h": 1.6,
+              "a": 0,
+              "resource": "wood",
+              "amount": 9,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-familyHouse-0:1:3",
+              "kind": "desk",
+              "x": 13.35,
+              "y": 6.65,
+              "w": 1.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 12,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-familyHouse-0:1:4",
+              "kind": "sink",
+              "x": 0.95,
+              "y": 10.4,
+              "w": 0.8,
+              "h": 0.65,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 12,
+              "room": "Salle d’eau"
+            },
+            {
+              "id": "source-native-familyHouse-0:1:5",
+              "kind": "wardrobe",
+              "x": 0.95,
+              "y": 15.65,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 18,
+              "room": "Salle d’eau"
+            },
+            {
+              "id": "source-native-familyHouse-0:1:6",
+              "kind": "wardrobe",
+              "x": 13.35,
+              "y": 10.4,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 20,
+              "room": "Réserve"
+            },
+            {
+              "id": "source-native-familyHouse-0:1:7",
+              "kind": "crate",
+              "x": 13.35,
+              "y": 15.65,
+              "w": 1.2,
+              "h": 0.8,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 12,
+              "room": "Réserve"
+            }
+          ],
+          "rooms": [
+            {
+              "name": "Chambre",
+              "x": 0.35,
+              "y": 0.75,
+              "w": 9,
+              "h": 8.5
+            },
+            {
+              "name": "Chambre",
+              "x": 12.75,
+              "y": 0.75,
+              "w": 8.9,
+              "h": 8.5
+            },
+            {
+              "name": "Salle d’eau",
+              "x": 0.35,
+              "y": 9.75,
+              "w": 9,
+              "h": 8.5
+            },
+            {
+              "name": "Réserve",
+              "x": 12.75,
+              "y": 9.75,
+              "w": 8.9,
+              "h": 8.5
+            }
+          ],
+          "stairs": [
+            {
+              "id": "source-native-familyHouse-0:stairs",
+              "x": 9.95,
+              "y": 15,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1
+              ]
+            }
+          ],
+          "floor": {
+            "x": 0.25,
+            "y": 0.25,
+            "w": 21.5,
+            "h": 18.5
+          },
+          "entry": {
+            "x": 0,
+            "y": -10.5
+          },
+          "exit": {
+            "x": 0,
+            "y": 10.5
+          },
+          "layoutVariant141": "original"
+        }
+      ],
+      "outdoor": [
+        {
+          "id": "source-native-familyHouse-0:out:0",
+          "kind": "table",
+          "x": 2,
+          "y": 24,
+          "w": 1.6,
+          "h": 0.85,
+          "a": 0,
+          "resource": "wood",
+          "amount": 19,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-familyHouse-0:out:1",
+          "kind": "crate",
+          "x": 19,
+          "y": 24,
+          "w": 1.2,
+          "h": 0.8,
+          "a": 0,
+          "resource": "wood",
+          "amount": 12,
+          "room": "Cour de service"
+        }
+      ],
+      "roofFamily": "cottage",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "cottage",
+          "variant": 0,
+          "rect": [
+            37,
+            41,
+            286,
+            188
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "cottage",
+          "variant": 1,
+          "rect": [
+            362,
+            47,
+            315,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 2,
+          "model": "terracotta-hipped",
+          "rect": [
+            58,
+            73,
+            291,
+            171
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 3,
+          "model": "terracotta-dormer",
+          "rect": [
+            431,
+            63,
+            298,
+            180
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 4,
+          "model": "slate-mansard",
+          "rect": [
+            815,
+            71,
+            292,
+            173
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 5,
+          "model": "patched-metal",
+          "rect": [
+            1188,
+            71,
+            289,
+            174
+          ]
+        }
+      ],
+      "codexFieldInvariantForGeometryOnly": true,
+      "prototypeScope": "Synthetic canonical unmirrored G7 fixture evaluated with the unchanged owners; not a live campaign instance. Native Pxxxx identities and saved records are untouched.",
+      "canonicalPayloadSha256": "e330a19cfe356a0ff704861563adc0317e0911bf32ba928984e920d12b1cdd5a"
+    },
+    {
+      "type": "farmhouse",
+      "artId": "native:farmhouse",
+      "preset": {
+        "id": "farmhouse",
+        "name": "Corps de ferme",
+        "w": 32,
+        "h": 17,
+        "parent": "duplex",
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "settlements123"
+      },
+      "fixture": {
+        "id": "source-native-farmhouse-1",
+        "type": "farmhouse",
+        "x": 0,
+        "y": 0,
+        "a": 0,
+        "w": 32,
+        "h": 17,
+        "levels": [
+          0,
+          1
+        ],
+        "generation": 7
+      },
+      "floors": [
+        {
+          "z": 0,
+          "walls": [
+            {
+              "x": 0,
+              "y": 0,
+              "w": 14.7,
+              "h": 0.24
+            },
+            {
+              "x": 17.3,
+              "y": 0,
+              "w": 14.7,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 16.76,
+              "w": 15,
+              "h": 0.24
+            },
+            {
+              "x": 17,
+              "y": 16.76,
+              "w": 15,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "w": 0.24,
+              "h": 17
+            },
+            {
+              "x": 31.76,
+              "y": 0,
+              "w": 0.24,
+              "h": 17
+            },
+            {
+              "x": 14.6,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 3.25
+            },
+            {
+              "x": 14.6,
+              "y": 5.25,
+              "w": 0.24,
+              "h": 3.25
+            },
+            {
+              "x": 17.4,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 3.25
+            },
+            {
+              "x": 17.4,
+              "y": 5.25,
+              "w": 0.24,
+              "h": 3.25
+            },
+            {
+              "x": 14.6,
+              "y": 8.5,
+              "w": 0.24,
+              "h": 3.25
+            },
+            {
+              "x": 14.6,
+              "y": 13.25,
+              "w": 0.24,
+              "h": 3.25
+            },
+            {
+              "x": 17.4,
+              "y": 8.5,
+              "w": 0.24,
+              "h": 3.25
+            },
+            {
+              "x": 17.4,
+              "y": 13.25,
+              "w": 0.24,
+              "h": 3.25
+            },
+            {
+              "x": 0.25,
+              "y": 8.5,
+              "w": 14.35,
+              "h": 0.24
+            },
+            {
+              "x": 17.4,
+              "y": 8.5,
+              "w": 14.350000000000001,
+              "h": 0.24
+            }
+          ],
+          "objects": [
+            {
+              "id": "source-native-farmhouse-1:0:0",
+              "kind": "sofa",
+              "x": 0.95,
+              "y": 1.4,
+              "w": 2.2,
+              "h": 0.95,
+              "a": 0,
+              "resource": "wood",
+              "amount": 22,
+              "room": "Séjour"
+            },
+            {
+              "id": "source-native-farmhouse-1:0:1",
+              "kind": "table",
+              "x": 0.95,
+              "y": 5.65,
+              "w": 1.6,
+              "h": 0.85,
+              "a": 0,
+              "resource": "wood",
+              "amount": 17,
+              "room": "Séjour"
+            },
+            {
+              "id": "source-native-farmhouse-1:0:2",
+              "kind": "fridge",
+              "x": 18.35,
+              "y": 1.4,
+              "w": 0.8,
+              "h": 0.8,
+              "a": 0,
+              "resource": "food",
+              "amount": 15,
+              "room": "Cuisine"
+            },
+            {
+              "id": "source-native-farmhouse-1:0:3",
+              "kind": "sink",
+              "x": 18.35,
+              "y": 5.65,
+              "w": 0.8,
+              "h": 0.65,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 7,
+              "room": "Cuisine"
+            },
+            {
+              "id": "source-native-farmhouse-1:0:4",
+              "kind": "bed",
+              "x": 0.95,
+              "y": 9.4,
+              "w": 2.05,
+              "h": 1.6,
+              "a": 0,
+              "resource": "wood",
+              "amount": 7,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-farmhouse-1:0:5",
+              "kind": "wardrobe",
+              "x": 0.95,
+              "y": 13.65,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 16,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-farmhouse-1:0:6",
+              "kind": "workbench",
+              "x": 18.35,
+              "y": 9.4,
+              "w": 2,
+              "h": 0.85,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 8,
+              "room": "Garage / rangement"
+            },
+            {
+              "id": "source-native-farmhouse-1:0:7",
+              "kind": "crate",
+              "x": 18.35,
+              "y": 13.65,
+              "w": 1.2,
+              "h": 0.8,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 17,
+              "room": "Garage / rangement"
+            }
+          ],
+          "rooms": [
+            {
+              "name": "Séjour",
+              "x": 0.35,
+              "y": 0.75,
+              "w": 14,
+              "h": 7.5
+            },
+            {
+              "name": "Cuisine",
+              "x": 17.75,
+              "y": 0.75,
+              "w": 13.900000000000002,
+              "h": 7.5
+            },
+            {
+              "name": "Chambre",
+              "x": 0.35,
+              "y": 8.75,
+              "w": 14,
+              "h": 7.5
+            },
+            {
+              "name": "Garage / rangement",
+              "x": 17.75,
+              "y": 8.75,
+              "w": 13.900000000000002,
+              "h": 7.5
+            }
+          ],
+          "stairs": [
+            {
+              "id": "source-native-farmhouse-1:stairs",
+              "x": 14.95,
+              "y": 13,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1
+              ]
+            }
+          ],
+          "floor": {
+            "x": 0.25,
+            "y": 0.25,
+            "w": 31.5,
+            "h": 16.5
+          },
+          "entry": {
+            "x": 0,
+            "y": -9.5
+          },
+          "exit": {
+            "x": 0,
+            "y": 9.5
+          },
+          "layoutVariant141": "original"
+        },
+        {
+          "z": 1,
+          "walls": [
+            {
+              "x": 0,
+              "y": 0,
+              "w": 14.7,
+              "h": 0.24
+            },
+            {
+              "x": 17.3,
+              "y": 0,
+              "w": 14.7,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 16.76,
+              "w": 15,
+              "h": 0.24
+            },
+            {
+              "x": 17,
+              "y": 16.76,
+              "w": 15,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "w": 0.24,
+              "h": 17
+            },
+            {
+              "x": 31.76,
+              "y": 0,
+              "w": 0.24,
+              "h": 17
+            },
+            {
+              "x": 14.6,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 3.25
+            },
+            {
+              "x": 14.6,
+              "y": 5.25,
+              "w": 0.24,
+              "h": 3.25
+            },
+            {
+              "x": 17.4,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 3.25
+            },
+            {
+              "x": 17.4,
+              "y": 5.25,
+              "w": 0.24,
+              "h": 3.25
+            },
+            {
+              "x": 14.6,
+              "y": 8.5,
+              "w": 0.24,
+              "h": 3.25
+            },
+            {
+              "x": 14.6,
+              "y": 13.25,
+              "w": 0.24,
+              "h": 3.25
+            },
+            {
+              "x": 17.4,
+              "y": 8.5,
+              "w": 0.24,
+              "h": 3.25
+            },
+            {
+              "x": 17.4,
+              "y": 13.25,
+              "w": 0.24,
+              "h": 3.25
+            },
+            {
+              "x": 0.25,
+              "y": 8.5,
+              "w": 14.35,
+              "h": 0.24
+            },
+            {
+              "x": 17.4,
+              "y": 8.5,
+              "w": 14.350000000000001,
+              "h": 0.24
+            }
+          ],
+          "objects": [
+            {
+              "id": "source-native-farmhouse-1:1:0",
+              "kind": "bed",
+              "x": 0.95,
+              "y": 1.4,
+              "w": 2.05,
+              "h": 1.6,
+              "a": 0,
+              "resource": "wood",
+              "amount": 15,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-farmhouse-1:1:1",
+              "kind": "wardrobe",
+              "x": 0.95,
+              "y": 5.65,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 23,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-farmhouse-1:1:2",
+              "kind": "bed",
+              "x": 18.35,
+              "y": 1.4,
+              "w": 2.05,
+              "h": 1.6,
+              "a": 0,
+              "resource": "wood",
+              "amount": 10,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-farmhouse-1:1:3",
+              "kind": "desk",
+              "x": 18.35,
+              "y": 5.65,
+              "w": 1.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 23,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-farmhouse-1:1:4",
+              "kind": "sink",
+              "x": 0.95,
+              "y": 9.4,
+              "w": 0.8,
+              "h": 0.65,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 7,
+              "room": "Salle d’eau"
+            },
+            {
+              "id": "source-native-farmhouse-1:1:5",
+              "kind": "wardrobe",
+              "x": 0.95,
+              "y": 13.65,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 17,
+              "room": "Salle d’eau"
+            },
+            {
+              "id": "source-native-farmhouse-1:1:6",
+              "kind": "wardrobe",
+              "x": 18.35,
+              "y": 9.4,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 15,
+              "room": "Réserve"
+            },
+            {
+              "id": "source-native-farmhouse-1:1:7",
+              "kind": "crate",
+              "x": 18.35,
+              "y": 13.65,
+              "w": 1.2,
+              "h": 0.8,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 19,
+              "room": "Réserve"
+            }
+          ],
+          "rooms": [
+            {
+              "name": "Chambre",
+              "x": 0.35,
+              "y": 0.75,
+              "w": 14,
+              "h": 7.5
+            },
+            {
+              "name": "Chambre",
+              "x": 17.75,
+              "y": 0.75,
+              "w": 13.900000000000002,
+              "h": 7.5
+            },
+            {
+              "name": "Salle d’eau",
+              "x": 0.35,
+              "y": 8.75,
+              "w": 14,
+              "h": 7.5
+            },
+            {
+              "name": "Réserve",
+              "x": 17.75,
+              "y": 8.75,
+              "w": 13.900000000000002,
+              "h": 7.5
+            }
+          ],
+          "stairs": [
+            {
+              "id": "source-native-farmhouse-1:stairs",
+              "x": 14.95,
+              "y": 13,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1
+              ]
+            }
+          ],
+          "floor": {
+            "x": 0.25,
+            "y": 0.25,
+            "w": 31.5,
+            "h": 16.5
+          },
+          "entry": {
+            "x": 0,
+            "y": -9.5
+          },
+          "exit": {
+            "x": 0,
+            "y": 9.5
+          },
+          "layoutVariant141": "original"
+        }
+      ],
+      "outdoor": [
+        {
+          "id": "source-native-farmhouse-1:out:0",
+          "kind": "table",
+          "x": 2,
+          "y": 22,
+          "w": 1.6,
+          "h": 0.85,
+          "a": 0,
+          "resource": "wood",
+          "amount": 9,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-farmhouse-1:out:1",
+          "kind": "crate",
+          "x": 29,
+          "y": 22,
+          "w": 1.2,
+          "h": 0.8,
+          "a": 0,
+          "resource": "wood",
+          "amount": 20,
+          "room": "Cour de service"
+        }
+      ],
+      "roofFamily": "farm",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "farm",
+          "variant": 0,
+          "rect": [
+            711,
+            45,
+            424,
+            182
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "farm",
+          "variant": 1,
+          "rect": [
+            1158,
+            47,
+            360,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "farm",
+          "variant": 2,
+          "model": "terracotta-hipped",
+          "rect": [
+            58,
+            73,
+            291,
+            171
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "farm",
+          "variant": 3,
+          "model": "terracotta-dormer",
+          "rect": [
+            431,
+            63,
+            298,
+            180
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "farm",
+          "variant": 4,
+          "model": "patched-metal",
+          "rect": [
+            1188,
+            71,
+            289,
+            174
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "farm",
+          "variant": 5,
+          "model": "terracotta-double-ridge",
+          "rect": [
+            1188,
+            303,
+            298,
+            175
+          ]
+        }
+      ],
+      "codexFieldInvariantForGeometryOnly": true,
+      "prototypeScope": "Synthetic canonical unmirrored G7 fixture evaluated with the unchanged owners; not a live campaign instance. Native Pxxxx identities and saved records are untouched.",
+      "canonicalPayloadSha256": "8a8d3ea2db686a4f1e4e2f5676a6c58cfeffac6eceed3dc4457880a1e6ebb3d6"
+    },
+    {
+      "type": "villa",
+      "artId": "native:villa",
+      "preset": {
+        "id": "villa",
+        "name": "Grande villa",
+        "w": 28,
+        "h": 23,
+        "parent": "duplex",
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "settlements123"
+      },
+      "fixture": {
+        "id": "source-native-villa-0",
+        "type": "villa",
+        "x": 0,
+        "y": 0,
+        "a": 0,
+        "w": 28,
+        "h": 23,
+        "levels": [
+          0,
+          1
+        ],
+        "generation": 7
+      },
+      "floors": [
+        {
+          "z": 0,
+          "walls": [
+            {
+              "x": 0,
+              "y": 0,
+              "w": 12.7,
+              "h": 0.24
+            },
+            {
+              "x": 15.3,
+              "y": 0,
+              "w": 12.7,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 22.76,
+              "w": 13,
+              "h": 0.24
+            },
+            {
+              "x": 15,
+              "y": 22.76,
+              "w": 13,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "w": 0.24,
+              "h": 23
+            },
+            {
+              "x": 27.76,
+              "y": 0,
+              "w": 0.24,
+              "h": 23
+            },
+            {
+              "x": 12.6,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 4.75
+            },
+            {
+              "x": 12.6,
+              "y": 6.75,
+              "w": 0.24,
+              "h": 4.75
+            },
+            {
+              "x": 15.4,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 4.75
+            },
+            {
+              "x": 15.4,
+              "y": 6.75,
+              "w": 0.24,
+              "h": 4.75
+            },
+            {
+              "x": 12.6,
+              "y": 11.5,
+              "w": 0.24,
+              "h": 4.75
+            },
+            {
+              "x": 12.6,
+              "y": 17.75,
+              "w": 0.24,
+              "h": 4.75
+            },
+            {
+              "x": 15.4,
+              "y": 11.5,
+              "w": 0.24,
+              "h": 4.75
+            },
+            {
+              "x": 15.4,
+              "y": 17.75,
+              "w": 0.24,
+              "h": 4.75
+            },
+            {
+              "x": 0.25,
+              "y": 11.5,
+              "w": 12.35,
+              "h": 0.24
+            },
+            {
+              "x": 15.4,
+              "y": 11.5,
+              "w": 12.35,
+              "h": 0.24
+            }
+          ],
+          "objects": [
+            {
+              "id": "source-native-villa-0:0:0",
+              "kind": "sofa",
+              "x": 0.95,
+              "y": 1.4,
+              "w": 2.2,
+              "h": 0.95,
+              "a": 0,
+              "resource": "wood",
+              "amount": 10,
+              "room": "Séjour"
+            },
+            {
+              "id": "source-native-villa-0:0:1",
+              "kind": "table",
+              "x": 0.95,
+              "y": 8.65,
+              "w": 1.6,
+              "h": 0.85,
+              "a": 0,
+              "resource": "wood",
+              "amount": 9,
+              "room": "Séjour"
+            },
+            {
+              "id": "source-native-villa-0:0:2",
+              "kind": "fridge",
+              "x": 16.35,
+              "y": 1.4,
+              "w": 0.8,
+              "h": 0.8,
+              "a": 0,
+              "resource": "food",
+              "amount": 15,
+              "room": "Cuisine"
+            },
+            {
+              "id": "source-native-villa-0:0:3",
+              "kind": "sink",
+              "x": 16.35,
+              "y": 8.65,
+              "w": 0.8,
+              "h": 0.65,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 9,
+              "room": "Cuisine"
+            },
+            {
+              "id": "source-native-villa-0:0:4",
+              "kind": "bed",
+              "x": 0.95,
+              "y": 12.4,
+              "w": 2.05,
+              "h": 1.6,
+              "a": 0,
+              "resource": "wood",
+              "amount": 12,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-villa-0:0:5",
+              "kind": "wardrobe",
+              "x": 0.95,
+              "y": 19.65,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 17,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-villa-0:0:6",
+              "kind": "workbench",
+              "x": 16.35,
+              "y": 12.4,
+              "w": 2,
+              "h": 0.85,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 15,
+              "room": "Garage / rangement"
+            },
+            {
+              "id": "source-native-villa-0:0:7",
+              "kind": "crate",
+              "x": 16.35,
+              "y": 19.65,
+              "w": 1.2,
+              "h": 0.8,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 21,
+              "room": "Garage / rangement"
+            }
+          ],
+          "rooms": [
+            {
+              "name": "Séjour",
+              "x": 0.35,
+              "y": 0.75,
+              "w": 12,
+              "h": 10.5
+            },
+            {
+              "name": "Cuisine",
+              "x": 15.75,
+              "y": 0.75,
+              "w": 11.9,
+              "h": 10.5
+            },
+            {
+              "name": "Chambre",
+              "x": 0.35,
+              "y": 11.75,
+              "w": 12,
+              "h": 10.5
+            },
+            {
+              "name": "Garage / rangement",
+              "x": 15.75,
+              "y": 11.75,
+              "w": 11.9,
+              "h": 10.5
+            }
+          ],
+          "stairs": [
+            {
+              "id": "source-native-villa-0:stairs",
+              "x": 12.95,
+              "y": 19,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1
+              ]
+            }
+          ],
+          "floor": {
+            "x": 0.25,
+            "y": 0.25,
+            "w": 27.5,
+            "h": 22.5
+          },
+          "entry": {
+            "x": 0,
+            "y": -12.5
+          },
+          "exit": {
+            "x": 0,
+            "y": 12.5
+          },
+          "layoutVariant141": "original"
+        },
+        {
+          "z": 1,
+          "walls": [
+            {
+              "x": 0,
+              "y": 0,
+              "w": 12.7,
+              "h": 0.24
+            },
+            {
+              "x": 15.3,
+              "y": 0,
+              "w": 12.7,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 22.76,
+              "w": 13,
+              "h": 0.24
+            },
+            {
+              "x": 15,
+              "y": 22.76,
+              "w": 13,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "w": 0.24,
+              "h": 23
+            },
+            {
+              "x": 27.76,
+              "y": 0,
+              "w": 0.24,
+              "h": 23
+            },
+            {
+              "x": 12.6,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 4.75
+            },
+            {
+              "x": 12.6,
+              "y": 6.75,
+              "w": 0.24,
+              "h": 4.75
+            },
+            {
+              "x": 15.4,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 4.75
+            },
+            {
+              "x": 15.4,
+              "y": 6.75,
+              "w": 0.24,
+              "h": 4.75
+            },
+            {
+              "x": 12.6,
+              "y": 11.5,
+              "w": 0.24,
+              "h": 4.75
+            },
+            {
+              "x": 12.6,
+              "y": 17.75,
+              "w": 0.24,
+              "h": 4.75
+            },
+            {
+              "x": 15.4,
+              "y": 11.5,
+              "w": 0.24,
+              "h": 4.75
+            },
+            {
+              "x": 15.4,
+              "y": 17.75,
+              "w": 0.24,
+              "h": 4.75
+            },
+            {
+              "x": 0.25,
+              "y": 11.5,
+              "w": 12.35,
+              "h": 0.24
+            },
+            {
+              "x": 15.4,
+              "y": 11.5,
+              "w": 12.35,
+              "h": 0.24
+            }
+          ],
+          "objects": [
+            {
+              "id": "source-native-villa-0:1:0",
+              "kind": "bed",
+              "x": 0.95,
+              "y": 1.4,
+              "w": 2.05,
+              "h": 1.6,
+              "a": 0,
+              "resource": "wood",
+              "amount": 13,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-villa-0:1:1",
+              "kind": "wardrobe",
+              "x": 0.95,
+              "y": 8.65,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 9,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-villa-0:1:2",
+              "kind": "bed",
+              "x": 16.35,
+              "y": 1.4,
+              "w": 2.05,
+              "h": 1.6,
+              "a": 0,
+              "resource": "wood",
+              "amount": 21,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-villa-0:1:3",
+              "kind": "desk",
+              "x": 16.35,
+              "y": 8.65,
+              "w": 1.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 15,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-villa-0:1:4",
+              "kind": "sink",
+              "x": 0.95,
+              "y": 12.4,
+              "w": 0.8,
+              "h": 0.65,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 11,
+              "room": "Salle d’eau"
+            },
+            {
+              "id": "source-native-villa-0:1:5",
+              "kind": "wardrobe",
+              "x": 0.95,
+              "y": 19.65,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 20,
+              "room": "Salle d’eau"
+            },
+            {
+              "id": "source-native-villa-0:1:6",
+              "kind": "wardrobe",
+              "x": 16.35,
+              "y": 12.4,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 23,
+              "room": "Réserve"
+            },
+            {
+              "id": "source-native-villa-0:1:7",
+              "kind": "crate",
+              "x": 16.35,
+              "y": 19.65,
+              "w": 1.2,
+              "h": 0.8,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 18,
+              "room": "Réserve"
+            }
+          ],
+          "rooms": [
+            {
+              "name": "Chambre",
+              "x": 0.35,
+              "y": 0.75,
+              "w": 12,
+              "h": 10.5
+            },
+            {
+              "name": "Chambre",
+              "x": 15.75,
+              "y": 0.75,
+              "w": 11.9,
+              "h": 10.5
+            },
+            {
+              "name": "Salle d’eau",
+              "x": 0.35,
+              "y": 11.75,
+              "w": 12,
+              "h": 10.5
+            },
+            {
+              "name": "Réserve",
+              "x": 15.75,
+              "y": 11.75,
+              "w": 11.9,
+              "h": 10.5
+            }
+          ],
+          "stairs": [
+            {
+              "id": "source-native-villa-0:stairs",
+              "x": 12.95,
+              "y": 19,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1
+              ]
+            }
+          ],
+          "floor": {
+            "x": 0.25,
+            "y": 0.25,
+            "w": 27.5,
+            "h": 22.5
+          },
+          "entry": {
+            "x": 0,
+            "y": -12.5
+          },
+          "exit": {
+            "x": 0,
+            "y": 12.5
+          },
+          "layoutVariant141": "original"
+        }
+      ],
+      "outdoor": [
+        {
+          "id": "source-native-villa-0:out:0",
+          "kind": "table",
+          "x": 2,
+          "y": 28,
+          "w": 1.6,
+          "h": 0.85,
+          "a": 0,
+          "resource": "wood",
+          "amount": 18,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-villa-0:out:1",
+          "kind": "crate",
+          "x": 25,
+          "y": 28,
+          "w": 1.2,
+          "h": 0.8,
+          "a": 0,
+          "resource": "wood",
+          "amount": 20,
+          "room": "Cour de service"
+        }
+      ],
+      "roofFamily": "cottage",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "cottage",
+          "variant": 0,
+          "rect": [
+            37,
+            41,
+            286,
+            188
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "cottage",
+          "variant": 1,
+          "rect": [
+            362,
+            47,
+            315,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 2,
+          "model": "terracotta-hipped",
+          "rect": [
+            58,
+            73,
+            291,
+            171
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 3,
+          "model": "terracotta-dormer",
+          "rect": [
+            431,
+            63,
+            298,
+            180
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 4,
+          "model": "slate-mansard",
+          "rect": [
+            815,
+            71,
+            292,
+            173
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 5,
+          "model": "patched-metal",
+          "rect": [
+            1188,
+            71,
+            289,
+            174
+          ]
+        }
+      ],
+      "codexFieldInvariantForGeometryOnly": true,
+      "prototypeScope": "Synthetic canonical unmirrored G7 fixture evaluated with the unchanged owners; not a live campaign instance. Native Pxxxx identities and saved records are untouched.",
+      "canonicalPayloadSha256": "6de52737cb70e2ac954de57af26971ed8682cfbaba91692917e880df225371ef"
+    },
+    {
+      "type": "duplexWide",
+      "artId": "native:duplexWide",
+      "preset": {
+        "id": "duplexWide",
+        "name": "Maison double",
+        "w": 30,
+        "h": 19,
+        "parent": "duplex",
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "settlements123"
+      },
+      "fixture": {
+        "id": "source-native-duplexWide-2",
+        "type": "duplexWide",
+        "x": 0,
+        "y": 0,
+        "a": 0,
+        "w": 30,
+        "h": 19,
+        "levels": [
+          0,
+          1
+        ],
+        "generation": 7
+      },
+      "floors": [
+        {
+          "z": 0,
+          "walls": [
+            {
+              "x": 0,
+              "y": 0,
+              "w": 13.7,
+              "h": 0.24
+            },
+            {
+              "x": 16.3,
+              "y": 0,
+              "w": 13.7,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 18.76,
+              "w": 14,
+              "h": 0.24
+            },
+            {
+              "x": 16,
+              "y": 18.76,
+              "w": 14,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "w": 0.24,
+              "h": 19
+            },
+            {
+              "x": 29.76,
+              "y": 0,
+              "w": 0.24,
+              "h": 19
+            },
+            {
+              "x": 13.6,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 13.6,
+              "y": 5.75,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 16.4,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 16.4,
+              "y": 5.75,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 13.6,
+              "y": 9.5,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 13.6,
+              "y": 14.75,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 16.4,
+              "y": 9.5,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 16.4,
+              "y": 14.75,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 0.25,
+              "y": 9.5,
+              "w": 13.35,
+              "h": 0.24
+            },
+            {
+              "x": 16.4,
+              "y": 9.5,
+              "w": 13.350000000000001,
+              "h": 0.24
+            }
+          ],
+          "objects": [
+            {
+              "id": "source-native-duplexWide-2:0:0",
+              "kind": "sofa",
+              "x": 0.95,
+              "y": 1.4,
+              "w": 2.2,
+              "h": 0.95,
+              "a": 0,
+              "resource": "wood",
+              "amount": 16,
+              "room": "Séjour"
+            },
+            {
+              "id": "source-native-duplexWide-2:0:1",
+              "kind": "table",
+              "x": 0.95,
+              "y": 6.65,
+              "w": 1.6,
+              "h": 0.85,
+              "a": 0,
+              "resource": "wood",
+              "amount": 20,
+              "room": "Séjour"
+            },
+            {
+              "id": "source-native-duplexWide-2:0:2",
+              "kind": "fridge",
+              "x": 17.35,
+              "y": 1.4,
+              "w": 0.8,
+              "h": 0.8,
+              "a": 0,
+              "resource": "food",
+              "amount": 12,
+              "room": "Cuisine"
+            },
+            {
+              "id": "source-native-duplexWide-2:0:3",
+              "kind": "sink",
+              "x": 17.35,
+              "y": 6.65,
+              "w": 0.8,
+              "h": 0.65,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 11,
+              "room": "Cuisine"
+            },
+            {
+              "id": "source-native-duplexWide-2:0:4",
+              "kind": "bed",
+              "x": 0.95,
+              "y": 10.4,
+              "w": 2.05,
+              "h": 1.6,
+              "a": 0,
+              "resource": "wood",
+              "amount": 19,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-duplexWide-2:0:5",
+              "kind": "wardrobe",
+              "x": 0.95,
+              "y": 15.65,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 12,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-duplexWide-2:0:6",
+              "kind": "workbench",
+              "x": 17.35,
+              "y": 10.4,
+              "w": 2,
+              "h": 0.85,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 18,
+              "room": "Garage / rangement"
+            },
+            {
+              "id": "source-native-duplexWide-2:0:7",
+              "kind": "crate",
+              "x": 17.35,
+              "y": 15.65,
+              "w": 1.2,
+              "h": 0.8,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 17,
+              "room": "Garage / rangement"
+            }
+          ],
+          "rooms": [
+            {
+              "name": "Séjour",
+              "x": 0.35,
+              "y": 0.75,
+              "w": 13,
+              "h": 8.5
+            },
+            {
+              "name": "Cuisine",
+              "x": 16.75,
+              "y": 0.75,
+              "w": 12.900000000000002,
+              "h": 8.5
+            },
+            {
+              "name": "Chambre",
+              "x": 0.35,
+              "y": 9.75,
+              "w": 13,
+              "h": 8.5
+            },
+            {
+              "name": "Garage / rangement",
+              "x": 16.75,
+              "y": 9.75,
+              "w": 12.900000000000002,
+              "h": 8.5
+            }
+          ],
+          "stairs": [
+            {
+              "id": "source-native-duplexWide-2:stairs",
+              "x": 13.95,
+              "y": 15,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1
+              ]
+            }
+          ],
+          "floor": {
+            "x": 0.25,
+            "y": 0.25,
+            "w": 29.5,
+            "h": 18.5
+          },
+          "entry": {
+            "x": 0,
+            "y": -10.5
+          },
+          "exit": {
+            "x": 0,
+            "y": 10.5
+          },
+          "layoutVariant141": "original"
+        },
+        {
+          "z": 1,
+          "walls": [
+            {
+              "x": 0,
+              "y": 0,
+              "w": 13.7,
+              "h": 0.24
+            },
+            {
+              "x": 16.3,
+              "y": 0,
+              "w": 13.7,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 18.76,
+              "w": 14,
+              "h": 0.24
+            },
+            {
+              "x": 16,
+              "y": 18.76,
+              "w": 14,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "w": 0.24,
+              "h": 19
+            },
+            {
+              "x": 29.76,
+              "y": 0,
+              "w": 0.24,
+              "h": 19
+            },
+            {
+              "x": 13.6,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 13.6,
+              "y": 5.75,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 16.4,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 16.4,
+              "y": 5.75,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 13.6,
+              "y": 9.5,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 13.6,
+              "y": 14.75,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 16.4,
+              "y": 9.5,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 16.4,
+              "y": 14.75,
+              "w": 0.24,
+              "h": 3.75
+            },
+            {
+              "x": 0.25,
+              "y": 9.5,
+              "w": 13.35,
+              "h": 0.24
+            },
+            {
+              "x": 16.4,
+              "y": 9.5,
+              "w": 13.350000000000001,
+              "h": 0.24
+            }
+          ],
+          "objects": [
+            {
+              "id": "source-native-duplexWide-2:1:0",
+              "kind": "bed",
+              "x": 0.95,
+              "y": 1.4,
+              "w": 2.05,
+              "h": 1.6,
+              "a": 0,
+              "resource": "wood",
+              "amount": 10,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-duplexWide-2:1:1",
+              "kind": "wardrobe",
+              "x": 0.95,
+              "y": 6.65,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 18,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-duplexWide-2:1:2",
+              "kind": "bed",
+              "x": 17.35,
+              "y": 1.4,
+              "w": 2.05,
+              "h": 1.6,
+              "a": 0,
+              "resource": "wood",
+              "amount": 19,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-duplexWide-2:1:3",
+              "kind": "desk",
+              "x": 17.35,
+              "y": 6.65,
+              "w": 1.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 12,
+              "room": "Chambre"
+            },
+            {
+              "id": "source-native-duplexWide-2:1:4",
+              "kind": "sink",
+              "x": 0.95,
+              "y": 10.4,
+              "w": 0.8,
+              "h": 0.65,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 18,
+              "room": "Salle d’eau"
+            },
+            {
+              "id": "source-native-duplexWide-2:1:5",
+              "kind": "wardrobe",
+              "x": 0.95,
+              "y": 15.65,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 19,
+              "room": "Salle d’eau"
+            },
+            {
+              "id": "source-native-duplexWide-2:1:6",
+              "kind": "wardrobe",
+              "x": 17.35,
+              "y": 10.4,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 14,
+              "room": "Réserve"
+            },
+            {
+              "id": "source-native-duplexWide-2:1:7",
+              "kind": "crate",
+              "x": 17.35,
+              "y": 15.65,
+              "w": 1.2,
+              "h": 0.8,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 22,
+              "room": "Réserve"
+            }
+          ],
+          "rooms": [
+            {
+              "name": "Chambre",
+              "x": 0.35,
+              "y": 0.75,
+              "w": 13,
+              "h": 8.5
+            },
+            {
+              "name": "Chambre",
+              "x": 16.75,
+              "y": 0.75,
+              "w": 12.900000000000002,
+              "h": 8.5
+            },
+            {
+              "name": "Salle d’eau",
+              "x": 0.35,
+              "y": 9.75,
+              "w": 13,
+              "h": 8.5
+            },
+            {
+              "name": "Réserve",
+              "x": 16.75,
+              "y": 9.75,
+              "w": 12.900000000000002,
+              "h": 8.5
+            }
+          ],
+          "stairs": [
+            {
+              "id": "source-native-duplexWide-2:stairs",
+              "x": 13.95,
+              "y": 15,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1
+              ]
+            }
+          ],
+          "floor": {
+            "x": 0.25,
+            "y": 0.25,
+            "w": 29.5,
+            "h": 18.5
+          },
+          "entry": {
+            "x": 0,
+            "y": -10.5
+          },
+          "exit": {
+            "x": 0,
+            "y": 10.5
+          },
+          "layoutVariant141": "original"
+        }
+      ],
+      "outdoor": [
+        {
+          "id": "source-native-duplexWide-2:out:0",
+          "kind": "table",
+          "x": 2,
+          "y": 24,
+          "w": 1.6,
+          "h": 0.85,
+          "a": 0,
+          "resource": "wood",
+          "amount": 11,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-duplexWide-2:out:1",
+          "kind": "crate",
+          "x": 27,
+          "y": 24,
+          "w": 1.2,
+          "h": 0.8,
+          "a": 0,
+          "resource": "wood",
+          "amount": 7,
+          "room": "Cour de service"
+        }
+      ],
+      "roofFamily": "cottage",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "cottage",
+          "variant": 0,
+          "rect": [
+            37,
+            41,
+            286,
+            188
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "cottage",
+          "variant": 1,
+          "rect": [
+            362,
+            47,
+            315,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 2,
+          "model": "terracotta-hipped",
+          "rect": [
+            58,
+            73,
+            291,
+            171
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 3,
+          "model": "terracotta-dormer",
+          "rect": [
+            431,
+            63,
+            298,
+            180
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 4,
+          "model": "slate-mansard",
+          "rect": [
+            815,
+            71,
+            292,
+            173
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "cottage",
+          "variant": 5,
+          "model": "patched-metal",
+          "rect": [
+            1188,
+            71,
+            289,
+            174
+          ]
+        }
+      ],
+      "codexFieldInvariantForGeometryOnly": true,
+      "prototypeScope": "Synthetic canonical unmirrored G7 fixture evaluated with the unchanged owners; not a live campaign instance. Native Pxxxx identities and saved records are untouched.",
+      "canonicalPayloadSha256": "94a6679dbdd3f7986feb733349dd42977109f236b5bc25462f7dace6b8ed8edf"
+    }
+  ]
+}

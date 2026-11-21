@@ -1,0 +1,131 @@
+{
+  "singleBunk": {
+    "id": "prop:singleBunk:v0",
+    "sha256": "b57ef02052f6239b68c9b9483647beb92ff0698b1f7b8d5e1edfb8cea93b9245",
+    "iteration": 2,
+    "reviewer": "root",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Couchage individuel unique, oreiller à gauche, trois barreaux lisibles et cadre métallique allongé ; axe X et vue du dessus conformes à la référence v0. La hauteur volumétrique reste une interprétation artistique, non une certification métrique.",
+    "pixelEditingPerformed": false
+  },
+  "milkingUnit": {
+    "id": "prop:milkingUnit:v0",
+    "sha256": "6e5fbf069388434fa63983c4bbaff999604fbb5900dae6aa6b821471ec3272c2",
+    "iteration": 1,
+    "reviewer": "root",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Groupe de traite vu du dessus : réservoir circulaire à gauche, raccord au bord haut, conduite vers la droite et quatre gobelets alignés dans le quadrant inférieur droit. Le socle reste unique, le matériel éteint et les positions de la variante0 sont conservées.",
+    "pixelEditingPerformed": false,
+    "metricFidelityCertified": false
+  },
+  "milkVat": {
+    "id": "prop:milkVat:v0",
+    "sha256": "3c0e19f2477492542d7b983dd30788a34f560ac49e98c328d5e377fa868b1eb9",
+    "iteration": 1,
+    "reviewer": "root",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Cuve métallique ovale fermée, bouchon clair central, traverse horizontale inférieure, quatre supports et sortie coudée vers le bas puis la droite. Topologie de la référence0 et axes conservés ; sans liquide ou production suggérée.",
+    "pixelEditingPerformed": false,
+    "metricFidelityCertified": false
+  },
+  "nestBox": {
+    "id": "prop:nestBox:v0",
+    "sha256": "ce6450ea7fe75d4de8cb5a4a8ddfc670a58648e30349568a14639ec9657f74cb",
+    "iteration": 1,
+    "reviewer": "root",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Pondoir horizontal en trois compartiments, chacun contenant son nid de paille et un seul œuf clair, conformément aux trois signes de la référence0. Cadre en bois cohérent, aucune poule ou scène ajoutée ; ces éléments dessinés ne constituent pas un stock collectable.",
+    "pixelEditingPerformed": false,
+    "metricFidelityCertified": false
+  },
+  "wineVat": {
+    "id": "prop:wineVat:v0",
+    "sha256": "94fdc6d80419d2aac8d414b7f0fb0476edcd2e117615fd52620ff054e9a1e477",
+    "iteration": 1,
+    "reviewer": "root",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Cuve vinicole métallique fermée, bouchon central en bois, quatre supports extérieurs, traverse dans la moitié basse et vanne coudée vers le bas puis la droite. Répartition des composants v0 conservée et usure sans activité ; l’ellipse est une interprétation artistique un peu plus arrondie que le dessin canonique.",
+    "pixelEditingPerformed": false,
+    "metricFidelityCertified": false
+  },
+  "wineBarrel": {
+    "id": "prop:wineBarrel:v0",
+    "sha256": "e2cde5890abda4259bfba1be400848c6b3a7eec52a759391c54a7170be2bc81f",
+    "iteration": 1,
+    "reviewer": "root",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Fût fermé vu du dessus, bois vertical et deux grandes bandes métalliques transversales aux positions de v0. Pas de contenu, de robinet ou de support extérieur inventé. L’arrondi reste une proposition à calibrer, sans mesure pixel pour pixel.",
+    "pixelEditingPerformed": false,
+    "metricFidelityCertified": false
+  },
+  "grapePress": {
+    "id": "prop:grapePress:v0",
+    "sha256": "1b3641093d145090af5a7be4a405c978694a168086194e87f7a04f39378fb088",
+    "iteration": 1,
+    "reviewer": "root",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Pressoir manuel unique sur son socle, panier circulaire fermé, cinq lattes longitudinales, deux montants latéraux, traverse haute et vis/poignée centrale. Reprend la géométrie symbolique du peintre natif0 sans prétendre reconstruire une mécanique métrique en3D ; aucun fruit, liquide ou fonctionnement ajouté.",
+    "pixelEditingPerformed": false,
+    "metricFidelityCertified": false
+  },
+  "feedTrough": {
+    "id": "prop:feedTrough:v0",
+    "sha256": "60030226d034de24233669d9da537afd20d209e1828cbd0d84e90d322298f65e",
+    "iteration": 2,
+    "reviewer": "root",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Mangeoire métallique très allongée, bouts biseautés, quatre supports et compartiment unique. La version2 remplace les sept entailles par des brins de paille disposés dans les mêmes directions, sur une matière granuleuse. Silhouette et orientation de v0 conservées.",
+    "pixelEditingPerformed": false,
+    "metricFidelityCertified": false
+  },
+  "waterTrough": {
+    "id": "prop:waterTrough:v0",
+    "sha256": "74b0852f38b8472db9a2e340a04bb4bf02dcef283822587a7cc53a0302fe3639",
+    "iteration": 2,
+    "reviewer": "root",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Abreuvoir aux extrémités biseautées, bac unique et petit élément supérieur droit. La version2 rend la surface comme de l’eau calme avec reflet naturel et retire le support central inférieur ajouté. Les supports de coin et la vue de dessus sont cohérents ; le reflet est interprétatif et non une bande peinte.",
+    "pixelEditingPerformed": false,
+    "metricFidelityCertified": false
+  },
+  "fodderRack": {
+    "id": "prop:fodderRack:v0",
+    "sha256": "8ffe95acdc78655d0eccaeb5ff4402e3adc8519788024483371c633871935cc4",
+    "iteration": 2,
+    "reviewer": "root",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Râtelier rectangulaire, six montants de bois et même axe long horizontal. La version2 interprète les sept marques vertes canoniques comme des brins de fourrage derrière les montants, sans bandes peintes. Les détails de matière ne créent aucun stock de jeu.",
+    "pixelEditingPerformed": false,
+    "metricFidelityCertified": false
+  },
+  "veterinaryTable": {
+    "id": "prop:veterinaryTable:v0",
+    "sha256": "e71f18be263898eb03e8f618dace7321858daef43ff608d591431df60b938873",
+    "iteration": 1,
+    "reviewer": "root",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Table horizontale vue du dessus, plateau clair, deux sangles longitudinales dans l’image avec leurs deux boucles centrales et coussin plié en haut à gauche. Cadre unique, aucune bête ni matériel détaché ; disposition cohérente avec la référence v0.",
+    "pixelEditingPerformed": false,
+    "metricFidelityCertified": false
+  },
+  "growingBench": {
+    "id": "prop:growingBench:v0",
+    "sha256": "cac434c2f82b06f63c6320d20d47e5474a4dbeae04bb910e321b0d3d271d8898",
+    "iteration": 1,
+    "reviewer": "root",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Table de semis à encadrement métallique et traverses de bois, deux rails latéraux, sol sombre et douze groupes de deux feuilles en trois rangées de quatre. Les nervures rendent les ovales canoniques comme des feuilles stylisées ; distinction visuelle du bac de culture conservée, sans croissance ou récolte simulée.",
+    "pixelEditingPerformed": false,
+    "metricFidelityCertified": false
+  },
+  "growingBed": {
+    "id": "prop:growingBed:v0",
+    "sha256": "d194af56ede2ca57b53620349d2baaa27d17f18d07df35d126de1629c62b2199",
+    "iteration": 1,
+    "reviewer": "root",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Bac bas à large cadre de bois, renforts sur les deux grands bords et douze groupes de deux feuilles en trois rangées de quatre. Aucun pied de table ni rail latéral ajouté. Les marques de matière restent une interprétation artistique. Le halo RGB visible dans certaines vignettes correspond aux pixels transparents : quatre bandes extérieures contrôlées ont un alpha maximal de 1, sans pixel alpha supérieur à 7.",
+    "pixelEditingPerformed": false,
+    "metricFidelityCertified": false
+  }
+}

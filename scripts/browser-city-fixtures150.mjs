@@ -205,6 +205,12 @@ export function prepareConstruction150(request) {
     return true;
   }
   const Building = g.core().constructor, initialProtectedPoint = protectedPoint && { ...protectedPoint }, constructionSearch = [];
+  // Match the live bodies that manual construction later inspects. The paused
+  // selector reads threats and vehicles too; it never clears them from a site.
+  const physicalActors = [{ entity: g.player, kind: 'player' }, ...g.units.map(entity => ({ entity, kind: entity.kind })),
+    ...g.zombies.map(entity => ({ entity, kind: 'infected' })), { entity: g.expeditions.entity(), kind: 'vehicle' },
+    ...(g.territories?.truckEntities() || []).map(entity => ({ entity, kind: 'truck' }))]
+    .filter(({ entity }) => entity && !entity.dead && (entity.health === undefined || entity.health > 0));
   let point, site;
   function search(servicePoint) {
     const observation = { protectedPoint: servicePoint && { ...servicePoint }, rejected: {}, examples: [] };
@@ -234,8 +240,8 @@ export function prepareConstruction150(request) {
       // legal EMPTY fixture, never move/heal a worker or relax the payment guard.
       const margin = 5 + 32;
       const marginFor = actor => actor === g.player ? 0 : margin;
-      const occupants = [g.player, ...g.units].filter(a => a.x + a.radius + marginFor(a) > candidate.left && a.x - a.radius - marginFor(a) < candidate.right && a.y + a.radius + marginFor(a) > candidate.top && a.y - a.radius - marginFor(a) < candidate.bottom);
-      if (occupants.length) { reject('actors', gx, gy, occupants.map(a => ({ id: a.id, x: a.x, y: a.y, radius: a.radius }))); continue; }
+      const occupants = physicalActors.filter(({ entity: a }) => a.x + (a.radius || 12) + marginFor(a) > candidate.left && a.x - (a.radius || 12) - marginFor(a) < candidate.right && a.y + (a.radius || 12) + marginFor(a) > candidate.top && a.y - (a.radius || 12) - marginFor(a) < candidate.bottom);
+      if (occupants.length) { reject('actors', gx, gy, occupants.map(({ entity: a, kind }) => ({ id: a.id, kind, x: a.x, y: a.y, radius: a.radius || 12 }))); continue; }
       // A paid autonomous defence protects the actual later training position.
       // Keep a margin for an attacker at melee distance; retain all wild hordes,
       // their schedule, ordinary ammunition and the player's current health.

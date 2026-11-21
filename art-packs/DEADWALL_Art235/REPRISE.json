@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "batch": "Art235",
+  "savedOn": "2026-11-17",
+  "publicationBaseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "completedArtIds": [
+    "prop:touring-caravan:v0",
+    "prop:abandoned-caravan:v0"
+  ],
+  "finalAssets": [
+    {
+      "id": "prop:touring-caravan:v0",
+      "artId": "prop:touring-caravan:v0",
+      "kind": "touring-caravan",
+      "name": "Caravane tractable fermée",
+      "path": "assets/art235/props/touring-caravan_caravane_tractable.png",
+      "sha256": "49d5f583cfde5c4217598b2dd2c57703ebe74868bdc2dd47855adff5f1dbbbee",
+      "bytes": 1195406,
+      "iteration": 1,
+      "dimensionsAuthorDesignMetres": {
+        "w": 2.4,
+        "h": 6.2,
+        "heightM": 2.8
+      },
+      "canonicalVariant": 0,
+      "existingRoute": "structural205",
+      "status": "dedicated_source_art_proposal_not_runtime_integrated"
+    },
+    {
+      "id": "prop:abandoned-caravan:v0",
+      "artId": "prop:abandoned-caravan:v0",
+      "kind": "abandoned-caravan",
+      "name": "Caravane abandonnée fermée",
+      "path": "assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+      "sha256": "be15ae950d99461b2351a0295713a36e0091aaec5a37da5191e392f4e3748748",
+      "bytes": 1098099,
+      "iteration": 2,
+      "dimensionsAuthorDesignMetres": {
+        "w": 2.4,
+        "h": 6.2,
+        "heightM": 2.8
+      },
+      "canonicalVariant": 0,
+      "existingRoute": "structural205",
+      "status": "dedicated_source_art_proposal_not_runtime_integrated"
+    }
+  ],
+  "supersededCandidates": 1,
+  "priorPacksRegenerated": false,
+  "publicationStatusAtAssembly": "prepared_locally_not_published_by_assembler",
+  "runtimeIntegrationPerformed": false,
+  "remainingWork": [
+    "Review proposal against the exact source fixture before registration.",
+    "Calibrate scale, anchors, orientation and clipping on a separate integration commit.",
+    "Keep inactive material appearance; preserve service/water state owners.",
+    "Do not extrapolate V01 caravan dimensions or v0 furnishings to all variants."
+  ]
+}

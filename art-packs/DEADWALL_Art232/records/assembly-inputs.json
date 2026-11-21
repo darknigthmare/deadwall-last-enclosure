@@ -1,0 +1,24 @@
+{
+  "baseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "dateEuropeParis": "2026-11-17",
+  "selectionSha256": "13d5ae216abdcea07b3f29b84dc41572e5d12629a9e1c513b53eca4c4631952b",
+  "preparationManifestSha256": "9369c34615392e31f8131a47ca280a8728a4c40ee2c597631a9c94f5968d3eed",
+  "historyRecordSha256": [
+    "a35c7722dcf1701c8bfd5792e3a832574a91f221bb3b363cd7bc298e2b3f0a99"
+  ],
+  "finalRecordsSha256": "4edc41483ba6ef59cf94830b2a6d1ef58e5b43732a472ac2bfe1c7b75e4d1f5a",
+  "visualReviewSha256": "d99b02ba025abaf105fbae4570b4f86361cc20786d02334ef51e42bcbd41d44b",
+  "priorPublicationsSha256": "e6a90f4d6e82f51d506f7d1a75678a58798cb842b28d27bc37282743dce303ce",
+  "aggregateCoverage": {
+    "report": "coverage/coverage-art222-232.json",
+    "reportSha256": "4b78dde9619601992c7461836b20ee829de8a403a35e1afda963be9d543165ac",
+    "explanation": "coverage/coverage-art222-232.md",
+    "explanationSha256": "6f07378bd1f6dde1d7b0990c60dc2c2fa410c1e4ad4728922089285070b06d5f",
+    "thisPackIdentityHashSizePathVerified": true,
+    "ownManifestSha256Included": false
+  },
+  "assemblerSha256": "209f8433809162d29bb8edc64e3c91f735b8625e5ead57df9702bfe07c5768ae",
+  "nativePngBytesPreserved": true,
+  "outputDeterministicForSameInputsAndExplicitDate": true,
+  "assemblerIsLocalNotPartOfRuntime": true
+}

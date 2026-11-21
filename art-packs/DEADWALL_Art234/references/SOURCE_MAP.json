@@ -1,0 +1,527 @@
+[
+  {
+    "id": "prop:conveyor:v0",
+    "kind": "conveyor",
+    "name": "Convoyeur",
+    "dimensionsAuthorDesignMetres": {
+      "w": 3.2,
+      "h": 1,
+      "heightM": 1.1
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/conveyor_v0.png",
+      "sha256": "a9ae3320a9ee9e5fa52e465291c989c5020532e3deec579e180afb186dfabe04"
+    },
+    "sourceId": "codex-furnishing:conveyor",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Convoyeur",
+      "w": 3.2,
+      "h": 1,
+      "heightM": 1.1,
+      "sourceDimensions": "author-design:industrial-conveyor",
+      "lootEligible": false
+    },
+    "sourceStatus": null,
+    "existingState": null,
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:dosingUnit:v0",
+    "kind": "dosingUnit",
+    "name": "Poste de dosage",
+    "dimensionsAuthorDesignMetres": {
+      "w": 1.5,
+      "h": 1.2,
+      "heightM": 2.1
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/dosingUnit_v0.png",
+      "sha256": "ab2d6b97aa00e7667ec168018c258a8028e2a6b95075acda5f8eda1bb2455ef2"
+    },
+    "sourceId": "codex-furnishing:dosingUnit",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Poste de dosage",
+      "w": 1.5,
+      "h": 1.2,
+      "heightM": 2.1,
+      "sourceDimensions": "author-design:industrial-dosingUnit",
+      "lootEligible": false
+    },
+    "sourceStatus": null,
+    "existingState": null,
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:foodMixer:v0",
+    "kind": "foodMixer",
+    "name": "Mélangeur alimentaire",
+    "dimensionsAuthorDesignMetres": {
+      "w": 1.8,
+      "h": 1.6,
+      "heightM": 2
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/foodMixer_v0.png",
+      "sha256": "19a264080dfffc1368e0655b1d99be7d94049777d0fd2d18dedb6b0dee6738fe"
+    },
+    "sourceId": "codex-furnishing:foodMixer",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Mélangeur alimentaire",
+      "w": 1.8,
+      "h": 1.6,
+      "heightM": 2,
+      "sourceDimensions": "author-design:industrial-foodMixer",
+      "lootEligible": false
+    },
+    "sourceStatus": null,
+    "existingState": null,
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:heatChamber:v0",
+    "kind": "heatChamber",
+    "name": "Enceinte thermique",
+    "dimensionsAuthorDesignMetres": {
+      "w": 2.2,
+      "h": 1.6,
+      "heightM": 2.2
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/heatChamber_v0.png",
+      "sha256": "897e779c8536b7d3284119b171e1a58f84b23c839d37eb742a0cc1338277c591"
+    },
+    "sourceId": "codex-furnishing:heatChamber",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Enceinte thermique",
+      "w": 2.2,
+      "h": 1.6,
+      "heightM": 2.2,
+      "sourceDimensions": "author-design:industrial-heatChamber",
+      "lootEligible": false
+    },
+    "sourceStatus": null,
+    "existingState": null,
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:metalSaw:v0",
+    "kind": "metalSaw",
+    "name": "Scie de débit",
+    "dimensionsAuthorDesignMetres": {
+      "w": 2.2,
+      "h": 1.2,
+      "heightM": 1.6
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/metalSaw_v0.png",
+      "sha256": "1c60ae21e9b849b86e097548896e31dac4904a802f6b908306dbd506f4ea92fd"
+    },
+    "sourceId": "codex-furnishing:metalSaw",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Scie de débit",
+      "w": 2.2,
+      "h": 1.2,
+      "heightM": 1.6,
+      "sourceDimensions": "author-design:industrial-metalSaw",
+      "lootEligible": false
+    },
+    "sourceStatus": null,
+    "existingState": null,
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:lathe:v0",
+    "kind": "lathe",
+    "name": "Tour mécanique",
+    "dimensionsAuthorDesignMetres": {
+      "w": 2.4,
+      "h": 1.2,
+      "heightM": 1.6
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/lathe_v0.png",
+      "sha256": "cb699c7ce0db05504eeda6b064adb554f9b81684de854deeb982f38577204267"
+    },
+    "sourceId": "codex-furnishing:lathe",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Tour mécanique",
+      "w": 2.4,
+      "h": 1.2,
+      "heightM": 1.6,
+      "sourceDimensions": "author-design:industrial-lathe",
+      "lootEligible": false
+    },
+    "sourceStatus": null,
+    "existingState": null,
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:millingMachine:v0",
+    "kind": "millingMachine",
+    "name": "Fraiseuse",
+    "dimensionsAuthorDesignMetres": {
+      "w": 2.2,
+      "h": 1.6,
+      "heightM": 2.1
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/millingMachine_v0.png",
+      "sha256": "e8c71da3d8ca45b5d4e58d7b7fa56f6d9af4078d1678c2c76aa8d192b8bcc012"
+    },
+    "sourceId": "codex-furnishing:millingMachine",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Fraiseuse",
+      "w": 2.2,
+      "h": 1.6,
+      "heightM": 2.1,
+      "sourceDimensions": "author-design:industrial-millingMachine",
+      "lootEligible": false
+    },
+    "sourceStatus": null,
+    "existingState": null,
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:assemblyStation:v0",
+    "kind": "assemblyStation",
+    "name": "Poste assemblage",
+    "dimensionsAuthorDesignMetres": {
+      "w": 2.4,
+      "h": 1.1,
+      "heightM": 1.1
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/assemblyStation_v0.png",
+      "sha256": "87dc1cacc3cd9c9d1d8ac3ede5e1dcccea4173f22f17c2114cad40a22a0e1555"
+    },
+    "sourceId": "codex-furnishing:assemblyStation",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Poste assemblage",
+      "w": 2.4,
+      "h": 1.1,
+      "heightM": 1.1,
+      "sourceDimensions": "author-design:industrial-assemblyStation",
+      "lootEligible": false
+    },
+    "sourceStatus": null,
+    "existingState": null,
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:inspectionBench:v0",
+    "kind": "inspectionBench",
+    "name": "Banc de contrôle",
+    "dimensionsAuthorDesignMetres": {
+      "w": 1.8,
+      "h": 0.9,
+      "heightM": 1.2
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/inspectionBench_v0.png",
+      "sha256": "aab72d505f89ed6fbafe62dbfd6014b1d73b09303d5ae7cfb0ca96d69a9ec3f0"
+    },
+    "sourceId": "codex-furnishing:inspectionBench",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Banc de contrôle",
+      "w": 1.8,
+      "h": 0.9,
+      "heightM": 1.2,
+      "sourceDimensions": "author-design:industrial-inspectionBench",
+      "lootEligible": false
+    },
+    "sourceStatus": null,
+    "existingState": null,
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:loom:v0",
+    "kind": "loom",
+    "name": "Métier à tisser",
+    "dimensionsAuthorDesignMetres": {
+      "w": 2.8,
+      "h": 1.8,
+      "heightM": 1.9
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/loom_v0.png",
+      "sha256": "34436eb09f2aa504a4d4c6219aa1a4dc6512061beaf6daadd1e05db2c251576b"
+    },
+    "sourceId": "codex-furnishing:loom",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Métier à tisser",
+      "w": 2.8,
+      "h": 1.8,
+      "heightM": 1.9,
+      "sourceDimensions": "author-design:industrial-loom",
+      "lootEligible": false
+    },
+    "sourceStatus": null,
+    "existingState": null,
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:sewingStation:v0",
+    "kind": "sewingStation",
+    "name": "Poste de confection",
+    "dimensionsAuthorDesignMetres": {
+      "w": 1.4,
+      "h": 0.7,
+      "heightM": 1.2
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/sewingStation_v0.png",
+      "sha256": "c0bc8843626aef4093bd5c9581d9b083dea758b76e48089b2f61693cd99d9bba"
+    },
+    "sourceId": "codex-furnishing:sewingStation",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Poste de confection",
+      "w": 1.4,
+      "h": 0.7,
+      "heightM": 1.2,
+      "sourceDimensions": "author-design:industrial-sewingStation",
+      "lootEligible": false
+    },
+    "sourceStatus": null,
+    "existingState": null,
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:cuttingTable:v0",
+    "kind": "cuttingTable",
+    "name": "Table de coupe",
+    "dimensionsAuthorDesignMetres": {
+      "w": 2.4,
+      "h": 1.4,
+      "heightM": 0.9
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/cuttingTable_v0.png",
+      "sha256": "da654cd7e715cb10e8b5b252ffda9186e8ab80bcc0fce2a8a8e97c8b972b1680"
+    },
+    "sourceId": "codex-furnishing:cuttingTable",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Table de coupe",
+      "w": 2.4,
+      "h": 1.4,
+      "heightM": 0.9,
+      "sourceDimensions": "author-design:industrial-cuttingTable",
+      "lootEligible": false
+    },
+    "sourceStatus": null,
+    "existingState": null,
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:materialMixer:v0",
+    "kind": "materialMixer",
+    "name": "Malaxeur de matériaux",
+    "dimensionsAuthorDesignMetres": {
+      "w": 2.2,
+      "h": 1.8,
+      "heightM": 2.2
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/materialMixer_v0.png",
+      "sha256": "aabed1703763dca811da3d7352b6a39b1c2758d5a383f101676389324f6f08e3"
+    },
+    "sourceId": "codex-furnishing:materialMixer",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Malaxeur de matériaux",
+      "w": 2.2,
+      "h": 1.8,
+      "heightM": 2.2,
+      "sourceDimensions": "author-design:industrial-materialMixer",
+      "lootEligible": false
+    },
+    "sourceStatus": null,
+    "existingState": null,
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:formingPress:v0",
+    "kind": "formingPress",
+    "name": "Presse de formage",
+    "dimensionsAuthorDesignMetres": {
+      "w": 2.2,
+      "h": 1.8,
+      "heightM": 2.6
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/formingPress_v0.png",
+      "sha256": "82c7a5a78f2771ef9f9c605de84b06bc017780110001fae75b8878b72db85589"
+    },
+    "sourceId": "codex-furnishing:formingPress",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Presse de formage",
+      "w": 2.2,
+      "h": 1.8,
+      "heightM": 2.6,
+      "sourceDimensions": "author-design:industrial-formingPress",
+      "lootEligible": false
+    },
+    "sourceStatus": null,
+    "existingState": null,
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  },
+  {
+    "id": "prop:curingRack:v0",
+    "kind": "curingRack",
+    "name": "Rayonnage de maturation",
+    "dimensionsAuthorDesignMetres": {
+      "w": 2.4,
+      "h": 1.1,
+      "heightM": 2.2
+    },
+    "dimensionsAuthority": "author-design-not-manufacturer-dimension",
+    "canonicalVariant": 0,
+    "existingRoute": "procedural205",
+    "canonicalReference": {
+      "path": "references/canonical/curingRack_v0.png",
+      "sha256": "939121aabe0c2539503c62be2b81011efab309b28887c087540648504b1e6408"
+    },
+    "sourceId": "codex-furnishing:curingRack",
+    "sourcePlanId": null,
+    "sourceObject": null,
+    "catalogueEntry": {
+      "name": "Rayonnage de maturation",
+      "w": 2.4,
+      "h": 1.1,
+      "heightM": 2.2,
+      "sourceDimensions": "author-design:industrial-curingRack",
+      "lootEligible": false
+    },
+    "sourceStatus": null,
+    "existingState": null,
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "renderer": "src/campaign-site-art205.js::drawProp → drawPropBase (private)",
+    "renderState": "variant 0, stateAlpha false, no game argument: all service/water overlays inactive",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false
+  }
+]

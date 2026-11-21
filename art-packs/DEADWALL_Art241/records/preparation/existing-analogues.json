@@ -1,0 +1,58 @@
+[
+  {
+    "key": "touring-caravan:v1",
+    "id": "prop:touring-caravan:v1",
+    "kind": "touring-caravan",
+    "painterVariant": 1,
+    "existingRoute": "structural205",
+    "explanation": "Art235 already supplies accepted v0 for this same family and authored instance; this is an optional existing painter variant, not a new family or a runtime replacement.",
+    "priorFinal": {
+      "path": "/workspace/scratch/6f470a892a0f/art241-prep/references/repository/art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png",
+      "relativePath": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png",
+      "sha256": "49d5f583cfde5c4217598b2dd2c57703ebe74868bdc2dd47855adff5f1dbbbee",
+      "role": "Art235-v0-material-texture-and-style-only"
+    }
+  },
+  {
+    "key": "touring-caravan:v2",
+    "id": "prop:touring-caravan:v2",
+    "kind": "touring-caravan",
+    "painterVariant": 2,
+    "existingRoute": "structural205",
+    "explanation": "Art235 already supplies accepted v0 for this same family and authored instance; this is an optional existing painter variant, not a new family or a runtime replacement.",
+    "priorFinal": {
+      "path": "/workspace/scratch/6f470a892a0f/art241-prep/references/repository/art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png",
+      "relativePath": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/touring-caravan_caravane_tractable.png",
+      "sha256": "49d5f583cfde5c4217598b2dd2c57703ebe74868bdc2dd47855adff5f1dbbbee",
+      "role": "Art235-v0-material-texture-and-style-only"
+    }
+  },
+  {
+    "key": "abandoned-caravan:v1",
+    "id": "prop:abandoned-caravan:v1",
+    "kind": "abandoned-caravan",
+    "painterVariant": 1,
+    "existingRoute": "structural205",
+    "explanation": "Art235 already supplies accepted v0 for this same family and authored instance; this is an optional existing painter variant, not a new family or a runtime replacement.",
+    "priorFinal": {
+      "path": "/workspace/scratch/6f470a892a0f/art241-prep/references/repository/art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+      "relativePath": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+      "sha256": "be15ae950d99461b2351a0295713a36e0091aaec5a37da5191e392f4e3748748",
+      "role": "Art235-v0-material-texture-and-style-only"
+    }
+  },
+  {
+    "key": "abandoned-caravan:v2",
+    "id": "prop:abandoned-caravan:v2",
+    "kind": "abandoned-caravan",
+    "painterVariant": 2,
+    "existingRoute": "structural205",
+    "explanation": "Art235 already supplies accepted v0 for this same family and authored instance; this is an optional existing painter variant, not a new family or a runtime replacement.",
+    "priorFinal": {
+      "path": "/workspace/scratch/6f470a892a0f/art241-prep/references/repository/art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+      "relativePath": "references/repository/art-packs/DEADWALL_Art235/assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+      "sha256": "be15ae950d99461b2351a0295713a36e0091aaec5a37da5191e392f4e3748748",
+      "role": "Art235-v0-material-texture-and-style-only"
+    }
+  }
+]

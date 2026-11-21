@@ -1,0 +1,267 @@
+{
+  "schemaVersion": 2,
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "Art237",
+  "title": "Mécanismes spécialisés montés — 5 proposition(s) retenue(s) sur 6 cibles",
+  "assembledOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "referenceRepository": "darknigthmare/deadwall-last-enclosure",
+  "publicationBaseRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "publicationBaseTree": "663ad5750e49ae401fc0b46bfdebc28942ad1617",
+  "publicationBaseIsOutputCommit": false,
+  "identityPolicy": "mechanism:<kind>:v0:armed-mounted is a descriptive source-art identifier. The existing mechanism kind remains its runtime identity; no saved identifier is assigned.",
+  "scope": "Planned source scope covers six existing specialized mechanisms mounted on their Hérisson support; delivered and blocked counts are recorded separately. Only accepted native image outputs count as delivered proposals. Art159 shared atlas parts and Canvas193 hardware already render these mechanisms and their animated states.",
+  "deliveryStatus": "partial-source-art-proposals",
+  "plannedTargetCount": 6,
+  "plannedArtIds": [
+    "mechanism:runnerCable193:v0:armed-mounted",
+    "mechanism:breachClamp193:v0:armed-mounted",
+    "mechanism:enduranceRack193:v0:armed-mounted",
+    "mechanism:shieldTongs193:v0:armed-mounted",
+    "mechanism:quickCable193:v0:armed-mounted",
+    "mechanism:siegeBrake193:v0:armed-mounted"
+  ],
+  "finalSpriteCount": 5,
+  "generationCount": 7,
+  "supersededCandidateCount": 2,
+  "blockedTargetCount": 1,
+  "blockedArtIds": [
+    "mechanism:runnerCable193:v0:armed-mounted"
+  ],
+  "failureReceiptCount": 2,
+  "blockedTargetRecords": "backlog/blocked-targets.json",
+  "generationFailureRecords": "generation-failures.json",
+  "nativeOutputBytesPreserved": true,
+  "imageEditingResizingCroppingPerformed": false,
+  "geometryBasis": "Unmodified exported drawSpikes and drawMechanism at variant 0 and armed phase. The support footprint is 1 x 1 author-design metres; no mechanism-specific authored height is available or inferred.",
+  "integration": {
+    "performed": false,
+    "runtimeSourceChanged": false,
+    "runtimeAssetRegistrationChanged": false,
+    "testsChanged": false,
+    "newWorldPlacementCreated": false,
+    "saveOrWorldIdentityChanged": false
+  },
+  "fidelity": {
+    "reviewed": [
+      "canonical source layout",
+      "existing object identity and components",
+      "selected source presentation",
+      "native PNG and transparency",
+      "exact references and prompt history"
+    ],
+    "notCertified": [
+      "metric or pixel-for-pixel 1:1 fidelity",
+      "generated-sprite metres per pixel",
+      "runtime anchors and collision alignment",
+      "unseen variants, phases or rotations"
+    ]
+  },
+  "sourcesIndex": "references/verified-sources.json",
+  "sourceMapping": "references/SOURCE_MAP.json",
+  "generationHistory": "generation-history.json",
+  "canonicalReplay": "records/preparation/root-canonical-replay.json",
+  "canonicalReplayScript": "records/root_replay_canonicals.cjs",
+  "technicalAudit": "qa/image-audit.json",
+  "visualReview": "qa/visual-review.md",
+  "independentVisualReview": "records/preparation/root-review.json",
+  "gallery": "gallery.html",
+  "aggregateCoverage": null,
+  "validation": {
+    "packTechnicalAudit": "passed",
+    "runtimeTests": "not_run_by_assembler",
+    "browser": "not_run_by_assembler"
+  },
+  "assets": [
+    {
+      "key": "breachClamp193",
+      "id": "mechanism:breachClamp193:v0:armed-mounted",
+      "artId": "mechanism:breachClamp193:v0:armed-mounted",
+      "kind": "breachClamp193",
+      "name": "Mâchoire anti-briseurs",
+      "path": "assets/art237/mechanisms/breachClamp193_machoire_anti_briseurs.png",
+      "sha256": "81734587dc0ea91ed8610efe90291b124ce17fe054cbdd2fb07809a225bdf81b",
+      "bytes": 1145129,
+      "iteration": 1,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated",
+      "existingRoute": "art159-canvas193-mounted-source",
+      "canonicalVariant": 0,
+      "phase": "armed",
+      "motion": 0,
+      "nativeSourceSpecification": {
+        "supportKind": "spikes",
+        "supportLabel": "Hérisson anti-horde",
+        "footprintMetres": [
+          1,
+          1
+        ],
+        "supportNativeBounds": [
+          32,
+          32
+        ],
+        "drawingInteriorUnits": [
+          26,
+          26
+        ],
+        "heightMetres": null,
+        "heightReason": "No mechanism-specific authored height is declared; no height is inferred from generic building defaults."
+      },
+      "geometryOwner": "src/core.js#CityGeometry202 and BUILDINGS.spikes",
+      "renderOwner": "src/trap-art159.js#drawSpikes + drawMechanism",
+      "stateOwner": "src/fortification-pack.js#mechanismPresentation, presentationFor, advanceVisuals",
+      "existingRuntimeMechanismKind": "breachClamp193"
+    },
+    {
+      "key": "enduranceRack193",
+      "id": "mechanism:enduranceRack193:v0:armed-mounted",
+      "artId": "mechanism:enduranceRack193:v0:armed-mounted",
+      "kind": "enduranceRack193",
+      "name": "Râtelier de dents de relève",
+      "path": "assets/art237/mechanisms/enduranceRack193_ratelier_dents_releve.png",
+      "sha256": "c413868bea8ca403bdacc1d29a6e3232247ff6aa6e25827deb7ff43ec9e8ffba",
+      "bytes": 1065181,
+      "iteration": 2,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated",
+      "existingRoute": "art159-canvas193-mounted-source",
+      "canonicalVariant": 0,
+      "phase": "armed",
+      "motion": 0,
+      "nativeSourceSpecification": {
+        "supportKind": "spikes",
+        "supportLabel": "Hérisson anti-horde",
+        "footprintMetres": [
+          1,
+          1
+        ],
+        "supportNativeBounds": [
+          32,
+          32
+        ],
+        "drawingInteriorUnits": [
+          26,
+          26
+        ],
+        "heightMetres": null,
+        "heightReason": "No mechanism-specific authored height is declared; no height is inferred from generic building defaults."
+      },
+      "geometryOwner": "src/core.js#CityGeometry202 and BUILDINGS.spikes",
+      "renderOwner": "src/trap-art159.js#drawSpikes + drawMechanism",
+      "stateOwner": "src/fortification-pack.js#mechanismPresentation, presentationFor, advanceVisuals",
+      "existingRuntimeMechanismKind": "enduranceRack193"
+    },
+    {
+      "key": "shieldTongs193",
+      "id": "mechanism:shieldTongs193:v0:armed-mounted",
+      "artId": "mechanism:shieldTongs193:v0:armed-mounted",
+      "kind": "shieldTongs193",
+      "name": "Pinces anti-protections",
+      "path": "assets/art237/mechanisms/shieldTongs193_pinces_anti_protections.png",
+      "sha256": "69272136fb21df3bb8e80039e1abf53819234851dcc15feb854c6476cfdadc9d",
+      "bytes": 1104712,
+      "iteration": 1,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated",
+      "existingRoute": "art159-canvas193-mounted-source",
+      "canonicalVariant": 0,
+      "phase": "armed",
+      "motion": 0,
+      "nativeSourceSpecification": {
+        "supportKind": "spikes",
+        "supportLabel": "Hérisson anti-horde",
+        "footprintMetres": [
+          1,
+          1
+        ],
+        "supportNativeBounds": [
+          32,
+          32
+        ],
+        "drawingInteriorUnits": [
+          26,
+          26
+        ],
+        "heightMetres": null,
+        "heightReason": "No mechanism-specific authored height is declared; no height is inferred from generic building defaults."
+      },
+      "geometryOwner": "src/core.js#CityGeometry202 and BUILDINGS.spikes",
+      "renderOwner": "src/trap-art159.js#drawSpikes + drawMechanism",
+      "stateOwner": "src/fortification-pack.js#mechanismPresentation, presentationFor, advanceVisuals",
+      "existingRuntimeMechanismKind": "shieldTongs193"
+    },
+    {
+      "key": "quickCable193",
+      "id": "mechanism:quickCable193:v0:armed-mounted",
+      "artId": "mechanism:quickCable193:v0:armed-mounted",
+      "kind": "quickCable193",
+      "name": "Bobines de couverture rapide",
+      "path": "assets/art237/mechanisms/quickCable193_bobines_couverture_rapide.png",
+      "sha256": "1765d89e2e0b6afeb1e82f68cf735382ec278f3ce26373d1918a62bbdd08fe96",
+      "bytes": 1979459,
+      "iteration": 2,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated",
+      "existingRoute": "art159-canvas193-mounted-source",
+      "canonicalVariant": 0,
+      "phase": "armed",
+      "motion": 0,
+      "nativeSourceSpecification": {
+        "supportKind": "spikes",
+        "supportLabel": "Hérisson anti-horde",
+        "footprintMetres": [
+          1,
+          1
+        ],
+        "supportNativeBounds": [
+          32,
+          32
+        ],
+        "drawingInteriorUnits": [
+          26,
+          26
+        ],
+        "heightMetres": null,
+        "heightReason": "No mechanism-specific authored height is declared; no height is inferred from generic building defaults."
+      },
+      "geometryOwner": "src/core.js#CityGeometry202 and BUILDINGS.spikes",
+      "renderOwner": "src/trap-art159.js#drawSpikes + drawMechanism",
+      "stateOwner": "src/fortification-pack.js#mechanismPresentation, presentationFor, advanceVisuals",
+      "existingRuntimeMechanismKind": "quickCable193"
+    },
+    {
+      "key": "siegeBrake193",
+      "id": "mechanism:siegeBrake193:v0:armed-mounted",
+      "artId": "mechanism:siegeBrake193:v0:armed-mounted",
+      "kind": "siegeBrake193",
+      "name": "Frein à chaîne de siège",
+      "path": "assets/art237/mechanisms/siegeBrake193_frein_chaine_siege.png",
+      "sha256": "0a2f9a2173c4eb65810d5a8f2a75d164bd4f2557104e00d324a34d9bce29539a",
+      "bytes": 878290,
+      "iteration": 1,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated",
+      "existingRoute": "art159-canvas193-mounted-source",
+      "canonicalVariant": 0,
+      "phase": "armed",
+      "motion": 0,
+      "nativeSourceSpecification": {
+        "supportKind": "spikes",
+        "supportLabel": "Hérisson anti-horde",
+        "footprintMetres": [
+          1,
+          1
+        ],
+        "supportNativeBounds": [
+          32,
+          32
+        ],
+        "drawingInteriorUnits": [
+          26,
+          26
+        ],
+        "heightMetres": null,
+        "heightReason": "No mechanism-specific authored height is declared; no height is inferred from generic building defaults."
+      },
+      "geometryOwner": "src/core.js#CityGeometry202 and BUILDINGS.spikes",
+      "renderOwner": "src/trap-art159.js#drawSpikes + drawMechanism",
+      "stateOwner": "src/fortification-pack.js#mechanismPresentation, presentationFor, advanceVisuals",
+      "existingRuntimeMechanismKind": "siegeBrake193"
+    }
+  ]
+}

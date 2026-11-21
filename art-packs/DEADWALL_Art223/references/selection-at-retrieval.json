@@ -1,0 +1,324 @@
+{
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "art223",
+  "checkedAt": "2026-11-17",
+  "repository": "darknigthmare/deadwall-last-enclosure",
+  "mainRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "pr24Revision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+  "existingArt222Excluded": [
+    "DW-0342",
+    "DW-0132",
+    "DW-0321",
+    "DW-0334",
+    "DW-0541",
+    "DW-0528",
+    "DW-0549",
+    "DW-0097"
+  ],
+  "previousArt221": {
+    "knownCompleteListAvailable": false,
+    "knownNames": [
+      "grand émetteur",
+      "gare ferroviaire"
+    ],
+    "strategy": "Famille de services civils hors des catégories de landmarks déjà traitées ; dédoublonnage historique complet non certifié."
+  },
+  "absenceEvidence": {
+    "assetCountMain": 205,
+    "assetCountPr24": 205,
+    "mainAndPr24AssetPathsAndBlobHashesEqual": true,
+    "targetNamedAssetPaths": [],
+    "regionalRoofRenderer": "src/frontier-art.js::lotRoof → DeadwallInteriorArt153.drawRoof",
+    "fallbackSelector": "src/interior-art153.js::ROOF_ALIASES / roofChoices / spriteForRoof",
+    "qualification": "Les programmes possèdent des intérieurs, des props et des toitures génériques existants. Le manque retenu est l’extérieur complet dédié ; ce n’est pas une absence totale de représentation."
+  },
+  "gendarmerie": {
+    "selected": false,
+    "index3000NameMatches": 0,
+    "addendum1000TextMatches": 0,
+    "remarkable217RegexContainsTerm": true,
+    "reason": "Aucune fiche dédiée dans les 4000 entrées des deux index inspectés. Une branche de regex ne constitue pas une référence de conception."
+  },
+  "integration": {
+    "pilotData": "src/frontier-places.js::PRESETS",
+    "mapping": [
+      {
+        "codex": "DW-0065",
+        "type": "bakery",
+        "genericRoof": "retail"
+      },
+      {
+        "codex": "DW-0153",
+        "type": "library",
+        "genericRoof": "civic"
+      },
+      {
+        "codex": "DW-0085",
+        "type": "laundry",
+        "genericRoof": "service"
+      },
+      {
+        "codex": "DW-0082",
+        "type": "postoffice",
+        "genericRoof": "retail"
+      },
+      {
+        "codex": "DW-0444",
+        "type": "gym",
+        "genericRoof": "school"
+      },
+      {
+        "codex": "DW-0224",
+        "type": "selfstorage",
+        "genericRoof": "industrial"
+      }
+    ],
+    "guidance": "Associer un futur visuel au type exact et à la fiche. Ne pas ajouter ces six lieux aux catégories remarkable217 sans décision de gameplay. Ne pas substituer automatiquement un sprite complet à une toiture procédurale sans calibrer ancrage, emprise, ouverture des intérieurs et profondeur."
+  },
+  "targets": [
+    {
+      "id": "DW-0065",
+      "name": "Boulangerie artisanale",
+      "type": "bakery",
+      "footprintMetres": [
+        22,
+        17
+      ],
+      "levels": [
+        0
+      ],
+      "genericRoof": "retail",
+      "program": [
+        "Boutique",
+        "Fournil",
+        "Pétrissage",
+        "Réserve farine"
+      ],
+      "invariants": [
+        "Façade publique côté desserte",
+        "Accès farine et réserve séparé du comptoir",
+        "Fournil distinct de la vente",
+        "Un seul niveau"
+      ],
+      "suggestedExterior": [
+        "Volume compact rectangulaire",
+        "Devanture et entrée publique modestes",
+        "Porte de livraison arrière ou latérale",
+        "Ventilation discrète du fournil"
+      ],
+      "avoid": [
+        "Étage ajouté",
+        "Boulangerie de fantaisie ou logo de franchise",
+        "Pain géant décoratif",
+        "Plan ouvert prétendant vérifier chaque pièce"
+      ],
+      "status": "candidate_dedicated_regional_exterior_missing",
+      "fidelityLimit": "Emprise et niveaux canoniques du pilote vérifiés ; aucun extérieur pixel canonique n’est fourni, et le PNG seul ne certifiera pas l’échelle dans le moteur.",
+      "sourceFile": "DW-0065.md",
+      "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25"
+    },
+    {
+      "id": "DW-0153",
+      "name": "Bibliothèque municipale",
+      "type": "library",
+      "footprintMetres": [
+        32,
+        24
+      ],
+      "levels": [
+        0,
+        1
+      ],
+      "genericRoof": "civic",
+      "program": [
+        "Accueil",
+        "Rayons",
+        "Lecture",
+        "Archives"
+      ],
+      "invariants": [
+        "Exactement deux niveaux du pilote",
+        "Archives distinctes du public",
+        "Entrée publique lisible",
+        "Accès de service en retrait"
+      ],
+      "suggestedExterior": [
+        "Bâtiment civique rectangulaire sans monumentalité excessive",
+        "Deux rangées de niveaux clairement lisibles",
+        "Fenêtres de salle de lecture",
+        "Petit auvent d’entrée"
+      ],
+      "avoid": [
+        "Tour universitaire ou troisième niveau",
+        "Livres géants sur toiture",
+        "Affirmer les rayonnages visibles à travers une toiture opaque"
+      ],
+      "status": "candidate_dedicated_regional_exterior_missing",
+      "fidelityLimit": "Emprise et niveaux canoniques du pilote vérifiés ; aucun extérieur pixel canonique n’est fourni, et le PNG seul ne certifiera pas l’échelle dans le moteur.",
+      "sourceFile": "DW-0153.md",
+      "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25"
+    },
+    {
+      "id": "DW-0085",
+      "name": "Laverie automatique",
+      "type": "laundry",
+      "footprintMetres": [
+        21,
+        15
+      ],
+      "levels": [
+        0
+      ],
+      "genericRoof": "service",
+      "program": [
+        "Machines",
+        "Pliage",
+        "Local technique",
+        "Attente"
+      ],
+      "invariants": [
+        "Un seul niveau",
+        "Dos des machines accessible à la maintenance",
+        "Public en façade et technique en retrait"
+      ],
+      "suggestedExterior": [
+        "Petite devanture sobre",
+        "Local technique arrière suggéré par accès et ventilation",
+        "Silhouette basse complète"
+      ],
+      "avoid": [
+        "Usine de blanchisserie géante",
+        "Machinerie en vrac sur le toit",
+        "Étage ajouté",
+        "Accessoires obstruant l’entrée"
+      ],
+      "status": "candidate_dedicated_regional_exterior_missing",
+      "fidelityLimit": "Emprise et niveaux canoniques du pilote vérifiés ; aucun extérieur pixel canonique n’est fourni, et le PNG seul ne certifiera pas l’échelle dans le moteur.",
+      "sourceFile": "DW-0085.md",
+      "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25"
+    },
+    {
+      "id": "DW-0082",
+      "name": "Bureau postal",
+      "type": "postoffice",
+      "footprintMetres": [
+        28,
+        22
+      ],
+      "levels": [
+        0
+      ],
+      "genericRoof": "retail",
+      "program": [
+        "Accueil",
+        "Tri",
+        "Casier colis",
+        "Quai"
+      ],
+      "invariants": [
+        "Un seul niveau",
+        "Clients séparés du quai",
+        "Tri avant expédition",
+        "Service et stock en retrait"
+      ],
+      "suggestedExterior": [
+        "Accueil public en façade",
+        "Petit quai ou porte de chargement sur côté arrière",
+        "Quelques casiers ou boîtes sobres sans marque",
+        "Volume rectangulaire bas"
+      ],
+      "avoid": [
+        "Logo La Poste inventé",
+        "Camion ou personnel",
+        "Quai traversant l’entrée publique",
+        "Timbre géant ou enseigne lisible non référencée"
+      ],
+      "status": "candidate_dedicated_regional_exterior_missing",
+      "fidelityLimit": "Emprise et niveaux canoniques du pilote vérifiés ; aucun extérieur pixel canonique n’est fourni, et le PNG seul ne certifiera pas l’échelle dans le moteur.",
+      "sourceFile": "DW-0082.md",
+      "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25"
+    },
+    {
+      "id": "DW-0444",
+      "name": "Gymnase municipal",
+      "type": "gym",
+      "footprintMetres": [
+        38,
+        28
+      ],
+      "levels": [
+        0
+      ],
+      "genericRoof": "school",
+      "program": [
+        "Hall",
+        "Salle",
+        "Vestiaires",
+        "Stock"
+      ],
+      "invariants": [
+        "Un seul niveau du pilote",
+        "Salle centrale dégagée",
+        "Matériel rangé en réserve",
+        "Vestiaires et stockage liés au volume principal"
+      ],
+      "suggestedExterior": [
+        "Grand volume sportif rectangulaire à toiture couvrant une travée",
+        "Fenêtres hautes",
+        "Entrée publique et accès technique distincts",
+        "Hauteur de salle compatible avec un volume de plain-pied"
+      ],
+      "avoid": [
+        "Stade ou tribunes géantes",
+        "Terrain extérieur ajouté",
+        "Confondre hauteur de salle et étage",
+        "Dessiner des agrès dehors par défaut"
+      ],
+      "status": "candidate_dedicated_regional_exterior_missing",
+      "fidelityLimit": "Emprise et niveaux canoniques du pilote vérifiés ; aucun extérieur pixel canonique n’est fourni, et le PNG seul ne certifiera pas l’échelle dans le moteur.",
+      "sourceFile": "DW-0444.md",
+      "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25"
+    },
+    {
+      "id": "DW-0224",
+      "name": "Garde-meubles",
+      "type": "selfstorage",
+      "footprintMetres": [
+        36,
+        26
+      ],
+      "levels": [
+        0
+      ],
+      "genericRoof": "industrial",
+      "program": [
+        "Accueil",
+        "Boxes",
+        "Couloirs",
+        "Chargement"
+      ],
+      "invariants": [
+        "Un seul niveau",
+        "Boxes intérieurs sur couloir commun",
+        "Chargement dégagé",
+        "Huit boxes générés par le pilote (quatre de chaque côté)"
+      ],
+      "suggestedExterior": [
+        "Enveloppe basse fermée rectangulaire",
+        "Accueil modestement marqué",
+        "Accès de manutention et quai séparés",
+        "Ventilation industrielle sobre"
+      ],
+      "avoid": [
+        "Rangée extérieure de garages indépendants",
+        "Transformer les huit boxes internes en huit portes extérieures",
+        "Étage supplémentaire",
+        "Stock sauvage bloquant le chargement"
+      ],
+      "status": "candidate_dedicated_regional_exterior_missing",
+      "fidelityLimit": "Emprise et niveaux canoniques du pilote vérifiés ; aucun extérieur pixel canonique n’est fourni, et le PNG seul ne certifiera pas l’échelle dans le moteur.",
+      "sourceFile": "DW-0224.md",
+      "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25"
+    }
+  ]
+}

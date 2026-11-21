@@ -1,0 +1,682 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "art225_assets",
+  "reviewedAt": "2026-11-17T12:06:58.527276+00:00",
+  "pack": "DEADWALL_Art234",
+  "scope": "Independent visual review of the fifteen native generated PNGs against canonical procedural205 variant 0 references.",
+  "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "sourceOnly": true,
+  "runtimeIntegrated": false,
+  "metric1to1Certified": false,
+  "imageEditingPerformed": false,
+  "viewingMethod": "Each original generated PNG and canonical reference opened individually with tools.view_image. No compositing, crop, resize, re-encoding, or pixel edit was performed.",
+  "canonicalEvidence": "Canonical SHA256 values were independently recomputed and matched to the selection and to root-canonical-replay.json; the replay itself was performed by root.",
+  "inputSha256": {
+    "selection-and-prompts.json": "f358dad21b6feb1feb3effc222772c98d3b3d94c5ec63fe83b7826e02480234a",
+    "results.json": "2aebf5614ed69347fd0837c3b6a14ca9be0929a5bae8371e5fdf526529ddf882",
+    "history-results.json": "2aebf5614ed69347fd0837c3b6a14ca9be0929a5bae8371e5fdf526529ddf882",
+    "initial-results.json": "2aebf5614ed69347fd0837c3b6a14ca9be0929a5bae8371e5fdf526529ddf882",
+    "root-canonical-replay.json": "fc6f481c9befb70b4befc5e2c9fdecd54d07a9b66cb5eaa9851e19448608ff64",
+    "alpha-review.json": "508847b1562e7994bb1d78a5c9d105465da054138bd84e04dd0d029c971042c1",
+    "review.json": "4ce024eb12de56ce209f40a742cfb485509622801d3172579ef8c29b6239d4a8"
+  },
+  "acceptedCount": 15,
+  "rejectedCount": 0,
+  "correctionRequestedCount": 0,
+  "finalPngBytes": 25881324,
+  "targets": [
+    {
+      "key": "conveyor",
+      "id": "prop:conveyor:v0",
+      "iteration": 1,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-ddb6d2f7-f7f0-46bb-b8d1-b31252caabce.png",
+      "sha256": "9ee3bf57be086eb1f773d3eb2f5032d3def88c0f00adeb9012182d2ee6af7f75",
+      "bytes": 1207338,
+      "dimensions": [
+        2172,
+        724
+      ],
+      "mode": "RGBA",
+      "canonicalPath": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/conveyor_v0.png",
+      "canonicalSha256": "a9ae3320a9ee9e5fa52e465291c989c5020532e3deec579e180afb186dfabe04",
+      "canonicalVariant": 0,
+      "canonicalReplayEvidenceMatches": true,
+      "viewedNativeOriginalAndCanonicalIndividually": true,
+      "decision": "accepted_source_proposal",
+      "observation": "Sept rouleaux transversaux immobiles, deux rails longitudinaux, quatre attaches/pieds et plateau vide ; orientation horizontale et ordre des composants conformes à v0. Aucun convoyage animé, charge ou élément extérieur.",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zeroPixels": 999171,
+        "nonzeroPixels": 573357,
+        "opaquePixels": 108,
+        "partialPixels": 573249,
+        "bboxAlpha16": [
+          365,
+          138,
+          1807,
+          587
+        ],
+        "bboxAlpha128": [
+          366,
+          139,
+          1806,
+          586
+        ],
+        "edgeMaximum": 1,
+        "minimumVisibleMarginAtAlpha16": 137,
+        "measurementMeaning": "Pixel alpha and visible support only; neither metre scale nor metric 1:1 fidelity."
+      }
+    },
+    {
+      "key": "dosingUnit",
+      "id": "prop:dosingUnit:v0",
+      "iteration": 1,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-8dedd23c-cce5-4bd8-8c7d-0934464c983d.png",
+      "sha256": "b0d5f94f0ba44836388c7b2f4a09d25add4c2917431c15fd2964cae2082cae53",
+      "bytes": 1492430,
+      "dimensions": [
+        1402,
+        1122
+      ],
+      "mode": "RGBA",
+      "canonicalPath": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/dosingUnit_v0.png",
+      "canonicalSha256": "ab2d6b97aa00e7667ec168018c258a8028e2a6b95075acda5f8eda1bb2455ef2",
+      "canonicalVariant": 0,
+      "canonicalReplayEvidenceMatches": true,
+      "viewedNativeOriginalAndCanonicalIndividually": true,
+      "decision": "accepted_source_proposal",
+      "observation": "Trémie angulaire large en haut-gauche, col court en bas et carter brun à droite conservés sur une seule base à quatre appuis ; objet inactif, sans tuyauterie ni cuve supplémentaire.",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zeroPixels": 920270,
+        "nonzeroPixels": 652774,
+        "opaquePixels": 224,
+        "partialPixels": 652550,
+        "bboxAlpha16": [
+          233,
+          193,
+          1168,
+          937
+        ],
+        "bboxAlpha128": [
+          234,
+          193,
+          1167,
+          936
+        ],
+        "edgeMaximum": 1,
+        "minimumVisibleMarginAtAlpha16": 185,
+        "measurementMeaning": "Pixel alpha and visible support only; neither metre scale nor metric 1:1 fidelity."
+      }
+    },
+    {
+      "key": "foodMixer",
+      "id": "prop:foodMixer:v0",
+      "iteration": 1,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-725baf2b-52ed-482f-9f3e-0e63875714ca.png",
+      "sha256": "5188463cd7f8210c0e06f7b58dcc780be071964c0047de09713efc6743f22d9c",
+      "bytes": 1799681,
+      "dimensions": [
+        1330,
+        1182
+      ],
+      "mode": "RGBA",
+      "canonicalPath": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/foodMixer_v0.png",
+      "canonicalSha256": "19a264080dfffc1368e0655b1d99be7d94049777d0fd2d18dedb6b0dee6738fe",
+      "canonicalVariant": 0,
+      "canonicalReplayEvidenceMatches": true,
+      "viewedNativeOriginalAndCanonicalIndividually": true,
+      "decision": "accepted_source_proposal",
+      "observation": "Cuve circulaire vide à gauche et bras clair relié au carter droit ; positions et orientation v0 lisibles. Les textures et fixations restent intégrées à la machine, sans denrées ni émission active.",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zeroPixels": 699306,
+        "nonzeroPixels": 872754,
+        "opaquePixels": 604,
+        "partialPixels": 872150,
+        "bboxAlpha16": [
+          185,
+          145,
+          1145,
+          1036
+        ],
+        "bboxAlpha128": [
+          185,
+          146,
+          1144,
+          1035
+        ],
+        "edgeMaximum": 1,
+        "minimumVisibleMarginAtAlpha16": 145,
+        "measurementMeaning": "Pixel alpha and visible support only; neither metre scale nor metric 1:1 fidelity."
+      }
+    },
+    {
+      "key": "heatChamber",
+      "id": "prop:heatChamber:v0",
+      "iteration": 1,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-eaa5a38d-aef6-4114-8e05-fb420295f09c.png",
+      "sha256": "020622c09fc3251a28f3a00ffd1bf3aa6274fb86b3e79bd1e9ed57611efb0867",
+      "bytes": 1691105,
+      "dimensions": [
+        1470,
+        1070
+      ],
+      "mode": "RGBA",
+      "canonicalPath": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/heatChamber_v0.png",
+      "canonicalSha256": "897e779c8536b7d3284119b171e1a58f84b23c839d37eb742a0cc1338277c591",
+      "canonicalVariant": 0,
+      "canonicalReplayEvidenceMatches": true,
+      "viewedNativeOriginalAndCanonicalIndividually": true,
+      "decision": "accepted_source_proposal",
+      "observation": "Enceinte unique fermée : cadre isolant clair, panneau sombre central, deux barres transversales brunes et loquet à droite conformes à v0. Aucune lueur, flamme ou vapeur.",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zeroPixels": 798666,
+        "nonzeroPixels": 774234,
+        "opaquePixels": 882,
+        "partialPixels": 773352,
+        "bboxAlpha16": [
+          215,
+          133,
+          1254,
+          934
+        ],
+        "bboxAlpha128": [
+          216,
+          135,
+          1253,
+          933
+        ],
+        "edgeMaximum": 1,
+        "minimumVisibleMarginAtAlpha16": 133,
+        "measurementMeaning": "Pixel alpha and visible support only; neither metre scale nor metric 1:1 fidelity."
+      }
+    },
+    {
+      "key": "metalSaw",
+      "id": "prop:metalSaw:v0",
+      "iteration": 1,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-59a66afe-5971-4b54-9b21-87aa18372b72.png",
+      "sha256": "f4509c89ec24b4953a6155a43fa301b522a55b89e7e5fb1b93697318cc2ca448",
+      "bytes": 1871668,
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "canonicalPath": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/metalSaw_v0.png",
+      "canonicalSha256": "1c60ae21e9b849b86e097548896e31dac4904a802f6b908306dbd506f4ea92fd",
+      "canonicalVariant": 0,
+      "canonicalReplayEvidenceMatches": true,
+      "viewedNativeOriginalAndCanonicalIndividually": true,
+      "decision": "accepted_source_proposal",
+      "observation": "Zone circulaire sombre de lame/carter à gauche avec diagonale claire, guide longitudinal droit et barre inférieure brune conservés. Machine immobile et sans pièce à débiter. Le halo RGB visible dans l’aperçu se trouve dans des pixels alpha 0 aux points contrôlés ; le contour alpha≥8 reste celui de l’objet, donc pas de fond opaque constaté.",
+      "alpha": {
+        "min": 0,
+        "max": 254,
+        "zeroPixels": 1021287,
+        "nonzeroPixels": 551577,
+        "opaquePixels": 0,
+        "partialPixels": 551577,
+        "bboxAlpha16": [
+          250,
+          259,
+          1287,
+          810
+        ],
+        "bboxAlpha128": [
+          250,
+          261,
+          1286,
+          808
+        ],
+        "edgeMaximum": 1,
+        "minimumVisibleMarginAtAlpha16": 214,
+        "measurementMeaning": "Pixel alpha and visible support only; neither metre scale nor metric 1:1 fidelity."
+      }
+    },
+    {
+      "key": "lathe",
+      "id": "prop:lathe:v0",
+      "iteration": 1,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-d56f2040-da56-4f5e-a51b-54dd6684ac56.png",
+      "sha256": "bd68fc046deff5d0af50130a367c7a1ced68de274423f8d4af3e291827428f7d",
+      "bytes": 1793930,
+      "dimensions": [
+        1774,
+        887
+      ],
+      "mode": "RGBA",
+      "canonicalPath": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/lathe_v0.png",
+      "canonicalSha256": "cb699c7ce0db05504eeda6b064adb554f9b81684de854deeb982f38577204267",
+      "canonicalVariant": 0,
+      "canonicalReplayEvidenceMatches": true,
+      "viewedNativeOriginalAndCanonicalIndividually": true,
+      "decision": "accepted_source_proposal",
+      "observation": "Mandrin à gauche, axe/rails horizontaux, chariot et volant en bas-droite, pièce de queue brune à droite : arrangement v0 conservé. Mandrin vide et parties immobiles.",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zeroPixels": 740183,
+        "nonzeroPixels": 833355,
+        "opaquePixels": 1557,
+        "partialPixels": 831798,
+        "bboxAlpha16": [
+          219,
+          164,
+          1556,
+          727
+        ],
+        "bboxAlpha128": [
+          220,
+          167,
+          1555,
+          726
+        ],
+        "edgeMaximum": 1,
+        "minimumVisibleMarginAtAlpha16": 160,
+        "measurementMeaning": "Pixel alpha and visible support only; neither metre scale nor metric 1:1 fidelity."
+      }
+    },
+    {
+      "key": "millingMachine",
+      "id": "prop:millingMachine:v0",
+      "iteration": 1,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-735af68c-1337-431e-a88c-ea05a5334146.png",
+      "sha256": "cd5bd84a6ddbd1579d5797b03b7868b158b8c8ea034b46de1a1aab8fa9e7042b",
+      "bytes": 1500435,
+      "dimensions": [
+        1470,
+        1070
+      ],
+      "mode": "RGBA",
+      "canonicalPath": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/millingMachine_v0.png",
+      "canonicalSha256": "e8c71da3d8ca45b5d4e58d7b7fa56f6d9af4078d1678c2c76aa8d192b8bcc012",
+      "canonicalVariant": 0,
+      "canonicalReplayEvidenceMatches": true,
+      "viewedNativeOriginalAndCanonicalIndividually": true,
+      "decision": "accepted_source_proposal",
+      "observation": "Colonne sombre à gauche, poutre supérieure, broche descendant vers la zone centre-droite et table rainurée en bas conservées. Aucune pièce usinée ni copeaux ou effet de fonctionnement.",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zeroPixels": 874083,
+        "nonzeroPixels": 698817,
+        "opaquePixels": 655,
+        "partialPixels": 698162,
+        "bboxAlpha16": [
+          245,
+          180,
+          1225,
+          915
+        ],
+        "bboxAlpha128": [
+          246,
+          181,
+          1224,
+          914
+        ],
+        "edgeMaximum": 1,
+        "minimumVisibleMarginAtAlpha16": 155,
+        "measurementMeaning": "Pixel alpha and visible support only; neither metre scale nor metric 1:1 fidelity."
+      }
+    },
+    {
+      "key": "assemblyStation",
+      "id": "prop:assemblyStation:v0",
+      "iteration": 1,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-a769102b-8b1b-43b2-bf80-6427b1f2cff8.png",
+      "sha256": "6a02d4d145d9d1feda46b850a8955509cbabfe11746550f5a22160db2918f781",
+      "bytes": 1617321,
+      "dimensions": [
+        1774,
+        887
+      ],
+      "mode": "RGBA",
+      "canonicalPath": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/assemblyStation_v0.png",
+      "canonicalSha256": "87dc1cacc3cd9c9d1d8ac3ede5e1dcccea4173f22f17c2114cad40a22a0e1555",
+      "canonicalVariant": 0,
+      "canonicalReplayEvidenceMatches": true,
+      "viewedNativeOriginalAndCanonicalIndividually": true,
+      "decision": "accepted_source_proposal",
+      "observation": "Plateau en bois, petit dispositif carré en haut-gauche, grande embase sombre à droite et exactement trois supports bruns fixes en partie basse. Les éléments restent attachés au même établi, sans outil détaché ni stock.",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zeroPixels": 906640,
+        "nonzeroPixels": 666898,
+        "opaquePixels": 1686,
+        "partialPixels": 665212,
+        "bboxAlpha16": [
+          247,
+          176,
+          1527,
+          711
+        ],
+        "bboxAlpha128": [
+          249,
+          177,
+          1526,
+          710
+        ],
+        "edgeMaximum": 1,
+        "minimumVisibleMarginAtAlpha16": 176,
+        "measurementMeaning": "Pixel alpha and visible support only; neither metre scale nor metric 1:1 fidelity."
+      }
+    },
+    {
+      "key": "inspectionBench",
+      "id": "prop:inspectionBench:v0",
+      "iteration": 1,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-51bda2a1-4aea-44f3-a1ed-6f71e98c88aa.png",
+      "sha256": "adbed32de4199e6b97d7f9444269dbd820779bf7e20a1e15567a262799f8bea4",
+      "bytes": 1675217,
+      "dimensions": [
+        1774,
+        887
+      ],
+      "mode": "RGBA",
+      "canonicalPath": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/inspectionBench_v0.png",
+      "canonicalSha256": "aab72d505f89ed6fbafe62dbfd6014b1d73b09303d5ae7cfb0ca96d69a9ec3f0",
+      "canonicalVariant": 0,
+      "canonicalReplayEvidenceMatches": true,
+      "viewedNativeOriginalAndCanonicalIndividually": true,
+      "decision": "accepted_source_proposal",
+      "observation": "Boîtier rectangulaire gauche et grand cadran pâle à droite, avec repère sombre angulaire conforme à v0. Cadran sans chiffres/texte et sans émission lumineuse ; aucun instrument supplémentaire.",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zeroPixels": 844691,
+        "nonzeroPixels": 728847,
+        "opaquePixels": 119,
+        "partialPixels": 728728,
+        "bboxAlpha16": [
+          235,
+          170,
+          1539,
+          744
+        ],
+        "bboxAlpha128": [
+          236,
+          171,
+          1538,
+          743
+        ],
+        "edgeMaximum": 1,
+        "minimumVisibleMarginAtAlpha16": 143,
+        "measurementMeaning": "Pixel alpha and visible support only; neither metre scale nor metric 1:1 fidelity."
+      }
+    },
+    {
+      "key": "loom",
+      "id": "prop:loom:v0",
+      "iteration": 1,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-cfba5daa-037a-436d-89e9-37c5318e9373.png",
+      "sha256": "f9e1f2463a96642d900a6738e9ccbf5a523a52efba7d044019cfd70f7eb1500b",
+      "bytes": 2152216,
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "canonicalPath": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/loom_v0.png",
+      "canonicalSha256": "34436eb09f2aa504a4d4c6219aa1a4dc6512061beaf6daadd1e05db2c251576b",
+      "canonicalVariant": 0,
+      "canonicalReplayEvidenceMatches": true,
+      "viewedNativeOriginalAndCanonicalIndividually": true,
+      "decision": "accepted_source_proposal",
+      "observation": "Cadre rectangulaire en bois, six fils/bandes clairs verticaux (les deux extrêmes partiellement masqués par les rails), cinq traverses en comptant les bords haut/bas, rails métalliques latéraux et barre diagonale rousse conformes à v0. Le tissu reste contenu sous la structure ; aucun tas extérieur ni activité.",
+      "alpha": {
+        "min": 0,
+        "max": 254,
+        "zeroPixels": 953121,
+        "nonzeroPixels": 619743,
+        "opaquePixels": 0,
+        "partialPixels": 619743,
+        "bboxAlpha16": [
+          259,
+          200,
+          1276,
+          849
+        ],
+        "bboxAlpha128": [
+          260,
+          201,
+          1275,
+          848
+        ],
+        "edgeMaximum": 1,
+        "minimumVisibleMarginAtAlpha16": 175,
+        "measurementMeaning": "Pixel alpha and visible support only; neither metre scale nor metric 1:1 fidelity."
+      }
+    },
+    {
+      "key": "sewingStation",
+      "id": "prop:sewingStation:v0",
+      "iteration": 1,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-5ca532bb-fbbb-4e3f-9d7a-8db4f6b2e958.png",
+      "sha256": "eb863d4effbc737e96b2abbc3f6cfa18f0e8e54309a036cdb209c4a10abb3c05",
+      "bytes": 1972290,
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "canonicalPath": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/sewingStation_v0.png",
+      "canonicalSha256": "c0bc8843626aef4093bd5c9581d9b083dea758b76e48089b2f61693cd99d9bba",
+      "canonicalVariant": 0,
+      "canonicalReplayEvidenceMatches": true,
+      "viewedNativeOriginalAndCanonicalIndividually": true,
+      "decision": "accepted_source_proposal",
+      "observation": "Établi unique, volant circulaire à gauche, bras horizontal vers la droite, carter d’aiguille sombre et une seule aiguille au-dessus du petit tissu inférieur droit. Les repères v0 restent lisibles ; la couture sur le tissu est un détail de surface, sans ajout d’outil, de personne ou d’effet actif.",
+      "alpha": {
+        "min": 0,
+        "max": 254,
+        "zeroPixels": 920198,
+        "nonzeroPixels": 652666,
+        "opaquePixels": 0,
+        "partialPixels": 652666,
+        "bboxAlpha16": [
+          227,
+          289,
+          1308,
+          766
+        ],
+        "bboxAlpha128": [
+          228,
+          290,
+          1307,
+          765
+        ],
+        "edgeMaximum": 1,
+        "minimumVisibleMarginAtAlpha16": 227,
+        "measurementMeaning": "Pixel alpha and visible support only; neither metre scale nor metric 1:1 fidelity."
+      }
+    },
+    {
+      "key": "cuttingTable",
+      "id": "prop:cuttingTable:v0",
+      "iteration": 1,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-fc8c8bbd-353f-4560-a237-8d9fbb3cb186.png",
+      "sha256": "542af0ac9fe5c1baabf36d1a7d6248904b0549e8d7d6e7317ed8f5414b11fa41",
+      "bytes": 1959810,
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "canonicalPath": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/cuttingTable_v0.png",
+      "canonicalSha256": "da654cd7e715cb10e8b5b252ffda9186e8ab80bcc0fce2a8a8e97c8b972b1680",
+      "canonicalVariant": 0,
+      "canonicalReplayEvidenceMatches": true,
+      "viewedNativeOriginalAndCanonicalIndividually": true,
+      "decision": "accepted_source_proposal",
+      "observation": "Tapis olive intégré au plateau avec exactement cinq guides verticaux et quatre horizontaux, bordure métallique claire et bande pâle inférieure. Le quadrillage est une marque de surface, sans transformation en structure saillante ni ajout de lame, ciseaux, chiffres ou charge.",
+      "alpha": {
+        "min": 0,
+        "max": 254,
+        "zeroPixels": 963124,
+        "nonzeroPixels": 609740,
+        "opaquePixels": 0,
+        "partialPixels": 609740,
+        "bboxAlpha16": [
+          226,
+          209,
+          1310,
+          815
+        ],
+        "bboxAlpha128": [
+          227,
+          210,
+          1309,
+          814
+        ],
+        "edgeMaximum": 1,
+        "minimumVisibleMarginAtAlpha16": 209,
+        "measurementMeaning": "Pixel alpha and visible support only; neither metre scale nor metric 1:1 fidelity."
+      }
+    },
+    {
+      "key": "materialMixer",
+      "id": "prop:materialMixer:v0",
+      "iteration": 1,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-22c9b061-cdda-4491-8d68-0f7b1664f666.png",
+      "sha256": "310a92057e0aaf2b79afccae1e310102a268aa9815831eb134278ab0a3dd50ef",
+      "bytes": 1908926,
+      "dimensions": [
+        1388,
+        1133
+      ],
+      "mode": "RGBA",
+      "canonicalPath": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/materialMixer_v0.png",
+      "canonicalSha256": "aabed1703763dca811da3d7352b6a39b1c2758d5a383f101676389324f6f08e3",
+      "canonicalVariant": 0,
+      "canonicalReplayEvidenceMatches": true,
+      "viewedNativeOriginalAndCanonicalIndividually": true,
+      "decision": "accepted_source_proposal",
+      "observation": "Cuve brune décalée à gauche, quatre petites traces ocre inertes à l’intérieur, colonne droite et bras pâle revenant vers le centre de la cuve. Patte rousse inférieure gauche et base unique conservées ; aucune charge extérieure ni agitation.",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zeroPixels": 734831,
+        "nonzeroPixels": 837773,
+        "opaquePixels": 533,
+        "partialPixels": 837240,
+        "bboxAlpha16": [
+          194,
+          154,
+          1194,
+          999
+        ],
+        "bboxAlpha128": [
+          195,
+          155,
+          1193,
+          998
+        ],
+        "edgeMaximum": 1,
+        "minimumVisibleMarginAtAlpha16": 134,
+        "measurementMeaning": "Pixel alpha and visible support only; neither metre scale nor metric 1:1 fidelity."
+      }
+    },
+    {
+      "key": "formingPress",
+      "id": "prop:formingPress:v0",
+      "iteration": 1,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-cc24e6c1-c5d5-4dd4-abd6-fbcc772c6994.png",
+      "sha256": "ab4ecd04b86621f6a3f1b42dbca372377cd99636df939a1d4aeb9a573b7f0fb0",
+      "bytes": 1503568,
+      "dimensions": [
+        1388,
+        1133
+      ],
+      "mode": "RGBA",
+      "canonicalPath": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/formingPress_v0.png",
+      "canonicalSha256": "82c7a5a78f2771ef9f9c605de84b06bc017780110001fae75b8878b72db85589",
+      "canonicalVariant": 0,
+      "canonicalReplayEvidenceMatches": true,
+      "viewedNativeOriginalAndCanonicalIndividually": true,
+      "decision": "accepted_source_proposal",
+      "observation": "Deux montants latéraux, large traverse supérieure claire, lit inférieur clair et poinçon étroit centré au-dessus de l’ouverture sombre. Espace de pressage vide et machine inactive ; aucune pièce ajoutée.",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zeroPixels": 879589,
+        "nonzeroPixels": 693015,
+        "opaquePixels": 94,
+        "partialPixels": 692921,
+        "bboxAlpha16": [
+          228,
+          181,
+          1160,
+          952
+        ],
+        "bboxAlpha128": [
+          229,
+          181,
+          1159,
+          951
+        ],
+        "edgeMaximum": 1,
+        "minimumVisibleMarginAtAlpha16": 181,
+        "measurementMeaning": "Pixel alpha and visible support only; neither metre scale nor metric 1:1 fidelity."
+      }
+    },
+    {
+      "key": "curingRack",
+      "id": "prop:curingRack:v0",
+      "iteration": 1,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-e7a78490-e7d2-442c-8141-951d5ec7f462.png",
+      "sha256": "0774e6c7b71a5c98eddaa0780831668a2c3df1383ce9a5b3ed049e77b2e6d26d",
+      "bytes": 1735389,
+      "dimensions": [
+        1774,
+        887
+      ],
+      "mode": "RGBA",
+      "canonicalPath": "/workspace/scratch/6f470a892a0f/art234-prep/references/canonical/curingRack_v0.png",
+      "canonicalSha256": "939121aabe0c2539503c62be2b81011efab309b28887c087540648504b1e6408",
+      "canonicalVariant": 0,
+      "canonicalReplayEvidenceMatches": true,
+      "viewedNativeOriginalAndCanonicalIndividually": true,
+      "decision": "accepted_source_proposal",
+      "observation": "Trois bandes de plateaux parallèles avec exactement deux inserts ovales roux sur chacune, soit six ; rails latéraux et appuis intégrés. Les inserts appartiennent à l’apparence canonique, sans quatrième plateau, stock ou charge extérieure.",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "zeroPixels": 813654,
+        "nonzeroPixels": 759884,
+        "opaquePixels": 274,
+        "partialPixels": 759610,
+        "bboxAlpha16": [
+          226,
+          138,
+          1549,
+          748
+        ],
+        "bboxAlpha128": [
+          227,
+          139,
+          1548,
+          747
+        ],
+        "edgeMaximum": 1,
+        "minimumVisibleMarginAtAlpha16": 138,
+        "measurementMeaning": "Pixel alpha and visible support only; neither metre scale nor metric 1:1 fidelity."
+      }
+    }
+  ],
+  "limits": [
+    "Acceptance covers source-art coherence, inactive state, canonical component ordering/counts and visible silhouette; it does not certify metre scale, a 1:1 projection, runtime placement or gameplay compatibility.",
+    "Canonical painted ink can be inset within the catalogue footprint. Differences between ink aspect ratios and catalogue w/h are observations, not automatic failures or metre measurements.",
+    "The native PNGs contain very low alpha residues, including alpha 1 at some canvas edges. They have transparent pixels and an interior visible silhouette at alpha >=16; no opaque canvas background was found. No cleaning or pixel alteration was applied.",
+    "A colored halo displayed by an image viewer can originate from RGB channels of alpha-zero pixels. The metalSaw halo was checked at six surrounding sample points, all alpha 0; visible-support bounds were assessed separately.",
+    "Small surface wear, bolts and stitches are artistic material details. No added active effects, detached tools, external stock or new major component were observed relative to the requested v0 arrangements.",
+    "This review does not make any new Codex/DW identity mapping and does not modify author records, canonical references or prior frozen packs."
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "reviewer": "root",
+  "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "method": "Independent in-memory replay of the recorded public drawProp call against the unchanged repository code; byte-for-byte PNG comparison, source-footprint and object-mutation checks.",
+  "imageEditingPerformed": false,
+  "targets": [
+    {
+      "id": "prop:touring-caravan:v0",
+      "kind": "touring-caravan",
+      "sourceRoute": "structural205",
+      "canonicalSha256": "b391a653228f8d4e07efacc3466f550a41d1260facc32ea86b183c5f4c81312b",
+      "referenceBytes": 15618,
+      "replayedBytesIdentical": true,
+      "sourceObjectUnchanged": true,
+      "nativeFootprintVerified": true,
+      "gameProvided": false,
+      "variant": 0,
+      "stateAlpha": false
+    },
+    {
+      "id": "prop:abandoned-caravan:v0",
+      "kind": "abandoned-caravan",
+      "sourceRoute": "structural205",
+      "canonicalSha256": "5bf7ba84f11ab0302c358fc409ef926fd1531b606947f196495f1ee8b1ad9f03",
+      "referenceBytes": 22593,
+      "replayedBytesIdentical": true,
+      "sourceObjectUnchanged": true,
+      "nativeFootprintVerified": true,
+      "gameProvided": false,
+      "variant": 0,
+      "stateAlpha": false
+    }
+  ]
+}

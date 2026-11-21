@@ -1,0 +1,722 @@
+{
+  "schemaVersion": 1,
+  "batch": "art227",
+  "checkedOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "method": "PNG signature/IHDR and Pillow verify, native RGBA alpha histogram and bounds, SHA-256. No write, crop, resize or pixel transformation.",
+  "alphaThresholds": [
+    1,
+    8,
+    32,
+    128,
+    240
+  ],
+  "boundsConvention": "left/top inclusive, right/bottom exclusive",
+  "alphaInterpretation": "Hidden RGB colors with alpha=0 are transparent. Low alpha1–7 noise is reported separately. Alpha>=8 margins are a technical visibility indicator, not a physical footprint or fidelity certificate.",
+  "finalSpriteCount": 7,
+  "allRgba": true,
+  "allVisibleBodiesWithinCanvasAtAlpha8": true,
+  "nativeBytesPreserved": true,
+  "assets": [
+    {
+      "file": "assets/art227/regional/DW-0001_maison_lotissement.png",
+      "bytes": 1469764,
+      "sha256": "edcf77b66f5a2154a9fce27129913753db406df3326d538d2f5e27199f8bd009",
+      "width": 1354,
+      "height": 1161,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 997667,
+      "fullyTransparentFraction": 0.634650641160208,
+      "lowAlphaPixels1to7": 31635,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1353,
+          1161
+        ],
+        "8": [
+          240,
+          293,
+          1114,
+          932
+        ],
+        "32": [
+          240,
+          295,
+          1114,
+          929
+        ],
+        "128": [
+          241,
+          295,
+          1113,
+          924
+        ],
+        "240": [
+          242,
+          296,
+          1112,
+          922
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 1,
+          "bottom": 0
+        },
+        "8": {
+          "left": 240,
+          "top": 293,
+          "right": 240,
+          "bottom": 229
+        },
+        "32": {
+          "left": 240,
+          "top": 295,
+          "right": 240,
+          "bottom": 232
+        },
+        "128": {
+          "left": 241,
+          "top": 295,
+          "right": 241,
+          "bottom": 237
+        },
+        "240": {
+          "left": 242,
+          "top": 296,
+          "right": 242,
+          "bottom": 239
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art227/regional/DW-0003_maison_etage.png",
+      "bytes": 1828325,
+      "sha256": "f8f18c1649d2fd20e7ec4f883652e70382f0e8c4a1d141ba27011819cc133aed",
+      "width": 1391,
+      "height": 1131,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 876130,
+      "fullyTransparentFraction": 0.5569020499980613,
+      "lowAlphaPixels1to7": 17084,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          20,
+          1361,
+          1131
+        ],
+        "8": [
+          209,
+          255,
+          1182,
+          965
+        ],
+        "32": [
+          209,
+          255,
+          1182,
+          963
+        ],
+        "128": [
+          210,
+          256,
+          1182,
+          962
+        ],
+        "240": [
+          211,
+          257,
+          1181,
+          962
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 20,
+          "right": 30,
+          "bottom": 0
+        },
+        "8": {
+          "left": 209,
+          "top": 255,
+          "right": 209,
+          "bottom": 166
+        },
+        "32": {
+          "left": 209,
+          "top": 255,
+          "right": 209,
+          "bottom": 168
+        },
+        "128": {
+          "left": 210,
+          "top": 256,
+          "right": 209,
+          "bottom": 169
+        },
+        "240": {
+          "left": 211,
+          "top": 257,
+          "right": 210,
+          "bottom": 169
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art227/regional/DW-0010_chalet_forestier.png",
+      "bytes": 1131775,
+      "sha256": "cb3ffadd531a92721bcba520804dbdc377469f28fa37d99bc9006fdf3f5e4a97",
+      "width": 1330,
+      "height": 1182,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1146647,
+      "fullyTransparentFraction": 0.7293913718305917,
+      "lowAlphaPixels1to7": 11559,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          30,
+          1282,
+          1156
+        ],
+        "8": [
+          311,
+          294,
+          1017,
+          915
+        ],
+        "32": [
+          311,
+          294,
+          1017,
+          908
+        ],
+        "128": [
+          311,
+          295,
+          1016,
+          900
+        ],
+        "240": [
+          312,
+          296,
+          1015,
+          894
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 30,
+          "right": 48,
+          "bottom": 26
+        },
+        "8": {
+          "left": 311,
+          "top": 294,
+          "right": 313,
+          "bottom": 267
+        },
+        "32": {
+          "left": 311,
+          "top": 294,
+          "right": 313,
+          "bottom": 274
+        },
+        "128": {
+          "left": 311,
+          "top": 295,
+          "right": 314,
+          "bottom": 282
+        },
+        "240": {
+          "left": 312,
+          "top": 296,
+          "right": 315,
+          "bottom": 288
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 0,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art227/regional/DW-0021_immeuble_trois_niveaux.png",
+      "bytes": 1965993,
+      "sha256": "09c6622cbb82855a463800c0e246530fbd8420dec862b2533e0f15744032b530",
+      "width": 1433,
+      "height": 1098,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 762898,
+      "fullyTransparentFraction": 0.4848617736746505,
+      "lowAlphaPixels1to7": 67124,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1409,
+          1098
+        ],
+        "8": [
+          194,
+          208,
+          1239,
+          945
+        ],
+        "32": [
+          195,
+          208,
+          1239,
+          942
+        ],
+        "128": [
+          195,
+          209,
+          1239,
+          940
+        ],
+        "240": [
+          196,
+          210,
+          1238,
+          939
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 24,
+          "bottom": 0
+        },
+        "8": {
+          "left": 194,
+          "top": 208,
+          "right": 194,
+          "bottom": 153
+        },
+        "32": {
+          "left": 195,
+          "top": 208,
+          "right": 194,
+          "bottom": 156
+        },
+        "128": {
+          "left": 195,
+          "top": 209,
+          "right": 194,
+          "bottom": 158
+        },
+        "240": {
+          "left": 196,
+          "top": 210,
+          "right": 195,
+          "bottom": 159
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art227/regional/DW-0004_maison_sous_sol.png",
+      "bytes": 1349455,
+      "sha256": "88d1438eb979cb5cf398497621707be5ec5caef2cc9d1814e003ecaee7d558c6",
+      "width": 1374,
+      "height": 1145,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1021697,
+      "fullyTransparentFraction": 0.6494263394417854,
+      "lowAlphaPixels1to7": 24000,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          20,
+          1356,
+          1145
+        ],
+        "8": [
+          207,
+          308,
+          1166,
+          881
+        ],
+        "32": [
+          208,
+          308,
+          1166,
+          874
+        ],
+        "128": [
+          208,
+          309,
+          1166,
+          874
+        ],
+        "240": [
+          209,
+          310,
+          1165,
+          873
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 20,
+          "right": 18,
+          "bottom": 0
+        },
+        "8": {
+          "left": 207,
+          "top": 308,
+          "right": 208,
+          "bottom": 264
+        },
+        "32": {
+          "left": 208,
+          "top": 308,
+          "right": 208,
+          "bottom": 271
+        },
+        "128": {
+          "left": 208,
+          "top": 309,
+          "right": 208,
+          "bottom": 271
+        },
+        "240": {
+          "left": 209,
+          "top": 310,
+          "right": 209,
+          "bottom": 272
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art227/regional/DW-0481_maison_effondree.png",
+      "bytes": 1586099,
+      "sha256": "4ac2a7402c2afecbe3839e088a5cbc4ad198fd3bb5f508f6c02c3dfff5b1c18b",
+      "width": 1422,
+      "height": 1106,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 905397,
+      "fullyTransparentFraction": 0.5756842233769008,
+      "lowAlphaPixels1to7": 77902,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          17,
+          1404,
+          1106
+        ],
+        "8": [
+          231,
+          235,
+          1188,
+          901
+        ],
+        "32": [
+          233,
+          235,
+          1187,
+          899
+        ],
+        "128": [
+          234,
+          236,
+          1186,
+          898
+        ],
+        "240": [
+          235,
+          237,
+          1185,
+          897
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 17,
+          "right": 18,
+          "bottom": 0
+        },
+        "8": {
+          "left": 231,
+          "top": 235,
+          "right": 234,
+          "bottom": 205
+        },
+        "32": {
+          "left": 233,
+          "top": 235,
+          "right": 235,
+          "bottom": 207
+        },
+        "128": {
+          "left": 234,
+          "top": 236,
+          "right": 236,
+          "bottom": 208
+        },
+        "240": {
+          "left": 235,
+          "top": 237,
+          "right": 237,
+          "bottom": 209
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art227/regional/DW-0101_hotel_centre_ville.png",
+      "bytes": 2356030,
+      "sha256": "d094fee5e66fddfee0a7edf38b2eaa0f3cc1f1633b5ea535d598e1d8f1451f1b",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "fullyTransparentPixels": 769459,
+      "fullyTransparentFraction": 0.4892088572184245,
+      "lowAlphaPixels1to7": 29056,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1522,
+          1024
+        ],
+        "8": [
+          156,
+          191,
+          1380,
+          850
+        ],
+        "32": [
+          156,
+          191,
+          1380,
+          849
+        ],
+        "128": [
+          156,
+          191,
+          1380,
+          848
+        ],
+        "240": [
+          157,
+          192,
+          1379,
+          848
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 14,
+          "bottom": 0
+        },
+        "8": {
+          "left": 156,
+          "top": 191,
+          "right": 156,
+          "bottom": 174
+        },
+        "32": {
+          "left": 156,
+          "top": 191,
+          "right": 156,
+          "bottom": 175
+        },
+        "128": {
+          "left": 156,
+          "top": 191,
+          "right": 156,
+          "bottom": 176
+        },
+        "240": {
+          "left": 157,
+          "top": 192,
+          "right": 157,
+          "bottom": 176
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    }
+  ]
+}

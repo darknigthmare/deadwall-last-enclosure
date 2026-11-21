@@ -1,0 +1,575 @@
+[
+  {
+    "key": "fence:v1",
+    "id": "prop:fence:v1",
+    "kind": "fence",
+    "name": "Clôture à renforts diagonaux en bois — variante 1",
+    "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "canonicalReference": {
+      "path": "references/canonical/fence_v1.png",
+      "sha256": "340f4aa5750d99963c1662d8cf40511140470b71df89073507904a76c98110a6"
+    },
+    "canonicalReplay": {
+      "id": "prop:fence:v1",
+      "key": "fence:v1",
+      "canonicalSha256": "340f4aa5750d99963c1662d8cf40511140470b71df89073507904a76c98110a6",
+      "replaySha256": "340f4aa5750d99963c1662d8cf40511140470b71df89073507904a76c98110a6",
+      "bytes": 8375,
+      "replayedBytesIdentical": true,
+      "entryPoint": "campaign-site-art205.drawProp",
+      "sourcePlanId": "EXT-MONDE-T045-V01",
+      "sourceId": "EXT-MONDE-T045-V01:site-fence:north-left",
+      "sourcePlanVariant": 1,
+      "painterVariant": 1,
+      "canonicalVariant": 1,
+      "footprintAuthorMetres": [
+        3,
+        0.15
+      ],
+      "heightAuthorMetres": 1.2,
+      "sourceFixtureAndOptionsUnchanged": true,
+      "gameArgumentOmitted": true,
+      "rngCalls": 0,
+      "styleBindings": [
+        {
+          "sha256": "16617f83fd798df7de6366b049ddcfb2f400df787bc52aec0a279bb3f347b87f",
+          "repositoryPath": "art-packs/DEADWALL_Art238/assets/art238/props/fence_cloture_bois.png",
+          "verifiedAtRevision": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+          "role": "accepted v0 material finish and painterly quality only",
+          "existingImageNotNewGeneration": true
+        }
+      ]
+    },
+    "deliveryStatus": "accepted-source-art-proposal",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false,
+    "route": "structural205",
+    "sourceId": "EXT-MONDE-T045-V01:site-fence:north-left",
+    "sourcePlanId": "EXT-MONDE-T045-V01",
+    "sourceType": "EXT-MONDE-T045",
+    "sourceObject": {
+      "id": "EXT-MONDE-T045-V01:site-fence:north-left",
+      "kind": "fence",
+      "x": 2,
+      "y": 2,
+      "w": 3,
+      "h": 0.15,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    "dimensions": {
+      "w": 3,
+      "h": 0.15,
+      "heightM": 1.2,
+      "units": "metres",
+      "authority": "author-design"
+    },
+    "canonicalVariant": 1,
+    "painterVariant": 1,
+    "sourcePlanVariant": 1,
+    "existingAnalogue": "Existing analogues include generic fence images in Art158 and the accepted Art238 v0 source proposal for this exact authored fixture. This Art239 target is the chosen pre-existing structural205 painter variant 1, with unchanged runtime kind, source object and authored plan V01; it is not a claim that Canvas rendering was absent.",
+    "referenceFiles": [
+      {
+        "path": "references/canonical/fence_v1.png",
+        "relativePath": "references/canonical/fence_v1.png",
+        "sha256": "340f4aa5750d99963c1662d8cf40511140470b71df89073507904a76c98110a6",
+        "role": "authoritative canonical geometry and variant palette"
+      },
+      {
+        "key": "fence",
+        "role": "accepted v0 material finish and painterly quality only",
+        "path": "references/style-art238/fence_v0.png",
+        "relativePath": "references/style-art238/fence_v0.png",
+        "sha256": "16617f83fd798df7de6366b049ddcfb2f400df787bc52aec0a279bb3f347b87f",
+        "bytes": 252423,
+        "repositoryPath": "art-packs/DEADWALL_Art238/assets/art238/props/fence_cloture_bois.png",
+        "revision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+        "gitBlob": "7cfacdc1bf3388ac4e1ff2e6b7a4a31a14409511",
+        "remoteHead": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+        "remoteTree": "33d089eab2bb23f288e66d57c2794f6a38b3ba84",
+        "sourceId": "prop:fence:v0",
+        "acceptedReviewSha256": "be2190fc5d1343b14698732efb433a06dc0c4077540420f38ff0088dd350d46f"
+      }
+    ]
+  },
+  {
+    "key": "fence:v2",
+    "id": "prop:fence:v2",
+    "kind": "fence",
+    "name": "Clôture métallique à croisillons fins — variante 2",
+    "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "canonicalReference": {
+      "path": "references/canonical/fence_v2.png",
+      "sha256": "ccd28aec3c0f5e77875436eea808ae3cbee34b61f2e6e89a388ec231ae1e8b50"
+    },
+    "canonicalReplay": {
+      "id": "prop:fence:v2",
+      "key": "fence:v2",
+      "canonicalSha256": "ccd28aec3c0f5e77875436eea808ae3cbee34b61f2e6e89a388ec231ae1e8b50",
+      "replaySha256": "ccd28aec3c0f5e77875436eea808ae3cbee34b61f2e6e89a388ec231ae1e8b50",
+      "bytes": 9297,
+      "replayedBytesIdentical": true,
+      "entryPoint": "campaign-site-art205.drawProp",
+      "sourcePlanId": "EXT-MONDE-T045-V01",
+      "sourceId": "EXT-MONDE-T045-V01:site-fence:north-left",
+      "sourcePlanVariant": 1,
+      "painterVariant": 2,
+      "canonicalVariant": 2,
+      "footprintAuthorMetres": [
+        3,
+        0.15
+      ],
+      "heightAuthorMetres": 1.2,
+      "sourceFixtureAndOptionsUnchanged": true,
+      "gameArgumentOmitted": true,
+      "rngCalls": 0,
+      "styleBindings": [
+        {
+          "sha256": "16617f83fd798df7de6366b049ddcfb2f400df787bc52aec0a279bb3f347b87f",
+          "repositoryPath": "art-packs/DEADWALL_Art238/assets/art238/props/fence_cloture_bois.png",
+          "verifiedAtRevision": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+          "role": "accepted v0 material finish and painterly quality only",
+          "existingImageNotNewGeneration": true
+        }
+      ]
+    },
+    "deliveryStatus": "accepted-source-art-proposal",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false,
+    "route": "structural205",
+    "sourceId": "EXT-MONDE-T045-V01:site-fence:north-left",
+    "sourcePlanId": "EXT-MONDE-T045-V01",
+    "sourceType": "EXT-MONDE-T045",
+    "sourceObject": {
+      "id": "EXT-MONDE-T045-V01:site-fence:north-left",
+      "kind": "fence",
+      "x": 2,
+      "y": 2,
+      "w": 3,
+      "h": 0.15,
+      "maxHeightM": 1.2,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "material": "aged-timber-or-mesh"
+    },
+    "dimensions": {
+      "w": 3,
+      "h": 0.15,
+      "heightM": 1.2,
+      "units": "metres",
+      "authority": "author-design"
+    },
+    "canonicalVariant": 2,
+    "painterVariant": 2,
+    "sourcePlanVariant": 1,
+    "existingAnalogue": "Existing analogues include generic fence images in Art158 and the accepted Art238 v0 source proposal for this exact authored fixture. This Art239 target is the chosen pre-existing structural205 painter variant 2, with unchanged runtime kind, source object and authored plan V01; it is not a claim that Canvas rendering was absent.",
+    "referenceFiles": [
+      {
+        "path": "references/canonical/fence_v2.png",
+        "relativePath": "references/canonical/fence_v2.png",
+        "sha256": "ccd28aec3c0f5e77875436eea808ae3cbee34b61f2e6e89a388ec231ae1e8b50",
+        "role": "authoritative canonical geometry and variant palette"
+      }
+    ]
+  },
+  {
+    "key": "garden-shed:v1",
+    "id": "prop:garden-shed:v1",
+    "kind": "garden-shed",
+    "name": "Abri fermé à toiture métallique — variante 1",
+    "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "canonicalReference": {
+      "path": "references/canonical/garden-shed_v1.png",
+      "sha256": "ae188121c83fcd18d35ca34512e3d2bd1557dc4510c82433627e17d2c7ed14dd"
+    },
+    "canonicalReplay": {
+      "id": "prop:garden-shed:v1",
+      "key": "garden-shed:v1",
+      "canonicalSha256": "ae188121c83fcd18d35ca34512e3d2bd1557dc4510c82433627e17d2c7ed14dd",
+      "replaySha256": "ae188121c83fcd18d35ca34512e3d2bd1557dc4510c82433627e17d2c7ed14dd",
+      "bytes": 7704,
+      "replayedBytesIdentical": true,
+      "entryPoint": "campaign-site-art205.drawProp",
+      "sourcePlanId": "EXT-MONDE-T045-V01",
+      "sourceId": "EXT-MONDE-T045-V01:parcel:0:shed",
+      "sourcePlanVariant": 1,
+      "painterVariant": 1,
+      "canonicalVariant": 1,
+      "footprintAuthorMetres": [
+        3.4,
+        3.3
+      ],
+      "heightAuthorMetres": 2.4,
+      "sourceFixtureAndOptionsUnchanged": true,
+      "gameArgumentOmitted": true,
+      "rngCalls": 0,
+      "styleBindings": [
+        {
+          "sha256": "62f78aac248efeb594ab1882170d6d91a2e64014cd8a44d283901de94bdbf07e",
+          "repositoryPath": "art-packs/DEADWALL_Art238/assets/art238/props/garden-shed_abri_jardin.png",
+          "verifiedAtRevision": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+          "role": "accepted v0 material finish and painterly quality only",
+          "existingImageNotNewGeneration": true
+        }
+      ]
+    },
+    "deliveryStatus": "accepted-source-art-proposal",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false,
+    "route": "structural205",
+    "sourceId": "EXT-MONDE-T045-V01:parcel:0:shed",
+    "sourcePlanId": "EXT-MONDE-T045-V01",
+    "sourceType": "EXT-MONDE-T045",
+    "sourceObject": {
+      "id": "EXT-MONDE-T045-V01:parcel:0:shed",
+      "kind": "garden-shed",
+      "x": 23.3,
+      "y": 65.2,
+      "w": 3.4,
+      "h": 3.3,
+      "maxHeightM": 2.4,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "parcelId": "EXT-MONDE-T045-V01:parcel:0"
+    },
+    "dimensions": {
+      "w": 3.4,
+      "h": 3.3,
+      "heightM": 2.4,
+      "units": "metres",
+      "authority": "author-design"
+    },
+    "canonicalVariant": 1,
+    "painterVariant": 1,
+    "sourcePlanVariant": 1,
+    "existingAnalogue": "Existing analogues include generic shed images in Art153 and the accepted Art238 v0 source proposal for this exact authored fixture. This Art239 target is the chosen pre-existing structural205 painter variant 1, with unchanged runtime kind, source object and authored plan V01; it is not a claim that Canvas rendering was absent.",
+    "referenceFiles": [
+      {
+        "path": "references/canonical/garden-shed_v1.png",
+        "relativePath": "references/canonical/garden-shed_v1.png",
+        "sha256": "ae188121c83fcd18d35ca34512e3d2bd1557dc4510c82433627e17d2c7ed14dd",
+        "role": "authoritative canonical geometry and variant palette"
+      },
+      {
+        "key": "garden-shed",
+        "role": "accepted v0 material finish and painterly quality only",
+        "path": "references/style-art238/garden-shed_v0.png",
+        "relativePath": "references/style-art238/garden-shed_v0.png",
+        "sha256": "62f78aac248efeb594ab1882170d6d91a2e64014cd8a44d283901de94bdbf07e",
+        "bytes": 1377572,
+        "repositoryPath": "art-packs/DEADWALL_Art238/assets/art238/props/garden-shed_abri_jardin.png",
+        "revision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+        "gitBlob": "5fde73c9c1426296bd027d6ea82d410cd37d2b6c",
+        "remoteHead": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+        "remoteTree": "33d089eab2bb23f288e66d57c2794f6a38b3ba84",
+        "sourceId": "prop:garden-shed:v0",
+        "acceptedReviewSha256": "be2190fc5d1343b14698732efb433a06dc0c4077540420f38ff0088dd350d46f"
+      }
+    ]
+  },
+  {
+    "key": "garden-shed:v2",
+    "id": "prop:garden-shed:v2",
+    "kind": "garden-shed",
+    "name": "Abri fermé à plaques de réparation — variante 2",
+    "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "canonicalReference": {
+      "path": "references/canonical/garden-shed_v2.png",
+      "sha256": "fea30836d637dd5abf445f56db7b3b7f5c0222a6df46675de2032ccabc3fe9a4"
+    },
+    "canonicalReplay": {
+      "id": "prop:garden-shed:v2",
+      "key": "garden-shed:v2",
+      "canonicalSha256": "fea30836d637dd5abf445f56db7b3b7f5c0222a6df46675de2032ccabc3fe9a4",
+      "replaySha256": "fea30836d637dd5abf445f56db7b3b7f5c0222a6df46675de2032ccabc3fe9a4",
+      "bytes": 8749,
+      "replayedBytesIdentical": true,
+      "entryPoint": "campaign-site-art205.drawProp",
+      "sourcePlanId": "EXT-MONDE-T045-V01",
+      "sourceId": "EXT-MONDE-T045-V01:parcel:0:shed",
+      "sourcePlanVariant": 1,
+      "painterVariant": 2,
+      "canonicalVariant": 2,
+      "footprintAuthorMetres": [
+        3.4,
+        3.3
+      ],
+      "heightAuthorMetres": 2.4,
+      "sourceFixtureAndOptionsUnchanged": true,
+      "gameArgumentOmitted": true,
+      "rngCalls": 0,
+      "styleBindings": [
+        {
+          "sha256": "62f78aac248efeb594ab1882170d6d91a2e64014cd8a44d283901de94bdbf07e",
+          "repositoryPath": "art-packs/DEADWALL_Art238/assets/art238/props/garden-shed_abri_jardin.png",
+          "verifiedAtRevision": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+          "role": "accepted v0 material finish and painterly quality only",
+          "existingImageNotNewGeneration": true
+        }
+      ]
+    },
+    "deliveryStatus": "accepted-source-art-proposal",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false,
+    "route": "structural205",
+    "sourceId": "EXT-MONDE-T045-V01:parcel:0:shed",
+    "sourcePlanId": "EXT-MONDE-T045-V01",
+    "sourceType": "EXT-MONDE-T045",
+    "sourceObject": {
+      "id": "EXT-MONDE-T045-V01:parcel:0:shed",
+      "kind": "garden-shed",
+      "x": 23.3,
+      "y": 65.2,
+      "w": 3.4,
+      "h": 3.3,
+      "maxHeightM": 2.4,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "parcelId": "EXT-MONDE-T045-V01:parcel:0"
+    },
+    "dimensions": {
+      "w": 3.4,
+      "h": 3.3,
+      "heightM": 2.4,
+      "units": "metres",
+      "authority": "author-design"
+    },
+    "canonicalVariant": 2,
+    "painterVariant": 2,
+    "sourcePlanVariant": 1,
+    "existingAnalogue": "Existing analogues include generic shed images in Art153 and the accepted Art238 v0 source proposal for this exact authored fixture. This Art239 target is the chosen pre-existing structural205 painter variant 2, with unchanged runtime kind, source object and authored plan V01; it is not a claim that Canvas rendering was absent.",
+    "referenceFiles": [
+      {
+        "path": "references/canonical/garden-shed_v2.png",
+        "relativePath": "references/canonical/garden-shed_v2.png",
+        "sha256": "fea30836d637dd5abf445f56db7b3b7f5c0222a6df46675de2032ccabc3fe9a4",
+        "role": "authoritative canonical geometry and variant palette"
+      },
+      {
+        "key": "garden-shed",
+        "role": "accepted v0 material finish and painterly quality only",
+        "path": "references/style-art238/garden-shed_v0.png",
+        "relativePath": "references/style-art238/garden-shed_v0.png",
+        "sha256": "62f78aac248efeb594ab1882170d6d91a2e64014cd8a44d283901de94bdbf07e",
+        "bytes": 1377572,
+        "repositoryPath": "art-packs/DEADWALL_Art238/assets/art238/props/garden-shed_abri_jardin.png",
+        "revision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+        "gitBlob": "5fde73c9c1426296bd027d6ea82d410cd37d2b6c",
+        "remoteHead": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+        "remoteTree": "33d089eab2bb23f288e66d57c2794f6a38b3ba84",
+        "sourceId": "prop:garden-shed:v0",
+        "acceptedReviewSha256": "be2190fc5d1343b14698732efb433a06dc0c4077540420f38ff0088dd350d46f"
+      }
+    ]
+  },
+  {
+    "key": "rain-barrel:v1",
+    "id": "prop:rain-barrel:v1",
+    "kind": "rain-barrel",
+    "name": "Tonneau fermé à disque métallique — variante 1",
+    "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "canonicalReference": {
+      "path": "references/canonical/rain-barrel_v1.png",
+      "sha256": "9c6ef348c08415512baf4faaf1102a7fede3f48a0559ea49bd38a5bbc2f7c114"
+    },
+    "canonicalReplay": {
+      "id": "prop:rain-barrel:v1",
+      "key": "rain-barrel:v1",
+      "canonicalSha256": "9c6ef348c08415512baf4faaf1102a7fede3f48a0559ea49bd38a5bbc2f7c114",
+      "replaySha256": "9c6ef348c08415512baf4faaf1102a7fede3f48a0559ea49bd38a5bbc2f7c114",
+      "bytes": 60327,
+      "replayedBytesIdentical": true,
+      "entryPoint": "campaign-site-art205.drawProp",
+      "sourcePlanId": "EXT-MONDE-T045-V01",
+      "sourceId": "EXT-MONDE-T045-V01:parcel:0:water-barrel",
+      "sourcePlanVariant": 1,
+      "painterVariant": 1,
+      "canonicalVariant": 1,
+      "footprintAuthorMetres": [
+        0.7,
+        0.7
+      ],
+      "heightAuthorMetres": 1,
+      "sourceFixtureAndOptionsUnchanged": true,
+      "gameArgumentOmitted": true,
+      "rngCalls": 0,
+      "styleBindings": [
+        {
+          "sha256": "965fbd60ba7dbb321e84545e31fb6fd350da931573faffe9c10a1bf9567fb5d0",
+          "repositoryPath": "art-packs/DEADWALL_Art238/assets/art238/props/rain-barrel_tonneau_pluie.png",
+          "verifiedAtRevision": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+          "role": "accepted v0 material finish and painterly quality only",
+          "existingImageNotNewGeneration": true
+        }
+      ]
+    },
+    "deliveryStatus": "accepted-source-art-proposal",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false,
+    "route": "structural205",
+    "sourceId": "EXT-MONDE-T045-V01:parcel:0:water-barrel",
+    "sourcePlanId": "EXT-MONDE-T045-V01",
+    "sourceType": "EXT-MONDE-T045",
+    "sourceObject": {
+      "id": "EXT-MONDE-T045-V01:parcel:0:water-barrel",
+      "kind": "rain-barrel",
+      "x": 38.699999999999996,
+      "y": 47.5,
+      "w": 0.7,
+      "h": 0.7,
+      "maxHeightM": 1,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "parcelId": "EXT-MONDE-T045-V01:parcel:0"
+    },
+    "dimensions": {
+      "w": 0.7,
+      "h": 0.7,
+      "heightM": 1,
+      "units": "metres",
+      "authority": "author-design"
+    },
+    "canonicalVariant": 1,
+    "painterVariant": 1,
+    "sourcePlanVariant": 1,
+    "existingAnalogue": "Existing analogues include generic barrel and tank images in Art153 and the accepted Art238 v0 source proposal for this exact authored fixture. This Art239 target is the chosen pre-existing structural205 painter variant 1, with unchanged runtime kind, source object and authored plan V01; it is not a claim that Canvas rendering was absent.",
+    "referenceFiles": [
+      {
+        "path": "references/canonical/rain-barrel_v1.png",
+        "relativePath": "references/canonical/rain-barrel_v1.png",
+        "sha256": "9c6ef348c08415512baf4faaf1102a7fede3f48a0559ea49bd38a5bbc2f7c114",
+        "role": "authoritative canonical geometry and variant palette"
+      },
+      {
+        "key": "rain-barrel",
+        "role": "accepted v0 material finish and painterly quality only",
+        "path": "references/style-art238/rain-barrel_v0.png",
+        "relativePath": "references/style-art238/rain-barrel_v0.png",
+        "sha256": "965fbd60ba7dbb321e84545e31fb6fd350da931573faffe9c10a1bf9567fb5d0",
+        "bytes": 1244816,
+        "repositoryPath": "art-packs/DEADWALL_Art238/assets/art238/props/rain-barrel_tonneau_pluie.png",
+        "revision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+        "gitBlob": "09e5826aca9daeeca0d0b8e3c3a8747515602d9a",
+        "remoteHead": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+        "remoteTree": "33d089eab2bb23f288e66d57c2794f6a38b3ba84",
+        "sourceId": "prop:rain-barrel:v0",
+        "acceptedReviewSha256": "be2190fc5d1343b14698732efb433a06dc0c4077540420f38ff0088dd350d46f"
+      }
+    ]
+  },
+  {
+    "key": "rain-barrel:v2",
+    "id": "prop:rain-barrel:v2",
+    "kind": "rain-barrel",
+    "name": "Tonneau fermé à traverse diagonale — variante 2",
+    "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "canonicalReference": {
+      "path": "references/canonical/rain-barrel_v2.png",
+      "sha256": "44860290361ec9830b0f0fb274a86d0c705042206287f2537965e1eab106316b"
+    },
+    "canonicalReplay": {
+      "id": "prop:rain-barrel:v2",
+      "key": "rain-barrel:v2",
+      "canonicalSha256": "44860290361ec9830b0f0fb274a86d0c705042206287f2537965e1eab106316b",
+      "replaySha256": "44860290361ec9830b0f0fb274a86d0c705042206287f2537965e1eab106316b",
+      "bytes": 53875,
+      "replayedBytesIdentical": true,
+      "entryPoint": "campaign-site-art205.drawProp",
+      "sourcePlanId": "EXT-MONDE-T045-V01",
+      "sourceId": "EXT-MONDE-T045-V01:parcel:0:water-barrel",
+      "sourcePlanVariant": 1,
+      "painterVariant": 2,
+      "canonicalVariant": 2,
+      "footprintAuthorMetres": [
+        0.7,
+        0.7
+      ],
+      "heightAuthorMetres": 1,
+      "sourceFixtureAndOptionsUnchanged": true,
+      "gameArgumentOmitted": true,
+      "rngCalls": 0,
+      "styleBindings": [
+        {
+          "sha256": "965fbd60ba7dbb321e84545e31fb6fd350da931573faffe9c10a1bf9567fb5d0",
+          "repositoryPath": "art-packs/DEADWALL_Art238/assets/art238/props/rain-barrel_tonneau_pluie.png",
+          "verifiedAtRevision": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+          "role": "accepted v0 material finish and painterly quality only",
+          "existingImageNotNewGeneration": true
+        }
+      ]
+    },
+    "deliveryStatus": "accepted-source-art-proposal",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false,
+    "route": "structural205",
+    "sourceId": "EXT-MONDE-T045-V01:parcel:0:water-barrel",
+    "sourcePlanId": "EXT-MONDE-T045-V01",
+    "sourceType": "EXT-MONDE-T045",
+    "sourceObject": {
+      "id": "EXT-MONDE-T045-V01:parcel:0:water-barrel",
+      "kind": "rain-barrel",
+      "x": 38.699999999999996,
+      "y": 47.5,
+      "w": 0.7,
+      "h": 0.7,
+      "maxHeightM": 1,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "parcelId": "EXT-MONDE-T045-V01:parcel:0"
+    },
+    "dimensions": {
+      "w": 0.7,
+      "h": 0.7,
+      "heightM": 1,
+      "units": "metres",
+      "authority": "author-design"
+    },
+    "canonicalVariant": 2,
+    "painterVariant": 2,
+    "sourcePlanVariant": 1,
+    "existingAnalogue": "Existing analogues include generic barrel and tank images in Art153 and the accepted Art238 v0 source proposal for this exact authored fixture. This Art239 target is the chosen pre-existing structural205 painter variant 2, with unchanged runtime kind, source object and authored plan V01; it is not a claim that Canvas rendering was absent.",
+    "referenceFiles": [
+      {
+        "path": "references/canonical/rain-barrel_v2.png",
+        "relativePath": "references/canonical/rain-barrel_v2.png",
+        "sha256": "44860290361ec9830b0f0fb274a86d0c705042206287f2537965e1eab106316b",
+        "role": "authoritative canonical geometry and variant palette"
+      },
+      {
+        "key": "rain-barrel",
+        "role": "accepted v0 material finish and painterly quality only",
+        "path": "references/style-art238/rain-barrel_v0.png",
+        "relativePath": "references/style-art238/rain-barrel_v0.png",
+        "sha256": "965fbd60ba7dbb321e84545e31fb6fd350da931573faffe9c10a1bf9567fb5d0",
+        "bytes": 1244816,
+        "repositoryPath": "art-packs/DEADWALL_Art238/assets/art238/props/rain-barrel_tonneau_pluie.png",
+        "revision": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+        "gitBlob": "09e5826aca9daeeca0d0b8e3c3a8747515602d9a",
+        "remoteHead": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+        "remoteTree": "33d089eab2bb23f288e66d57c2794f6a38b3ba84",
+        "sourceId": "prop:rain-barrel:v0",
+        "acceptedReviewSha256": "be2190fc5d1343b14698732efb433a06dc0c4077540420f38ff0088dd350d46f"
+      }
+    ]
+  }
+]

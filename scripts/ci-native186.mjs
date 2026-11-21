@@ -5,6 +5,7 @@ import {createHash} from 'node:crypto';
 import {execFileSync, spawnSync} from 'node:child_process';
 import {fileURLToPath, pathToFileURL} from 'node:url';
 import {canonicalSourceMap, parseNativeCounts} from './ci-native-receipt160.mjs';
+import {assertNativeNodeEnvironment} from './ci-native-node-policy.cjs';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 export const SHARDS = 6;
@@ -132,11 +133,14 @@ function execute(command, directory, filename) {
     error: result?.error?.message ?? null, file: path.basename(filename), sha256: hash(fs.readFileSync(filename))};
 }
 function writeNew(filename, value) { fs.writeFileSync(filename, JSON.stringify(value, null, 2) + '\n', {flag: 'wx'}); }
+export function assertNativeEnvironment186(env = process.env) {
+  assert.equal(env.DEADWALL_SOAK, '1', 'DEADWALL_SOAK=1 is mandatory');
+  assertNativeNodeEnvironment(env);
+}
 function run(index, directory) {
   const plan = planShards(inventoryAt(root));
   assert.ok(Number.isSafeInteger(index) && index >= 1 && index <= SHARDS, 'Invalid shard index');
-  assert.equal(process.env.DEADWALL_SOAK, '1', 'DEADWALL_SOAK=1 is mandatory');
-  assert.ok(!process.env.NODE_OPTIONS && !process.env.NODE_TEST_CONTEXT, 'No inherited Node filtering or nested test runner');
+  assertNativeEnvironment186();
   const sourceBefore = captureSource(root); assert.equal(sourceBefore.clean, true, 'Commit source before qualification');
   fs.mkdirSync(directory, {recursive: true});
   const files = plan.shards[index - 1].files, commands = commandsFor(files), results = {};

@@ -1,0 +1,697 @@
+{
+  "pack": "Art237",
+  "checkedOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "method": "Read-only PNG decode, chunk inventory, RGBA histogram, alpha thresholds and SHA256.",
+  "alphaThresholds": [
+    1,
+    8,
+    32,
+    128,
+    240
+  ],
+  "alphaInterpretation": "Transparent pixels and alpha 1–7 are recorded separately. Visible margins at alpha>=8 do not imply zero alpha everywhere and do not certify source geometry.",
+  "assets": [
+    {
+      "file": "assets/art237/mechanisms/breachClamp193_machoire_anti_briseurs.png",
+      "sha256": "81734587dc0ea91ed8610efe90291b124ce17fe054cbdd2fb07809a225bdf81b",
+      "bytes": 1145129,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 23654
+        },
+        {
+          "type": "IDAT",
+          "bytes": 1121406
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "trailingBytesAfterIend": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1117162,
+      "fullyTransparentFraction": 0.710429655405732,
+      "lowAlphaPixels1to7": 23126,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          20,
+          1240,
+          1230
+        ],
+        "8": [
+          243,
+          257,
+          1011,
+          966
+        ],
+        "32": [
+          244,
+          257,
+          1010,
+          966
+        ],
+        "128": [
+          245,
+          258,
+          1009,
+          965
+        ],
+        "240": [
+          246,
+          259,
+          1008,
+          964
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 20,
+          "right": 14,
+          "bottom": 24
+        },
+        "8": {
+          "left": 243,
+          "top": 257,
+          "right": 243,
+          "bottom": 288
+        },
+        "32": {
+          "left": 244,
+          "top": 257,
+          "right": 244,
+          "bottom": 288
+        },
+        "128": {
+          "left": 245,
+          "top": 258,
+          "right": 245,
+          "bottom": 289
+        },
+        "240": {
+          "left": 246,
+          "top": 259,
+          "right": 246,
+          "bottom": 290
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 0,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    },
+    {
+      "file": "assets/art237/mechanisms/enduranceRack193_ratelier_dents_releve.png",
+      "sha256": "c413868bea8ca403bdacc1d29a6e3232247ff6aa6e25827deb7ff43ec9e8ffba",
+      "bytes": 1065181,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 23654
+        },
+        {
+          "type": "IDAT",
+          "bytes": 1041458
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "trailingBytesAfterIend": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1124804,
+      "fullyTransparentFraction": 0.7152893833830626,
+      "lowAlphaPixels1to7": 22046,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          9,
+          1224,
+          1230
+        ],
+        "8": [
+          222,
+          292,
+          1033,
+          949
+        ],
+        "32": [
+          222,
+          294,
+          1032,
+          949
+        ],
+        "128": [
+          223,
+          295,
+          1032,
+          948
+        ],
+        "240": [
+          224,
+          296,
+          1031,
+          947
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 9,
+          "right": 30,
+          "bottom": 24
+        },
+        "8": {
+          "left": 222,
+          "top": 292,
+          "right": 221,
+          "bottom": 305
+        },
+        "32": {
+          "left": 222,
+          "top": 294,
+          "right": 222,
+          "bottom": 305
+        },
+        "128": {
+          "left": 223,
+          "top": 295,
+          "right": 222,
+          "bottom": 306
+        },
+        "240": {
+          "left": 224,
+          "top": 296,
+          "right": 223,
+          "bottom": 307
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 0,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    },
+    {
+      "file": "assets/art237/mechanisms/shieldTongs193_pinces_anti_protections.png",
+      "sha256": "69272136fb21df3bb8e80039e1abf53819234851dcc15feb854c6476cfdadc9d",
+      "bytes": 1104712,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 21881
+        },
+        {
+          "type": "IDAT",
+          "bytes": 1082762
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "trailingBytesAfterIend": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1128520,
+      "fullyTransparentFraction": 0.7176524753961168,
+      "lowAlphaPixels1to7": 14522,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          9,
+          1230,
+          1254
+        ],
+        "8": [
+          243,
+          257,
+          1010,
+          966
+        ],
+        "32": [
+          245,
+          257,
+          1009,
+          966
+        ],
+        "128": [
+          245,
+          258,
+          1009,
+          965
+        ],
+        "240": [
+          246,
+          259,
+          1008,
+          964
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 9,
+          "right": 24,
+          "bottom": 0
+        },
+        "8": {
+          "left": 243,
+          "top": 257,
+          "right": 244,
+          "bottom": 288
+        },
+        "32": {
+          "left": 245,
+          "top": 257,
+          "right": 245,
+          "bottom": 288
+        },
+        "128": {
+          "left": 245,
+          "top": 258,
+          "right": 245,
+          "bottom": 289
+        },
+        "240": {
+          "left": 246,
+          "top": 259,
+          "right": 246,
+          "bottom": 290
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    },
+    {
+      "file": "assets/art237/mechanisms/quickCable193_bobines_couverture_rapide.png",
+      "sha256": "1765d89e2e0b6afeb1e82f68cf735382ec278f3ce26373d1918a62bbdd08fe96",
+      "bytes": 1979459,
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 21881
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 56617
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "trailingBytesAfterIend": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "fullyTransparentPixels": 991016,
+      "fullyTransparentFraction": 0.6300710042317709,
+      "lowAlphaPixels1to7": 9908,
+      "boundsAlphaAtLeast": {
+        "1": [
+          41,
+          47,
+          1498,
+          1000
+        ],
+        "8": [
+          142,
+          232,
+          1395,
+          781
+        ],
+        "32": [
+          143,
+          233,
+          1394,
+          780
+        ],
+        "128": [
+          143,
+          233,
+          1394,
+          780
+        ],
+        "240": [
+          144,
+          234,
+          1393,
+          779
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 41,
+          "top": 47,
+          "right": 38,
+          "bottom": 24
+        },
+        "8": {
+          "left": 142,
+          "top": 232,
+          "right": 141,
+          "bottom": 243
+        },
+        "32": {
+          "left": 143,
+          "top": 233,
+          "right": 142,
+          "bottom": 244
+        },
+        "128": {
+          "left": 143,
+          "top": 233,
+          "right": 142,
+          "bottom": 244
+        },
+        "240": {
+          "left": 144,
+          "top": 234,
+          "right": 143,
+          "bottom": 245
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    },
+    {
+      "file": "assets/art237/mechanisms/siegeBrake193_frein_chaine_siege.png",
+      "sha256": "0a2f9a2173c4eb65810d5a8f2a75d164bd4f2557104e00d324a34d9bce29539a",
+      "bytes": 878290,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 23654
+        },
+        {
+          "type": "IDAT",
+          "bytes": 854567
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "trailingBytesAfterIend": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1229058,
+      "fullyTransparentFraction": 0.7815869600054943,
+      "lowAlphaPixels1to7": 10401,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          19,
+          1238,
+          1240
+        ],
+        "8": [
+          243,
+          284,
+          1009,
+          889
+        ],
+        "32": [
+          245,
+          286,
+          1009,
+          889
+        ],
+        "128": [
+          246,
+          287,
+          1008,
+          888
+        ],
+        "240": [
+          247,
+          287,
+          1007,
+          887
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 19,
+          "right": 16,
+          "bottom": 14
+        },
+        "8": {
+          "left": 243,
+          "top": 284,
+          "right": 245,
+          "bottom": 365
+        },
+        "32": {
+          "left": 245,
+          "top": 286,
+          "right": 245,
+          "bottom": 365
+        },
+        "128": {
+          "left": 246,
+          "top": 287,
+          "right": 246,
+          "bottom": 366
+        },
+        "240": {
+          "left": 247,
+          "top": 287,
+          "right": 247,
+          "bottom": 367
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 0,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    }
+  ]
+}

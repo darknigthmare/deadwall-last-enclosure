@@ -1,0 +1,437 @@
+{
+  "batch": "Art237",
+  "frozenAt": "2026-11-17T13:46:21.098032+00:00",
+  "sourceMain": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "sourceTree": "663ad5750e49ae401fc0b46bfdebc28942ad1617",
+  "finalSourceSprites": 5,
+  "nativeGeneratedImagesIncludingHistory": 7,
+  "blockedTargetsWithoutImage": 1,
+  "failedToolCallsWithoutImage": 2,
+  "canonicalReferences": 6,
+  "excludedSelfReferentialReceipts": [
+    "freeze-manifest.json",
+    "handoff-receipt.json"
+  ],
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 12896,
+      "sha256": "7d76ca5173115eb65cabb4616bace6a7bad6e17e807ca1b8dab33fc1af8f58f6"
+    },
+    {
+      "path": "alpha-review.json",
+      "bytes": 8790,
+      "sha256": "f31a303a569eb65245ae2b16ea91da139a606b36f522f673af5fe0f0dfa44d34"
+    },
+    {
+      "path": "assembly-contract.json",
+      "bytes": 15698,
+      "sha256": "127a8ecbebeee37b77229f3a7ecc175b9c9b70fabeefed4d887ddfe2ed88e640"
+    },
+    {
+      "path": "backlog.json",
+      "bytes": 1315,
+      "sha256": "999af51a39a8ce325fee01172d2154faa0dcc95f8bd13c0d6b31e319be997d58"
+    },
+    {
+      "path": "blocked-targets.json",
+      "bytes": 980,
+      "sha256": "f5064e3bec3325a591fd96b341c6938a55255fdac1d0f6b0e750595fd0bb4cdd"
+    },
+    {
+      "path": "build-prompts.py",
+      "bytes": 12171,
+      "sha256": "46928c05b06ef0959254a4382f03439aaa69bfbca91b670df02c13166de19213"
+    },
+    {
+      "path": "calls/breachClamp193-iteration1-output.json",
+      "bytes": 399,
+      "sha256": "0c9c41d1b37d5ee127d1b2b9bcc032ccf9df8f6c769b51c36e965d2795a63555"
+    },
+    {
+      "path": "calls/breachClamp193-iteration1.json",
+      "bytes": 4281,
+      "sha256": "c7e3b995938b747b239ae116f80a676d3ea2f67beb81d58fd76f058a7b11e1d4"
+    },
+    {
+      "path": "calls/enduranceRack193-iteration1-output.json",
+      "bytes": 403,
+      "sha256": "9fd09a10f3c26b38492713548adad1e9fea7b8b714deaf510cc21642193e1727"
+    },
+    {
+      "path": "calls/enduranceRack193-iteration1.json",
+      "bytes": 4342,
+      "sha256": "e1b9ff8c1c36af4127d25e87b21428a9add2380b54baaf01d028dc520fa36405"
+    },
+    {
+      "path": "calls/enduranceRack193-iteration2-output.json",
+      "bytes": 403,
+      "sha256": "2bfa73cefe56dd40345b1e2a9c62ef831815c4e52fda3ce5a043091dbfe6e8e5"
+    },
+    {
+      "path": "calls/enduranceRack193-iteration2.json",
+      "bytes": 2206,
+      "sha256": "072f283f7a07811e49863272e937ed3d2c21e785fdfb44ee85040d61d95bbce0"
+    },
+    {
+      "path": "calls/quickCable193-iteration1-output.json",
+      "bytes": 397,
+      "sha256": "c7310f40cb13bbec48c1379d11f87393c7c7000126dde8a7e79ef7ba89d58d8d"
+    },
+    {
+      "path": "calls/quickCable193-iteration1.json",
+      "bytes": 4361,
+      "sha256": "464e942115debadb662f50c86e0544ccf08dff05494d70fcbf5a59fbe08edfd1"
+    },
+    {
+      "path": "calls/quickCable193-iteration2-output.json",
+      "bytes": 397,
+      "sha256": "6931e768f5961e4fbd08dcf5050c0f9b6a495e7f4b9614cf14e72886d21b35f7"
+    },
+    {
+      "path": "calls/quickCable193-iteration2.json",
+      "bytes": 2186,
+      "sha256": "9bc2ef027f7b8433e56450a28646d4f0fc9e6a2603ea71a339d07914c5acfd97"
+    },
+    {
+      "path": "calls/runnerCable193-attempt1-failure.json",
+      "bytes": 598,
+      "sha256": "20ae92f1131fb6fccb31a3be5815ef5aa04da19b4c4db693c48f626b116230bb"
+    },
+    {
+      "path": "calls/runnerCable193-attempt2-failure.json",
+      "bytes": 576,
+      "sha256": "2e0d8e5410526a97fa0254a5d56c3dabc973fc5cac5fa8e562c1a80f3ffc0cdc"
+    },
+    {
+      "path": "calls/runnerCable193-iteration1-attempt2.json",
+      "bytes": 4594,
+      "sha256": "66f7afa537b22279f56474e1560e5a1a07e9eb16a79b09c349168d3ee6d4cfc4"
+    },
+    {
+      "path": "calls/runnerCable193-iteration1.json",
+      "bytes": 4536,
+      "sha256": "fd0b5b700cf26662b4464b5f0d0318a18c0cd869cd45f3c2ed506b373a1d5440"
+    },
+    {
+      "path": "calls/shieldTongs193-iteration1-output.json",
+      "bytes": 399,
+      "sha256": "99fdc06f1f46fc8c872f2125ae81d957599c67204243c8c8a733d7ce378dfa52"
+    },
+    {
+      "path": "calls/shieldTongs193-iteration1.json",
+      "bytes": 4306,
+      "sha256": "e6328715d08acfd8a99c4004b96f770cc2cd4a5aff0eb61ee53f58afcb54a05a"
+    },
+    {
+      "path": "calls/siegeBrake193-iteration1-output.json",
+      "bytes": 396,
+      "sha256": "05534b8ec6abf515501c14284407ce08cd6b337e90cb7f889a2aba636472fdea"
+    },
+    {
+      "path": "calls/siegeBrake193-iteration1.json",
+      "bytes": 4422,
+      "sha256": "9d3c39fdaee63b2aebb21cdeeccf911ba2f6f0edff72c861c9701fcf02c8bfd9"
+    },
+    {
+      "path": "canonical-alpha-audit.json",
+      "bytes": 1845,
+      "sha256": "bc2867c19f7b3924b8f6d737f19589f49a9ae0dfacf3971e6ab74f5aca9e6de4"
+    },
+    {
+      "path": "canonical-receipts.json",
+      "bytes": 41470,
+      "sha256": "8349a92502c6d1fd8faba32da511bc8ccc4ec1c398e3b59125124b483011b6e1"
+    },
+    {
+      "path": "external-guide-receipts.json",
+      "bytes": 27139,
+      "sha256": "3586b522fe373911a3e3ec09031a504e788fb7aecc7dcaa9b93e7dd489196ab0"
+    },
+    {
+      "path": "finalize-records.py",
+      "bytes": 11609,
+      "sha256": "4fac4e4b1e473acb1f8009992b10d0e953a50b9f11ca78ccf43bdebe631e1380"
+    },
+    {
+      "path": "generated/iteration-1/breachClamp193_machoire_anti_briseurs.png",
+      "bytes": 1145129,
+      "sha256": "81734587dc0ea91ed8610efe90291b124ce17fe054cbdd2fb07809a225bdf81b"
+    },
+    {
+      "path": "generated/iteration-1/enduranceRack193_ratelier_dents_releve.png",
+      "bytes": 1058543,
+      "sha256": "f256b85ff0dadcb7679ec68fdf59c5ba144c0b9c26687c550c2db9e2c38c9431"
+    },
+    {
+      "path": "generated/iteration-1/quickCable193_bobines_couverture_rapide.png",
+      "bytes": 2039285,
+      "sha256": "11247bda33f27be432ef17a86c88c2409c084ebf6b7cd20af36f5b4b360f82d2"
+    },
+    {
+      "path": "generated/iteration-1/shieldTongs193_pinces_anti_protections.png",
+      "bytes": 1104712,
+      "sha256": "69272136fb21df3bb8e80039e1abf53819234851dcc15feb854c6476cfdadc9d"
+    },
+    {
+      "path": "generated/iteration-1/siegeBrake193_frein_chaine_siege.png",
+      "bytes": 878290,
+      "sha256": "0a2f9a2173c4eb65810d5a8f2a75d164bd4f2557104e00d324a34d9bce29539a"
+    },
+    {
+      "path": "generated/iteration-2/enduranceRack193_ratelier_dents_releve.png",
+      "bytes": 1065181,
+      "sha256": "c413868bea8ca403bdacc1d29a6e3232247ff6aa6e25827deb7ff43ec9e8ffba"
+    },
+    {
+      "path": "generated/iteration-2/quickCable193_bobines_couverture_rapide.png",
+      "bytes": 1979459,
+      "sha256": "1765d89e2e0b6afeb1e82f68cf735382ec278f3ce26373d1918a62bbdd08fe96"
+    },
+    {
+      "path": "generation-prompts.json",
+      "bytes": 39457,
+      "sha256": "aa517ca64736ea625cee1d7c7a3fae2671e275459d326ac11233d732850aa836"
+    },
+    {
+      "path": "history-results.json",
+      "bytes": 29850,
+      "sha256": "13ac74f18ed2ffb55461055120824a0642b579cd616e5e0efe433fd3592ff234"
+    },
+    {
+      "path": "independent-review.json",
+      "bytes": 1583,
+      "sha256": "b1bc3e0384eb20ddd7e3978bdb2816461b62eeb4be16499a6144a6587bc8e3b8"
+    },
+    {
+      "path": "initial-results.json",
+      "bytes": 24373,
+      "sha256": "057cf7ad57a89b8a8e3fd532d9a7cfbabe99d64f619563fd1c457cbfb587efc0"
+    },
+    {
+      "path": "iteration-review.json",
+      "bytes": 12426,
+      "sha256": "90a199784290179c3920cb4738e54d0cdd632ab19e3bf3063028a940987a37d1"
+    },
+    {
+      "path": "planned-prompts-initial.json",
+      "bytes": 27189,
+      "sha256": "796e9a3b482099a13a65ed7b2b05ccdf2a3f60e1acf631a7030803292e749a85"
+    },
+    {
+      "path": "prepare-references.cjs",
+      "bytes": 9229,
+      "sha256": "67e4c2da1916425fbf4d8ca7c5d5ac8e19c92a4fee82ff186ccb0f4524a72836"
+    },
+    {
+      "path": "prior-audit/README.md",
+      "bytes": 5137,
+      "sha256": "9f9e73bd293942801e72e9d7571f5c7a7ef25ed296748f6bdeae82502c6bafa6"
+    },
+    {
+      "path": "prior-audit/shortlist-and-backlog.json",
+      "bytes": 28962,
+      "sha256": "2ad9a4e70bfda119b8f8a1951814d667150f4a1a14d68d32b4f3330dc1d054a4"
+    },
+    {
+      "path": "prior-audit/source-evidence.json",
+      "bytes": 5285,
+      "sha256": "9cb38aec76a7f00bc689719e8e9a0aac19dda43e5862d6e9c56187791dd237c2"
+    },
+    {
+      "path": "quickCable-background-samples.json",
+      "bytes": 3785,
+      "sha256": "e35f56f04b3c897126b6f3c410256da9b70ff364a4a5ef303c1fabe776fb04f6"
+    },
+    {
+      "path": "record-call-output.py",
+      "bytes": 1777,
+      "sha256": "d703367e6b76c26b29889d8029ef8bb45c861466ff98451c2bbe0c84b3188a11"
+    },
+    {
+      "path": "record-results.py",
+      "bytes": 3116,
+      "sha256": "b67e0336161f4eab7dc3878a03896ba4cbf89d6ca7680cd470b75dae922efe91"
+    },
+    {
+      "path": "reference-inspections.json",
+      "bytes": 5540,
+      "sha256": "830c1a5269b7370ea187d7378cb8094a69e162c4cc2f2414b8ce9a7d5555ea51"
+    },
+    {
+      "path": "references/canonical/breachClamp193-v0-armed-mounted.png",
+      "bytes": 474648,
+      "sha256": "ec11451ca852aaa55d362a963ab417df3fb0043cb6f1c28f97c552d2b6111bb3"
+    },
+    {
+      "path": "references/canonical/enduranceRack193-v0-armed-mounted.png",
+      "bytes": 371491,
+      "sha256": "0f32ac82d8235ed472863a84405dc25d37ced14c751a5157e235fd18d7d04172"
+    },
+    {
+      "path": "references/canonical/quickCable193-v0-armed-mounted.png",
+      "bytes": 239385,
+      "sha256": "1ded2ebb7510a66295f44abf53f3f5f80a57d6aad0730b4804c842d9791d2137"
+    },
+    {
+      "path": "references/canonical/runnerCable193-v0-armed-mounted.png",
+      "bytes": 246288,
+      "sha256": "0d138bff82599041b800d0542cf55d99199f7a3535ee68a627f8b3055de6e6b1"
+    },
+    {
+      "path": "references/canonical/shieldTongs193-v0-armed-mounted.png",
+      "bytes": 508272,
+      "sha256": "c9f045524b3306431d7c3b71b8ae85f5f75db1d8b6c3fd11e77f830d5891e53f"
+    },
+    {
+      "path": "references/canonical/siegeBrake193-v0-armed-mounted.png",
+      "bytes": 370429,
+      "sha256": "1384259fe55135898b545458926edf8113d488fe645a63f71c3a1c067e2b3e20"
+    },
+    {
+      "path": "references/repository/AGENTS.md",
+      "bytes": 4190,
+      "sha256": "7d02c6bd7f9c6a8e04c4c18680f9539109ecbc943f240de12a536ab9a8a8ab13"
+    },
+    {
+      "path": "references/repository/README.md",
+      "bytes": 87028,
+      "sha256": "8159b42787bf183ce3c7a7c9674103742740cdfee1c0ecce736aa248499a6174"
+    },
+    {
+      "path": "references/repository/assets/art159/PROVENANCE-traps159.json",
+      "bytes": 12280,
+      "sha256": "abe2229bffc4354423eeb49e86708f965bf519d86e975db1a940e597f2ed3287"
+    },
+    {
+      "path": "references/repository/assets/art159/traps-mechanisms-a.png",
+      "bytes": 2007623,
+      "sha256": "c693c8d2c6056fc900a673b2f8ad789e5c36e0660340d07302610c2a8e645f78"
+    },
+    {
+      "path": "references/repository/assets/art159/traps-supplies-a.png",
+      "bytes": 2199589,
+      "sha256": "f6f6695c2d10182302736ed16171b87574e3400cc97b69a4f5ffd3116dfb830a"
+    },
+    {
+      "path": "references/repository/docs/ARCHITECTURE.md",
+      "bytes": 57076,
+      "sha256": "880657b6abfc044a3ef534d8a092ad9a20ad3a0a2a9024bdbbea6642d8eb3f3c"
+    },
+    {
+      "path": "references/repository/docs/BALANCING.md",
+      "bytes": 37720,
+      "sha256": "5caf2749d57201a01f9aafa80de8a3e70e0579a01895283e6d5b05abdc526088"
+    },
+    {
+      "path": "references/repository/docs/CODEX_MASTER_PROMPT.md",
+      "bytes": 5269,
+      "sha256": "9c0280c574ad13d7ba03cb4391713411e8eb8fcdbcc4cc94f2609f277c727c6d"
+    },
+    {
+      "path": "references/repository/docs/DEFENSES_193.md",
+      "bytes": 5631,
+      "sha256": "57952de0bf4bbe73ee5ce023e37a01e14fef1d2ea7b7bd94af58526c7d898dac"
+    },
+    {
+      "path": "references/repository/docs/GAMEDEV_GUIDANCE.md",
+      "bytes": 24935,
+      "sha256": "0b2df8233ea2c49ff0c1fd959cf43bac8d1245fb6900334e42cb541b0d2f0144"
+    },
+    {
+      "path": "references/repository/docs/GAME_BIBLE.md",
+      "bytes": 98486,
+      "sha256": "3f6f48befcd5408e03ab4ed0c79a68a040cac48c09f087545e334f0b3c738890"
+    },
+    {
+      "path": "references/repository/docs/GAME_DESIGN.md",
+      "bytes": 15746,
+      "sha256": "3f5ce6afc19ca49f5ffe239eee67b7258078098e8d0477a5ef62fd2fc8fd65f9"
+    },
+    {
+      "path": "references/repository/docs/ORIGINAL_BRIEF.txt",
+      "bytes": 1283,
+      "sha256": "64fe23e910f065cdd6ce4f8f84fcc8efd6894d923122c086cd7b16f599492297"
+    },
+    {
+      "path": "references/repository/package-lock.json",
+      "bytes": 35109,
+      "sha256": "41cd5573880263b30206dbb78766b789f65702fa2ffebe2401601b1bd2205c53"
+    },
+    {
+      "path": "references/repository/package.json",
+      "bytes": 3159,
+      "sha256": "722c28f9946e5c9c2095e2b3a03774c595aa4bd9bfc1655484dcb34396c0cea0"
+    },
+    {
+      "path": "references/repository/src/art.js",
+      "bytes": 69066,
+      "sha256": "e7ea9f8ab6350072a5d7785218522d70f583ca7ae2cc36f1496a780f95e26e47"
+    },
+    {
+      "path": "references/repository/src/core.js",
+      "bytes": 335878,
+      "sha256": "33a3539f8b80015815303b9425e83d49721c5d88938533508c431cc38854909e"
+    },
+    {
+      "path": "references/repository/src/fortification-pack.js",
+      "bytes": 43515,
+      "sha256": "10c081024e67b6c273715fcec50802030a11da0fe7dc9f2b57cb0c9f216bfec3"
+    },
+    {
+      "path": "references/repository/src/trap-art159.js",
+      "bytes": 12128,
+      "sha256": "30f23d3b7a9005cd7599380e2f95f699232faea4aeab8cfef4451e21f7189866"
+    },
+    {
+      "path": "references/repository/tests/audit193-trap-art.test.cjs",
+      "bytes": 1804,
+      "sha256": "6a138364f879e93eec94b368f18b2ec94dad3278f42ef511126e414c3aef080e"
+    },
+    {
+      "path": "references/repository/tests/trap-art159.test.cjs",
+      "bytes": 15042,
+      "sha256": "2d68e335d3ae244c14f408eb3cbef86e9c3d9c9140103431075eb1d220652140"
+    },
+    {
+      "path": "results.json",
+      "bytes": 20070,
+      "sha256": "2e146908d63dea678ec6b327e0e0bb881dc6f59c828704c815857edfddca40f8"
+    },
+    {
+      "path": "review.json",
+      "bytes": 11341,
+      "sha256": "58604a51f7053f440b99a684225a87e8e9a56523c2be82960f082ed3fe97d211"
+    },
+    {
+      "path": "root-canonical-replay.json",
+      "bytes": 7836,
+      "sha256": "b1cf2c05f7af40e05171ef47ee99e67d0cc8a89ab6334ba729730e34d0134199"
+    },
+    {
+      "path": "root-review.json",
+      "bytes": 8681,
+      "sha256": "e57a37fd2775dfa19aa5b5b9447abe809f99fffea65dec26cccf3d03595fda10"
+    },
+    {
+      "path": "selection-and-prompts.json",
+      "bytes": 71905,
+      "sha256": "1041058def1ef6e051edfb1653ae797143f35ecb4a2f37cf4bdb0a9b8f48646d"
+    },
+    {
+      "path": "selection-base.json",
+      "bytes": 41758,
+      "sha256": "015b50702e73852f84eadf8ce4535f633a2dabfda4f42c30626fa06c14c9a5b9"
+    },
+    {
+      "path": "source-evidence.json",
+      "bytes": 11409,
+      "sha256": "6b0a158f2c63c8e36ee85d441b61b41f3e89a2a012cbc27042dfc0355456256d"
+    },
+    {
+      "path": "validation.json",
+      "bytes": 2950,
+      "sha256": "0f16600d72acf7160684a328ce70eaf902809016477ad18689db5f82c400aa6e"
+    }
+  ]
+}

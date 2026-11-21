@@ -1,0 +1,1622 @@
+{
+  "schemaVersion": 1,
+  "project": "DEADWALL — Last Enclosure",
+  "reportScope": "Final selected source-art outputs Art222–229, verified against actual PNG bytes. No image integration or metric projection certificate.",
+  "createdOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "sourceBaseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "finalSpriteCount": 49,
+  "uniqueCodexIdCount": 49,
+  "uniqueFinalPngSha256Count": 49,
+  "finalPngBytes": 94991545,
+  "directNativePilotCount": 42,
+  "otherArt222SitesOrVariantsCount": 7,
+  "nativePresetTableCount": 62,
+  "contradictorySettlementMappingsCount": 20,
+  "currentCommonPrBatches": [
+    "Art227",
+    "Art228",
+    "Art229"
+  ],
+  "currentCommonPrFinalSpriteCount": 17,
+  "currentCommonPrPublicationStateAtReport": "prepared_for_one_shared_pull_request; final URL recorded by publisher after assembly",
+  "priorPublishedPullRequests": [
+    {
+      "number": 27,
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/27",
+      "headRevision": "f76b216a9b98c1d4ebd5a6c53dc1fc07142c9114",
+      "batches": [
+        "art222"
+      ]
+    },
+    {
+      "number": 28,
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/28",
+      "headRevision": "e16e501e3ad18ea5f1088ffd4ba8cbab38f0e149",
+      "batches": [
+        "art223"
+      ]
+    },
+    {
+      "number": 29,
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/29",
+      "headRevision": "384f6ebaa5c573dfdedf5621a85f2a36be95b046",
+      "batches": [
+        "art224"
+      ]
+    },
+    {
+      "number": 30,
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/30",
+      "headRevision": "bb14d13aae1619e79fab6b5c4b8d2329aff1c2c6",
+      "batches": [
+        "art225",
+        "art226"
+      ]
+    }
+  ],
+  "all49FinalByteInputsVerified": true,
+  "all49SourceCardDigestsVerified": true,
+  "all42DirectPilotMappingsVerified": true,
+  "ownManifestSha256Included": false,
+  "ownOutputCommitShaIncluded": false,
+  "art229AssemblyRequirement": "Assembler must compare each Art229 asset ID and SHA256 in this report with the native image it copies into the pack.",
+  "runtimeIntegrationPerformed": false,
+  "pixelEditingPerformedByThisReport": false,
+  "metricProjectionCertified": false,
+  "historicalArt221InventoryRecovered": false,
+  "historicalArt221Limit": "The exact nine-output Art221 inventory was not recovered. A bounded search did not establish an exact duplicate for DW-0123, DW-0201 or DW-0247; no exhaustive historical absence or deduplication is claimed.",
+  "scopeLimit": "The 42 direct native pilot IDs are covered by selected source sprites. The 20 contradictory settlement references remain unresolved. Coverage does not extend to all 4000 Codex cards, props, interiors, animations or all historical assets.",
+  "referenceOnlyCardsNotCountedAsSprites": [
+    {
+      "batch": 222,
+      "id": "DW-0181",
+      "countedAsSprite": false
+    }
+  ],
+  "assets": [
+    {
+      "batch": "Art222",
+      "id": "DW-0342",
+      "name": "Station de pompage",
+      "nativeType": null,
+      "partition": "other_site_or_supplement_variant_outside_62_native_presets",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art222/assets/art222/regional/DW-0342_station-pompage.png",
+      "sha256": "b03ba974465b8cd04bacc92fb60fd283bfcf49fb9caf018cff7f4841ac1a85c5",
+      "bytes": 2409190,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": null,
+      "nativeLevels": null,
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0342.md",
+      "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+      "sourceSha256": "489bae10484840c3f9423e9b6cfecb6b125021f6f056f4f1552a755febe79122",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0342.md",
+      "nativePilotMappingVerified": false
+    },
+    {
+      "batch": "Art222",
+      "id": "DW-0132",
+      "name": "Clinique chirurgicale",
+      "nativeType": null,
+      "partition": "other_site_or_supplement_variant_outside_62_native_presets",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art222/assets/art222/regional/DW-0132_clinique-chirurgicale.png",
+      "sha256": "12d009eaa57d831bb7d28ed27e5b8b54c84e8390355eea96085c8ad4720f19e0",
+      "bytes": 2256901,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": null,
+      "nativeLevels": null,
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0132.md",
+      "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+      "sourceSha256": "2ff8afa0f3e8a9e211f2fc00c9c9a62b00e4753130d313e12c73d066bf1b92ae",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0132.md",
+      "nativePilotMappingVerified": false
+    },
+    {
+      "batch": "Art222",
+      "id": "DW-0321",
+      "name": "Poste électrique de quartier",
+      "nativeType": null,
+      "partition": "other_site_or_supplement_variant_outside_62_native_presets",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art222/assets/art222/regional/DW-0321_poste-electrique-quartier.png",
+      "sha256": "da21ba0dcb99785f4d6a897a909754fb588a6f11aecfd738bbfd8f423739e730",
+      "bytes": 3187881,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": null,
+      "nativeLevels": null,
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0321.md",
+      "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+      "sourceSha256": "8b0062422dc31bfe6c83cf7c69aff029d1edb931a85b32ed2573b0ddc1a52490",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0321.md",
+      "nativePilotMappingVerified": false
+    },
+    {
+      "batch": "Art222",
+      "id": "DW-0334",
+      "name": "Relais radio rural",
+      "nativeType": null,
+      "partition": "other_site_or_supplement_variant_outside_62_native_presets",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art222/assets/art222/regional/DW-0334_relais-radio-rural.png",
+      "sha256": "2cc0a824ee14287a228bb65f51a1c1163389e1db6d42fece3227c15ee01f3bc3",
+      "bytes": 1276907,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": null,
+      "nativeLevels": null,
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0334.md",
+      "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+      "sourceSha256": "d6cfbcab4c8d4ae72da4864aebdc31054317401e6cbe6d4d8687bdea64d4b6d3",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0334.md",
+      "nativePilotMappingVerified": false
+    },
+    {
+      "batch": "Art222",
+      "id": "DW-0541",
+      "name": "Bunker de défense civile — variante 01",
+      "nativeType": null,
+      "partition": "other_site_or_supplement_variant_outside_62_native_presets",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art222/assets/art222/regional/DW-0541_bunker-defense-civile-v01.png",
+      "sha256": "46b2e5d55607a7a47c8378cffeb95536c83f341031e74286115d1be4c9a53309",
+      "bytes": 2837296,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": null,
+      "nativeLevels": null,
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0541.md",
+      "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+      "sourceSha256": "0aa58647238225681a03afae5952f6ac785dc41c56024e89c812ef2243e5cebd",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0541.md",
+      "nativePilotMappingVerified": false
+    },
+    {
+      "batch": "Art222",
+      "id": "DW-0528",
+      "name": "Caserne de pompiers — variante 01",
+      "nativeType": null,
+      "partition": "other_site_or_supplement_variant_outside_62_native_presets",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art222/assets/art222/regional/DW-0528_caserne-pompiers-v01.png",
+      "sha256": "5cd2493e07f7b44849d59ff8c6473d5eab9b86c7819dc405157a497ff1629a6f",
+      "bytes": 2423245,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": null,
+      "nativeLevels": null,
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0528.md",
+      "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+      "sourceSha256": "5cb72d67654feb095afac518f8a3919e4e38d7e6a8f5ba456fbd28ef45dfa6d1",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0528.md",
+      "nativePilotMappingVerified": false
+    },
+    {
+      "batch": "Art222",
+      "id": "DW-0549",
+      "name": "Gare routière — variante 01",
+      "nativeType": null,
+      "partition": "other_site_or_supplement_variant_outside_62_native_presets",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art222/assets/art222/regional/DW-0549_gare-routiere-v01.png",
+      "sha256": "59929ac12222ae8c54022a5c954b1edcc08dd7c5147f2ebed8ac601ac6486e72",
+      "bytes": 3156619,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": null,
+      "nativeLevels": null,
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0549.md",
+      "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+      "sourceSha256": "950cb9b05d726b257aecb073fe8ac6828b3bee393b14f3f7b23382d620b7afb6",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0549.md",
+      "nativePilotMappingVerified": false
+    },
+    {
+      "batch": "Art222",
+      "id": "DW-0097",
+      "name": "Clinique vétérinaire",
+      "nativeType": "veterinary",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art222/assets/art222/regional/DW-0097_clinique-veterinaire.png",
+      "sha256": "74a259003e431bc6a4c0bd2888ae00687239ecc8dd4e571627c0dacc3a41edcf",
+      "bytes": 2166450,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        26,
+        20
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0097.md",
+      "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+      "sourceSha256": "d41939485e5179110a02a6d019407bd08487734424bb3a92466ad8a1f361e70d",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0097.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art223",
+      "id": "DW-0065",
+      "name": "Boulangerie artisanale",
+      "nativeType": "bakery",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art223/assets/art223/regional/DW-0065_boulangerie-artisanale.png",
+      "sha256": "14967654138df62aac926ad4a8847e9df6fe5d51f339f2cc07b0110078bc9b6e",
+      "bytes": 1467188,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        22,
+        17
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0065.md",
+      "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+      "sourceSha256": "cbb0d3ba53f7f5ef3b51c65eb6ea7f89befc1c366f8a0164f7f66ecc9d612155",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0065.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art223",
+      "id": "DW-0153",
+      "name": "Bibliothèque municipale",
+      "nativeType": "library",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art223/assets/art223/regional/DW-0153_bibliotheque-municipale.png",
+      "sha256": "91ff2610137571b5467785a9f77166d5ae868797d2fbfab08919eed1670ea39e",
+      "bytes": 1545130,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        32,
+        24
+      ],
+      "nativeLevels": [
+        0,
+        1
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0153.md",
+      "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+      "sourceSha256": "5e39c61a20dbcf763b57c8cd87b96753b92d5c5babaabe3d99b452b04a2b6bd9",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0153.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art223",
+      "id": "DW-0085",
+      "name": "Laverie automatique",
+      "nativeType": "laundry",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art223/assets/art223/regional/DW-0085_laverie-automatique.png",
+      "sha256": "a30aaec3b793d163499572621c0a9aa7c4a0fb5733b53f00be391e3d42fa516e",
+      "bytes": 2012566,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        21,
+        15
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0085.md",
+      "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+      "sourceSha256": "0a6857e58e2955b8d60e88a8fb9f9d1dcff680a3cc3f3811dd4e3876f27730aa",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0085.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art223",
+      "id": "DW-0082",
+      "name": "Bureau postal",
+      "nativeType": "postoffice",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art223/assets/art223/regional/DW-0082_bureau-postal.png",
+      "sha256": "4dd8cd481bd11a3287d793dc946cde66bf3e403a0df366e46802406e978de121",
+      "bytes": 1169629,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        28,
+        22
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0082.md",
+      "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+      "sourceSha256": "df6f5f02f0f999d05c1916a2a01a0367ef43f127d9c1656e0598f38c81eda608",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0082.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art223",
+      "id": "DW-0444",
+      "name": "Gymnase municipal",
+      "nativeType": "gym",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art223/assets/art223/regional/DW-0444_gymnase-municipal.png",
+      "sha256": "d481e296f9ca9b80cba79497afb5dbbd11187e2904d20df500ac4223dfbcd13a",
+      "bytes": 1725619,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        38,
+        28
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0444.md",
+      "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+      "sourceSha256": "4aaece7cd71d7fc739e597acf66e693d3a39d6f1f6ae94a5e5ada68346d2b08b",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0444.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art223",
+      "id": "DW-0224",
+      "name": "Garde-meubles",
+      "nativeType": "selfstorage",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art223/assets/art223/regional/DW-0224_garde-meubles.png",
+      "sha256": "e218863d9be7324e60ef3789301b79aaa133b25cf4985df1e5b9cbff97dc645a",
+      "bytes": 2362524,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        36,
+        26
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0224.md",
+      "sourceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+      "sourceSha256": "ced5be434af982716e111efd0fb12df7b0230e44ee8a5cb05668355e42b66a4c",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0224.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art224",
+      "id": "DW-0046",
+      "name": "Jardinerie",
+      "nativeType": "garden",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art224/assets/art224/regional/DW-0046_jardinerie.png",
+      "sha256": "4d706deaf20a60819a9615f404fb4a3548beef82d3682c8c58e84daa6dbbf3c3",
+      "bytes": 2509793,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        36,
+        28
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0046.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "9ae6644dfbdb8d20ad83a88043034d4a25cea3461493bed9bf3f7df0d4690482",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0046.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art224",
+      "id": "DW-0367",
+      "name": "Exploitation maraîchère",
+      "nativeType": "marketgarden",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art224/assets/art224/regional/DW-0367_exploitation-maraichere.png",
+      "sha256": "ed8a37f3558a46e7b9dee2733010ffb2fd6b946560d05a32f2f429ab3f5b6a42",
+      "bytes": 1844526,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        32,
+        24
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0367.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "f00d032ed4decfca1cc8ceced351e19679f385c9edaba22814d50565834a5ba4",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0367.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art224",
+      "id": "DW-0104",
+      "name": "Auberge de village",
+      "nativeType": "inn",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art224/assets/art224/regional/DW-0104_auberge-village.png",
+      "sha256": "6546172aabf16ab3ed5ecc8eef5ac77d48829470971fdbaf94328ad7463453f1",
+      "bytes": 1916954,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        28,
+        23
+      ],
+      "nativeLevels": [
+        0,
+        1
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0104.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "0eac0d0a487d9a0d2f5514eadebe1f5daa7e0b07f131130733d6cb3e20fd99bb",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0104.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art224",
+      "id": "DW-0251",
+      "name": "Casse automobile",
+      "nativeType": "scrapyard",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art224/assets/art224/regional/DW-0251_casse-automobile.png",
+      "sha256": "73d8fdd0069419394d4936ad6865d55c0f12c095f07771f82167e9863cc0c858",
+      "bytes": 1781331,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        35,
+        25
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0251.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "4427b7c911145266778f96309d10b44cf9e82e7a6d1045d447b2892c0ceecfef",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0251.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art224",
+      "id": "DW-0306",
+      "name": "Atelier de menuiserie",
+      "nativeType": "joinery",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art224/assets/art224/regional/DW-0306_atelier-menuiserie.png",
+      "sha256": "40db38e118f5bd187366cae886c594e743fd29d571f822408cd627341326c95c",
+      "bytes": 1855342,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        35,
+        26
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0306.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "008f9281e56c22292d691375028b9ce0cee12bb64fdc9e8c9447a3a0619bd6b5",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0306.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art224",
+      "id": "DW-0237",
+      "name": "Recyclerie",
+      "nativeType": "reuse",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art224/assets/art224/regional/DW-0237_recyclerie.png",
+      "sha256": "86850c82f7c2b0594818668bdc700fbfcef2594bd5f9a55893a239c89d8c1edb",
+      "bytes": 2169861,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        40,
+        28
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0237.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "5f7e8b76aa3719ce7071420e22340118ff1d3bbac09be6390e81de4f3351e842",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0237.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art225",
+      "id": "DW-0053",
+      "name": "Pharmacie commerciale",
+      "nativeType": "pharmacy",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art225/assets/art225/regional/DW-0053_pharmacie_commerciale.png",
+      "sha256": "52c7ce2e99630091bfbf80dccd1773dfb3cb8731e91624050b05ec43566a2c26",
+      "bytes": 1009663,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        24,
+        18
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0053.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "bd15b98474f2339bfe0680b2a0ec9be2658c26345b830239babac7b10c5cab55",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0053.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art225",
+      "id": "DW-0045",
+      "name": "Magasin de bricolage",
+      "nativeType": "hardware",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art225/assets/art225/regional/DW-0045_magasin_bricolage.png",
+      "sha256": "61e9e8f9857b99471a442c09590d2e910f3fc824f6d5f23eac053afd57038919",
+      "bytes": 1217107,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        38,
+        28
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0045.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "67491564142d7619a6477953f0922aac9edc3d7229795e1d940144c66338501b",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0045.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art225",
+      "id": "DW-0069",
+      "name": "Restaurant routier",
+      "nativeType": "diner",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art225/assets/art225/regional/DW-0069_restaurant_routier.png",
+      "sha256": "9533f46f825debbf5388c91659256670a34f0fd7254ce8a9d8b8c534d9b56090",
+      "bytes": 1231088,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        25,
+        17
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0069.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "9d940eb02b22252e5d794ce9b2e55239f2cec85df7422bb7d2d7bdc4d9de8974",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0069.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art225",
+      "id": "DW-0241",
+      "name": "Garage automobile",
+      "nativeType": "garage",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art225/assets/art225/regional/DW-0241_garage_independant.png",
+      "sha256": "47cce51065919feae6271fc0fa5838417f084d25a85379899b6709f3ab57fa63",
+      "bytes": 1222517,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        25,
+        20
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0241.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "8dba9ca70132c4c4d11042ed70baf3e48e89c5703c3f56b420468cac31fcf014",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0241.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art225",
+      "id": "DW-0142",
+      "name": "École primaire",
+      "nativeType": "school",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art225/assets/art225/regional/DW-0142_ecole_primaire.png",
+      "sha256": "d9ef2bdc5bc0d49d05e72f0d7bc6223d34a529ed31a954244548f34247f1c09c",
+      "bytes": 1840280,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        38,
+        28
+      ],
+      "nativeLevels": [
+        0,
+        1
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0142.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "12b5ccbe7ea1993412d569f21ebc31e0082923a8cfbd6c25656828d69b87656e",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0142.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art225",
+      "id": "DW-0161",
+      "name": "Mairie",
+      "nativeType": "townhall",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art225/assets/art225/regional/DW-0161_mairie.png",
+      "sha256": "f26afa54cf24925d9b046dcbe91a919d083cc6ce252e7b6dfc881d55ed9dff75",
+      "bytes": 1280704,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        28,
+        20
+      ],
+      "nativeLevels": [
+        0,
+        1
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0161.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "aa7387714ec526787d7fc02d35f0d079b398a09fbfd27516701bc313f0408813",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0161.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art226",
+      "id": "DW-0381",
+      "name": "Scierie de vallée",
+      "nativeType": "sawmill",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art226/assets/art226/regional/DW-0381_scierie-de-vallee.png",
+      "sha256": "0a9f735108513def3efedba02687e2360d2221e7913d762996e3349845c2bef1",
+      "bytes": 2450016,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        40,
+        26
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0381.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "38e6af7a5e0c1c0445ac7cc0f17397fa0a3eae9f40be3b5379086f2f2d259640",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0381.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art226",
+      "id": "DW-0221",
+      "name": "Entrepôt de messagerie",
+      "nativeType": "warehouse",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art226/assets/art226/regional/DW-0221_entrepot-de-messagerie.png",
+      "sha256": "a0ae23dddd27dceaca513e80ed6250a5db0b8dc9cfa149bd38bdb2803fecde39",
+      "bytes": 2473624,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        46,
+        29
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0221.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "31fa8cdfb005614431a82d440a61e88e3681f10cb3bbdaf0b3f4e13e6428b08f",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0221.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art226",
+      "id": "DW-0289",
+      "name": "Halle fret désaffectée",
+      "nativeType": "freight",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art226/assets/art226/regional/DW-0289_halle-fret-desaffectee.png",
+      "sha256": "53fa62641d81eb5621bfd14ff572570afab1d1bbffaf3b5bd2e253cc3cc09dd9",
+      "bytes": 2772448,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        46,
+        24
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0289.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "2087adace92774c5736f3fe2d0c20f78aa0a74dd55b8b07f10d44a5c371eab86",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0289.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art226",
+      "id": "DW-0073",
+      "name": "Cuisine centrale",
+      "nativeType": "centralKitchen",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art226/assets/art226/regional/DW-0073_cuisine-centrale.png",
+      "sha256": "0cfb8f195d13ebfdd397ea72432f22e9013ac1df164dda039904ce65e05abe25",
+      "bytes": 2372882,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        38,
+        29
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0073.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "707e8c692b97f47162bd0fabca374e46f05fe1bcbae7e0b1e738d2bb349c5f48",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0073.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art226",
+      "id": "DW-0331",
+      "name": "Local groupe électrogène",
+      "nativeType": "generatorRoom",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art226/assets/art226/regional/DW-0331_local-groupe-electrogene.png",
+      "sha256": "82a9b1482ba8e7c9961624a42108c6769bfd4ba5c85ddd44bab68e6fff5a175b",
+      "bytes": 1602503,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        16,
+        13
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0331.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "0cac5646607fa33827dc3f3bd483a45fca8f18e0a4fd2fc77ed4c6660b0c5d74",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0331.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art226",
+      "id": "DW-0403",
+      "name": "Carrière de pierre",
+      "nativeType": "quarry",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art226/assets/art226/regional/DW-0403_halle-technique-carriere.png",
+      "sha256": "38b6064fac6db2ce396361e3a0097811d3ba96104e30fde52f633313f82ac69d",
+      "bytes": 2178707,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        30,
+        24
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0403.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "47b5c782d50f8d9a70689a2f39656e00406e3104d3917ef8aca0d4d8267f25ff",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0403.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art227",
+      "id": "DW-0001",
+      "name": "Maison de lotissement",
+      "nativeType": "house",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art227/assets/art227/regional/DW-0001_maison_lotissement.png",
+      "sha256": "edcf77b66f5a2154a9fce27129913753db406df3326d538d2f5e27199f8bd009",
+      "bytes": 1469764,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        14,
+        12
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0001.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "e72bb792bd2b6acbed1f2f04fc934f80513e910b45a100cdc8f5911f05fe005e",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0001.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art227",
+      "id": "DW-0003",
+      "name": "Maison à étage",
+      "nativeType": "duplex",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art227/assets/art227/regional/DW-0003_maison_etage.png",
+      "sha256": "f8f18c1649d2fd20e7ec4f883652e70382f0e8c4a1d141ba27011819cc133aed",
+      "bytes": 1828325,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        16,
+        13
+      ],
+      "nativeLevels": [
+        0,
+        1
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0003.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "919f1f707421d5c8d0f327e9ae39ba46618bc019c09be23729d6043591c2f5be",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0003.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art227",
+      "id": "DW-0010",
+      "name": "Chalet forestier",
+      "nativeType": "cabin",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art227/assets/art227/regional/DW-0010_chalet_forestier.png",
+      "sha256": "cb3ffadd531a92721bcba520804dbdc377469f28fa37d99bc9006fdf3f5e4a97",
+      "bytes": 1131775,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        9,
+        8
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0010.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "5b6f279db28c8c5f7e1819d9e188cb5f6463393b79b17df1d0cdae7bd04fa096",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0010.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art227",
+      "id": "DW-0021",
+      "name": "Immeuble de trois étages",
+      "nativeType": "apartments",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art227/assets/art227/regional/DW-0021_immeuble_trois_niveaux.png",
+      "sha256": "09c6622cbb82855a463800c0e246530fbd8420dec862b2533e0f15744032b530",
+      "bytes": 1965993,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        30,
+        23
+      ],
+      "nativeLevels": [
+        0,
+        1,
+        2
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0021.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "47876fe0eaa8a571d20a2eaa9d1ac486056b4909d446ce21eb9fa55315c799b9",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0021.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art227",
+      "id": "DW-0004",
+      "name": "Maison sur sous-sol",
+      "nativeType": "basementHouse",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art227/assets/art227/regional/DW-0004_maison_sous_sol.png",
+      "sha256": "88d1438eb979cb5cf398497621707be5ec5caef2cc9d1814e003ecaee7d558c6",
+      "bytes": 1349455,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        18,
+        15
+      ],
+      "nativeLevels": [
+        -1,
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0004.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "141ec20937679d1dc8884f14c0a5419199d48e131322433d4d86bf7ea6d70ecd",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0004.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art227",
+      "id": "DW-0481",
+      "name": "Maison effondrée visitable",
+      "nativeType": "ruin",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art227/assets/art227/regional/DW-0481_maison_effondree.png",
+      "sha256": "4ac2a7402c2afecbe3839e088a5cbc4ad198fd3bb5f508f6c02c3dfff5b1c18b",
+      "bytes": 1586099,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        18,
+        14
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0481.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "51b852442dd01c93a191873a1fc96a9c9ac9170f3ffd1ed096e80cfe0843d195",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0481.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art227",
+      "id": "DW-0101",
+      "name": "Hôtel de centre-ville",
+      "nativeType": "hotel",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art227/assets/art227/regional/DW-0101_hotel_centre_ville.png",
+      "sha256": "d094fee5e66fddfee0a7edf38b2eaa0f3cc1f1633b5ea535d598e1d8f1451f1b",
+      "bytes": 2356030,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        42,
+        26
+      ],
+      "nativeLevels": [
+        0,
+        1,
+        2
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0101.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "cbb20cee25ceb70553a4d30646be37ab3b63424926ca5440dd938a9b1c94505f",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0101.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art228",
+      "id": "DW-0041",
+      "name": "Centre commercial régional",
+      "nativeType": "mall",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art228/assets/art228/regional/DW-0041_centre_commercial.png",
+      "sha256": "9963eccb828202ca3ebc52561165ef11bd541337e3eea4a03ed33f10c7d67e22",
+      "bytes": 2600914,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        82,
+        56
+      ],
+      "nativeLevels": [
+        0,
+        1
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0041.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "dc2ffa2d0b983bfd9a4b1eb14a70683948b619ee31a0d75f4d6414c05277df15",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0041.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art228",
+      "id": "DW-0061",
+      "name": "Supérette de quartier",
+      "nativeType": "grocer",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art228/assets/art228/regional/DW-0061_superette_quartier.png",
+      "sha256": "bbb859739ad0a1e8bb726b17dd3f279e9a0854efe2b71360d26ae0406bb41984",
+      "bytes": 1184979,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        19,
+        15
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0061.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "fc32cb1d4d17033f8152913ab6f14a6bf459959b9773480b021d59fed269d9f3",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0061.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art228",
+      "id": "DW-0062",
+      "name": "Supermarché avec quai",
+      "nativeType": "market",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art228/assets/art228/regional/DW-0062_supermarche_quai.png",
+      "sha256": "92d124c06b3bf0f7e9e8921797c8372847bf84978af2a995493ba5baa350527f",
+      "bytes": 2020691,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        42,
+        30
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0062.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "627120a2486ae478f3b45c19ae470358e2bfeb8203bd366f30ce15d5da32227c",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0062.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art228",
+      "id": "DW-0498",
+      "name": "Motel gagné par la forêt",
+      "nativeType": "motel",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art228/assets/art228/regional/DW-0498_motel_foret.png",
+      "sha256": "0aad47c740fef31e76650233891140912657ee1df06747ba949a924ad0d16890",
+      "bytes": 2503283,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        44,
+        19
+      ],
+      "nativeLevels": [
+        0,
+        1
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0498.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "68d44bf4e811c1bff7e983c399e6261dba61bd6ac9c37207bdffae19e34dab5c",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0498.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art228",
+      "id": "DW-0181",
+      "name": "Caserne de pompiers",
+      "nativeType": "firestation",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art228/assets/art228/regional/DW-0181_caserne_pompiers_native.png",
+      "sha256": "fe3b013dce017584e7196f5c7cbc8bb82f2b8a5960e7f6a9d1d41681e4b5a2dc",
+      "bytes": 1782470,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        36,
+        28
+      ],
+      "nativeLevels": [
+        0,
+        1
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0181.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "c38c4aa75c78c4a8f78f73a09c40705780110d5169a39fba1263b321324ef0f5",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0181.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art228",
+      "id": "DW-0126",
+      "name": "Cabinet dentaire",
+      "nativeType": "dental",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art228/assets/art228/regional/DW-0126_cabinet_dentaire.png",
+      "sha256": "e8b0f89d56d431cc5dca64b7c4a3d5ec8c43d17a031258c32230cefc1e59f744",
+      "bytes": 1719601,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        25,
+        20
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0126.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "12ae72ac8ebac1252c56ab85c9f88bdaf754d669c46d5d4be338df7b63702f67",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0126.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art228",
+      "id": "DW-0401",
+      "name": "Mine à galerie",
+      "nativeType": "mine",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art228/assets/art228/regional/DW-0401_mine_halle_surface.png",
+      "sha256": "b1cbaac7651d1047a3aa38317b7df8e0494235e60a08739c3cb57aa25e96c4eb",
+      "bytes": 1868260,
+      "byteVerificationSource": "verified_final_asset_in_assembled_pack",
+      "nativeFootprintMetres": [
+        32,
+        25
+      ],
+      "nativeLevels": [
+        -1,
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0401.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "6ec9b0cea70b486ea24635ea249074410fb76567e76abeb1de08cb877411a1e7",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0401.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art229",
+      "id": "DW-0123",
+      "name": "Dispensaire rural",
+      "nativeType": "clinic",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art229/assets/art229/regional/DW-0123_dispensaire_rural.png",
+      "sha256": "bf958ae9bd41eb801585b728d6edd24b52e2329ebba99bd19a6f3a12158277da",
+      "bytes": 1870117,
+      "byteVerificationSource": "verified_selected_native_output_to_be_copied_byte_for_byte_by_Art229_assembler",
+      "nativeFootprintMetres": [
+        23,
+        17
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0123.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "ec4bc75c86142b2ed25a9f9f08e258dd33b510b084565d0918b63826b22d9468",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0123.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art229",
+      "id": "DW-0201",
+      "name": "Abri communal souterrain",
+      "nativeType": "bunker",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art229/assets/art229/regional/DW-0201_abri_communal.png",
+      "sha256": "b4f455cddf2ece4f90e41d546eaa2efd81a50c87900d97cfcfe472c78a838e20",
+      "bytes": 2476004,
+      "byteVerificationSource": "verified_selected_native_output_to_be_copied_byte_for_byte_by_Art229_assembler",
+      "nativeFootprintMetres": [
+        26,
+        21
+      ],
+      "nativeLevels": [
+        -1,
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0201.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "9aef411fdfac839fb99e20616df5c0c23375341ec6281a65c9638e82935bcead",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0201.md",
+      "nativePilotMappingVerified": true
+    },
+    {
+      "batch": "Art229",
+      "id": "DW-0247",
+      "name": "Station-service",
+      "nativeType": "fuel",
+      "partition": "direct_native_pilot",
+      "repositoryAssetPath": "art-packs/DEADWALL_Art229/assets/art229/regional/DW-0247_station_service_village.png",
+      "sha256": "ca6e01c384eba134c07b3475638d9b710fefa9f97fdb0877c2ddfcf1a83ea38c",
+      "bytes": 1551294,
+      "byteVerificationSource": "verified_selected_native_output_to_be_copied_byte_for_byte_by_Art229_assembler",
+      "nativeFootprintMetres": [
+        19,
+        14
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "sourceRepositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0247.md",
+      "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sourceSha256": "8a6e4ff6087bbfcfcf2ef766d020eceb171b9373c5a9c016c297b7d64625cfde",
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0247.md",
+      "nativePilotMappingVerified": true
+    }
+  ],
+  "unresolvedSettlementMappings": [
+    {
+      "nativeType": "cottageSmall",
+      "assignedCodexId": "DW-0501",
+      "nativeFootprintMetres": [
+        10,
+        10
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "referencedCodexTitle": "DW-0501 — Maison de lotissement — variante 01",
+      "referencedCodexFootprint": "**Emprise :** 10 × 9 m  ",
+      "referencedCodexLevels": "**Niveaux :** 2",
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0501.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "a10896d58ba51d4bb50bf3cf9679c67f889b2fb1f564910eda9c3855272fea84",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0501.md"
+      },
+      "treatment": "not_generated_or_remapped_in_Art222_229"
+    },
+    {
+      "nativeType": "rowhouse",
+      "assignedCodexId": "DW-0502",
+      "nativeFootprintMetres": [
+        11,
+        18
+      ],
+      "nativeLevels": [
+        0,
+        1
+      ],
+      "referencedCodexTitle": "DW-0502 — Maison mitoyenne — variante 01",
+      "referencedCodexFootprint": "**Emprise :** 21 × 26 m  ",
+      "referencedCodexLevels": "**Niveaux :** 1",
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0502.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "726a043b91b67da1f0fabeedc4ab833fe14fd9f3a9139129e81b97043fd3a32f",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0502.md"
+      },
+      "treatment": "not_generated_or_remapped_in_Art222_229"
+    },
+    {
+      "nativeType": "bungalow",
+      "assignedCodexId": "DW-0503",
+      "nativeFootprintMetres": [
+        20,
+        14
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "referencedCodexTitle": "DW-0503 — Villa isolée — variante 01",
+      "referencedCodexFootprint": "**Emprise :** 32 × 43 m  ",
+      "referencedCodexLevels": "**Niveaux :** 1",
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0503.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "f006937d7d96df84a43403b221b18108dafaec09447c5402d3da18130f6f15cd",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0503.md"
+      },
+      "treatment": "not_generated_or_remapped_in_Art222_229"
+    },
+    {
+      "nativeType": "familyHouse",
+      "assignedCodexId": "DW-0504",
+      "nativeFootprintMetres": [
+        22,
+        19
+      ],
+      "nativeLevels": [
+        0,
+        1
+      ],
+      "referencedCodexTitle": "DW-0504 — Ferme familiale — variante 01",
+      "referencedCodexFootprint": "**Emprise :** 43 × 60 m  ",
+      "referencedCodexLevels": "**Niveaux :** 1",
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0504.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "3370f65ccfa44b316707b317f1be632ee3be420c617cdbf966c208ad6e3e740a",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0504.md"
+      },
+      "treatment": "not_generated_or_remapped_in_Art222_229"
+    },
+    {
+      "nativeType": "farmhouse",
+      "assignedCodexId": "DW-0505",
+      "nativeFootprintMetres": [
+        32,
+        17
+      ],
+      "nativeLevels": [
+        0,
+        1
+      ],
+      "referencedCodexTitle": "DW-0505 — Immeuble résidentiel — variante 01",
+      "referencedCodexFootprint": "**Emprise :** 54 × 23 m  ",
+      "referencedCodexLevels": "**Niveaux :** 3",
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0505.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "7d503a500d5398399b4de9c434ddbc391486a96edd9215f6da9c757492025322",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0505.md"
+      },
+      "treatment": "not_generated_or_remapped_in_Art222_229"
+    },
+    {
+      "nativeType": "villa",
+      "assignedCodexId": "DW-0506",
+      "nativeFootprintMetres": [
+        28,
+        23
+      ],
+      "nativeLevels": [
+        0,
+        1
+      ],
+      "referencedCodexTitle": "DW-0506 — Barre de logements — variante 01",
+      "referencedCodexFootprint": "**Emprise :** 65 × 40 m  ",
+      "referencedCodexLevels": "**Niveaux :** 4",
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0506.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "0f8795d0bd8393d3f03d5a81022088d973c756a7867246ed6e053c86c55064b7",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0506.md"
+      },
+      "treatment": "not_generated_or_remapped_in_Art222_229"
+    },
+    {
+      "nativeType": "duplexWide",
+      "assignedCodexId": "DW-0507",
+      "nativeFootprintMetres": [
+        30,
+        19
+      ],
+      "nativeLevels": [
+        0,
+        1
+      ],
+      "referencedCodexTitle": "DW-0507 — Résidence senior — variante 01",
+      "referencedCodexFootprint": "**Emprise :** 76 × 57 m  ",
+      "referencedCodexLevels": "**Niveaux :** 2",
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0507.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "10bb80df1a4d833c86ccb3d2abaeeb2738d6bbc883596dba60f5b9e3761be0df",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0507.md"
+      },
+      "treatment": "not_generated_or_remapped_in_Art222_229"
+    },
+    {
+      "nativeType": "studioBlock",
+      "assignedCodexId": "DW-0508",
+      "nativeFootprintMetres": [
+        26,
+        22
+      ],
+      "nativeLevels": [
+        0,
+        1,
+        2
+      ],
+      "referencedCodexTitle": "DW-0508 — Maison avec sous-sol — variante 01",
+      "referencedCodexFootprint": "**Emprise :** 15 × 20 m  ",
+      "referencedCodexLevels": "**Niveaux :** 1",
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0508.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "6efc28e5d3f449ed4314a3b488fbfae93af5e869b06f5e7618cf22b457e45d06",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0508.md"
+      },
+      "treatment": "not_generated_or_remapped_in_Art222_229"
+    },
+    {
+      "nativeType": "longBlock",
+      "assignedCodexId": "DW-0509",
+      "nativeFootprintMetres": [
+        58,
+        25
+      ],
+      "nativeLevels": [
+        0,
+        1,
+        2
+      ],
+      "referencedCodexTitle": "DW-0509 — Supérette — variante 01",
+      "referencedCodexFootprint": "**Emprise :** 26 × 37 m  ",
+      "referencedCodexLevels": "**Niveaux :** 2",
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0509.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "2d4d0c9bc0f4cc915e1dc9555250cd1cc3a8f078b92bdc4b23bccec98f619bd1",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0509.md"
+      },
+      "treatment": "not_generated_or_remapped_in_Art222_229"
+    },
+    {
+      "nativeType": "residence",
+      "assignedCodexId": "DW-0510",
+      "nativeFootprintMetres": [
+        46,
+        38
+      ],
+      "nativeLevels": [
+        0,
+        1,
+        2
+      ],
+      "referencedCodexTitle": "DW-0510 — Centre commercial — variante 01",
+      "referencedCodexFootprint": "**Emprise :** 37 × 54 m  ",
+      "referencedCodexLevels": "**Niveaux :** 1",
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0510.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "662e560e0e87013827ad53dff7691e0a50f065d5e86eb8a2b98bdf65214d2f27",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0510.md"
+      },
+      "treatment": "not_generated_or_remapped_in_Art222_229"
+    },
+    {
+      "nativeType": "cornerShop",
+      "assignedCodexId": "DW-0511",
+      "nativeFootprintMetres": [
+        12,
+        13
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "referencedCodexTitle": "DW-0511 — Supermarché — variante 01",
+      "referencedCodexFootprint": "**Emprise :** 48 × 17 m  ",
+      "referencedCodexLevels": "**Niveaux :** 1",
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0511.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "b9751209d054da2062d741a64cb924c214f4ed46b7fe366c1dae8077cc506649",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0511.md"
+      },
+      "treatment": "not_generated_or_remapped_in_Art222_229"
+    },
+    {
+      "nativeType": "superstore",
+      "assignedCodexId": "DW-0512",
+      "nativeFootprintMetres": [
+        64,
+        43
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "referencedCodexTitle": "DW-0512 — Magasin de bricolage — variante 01",
+      "referencedCodexFootprint": "**Emprise :** 59 × 34 m  ",
+      "referencedCodexLevels": "**Niveaux :** 1",
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0512.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "d343c4c4aac903641266bea78c7df7fddb4554a695f6f1c085d5e53cf7559cc5",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0512.md"
+      },
+      "treatment": "not_generated_or_remapped_in_Art222_229"
+    },
+    {
+      "nativeType": "cafe",
+      "assignedCodexId": "DW-0513",
+      "nativeFootprintMetres": [
+        19,
+        17
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "referencedCodexTitle": "DW-0513 — Pharmacie — variante 01",
+      "referencedCodexFootprint": "**Emprise :** 70 × 51 m  ",
+      "referencedCodexLevels": "**Niveaux :** 2",
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0513.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "36ebebb06091bc3cd408308d7c44293d653bddfbb4c2c339693e0b2e19da65f1",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0513.md"
+      },
+      "treatment": "not_generated_or_remapped_in_Art222_229"
+    },
+    {
+      "nativeType": "bank",
+      "assignedCodexId": "DW-0514",
+      "nativeFootprintMetres": [
+        27,
+        21
+      ],
+      "nativeLevels": [
+        0,
+        1
+      ],
+      "referencedCodexTitle": "DW-0514 — Station-service — variante 01",
+      "referencedCodexFootprint": "**Emprise :** 81 × 14 m  ",
+      "referencedCodexLevels": "**Niveaux :** 1",
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0514.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "3348f77002e01508b1999fe8416b80128a39417904e402c7fabb0362493f2bde",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0514.md"
+      },
+      "treatment": "not_generated_or_remapped_in_Art222_229"
+    },
+    {
+      "nativeType": "officeBlock",
+      "assignedCodexId": "DW-0515",
+      "nativeFootprintMetres": [
+        44,
+        32
+      ],
+      "nativeLevels": [
+        0,
+        1
+      ],
+      "referencedCodexTitle": "DW-0515 — Restaurant routier — variante 01",
+      "referencedCodexFootprint": "**Emprise :** 20 × 31 m  ",
+      "referencedCodexLevels": "**Niveaux :** 1",
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0515.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "795271169f84fe6f7d15a03e8c99002a59b81d88a281cb44b1e1d6802b2f5685",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0515.md"
+      },
+      "treatment": "not_generated_or_remapped_in_Art222_229"
+    },
+    {
+      "nativeType": "medicalCentre",
+      "assignedCodexId": "DW-0516",
+      "nativeFootprintMetres": [
+        46,
+        34
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "referencedCodexTitle": "DW-0516 — Hôtel — variante 01",
+      "referencedCodexFootprint": "**Emprise :** 31 × 48 m  ",
+      "referencedCodexLevels": "**Niveaux :** 1",
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0516.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "6fc821c48b65e6fa2b6716f3021c2ac6e867eb860e444b2a732e3d4d9049e066",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0516.md"
+      },
+      "treatment": "not_generated_or_remapped_in_Art222_229"
+    },
+    {
+      "nativeType": "smallWorkshop",
+      "assignedCodexId": "DW-0517",
+      "nativeFootprintMetres": [
+        18,
+        15
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "referencedCodexTitle": "DW-0517 — Scierie — variante 01",
+      "referencedCodexFootprint": "**Emprise :** 42 × 11 m  ",
+      "referencedCodexLevels": "**Niveaux :** 1",
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0517.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "7e8c33792bf7ddf8ba5de7df191cffbcb7d9955c42ac73567671e498a9059200",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0517.md"
+      },
+      "treatment": "not_generated_or_remapped_in_Art222_229"
+    },
+    {
+      "nativeType": "logisticsHall",
+      "assignedCodexId": "DW-0518",
+      "nativeFootprintMetres": [
+        70,
+        42
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "referencedCodexTitle": "DW-0518 — Garage automobile — variante 01",
+      "referencedCodexFootprint": "**Emprise :** 53 × 28 m  ",
+      "referencedCodexLevels": "**Niveaux :** 1",
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0518.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "58f82c0bcdb928f8bafee5384e6aba341b1de42290ae6c31d7337ab214112402",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0518.md"
+      },
+      "treatment": "not_generated_or_remapped_in_Art222_229"
+    },
+    {
+      "nativeType": "chapel",
+      "assignedCodexId": "DW-0519",
+      "nativeFootprintMetres": [
+        24,
+        33
+      ],
+      "nativeLevels": [
+        0,
+        1
+      ],
+      "referencedCodexTitle": "DW-0519 — Entrepôt logistique — variante 01",
+      "referencedCodexFootprint": "**Emprise :** 64 × 45 m  ",
+      "referencedCodexLevels": "**Niveaux :** 1",
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0519.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "f55228f449747f552bc053bdb4b7d8ae1c2a1866b70c226f09f3ec9c465ee383",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0519.md"
+      },
+      "treatment": "not_generated_or_remapped_in_Art222_229"
+    },
+    {
+      "nativeType": "waterStation",
+      "assignedCodexId": "DW-0520",
+      "nativeFootprintMetres": [
+        28,
+        21
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "referencedCodexTitle": "DW-0520 — Petite usine — variante 01",
+      "referencedCodexFootprint": "**Emprise :** 75 × 62 m  ",
+      "referencedCodexLevels": "**Niveaux :** 1",
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0520.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "ff5da7ce73df02ef119ebdbc44854aa4ba5fc7462ab0a3063173c9fbf7f43842",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0520.md"
+      },
+      "treatment": "not_generated_or_remapped_in_Art222_229"
+    }
+  ]
+}
