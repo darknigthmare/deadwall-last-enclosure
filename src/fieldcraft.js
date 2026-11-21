@@ -69,7 +69,9 @@ function attach(g){
   }
   return pick(candidates);
  }
- function workFrom(u,at,e,r){if(!e||!u)return false;if(!physical(e))return Math.hypot(at.x-e.x,at.y-e.y)<=r&&segment(u,at,e);if(distance(at,e)>r||!g.friendlyPositionClear(u,at.x,at.y))return false;const b=rect(e),p={x:Math.max(b.l,Math.min(b.r,at.x)),y:Math.max(b.t,Math.min(b.b,at.y))},d=Math.hypot(at.x-p.x,at.y-p.y);return d===0?Boolean(e.def&&!e.completed):segment(u,at,{x:p.x+(at.x-p.x)/d*(u.radius+1),y:p.y+(at.y-p.y)/d*(u.radius+1)});}
+ // Terrain G12 (O6b, hors jeu) : un geste ou un pas ne franchit pas une falaise ; carte plate : toujours vrai.
+ function cliff217(a,b){return !g.world?.terrain217||g.world.stepClear217(a.x,a.y,b.x,b.y);}
+ function workFrom(u,at,e,r){if(!e||!u)return false;if(!cliff217(at,e))return false;if(!physical(e))return Math.hypot(at.x-e.x,at.y-e.y)<=r&&segment(u,at,e);if(distance(at,e)>r||!g.friendlyPositionClear(u,at.x,at.y))return false;const b=rect(e),p={x:Math.max(b.l,Math.min(b.r,at.x)),y:Math.max(b.t,Math.min(b.b,at.y))},d=Math.hypot(at.x-p.x,at.y-p.y);return d===0?Boolean(e.def&&!e.completed):segment(u,at,{x:p.x+(at.x-p.x)/d*(u.radius+1),y:p.y+(at.y-p.y)/d*(u.radius+1)});}
  function workAt(u,e,r){return workFrom(u,u,e,r);}
  function pack(){
   const placed=[...g.world.buildings.values()].filter(live).map(reserveRect);
@@ -103,7 +105,7 @@ function attach(g){
  const originalMove=g.moveUnitToward.bind(g);g.moveUnitToward=(u,t,dt,speed=u.speed)=>{
  const p=service(u,t);if(!p){u.navigation={goalX:Math.floor(t.x/32),goalY:Math.floor(t.y/32),version:g.world.navigationVersion,cells:null,next:0,direct:false,retryAt:g.elapsed+2};return false;}
  const result=originalMove(u,p,dt,speed);if(u.navigation){u.navigation.requestX=Math.floor(t.x/32);u.navigation.requestY=Math.floor(t.y/32);}return result;};
- g.moveFriendly=(u,dx,dy)=>{if(!Number.isFinite(dx)||!Number.isFinite(dy))return;const b=g.infrastructure.speed(u.x,u.y);dx*=b;dy*=b;const n=Math.max(1,Math.ceil(Math.hypot(dx,dy)/5));for(let i=0;i<n;i++){if(g.friendlyPositionClear(u,u.x+dx/n,u.y))u.x+=dx/n;if(g.friendlyPositionClear(u,u.x,u.y+dy/n))u.y+=dy/n;}};
+ g.moveFriendly=(u,dx,dy)=>{if(!Number.isFinite(dx)||!Number.isFinite(dy))return;const b=g.infrastructure.speed(u.x,u.y);dx*=b;dy*=b;const n=Math.max(1,Math.ceil(Math.hypot(dx,dy)/5));const t217=Boolean(g.world?.terrain217);for(let i=0;i<n;i++){if(g.friendlyPositionClear(u,u.x+dx/n,u.y)&&(!t217||cliff217(u,{x:u.x+dx/n,y:u.y})))u.x+=dx/n;if(g.friendlyPositionClear(u,u.x,u.y+dy/n)&&(!t217||cliff217(u,{x:u.x,y:u.y+dy/n})))u.y+=dy/n;}};
  wrap('recruit',(old,...a)=>{const ids=new Set(g.units.map(u=>u.id)),r=old(...a);for(const u of g.units)if(!ids.has(u.id))recoverActor(u);return r;});
  wrap('updateDirector',(old,...a)=>{const ids=new Set(g.units.map(u=>u.id)),r=old(...a);for(const u of g.units)if(!ids.has(u.id))recoverActor(u);return r;});
  const arrival=g.coreArrivalPosition.bind(g);g.coreArrivalPosition=(u,p)=>{const q={...u,...arrival(u,p),health:1,dead:false};recoverActor(q);return{x:q.x,y:q.y};};

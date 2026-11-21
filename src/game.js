@@ -397,6 +397,19 @@
       });
     }
     sightClear217(from, to, level) { return this.sightObstruction217(from, to, level) === null; }
+    // O6b : emprise (unités) posée sur un seul palier, à sec et hors rampe ; toujours vrai sur une carte plate.
+    // Lu par le décor métrique replacé (`packMetricScenery202`).
+    footprintClear217(x, y, w, h) {
+      const t = WORLD_TERRAIN217.get(this); if (!t) return true;
+      const L = this.local; if (![x, y, w, h].every(Number.isFinite) || w <= 0 || h <= 0) return false;
+      const x0 = Math.floor(x / TILE), y0 = Math.floor(y / TILE), x1 = Math.ceil((x + w) / TILE) - 1, y1 = Math.ceil((y + h) / TILE) - 1;
+      if (!L.cellInside(x0, y0) || !L.cellInside(x1, y1)) return false;
+      const level = t.levels[L.index(x0, y0)];
+      for (let gy = y0; gy <= y1; gy++) for (let gx = x0; gx <= x1; gx++) {
+        const i = L.index(gx, gy); if (t.levels[i] !== level || t.water[i] || t.deep[i] || t.ford[i] || t.kinds[i] === RAMP217) return false;
+      }
+      return true;
+    }
   }
 
   class FlowField {
@@ -440,6 +453,27 @@
         }
       }
       map.flowDirty = false;
+    }
+    // O6b : repli d'un infecté posé sur une case hors d'atteinte du champ (poche fermée par la falaise ou
+    // l'eau profonde). Case atteinte la plus proche (distance au point, puis indice), dans `ring` cases et
+    // libre selon `free(gx, gy)` ; `null` sur une carte plate, sur une case atteinte ou sans case trouvée.
+    fallback217(x, y, ring, free = () => true) {
+      if (!this.terrain217 || !Number.isFinite(x) || !Number.isFinite(y)) return null;
+      const L = this.local, gx = L.cellOf(x), gy = L.cellOf(y);
+      if (L.cellInside(gx, gy) && this.values[L.index(gx, gy)] < 0x3fffffff) return null;
+      let best = null, bestD = Infinity, bestI = Infinity;
+      for (let r = 1; r <= ring; r++) {
+        for (let ny = gy - r; ny <= gy + r; ny++) for (let nx = gx - r; nx <= gx + r; nx++) {
+          if (Math.max(Math.abs(nx - gx), Math.abs(ny - gy)) !== r || !L.cellInside(nx, ny)) continue;
+          const i = L.index(nx, ny); if (this.values[i] >= 0x3fffffff || !free(nx, ny)) continue;
+          const d = (world(nx) - x) ** 2 + (world(ny) - y) ** 2;
+          if (d < bestD || (d === bestD && i < bestI)) { best = { gx: nx, gy: ny, x: world(nx), y: world(ny) }; bestD = d; bestI = i; }
+        }
+        // Une case d'un anneau plus large peut être plus proche du point que le coin d'un anneau : on s'arrête
+        // dès que la meilleure case est à moins d'un anneau complet.
+        if (best && Math.sqrt(bestD) <= r * TILE) break;
+      }
+      return best;
     }
     direction(x, y, bias, time) {
       const L = this.local, N = L.tiles, gx = L.cellOf(x), gy = L.cellOf(y), dirs = [[-1,0],[1,0],[0,-1],[0,1]], t = this.terrain217 || null;
@@ -1472,7 +1506,9 @@
         if (direct && terrain && !this.world.stepClear217(unit.x, unit.y, target.x, target.y)) direct = false;
         if (!direct && this.navigationBudget === 0) return false;
         if (!direct && Number.isFinite(this.navigationBudget)) this.navigationBudget--;
-        const cells = direct ? [] : findFriendlyPath({ x: grid(unit.x, this.local), y: grid(unit.y, this.local) }, { x: goalX, y: goalY }, (x, y) => !this.friendlyPositionClear(unit,world(x),world(y)), this.local.tiles, this.local.tiles, undefined, terrain);
+        const start = { x: grid(unit.x, this.local), y: grid(unit.y, this.local) }, goal = { x: goalX, y: goalY }, blocked = (x, y) => !this.friendlyPositionClear(unit,world(x),world(y));
+        // Terrain G12 (O6b) : la voirie cherche le chemin avec le prédicat d'arête ; carte plate : appel inchangé.
+        const cells = direct ? [] : terrain && this.infrastructure?.findPath ? this.infrastructure.findPath(start, goal, blocked, this.local.tiles, this.local.tiles, C.OpenCity217Rules.pathMaxExpanded, 'friendly', terrain) : findFriendlyPath(start, goal, blocked, this.local.tiles, this.local.tiles, terrain ? C.OpenCity217Rules.pathMaxExpanded : undefined, terrain);
         route = unit.navigation = { goalX, goalY, version, cells, next: 0, direct, retryAt: cells === null ? this.elapsed + STRATEGY_RULES.pathRetrySeconds : 0 };
       }
       if (route.cells === null) return false;
@@ -1535,8 +1571,11 @@
       // A close barrier can lie entirely before the rendered weapon muzzle.
       // Start the sweep at the shooter in that case, so the normal collision
       // resolver applies the impact, including damage to a barricade.
-      return this.exploration125?.firstObstruction?.(source,muzzle,radius,true)||this.barricades134?.firstObstruction?.(source,muzzle,radius)?source:muzzle;
+      // Terrain G12 (O6b) : une bouche passée au-dessus d'une falaise montante fait partir le tir du tireur (D-O1).
+      return this.exploration125?.firstObstruction?.(source,muzzle,radius,true)||this.barricades134?.firstObstruction?.(source,muzzle,radius)||(this.world.terrain217&&!this.world.sightClear217(source,muzzle))?source:muzzle;
     }
+    // Terrain G12 (O6b) : palier du tireur capté au tir, relu par `updateProjectiles` (D-O1) ; carte plate : rien.
+    shot217(projectile,x,y) { if(this.world.terrain217)projectile.level217=this.world.terrainAt217(x,y)?.level; return projectile; }
 
     shootPlayer() {
       const p = this.player, w = this.arsenal134?.weaponSpec() || WEAPONS[p.weapon]; if (p.dead || p.reload > 0 || p.shootCooldown > 0) return;
@@ -1546,7 +1585,7 @@
       for (let i = 0; i < w.pellets; i++) {
         const angle = p.facing + this.random.range(-w.spread, w.spread), speed = 970;
         const radius=p.weapon==='shotgun'?1.4:2,origin=this.projectileOrigin(p.x,p.y,angle,22,radius);
-        this.projectiles.push(new Projectile(this.nextId++, origin.x, origin.y, Math.cos(angle)*speed, Math.sin(angle)*speed, w.damage, w.range, 'player', '#ffe2a0', radius, w.headshotChance, w.headshotMultiplier));
+        this.projectiles.push(this.shot217(new Projectile(this.nextId++, origin.x, origin.y, Math.cos(angle)*speed, Math.sin(angle)*speed, w.damage, w.range, 'player', '#ffe2a0', radius, w.headshotChance, w.headshotMultiplier), p.x, p.y));
       }
       for (let i=0;i<3;i++) this.particles.push(new Particle(p.x+Math.cos(p.facing)*25,p.y+Math.sin(p.facing)*25,Math.cos(p.facing)*this.random.range(50,110)+this.random.range(-20,20),Math.sin(p.facing)*this.random.range(50,110)+this.random.range(-20,20),.1,this.random.range(2,4),'#ffd070','muzzle'));
       if (p.magazine[p.weapon] <= 0) this.startReload();
@@ -1608,7 +1647,7 @@
       b.completionBlocked = false; b.progress=1;b.health=Math.min(b.health,b.maxHealth);this.world.flowDirty=true;this.world.navigationVersion++;this.audio.build();this.notify(`${b.def.name} mis en service.`,'good');this.floaters.push({x:b.x,y:b.y-22,text:'OPÉRATIONNEL',color:'#8fb47e',life:1.2,maxLife:1.2});this.refreshMetrics(true);return true;
     }
 
-    fireFriendly(x,y,angle,damage,range,color) { const speed=900,origin=this.projectileOrigin(x,y,angle,18,2);this.projectiles.push(new Projectile(this.nextId++,origin.x,origin.y,Math.cos(angle)*speed,Math.sin(angle)*speed,damage,range,'friendly',color,2));this.audio.noise(.035,.025,1600); }
+    fireFriendly(x,y,angle,damage,range,color) { const speed=900,origin=this.projectileOrigin(x,y,angle,18,2);this.projectiles.push(this.shot217(new Projectile(this.nextId++,origin.x,origin.y,Math.cos(angle)*speed,Math.sin(angle)*speed,damage,range,'friendly',color,2),x,y));this.audio.noise(.035,.025,1600); }
 
     updateUnits(dt) {
       const core=this.core();if(!core)return;
@@ -1782,14 +1821,15 @@
       const distance=dist(unit,target);if(distance>range)return false;
       const steps=Math.max(1,Math.ceil(distance/(TILE/3)));
       for(let i=0;i<=steps;i++)if(!this.friendlyPositionClear(unit,lerp(unit.x,target.x,i/steps),lerp(unit.y,target.y,i/steps)))return false;
-      return true;
+      // Terrain G12 (O6b) : on ne travaille pas par-dessus une falaise ; carte plate : inchangé.
+      return !this.world.terrain217||this.world.stepClear217(unit.x,unit.y,target.x,target.y);
     }
 
     workerBuildExit(unit, building, keyPrefix='exit') {
       // Leave the future collision footprint by walking before finishing a wall around ourselves.
       const offset=Math.max(TILE/2,unit.radius+4),x=clamp(unit.x,building.left+TILE/2,building.right-TILE/2),y=clamp(unit.y,building.top+TILE/2,building.bottom-TILE/2);
       const points=[{x:building.left-offset,y},{x:building.right+offset,y},{x,y:building.top-offset},{x,y:building.bottom+offset}];
-      return points.map((point,i)=>({...point,key:`${keyPrefix}:${building.id}:${i}`})).filter(point=>this.local.contains(point.x,point.y,offset)&&this.friendlyPositionClear(unit,point.x,point.y)&&this.workerJobAvailable(unit,point.key)).sort((a,b)=>distSq(unit,a)-distSq(unit,b))[0]||null;
+      return points.map((point,i)=>({...point,key:`${keyPrefix}:${building.id}:${i}`})).filter(point=>this.local.contains(point.x,point.y,offset)&&this.friendlyPositionClear(unit,point.x,point.y)&&(!this.world.terrain217||this.world.stepClear217(unit.x,unit.y,point.x,point.y))&&this.workerJobAvailable(unit,point.key)).sort((a,b)=>distSq(unit,a)-distSq(unit,b))[0]||null;
     }
 
     workerJobAvailable(unit, key) {
@@ -1834,6 +1874,8 @@
       for(const wall of this.world.buildings.values()){
         if(wall.dead||!wall.completed||!wall.def.wall||wall.corpseLoad<=0||!this.workerJobAvailable(unit,`clear:${wall.id}`))continue;
         const point=this.workerCleanupPoint(unit,wall);if(!this.friendlyPositionClear(unit,point.x,point.y))continue;
+        // Terrain G12 (O6b) : la face de nettoyage reste sur le palier du mur (pas de point en contrebas d'une falaise).
+        if(this.world.terrain217&&!this.world.stepClear217(wall.x,wall.y,point.x,point.y))continue;
         const score=distSq(unit,point)/Math.max(1,wall.corpseLoad)*(4-(wall.priority||2));if(score<best){best=score;result=wall;}
       }
       return result;
@@ -1969,6 +2011,9 @@
       return null;
     }
     // Terrain G12 (O6a) : depuis la position de l'infecté, ni falaise franchie ni eau profonde ; carte plate inchangée.
+    // Terrain G12 (O6b) : un infecté posé sur une case hors d'atteinte du champ (poche fermée) se replie sur la
+    // case atteinte et libre la plus proche (`C.OpenCity217Rules.fallbackRing`), sans tirage. Vrai s'il a bougé.
+    zombieFallback217(z){const spot=this.flow.fallback217?.(z.x,z.y,C.OpenCity217Rules.fallbackRing,(x,y)=>!this.world.atCell(x,y));if(!spot)return false;z.x=spot.x;z.y=spot.y;z.fallback217=(z.fallback217||0)+1;return true;}
     hostilePositionClear(entity,x,y){if(this.hostileBuildingAt(entity,x,y))return false;const t=this.world.terrain217;return !t||!Number.isFinite(entity?.x)||!Number.isFinite(entity?.y)||this.world.stepClear217(entity.x,entity.y,x,y);}
     stalkerCorridorClear(z,target){
       const steps=Math.max(1,Math.ceil(dist(z,target)/(TILE/3)));
@@ -2063,6 +2108,7 @@
       for(const z of this.zombies){if(this.gameOver)break;if(z.dead)continue;const def=ENEMIES[z.kind],staggered=z.stagger>0;z.attackCooldown=Math.max(0,z.attackCooldown-dt);z.stagger=Math.max(0,z.stagger-dt);z.rage=Math.max(0,z.rage-dt);z.howl-=dt;if(z.kind==='shielded')z.shieldImpact=Math.max(0,(z.shieldImpact||0)-dt);
         if(this.vertical175?.updateClimber?.(z,dt))continue;
         if(z.kind==='howler'&&z.howl<=0){z.howl=9+this.random.range(-1,2);for(const other of this.nearbyZombies(z.x,z.y,190))other.rage=Math.max(other.rage,3);for(let i=0;i<10;i++){const a=this.random.range(0,Math.PI*2);this.particles.push(new Particle(z.x,z.y,Math.cos(a)*this.random.range(20,90),Math.sin(a)*this.random.range(20,90),.7,2,'#9d554d','dust'));}}
+        if(this.flow.terrain217)this.zombieFallback217(z);
         let dir=this.flow.direction(z.x,z.y,z.bias,this.elapsed),speed=def.speed*night*(z.rage>0?1.18:1)*(z.stagger>0?.35:1)*(1-this.weather*.05)*(this.infrastructure?this.infrastructure.speed(z.x,z.y,'hostile'):1)*(this.earthworks217?.speed(z.x,z.y)??1);const look=z.radius+13;
         if(z.kind==='stalker'){
           z.huntThink-=dt;
@@ -2135,6 +2181,12 @@
         const dx = fullDx * fraction, dy = fullDy * fraction, length = fullLength * fraction, lengthSq = dx * dx + dy * dy;
         const endpoint = {x:p.x+dx,y:p.y+dy};
         const obstructions = [this.exploration125?.firstObstruction?.(p,endpoint,p.radius,true),this.barricades134?.firstObstruction?.(p,endpoint,p.radius),this.vertical175?.groundObstruction?.(p,endpoint)].filter(Boolean);
+        // Terrain G12 (O6b, D-O1) : une falaise arrête le tir parti d'en bas, pas celui parti d'en haut ;
+        // palier du tireur capté au tir, sinon celui du premier point du projectile.
+        if (this.world.terrain217) {
+          if (p.level217 === undefined) p.level217 = this.world.terrainAt217(p.x, p.y)?.level;
+          const cliff = this.world.sightObstruction217(p, endpoint, p.level217); if (cliff !== null) obstructions.push({ fraction: cliff, terrain217: true });
+        }
         const obstruction = obstructions.sort((a,b)=>a.fraction-b.fraction)[0] || null;
         const barrierImpact = obstruction?.fraction ?? Infinity;
         let target = null, impact = barrierImpact;
@@ -4254,9 +4306,11 @@
     const finished=engine.road(x,y).progress===1;engine.remove(x,y);if(finished)changed();g.save(false);tell('Piste retirée, sans remboursement. Le sol reste praticable.');return{ok:true};
   }
   function mark(id){ensure();const r=engine.state.ruins.find(r=>r.id===id);if(!r||!g.canIssueCommand())return false;marked=id;g.showCommand?.(false);tell('Empreinte marquée. Aucun déplacement automatique du commandant.');return true;}
-  function findPath(start,goal,isBlocked,width=g.local.tiles,height=g.local.tiles,maxExpanded=8192,kind='friendly'){
+  // `step` (O6b) : prédicat d'arête ; par défaut, celui du terrain G12 de la carte ; carte plate : aucun.
+  function findPath(start,goal,isBlocked,width=g.local.tiles,height=g.local.tiles,maxExpanded=8192,kind='friendly',step=null){
     ensure();const maximum=Math.max(...Object.values(D.SURFACES).map(s=>kind==='truck'?s.truckSpeed:s.friendlySpeed));
-    return D.findRoute(start,goal,isBlocked,(x,y)=>{const road=engine.road(x,y);if(road?.progress!==1)return 1;const b=g.world.atCell?.(x,y),s=D.surface(road),ratio=kind==='truck'?s.truckSpeed:s.friendlySpeed;return live(b)&&!b.def.gate?1:1/ratio;},width,height,maxExpanded,1/maximum,g.local.tiles);
+    const edge=typeof step==='function'?step:g.world?.terrain217?(x,y,nx,ny)=>g.world.canStep(x,y,nx,ny):null;
+    return D.findRoute(start,goal,isBlocked,(x,y)=>{const road=engine.road(x,y);if(road?.progress!==1)return 1;const b=g.world.atCell?.(x,y),s=D.surface(road),ratio=kind==='truck'?s.truckSpeed:s.friendlySpeed;return live(b)&&!b.def.gate?1:1/ratio;},width,height,maxExpanded,1/maximum,g.local.tiles,...(edge?[edge]:[]));
   }
   function drawRoads(ctx,view){ensure();const v=view||{left:0,top:0,right:g.local.size,bottom:g.local.size};ctx.save();
     for(const p of engine.state.roads){const x=p.x*32,y=p.y*32;if(x+32<v.left||x>v.right||y+32<v.top||y>v.bottom)continue;

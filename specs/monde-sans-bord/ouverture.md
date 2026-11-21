@@ -69,7 +69,7 @@ O1 monde régional G12 (interface)  ── livré, hors jeu
 | O3 | Sauvegarde G12 creuse, validation sans régénération globale (**livré**) | Aucun (G12 non créable) | L | moyen / moyen | O4, O5, O6 |
 | O4 | Lecteurs de la liste complète des lieux → lecteurs de voisinage (**premier lot livré**) | Aucun (valeurs identiques) | L | moyen / bas | O2, O3, O5–O8 |
 | O5 | Carte de la cité par campagne, taille portée par la sauvegarde (**livré**) | Aucun (128 partout) | L | haut / moyen | O2, O3, O4 |
-| O6 | Carte de 192 m née de `world-local217` : arêtes de falaise, flux, collisions, gisements | Aucun (G12 non créable) | XL → O6a, O6b | moyen / haut | O3, O4 |
+| O6 | Carte de 192 m née de `world-local217` : arêtes de falaise, flux, collisions, gisements (**livré** : O6a, O6b) | Aucun (G12 non créable) | XL → O6a, O6b | moyen / haut | O3, O4 |
 | O7 | Siège adossé : fronts par côté ouvert, enceintes sur falaise, équilibrage à deux côtés | Aucun | L | moyen / haut | O8 |
 | O8 | Rendu des falaises et de l'eau en 2D/2,5D (O8a, **livré**), vue FPS (O8b) | Aucun | L + L | bas / moyen | O7 |
 | O9 | Ouverture : option de menu, fiche, branchement, chargement par anneau | **Oui, derrière l'option** | L | moyen / haut | — |
@@ -346,7 +346,7 @@ tableau « Restent en clair » de T5.B3.
     Le coût vient surtout des enveloppes (× 12 sur la carte nue) : c'est elles qu'O6b devra
     optimiser (coût par case mis en cache, reconstruction incrémentale), avant la taille.
 
-### O6 — Carte de la cité de 192 m née de `world-local217` (G12 non créable) (**O6a livré**, hors jeu)
+### O6 — Carte de la cité de 192 m née de `world-local217` (G12 non créable) (**livré** : O6a, O6b ; hors jeu)
 
 Points 2, 3, 4 et 7 de `tasks.md`. Atteinte seulement par un harnais de test qui construit
 une partie à partir de `L.describe(graine)`.
@@ -386,7 +386,7 @@ Ampleur L.
     directs des ouvriers (1640, 1648, 1692), voirie (`findRoute` sans prédicat d'arête),
     repli d'un infecté sur une case hors d'atteinte, récolte par les rampes en partie.
 
-**O6b — Arêtes de falaise.** Nouvelle méthode `WorldMap#canStep(gx, gy, nx, ny)` lue par :
+**O6b — Arêtes de falaise (livré).** Nouvelle méthode `WorldMap#canStep(gx, gy, nx, ny)` lue par :
 `FlowField.rebuild` (283-299 : voisins développés seulement si `canStep`, case hors d'atteinte
 `0x3fffffff` avec repli de l'infecté), `friendlyPositionClear` (1304), `moveFriendly`
 (1309-1312), `hostileBuildingAt` / `hostilePositionClear` (1813-1821), lancers de rayon par
@@ -402,6 +402,30 @@ décision D-O1. Ampleur L, risque G12 haut (performances du flux sur 36 864 case
 - Innocuité : procédure 3 (le chemin G12 n'est pas pris : `canStep` d'une carte plate rend
   toujours vrai, à prouver par le parcours octet pour octet).
 - Parcours joueur (harnais) : poser un mur, récolter un gisement sur l'autre palier.
+- **Livré O6b** (sans effet en jeu ; détail, mesures et réserves : `tasks.md`, section O6b) :
+  - Projectiles (D-O1) : palier du tireur capté au tir (`Game#shot217`, joueur et tirs amis), relu par
+    `updateProjectiles`, qui ajoute la fraction de `sightObstruction217` aux obstacles ; une bouche de
+    canon passée au-dessus d'une falaise montante fait partir le tir du tireur (`projectileOrigin`). D'en
+    bas, le tir s'arrête au pied de la falaise ; d'en haut, il touche en contrebas.
+  - Contrôles directs des ouvriers : `workerCanWorkAt`, `workerBuildExit`, `workerCleanupTarget` (jeu de
+    base) et, surtout, leurs remplaçants de `fieldcraft.js` (`moveFriendly`, `workFrom`, donc les points de
+    service), qui ignoraient les arêtes en partie complète : aucun pas, geste de travail ni point d'approche
+    par-dessus une falaise.
+  - Voirie : `Infrastructure.findRoute` reçoit un prédicat d'arête (10e argument) ; `findPath` de la partie
+    prend par défaut celui du terrain (véhicules, convois, reconnaissance) ; `moveUnitToward` passe par la
+    voirie avec ce prédicat sur un terrain (plafond `C.OpenCity217Rules.pathMaxExpanded` 16 384).
+  - Repli d'un infecté posé sur une case hors d'atteinte : `FlowField#fallback217` (case atteinte et libre
+    la plus proche, sans tirage), appelé par `updateZombies` (`zombieFallback217`) ; anneau
+    `C.OpenCity217Rules.fallbackRing` 192 (une poche de 17117 est à 74 cases de tout accès).
+  - Décor métrique : `WorldMap#footprintClear217` (un palier, à sec, hors rampe) lu par la parcelle de
+    `packMetricScenery202` (`createMetricSceneryPlacement202`), exporté pour le test.
+  - Récolte par les rampes : un ouvrier de la partie (`updateUnits`) va au gisement de l'autre palier par
+    la rampe et rapporte au centre, sans un pas à travers la falaise (42, 46).
+  - D-O5 : partie de terrain (centre posé, enveloppes du jeu de base) 2 à 5 ms par reconstruction à 192 m
+    (Node et Chromium) ; l'optimisation O6a suffit, aucune autre n'est nécessaire à ce stade.
+  - Innocuité : parcours déterministe de 240 s (base `5b0d8ab` contre l'arbre de travail) identique octet
+    pour octet, reprises croisées identiques ; parcours « empoisonné » dans le test (chaque chemin du
+    terrain jette s'il est appelé sur une carte plate) ; mondes G1–G11 inchangés.
 
 ### O7 — Siège adossé : fronts, enceintes et équilibrage à deux côtés
 

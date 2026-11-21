@@ -951,6 +951,68 @@ la génération 12 reste refusée, aucune option de menu, le module n'est pas ch
   lieux et le plan G1–G11 (quartiers, sites nommés, d-17) ne savent pas encore vivre sur un monde de
   terrain : le harnais met la partie en pause et appelle la minicarte de base (O9/O10). La vue D-O1 reste
   centrée sur les cases (pas de hauteur d'œil).
+## O6b — Arêtes de falaise dans la cité de 192 m (livré, sans effet en jeu)
+
+Fiche : [ouverture.md](ouverture.md), O6b (décisions D-O1, D-O5). Toujours atteint par un harnais seulement :
+la génération 12 reste refusée, `world-local217.js` absent d'`index.html`. Le harnais de
+`tests/open-city217.test.cjs` donne à la partie complète du test (modules chargés) le monde de terrain, un centre
+au milieu et son champ de flux, puis joue les méthodes du jeu (`updateUnits`, `updateZombies`,
+`updateProjectiles`, contrôles de `fieldcraft`) ; les quartiers et le bilan de la cité, qui ne lisent pas encore
+ce monde, sont laissés de côté pendant la pose du mur.
+
+- [x] O6b.1 Projectiles (D-O1) : `Game#shot217` capte le palier du tireur au tir (tir du joueur, `fireFriendly` :
+      tourelles et soldats) ; `updateProjectiles` ajoute `sightObstruction217(p, fin, palier)` aux obstacles (le
+      projectile s'arrête à la fraction de l'arête) ; repli sur le palier du premier point pour un projectile créé
+      ailleurs. `projectileOrigin` fait partir du tireur un tir dont la bouche passerait au-dessus d'une falaise
+      montante. Carte plate : aucun champ, aucun appel.
+- [x] O6b.2 Contrôles directs des ouvriers : `workerCanWorkAt` (segment sans falaise), `workerBuildExit` (point de
+      sortie sur le palier de l'ouvrier), `workerCleanupTarget` (face de nettoyage sur le palier du mur). Dans la
+      partie complète, `fieldcraft.js` remplace `moveFriendly` et `workerCanWorkAt` : `cliff217` est lu par son
+      `moveFriendly` (chaque sous-pas, chaque axe) et par `workFrom` (travail, points de service). Sans cela, les
+      gardes O6a de `Game#moveFriendly` étaient contournées en partie (trouvé par les marches aléatoires).
+- [x] O6b.3 Voirie : `Infrastructure.findRoute(…, limit, step)` ; `findPath(…, kind, step)` de la partie prend
+      par défaut `canStep` du terrain ; `moveUnitToward` passe par la voirie avec le prédicat sur un terrain
+      (`C.OpenCity217Rules.pathMaxExpanded` 16 384), appel inchangé sur une carte plate. `C.findFriendlyPath`
+      avec un 7e argument reste le chemin ami de base (test O6a).
+- [x] O6b.4 Repli d'un infecté hors d'atteinte : `FlowField#fallback217(x, y, anneau, libre)` — case atteinte
+      (`< 0x3fffffff`) et libre la plus proche du point, égalité départagée par l'indice, sans tirage ;
+      `Game#zombieFallback217` dans `updateZombies` sur un terrain ; `z.fallback217` compte les replis.
+      `C.OpenCity217Rules.fallbackRing` 192 : sur 17117, 1 062 cases sèches hors d'atteinte sur 1 892 relevées sont
+      à plus de 24 cases d'un accès (jusqu'à 74).
+- [x] O6b.5 Décor métrique : `WorldMap#footprintClear217(x, y, l, h)` (un palier, sans eau ni gué, hors rampe ;
+      vrai sur une carte plate) lu par `fits` de `createMetricSceneryPlacement202`, donc par toutes les recherches
+      de `packMetricScenery202` ; `packMetricScenery202` exporté par `exploration-125.js`.
+- [x] O6b.6 Règles : `C.OpenCity217Rules` (`version` 1, `generation` 12, `fallbackRing` 192, `pathMaxExpanded`
+      16 384).
+- [x] O6b.7 Tests : `tests/open-city217.test.cjs` (10 cas) — règles et parcours plat empoisonné (20 s, vague,
+      tirs ; `canStep`, `walk217`, `stepClear217`, `sightObstruction217`, `footprintClear217`, `terrainAt217`,
+      `rebuildTerrain217`, `fallback217`, `zombieFallback217` jettent s'ils sont appelés) ; 10 000 pas aléatoires
+      d'amis (`moveFriendly` de la partie) et d'infectés (`hostilePositionClear`) par graine 17117, 42, 46, la moitié
+      au bord d'une rampe, plus 40 infectés de `updateZombies` pendant 10 s : aucun pas à travers une falaise,
+      451 pas d'un palier à l'autre, tous par une rampe ; champ de flux contre `pathToCentre` (cases
+      atteintes identiques, champ = 2 × coût de la carte locale moins 30 par rampe franchie, descente le long de
+      chaque chemin de la carte locale) ; projectiles D-O1 (17117, 42) ; ouvriers ; voirie ; repli ; décor
+      métrique (42, 46) ; parcours mur + récolte par la rampe (42, 46 : mur bâti, aller et retour par la rampe,
+      matériaux déposés) ; coût du flux.
+- [x] O6b.8 Coût (D-O5, médiane de 15 reconstructions) : partie de terrain à 192 m, centre posé, enveloppes du jeu
+      de base, 2 à 5 ms (17117 / 42 / 46) contre 44 à 47 ms pour la partie 17117 à 128 cases et toutes ses enveloppes ;
+      Chromium (harnais dans la page) 2 à 5 ms, description 113 à 115 ms. Avec les enveloppes de la partie déléguées
+      (mesure O6a) : 13 à 28 ms. Aucune optimisation de plus n'est nécessaire avant O9.
+- [x] O6b.9 Innocuité : parcours déterministe de 240 s (procédure 3, base `5b0d8ab` contre l'arbre de travail ;
+      vague forcée, déplacements, 243 tirs, 18 tués, un rendu sur quatre) — sauvegardes de départ, de mi-parcours et
+      de fin identiques octet pour octet ; sauvegardes de la base relues par l'arbre et resérialisées à l'identique
+      de la base. Mondes G1–G11 des huit graines : `audit-campaign-sites205` identique à
+      `campagne205-eligibilite.json` hors empreintes de sources (`src/core.js`, `src/exploration-125.js`,
+      `src/fieldcraft.js`, `src/game.js`). Navigateur : partie 17117, vague, tirs, aucune erreur de page ;
+      harnais G12 dans la page, sauvegarde de la partie inchangée.
+- Réserves : rien n'a été joué en G12 dans une partie lancée par le menu ; `fieldcraft` au chargement d'un monde
+  (`setup`) remplace encore `solidForFriendly` du monde (l'eau profonde n'y bloquerait plus les amis) et replace
+  les gisements (`pack`) sans lire le terrain — à brancher en O9, quand une partie G12 passera par `setup` ; le
+  repli remet l'infecté sur la case atteinte la plus proche (déplacement instantané, sûreté avant les apparitions
+  par passage d'O7) et peut être défait par l'enveloppe de `fieldcraft` si la case touche un décor ; tourelles et
+  soldats choisissent encore une cible sans lire la falaise (le tir s'arrête, la munition est dépensée) ; le repli
+  de `recoverActor` (`fieldcraft`) ignore le terrain ; vue D-O1 et tirs centrés sur les cases, sans hauteur d'œil
+  (O8).
 
 ## T5 — Ouverture expérimentale
 

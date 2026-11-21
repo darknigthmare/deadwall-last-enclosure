@@ -1584,7 +1584,8 @@
     pop(){const top=this.items[0],end=this.items.pop();if(this.items.length){let i=0;while(i*2+1<this.items.length){let c=i*2+1;if(c+1<this.items.length&&this.items[c+1].f<this.items[c].f)c++;if(this.items[c].f>=end.f)break;this.items[i]=this.items[c];i=c;}this.items[i]=end;}return top;}
   }
   // `limit` : côté de la carte locale (O5), plafond des dimensions demandées.
-  function findRoute(start,goal,blocked,cost=()=>1,width=RULES.worldTiles,height=RULES.worldTiles,maxExpanded=RULES.maxExpanded,minCost=1/RULES.truckSpeed,limit=RULES.worldTiles){
+  // `step(x, y, nx, ny)` (facultatif, O6b) : arête franchissable du terrain G12 ; une falaise ferme une arête.
+  function findRoute(start,goal,blocked,cost=()=>1,width=RULES.worldTiles,height=RULES.worldTiles,maxExpanded=RULES.maxExpanded,minCost=1/RULES.truckSpeed,limit=RULES.worldTiles,step=null){
     const valid=p=>object(p)&&integer(p.x,0,width-1)&&integer(p.y,0,height-1);
     if(!integer(width,1,limit)||!integer(height,1,limit)||!integer(maxExpanded,1,16384)||!finite(minCost,.1,1)||!valid(start)||!valid(goal)||typeof blocked!=='function'||blocked(goal.x,goal.y))return null;
     const origin=start.y*width+start.x,target=goal.y*width+goal.x;if(origin===target)return[];
@@ -1596,7 +1597,7 @@
       const q=open.pop();if(q.g!==best[q.i])continue;
       if(q.i===target){const path=[];for(let k=target;k!==origin;k=previous[k]){if(k<0||path.length>width*height)return null;path.push({x:k%width,y:Math.floor(k/width)});}return path.reverse();}
       expanded++;const x=q.i%width,y=Math.floor(q.i/width);
-      for(const [dx,dy]of [[1,0],[-1,0],[0,1],[0,-1]]){const nx=x+dx,ny=y+dy;if(nx<0||ny<0||nx>=width||ny>=height||blocked(nx,ny))continue;
+      for(const [dx,dy]of [[1,0],[-1,0],[0,1],[0,-1]]){const nx=x+dx,ny=y+dy;if(nx<0||ny<0||nx>=width||ny>=height||blocked(nx,ny)||(step&&!step(x,y,nx,ny)))continue;
         const rate=cost(nx,ny);if(!finite(rate,minCost,100))return null;
         const i=ny*width+nx,g=q.g+rate;if(g>=best[i]-1e-12)continue;best[i]=g;previous[i]=q.i;open.push({i,g,f:g+h(nx,ny)});
       }
@@ -3638,6 +3639,11 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   // reste à fixer en O8b, D-O3), biseau des extrémités de paroi (fraction de case), berge maximale (cases), fondu du bord
   // de carte (mètres), grain du sol (écart de teinte).
   C.TerrainArt217Rules=Object.freeze({version:1,cliffMetres:4,bevel:.35,bankMaxCells:4,edgeFadeMetres:6,grain:7});
+  // Cité de génération 12, arêtes de falaise (ouverture.md, tranche O6b, hors jeu) : anneau de recherche (cases) du repli
+  // d'un infecté posé hors d'atteinte du champ de flux (toute la carte : une poche fermée de 17117 s'étend à 74 cases du
+  // plus proche accès) ; plafond des chemins amis sur le terrain (un détour par une rampe sur 192 cases dépasse les
+  // 8 192 nœuds des cartes plates ; 16 384 = plafond de la voirie).
+  C.OpenCity217Rules=Object.freeze({version:1,generation:12,fallbackRing:192,pathMaxExpanded:16384});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),
