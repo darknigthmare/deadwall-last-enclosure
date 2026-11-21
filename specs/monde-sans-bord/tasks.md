@@ -833,6 +833,81 @@ campagne G1–G11 garde 128 cases ; la sauvegarde n'écrit rien de plus.
   (`localUnits`, empreinte de D-17 dans la région) et la position régionale initiale restent à
   128 m : O9/O10. Rien n'a été joué à 192 m dans une partie.
 
+## O6a — Carte de la cité de 192 m née de `world-local217` : terrain et gisements (livré, sans effet en jeu)
+
+Fiche : [ouverture.md](ouverture.md), O6 (points 2, 3, 4 et 7 de la liste de T4 ; décisions D-O1, D-O5).
+Atteinte seulement par un harnais de test qui construit une `WorldMap` à part : la génération 12
+reste refusée partout, aucune option de menu, `world-local217.js` toujours absent d'`index.html`.
+
+- [x] O6a.1 Chemin de construction séparé (`src/game.js`) : `WorldMap(graine, géométrie, carte,
+      terrain)` ; `terrain` = `DeadwallWorldLocal217.describe(graine)` (génération 12, `frame` égal à
+      la carte, `tile` 1, `unit` 32, tableaux de la taille de la carte, même graine — sinon refus).
+      `buildTerrain217` n'exécute rien de la génération G1–G11 (`generateNodes`, contenu généré, lieux)
+      et ne tire rien : terrain copié dans une table faible (`world.terrain217` : paliers, arêtes,
+      eau, routes, natures, plus `deep` — mer, lac, rivière sans pont — et `ford` — ruisseau sans
+      pont), rien d'énuméré en plus d'une carte plate.
+- [x] O6a.1b Règles (`src/core.js`) : `C.CityTerrain217Rules` (`version` 1, `generation` 12,
+      `rampCost` 30, `fordCost` 20, unité du pas du champ de flux, 10 par case) — mêmes valeurs que
+      `C.WorldLocal217Rules.costs`, relues par le test ; `game.js` ne nomme toujours pas le module de
+      carte locale (garde de `tests/world-local217.test.cjs`).
+- [x] O6a.2 Gisements : les 192 candidats (`K0_0:gite:n` : 40 pierre, 100 bois, 52 ferraille)
+      deviennent des `ResourceNode` (mètres × `TILE`, quantité et rayon de la description,
+      `depositId` gardé, variante `seededHash(n, graine, 217) % 4`). Ni vivres ni carburant.
+- [x] O6a.3 Terrain dans la cité : enveloppes non énumérables propres au monde de terrain —
+      `solidForFriendly` (eau profonde = obstacle), `movementCost` (+ `C.CityTerrain217Rules.fordCost` 20 sur un gué),
+      `placement` (« Emprise à cheval sur deux paliers », « Emprise sur l’eau », « Emprise sur une
+      rampe : seuls murs et portes la barrent »). Accesseurs : `terrainAt217(x, y)`,
+      `canStep(gx, gy, nx, ny)` (voisine ou diagonale ; carte plate : toujours vrai dans la carte),
+      `walk217` (cases d'un segment), `stepClear217(x0, y0, x1, y1)`.
+- [x] O6a.4 Arêtes de falaise dans les collisions (avance sur O6b, chemin G12 seulement) :
+      `moveFriendly` (chaque axe), `moveUnitToward` (ligne directe refusée à travers une falaise ;
+      `findFriendlyPath` reçoit un prédicat d'arête en 7e argument, que l'enveloppe de la voirie
+      laisse au chemin ami de base), `hostilePositionClear` (segment depuis la position de
+      l'infecté : déplacement ordinaire, charge, repoussée, séparation, chasse, couloir du traqueur).
+- [x] O6a.5 D-O1 : `sightObstruction217(de, vers, palier)` coupe un segment qui monte une arête de
+      falaise hors rampe vers un palier plus haut que celui du tireur ; lu par `hasLineOfSight` et
+      `hostileLineClear`. D'en haut on voit et on vise en contrebas ; d'en bas, non. La fraction
+      d'obstacle rendue est prête pour `updateProjectiles` (O6b ; le palier de départ d'un projectile
+      reste à capter à son tir).
+- [x] O6a.6 Champ de flux (`FlowField.rebuildTerrain217`, D-O5) : arête de falaise et eau profonde
+      jamais développées (une falaise ne se détruit pas), `rampCost` 30 sur l'arête de rampe, coût de
+      case (`movementCost` et ses enveloppes) lu une fois par case et par reconstruction ;
+      `direction` ne désigne jamais une voisine derrière une falaise. Case hors d'atteinte :
+      `0x3fffffff`, exactement les cases à `cost` −1 de la description.
+- [x] O6a.7 Coût mesuré (médiane de 15 reconstructions, machine partagée ; enveloppes de la partie
+      17117 déléguées sur le monde de 128, ordre de grandeur) : partie actuelle à 128 cases 43 à 47 ms ;
+      carte plate de 192 sans cache 115 à 121 ms (environ 120 000 appels de coût) ; **terrain G12 de
+      192 avec cache 13 à 14 ms (17117 : deux tiers du cadre hors d'atteinte), 26 à 28 ms (42, 46)**,
+      un appel de coût par case atteinte. Dans Chromium (harnais dans la page, deux passages) : 9 à
+      19 ms, description 87 à 218 ms. L'optimisation reste propre au chemin du terrain : le champ des
+      cartes G1–G11 n'a pas changé de code. Preuve d'équivalence : sur les parties 17117, 42 et 84329,
+      un monde de terrain plat (128 cases, mêmes enveloppes) rend le même champ **octet pour octet**
+      que `rebuild` historique, et la même `direction` sur 200 points.
+- [x] O6a.8 Tests : `tests/local-g12-map217.test.cjs` (8 cas) — chemin séparé (aucun
+      `generateNodes`, gisements posés à portée, à sec, hors rampe ; refus d'une autre graine, taille,
+      génération ou d'un tableau tronqué ; partie en cours inchangée) ; déterminisme (monde et champ) ;
+      falaise infranchissable (arêtes, ami, infecté, champ, `direction`, 4 000 pas relus contre la
+      grille, cases hors d'atteinte identiques à la description) ; rampe franchissable (pas, ami,
+      chemin ami, survivant mené du bas au haut par la rampe sans un pas à travers la falaise) ;
+      centre atteint depuis chaque côté ouvert par la pente du champ, aucun côté clos atteint, fronts
+      de `siege` concordants ; construction refusée (paliers, eau, rampe ; mur et porte admis) ;
+      D-O1 ; champ identique et coût. Graines 17117 (couloir est-ouest), 42 (rampes), 46 (rampes et
+      eau profonde).
+- [x] O6a.9 Innocuité : parcours déterministe de 240 s (procédure 3, base `cc9efd9` contre l'arbre de
+      travail) — sauvegardes de départ, de mi-parcours et de fin identiques octet pour octet, huit
+      points de contrôle identiques, reprises croisées identiques. Mondes G1–G11 des huit graines :
+      `audit-campaign-sites205` identique à `campagne205-eligibilite.json` hors empreintes de sources
+      (`src/core.js`, `src/game.js`). Navigateur : partie 17117, vague, aucune erreur de page ; harnais
+      G12 construit dans la page à côté de la partie, sauvegarde de la partie inchangée.
+- Réserves : rien n'a été joué en G12 ; pas de vivres ni de carburant dans les gisements, décor
+  métrique non replacé (`packMetricScenery202`), lieux absents ; projectiles, contrôles directs des
+  ouvriers (points d'approche, nettoyage), voirie (`findRoute` sans arête), véhicule et
+  reconnaissance ignorent encore les falaises (O6b) ; un infecté posé sur une case hors d'atteinte
+  reste sur place (repli O6b/O7) ; le palier 0 et le palier 1 ne se joignent que par une rampe,
+  comme dans `world-local217` ; une emprise de mur ou de porte peut chevaucher une rampe mais pas
+  deux paliers ; la vue D-O1 est centrée sur les cases (pas de hauteur d'œil ni de bord de falaise
+  adouci, O8).
+
 ## T5 — Ouverture expérimentale
 
 - [ ] T5.1 `src/world-open217.js` : façade ; aiguillage dans `frontier-world.create`.
