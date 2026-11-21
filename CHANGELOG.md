@@ -1,6 +1,7 @@
 # 1.74.0 — Récupérateurs et eau de service
 
 - Monde sans bord, tranche O6a (hors jeu) : carte de cité de 192 m née de son canton, falaises dans les collisions et le calcul des chemins de la horde, règle de vue et de tir des falaises.
+- Monde sans bord, tranche O8a (hors jeu) : rendu 2D/2,5D d'une cité de génération 12 — paliers teintés, falaises peintes du côté bas avec leur hauteur projetée, rebords qui masquent le contrebas, rampes lisibles, eau et son lit, routes tirées de la carte locale, minicarte du terrain. Une falaise coupe la vue vers le haut (D-O1). Campagnes existantes : appels de dessin et sauvegardes identiques.
 - Coopération : cadrage (`specs/cooperation/`) et protocole de session hôte/invité, non chargé par le jeu.
 - Collecteurs d'eau de pluie des haltes G11 : remise en service, remplissage sous la pluie et puisage au seau. Guide : [docs/LIVRAISON_1_74.md](docs/LIVRAISON_1_74.md).
 - Révélation de l'interface par âge, première tranche : douze entrées de menu masquées au début d'une campagne puis rouvertes avec l'âge ; réglage « Afficher tous les menus dès le début ». Présentation seulement : aucune règle, aucun coût ni aucune sauvegarde ne change. Les raccourcis clavier restent actifs. Détail : [docs/GAME_BIBLE.md](docs/GAME_BIBLE.md) §6.4.

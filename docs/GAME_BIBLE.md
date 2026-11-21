@@ -1421,6 +1421,13 @@ d'atlas calée sur l'étendue totale.
   47 ms pour la carte actuelle de 128 m : la décision de garder 192 m tient.
   Restent (O6b) : projectiles en vol, ouvriers, voirie et véhicule face aux
   falaises ; vivres et carburant dans les gisements.
+- **Tranche O8a livrée, sans effet en jeu** : le relief se dessine. Chaque
+  palier est teinté ; la paroi visible se peint sous l'arête (4 m par cran,
+  hauteur provisoire jusqu'à O8b) ; le rebord d'un plateau situé au sud
+  cache le contrebas derrière lui ; rampes hachurées, eau et berge, routes
+  de la carte locale, minicarte du terrain. D'en haut on voit le contrebas,
+  d'en bas on ne voit pas le plateau. Réserves : acteurs non décalés par
+  palier, moteur de quartiers encore lié aux lieux G1–G11 (O9/O10).
 - **Tranche O3 livrée, sans effet en jeu** : une campagne sans bord se
   sauvegarde en ne gardant que les écarts (lieux repérés, prélèvements,
   occupants, cantons vus) ; une campagne synthétique de 60 cantons tient en
