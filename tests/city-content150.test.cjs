@@ -89,7 +89,7 @@ test('cité150 industrie : intrants, puissance, saturation et filières sans car
   for(const other of g.world.buildings.values())if(other.id!==b.id&&other.def.production&&other.def.powerUse)g.powerGrid.setCircuit(other.id,'off');
   g.refreshMetrics(true);g.population=0;assert.equal(b.powered,true);
   const generatorFuel=[...g.world.buildings.values()].filter(v=>v.completed&&!v.dead&&!v.siegeOffline&&!v.territoryOffline&&(v.type==='generator'||v.def.generatorFuel)).reduce((n,v)=>n+(v.def.generatorFuel||.018),0);
-  const background={};for(const other of g.world.buildings.values())if(other.id!==b.id&&other.completed&&!other.dead&&!other.def.powerUse)for(const [key,n]of Object.entries(other.def.production||{}))background[key]=(background[key]||0)+n;
+  const background={};for(const other of g.world.buildings.values())if(other.id!==b.id&&other.completed&&!other.dead&&!other.def.powerUse)for(const [key,n]of Object.entries(other.def.production||{}))background[key]=(background[key]||0)+n*(g.biome217?.yieldFactor(other,key)??1);
   const stock={...g.resources};g.economyTick(.1);
   for(const [key,n]of Object.entries(b.def.production))close(g.resources[key],stock[key]+(n+(background[key]||0))*.1-(key==='fuel'?generatorFuel*.1:0));
   for(const [key,n]of Object.entries(b.def.consumes||{}))close(g.resources[key],stock[key]-n*.1-(key==='fuel'?generatorFuel*.1:0));

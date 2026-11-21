@@ -11,6 +11,8 @@
  const catalogue=C&&City?City.create(C):null,choices=new Map((catalogue?.items||[]).map(item=>[item.key,item]));
  const contexts=(B?.defs||[]).flatMap(b=>['',...Object.keys(C?.WorldTownRules141?.required||{}),'cite-industrielle'].map(townKind=>({biome:b.id,townKind})));
  const capabilities=new Map();
+ // Monde sans bord O4 : lieux vus lus par l'accesseur du monde (ordre de la liste en région finie) ; repli identique.
+ const seenSites217=(w,known)=>!w?[]:typeof w.seenSites==='function'?w.seenSites(known):(w.pois||[]).filter(p=>known.has(p.id));
  const COST_SOURCE=Object.freeze({bag:'dans le sac',depot:'au dépôt'});
  const STEPS=Object.freeze({
   building:'Ouvrir le catalogue de construction, choisir un emplacement libre, financer la fondation puis achever le chantier. Les évolutions utilisent une structure achevée sur place.',
@@ -65,7 +67,7 @@
   if(!/^DW-\d{4}$/.test(id)||!R?.get(id)||typeof frontier?.discoveries!=='function'||typeof frontier?.world!=='function')return [];
   const known=new Set(frontier.discoveries());if(!known.size)return [];
   // Filter saved discoveries before inspecting any site's programme or name.
-  return(frontier.world()?.pois||[]).filter(p=>known.has(p.id)&&(p.programme3000||p.codex)===id)
+  return seenSites217(frontier.world(),known).filter(p=>(p.programme3000||p.codex)===id)
    .map(p=>Object.freeze({id:p.id,name:p.name,programme:id,levels:Object.freeze([...(p.levels||[0])])}));
  }
  function canNavigate(game){return game?.state==='playing'&&!game.gameOver&&!game.player?.dead&&game.canIssueCommand?.()===true;}
@@ -97,7 +99,7 @@
  function knownProgrammes(game){
   const frontier=game?.frontier;if(typeof frontier?.discoveries!=='function'||typeof frontier?.world!=='function')return [];
   const known=new Set(frontier.discoveries());if(!known.size)return [];
-  return [...new Set((frontier.world()?.pois||[]).filter(p=>known.has(p.id)).map(p=>p.programme3000||p.codex).filter(id=>R?.get(id)))];
+  return [...new Set(seenSites217(frontier.world(),known).map(p=>p.programme3000||p.codex).filter(id=>R?.get(id)))];
  }
  function placeAction(game,programmeId,placeId,kind='map'){
   if(!['map','pin'].includes(kind)||!canNavigate(game)||!knownPlaces(game,programmeId).some(p=>p.id===placeId))return false;

@@ -11,13 +11,15 @@
   const live=el('p','','recon-status');live.id='reconStatus';live.setAttribute('role','status');panel.appendChild(live);
   const grid=el('div',undefined,'recon-layout'),mapArea=el('article',undefined,'recon-map-card'),aside=el('aside',undefined,'recon-detail');grid.append(mapArea,aside);panel.appendChild(grid);
   const controls=el('div',undefined,'recon-controls'),canvas=el('canvas');canvas.id='reconMap';canvas.width=800;canvas.height=640;canvas.tabIndex=0;canvas.setAttribute('role','img');canvas.setAttribute('aria-label','Carte interactive de D-17. Glisser pour déplacer, plus et moins pour zoomer, flèches au clavier pour déplacer. Choisir les lieux également dans la liste.');
-  let zoom=1,cx=2048,cy=2048,drag=null,rendered=null,last=-Infinity,listKey='',routeKey='',filterValue='all',searchValue='';
-  const clamp=v=>Math.max(0,Math.min(4096,v));
-  const scale=()=>Math.min(canvas.width,canvas.height)/4096*zoom;
+  // O5 : carte de reconnaissance cadrée sur la carte de la cité de la partie (repli : 4 096).
+  const S217=()=>(g.local||C?.LOCAL_MAP217)?.size??4096;
+  let zoom=1,cx=S217()/2,cy=S217()/2,drag=null,rendered=null,last=-Infinity,listKey='',routeKey='',filterValue='all',searchValue='';
+  const clamp=v=>Math.max(0,Math.min(S217(),v));
+  const scale=()=>Math.min(canvas.width,canvas.height)/S217()*zoom;
   const pixel=p=>({x:canvas.width/2+(p.x-cx)*scale(),y:canvas.height/2+(p.y-cy)*scale()});
   const world=p=>({x:cx+(p.x-canvas.width/2)/scale(),y:cy+(p.y-canvas.height/2)/scale()});
   function setZoom(z,anchor={x:400,y:320}){const before=world(anchor);zoom=Math.max(1,Math.min(8,z));cx=clamp(before.x-(anchor.x-400)/scale());cy=clamp(before.y-(anchor.y-320)/scale());draw();}
-  controls.append(button('−','reconZoomOut',()=>setZoom(zoom/1.4)),button('+','reconZoomIn',()=>setZoom(zoom*1.4)),button('TOUT D-17','reconFit',()=>{zoom=1;cx=cy=2048;draw()}),button('COMMANDANT','reconPlayer',()=>{cx=g.player.x;cy=g.player.y;zoom=3;draw()}),button('CENTRE','reconCore',()=>{const c=g.core();if(c){cx=c.x;cy=c.y;zoom=3;draw()}}));
+  controls.append(button('−','reconZoomOut',()=>setZoom(zoom/1.4)),button('+','reconZoomIn',()=>setZoom(zoom*1.4)),button('TOUT D-17','reconFit',()=>{zoom=1;cx=cy=S217()/2;draw()}),button('COMMANDANT','reconPlayer',()=>{cx=g.player.x;cy=g.player.y;zoom=3;draw()}),button('CENTRE','reconCore',()=>{const c=g.core();if(c){cx=c.x;cy=c.y;zoom=3;draw()}}));
   mapArea.append(controls,canvas,el('p','Glisser déplace la carte. Cliquer un symbole sélectionne le lieu, sans bouger le commandant. Au clavier : flèches, + / − et Début.','recon-note'));
   const legend=el('p','Bleu : découvertes connues. Ocre : étapes. Blanc : dépôts. Vert : alliés. Les flèches de front n’apparaissent que pendant l’alerte et l’assaut.','recon-note');mapArea.appendChild(legend);
   const selectionName=el('h3','Aucun lieu sélectionné'),selectionInfo=el('p','Choisissez un lieu connu sur la carte ou dans la liste.'),selectionText=el('p','','recon-note');aside.append(selectionName,selectionInfo,selectionText);
@@ -33,8 +35,8 @@
    const copy=el('div');copy.append(el('strong',p.name),el('small',p.kind==='site'?(p.done?'Épuisé':p.survey<6?'À relever':'Prêt à récupérer')+' · '+C.RESOURCE_META[p.resource].label:p.kind==='call'?'Personne repérée · '+({waiting:'en attente',follow:'suit',hold:'attend',return:'en repli'}[p.status]):'Dépôt opérationnel'));
    const b=button('VOIR','reconPoint-'+p.id.replace(':','-'),()=>setSelection(p.id));n.append(thumb,copy,b);return n;
   }
-  function draw(){if(!rendered||panel.classList.contains('hidden'))return;const ctx=canvas.getContext('2d'),v=rendered,s=scale();ctx.fillStyle='#101e17';ctx.fillRect(0,0,800,640);ctx.save();ctx.translate(400-cx*s,320-cy*s);ctx.scale(s,s);ctx.fillStyle='#213328';ctx.fillRect(0,0,4096,4096);ctx.strokeStyle='#435b45';ctx.lineWidth=1/s;
-   for(let i=0;i<=4096;i+=256){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,4096);ctx.moveTo(0,i);ctx.lineTo(4096,i);ctx.stroke()}
+  function draw(){if(!rendered||panel.classList.contains('hidden'))return;const ctx=canvas.getContext('2d'),v=rendered,s=scale();ctx.fillStyle='#101e17';ctx.fillRect(0,0,800,640);ctx.save();ctx.translate(400-cx*s,320-cy*s);ctx.scale(s,s);ctx.fillStyle='#213328';ctx.fillRect(0,0,S217(),S217());ctx.strokeStyle='#435b45';ctx.lineWidth=1/s;
+   for(let i=0;i<=S217();i+=256){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,S217());ctx.moveTo(0,i);ctx.lineTo(S217(),i);ctx.stroke()}
    for(const r of g.infrastructure.snapshot().roads){ctx.fillStyle=r.progress===1?'#a99b73':'#635e41';ctx.fillRect(r.x*32,r.y*32,32,32)}
    for(const b of g.world.buildings.values())if(!b.dead){ctx.fillStyle=!b.completed?'#6e6852':b.def.gate?(b.gateMode==='closed'?'#d38f77':'#a1c7c4'):b.def.wall?'#aebdaa':'#708b70';ctx.fillRect(b.left,b.top,b.w*32,b.h*32)}
    if(v.route?.ok){ctx.strokeStyle='#e0c184';ctx.lineWidth=2/s;ctx.setLineDash([6/s,4/s]);ctx.beginPath();v.route.path.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.stroke();ctx.setLineDash([])}ctx.restore();
@@ -65,10 +67,10 @@
   canvas.addEventListener('pointerup',e=>{if(!drag||drag.id!==e.pointerId)return;const old=drag;drag=null;if(!old.moved&&rendered){const p=pos(e),target=rendered.points.map(n=>({id:n.id,d:Math.hypot(pixel(n).x-p.x,pixel(n).y-p.y)})).filter(x=>x.d<16).sort((a,b)=>a.d-b.d)[0];if(target)setSelection(target.id)}if(canvas.hasPointerCapture(e.pointerId))canvas.releasePointerCapture(e.pointerId)});
   for(const type of ['pointercancel','lostpointercapture'])canvas.addEventListener(type,e=>{if(drag?.id===e.pointerId)drag=null});
   canvas.addEventListener('wheel',e=>{e.preventDefault();setZoom(zoom*(e.deltaY<0?1.15:1/1.15),pos(e))},{passive:false});
-  canvas.addEventListener('keydown',e=>{if(!['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Home','Equal','Minus','NumpadAdd','NumpadSubtract'].includes(e.code))return;e.preventDefault();e.stopPropagation();const step=100/scale();if(e.code==='Home'){cx=cy=2048;zoom=1}else if(['Equal','NumpadAdd'].includes(e.code))setZoom(zoom*1.4);else if(['Minus','NumpadSubtract'].includes(e.code))setZoom(zoom/1.4);else{cx=clamp(cx+(e.code==='ArrowRight'?step:e.code==='ArrowLeft'?-step:0));cy=clamp(cy+(e.code==='ArrowDown'?step:e.code==='ArrowUp'?-step:0))}draw()});
+  canvas.addEventListener('keydown',e=>{if(!['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Home','Equal','Minus','NumpadAdd','NumpadSubtract'].includes(e.code))return;e.preventDefault();e.stopPropagation();const step=100/scale();if(e.code==='Home'){cx=cy=S217()/2;zoom=1}else if(['Equal','NumpadAdd'].includes(e.code))setZoom(zoom*1.4);else if(['Minus','NumpadSubtract'].includes(e.code))setZoom(zoom/1.4);else{cx=clamp(cx+(e.code==='ArrowRight'?step:e.code==='ArrowLeft'?-step:0));cy=clamp(cy+(e.code==='ArrowDown'?step:e.code==='ArrowUp'?-step:0))}draw()});
   function open(){for(const s of field.children)if(s.tagName==='SECTION')s.classList.toggle('hidden',s!==panel);for(const b of nav.querySelectorAll('button'))b.setAttribute('aria-pressed',String(b===tab));refresh(true);}
   nav.addEventListener('click',e=>{const b=e.target.closest('button');if(b&&b!==tab){panel.classList.add('hidden');tab.setAttribute('aria-pressed','false');drag=null}});
-  function reset(){zoom=1;cx=cy=2048;drag=null;rendered=null;listKey=routeKey='';filter.value='all';search.value='';filterValue='all';searchValue='';last=-Infinity;refresh(true)}
+  function reset(){zoom=1;cx=cy=S217()/2;drag=null;rendered=null;listKey=routeKey='';filter.value='all';search.value='';filterValue='all';searchValue='';last=-Infinity;refresh(true)}
   const old=g.updateUI.bind(g);g.updateUI=(...args)=>{const r=old(...args);refresh();return r};
   const mapButton=button('CARTE [M]','reconMapButton',()=>g.recon.open());get('minimapWrap')?.appendChild(mapButton);
   root.addEventListener('keydown',e=>{if(g.frontier?.active()||g.exploration125?.openMap)return;if(e.code!=='KeyM'||e.repeat||e.ctrlKey||e.metaKey||e.altKey||e.target?.closest?.('input,textarea,select,button,summary,[contenteditable]')||g.state!=='playing'||g.gameOver)return;if(g.activeOverlay&&g.activeOverlay!==g.ui.commandModal)return;e.preventDefault();e.stopPropagation();if(!panel.classList.contains('hidden')&&g.activeOverlay===g.ui.commandModal)g.showCommand(false);else g.recon.open();},{capture:true});

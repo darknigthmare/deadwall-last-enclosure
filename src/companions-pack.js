@@ -1,6 +1,11 @@
 /* Field-team orders, formations, training and finite shared supplies. */
 (function(root){
 'use strict';
+/* Monde sans bord T1 : lecture par les accesseurs du monde ; repli identique pour un monde sans accesseur. */
+const siteOf217=(w,id)=>w.site?w.site(id):w.pois.find(p=>p.id===id);
+const limitsOf217=(W,g,size)=>W&&W.limitsForGeneration?W.limitsForGeneration(g):(s=>({axisMin:(pad=0)=>pad,axisMax:(pad=0)=>s-pad}))(size());
+// Côtés des régions finies : 8 192 m (G1 à G4), 24 576 m (G5 à G11). Replis sans module du monde ou sans sauvegarde.
+const OLD_REGION_217=8192,WIDE_REGION_217=24576;
 const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),R=C.CompanionPackRules;
 const ids=Object.keys(C.WorldEvolution.RULES.companions),types=['ammo','medicine','scrap'];
 const worldCache=new Map();
@@ -13,8 +18,8 @@ function validate(raw,data){
  if(raw===undefined)return initial();
  const fail=()=>{throw Error('Équipe de terrain invalide.');};
  const num=(v,min,max)=>{if(!Number.isFinite(v)||v<min||v>max)fail();return v;};
- const bound=data?(root.DeadwallFrontierWorld?.sizeForGeneration?.(data.frontier?.generation)||8192):24576;
- const point=p=>{if(!p||!Number.isInteger(p.z)||p.z< -1||p.z>2||p.inside!==null&&!/^P\d{4}$/.test(p.inside)||p.z!==0&&p.inside===null)fail();return{x:num(p.x,0,bound),y:num(p.y,0,bound),z:p.z,inside:p.inside,a:num(p.a??0,-1e5,1e5)};};
+ const L217=data?limitsOf217(root.DeadwallFrontierWorld,data.frontier?.generation,()=>root.DeadwallFrontierWorld?.sizeForGeneration?.(data.frontier?.generation)||OLD_REGION_217):limitsOf217(null,undefined,()=>WIDE_REGION_217);
+ const point=p=>{if(!p||!Number.isInteger(p.z)||p.z< -1||p.z>2||p.inside!==null&&!/^P\d{4}$/.test(p.inside)||p.z!==0&&p.inside===null)fail();return{x:num(p.x,L217.axisMin(),L217.axisMax()),y:num(p.y,L217.axisMin(),L217.axisMax()),z:p.z,inside:p.inside,a:num(p.a??0,-1e5,1e5)};};
  const knownSkills=new Set(ids.flatMap(id=>[id,...Object.entries(exercises()).filter(([,option])=>allows(option,id)).map(([exercise])=>skill(id,exercise))]));
  if(!raw||raw.version!==1||!['follow','hold','rally'].includes(raw.order)||!Object.hasOwn(R.formations,raw.formation)||!Object.hasOwn(R.disciplines,raw.discipline)||!Array.isArray(raw.trained)||raw.trained.length>knownSkills.size||new Set(raw.trained).size!==raw.trained.length||raw.trained.some(id=>!knownSkills.has(id)))fail();
  const s=initial();s.order=raw.order;s.formation=raw.formation;s.discipline=raw.discipline;s.trained=[...raw.trained];s.anchor=raw.anchor===null?null:point(raw.anchor);if((s.order==='rally')!==!!s.anchor)fail();
@@ -39,7 +44,7 @@ function validate(raw,data){
    const key=data.worldSeed+':'+data.frontier.generation+':'+(data.frontier.ecologyVersion??0)+':'+(data.frontier.detailVersion??0)+':'+(data.frontier.landscape189||'classic')+':'+(data.frontier.hydrologyVersion??0);let w=worldCache.get(key);
    if(!w){w=W.create(data.worldSeed,data.frontier.generation,{detailVersion:data.frontier.detailVersion??0,ecologyVersion:data.frontier.ecologyVersion??0,hydrologyVersion:data.frontier.hydrologyVersion??0,...(data.frontier.landscape189?{landscape189:data.frontier.landscape189}:{})});worldCache.set(key,w);if(worldCache.size>3)worldCache.delete(worldCache.keys().next().value);}
    for(const p of indoor){
-    const place=w.pois.find(x=>x.id===p.inside);if(!place||!place.levels.includes(p.z))fail();
+    const place=siteOf217(w,p.inside);if(!place||!place.levels.includes(p.z))fail();
     if(p.z!==0){
      const q=G.local(place,p.x,p.y),r=C.WorldEvolution.RULES.companionRules.radius;
      if(q.x<r||q.y<r||q.x>place.w-r||q.y>place.h-r)fail();

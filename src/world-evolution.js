@@ -1,4 +1,7 @@
 (function(root){'use strict';
+/* Monde sans bord T1 : lecture par les accesseurs du monde ; repli identique pour un monde sans accesseur. */
+const siteOf217=(w,id)=>w.site?w.site(id):w.pois.find(p=>p.id===id);
+const outside217=(w,x,y,pad)=>w.outside?w.outside(x,y,pad):x<pad||y<pad||x>w.size-pad||y>w.size-pad;
 function install(g){if(g.worldEvolution)return g.worldEvolution;const C=root.DeadwallCore,S=C.WorldEvolution,R=S.RULES,G=root.DeadwallFrontierGeometry,K=C.RegionContactRules,Survey=root.DeadwallFrontierSurvey;const contactRuntime=new Map();let campaignTimer=0,contacts=[],state=S.initial(),pending=null,worldRef=g.world,notice='',hitCd=0;const wrap=(n,fn)=>{const old=g[n].bind(g);g[n]=(...a)=>fn(old,...a);},world=()=>g.frontier.world(),alive=h=>h.count-h.lost;
 function ensure(){if(worldRef!==g.world){worldRef=g.world;state=S.normalize(pending||undefined);pending=null;rt.clear();contacts=[];contactRuntime.clear();}return state;}
 function enableWorld4(){ensure();const f=g.frontier.snapshot();if(f.generation>=4)return true;if(f.generation!==3||f.active||f.seen.length||Object.keys(f.taken).length||!g.canIssueCommand())return false;const d=g.serialize();d.frontier={...d.frontier,generation:4};pending=state;g.restoreSave(d);notice='Monde étendu 1.23 activé.';g.save(false);return true;}
@@ -38,7 +41,7 @@ function initialContact(h,index,w){
  const angle=index*2.399963229728653+G.hash(h.id,'formation')/4294967296*Math.PI*2,radius=K.formationSpacing*Math.sqrt(index),original={x:h.x+Math.cos(angle)*radius,y:h.y+Math.sin(angle)*radius};
  for(let k=0;k<25;k++){
   const a=angle+k*2.399963229728653,r=k?Math.sqrt(k)*.5:0,p={x:original.x+Math.cos(a)*r,y:original.y+Math.sin(a)*r};
-  if(p.x<.32||p.y<.32||p.x>w.size-.32||p.y>w.size-.32||w.blocked(p.x,p.y,C.FrontierTacticsRules.enemyRadius,0,null))continue;
+  if(outside217(w,p.x,p.y,.32)||w.blocked(p.x,p.y,C.FrontierTacticsRules.enemyRadius,0,null))continue;
   return{...p,z:0,a:h.a,mode:'idle',ttl:0,gx:p.x,gy:p.y,cool:0};
  }
  return null;
@@ -77,7 +80,7 @@ function stepGroups(dt){
    if(h.kind==='frenzied')h.a+=(G.hash(h.id,Math.floor(state.clock))%2001-1000)/9000;
    let nx=h.x+Math.cos(h.a)*rule.speed*dt,ny=h.y+Math.sin(h.a)*rule.speed*dt;
    if(Math.hypot(nx-(w.home?.x??4096),ny-(w.home?.y??4096))<R.homeExclusion){h.a=Math.atan2(h.y-(w.home?.y??4096),h.x-(w.home?.x??4096));nx=h.x+Math.cos(h.a)*rule.speed*dt;ny=h.y+Math.sin(h.a)*rule.speed*dt;}
-   if(nx<45||nx>w.size-45||ny<45||ny>w.size-45)h.a+=Math.PI;
+   if(outside217(w,nx,ny,45))h.a+=Math.PI;
    // Historical macro centres keep their old migration. Surface-water regions
    // share the individual contact's collision disc and physical segment.
    else if(w.hydrologyVersion!==1||groupMovementClear(w,h,{x:nx,y:ny})){
@@ -171,7 +174,7 @@ function companionStep(dt,f){
   g.companionsPack?.record(c.id,p);
  }
 }
-function campaignStep(){const discovered=g.frontier.discoveries(),seen=discovered.length,towns=new Set(discovered.map(id=>world().pois.find(p=>p.id===id)?.town).filter(Boolean)).size,annex=Object.values(state.districts).some(d=>d.level),kills=state.groups.reduce((n,h)=>n+h.lost,0),done=[seen>=20,towns>=3,annex,kills>=20,state.fleet.active!=='break',state.companions.length>0,Object.values(state.districts).reduce((n,d)=>n+d.buildings.filter(b=>b.progress>=1).length,0)>=10];while(state.campaign.chapter<R.campaign.length&&done[state.campaign.chapter]){state.campaign.flags.push(R.campaign[state.campaign.chapter].id);state.campaign.chapter++;}}
+function campaignStep(){const discovered=g.frontier.discoveries(),seen=discovered.length,towns=new Set(discovered.map(id=>siteOf217(world(),id)?.town).filter(Boolean)).size,annex=Object.values(state.districts).some(d=>d.level),kills=state.groups.reduce((n,h)=>n+h.lost,0),done=[seen>=20,towns>=3,annex,kills>=20,state.fleet.active!=='break',state.companions.length>0,Object.values(state.districts).reduce((n,d)=>n+d.buildings.filter(b=>b.progress>=1).length,0)>=10];while(state.campaign.chapter<R.campaign.length&&done[state.campaign.chapter]){state.campaign.flags.push(R.campaign[state.campaign.chapter].id);state.campaign.chapter++;}}
 function update(dt){ensure();if(!g.frontier.active()){rt.clear();contacts=[];contactRuntime.clear();}if(g.frontier.active()&&g.frontier.position().generation>=4){const f=g.frontier.position();stepGroups(dt);if(f.z===0)stepContacts(dt,f);else contacts=[];companionStep(dt,f);campaignTimer-=dt;if(campaignTimer<=0){campaignStep();campaignTimer=1;}}if(g.phase==='calm')for(const d of Object.values(state.districts))for(const b of d.buildings)if(b.progress<1)b.progress=Math.min(1,b.progress+dt/25);const e=districtEffects();state.civil.morale=Math.max(0,Math.min(100,50+Math.min(20,g.resources.food/20)+e.housing*.5));state.civil.safety=Math.max(0,Math.min(100,45+e.power*2+Object.values(state.districts).reduce((n,d)=>n+d.buildings.filter(b=>b.progress>=1).length*2,0)));}
 function overview(){ensure();const f=g.frontier.position();return{posture:posture(),surface:f.active?surface(f):null,groups:state.groups.map(h=>({...h,alive:alive(h)})),visibleGroups:state.groups.filter(h=>h.seen).map(h=>({...h,alive:alive(h)})),districts:districts(),fleet:{...state.fleet,selectedProfile:R.vehicles[state.fleet.selected],activeProfile:vehicleProfile()},companions:state.companions.map(c=>({...c,...R.companions[c.id],...(rt.get(c.id)||{})})),campaign:{...state.campaign,next:R.campaign[state.campaign.chapter]||null},civil:{...state.civil},notice};}
 const api={enableWorld4,overview,posture,setPosture,cyclePosture,surface,hear,hitPoint,hitContact,groupMembers,groupRadius,structureIntegrity,structureDestroyed,districtBlocked,districtLineClear,previewDistrictClaim,claimDistrict,previewDistrictBuild,buildDistrict,districtEffects,vehicleProfile,selectVehicle,activateSelected,assignCompanion,removeCompanion,snapshot:()=>S.normalize(state)};g.worldEvolution=Object.freeze(api);

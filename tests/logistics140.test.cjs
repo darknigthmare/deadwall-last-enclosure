@@ -10,8 +10,11 @@ function button(id){const b=doc.getElementById(id);assert.ok(doc.body.contains(b
 function supplyHeal(){g.fieldSuppliesUI.open();g.fieldSuppliesUI.refresh(true);return button('supplyHeal');}
 function returnTo(point){const d=g.serialize();Object.assign(d.frontier,{active:true,x:point.x+1.5,y:point.y,z:0,inside:null,anchor:{x:g.player.x,y:g.player.y},car:null});assert.equal(g.restoreSave(d),true);}
 function dieAt(point){const d=g.serialize();Object.assign(d.frontier,{active:true,...point,z:0,inside:null,anchor:{x:g.player.x,y:g.player.y},car:null});assert.equal(g.restoreSave(d),true);g.player.invulnerable=0;g.frontier.damage(10000);assert.equal(g.successionUI133.choose('porter'),true);button('succession133Confirm').click();}
+// La graine 17117 fonde D-17 en forêt (src/biome217.js : bois +15 %). Ce test mesure le geste de dépôt, pas le milieu :
+// la campagne garde la règle active, avec un milieu neutre, pour conserver ses quantités exactes.
+function neutralBiome(){const d=g.serialize();d.expansions127.modules.biome217={version:1,active:true,family:'neutral',announced:true};assert.equal(g.restoreSave(d),true);}
 function harvest(){
- start();const n=g.world.nodes.find(n=>!n.depleted&&n.type==='wood'&&g.fieldcraft.service(g.player,n));assert.ok(n);standAt(g,g.player,n);
+ start();neutralBiome();const n=g.world.nodes.find(n=>!n.depleted&&n.type==='wood'&&g.fieldcraft.service(g.player,n));assert.ok(n);standAt(g,g.player,n);
  g.input.keys.add('KeyE');for(let i=0;i<8;i++)g.updateInteraction(.1);g.input.keys.clear();g.chronicles131.tick(.04);
  assert.equal(g.player.carry.wood,8);assert.equal(g.stats.gathered,8);assert.equal(g.chronicles131.snapshot().prologue.stage,1);standAt(g,g.player,g.core());
 }

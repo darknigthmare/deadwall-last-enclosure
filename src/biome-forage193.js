@@ -1,6 +1,8 @@
 /* Finite seed-local forage. Descriptors own no stock, discovery or random state. */
 (function (root) {
   'use strict';
+/* Monde sans bord T1 : lecture par les accesseurs du monde ; repli identique pour un monde sans accesseur. */
+const outside217=(w,x,y,pad)=>w.outside?w.outside(x,y,pad):x<pad||y<pad||x>w.size-pad||y>w.size-pad;
   const core = () => root.DeadwallCore || (typeof require === 'function' ? require('./core.js') : null);
   const geometry = () => root.DeadwallFrontierGeometry || (typeof require === 'function' ? require('./frontier-geometry.js') : null);
   const originCaches = new WeakMap();
@@ -102,7 +104,7 @@
   }
   function around(w, x, y, range = rules().viewRange) {
     if (!enabled(w) || ![x, y, range].every(Number.isFinite) || range < 0 ||
-        x < 0 || y < 0 || x > w.size || y > w.size) return [];
+        outside217(w, x, y, 0)) return [];
     const R = rules(), limit = Math.ceil(w.size / R.chunk) - 1, rows = [];
     for (let cy = Math.max(0, Math.floor((y - range) / R.chunk)); cy <= Math.min(limit, Math.floor((y + range) / R.chunk)); cy++) {
       for (let cx = Math.max(0, Math.floor((x - range) / R.chunk)); cx <= Math.min(limit, Math.floor((x + range) / R.chunk)); cx++) {

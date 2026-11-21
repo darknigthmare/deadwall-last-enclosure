@@ -357,7 +357,7 @@
   }
   function spawnSiege(){if(g.phase!=='assault'||g.wave<R.siege.firstWave||g.wave%R.siege.spawnWaveInterval||state.lastSiegeWave===g.wave||state.giants.length>=R.siege.maxGiants)return;
    const wall=state.sites.map(s=>building(s.id)).find(b=>live(b)&&b.completed&&base(b).wall);if(!wall||g.tier.id<6)return;
-   state.lastSiegeWave=g.wave;const kind=g.tier.id>=10?'colossus':g.tier.id>=8?'carrier':'breaker',d=R.siege.kinds[kind],m=(d.radius+2)*R.tile,W=C.WORLD_SIZE;
+   state.lastSiegeWave=g.wave;const kind=g.tier.id>=10?'colossus':g.tier.id>=8?'carrier':'breaker',d=R.siege.kinds[kind],m=(d.radius+2)*R.tile,W=(g.local||C.LOCAL_MAP217).size;
    const points=[{x:m,y:W*.25},{x:W-m,y:W*.75},{x:W*.75,y:m},{x:W*.25,y:W-m}];
    for(let i=0;i<4;i++){const p=points[(i+g.wave)%4],probe={...p,radius:d.radius*R.tile,kind:'walker'};if(g.hostilePositionClear(probe,p.x,p.y)&&!g.visible(p.x,p.y,120,g.viewBounds())){state.giants.push({id:state.nextId++,kind,...p,health:d.health,cooldown:R.siege.interval,windup:0,target:null,yaw:0});notice=d.name+' repéré sur le front extérieur.';break;}}
   }
@@ -392,7 +392,7 @@
    q.m.health-=amount;if(q.m.health<=0){q.s.decks[q.level].modules=q.s.decks[q.level].modules.filter(m=>m.id!==id);if(controlled===id)release();if(job?.object===q.m)job=null;autoTargets.delete(id);g.refreshMetrics(true);notice='Équipement d’étage détruit : '+q.def.name;}return true;
   }
   const groundClear=g.friendlyPositionClear.bind(g);
-  const siege=Siege.create(g,{unitPose:u=>population?.isAssigned(u?.id)?population.pose(u):null,alliesAt:(id,level)=>population?.unitsAt(id,level)||[],navigationGraph:()=>network.navigationGraph(),state:()=>state,building,surfaceAt,clearAt,pose,geometry,damageModule,groundLine:g.hostileLineClear.bind(g),notice:message=>{notice=message;}});
+  const siege=Siege.create(g,{unitPose:u=>population?.isAssigned(u?.id)?population.pose(u):null,alliesAt:(id,level)=>population?.unitsAt(id,level)||[],navigationGraph:()=>network.navigationGraph(),state:()=>state,building,surfaceAt,clearAt,pose,geometry,damageModule,groundLine:g.hostileLineClear.bind(g),notice:message=>{notice=message;if(g.player.regionAbsent&&state.climbers.length===1)g.notify?.('D-17 : '+message,'danger');}});
   network=N.create(g,{bridgeHasInvader:id=>siege.bridgeOccupied(id)||population?.bridgeOccupied(id),reconcileInvaders:()=>{siege.reconcile();population?.reconcile();},S,state:()=>state,can,nativeBusy,pose,surfaceAt,moduleRef,clearFootprint:engineeringClear178,groundLine:g.hostileLineClear.bind(g),fallActor:fallActor179});
   const Population=root.DeadwallVerticalPopulation181||(typeof require==='function'?require('./vertical-population181.js'):null);
   population=Population.create(g,{S,navigation:siege.navigation,state:()=>state,network:()=>network,pose,groundClear,enemyPose:siege.enemyPose,aimPoint,sightQuery,raycast,hit,

@@ -252,9 +252,53 @@
   function lerp(a, b, t) { return a + (b - a) * t; }
   function dist(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
   function distSq(a, b) { const x = a.x - b.x; const y = a.y - b.y; return x * x + y * y; }
-  function grid(value) { return clamp(Math.floor(value / TILE), 0, WORLD_TILES - 1); }
+  // `map` (facultatif) : carte locale de la partie ; absente, carte par défaut (WORLD_TILES cases).
+  function grid(value, map) { return clamp(Math.floor(value / TILE), 0, (map ? map.tiles : WORLD_TILES) - 1); }
   function world(cell) { return cell * TILE + TILE / 2; }
-  function index(x, y) { return y * WORLD_TILES + x; }
+  function index(x, y, map) { return y * (map ? map.tiles : WORLD_TILES) + x; }
+  // Carte locale de la cité : taille, centre et bornes portés par un seul objet gelé.
+  // Une seule taille aujourd'hui (WORLD_TILES cases) ; chaque prédicat reprend la
+  // comparaison historique qu'il remplace : `contains` (bord admis, NaN refusé),
+  // `outside` (bord admis, NaN admis), `outsideOpen` (bord refusé, NaN admis).
+  function localMap217(tiles = WORLD_TILES) {
+    if (!Number.isInteger(tiles) || tiles < 8 || tiles > 1024) throw new RangeError('Taille de carte locale invalide.');
+    const size = TILE * tiles;
+    const axisMax = (pad = 0) => size - pad;
+    const clampAxis = (value, pad = 0) => Math.max(pad, Math.min(size - pad, value));
+    return Object.freeze({
+      tiles, size, tile: TILE, cells: tiles * tiles,
+      extent() { return { x: 0, y: 0, w: size, h: size }; },
+      centre() { return { x: size / 2, y: size / 2 }; },
+      centreCell() { return tiles / 2; },
+      axisMax, clampAxis,
+      contains(x, y, pad = 0) { return x >= pad && y >= pad && x <= size - pad && y <= size - pad; },
+      outside(x, y, pad = 0) { return x < pad || y < pad || x > size - pad || y > size - pad; },
+      outsideOpen(x, y, pad = 0) { return x <= pad || y <= pad || x >= size - pad || y >= size - pad; },
+      clampInside(x, y, pad = 0) { return { x: clampAxis(x, pad), y: clampAxis(y, pad) }; },
+      cellInside(gx, gy) { return gx >= 0 && gy >= 0 && gx < tiles && gy < tiles; },
+      cellOf(value) { return clamp(Math.floor(value / TILE), 0, tiles - 1); },
+      index(gx, gy) { return gy * tiles + gx; }
+    });
+  }
+  const LOCAL_MAP217 = localMap217(WORLD_TILES);
+  // O5 : carte locale d'une campagne. `source` est une carte (rendue telle quelle) ou des données de
+  // sauvegarde : `localTiles` absent = carte par défaut. Une instance par taille, gardée en cache.
+  const LOCAL_MAPS217 = new Map([[WORLD_TILES, LOCAL_MAP217]]);
+  function localMapOf217(source) {
+    if (source && typeof source.cellInside === 'function' && Number.isInteger(source.tiles)) return source;
+    const tiles = source?.localTiles;
+    if (tiles === undefined) return LOCAL_MAP217;
+    let map = LOCAL_MAPS217.get(tiles);
+    if (!map) { map = localMap217(tiles); LOCAL_MAPS217.set(tiles, map); }
+    return map;
+  }
+  // Carte lue par un validateur : celle des données validées quand il les reçoit ; sans données
+  // (reprise ou instantané d'un module), celle de la partie en cours ; carte par défaut sinon.
+  function campaignLocal217(data) {
+    if (data) return localMapOf217(data);
+    const live = global.DEADWALL?.local;
+    return live && typeof live.cellInside === 'function' ? live : LOCAL_MAP217;
+  }
   function makeBag(source = {}) { const bag = {}; for (const key of RESOURCE_KEYS) bag[key] = Number(source[key] || 0); return bag; }
   function bagTotal(bag) { return RESOURCE_KEYS.reduce((sum, key) => sum + Number(bag[key] || 0), 0); }
   function canAfford(stock, cost, multiplier = 1) { return RESOURCE_KEYS.every(key => (stock[key] || 0) + 1e-6 >= (cost[key] || 0) * multiplier); }
@@ -290,7 +334,7 @@
   function cityTier(score) { let result = CITY_TIERS[0]; for (const tier of CITY_TIERS) { if (score >= tier.requiredScore) result = tier; else break; } return result; }
   function buildingList(category) { return Object.values(BUILDINGS).filter(def => def.category === category && !['core', 'armoredGate'].includes(def.id)); }
   function enemyHealthScale(wave) { return 1 + clamp(Math.log2(Math.max(1, wave)) * 0.055, 0, 0.34); }
-  function wallLine(a, b) {
+  function wallLine(a, b, map) {
     const cells = [{ x: a.x, y: a.y }];
     let x = a.x, y = a.y;
     const sx = Math.sign(b.x - a.x), sy = Math.sign(b.y - a.y);
@@ -302,7 +346,7 @@
       if (e2 < dx) { err += dx; y += sy; }
       if (x !== ox && y !== oy) cells.push({ x, y: oy });
       cells.push({ x, y });
-      if (cells.length > WORLD_TILES * 4) break;
+      if (cells.length > (map ? map.tiles : WORLD_TILES) * 4) break;
     }
     const seen = new Set();
     return cells.filter(cell => {
@@ -360,7 +404,7 @@
     for (const [key, rate] of Object.entries(consumes || {})) if (rate > 0) fraction = Math.min(fraction, Math.max(0, stock[key] || 0) / (rate * seconds));
     return clamp(fraction, 0, 1);
   }
-  function findFriendlyPath(start, goal, blocked, width = WORLD_TILES, height = WORLD_TILES, maxExpanded = STRATEGY_RULES.pathMaxExpanded) {
+  function findFriendlyPath(start, goal, blocked, width = LOCAL_MAP217.tiles, height = LOCAL_MAP217.tiles, maxExpanded = STRATEGY_RULES.pathMaxExpanded) {
     const valid = point => point.x >= 0 && point.y >= 0 && point.x < width && point.y < height;
     if (!valid(start) || !valid(goal) || blocked(goal.x, goal.y)) return null;
     const key = point => point.y * width + point.x, origin = key(start), target = key(goal);
@@ -407,9 +451,11 @@
       randomState: Number(data.randomState || Date.now()) >>> 0
     };
   }
-  function wavePlan(wave, difficulty = DIFFICULTIES.standard, signature = 0) {
+  // `curve` (facultatif) : fonction signature → attirance, fournie par src/balance217.js pour les nouvelles
+  // campagnes. Absente, la courbe héritée plafonnée s'applique, inchangée.
+  function wavePlan(wave, difficulty = DIFFICULTIES.standard, signature = 0, curve = null) {
     const base = 10 + wave * 5 + Math.pow(wave, 1.62) * 2.35;
-    const attraction = 1 + clamp(signature / 360, 0, 0.8);
+    const attraction = 1 + (typeof curve === 'function' ? curve(signature) : clamp(signature / 360, 0, 0.8));
     const total = Math.max(8, Math.floor(base * difficulty.enemyCount * attraction));
     const weights = Object.fromEntries(Object.entries(ENEMY_RULES.waveWeights).map(([kind, rule]) =>
       [kind, wave >= ENEMIES[kind].unlockWave ? Math.min(rule.maximum, rule.base + (wave - rule.origin) * rule.growth) : 0]));
@@ -496,7 +542,7 @@
     RESOURCE_KEYS, RESOURCE_META, DIFFICULTIES, START_SCENARIOS, START_SCENARIO_STORY_BONUS, CITY_TIERS, BUILDINGS, ENEMIES, ENEMY_RULES, WEAPONS, OBJECTIVES,
     RESEARCH, RESEARCH_INSIGHT_MAX, CRISES, PERFORMANCE_LIMITS, SIMULATION_RULES, STRATEGY_RULES, WORKER_RULES, LINECARE_RULES, SURVIVORS, NPC_RULES, NARRATIVE_RULES, NARRATIVE_OPERATIONS,
     SCENERY_DEFS, SQUAD_RULES, BATTLEFIELD_RULES, MAINTENANCE_RULES,
-    clamp, lerp, dist, distSq, grid, world, index, makeBag, bagTotal, canAfford, spend, add,
+    clamp, lerp, dist, distSq, grid, world, index, localMap217, LOCAL_MAP217, localMapOf217, campaignLocal217, makeBag, bagTotal, canAfford, spend, add,
     scaledCost, resourceText, formatNumber, formatTime, seededHash, cityTier, buildingList,
     enemyHealthScale, wallLine, powerPriority, researchById, crisisForWave, normalizeResearch, migrateSaveData,
     normalizeCrisis, normalizeSpawnCounts, spawnCount, takeSpawnKind, productionFraction, findFriendlyPath,
@@ -728,7 +774,7 @@
       for(const [key,rate]of Object.entries(b.def.consumes||{}))if(rate>0)fraction=Math.min(fraction,Math.max(0,ctx.resources[key]-reserve)/(rate*.25*Math.max(.0001,power)*crisis));
       if(power<=.05||fraction<=0){pausedIndustry++;continue;}
       const factor=Math.min(1,fraction)*power*crisis*60;
-      for(const [key,rate]of Object.entries(b.def.production))production[key]+=rate*factor;
+      for(const [key,rate]of Object.entries(b.def.production))production[key]+=rate*factor*(ctx.yieldFactor?.(b,key)??1);
       for(const [key,rate]of Object.entries(b.def.consumes||{}))consumption[key]+=rate*factor;
     }
     return {rows:KEYS.map(key=>({key,stock:ctx.resources[key],capacity:ctx.storage,production:production[key],consumption:consumption[key],net:production[key]-consumption[key]})),unpowered,pausedIndustry,generatorUse};
@@ -814,7 +860,9 @@
     workerId:null,postId:null,everHeld:false,captures:0,losses:0,exported:0,automatic:false,nextDispatch:0});
   function create(){return{version:1,sectors:Object.fromEntries(SECTORS.map(s=>[s.id,emptySector(s)])),trucks:[],nextTruckId:1,
     withdrawing:[],fallbackId:null,stats:{delivered:0,convoysReturned:0,convoysLost:0,reclaimed:0},events:[]};}
-  function normalize(raw){
+  // `local` : carte locale de la campagne (O5), carte par défaut en repli.
+  const localSize217=local=>local?.size??root.DeadwallCore?.LOCAL_MAP217?.size??4096;
+  function normalize(raw,local){
     if(raw===undefined)return create();
     if(!object(raw)||raw.version!==1||!object(raw.sectors)||Object.keys(raw.sectors).length!==SECTORS.length)fail('registre');
     const state=create(),workers=new Set(),posts=new Set();
@@ -835,7 +883,7 @@
     state.trucks=raw.trucks.map(t=>{
       if(!object(t)||!integer(t.id,1)||t.id>=raw.nextTruckId||truckIds.has(t.id)||!has(t.theme)||destinations.has(t.theme))fail('identité de convoi');
       truckIds.add(t.id);destinations.add(t.theme);
-      if(!['outbound','returning'].includes(t.phase)||!finite(t.x,0,4096)||!finite(t.y,0,4096)||!finite(t.health,Number.MIN_VALUE,RULES.truckHealth)||!finite(t.food,0,RULES.supplyPack)||!finite(t.cargo,0,RULES.truckCapacity)||!finite(t.angle,-Math.PI,Math.PI))fail('véhicule');
+      if(!['outbound','returning'].includes(t.phase)||!finite(t.x,0,localSize217(local))||!finite(t.y,0,localSize217(local))||!finite(t.health,Number.MIN_VALUE,RULES.truckHealth)||!finite(t.food,0,RULES.supplyPack)||!finite(t.cargo,0,RULES.truckCapacity)||!finite(t.angle,-Math.PI,Math.PI))fail('véhicule');
       if(t.phase==='outbound'&&t.cargo!==0)fail('cargaison aller');
       if(typeof t.recalled!=='boolean'||t.recalled&&t.phase!=='returning')fail('rappel');
       const s=state.sectors[t.theme];if(s.remaining+s.stock+s.exported+t.cargo>BY_ID[t.theme].reserve+RULES.epsilon)fail('lot en transit dupliqué');
@@ -852,7 +900,7 @@
   }
   const safeBag=bag=>object(bag)&&KEYS.every(k=>finite(bag[k]??0));
   class Engine{
-    constructor(raw){this.state=normalize(raw);}
+    constructor(raw,local){this.local=local;this.state=normalize(raw,local);}
     snapshot(){return clone(this.state);}
     sector(id){return has(id)?this.state.sectors[id]:null;}
     log(type,theme){this.state.events.push({type,theme});if(this.state.events.length>RULES.eventLimit)this.state.events.shift();}
@@ -924,7 +972,7 @@
       if(this.state.trucks.some(t=>t.theme===id)||this.state.trucks.length>=RULES.truckMax)return result(false,'Un convoi dessert déjà ce quartier.');
       if(this.state.nextTruckId>=RULES.maxCounter)return result(false,'Compteur de convois épuisé.');
       if(!safeBag(ctx.resources)||Object.entries(RULES.convoyCost).some(([k,v])=>(ctx.resources[k]||0)<v))return result(false,'12 rations et 6 carburants sont nécessaires.');
-      if(!finite(ctx.origin?.x,0,4096)||!finite(ctx.origin?.y,0,4096))return result(false,'Dépôt inaccessible.');
+      if(!finite(ctx.origin?.x,0,localSize217(this.local))||!finite(ctx.origin?.y,0,localSize217(this.local)))return result(false,'Dépôt inaccessible.');
       return result(true,'Engager 12 rations et 6 carburants. Le fourgon sera exposé pendant le trajet.');
     }
     dispatch(id,ctx){
@@ -969,7 +1017,7 @@
     const migrate=C.migrateSaveData;
     C.migrateSaveData=function(input){
       if(!object(input))return null;
-      if(input.version===4){if(input.territories===undefined)fail('registre v4 absent');const territories=normalize(input.territories);const base=migrate({...input,version:3});return base?{...base,version:4,territories}:null;}
+      if(input.version===4){if(input.territories===undefined)fail('registre v4 absent');const territories=normalize(input.territories,C.localMapOf217?.(input));const base=migrate({...input,version:3});return base?{...base,version:4,territories}:null;}
       if(![1,2,3].includes(input.version))return null;const base=migrate(input);return base?{...base,version:4,territories:create()}:null;
     };
     C.SAVE_VERSION=4;C.SAVE_KEY='deadwall-save-v4';C.SAVE_BACKUP_KEY='deadwall-save-backup-v4';
@@ -1077,10 +1125,10 @@
   function edgeDistance(a,b){const x=rect(a),y=rect(b);return Math.hypot(Math.max(0,x.left-y.right,y.left-x.right),Math.max(0,x.top-y.bottom,y.top-x.bottom));}
   function intersects(a,b,r){let lo=0,hi=1;for(const [o,d,min,max]of [[a.x,b.x-a.x,r.left,r.right],[a.y,b.y-a.y,r.top,r.bottom]]){if(Math.abs(d)<1e-9){if(o<min||o>max)return false;}else{lo=Math.max(lo,Math.min((min-o)/d,(max-o)/d));hi=Math.min(hi,Math.max((min-o)/d,(max-o)/d));if(lo>hi)return false;}}return true;}
   function heatClear(a,b,buildings){return !buildings.some(c=>c.id!==a.id&&c.id!==b.id&&operational(c)&&['fireScreen','steelWall','concreteWall'].includes(c.type)&&intersects(a,b,rect(c)));}
-  function waterFlow(water,{powered,weather=0,fuel=0},dt=RULES.maxStep){
+  function waterFlow(water,{powered,weather=0,fuel=0,rainFactor=1},dt=RULES.maxStep){
     if(!finite(water,0,RULES.waterCapacity)||!finite(fuel)||!finite(dt,Number.MIN_VALUE,RULES.maxStep))return{rain:0,pumped:0,cost:0};
     weather=finite(weather,0,1)?weather:0;
-    const space=Math.max(0,RULES.waterCapacity-water),rain=Math.min(space,RULES.rainRate*weather*dt);
+    const space=Math.max(0,RULES.waterCapacity-water),rain=Math.min(space,RULES.rainRate*weather*(finite(rainFactor,0,4)?rainFactor:1)*dt);
     const pumped=powered?Math.min(space-rain,RULES.pumpRate*dt,fuel/RULES.fuelPerWater):0;
     return{rain,pumped,cost:pumped*RULES.fuelPerWater};
   }
@@ -1106,12 +1154,12 @@
       this.state.fires.push({id:b.id,heat:RULES.initialHeat,age:0,spread:0,origin});this.addStat('ignitions',1);this.log('ignited',b.id,at);return true;
     }
     explosion(source,buildings,at=0){let count=0;for(const b of buildings.slice().sort((a,b)=>a.id-b.id))if(b.id!==source.id&&edgeDistance(source,b)<=Math.min(70,source.def?.explosive||0)&&heatClear(source,b,buildings))count+=Number(this.ignite(b,'blast',at));return count;}
-    step(dt,{buildings,resources,weather=0,running=false,damage,units=[],at=0}){
+    step(dt,{buildings,resources,weather=0,running=false,damage,units=[],at=0,rainFactor=1}){
       if(!running||!finite(dt,Number.MIN_VALUE,RULES.maxStep)||!Array.isArray(buildings)||!object(resources)||!finite(resources.fuel))return false;
       this.reconcile(buildings,units);weather=finite(weather,0,1)?weather:0;
       this.state.wet=this.state.wet.map(w=>({...w,seconds:w.seconds-dt})).filter(w=>w.seconds>0);
       for(const t of this.state.tanks){const b=buildings.find(b=>b.id===t.id);if(!operational(b))continue;
-        const flow=waterFlow(t.water,{powered:b.powered&&!this.fire(b.id),weather,fuel:resources.fuel},dt);
+        const flow=waterFlow(t.water,{powered:b.powered&&!this.fire(b.id),weather,fuel:resources.fuel,rainFactor},dt);
         resources.fuel=Math.max(0,resources.fuel-flow.cost);t.water+=flow.rain+flow.pumped;this.addStat('waterProduced',flow.rain+flow.pumped);
       }
       const byId=new Map(buildings.map(b=>[b.id,b]));
@@ -1137,6 +1185,12 @@
       holder[key]=Math.max(0,holder[key]-n);f.heat=Math.max(0,f.heat-n*RULES.coolingPerWater);this.addStat('waterUsed',n);
       if(f.heat<1e-8){this.state.fires.splice(this.state.fires.indexOf(f),1);if(this.state.wet.length>=RULES.maxFires*4)this.state.wet.shift();this.state.wet.push({id:f.id,seconds:RULES.wetSeconds});this.addStat('extinguished',1);this.log('extinguished',f.id,ctx.at||0);}
       return n;
+    }
+    // City supply draws from the same cisterns as fire response: one water balance.
+    cityWater(amount){
+      if(!finite(amount,Number.MIN_VALUE))return 0;let left=amount;
+      for(const t of this.state.tanks){if(left<=0)break;const n=Math.min(t.water,left);t.water-=n;left-=n;}
+      const used=amount-left;if(used>0)this.addStat('waterUsed',used);return used;
     }
     // Shared physical bucket. Field collection/animal care and fire response
     // must never create a second water balance that survives death separately.
@@ -1452,8 +1506,10 @@
   const integer=(n,a=0,b=0x7ffffffe)=>Number.isInteger(n)&&finite(n,a,b);
   const object=v=>v!==null&&typeof v==='object'&&!Array.isArray(v);
   const copy=x=>JSON.parse(JSON.stringify(x));
-  const key=(x,y)=>y*RULES.worldTiles+x;
-  const cell=p=>object(p)&&integer(p.x,1,126)&&integer(p.y,1,126);
+  // Grille de la voirie dérivée de la carte locale de la campagne (O5) ; `worldTiles` en repli.
+  const tilesOf=local=>local?.tiles??RULES.worldTiles;
+  const key=(x,y,local)=>y*tilesOf(local)+x;
+  const cell=(p,local)=>object(p)&&integer(p.x,1,tilesOf(local)-2)&&integer(p.y,1,tilesOf(local)-2);
   const fail=message=>{throw new Error('Réseau de cité invalide : '+message+'.');};
   const surface=p=>SURFACES[p?.surface||'gravel'];
   const unfinished=p=>p.progress<1||Boolean(p.upgrade);
@@ -1464,12 +1520,12 @@
     return{ok:true,reason:s.name+' disponible.'};
   }
   function create(){return{version:1,roads:[],crew:[],ruins:[],stats:{laid:0,reconstructed:0,forgotten:0}};}
-  function normalize(raw){
+  function normalize(raw,local){
     if(raw===undefined)return create();
     if(!object(raw)||raw.version!==1||!Array.isArray(raw.roads)||raw.roads.length>RULES.maxRoads||!Array.isArray(raw.crew)||raw.crew.length>RULES.maxCrew||!Array.isArray(raw.ruins)||raw.ruins.length>RULES.maxRuins)fail('format ou capacité');
     const ids=new Set(),workers=new Set(),ruins=new Set(),positions=new Set();
     const roads=raw.roads.map(p=>{
-      if(!cell(p)||!finite(p.progress,0,1)||ids.has(key(p.x,p.y)))fail('piste dupliquée ou hors carte');ids.add(key(p.x,p.y));
+      if(!cell(p,local)||!finite(p.progress,0,1)||ids.has(key(p.x,p.y,local)))fail('piste dupliquée ou hors carte');ids.add(key(p.x,p.y,local));
       const road={x:p.x,y:p.y,progress:p.progress};
       if(Object.hasOwn(p,'surface')){if(typeof p.surface!=='string'||!Object.hasOwn(SURFACES,p.surface))fail('revêtement inconnu');road.surface=p.surface;}
       if(Object.hasOwn(p,'upgrade')){
@@ -1480,14 +1536,14 @@
     });
     const crew=raw.crew.map(u=>{if(!object(u)||!integer(u.id,1)||typeof u.returning!=='boolean'||workers.has(u.id))fail('équipe');workers.add(u.id);return{id:u.id,returning:u.returning};});
     const blueprints=raw.ruins.map(b=>{
-      if(!object(b)||!integer(b.id,1)||typeof b.type!=='string'||!/^[a-zA-Z][a-zA-Z0-9]{0,39}$/.test(b.type)||b.type==='core'||!integer(b.gx,1,126)||!integer(b.gy,1,126)||!integer(b.rotation,0,3)||!finite(b.at)||ruins.has(b.id)||positions.has(b.gx+':'+b.gy))fail('empreinte de reconstruction');
+      if(!object(b)||!integer(b.id,1)||typeof b.type!=='string'||!/^[a-zA-Z][a-zA-Z0-9]{0,39}$/.test(b.type)||b.type==='core'||!integer(b.gx,1,tilesOf(local)-2)||!integer(b.gy,1,tilesOf(local)-2)||!integer(b.rotation,0,3)||!finite(b.at)||ruins.has(b.id)||positions.has(b.gx+':'+b.gy))fail('empreinte de reconstruction');
       ruins.add(b.id);positions.add(b.gx+':'+b.gy);return{id:b.id,type:b.type,gx:b.gx,gy:b.gy,rotation:b.rotation,at:b.at};
     });
     const stats={};for(const name of ['laid','reconstructed','forgotten']){const n=raw.stats?.[name]??0;if(!integer(n,0,1e12))fail('statistique');stats[name]=n;}
     return{version:1,roads,crew,ruins:blueprints,stats};
   }
-  function line(a,b){
-    if(!cell(a)||!cell(b))return null;
+  function line(a,b,local){
+    if(!cell(a,local)||!cell(b,local))return null;
     // One cardinal leg followed by the other. No diagonal gaps; never an unbounded trace.
     if(Math.abs(a.x-b.x)+Math.abs(a.y-b.y)+1>RULES.maxTrace)return null;
     const out=[{x:a.x,y:a.y}],p={...a};
@@ -1495,17 +1551,17 @@
     while(p.y!==b.y){p.y+=Math.sign(b.y-p.y);out.push({...p});}
     return out;
   }
-  function quote(state,cells,stock,blocked=()=>false,options){
+  function quote(state,cells,stock,blocked=()=>false,options,local){
     if(!Array.isArray(cells)||!cells.length||cells.length>RULES.maxTrace||!object(stock))return{ok:false,reason:'Trace vide, trop longue ou réserves absentes.'};
     const id=options?.surface??'gravel',mode=options?.mode??'new',target=Object.hasOwn(SURFACES,id)&&SURFACES[id];
     if(!target||!['new','upgrade'].includes(mode))return{ok:false,reason:'Revêtement ou mode de travaux invalide.'};
     if(options){const status=surfaceStatus(id,options.tier,options.has);if(!status.ok)return status;}
     else if(id!=='gravel'||mode!=='new')return{ok:false,reason:'Conditions de déblocage absentes.'};
-    const seen=new Set(),existing=new Map(state.roads.map(p=>[key(p.x,p.y),p])),fresh=[],cost={};
+    const seen=new Set(),existing=new Map(state.roads.map(p=>[key(p.x,p.y,local),p])),fresh=[],cost={};
     for(const p of cells){
-      if(!cell(p)||seen.has(key(p.x,p.y)))return{ok:false,reason:'Une cellule de la trace est invalide ou répétée.'};
+      if(!cell(p,local)||seen.has(key(p.x,p.y,local)))return{ok:false,reason:'Une cellule de la trace est invalide ou répétée.'};
       if(seen.size){const prev=cells[seen.size-1];if(Math.abs(prev.x-p.x)+Math.abs(prev.y-p.y)!==1)return{ok:false,reason:'La piste doit rester raccordée par ses côtés.'};}
-      seen.add(key(p.x,p.y));const previous=existing.get(key(p.x,p.y));
+      seen.add(key(p.x,p.y,local));const previous=existing.get(key(p.x,p.y,local));
       if(mode==='new'&&previous)continue;
       if(mode==='upgrade'){
         if(!previous)return{ok:false,reason:'La mise à niveau exige une route achevée sur chaque cellule.'};
@@ -1526,9 +1582,10 @@
     push(v){let i=this.items.length;this.items.push(v);while(i){const p=(i-1)>>1;if(this.items[p].f<=v.f)break;this.items[i]=this.items[p];i=p;}this.items[i]=v;}
     pop(){const top=this.items[0],end=this.items.pop();if(this.items.length){let i=0;while(i*2+1<this.items.length){let c=i*2+1;if(c+1<this.items.length&&this.items[c+1].f<this.items[c].f)c++;if(this.items[c].f>=end.f)break;this.items[i]=this.items[c];i=c;}this.items[i]=end;}return top;}
   }
-  function findRoute(start,goal,blocked,cost=()=>1,width=128,height=128,maxExpanded=RULES.maxExpanded,minCost=1/RULES.truckSpeed){
+  // `limit` : côté de la carte locale (O5), plafond des dimensions demandées.
+  function findRoute(start,goal,blocked,cost=()=>1,width=RULES.worldTiles,height=RULES.worldTiles,maxExpanded=RULES.maxExpanded,minCost=1/RULES.truckSpeed,limit=RULES.worldTiles){
     const valid=p=>object(p)&&integer(p.x,0,width-1)&&integer(p.y,0,height-1);
-    if(!integer(width,1,128)||!integer(height,1,128)||!integer(maxExpanded,1,16384)||!finite(minCost,.1,1)||!valid(start)||!valid(goal)||typeof blocked!=='function'||blocked(goal.x,goal.y))return null;
+    if(!integer(width,1,limit)||!integer(height,1,limit)||!integer(maxExpanded,1,16384)||!finite(minCost,.1,1)||!valid(start)||!valid(goal)||typeof blocked!=='function'||blocked(goal.x,goal.y))return null;
     const origin=start.y*width+start.x,target=goal.y*width+goal.x;if(origin===target)return[];
     const best=new Float64Array(width*height);best.fill(Infinity);best[origin]=0;
     const previous=new Int32Array(width*height);previous.fill(-1);const open=new Heap();
@@ -1545,15 +1602,15 @@
     }return null;
   }
   class Engine{
-    constructor(raw){this.state=normalize(raw);this.index=new Map(this.state.roads.map(p=>[key(p.x,p.y),p]));}
+    constructor(raw,local){this.local=local;this.state=normalize(raw,local);this.index=new Map(this.state.roads.map(p=>[key(p.x,p.y,local),p]));}
     snapshot(){return copy(this.state);}
-    road(x,y){return this.index.get(key(x,y))||null;}
-    at(x,y){if(!finite(x,0,4096)||!finite(y,0,4096))return null;return this.road(Math.floor(x/32),Math.floor(y/32));}
+    road(x,y){return this.index.get(key(x,y,this.local))||null;}
+    at(x,y){const size=tilesOf(this.local)*RULES.tile;if(!finite(x,0,size)||!finite(y,0,size))return null;return this.road(Math.floor(x/32),Math.floor(y/32));}
     multiplier(x,y,kind='friendly'){const p=this.at(x,y),s=surface(p);return p?.progress===1?(kind==='truck'?s.truckSpeed:kind==='hostile'?s.hostileSpeed:s.friendlySpeed):1;}
-    commit(cells,stock,blocked,options){const q=quote(this.state,cells,stock,blocked,options);if(!q.ok)return q;
+    commit(cells,stock,blocked,options){const q=quote(this.state,cells,stock,blocked,options,this.local);if(!q.ok)return q;
       for(const [k,n]of Object.entries(q.cost))stock[k]-=n;
       for(const p of q.cells){if(q.mode==='upgrade'){this.road(p.x,p.y).upgrade={surface:q.surface,progress:0};continue;}
-        const item={...p,progress:0};if(q.surface!=='gravel')item.surface=q.surface;this.state.roads.push(item);this.index.set(key(p.x,p.y),item);}return q;
+        const item={...p,progress:0};if(q.surface!=='gravel')item.surface=q.surface;this.state.roads.push(item);this.index.set(key(p.x,p.y,this.local),item);}return q;
     }
     work(x,y,seconds){const p=this.road(x,y);if(!p||!unfinished(p)||!finite(seconds,0,RULES.maxStep*RULES.playerWork)||seconds===0)return false;
       if(p.upgrade){const u=p.upgrade,required=SURFACES[u.surface].workSeconds-surface(p).workSeconds;u.progress=Math.min(1,u.progress+seconds/required);
@@ -1561,11 +1618,11 @@
       p.progress=Math.min(1,p.progress+seconds/surface(p).workSeconds);if(p.progress>1-1e-9)p.progress=1;
       if(p.progress===1){this.state.stats.laid=Math.min(1e12,this.state.stats.laid+1);return true;}return false;
     }
-    remove(x,y){const p=this.road(x,y);if(!p)return false;this.state.roads=this.state.roads.filter(r=>r!==p);this.index.delete(key(x,y));return true;}
+    remove(x,y){const p=this.road(x,y);if(!p)return false;this.state.roads=this.state.roads.filter(r=>r!==p);this.index.delete(key(x,y,this.local));return true;}
     assign(id){if(!integer(id,1)||this.state.crew.length>=RULES.maxCrew||this.state.crew.some(u=>u.id===id))return false;this.state.crew.push({id,returning:false});return true;}
     recall(id){const u=this.state.crew.find(u=>u.id===id);if(!u)return false;u.returning=true;return true;}
     remember(b,at){const record={id:b.id,type:b.type,gx:b.gx,gy:b.gy,rotation:b.rotation||0,at};
-      if(b.type==='core')return false;normalize({...create(),ruins:[record]});
+      if(b.type==='core')return false;normalize({...create(),ruins:[record]},this.local);
       this.state.ruins=this.state.ruins.filter(r=>r.id!==b.id&&(r.gx!==b.gx||r.gy!==b.gy));this.state.ruins.push(record);
       if(this.state.ruins.length>RULES.maxRuins){this.state.ruins.shift();this.state.stats.forgotten=Math.min(1e12,this.state.stats.forgotten+1);}return true;
     }
@@ -1576,7 +1633,7 @@
     for(const [id,b]of Object.entries(BUILDINGS)){if(Object.hasOwn(C.BUILDINGS,id))throw Error('Construction en conflit : '+id);C.BUILDINGS[id]=b;}
     const old=C.migrateSaveData;C.migrateSaveData=raw=>{
       if(!object(raw))return null;
-      if(raw.version===8){if(raw.infrastructure===undefined)fail('registre v8 absent');const state=normalize(raw.infrastructure),base=old({...raw,version:7});return base?{...base,version:8,infrastructure:state}:null;}
+      if(raw.version===8){if(raw.infrastructure===undefined)fail('registre v8 absent');const state=normalize(raw.infrastructure,C.localMapOf217?.(raw)),base=old({...raw,version:7});return base?{...base,version:8,infrastructure:state}:null;}
       if(![1,2,3,4,5,6,7].includes(raw.version))return null;const base=old(raw);return base?{...base,version:8,infrastructure:create()}:null;
     };
     const previousPath=C.findFriendlyPath;
@@ -1727,18 +1784,19 @@
  stop('terminal','Le terminal des anciens convois',704,1312,18,'archives','ammo',85,12,'Dernière halte identifiée par la chaîne de renseignements. Ramenez les réserves avant la nuit.')]);
  const BY_ID=Object.freeze(Object.fromEntries(SITES.map(s=>[s.id,s])));
  const initial=()=>({version:1,intel:0,sites:SITES.map(d=>({id:d.id,known:d.intel===0,progress:0,reported:false,stock:C.makeBag({[d.resource]:d.amount,...(d.resource!=='fuel'?{fuel:d.fuel}:{})})})),analyst:null,vehicle:null,active:null,trade:{wave:1,remaining:RULES.tradeStock},stats:{built:0,departed:0,returned:0,lost:0,distance:0,fuelUsed:0,delivered:0,reports:0}});
- function normalize(raw){if(raw===undefined)return initial();const bad=m=>{throw Error('Expéditions invalides : '+m+'.')},num=(x,min,max)=>typeof x==='number'&&Number.isFinite(x)&&x>=min&&x<=max,id=x=>Number.isSafeInteger(x)&&x>0&&x<0x7ffffffe;
+ // `data` : sauvegarde en cours de lecture (O5 : carte de la cité du véhicule) ; sans elle, partie en cours.
+ function normalize(raw,data){if(raw===undefined)return initial();const bad=m=>{throw Error('Expéditions invalides : '+m+'.')},num=(x,min,max)=>typeof x==='number'&&Number.isFinite(x)&&x>=min&&x<=max,id=x=>Number.isSafeInteger(x)&&x>0&&x<0x7ffffffe;
   if(!raw||raw.version!==1||!Number.isInteger(raw.intel)||!num(raw.intel,0,40)||!Array.isArray(raw.sites)||raw.sites.length!==SITES.length||!raw.stats||!raw.trade)bad('registre');
   const out=initial(),seen=new Set();out.intel=raw.intel;
   out.sites=raw.sites.map(s=>{const d=BY_ID[s?.id];if(!d||seen.has(s.id)||typeof s.known!=='boolean'||typeof s.reported!=='boolean'||!num(s.progress,0,d.seconds)||s.reported!==(s.progress===d.seconds)||!s.stock)bad('lieu');seen.add(s.id);const stock=C.makeBag();for(const k of C.RESOURCE_KEYS){const cap=k===d.resource?d.amount:k==='fuel'?d.fuel:0;if(!num(s.stock[k],0,cap))bad('réserve');stock[k]=s.stock[k];}if((s.reported||C.bagTotal(stock)<d.amount+d.fuel)&&!s.known)bad('lieu non repéré');return{id:s.id,known:s.known,progress:s.progress,reported:s.reported,stock};});
   if(raw.analyst!==null){const a=raw.analyst;if(!a||!id(a.id)||!id(a.post)||!num(a.progress,0,RULES.researchSeconds)||typeof a.returning!=='boolean')bad('analyste');out.analyst={id:a.id,post:a.post,progress:a.progress,returning:a.returning};}
-  if(raw.vehicle!==null){const v=raw.vehicle;if(!v||!id(v.id)||!num(v.x,26,C.WORLD_SIZE-26)||!num(v.y,26,C.WORLD_SIZE-26)||!num(v.health,0,800)||!num(v.fuel,0,80)||!num(v.angle,-Math.PI,Math.PI)||typeof v.driving!=='boolean'||!v.cargo)bad('véhicule');const cargo=C.makeBag();for(const k of C.RESOURCE_KEYS){if(!num(v.cargo[k],0,300))bad('coffre');cargo[k]=v.cargo[k];}if(C.bagTotal(cargo)>300.000001||v.health===0&&(v.fuel>0||v.driving||C.bagTotal(cargo)>0))bad('épave');out.vehicle={id:v.id,x:v.x,y:v.y,health:v.health,fuel:v.fuel,angle:v.angle,driving:v.driving,cargo};if(v.metric174!==undefined){if(v.metric174!==1)bad('révision métrique');out.vehicle.metric174=1;}}
+  if(raw.vehicle!==null){const v=raw.vehicle;if(!v||!id(v.id)||!num(v.x,26,C.campaignLocal217(data).size-26)||!num(v.y,26,C.campaignLocal217(data).size-26)||!num(v.health,0,800)||!num(v.fuel,0,80)||!num(v.angle,-Math.PI,Math.PI)||typeof v.driving!=='boolean'||!v.cargo)bad('véhicule');const cargo=C.makeBag();for(const k of C.RESOURCE_KEYS){if(!num(v.cargo[k],0,300))bad('coffre');cargo[k]=v.cargo[k];}if(C.bagTotal(cargo)>300.000001||v.health===0&&(v.fuel>0||v.driving||C.bagTotal(cargo)>0))bad('épave');out.vehicle={id:v.id,x:v.x,y:v.y,health:v.health,fuel:v.fuel,angle:v.angle,driving:v.driving,cargo};if(v.metric174!==undefined){if(v.metric174!==1)bad('révision métrique');out.vehicle.metric174=1;}}
   if(raw.active!==null){if(!raw.active||!BY_ID[raw.active.id]||!Number.isSafeInteger(raw.active.wave)||!num(raw.active.wave,1,1e7))bad('sortie');out.active={id:raw.active.id,wave:raw.active.wave};}
   if(!Number.isInteger(raw.trade.wave)||!num(raw.trade.wave,1,1e7)||!num(raw.trade.remaining,0,RULES.tradeStock))bad('troc');out.trade={wave:raw.trade.wave,remaining:raw.trade.remaining};
   for(const k of Object.keys(out.stats)){if(!num(raw.stats[k],0,1e12)||!['distance','fuelUsed','delivered'].includes(k)&&!Number.isInteger(raw.stats[k]))bad('compteur');out.stats[k]=raw.stats[k];}
   if(out.stats.returned>out.stats.departed||out.stats.lost>out.stats.built||out.stats.reports!==out.sites.filter(s=>s.reported).length||out.intel<Math.min(40,out.stats.reports*2))bad('bilan');return out;
  }
- const old=C.migrateSaveData;C.migrateSaveData=raw=>{if(!raw||typeof raw!=='object')return null;const modern=raw.version===12;if(modern&&raw.expeditions===undefined)throw Error('Sauvegarde v12 sans expéditions.');const s=normalize(modern?raw.expeditions:undefined),base=old(modern?{...raw,version:11}:raw);if(!base)return null;if(!modern)s.trade.wave=base.wave;return{...base,version:12,expeditions:s};};
+ const old=C.migrateSaveData;C.migrateSaveData=raw=>{if(!raw||typeof raw!=='object')return null;const modern=raw.version===12;if(modern&&raw.expeditions===undefined)throw Error('Sauvegarde v12 sans expéditions.');const s=normalize(modern?raw.expeditions:undefined,raw),base=old(modern?{...raw,version:11}:raw);if(!base)return null;if(!modern)s.trade.wave=base.wave;return{...base,version:12,expeditions:s};};
  C.Expeditions=Object.freeze({RULES,BUILDINGS,SITES,BY_ID,initial,normalize});C.SAVE_VERSION=12;C.SAVE_KEY='deadwall-save-v12';C.SAVE_BACKUP_KEY='deadwall-save-backup-v12';C.LEGACY_SAVE_KEYS=[...new Set(['deadwall-save-v11','deadwall-save-backup-v11',...C.LEGACY_SAVE_KEYS])];
 })(globalThis);
 
@@ -1747,19 +1805,20 @@
  'use strict';const C=root.DeadwallCore;if(C.Fieldcraft)return;
  const RULES=Object.freeze({moveRate:.2,rotateRate:.05,range:78,transition:8,penalty:.8,reloadGoodStart:.44,reloadGoodEnd:.70,reloadPerfectStart:.53,reloadPerfectEnd:.60,maxNodes:4096});
  const empty=()=>({version:1,nodes:[],opacity:null,attempt:false,outcome:'',legacyLayout:true,weatherTarget:0});
- function normalize(raw){
+ // `data` : sauvegarde en cours de lecture (O5 : carte de la cité des décors) ; sans elle, partie en cours.
+ function normalize(raw,data){
   if(raw===undefined)return empty();
   if(!raw||raw.version!==1||!Array.isArray(raw.nodes)||raw.nodes.length>RULES.maxNodes||!(raw.opacity===null||Number.isFinite(raw.opacity)&&raw.opacity>=0&&raw.opacity<=1)||typeof raw.attempt!=='boolean'||!['','normal','good','perfect','failed'].includes(raw.outcome))throw Error('Registre de terrain invalide.');
-  const ids=new Set();const nodes=raw.nodes.map(n=>{if(!Array.isArray(n)||n.length!==3||!Number.isInteger(n[0])||n[0]<1||ids.has(n[0])||!Number.isFinite(n[1])||!Number.isFinite(n[2])||n[1]<0||n[2]<0||n[1]>C.WORLD_SIZE||n[2]>C.WORLD_SIZE)throw Error('Emplacement de décor invalide.');ids.add(n[0]);return n.slice();});
+  const ids=new Set();const nodes=raw.nodes.map(n=>{if(!Array.isArray(n)||n.length!==3||!Number.isInteger(n[0])||n[0]<1||ids.has(n[0])||!Number.isFinite(n[1])||!Number.isFinite(n[2])||n[1]<0||n[2]<0||n[1]>C.campaignLocal217(data).size||n[2]>C.campaignLocal217(data).size)throw Error('Emplacement de décor invalide.');ids.add(n[0]);return n.slice();});
   return{version:1,nodes,opacity:raw.opacity,attempt:raw.attempt,outcome:raw.outcome};
  }
  const previous=C.migrateSaveData;
- C.migrateSaveData=raw=>{if(!raw||typeof raw!=='object')return null;const modern=raw.version===13;if(modern&&!raw.fieldcraft)throw Error('Sauvegarde v13 sans registre de terrain.');const record=normalize(modern?raw.fieldcraft:undefined),base=previous(modern?{...raw,version:12}:raw);return base?{...base,version:13,fieldcraft:record}:null;};
+ C.migrateSaveData=raw=>{if(!raw||typeof raw!=='object')return null;const modern=raw.version===13;if(modern&&!raw.fieldcraft)throw Error('Sauvegarde v13 sans registre de terrain.');const record=normalize(modern?raw.fieldcraft:undefined,raw),base=previous(modern?{...raw,version:12}:raw);return base?{...base,version:13,fieldcraft:record}:null;};
  C.Fieldcraft=Object.freeze({RULES,empty,normalize});C.SAVE_VERSION=13;C.SAVE_KEY='deadwall-save-v13';C.SAVE_BACKUP_KEY='deadwall-save-backup-v13';C.LEGACY_SAVE_KEYS=[...new Set(['deadwall-save-v12','deadwall-save-backup-v12',...C.LEGACY_SAVE_KEYS])];
 })(globalThis);
 
 /* 1.15 — regional exploration has a separate metre-based spatial domain. */
-(function(root){'use strict';const C=root.DeadwallCore,S=root.DeadwallFrontierState||(typeof require==='function'?require('./frontier-state.js'):null),W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null);C.Frontier={...S,RULES:W.RULES};const previous=C.migrateSaveData;C.migrateSaveData=raw=>{if(!raw||typeof raw!=='object')return null;const modern=raw.version===14;if(modern&&raw.frontier===undefined)throw Error('Sauvegarde v14 sans région.');const d=previous(modern?{...raw,version:13}:raw);return d?{...d,version:14,frontier:S.normalize(modern?raw.frontier:undefined)}:null;};C.SAVE_VERSION=14;C.SAVE_KEY='deadwall-save-v14';C.SAVE_BACKUP_KEY='deadwall-save-backup-v14';C.LEGACY_SAVE_KEYS=[...new Set(['deadwall-save-v13','deadwall-save-backup-v13',...C.LEGACY_SAVE_KEYS])];})(globalThis);
+(function(root){'use strict';const C=root.DeadwallCore,S=root.DeadwallFrontierState||(typeof require==='function'?require('./frontier-state.js'):null),W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null);C.Frontier={...S,RULES:W.RULES};const previous=C.migrateSaveData;C.migrateSaveData=raw=>{if(!raw||typeof raw!=='object')return null;const modern=raw.version===14;if(modern&&raw.frontier===undefined)throw Error('Sauvegarde v14 sans région.');const d=previous(modern?{...raw,version:13}:raw);return d?{...d,version:14,frontier:S.normalize(modern?raw.frontier:undefined,raw)}:null;};C.SAVE_VERSION=14;C.SAVE_KEY='deadwall-save-v14';C.SAVE_BACKUP_KEY='deadwall-save-backup-v14';C.LEGACY_SAVE_KEYS=[...new Set(['deadwall-save-v13','deadwall-save-backup-v13',...C.LEGACY_SAVE_KEYS])];})(globalThis);
 
 (function(root){'use strict';const C=root.DeadwallCore,old=C.migrateSaveData;C.migrateSaveData=raw=>{if(!raw||typeof raw!=='object')return null;const modern=raw.version===15;if(modern&&raw.frontier?.version!==2)throw Error('Sauvegarde v15 sans carnet régional.');const d=old(modern?{...raw,version:14}:raw);return d?{...d,version:15}:null;};C.SAVE_VERSION=15;C.SAVE_KEY='deadwall-save-v15';C.SAVE_BACKUP_KEY='deadwall-save-backup-v15';C.LEGACY_SAVE_KEYS=[...new Set(['deadwall-save-v14','deadwall-save-backup-v14',...C.LEGACY_SAVE_KEYS])];})(globalThis);
 
@@ -1929,7 +1988,7 @@ C.SAVE_VERSION=20;C.SAVE_KEY='deadwall-save-v20';C.SAVE_BACKUP_KEY='deadwall-sav
  maxRemains:1024,unarmedDamage:18,armedMeleeDamage:36,reanimationChance:.30,reanimationMin:75,reanimationMax:150,reach:1.8,danger:4,health:65,damage:8,attackInterval:1.15,maxStep:.1,protection:3,
  requisition:Object.freeze({pistol:8,rifle:20,shotgun:16}),
  profiles:Object.freeze({
- commander:Object.freeze({name:'Commandant',description:'Le premier responsable de D-17.',health:100,speed:1,capacity:36,construction:1}),
+ commander:Object.freeze({name:'Commandant',description:'Le premier commandant de D-17.',health:100,speed:1,capacity:36,construction:1}),
  scout:Object.freeze({name:'Éclaireuse',description:'Une volontaire habituée aux longues reconnaissances.',health:90,speed:1.08,capacity:32,construction:1,advantages:['Déplacement à pied +8 %'],tradeoffs:['90 points de vie','Sac de 32 portions']}),
  porter:Object.freeze({name:'Manutentionnaire',description:'Un réfugié rompu au transport des charges et aux allers-retours du dépôt.',health:100,speed:.94,capacity:44,construction:1,advantages:['Sac de 44 portions'],tradeoffs:['Déplacement à pied −6 %']}),
  builder:Object.freeze({name:'Bâtisseuse',description:'Une ouvrière du refuge capable de reprendre les chantiers interrompus.',health:100,speed:.98,capacity:38,construction:1.15,advantages:['Construction manuelle +15 %','Sac de 38 portions'],tradeoffs:['Déplacement à pied −2 %']})
@@ -3318,6 +3377,251 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
 
 /* Seeded weather fronts. Rain remains the shared gameplay scalar. */
 (function(root){'use strict';const C=root.DeadwallCore;
+ // Eau de cité (GAME_BIBLE §7.3) : la population puise dans les citernes à partir de l'âge `startAge`
+ // (indice de CITY_TIERS). `moraleDrain` vaut la moitié de la famine ; `graceSeconds` précède tout effet.
+ // Pénurie en trois temps, en secondes de citernes vides sans interruption (le retour de l'eau remet tout à zéro) :
+ // 1. moral dès `graceSeconds` ; 2. départs annoncés à `departWarnSeconds`, un ouvrier part à `departSeconds`
+ // puis tous les `departInterval` ; 3. morts annoncées à `deathWarnSeconds`, une mort à `deathSeconds` puis toutes
+ // les `deathInterval`. Les départs cessent quand les morts commencent. Valeurs volontairement lentes
+ // (10 min avant le premier départ, 21 min avant la première mort) ; aucune partie réelle ne les a éprouvées.
+ C.CityWater215Rules=Object.freeze({startAge:4,perPersonSecond:.004,graceSeconds:180,moraleDrain:.35,activationReach:100,
+  departWarnSeconds:420,departSeconds:600,departInterval:120,deathWarnSeconds:1080,deathSeconds:1260,deathInterval:180});
+ // Lois de cité (docs/GAME_BIBLE.md §8.5), première tranche. Valeurs prudentes, non éprouvées en partie réelle.
+ // startAge : indice de C.CITY_TIERS (7 = Grande métropole). caps : lois engagées permises à startAge, puis aux
+ // âges suivants (le dernier vaut au-delà). delaySeconds : délai d'entrée en vigueur ou d'abrogation, gelé de
+ // l'alerte à la fin de l'assaut. foodPerPersonSecond : miroir de la ration d'economyTick (src/game.js), vérifié par test.
+ // halfRations : part de la ration servie ; moraleDrain dépasse le regain ordinaire (0,08/s) : le moral baisse en net.
+ // waterRation : part du besoin en eau servie (C.CityWater215Rules.perPersonSecond) ; moraleDrain en points par seconde.
+ // clearingDuty : après chaque assaut repoussé, ordre « déblayer » imposé aux ouvriers pendant `seconds`,
+ // cadence de déblaiement multipliée par `speed` ; récolte et chantiers des ouvriers arrêtés pendant ce temps.
+ C.CityLaws217Rules=Object.freeze({startAge:7,caps:Object.freeze([1,2,2,3]),delaySeconds:60,activationReach:100,foodPerPersonSecond:.0065,
+  halfRations:Object.freeze({foodFactor:.5,moraleDrain:.12}),
+  waterRation:Object.freeze({waterFactor:.7,moraleDrain:.1}),
+  clearingDuty:Object.freeze({seconds:30,speed:1.5})});
+ // Équilibrage 217 (docs/GAME_BIBLE.md §1.2 et §11.3), nouvelles campagnes seulement. Valeurs non éprouvées en partie réelle.
+ // signature : attirance d'une vague = signature / divisor tant qu'elle reste sous `cap` (courbe héritée, inchangée) ;
+ // au-delà, cap + gain × ln(1 + (signature − cap × divisor) / scale) : elle monte toujours, de plus en plus lentement.
+ // morale.tiers : du plus haut au plus bas, premier palier dont `min` ≤ moral ; `factor` multiplie le déplacement des
+ // unités, le travail des ouvriers (récolte, chantiers, déblaiement) et la cadence de tir des fusiliers.
+ // Le dernier palier reprend le ×0,82 hérité : jamais pire qu'avant en vitesse.
+ // morale.depart : moral sous `below` pendant `warnSeconds` continues → annonce ; à `seconds`, un ouvrier part, puis
+ // un autre tous les `interval` tant que le moral reste sous `below`. Le retour du moral remet tout à zéro.
+ C.Balance217Rules=Object.freeze({
+  signature:Object.freeze({cap:.8,divisor:360,gain:.234,scale:120}),
+  morale:Object.freeze({
+   tiers:Object.freeze([Object.freeze({min:60,factor:1}),Object.freeze({min:40,factor:.94}),Object.freeze({min:20,factor:.88}),Object.freeze({min:0,factor:.82})]),
+   depart:Object.freeze({below:10,warnSeconds:120,seconds:300,interval:180})})});
+ // Brèche catastrophe (GAME_BIBLE §8.6), nouvelles campagnes seulement. Un pan est une suite droite d'ouvrages de mur
+ // contigus, tous sous `BATTLEFIELD_RULES.fragileWallRatio` : à partir de `minLength` ouvrages il menace de céder ;
+ // si l'un d'eux est détruit, le pan cède avec lui, `maxCollapse` ouvrages au plus, ouvrage détruit compris.
+ C.Breach217Rules=Object.freeze({minLength:4,maxCollapse:6});
+ // Milieu de la cité (GAME_BIBLE §7.13, « des graines qui comptent »), nouvelles campagnes seulement.
+ // Le milieu dominant est relevé sur une grille de pas `step` dans un carré de demi-côté `radius` (mètres de région)
+ // centré sur D-17 ; à égalité, la première famille de `families` l'emporte. Chaque famille a un avantage et une
+ // contrainte, facteurs sur des calculs existants : wood / stone / scrap = cadence de récolte à la main et par les
+ // ouvriers ; farm = nourriture des fermes protégées ; rain = pluie recueillie par les citernes.
+ C.Biome217Rules=(()=>{const f=(name,biomes,bonus,malus)=>Object.freeze({name,biomes:Object.freeze(biomes),bonus:Object.freeze({key:bonus[0],factor:bonus[1]}),malus:Object.freeze({key:malus[0],factor:malus[1]})});
+  return Object.freeze({radius:768,step:128,families:Object.freeze({
+   forest:f('Forêt',['deciduous','mixed','conifer','sandyPine'],['wood',1.15],['farm',.9]),
+   farmland:f('Plaine cultivée',['meadow','bocage','orchard','agriculturalPlateau'],['farm',1.15],['stone',.85]),
+   wetland:f('Zone humide',['riparian','wetland','peatland','alluvialTerrace'],['rain',1.2],['scrap',.85]),
+   highland:f('Hauteurs pierreuses',['heath','limestone','rockyHighland'],['stone',1.2],['rain',.85]),
+   brownfield:f('Friche urbaine',['brownfield'],['scrap',1.2],['wood',.85])})});})();
+ // Radio et consignes d'absence (GAME_BIBLE §7.15), consignes pour les nouvelles campagnes seulement.
+ // journal : nombre de messages radio gardés (et sauvegardés avec la campagne quand les consignes sont actives).
+ C.CityRadio217Rules=Object.freeze({journal:12});
+ // Travaux de terrain (GAME_BIBLE §7.13), première tranche : le fossé. Nouvelles campagnes seulement.
+ // unlockTier : âge d'apparition au catalogue. cost : payé à la pose, par case. digSeconds : travail d'ouvrier ou de
+ // Commandant pour creuser une case. slowFactor : vitesse d'un infecté dans un fossé ouvert. flowCost : coût de passage
+ // ajouté au champ de flux (une case libre vaut 10) : la horde contourne si le détour est court. capacity : corps
+ // qu'une case absorbe avant d'être comblée ; un fossé comblé ne ralentit plus ni ne détourne. rimDistance : distance
+ // au bord, en pixels, à laquelle un infecté abattu tombe encore dans le fossé. workRange : portée de travail.
+ // cityRadiusTiles : emprise de la cité autour du centre, en cases. maxDitches : taille du registre.
+ // Le déblaiement reprend les cadences existantes (WORKER_RULES.cleanupPerSecond, LINECARE_RULES.shovelPerSecond).
+ // Deuxième tranche. earthPerDitch : terre tirée d'une case creusée (réserve bornée par maxEarth). maxLine : cases d'un tracé.
+ // talus : coût en terre, travail, corps supplémentaires exigés pour franchir le mur adossé (au-dessus de
+ // LINECARE_RULES.rampMin), facteur de vitesse appliqué en plus au fossé ouvert qu'il borde.
+ // moat (douve) : eau de cité par case à la mise en eau puis par seconde, ralentissement, coût de passage, corps absorbés.
+ // backfill (remblai) : terre, ou à défaut pierre, puis secondes de travail. Valeurs non éprouvées en partie réelle.
+ C.Earthworks217Rules=Object.freeze({unlockTier:0,cost:Object.freeze({wood:4}),digSeconds:10,slowFactor:.55,flowCost:14,capacity:6,
+  rimDistance:10,workRange:48,cityRadiusTiles:44,maxDitches:256,earthPerDitch:1,maxEarth:999,maxLine:32,
+  talus:Object.freeze({earth:2,buildSeconds:6,rampBonus:8,slowFactor:.85,maxBanks:256}),
+  moat:Object.freeze({fillWater:4,upkeepPerSecond:.004,slowFactor:.4,flowCost:20,capacity:12}),
+  backfill:Object.freeze({earth:1,stone:2,seconds:5})});
+ // Factions (GAME_BIBLE §4), première tranche, nouvelles campagnes seulement. Valeurs non éprouvées en partie réelle.
+ // factions : bornes de réputation ; ententeAt / hostileAt : seuils des états affichés. reach : portée du dépôt.
+ // raid (Les Rouleurs) : un fourgon compte comme « chargé » avec `minCargo` unités au coffre au-delà de `awayDistance`
+ // du centre ; l'affaire se règle quand il repasse sous `ambushDistance`. Barrage tous les `period` retours chargés.
+ // Sans escorte (`escortSoldiers` fusiliers à `escortRange` du fourgon) ni tribut payé d'avance (`tribute`, au plus
+ // `maxPasses` en réserve) : `share` du coffre, `maxLoss` unités au plus ; `hostile` s'applique à l'état Hostile.
+ // relay (Les Relais) : demande n à la vague firstWave + n × everyWaves, ouverte `openWaves` vague ; `requests` tourne
+ // dans l'ordre ; la contrepartie `back` arrive `returnWaves` vagues après le don et reste plus petite que `ask`.
+ C.Factions217Rules=Object.freeze({reach:100,ententeAt:2,hostileAt:-2,
+  factions:Object.freeze({rouleurs:Object.freeze({min:-3,max:2}),relais:Object.freeze({min:-1,max:3})}),
+  raid:Object.freeze({minCargo:20,awayDistance:900,ambushDistance:650,period:3,share:.35,maxLoss:24,hostile:Object.freeze({share:.5,maxLoss:36}),
+   escortSoldiers:2,escortRange:180,tribute:Object.freeze({fuel:6}),maxPasses:1}),
+  relay:Object.freeze({firstWave:2,everyWaves:3,openWaves:1,returnWaves:2,requests:Object.freeze([
+   Object.freeze({relay:'Les Granges',ask:Object.freeze({food:14}),back:Object.freeze({fuel:5})}),
+   Object.freeze({relay:'La Rive',ask:Object.freeze({wood:24}),back:Object.freeze({food:10})}),
+   Object.freeze({relay:'Fontvieille',ask:Object.freeze({medicine:3,food:8}),back:Object.freeze({ammo:8})})])}),
+  // Deuxième tranche. lair : repaire sur un lieu existant, entre minDistance et maxDistance (m) de D-17, repéré en sortie à `spot` m.
+  // escort : l'escorte est vérifiée à `checks` points du retour ; un fusilier compte hors des murs, à `beyond` px au moins de
+  // l'enceinte extérieure et `minCore` px du centre ; les abords sont à `margin` px au-delà de l'enceinte extérieure.
+  // entente.memory : vagues sans tribut ni renseignement avant que la réputation des Rouleurs baisse d'un cran.
+  // intel : prix d'un renseignement (un par vague). rally : demande après `afterWaves` vagues d'Entente ; `members` fusiliers
+  // contre `cost` et autant de logements. assault : `soldiers` fusiliers à D-17, `cost` pris au stock, `losses` tués (+`alerted`
+  // à l'état Hostile), signature +`signature` pendant `noiseWaves` vagues, `cache` du repaire au dépôt ; `reach` : portée (m).
+  // exchange : un échange par vague avec les Relais en Entente. tributeScale : tribut = base + perTier × âge + perStep par
+  // tranche de `everyWaves` vagues, au plus `max` carburant (reste sous le plafond d'un barrage).
+  lair:Object.freeze({minDistance:1200,maxDistance:4000,spot:600}),
+  escort:Object.freeze({checks:3,beyond:96,minCore:400,margin:200}),
+  entente:Object.freeze({memory:4}),intel:Object.freeze({cost:Object.freeze({fuel:8})}),
+  rally:Object.freeze({afterWaves:6,members:3,cost:Object.freeze({food:40})}),
+  assault:Object.freeze({reach:40,soldiers:6,losses:2,alerted:1,cost:Object.freeze({ammo:30}),signature:90,noiseWaves:2,cache:Object.freeze({fuel:20})}),
+  exchange:Object.freeze({give:Object.freeze({wood:16}),get:Object.freeze({food:10})}),
+  tributeScale:Object.freeze({perTier:2,everyWaves:5,perStep:1,max:20})});
+ // Grands ouvrages (docs/GAME_BIBLE.md §8.4), première tranche, nouvelles campagnes seulement. Valeurs non éprouvées en partie réelle.
+ // startAge : indice de C.CITY_TIERS (9 = Mégaville II, « âge 10 » de la bible). Un ouvrage se bâtit par tranches : chaque
+ // tranche est payée au dépôt (`cost`, pris sur le stock), puis construite pendant `seconds` de chantier, suspendu de l'alerte
+ // à la fin de l'assaut. Une seule tranche par ouvrage et par nuit. Aucun effet avant la dernière tranche.
+ // belfry : `warningSeconds` s'ajoute à l'alerte du moteur (10 s, +5 avec la reconnaissance).
+ // necropolis : `clearSpeed` multiplie la cadence de déblaiement des ouvriers (se compose avec la corvée de C.CityLaws217Rules).
+ // `signature` : points ajoutés à la signature de la cité une fois l'ouvrage achevé (cloche qui porte, fumée permanente).
+ // Deuxième tranche : chaque ouvrage occupe une emprise posée par le joueur (`size` en cases, carrée ou non, jamais tournée),
+ // à `site.reach` cases au plus du centre du dépôt. `heights` : hauteur dessinée (m) après chaque tranche, la silhouette.
+ // Une tranche inachevée foulée par la horde pendant l'assaut perd `trampleSeconds` s de chantier par infecté et par seconde
+ // passée dans l'emprise, au plus `maxLossShare` de la tranche touchée par assaut ; une tranche construite peut rouvrir.
+ // necropolis : achevée, `pyreSpeed` multiplie la cadence du bûcher et `pitCapacity` la contenance des fosses (src/corpse-chain217.js).
+ {const step=(seconds,cost)=>Object.freeze({seconds,cost:Object.freeze(cost)}),site=(size,heights)=>Object.freeze({size:Object.freeze(size),heights:Object.freeze(heights)});
+ C.GreatWorks217Rules=Object.freeze({startAge:9,activationReach:100,site:Object.freeze({reach:44,trampleSeconds:2,maxLossShare:.5}),works:Object.freeze({
+  belfry:Object.freeze({warningSeconds:8,signature:120,site:site([4,4],[8,16,24]),steps:Object.freeze([step(60,{stone:900,wood:600,scrap:400}),step(60,{stone:900,scrap:800}),step(60,{wood:400,scrap:900,fuel:120})])}),
+  necropolis:Object.freeze({clearSpeed:1.5,signature:80,pyreSpeed:1.5,pitCapacity:2,site:site([8,6],[2,3.5,5]),steps:Object.freeze([step(60,{stone:1200,wood:300}),step(60,{stone:1000,scrap:600}),step(60,{wood:700,scrap:300,fuel:200})])})})});}
+ // Monde sans bord (docs/GAME_BIBLE.md §7.13, specs/monde-sans-bord/) : adressage des cantons, lu par src/world-cantons217.js.
+ // Brique d'adressage seule : aucune génération existante (1 à 11) ne lit ces valeurs. `reservedGeneration` n'est encore acceptée nulle part.
+ // canton/chunk en mètres ; loadRadius/keepRadius en cantons (anneau chargé, anneau protégé de l'éviction) ; cacheCapacity ≥ (2·keepRadius+1)².
+ C.WorldCantons217Rules=Object.freeze({reservedGeneration:12,canton:1024,chunk:256,loadRadius:1,keepRadius:2,cacheCapacity:36,maxCoordinate:1048575,maxIndex:65535});
+ // Canton sec et relief par paliers du monde sans bord (génération 12 réservée), lus par src/world-canton-gen217.js, hors jeu.
+ // cell : maille du relief (m) ; levels : nombre de paliers, le palier 0 est la mer. field : champ d'altitude continu en crans
+ // (échelles en m, déformé par `warp`). escarpments : ressauts raides de `height` crans, d'où naissent les falaises (écart de deux crans entre
+ // mailles voisines). pass : largeur du ressaut en unité de bruit — étroite (falaise), large là où un bruit fin dépasse `threshold` (col en rampes).
+ // water : seuils de débit (cantons drainés) d'un ruisseau et d'une rivière, plafond de comptage, pas des points de couture.
+ // roads : rangée de la trame (une sur `trunkEvery`), chance d'un passage en plus, coûts de tracé. sites : lieux candidats par canton.
+ // pass.reach/strand/every : dans un canton, chaque contour d'un cran d'au moins `strand` arêtes porte un col par `every` arêtes (au moins un), large de `reach` mailles, et toute région d'au moins `islet` mailles garde un accès ; tout autre
+ // changement de palier est une falaise. valley : fonds de vallée creusés dans le champ (largeur en unité de bruit, profondeur en crans, jamais sous `floor`).
+ // origin : socle hors d'eau autour du site de fondation de K0_0. water.spring : chance d'une source dans un canton sans amont (highSpring au-dessus de
+ // highLevel) ; pondChance : lac de vallée sur un cours d'eau. roads.cutCost/steepCost : coût d'une rampe taillée dans une falaise d'un cran, de deux crans (une route évite de tailler).
+ // towns : agglomérations portées par les sommets (chance, parts et rayons par rang, lieux en plus, noms repris de geography135).
+ // foundation : site de D-17 (côté du plat en m, marge et portée en mailles, distances idéales à la falaise et à l'eau, cols décrits).
+ // foundation.size 64 et idealCliff 0 depuis la tranche de la carte locale : site adossé, falaise au bord du plat ; backWeight/backCap : prime par côté du plat
+ // entièrement bordé de falaise, pour `backCap` côtés au plus (jamais une cuvette fermée recherchée).
+ {const f=Object.freeze;C.WorldRelief217Rules=f({version:4,cell:32,levels:6,
+  field:f({scale:2800,detailScale:900,detailWeight:.28,contrast:2.1,span:3.7,offset:.45,warpScale:1700,warpAmplitude:420}),
+  escarpments:f([f({scale:1500,threshold:.6,height:2}),f({scale:2300,threshold:.66,height:2})]),
+  pass:f({band:.008,wideBand:.13,scale:520,threshold:.72,reach:1.6,strand:5,every:32,islet:6}),
+  valley:f({scale:1500,width:.03,depth:1.15,floor:1.2}),
+  origin:f({x:512,y:512,inner:620,outer:1100,floor:1.35}),
+  climate:f({wetLow:.2,coldHigh:.16}),
+  water:f({streamFlow:1,riverFlow:5,capFlow:24,seamStep:2,seamMargin:3,climbCost:12,levelCost:.5,meander:1.2,lakeMargin:6,spring:.6,highSpring:.25,highLevel:4,pondChance:.3,pondMargin:5}),
+  roads:f({trunkEvery:3,westChance:.5,extraChance:1,seamMargin:2,rampCost:4,cutCost:40,steepCost:160,bridgeCost:5,borderCost:3,jitter:.8,hubTries:12,hubMargin:5,
+   widths:f({regional:9,secondary:7,local:5})}),
+  towns:f({chance:.4,tries:6,margin:96,reach:352,order:f(['hameau','bourg','ville']),
+   kinds:f({hameau:f({share:.6,radius:110,sites:4}),bourg:f({share:.3,radius:190,sites:9}),ville:f({share:.1,radius:300,sites:16})}),
+   names:f(['Les Aubiers','Val-des-Saules','Montbrune','Belle-Futaie','La Combe','Les Ramiers','Rochebrune','Les Granges','Clairval','Bois-Ferré','La Rive','Fontvieille','Chantepierre','Les Brandes','Le Vallon','Saint-Orme'])}),
+  foundation:f({size:64,margin:3,reach:6,idealCliff:0,idealWater:3,centreWeight:.35,guard:8,backWeight:6,backCap:2,shoreWeight:6,shoreReach:2,shoreCap:1}),
+  sites:f({maximum:12,densityScale:3000,seamMargin:48,spacing:40,highlandFactor:.5})});
+ // Carte locale de D-17 née de son canton (src/world-local217.js, hors jeu, génération 12 réservée). frame : côté du cadre jouable (m), multiple de
+ // deux mailles, centré sur le site ; tile : pas de la case (m), celui de la carte actuelle. ramp : largeur (m) de la rampe praticable au milieu de
+ // chaque arête de col ; rampDepth : profondeur dessinée de part et d'autre. brush : demi-largeur minimale (m) d'un cours d'eau sur la grille.
+ // costs : pas, rampe et gué pour le calcul de chemins (une falaise, la mer, un lac, une rivière sans pont sont infranchissables).
+ // narrow : un couloir de plain-pied plus étroit (m) est un goulet ; un côté est « ouvert » s'il se joint par un couloir au moins aussi large.
+ // deposits : gisements candidats dans le carré de récolte `zone` (m), hors du rayon `clear` du centre, espacés de `spacing`, sur un treillis de
+ // `lattice` m ; kinds : nombre, quantité moyenne et rayon (m) relevés sur la carte actuelle ; spread : dispersion des quantités ;
+ // foot/roadside/edge : portée (m) du pied de falaise, du bord de route, de la lisière ; poids : attrait de chaque situation.
+ C.WorldLocal217Rules=f({version:2,frame:192,tile:1,ramp:12,rampDepth:6,brush:1,narrow:24,
+  edge:f({amplitude:4,scale:40,band:12}),
+  costs:f({step:10,ramp:30,ford:20}),
+  deposits:f({zone:128,clear:9,spacing:2.5,lattice:2,foot:8,roadside:10,edge:12,spread:f([.72,1.35]),
+   kinds:f({stone:f({count:40,amount:100,radius:.75}),wood:f({count:100,amount:85,radius:.69}),scrap:f({count:52,amount:70,radius:.63})}),
+   weights:f({base:.12,cliffFoot:6,rock:1,tree:5,edge:2.5,roadside:5})})});}
+ // Lieux remarquables et nids (docs/GAME_BIBLE.md §7.13), nouvelles campagnes seulement.
+ // cantonSize/perCanton/spacing : au plus `perCanton` lieux promus par canton carré de `cantonSize` m, espacés d'au moins `spacing` m.
+ // minArea : emprise minimale (m²) pour loger un nid ; maxGeneration : seuls les lieux du socle de monde sont promus.
+ // nestMin/nestMax : infectés du nid (les occupants ordinaires sont un à quatre). sight : distance (m) à laquelle le repère se voit.
+ // claimReach : marge (m) autour de l'emprise pour charger le lot. kinds : silhouette du repère et lot annoncé, pris une seule fois.
+ // Deuxième tranche. spot : distance (m) à laquelle, en sortie seulement, un lieu est repéré (nid et lot connus) ; de plus loin ou
+ // depuis la cité il n'est que « vu de loin ». repopulate : une migration à moins de `range` m d'un nid vidé, Commandant à plus de
+ // `unseen` m, sans avant-poste, y ramène `min` à `max` infectés (moins que `nestMin`), `perSite` fois au plus par lieu. Non éprouvé en partie réelle.
+ {const kind=(label,silhouette,resource,amount)=>Object.freeze({label,silhouette,reward:Object.freeze({resource,amount})});
+ C.Remarkable217Rules=Object.freeze({cantonSize:4096,perCanton:2,spacing:1000,homeClearance:1000,minArea:400,maxGeneration:8,nestMin:10,nestMax:16,sight:2500,claimReach:12,spot:600,repopulate:Object.freeze({range:400,unseen:400,min:4,max:8,perSite:3}),
+  kinds:Object.freeze({
+   water:kind('château d’eau','tower','medicine',24),hospital:kind('hôpital','chimney','medicine',30),barracks:kind('caserne','pylon','ammo',36),
+   fuel:kind('dépôt de carburant','chimney','fuel',36),silo:kind('silo','tower','fuel',24),station:kind('gare','pylon','fuel',30),
+   dam:kind('barrage','tower','ammo',30),transmitter:kind('émetteur','pylon','ammo',24),power:kind('centrale','chimney','fuel',30)})});}
+ // Repli du décor métrique sur carte saturée (src/exploration-125.js) : dégagements essayés, en mètres, pour la seule pièce
+ // restée sans parcelle après toutes les recherches à un mètre. Zéro = au contact, jamais en recouvrement.
+ C.Scenery217Rules=Object.freeze({fallbackClearanceMetres:Object.freeze([1,.5,0])});
+ // Avant-postes et routes gardées (docs/GAME_BIBLE.md §7.14), première tranche, nouvelles campagnes seulement. Valeurs non éprouvées en partie réelle.
+ // startAge et caps[].age : indices de C.CITY_TIERS (2 = « Avant-poste »). garrison : fusiliers retirés de la cité tant que le poste tient.
+ // cost : pris au stock du dépôt à l'établissement, jamais rendu. hold : fonds lourd du lieu, fini, proportionnel à son emprise (m²),
+ // réparti selon l'un des `mixes` (hachage de l'identifiant). convoy : un lot de `lot` unités au plus toutes les `everyWaves` vagues,
+ // en phase calme, contre `fuel` carburant pris au dépôt. radio.range : portée, en mètres, autour de D-17 et de chaque avant-poste.
+ C.Outposts217Rules=Object.freeze({startAge:2,
+  reach:100,garrison:2,cost:Object.freeze({wood:30,scrap:20,food:20,ammo:20}),upkeep:Object.freeze({food:2}),
+  convoy:Object.freeze({everyWaves:1,lot:16,fuel:2}),radio:Object.freeze({range:3000}),limits:Object.freeze({posts:64,hauled:1000000,fallen:64,reinfest:24}),
+  // Troisième tranche. ranks : Relais (0), Poste (1), Avant-poste (2). Un rang se monte sur place (Commandant à `works.reach` m du lieu,
+  // route gardée), contre `cost` pris au dépôt et `seconds` de chantier de la garnison (suspendu tant qu'elle n'est pas ravitaillée).
+  // lot : unités d'un convoi ; radio : portée (m) autour du lieu ; hold : solidité de la garnison ; signature : rayon (m) du bruit
+  // de l'avant-poste, passé à l'écoute existante des hordes régionales (world-evolution `hear`, qui oriente les hordes à 1,6 × ce rayon).
+  // fall : une migration vivante à `range` m d'un avant-poste, Commandant à plus de `unseen` m, le fait tomber si son effectif dépasse
+  // garnison × `perRifle` × hold du rang (× `unfed` si la garnison n'est pas ravitaillée). Tombé : garnison tuée, route perdue ; un lieu
+  // ordinaire reçoit `reinfest.min` à `reinfest.max` infectés (hachage du lieu et de la migration), un lieu remarquable se repeuple par sa règle.
+  ranks:Object.freeze([Object.freeze({name:'Relais',lot:16,radio:3000,hold:1,signature:300}),
+   Object.freeze({name:'Poste',cost:Object.freeze({wood:40,scrap:30,stone:20}),seconds:90,lot:24,radio:4000,hold:2,signature:450}),
+   Object.freeze({name:'Avant-poste',cost:Object.freeze({wood:60,scrap:50,stone:30,ammo:20}),seconds:150,lot:32,radio:5000,hold:3,signature:600})]),
+  works:Object.freeze({reach:80}),fall:Object.freeze({range:250,unseen:400,perRifle:60,unfed:.5,reinfest:Object.freeze({min:3,max:6})})});
+ // Filière des corps et maladie (docs/GAME_BIBLE.md §8.7), première tranche, nouvelles campagnes seulement. Valeurs non éprouvées en partie réelle.
+ // startAge : indice de C.CITY_TIERS (2 = « Avant-poste ») ; avant, un corps déblayé disparaît comme toujours. reach : portée du dépôt.
+ // pyre : `perSecond` corps consumés par seconde ; `cost` combustible par corps (bois ou carburant, au choix à l'allumage) ;
+ // `signature` s'ajoute à la signature de la cité tant qu'il brûle. pit : `cost` et `digSeconds` pour l'ouvrir (chantier d'ouvriers,
+ // arrêté de l'alerte à la fin de l'assaut), `perSecond` corps ensevelis, `capacity` corps avant qu'elle se referme.
+ // sickness : seuil de corps laissés (à traiter + charge au pied des murs) = `base` + `perPerson` × population ; la maladie cesse
+ // sous `clearRatio` × seuil. Paliers en secondes d'exposition continue, comme la pénurie d'eau : moral dès `graceSeconds`
+ // (`moraleDrain` points/s) ; malades annoncés à `sickWarnSeconds`, un habitant affaibli de `sickDamage` × sa santé maximale à
+ // `sickSeconds` puis tous les `sickInterval` ; morts annoncées à `deathWarnSeconds`, une à `deathSeconds` puis toutes les
+ // `deathInterval`, évitée contre `medicine.plain` médicaments (`medicine.clinic` avec une clinique en service).
+ // weather : l'exposition avance ×`wet` quand la pluie observée dépasse `wetAbove`, ×`dry` sous `dryBelow`.
+ C.CorpseChain217Rules=Object.freeze({startAge:2,reach:100,
+  pyre:Object.freeze({perSecond:1.5,cost:Object.freeze({wood:.4,fuel:.1}),signature:60}),
+  pit:Object.freeze({cost:Object.freeze({wood:20}),digSeconds:45,perSecond:.25,capacity:120}),
+  sickness:Object.freeze({base:40,perPerson:4,clearRatio:.6,graceSeconds:120,moraleDrain:.2,sickWarnSeconds:300,sickSeconds:420,sickInterval:90,sickDamage:.35,
+   deathWarnSeconds:780,deathSeconds:960,deathInterval:180,medicine:Object.freeze({plain:4,clinic:2})}),
+  weather:Object.freeze({wetAbove:.62,wet:1.5,dryBelow:.1,dry:.75})});
+ // Vagues menées (GAME_BIBLE §3.5, la Meneuse), nouvelles campagnes seulement. À partir de `firstWave`, une vague sur
+ // `every` est menée (décalage tiré de la graine, jamais une vague de géants). La Meneuse est une Errante ordinaire,
+ // postée à `standoff` unités du bord de carte, entre `spanMin` et `spanMax` de sa longueur. Vivante à l'assaut : le
+ // plan de vague gagne `gatherShare` de son effectif ; abattue avant : il en perd `cutShare`. Rien d'autre ne change.
+ // Escorte : `base` infectés ordinaires à la première vague menée, `perLed` de plus à chaque suivante, `max` au plus et
+ // jamais plus de `share` du plan, pris sur son effectif ; placés à `ringMin`–`ringMax` du poste, réveillés par le
+ // Commandant à `wake` ou un tir à `shot`. Poste : `tries` points de part et d'autre, au pas `step`, sur deux profondeurs.
+ C.Abominations217Rules=Object.freeze({firstWave:12,every:4,gatherShare:.2,cutShare:.12,standoff:256,spanMin:.3,spanMax:.7,
+  escort:Object.freeze({base:6,perLed:2,max:18,share:.08,ringMin:46,ringMax:110,wake:260,shot:150}),post:Object.freeze({tries:6,step:128}),
+  // Troisième tranche : abominations du siège, au plus `cap` présentes avec les géants et la Meneuse. Comble-fossé : un corps tombé à
+  // `radius` d'elle compte `extra` fois de plus dans le fossé ; Traîne-épave : au contact (`reach`) d'un mur, son épave ajoute `load` de charge.
+  cap:3,filler:Object.freeze({firstWave:14,every:6,lead:.1,radius:96,extra:1,minDitches:1}),dragger:Object.freeze({firstWave:18,every:7,lead:.1,reach:40,load:12})});
+ // Monde régional de la génération 12, hors jeu (src/world-open217.js, specs/monde-sans-bord/ouverture.md, tranche O1). Aucune génération 1 à 11 ne le lit.
+ // route : zone de recherche = rectangle des cantons de départ et d'arrivée élargi de `margin` cantons, au plus `maxCantons` cantons ; snap : rayon (cantons)
+ // où chercher la route la plus proche ; near : rayon maximal (m) d'une recherche de voisinage ; pick : rayon (cantons) des routes candidates d'un tirage (migrations, épaves).
+ C.WorldOpen217Rules=Object.freeze({route:Object.freeze({margin:1,maxCantons:25}),snapRadius:1,nearMaxRadius:2048,pickRadius:1});
+ // Lieux complets et obstacles du monde régional G12 hors jeu (specs/monde-sans-bord/ouverture.md, tranche O2).
+ C.WorldSites217Rules=Object.freeze({version:1,setback:22,lot:Object.freeze({side:13,front:19,back:29}),prohibited:Object.freeze({side:13,front:17,back:29}),seamMargin:12,homeMargin:16,parcelGap:1,riverClearance:8,typeTries:6,fallback:Object.freeze(['ruin','cabin']),drive:Object.freeze({width:4,front:19,step:4}),detailVersion:13,placeCache:36,planCache:48,detailCache:64,chunk:256,chunkCache:36,trees:Object.freeze({grid:33,spacing:3.4,roadClearance:5,edgeClearance:3,waterClearance:2,slots:1200}),rocks:Object.freeze({grid:10,spacing:2.8,roadClearance:6,edgeClearance:3,waterClearance:2,slots:120,chance:1}),homeClearance:24,lineStep:.5,maxLine:512,footRadius:.32,car:Object.freeze({w:4.8,h:2.03}),budgetMs:8});
+ // Sauvegarde creuse G12 hors jeu (src/world-save217.js, tranche O3) : au plus `maxCantons` cantons chargés par validation, les plus proches
+ // du joueur (au-delà, contrôle de forme seul) ; `maxSeenCantons` cantons vus ; les autres plafonds sont ceux du registre régional G1–G11.
+ // open : registre G12 accepté par frontier-state (faux jusqu'à la tranche O9, qui ouvre la génération 12).
+ C.WorldSave217Rules=Object.freeze({open:false,maxCantons:64,maxSeenCantons:4096,maxSeen:5000,maxTaken:120000,maxEnemies:15000});
+  // Taille de la carte de la cité portée par la campagne (ouverture.md, tranche O5) : 128 cases pour toute
+  // génération ; `generationTiles` nomme la seule exception, la génération 12 (192 m, D-O5), encore refusée.
+  // La sauvegarde n'écrit `localTiles` que s'il diffère de `defaultTiles`.
+  C.LocalMap217Rules=Object.freeze({defaultTiles:128,generationTiles:Object.freeze({12:192})});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),

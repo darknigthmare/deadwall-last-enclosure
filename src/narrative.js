@@ -23,7 +23,7 @@
       discovery:'Le marché distribuait ses dernières réserves. Le registre parle de confiance avant de parler de quantités.',
       a:['Étudier la répartition','Vous séparez le registre en deux colonnes : distribué et attendu. La méthode ne remplit pas les étagères, mais elle montre enfin où les réserves disparaissent.'],
       b:['Partager un repas au dépôt','Une part des réserves devient un repas commun. Pour quelques minutes, les voix autour de la table couvrent les bruits venus du dehors.']},
-    {id:'aid',title:'La colonne des incertains',source:'Fiche de triage · Nora, soignante · fin de permanence',
+    {id:'aid',title:'La colonne des incertains',source:'Fiche de triage · Nora, soignante du dispensaire · fin de permanence',
       excerpt:'« Blessure ne veut pas dire morsure. Morsure ne veut pas dire diagnostic certain. Séparez les couchages, gardez les noms et notez ce que vous avez réellement vu. » La fiche suivante manque.',
       discovery:'Le camp n’a laissé ni remède ni certitude. Seulement une consigne : soigner sans inventer de diagnostic.',
       a:['Consigner le protocole','Vous recopiez les observations avant les conclusions. Dans la marge, le mot « guérison » reste barré. Les équipes auront au moins une méthode commune pour parler des blessures.'],
@@ -59,9 +59,9 @@
     if(d<=surveyRules.surveyPointSearchRadius**2)surveyOffsets.push({dx,dy,d});
   }
   surveyOffsets.sort((a,b)=>a.d-b.d||a.dy-b.dy||a.dx-b.dx);
-  function createSurveyApproach(origin,clear,worldSize=C.WORLD_SIZE){
+  function createSurveyApproach(origin,clear,worldSize=C.LOCAL_MAP217.size){
     const width=worldSize/C.TILE,radius=surveyRules.surveyPointClearance,unavailable=()=>false;
-    if(!origin||![origin.x,origin.y,worldSize].every(Number.isFinite)||!Number.isInteger(width)||width<1||width>C.WORLD_TILES||typeof clear!=='function')return unavailable;
+    if(!origin||![origin.x,origin.y,worldSize].every(Number.isFinite)||!Number.isInteger(width)||width<1||width>C.LOCAL_MAP217.tiles||typeof clear!=='function')return unavailable;
     const inside=p=>p.x>=radius&&p.y>=radius&&p.x<=worldSize-radius&&p.y<=worldSize-radius;
     const key=p=>C.grid(p.y)*width+C.grid(p.x),point=k=>({x:C.world(k%width),y:C.world(Math.floor(k/width))});
     const stand=p=>inside(p)&&clear(p,radius);
@@ -85,7 +85,7 @@
     }
     return candidate=>Boolean(candidate&&Number.isFinite(candidate.x)&&Number.isFinite(candidate.y)&&stand(candidate)&&reached[key(candidate)]&&segment(point(key(candidate)),candidate));
   }
-  function resolveSurveyPoint(site,clear,worldSize=C.WORLD_SIZE){
+  function resolveSurveyPoint(site,clear,worldSize=C.LOCAL_MAP217.size){
     if(!site||![site.x,site.y,worldSize].every(Number.isFinite)||worldSize<=0||typeof clear!=='function')return null;
     const radius=surveyRules.surveyPointClearance;
     // Resolve against immutable terrain only. Player construction must obstruct

@@ -237,4 +237,5 @@ test('récit : les textes suivent le vocabulaire et la chronologie de la bible d
   assert.doesNotMatch(text,/initiales E\.R\./,'E.R. est Émile R.');assert.match(text,/Émile R\./);
   assert.doesNotMatch(text,/Sami, répartiteur/,'le répartiteur et le conducteur sont une seule personne');
   assert.equal((text.match(/Sami V\./g)||[]).length,2);
+  assert.equal(C.SuccessionRules.profiles.commander.description,'Le premier commandant de D-17.');
 });
