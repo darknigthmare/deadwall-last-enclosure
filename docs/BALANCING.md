@@ -446,6 +446,10 @@ La nécropole se multiplie avec la corvée de déblaiement (×2,25 pendant la co
 
 `C.OpenCity217Rules` (G12) : `fallbackRing` 192 cases (recherche du repli d'un infecté sur toute la carte ; une poche fermée de 17117 est à 74 cases de tout accès) ; `pathMaxExpanded` 16 384 nœuds pour les chemins amis sur terrain (8 192 sur carte plate, inchangé). Champ de flux à 192 m : 2 à 5 ms pour la partie de terrain, 13 à 28 ms avec les enveloppes déléguées, contre 44 à 47 ms pour la partie actuelle à 128 cases.
 
+## Relief FPS — O8b (présentation)
+
+`C.TerrainRelief217Rules` (hors jeu) : `stepMetres` 4 (hauteur jouée d'un cran, égale à `TerrainArt217Rules.cliffMetres`), `waterDrop` 0,45 m, `strataMetres` 1, `block` 4 cases, `skirtMetres` 6. Aucune valeur de combat ni d'économie. À mesurer en O9 : portée utile d'une sentinelle au pied d'une falaise une fois D-O1 branchée sur les affûts.
+
 ## Rendu du relief — O8a (présentation)
 
 Aucune valeur d'équilibrage. `C.TerrainArt217Rules` est une table de présentation (`cliffMetres` 4, `bevel` .35, `bankMaxCells` 4, `edgeFadeMetres` 6, `grain` 7). La hauteur jouée d'un cran reste à fixer en O8b (D-O3).
