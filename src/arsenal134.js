@@ -2,7 +2,8 @@
 (function(root){'use strict';
 const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),R=C.Arsenal134Rules,D=R.catalog,copy=o=>JSON.parse(JSON.stringify(o));
 const initial=()=>({version:1,initialized:false,next:1,equipped:null,carried:[],locker:[],fallen:[],posts:[]});
-function validate(raw){
+// `full` : données validées de la campagne (O5 : carte de la cité des postes posés).
+function validate(raw,full){
  if(raw===undefined)return initial();const bad=()=>{throw Error('Registre de l’armurerie invalide.');},obj=(v,k)=>{if(!v||Array.isArray(v)||typeof v!=='object'||Object.keys(v).length!==k.length||Object.keys(v).some(x=>!k.includes(x)))bad();},n=(v,min,max,int=false)=>{if(!Number.isFinite(v)||v<min||v>max||int&&!Number.isInteger(v))bad();return v;};
  obj(raw,['version','initialized','next','equipped','carried','locker','fallen','posts']);if(raw.version!==1||typeof raw.initialized!=='boolean')bad();n(raw.next,1,1e9,true);const ids=new Set();
  const item=v=>{obj(v,['uid','id','condition','rounds']);if(typeof v.id!=='string'||!Object.hasOwn(D,v.id))bad();n(v.uid,1,raw.next-1,true);if(ids.has(v.uid))bad();ids.add(v.uid);n(v.condition,0,100);n(v.rounds,0,D[v.id].magazine,true);return{...v};};
@@ -12,7 +13,7 @@ function validate(raw){
  if(raw.equipped!==null&&!out.carried.some(i=>i.uid===raw.equipped&&D[i.id].category!=='deployed'))bad();
  if(!Array.isArray(raw.fallen)||raw.fallen.length>C.SuccessionRules.maxRemains||!Array.isArray(raw.posts)||raw.posts.length>R.maxPosts)bad();const fallenIds=new Set();
  for(const f of raw.fallen){obj(f,['remains','items']);n(f.remains,1,C.SuccessionRules.maxRemains,true);if(fallenIds.has(f.remains))bad();fallenIds.add(f.remains);out.fallen.push({remains:f.remains,items:list(f.items)});}
- for(const p of raw.posts){obj(p,['item','x','y','angle','health','cooldown']);const i=item(p.item),d=D[i.id];if(d.category!=='deployed')bad();n(p.x,R.postRadius,C.WORLD_SIZE-R.postRadius);n(p.y,R.postRadius,C.WORLD_SIZE-R.postRadius);n(p.angle,-Math.PI*2,Math.PI*2);n(p.health,0,d.health);n(p.cooldown,0,120);out.posts.push({...p,item:i});}
+ for(const p of raw.posts){obj(p,['item','x','y','angle','health','cooldown']);const i=item(p.item),d=D[i.id];if(d.category!=='deployed')bad();const S217=C.campaignLocal217?.(full)?.size??C.WORLD_SIZE;n(p.x,R.postRadius,S217-R.postRadius);n(p.y,R.postRadius,S217-R.postRadius);n(p.angle,-Math.PI*2,Math.PI*2);n(p.health,0,d.health);n(p.cooldown,0,120);out.posts.push({...p,item:i});}
  if(ids.size>R.maxItems||!raw.initialized&&(ids.size||raw.next!==1||raw.equipped!==null))bad();return out;
 }
 function install(g){

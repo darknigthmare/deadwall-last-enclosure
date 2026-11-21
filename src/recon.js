@@ -2,7 +2,7 @@
 (function(root){
  'use strict';const C=typeof module!=='undefined'&&module.exports?require('./core.js'):root.DeadwallCore;
  const R=C.RECON_RULES,dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y),live=b=>b&&!b.dead&&b.health>0;
- function valid(p){return p&&Number.isFinite(p.x)&&Number.isFinite(p.y)&&p.x>=0&&p.y>=0&&p.x<=C.WORLD_SIZE&&p.y<=C.WORLD_SIZE;}
+ function valid(p){return p&&Number.isFinite(p.x)&&Number.isFinite(p.y)&&C.LOCAL_MAP217.contains(p.x,p.y);}
  function points(g){
   if(!g?.world||g.state!=='playing'||g.gameOver)return[];
   const out=[];
@@ -29,7 +29,7 @@
   for(const end of candidates.slice(0,R.routeQueries)){
    const goal={x:Math.floor(end.x/32),y:Math.floor(end.y/32)};
    const blocked=(x,y)=>!clear({x:x*32+16,y:y*32+16});
-   const cells=g.infrastructure?.findPath?g.infrastructure.findPath(start,goal,blocked,128,128,R.maxExpanded):C.findFriendlyPath(start,goal,blocked,128,128,R.maxExpanded);
+   const cells=g.infrastructure?.findPath?g.infrastructure.findPath(start,goal,blocked,g.local.tiles,g.local.tiles,R.maxExpanded):C.findFriendlyPath(start,goal,blocked,g.local.tiles,g.local.tiles,R.maxExpanded);
    if(!cells)continue;const path=[{x:from.x,y:from.y},origin,...cells.map(p=>({x:p.x*32+16,y:p.y*32+16})),end];
    if(!path.slice(1).every((p,i)=>segmentClear(g,path[i],p,radius)))continue;
    return{ok:true,path,distance:path.slice(1).reduce((n,p,i)=>n+dist(path[i],p),0),reason:'Trajet par les accès actuels. Portes et pistes prises en compte ; aucun danger évalué.'};
@@ -58,7 +58,7 @@
    ctx.setLineDash([]);if(!view||g.visible(p.x,p.y,45,view)){ctx.beginPath();ctx.arc(p.x,p.y,33,0,Math.PI*2);ctx.stroke();ctx.font='bold 11px sans-serif';ctx.fillStyle='#efdab0';ctx.textAlign='center';ctx.fillText('ÉTAPE 1',p.x,p.y-40);}ctx.restore();
   }
   const oldGround=g.drawGround.bind(g);g.drawGround=(ctx,...args)=>{const result=oldGround(ctx,...args);draw(ctx,args[0]);return result;};
-  const oldMinimap=g.renderMinimap.bind(g);g.renderMinimap=(...args)=>{const result=oldMinimap(...args);if(g.frontier?.active())return result;sync();const ps=points(g),c=g.mctx,sx=g.minimap.width/C.WORLD_SIZE,sy=g.minimap.height/C.WORLD_SIZE;c.save();for(const p of ps)if(p.kind==='site'&&!p.done){c.strokeStyle=queue.includes(p.id)?'#f0d28d':'#89b6ac';c.lineWidth=queue.includes(p.id)?2:1;c.strokeRect(p.x*sx-2,p.y*sy-2,4,4);}c.restore();return result;};
+  const oldMinimap=g.renderMinimap.bind(g);g.renderMinimap=(...args)=>{const result=oldMinimap(...args);if(g.frontier?.active())return result;sync();const ps=points(g),c=g.mctx,sx=g.minimap.width/(g.local||C.LOCAL_MAP217).size,sy=g.minimap.height/(g.local||C.LOCAL_MAP217).size;c.save();for(const p of ps)if(p.kind==='site'&&!p.done){c.strokeStyle=queue.includes(p.id)?'#f0d28d':'#89b6ac';c.lineWidth=queue.includes(p.id)?2:1;c.strokeRect(p.x*sx-2,p.y*sy-2,4,4);}c.restore();return result;};
   for(const name of ['startNew','restoreSave','returnToMenu']){const old=g[name].bind(g);g[name]=(...args)=>{const result=old(...args);queue=[];selected=null;cached=null;key='';world=g.world;message='';g.reconUI?.reset();return result;};}
   const api=Object.freeze({points:()=>points(g),choose,enqueue,remove,move,clear,returnHome,route,overview,open,draw,setOverlay:value=>{if(typeof value!=='boolean')return false;overlay=value;return true;}});g.recon=api;return api;
  }

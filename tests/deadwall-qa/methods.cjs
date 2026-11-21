@@ -70,6 +70,6 @@ function parseFactory() {
   return new Function('MAX_FILE_BYTES', 'fail', 'validate', `${sources().saveParse}\nreturn parse;`)(8 * 1024 * 1024, message => { throw new Error(message); }, value => value);
 }
 function wallGuard() {
-  return new Function('WORLD_TILES', 'BUILDINGS', `return ({ ${sources().wall}\nreturn candidate;\n} }).placeWallLine;`)(128, { woodWall: { id: 'woodWall' } });
+  return new Function('WORLD_TILES', 'BUILDINGS', `const game = ({ local: { tiles: WORLD_TILES }, ${sources().wall}\nreturn candidate;\n} });\nreturn game.placeWallLine.bind(game);`)(128, { woodWall: { id: 'woodWall' } });
 }
 module.exports = { local, root, sources, readPatch, makeClass, parseFactory, wallGuard, focusOriginal };

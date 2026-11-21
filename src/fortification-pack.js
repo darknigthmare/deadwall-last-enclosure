@@ -32,6 +32,8 @@ function normalize(raw,full,geometryVersion202=full?.cityGeometry202??0){
  const fail=m=>{throw Error('Fortifications : '+m+'.');};
  if(!raw||raw.version!==1||!Array.isArray(raw.fittings)||raw.fittings.length>R.maxFittings||!Array.isArray(raw.debris)||raw.debris.length>R.maxDebris)fail('registre invalide');
  const ids=new Set(),buildings=full?.buildings&&new Map(full.buildings.map(b=>[b.id,b]));
+ // O5 : débris bornés par la carte de la cité de la campagne (repli : constante historique).
+ const S217=C.campaignLocal217?.(full)?.size??C.WORLD_SIZE;
  const fittings=raw.fittings.map(f=>{
   if(!f||!int(f.id)||ids.has(f.id)||!num(f.ammo,0,capacityLimit('ammo'))||!num(f.repair,0,capacityLimit('repair'))||!num(f.net,0,capacityLimit('net'))||typeof f.regulator!=='boolean')fail('équipement invalide');
   ids.add(f.id);
@@ -45,7 +47,7 @@ function normalize(raw,full,geometryVersion202=full?.cityGeometry202??0){
  });
  ids.clear();
  const debris=raw.debris.map(d=>{
-  if(!d||!int(d.id)||ids.has(d.id)||!C.BUILDINGS[d.type]||d.type==='core'||!num(d.x,0,C.WORLD_SIZE)||!num(d.y,0,C.WORLD_SIZE)||!num(d.w,1,C.WORLD_SIZE)||!num(d.h,1,C.WORLD_SIZE)||!d.remaining||typeof d.remaining!=='object'||Object.keys(d.remaining).some(k=>!R.debrisResources.includes(k)))fail('débris invalides');
+  if(!d||!int(d.id)||ids.has(d.id)||!C.BUILDINGS[d.type]||d.type==='core'||!num(d.x,0,S217)||!num(d.y,0,S217)||!num(d.w,1,S217)||!num(d.h,1,S217)||!d.remaining||typeof d.remaining!=='object'||Object.keys(d.remaining).some(k=>!R.debrisResources.includes(k)))fail('débris invalides');
   const def=C.CityGeometry202.definition(d.type,geometryVersion202);if(buildings?.has(d.id))fail('structure encore présente');if(full&&d.id>=full.nextId)fail('identifiant de ruine futur');
   const remaining={};for(const k of R.debrisResources){const amount=d.remaining[k]===undefined?0:d.remaining[k];if(!num(amount,0,Math.floor((def.cost[k]||0)*R.debrisFactor)))fail('réserve de débris');remaining[k]=amount;}
   if(!((d.w===def.size[0]*C.TILE&&d.h===def.size[1]*C.TILE)||(d.w===def.size[1]*C.TILE&&d.h===def.size[0]*C.TILE)))fail('empreinte de débris');

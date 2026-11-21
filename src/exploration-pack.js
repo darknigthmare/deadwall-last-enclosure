@@ -14,7 +14,9 @@ function normalize(raw,full){
  out.serial=n(raw.serial,1,1e9,true);out.delivered=n(raw.delivered,0,1e12);
  const list=(a,max)=>{if(!Array.isArray(a)||a.length>max)bad();return a;};
  const id=v=>{n(v,1,out.serial-1,true);if(used.has(v))bad();used.add(v);return v;};
- const pos=d=>({x:n(d.x,0,C.WORLD_SIZE||4096),y:n(d.y,0,C.WORLD_SIZE||4096)});
+ // O5 : positions bornées par la carte de la cité de la campagne (repli : constante historique).
+ const S217=C.campaignLocal217?.(full)?.size??(C.WORLD_SIZE||4096);
+ const pos=d=>({x:n(d.x,0,S217),y:n(d.y,0,S217)});
  const node=v=>{n(v,0,1e9,true);if(nodeIds&&!nodeIds.has(v))bad();return v;};
  const seen=new Set();for(const s of list(raw.surveys,R.maxSurveys)){const nodeId=node(s.nodeId);if(seen.has(nodeId)||!C.RESOURCE_KEYS.includes(s.type)||types&&types.get(nodeId)!==s.type)bad();seen.add(nodeId);out.surveys.push({nodeId,type:s.type,...pos(s)});}
  for(const c of list(raw.caches,R.maxCaches)){const bag=C.makeBag();for(const k of C.RESOURCE_KEYS)bag[k]=n(c.stock?.[k],0,R.cacheCapacity);if(C.bagTotal(bag)>R.cacheCapacity+.000001)bad();out.caches.push({id:id(c.id),...pos(c),stock:bag});}
@@ -110,7 +112,7 @@ function install(g){
  wrap('drawBuilding',(old,ctx,b,...a)=>b.__explorationPack?paint(ctx,b.__explorationPack.p,b.__explorationPack.kind):old(ctx,b,...a));
  wrap('drawGround',(old,ctx,view)=>{const r=old(ctx,view);if((local()||view?.homeProjection)&&state.markers.length>1){ctx.save();ctx.strokeStyle='rgba(215,194,131,.3)';ctx.setLineDash([6,12]);ctx.lineWidth=1;ctx.beginPath();state.markers.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.stroke();ctx.restore();}return r;});
  wrap('drawPlayer',(old,ctx,...a)=>{const r=old(ctx,...a);if(held()&&local()&&!g.player.dead)paint(ctx,{x:g.player.x-8,y:g.player.y-13},'cargo');return r;});
- wrap('renderMinimap',(old,...a)=>{const result=old(...a);if(!local()||g.state!=='playing')return result;const ctx=g.mctx,sx=g.minimap.width/C.WORLD_SIZE,sy=g.minimap.height/C.WORLD_SIZE;ctx.save();ctx.strokeStyle='#c9b16c';ctx.lineWidth=1;ctx.beginPath();state.markers.forEach((p,i)=>i?ctx.lineTo(p.x*sx,p.y*sy):ctx.moveTo(p.x*sx,p.y*sy));ctx.stroke();for(const p of state.caches){ctx.fillStyle='#9da77c';ctx.fillRect(p.x*sx-2,p.y*sy-2,4,4);}for(const p of state.cargo)if(p.stage==='ground'){ctx.strokeStyle='#e2ba69';ctx.strokeRect(p.x*sx-3,p.y*sy-3,6,6);}ctx.restore();return result;});
+ wrap('renderMinimap',(old,...a)=>{const result=old(...a);if(!local()||g.state!=='playing')return result;const ctx=g.mctx,sx=g.minimap.width/(g.local||C.LOCAL_MAP217).size,sy=g.minimap.height/(g.local||C.LOCAL_MAP217).size;ctx.save();ctx.strokeStyle='#c9b16c';ctx.lineWidth=1;ctx.beginPath();state.markers.forEach((p,i)=>i?ctx.lineTo(p.x*sx,p.y*sy):ctx.moveTo(p.x*sx,p.y*sy));ctx.stroke();for(const p of state.caches){ctx.fillStyle='#9da77c';ctx.fillRect(p.x*sx-2,p.y*sy-2,4,4);}for(const p of state.cargo)if(p.stage==='ground'){ctx.strokeStyle='#e2ba69';ctx.strokeRect(p.x*sx-3,p.y*sy-3,6,6);}ctx.restore();return result;});
  wrap('returnToMenu',(old,...a)=>{cancel();return old(...a);});return api;
 }
 const api={initial,normalize,install};root.DeadwallExplorationPack=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;

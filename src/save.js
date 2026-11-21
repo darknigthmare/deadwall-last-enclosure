@@ -17,21 +17,30 @@
   const integer = (value, fallback, min, max, label) => { const result = number(value, fallback, min, max, label); if (!Number.isInteger(result)) fail(label); return result; };
   const list = (value, fallback, max, label) => { const result = value === undefined ? fallback : value; if (!Array.isArray(result) || result.length > max) fail(label); return result; };
   const bag = value => { const raw = object(value === undefined ? {} : value, 'ressources'); return Object.fromEntries(C.RESOURCE_KEYS.map(key => [key, number(raw[key], 0, 0, 1e12, key)])); };
-  const position = raw => ({ x: number(raw.x, undefined, -64, C.WORLD_SIZE + 64, 'position X'), y: number(raw.y, undefined, -64, C.WORLD_SIZE + 64, 'position Y') });
+  // O5 : taille de la carte de la cité portée par la campagne. Absente = carte par défaut ; une autre
+  // taille n'est admise que pour la génération qui la nomme (`C.LocalMap217Rules`, génération 12 encore refusée).
+  const localTiles217 = data => {
+    const rules = C.LocalMap217Rules, tiles = data.localTiles;
+    if (tiles === undefined) return rules.defaultTiles;
+    if (!Number.isInteger(tiles) || tiles === rules.defaultTiles || tiles !== rules.generationTiles[data.frontier?.generation]) fail('taille de carte locale');
+    return tiles;
+  };
 
   function validate(input) {
     const source = object(input, 'document');
     const data = C.migrateSaveData(source); if (!data) fail('version incompatible');
     const cityGeometry202=C.CityGeometry202.version(data.cityGeometry202===undefined?0:data.cityGeometry202);
+    const localTiles=localTiles217(data),L=C.localMapOf217(localTiles===C.LocalMap217Rules.defaultTiles?undefined:{localTiles});
+    const position = raw => ({ x: number(raw.x, undefined, -64, L.size + 64, 'position X'), y: number(raw.y, undefined, -64, L.size + 64, 'position Y') });
     const scenarioId = S.normalize(data.scenarioId);
     const ids = new Set(), nodeIds = new Set(), occupied = new Set(); let maximumId = 0, cores = 0;
     const entityId = raw => { const id = integer(raw.id, undefined, 1, MAX_ENTITY_ID, 'identifiant'); if (ids.has(id)) fail('identifiant dupliqué'); ids.add(id); maximumId = Math.max(maximumId, id); return id; };
-    const buildings = list(data.buildings, [], C.WORLD_TILES ** 2, 'structures').map(value => {
+    const buildings = list(data.buildings, [], L.tiles ** 2, 'structures').map(value => {
       const raw = object(value, 'structure');if(!owns(C.BUILDINGS,raw.type))fail('type de structure');const def=C.CityGeometry202.definition(raw.type,cityGeometry202);
       const id = entityId(raw), rotation = integer(raw.rotation, 0, 0, 3, 'rotation');
       const [width, height] = rotation % 2 ? [def.size[1], def.size[0]] : def.size;
-      const gx = integer(raw.gx, undefined, 0, C.WORLD_TILES-width, 'cellule X'), gy = integer(raw.gy, undefined, 0, C.WORLD_TILES-height, 'cellule Y');
-      for (let y=gy;y<gy+height;y++) for (let x=gx;x<gx+width;x++) { const cell=y*C.WORLD_TILES+x; if (occupied.has(cell)) fail('structures superposées'); occupied.add(cell); }
+      const gx = integer(raw.gx, undefined, 0, L.tiles-width, 'cellule X'), gy = integer(raw.gy, undefined, 0, L.tiles-height, 'cellule Y');
+      for (let y=gy;y<gy+height;y++) for (let x=gx;x<gx+width;x++) { const cell=y*L.tiles+x; if (occupied.has(cell)) fail('structures superposées'); occupied.add(cell); }
       const progress=number(raw.progress,1,0,1,'chantier'); if(raw.type==='core'){cores++;if(progress!==1)fail('centre incomplet');}
       return { id,type:raw.type,gx,gy,rotation,progress,health:number(raw.health,def.health,0.001,def.health,'intégrité'),corpseLoad:number(raw.corpseLoad,0,0,1e9,'pression des corps'),priority:integer(raw.priority,2,1,3,'priorité'),gateMode:['auto','open','closed'].includes(raw.gateMode)?raw.gateMode:'auto' };
     });
@@ -89,7 +98,7 @@
     const stats=Object.fromEntries(Object.keys(C.createStats()).map(key=>[key,number(data.stats?.[key],0,0,1e15,'statistiques')]));
     const research={completed:list(data.research?.completed,[],C.RESEARCH.length,'doctrines').filter(id=>C.RESEARCH.some(item=>item.id===id)),insight:number(data.research?.insight,0,0,C.RESEARCH_INSIGHT_MAX,'insight'),active:null};
     const narrative=N.normalize(data.narrative);
-    const squads=Q.normalize(data.squads,data.rally?position(data.rally):{x:C.WORLD_SIZE/2,y:C.WORLD_SIZE/2},buildings);
+    const squads=Q.normalize(data.squads,data.rally?position(data.rally):{x:L.size/2,y:L.size/2},buildings,L);
     const objectiveIndex=integer(data.objectiveIndex,0,0,C.OBJECTIVES.length,'objectif');
     const objectiveProgress=number(data.objectiveProgress,0,0,1e12,'progression');
     const objectiveReady=data.objectiveReady===undefined?false:data.objectiveReady;
@@ -97,10 +106,11 @@
     return { version:C.SAVE_VERSION,timestamp:number(data.timestamp,Date.now(),0,1e15,'date'),difficulty:owns(C.DIFFICULTIES,data.difficulty)?data.difficulty:'standard',worldSeed:integer(data.worldSeed,17117,0,0xffffffff,'graine'),workerOrder:['auto','harvest','build','clear','retreat'].includes(data.workerOrder)?data.workerOrder:'auto',runId:typeof data.runId==='string'&&/^[a-zA-Z0-9:_-]{1,120}$/.test(data.runId)?data.runId:'legacy:'+(owns(C.DIFFICULTIES,data.difficulty)?data.difficulty:'standard')+':'+(data.worldSeed??17117)+(scenarioId==='classic'?'':':'+scenarioId),randomState:integer(data.randomState,data.worldSeed||17117,0,0xffffffff,'aléatoire'),resources:bag(data.resources),player,buildings,units,zombies,
       scenarioId,
       ...(cityGeometry202?{cityGeometry202}:{}),
+      ...(localTiles!==C.LocalMap217Rules.defaultTiles?{localTiles}:{}),
       squads,
       narrative,nodes:list(data.nodes,[],50000,'gisements').map(row=>{if(!Array.isArray(row)||row.length!==2)fail('gisement');const id=integer(row[0],undefined,0,1e9,'gisement ID');if(nodeIds.has(id))fail('gisement dupliqué');nodeIds.add(id);return[id,number(row[1],0,0,1e12,'gisement quantité')];}),
       wave,phase,phaseTime:number(data.phaseTime,20,-1e12,1e12,'chronomètre'),spawnQueue:legacy.slice(),pendingSpawns:{...pending},spawnTimer:number(data.spawnTimer,0,-1e12,1e12,'cadence migration'),fronts:list(data.fronts,[],4,'fronts').filter(front=>['north','east','south','west'].includes(front)),wavePlan:plan,
-      elapsed:number(data.elapsed,0,0,1e12,'temps'),dayClock:number(data.dayClock,.2,0,1,'heure'),weather:number(data.weather,0,0,1,'météo'),weatherTarget:number(data.weatherTarget,data.weather??0,0,1,'cible météo'),morale:number(data.morale,100,0,100,'moral'),rally:data.rally?position(data.rally):{x:C.WORLD_SIZE/2,y:C.WORLD_SIZE/2},stats,objectiveIndex,objectiveProgress:objectiveReady?C.OBJECTIVES[objectiveIndex].target:objectiveProgress,objectiveReady,nextId,research,activeCrisis:C.normalizeCrisis?C.normalizeCrisis(data.activeCrisis):null,depositedResources:number(data.depositedResources,0,0,1e12,'dépôts') };
+      elapsed:number(data.elapsed,0,0,1e12,'temps'),dayClock:number(data.dayClock,.2,0,1,'heure'),weather:number(data.weather,0,0,1,'météo'),weatherTarget:number(data.weatherTarget,data.weather??0,0,1,'cible météo'),morale:number(data.morale,100,0,100,'moral'),rally:data.rally?position(data.rally):{x:L.size/2,y:L.size/2},stats,objectiveIndex,objectiveProgress:objectiveReady?C.OBJECTIVES[objectiveIndex].target:objectiveProgress,objectiveReady,nextId,research,activeCrisis:C.normalizeCrisis?C.normalizeCrisis(data.activeCrisis):null,depositedResources:number(data.depositedResources,0,0,1e12,'dépôts') };
   }
   function parse(text) {
     if (typeof text !== 'string' || text.length > MAX_FILE_BYTES) fail('fichier trop volumineux');
@@ -153,7 +163,7 @@
  const original=S.validate;
  function validate(input){
    if((input?.version===4||input?.version===5)&&input.territories===undefined)throw new Error('Sauvegarde v4 sans territoires.');
-   const territories=T.normalize((input?.version===4||input?.version===5)?input.territories:undefined);
+   const territories=T.normalize((input?.version===4||input?.version===5)?input.territories:undefined,C.localMapOf217(input));
    const base=original(input);
    // Cross-reference IDs, not array positions. No free replacement worker on load.
    if(Array.isArray(base.units)&&Array.isArray(base.buildings)){
@@ -257,7 +267,7 @@
  const prior=S.validate;
  function validate(input){
   const extended=input?.version===8;if(extended&&input.infrastructure===undefined)throw Error('Sauvegarde v8 sans réseau de voirie.');
-  const state=D.normalize(extended?input.infrastructure:undefined),base=prior(extended?{...input,version:7}:input);
+  const state=D.normalize(extended?input.infrastructure:undefined,C.localMapOf217(input)),base=prior(extended?{...input,version:7}:input);
   const units=new Map(base.units.map(u=>[u.id,u])),structures=new Map(base.buildings.map(b=>[b.id,b]));
   const taken=new Set([...(base.territories?.withdrawing||[]),...Object.values(base.territories?.sectors||{}).map(s=>s.workerId),...(base.siege?.crew||[]).map(c=>c.id),...(base.citadel?.calls||[]).map(c=>c.unitId)]);
   for(const member of state.crew){const u=units.get(member.id);if(!u||u.kind!=='worker'||u.dead||u.health<=0||taken.has(member.id))throw Error('Ouvrier de voirie absent ou déjà affecté.');}
@@ -319,7 +329,7 @@
 })(globalThis);
 
 (function(root){'use strict';const C=root.DeadwallCore,S=root.DeadwallSave;if(S.expeditionsVersion)return;const old=S.validate;
- function validate(input){const modern=input?.version===12;if(modern&&input.expeditions===undefined)throw Error('Sauvegarde v12 sans registre des expéditions.');const e=C.Expeditions.normalize(modern?input.expeditions:undefined),base=old(modern?{...input,version:11}:input);if(!modern)e.trade.wave=base.wave;
+ function validate(input){const modern=input?.version===12;if(modern&&input.expeditions===undefined)throw Error('Sauvegarde v12 sans registre des expéditions.');const e=C.Expeditions.normalize(modern?input.expeditions:undefined,input),base=old(modern?{...input,version:11}:input);if(!modern)e.trade.wave=base.wave;
   const ids=new Set([...base.buildings,...base.units,...base.zombies,...(base.projectiles||[])].map(x=>x.id)),units=new Map(base.units.map(u=>[u.id,u]));
   if(e.vehicle&&(ids.has(e.vehicle.id)||e.vehicle.id>=base.nextId||e.vehicle.driving&&(base.player.dead||Math.hypot(base.player.x-e.vehicle.x,base.player.y-e.vehicle.y)>1)))throw Error('Véhicule ou conducteur incohérent.');
   if(e.active&&(!e.vehicle||e.vehicle.health<=0||e.active.wave>base.wave||!e.sites.find(s=>s.id===e.active.id)?.known)||e.trade.wave>base.wave)throw Error('Sortie active incohérente.');
@@ -330,7 +340,7 @@
 
 (function(root){
  'use strict';const C=root.DeadwallCore,S=root.DeadwallSave,old=S.validate;
- function validate(input){const modern=input?.version===13;if(modern&&!input.fieldcraft)throw Error('Terrain manquant.');const legacyEmpty=modern&&input.fieldcraft?.legacyLayout===true&&Array.isArray(input.fieldcraft.nodes)&&input.fieldcraft.nodes.length===0;const r=C.Fieldcraft.normalize(modern?input.fieldcraft:undefined),b=old(modern?{...input,version:12}:input);if(modern&&!legacyEmpty){const ids=new Set(b.nodes.map(n=>n[0]));if(r.nodes.length!==ids.size||r.nodes.some(n=>!ids.has(n[0])))throw Error('Décors étrangers à la carte.');}return{...b,version:13,fieldcraft:legacyEmpty?{...r,legacyLayout:true}:r};}
+ function validate(input){const modern=input?.version===13;if(modern&&!input.fieldcraft)throw Error('Terrain manquant.');const legacyEmpty=modern&&input.fieldcraft?.legacyLayout===true&&Array.isArray(input.fieldcraft.nodes)&&input.fieldcraft.nodes.length===0;const r=C.Fieldcraft.normalize(modern?input.fieldcraft:undefined,input),b=old(modern?{...input,version:12}:input);if(modern&&!legacyEmpty){const ids=new Set(b.nodes.map(n=>n[0]));if(r.nodes.length!==ids.size||r.nodes.some(n=>!ids.has(n[0])))throw Error('Décors étrangers à la carte.');}return{...b,version:13,fieldcraft:legacyEmpty?{...r,legacyLayout:true}:r};}
  S.validate=validate;S.parse=text=>{if(typeof text!=='string'||new TextEncoder().encode(text).length>S.MAX_FILE_BYTES)throw Error('Sauvegarde trop volumineuse.');return validate(JSON.parse(text));};
 })(globalThis);
 

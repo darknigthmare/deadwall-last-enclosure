@@ -4,8 +4,8 @@ function augment({seed,roads,pois,addRoad,install,G,size}){
  // G4 removes streets but keeps their IDs; array length is no longer a free ID.
  const appendRoad=addRoad;let nextRoad=0;addRoad=(...args)=>{const road=appendRoad(...args);road.id='r131_'+nextRoad++;return road;};
  const Spawn=root.DeadwallWorldSpawns131||(typeof require==='function'?require('./world-spawns131.js'):null),sectors=[],towns=[],centres=new Map(),rural=['cabin','sawmill','mine','quarry','fuel'],industrial=['warehouse','garage','fuel','hardware','mine'],suburban=['house','duplex','grocer','clinic','school'],forest=['cabin','sawmill','motel','ruin'];
- const edge=root.DeadwallCore?.WorldStreamRules131?.sector||1024,old=8192,tiles=size/edge;
- for(let y=0;y<tiles;y++)for(let x=0;x<tiles;x++)if(x>=old/edge||y>=old/edge)centres.set(x+','+y,{x:x*edge+512+(G.hash(seed,x,y,'junction-x')%281-140),y:y*edge+512+(G.hash(seed,x,y,'junction-y')%281-140)});
+ const edge=root.DeadwallCore?.WorldStreamRules131?.sector||1024,OLD_REGION_131=8192 /* emprise fixe de l'ancienne région (G1 à G4) dans le flux G5 : schéma historique, pas une borne de monde */,tiles=size/edge;
+ for(let y=0;y<tiles;y++)for(let x=0;x<tiles;x++)if(x>=OLD_REGION_131/edge||y>=OLD_REGION_131/edge)centres.set(x+','+y,{x:x*edge+512+(G.hash(seed,x,y,'junction-x')%281-140),y:y*edge+512+(G.hash(seed,x,y,'junction-y')%281-140)});
  const horizontal=new Map();
  for(const [key,p]of centres){const [x,y]=key.split(',').map(Number),next=centres.get((x+1)+','+y),down=centres.get(x+','+(y+1));if(next)horizontal.set(key,addRoad([p.x,p.y],[next.x,next.y],y%4===0?9:7));else horizontal.set(key,addRoad([p.x,p.y],[size-80,p.y],5.8));if(down&&(x%3===2||G.hash(seed,key,'minor-road')%100<24))addRoad([p.x,p.y],[down.x,down.y],x%4===0?9:7);}
  // The two old road ends are joined physically, with no coordinate jump.

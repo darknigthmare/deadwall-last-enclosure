@@ -37,7 +37,7 @@ function attach(g){
   const car=g.expeditions.car();if(car?.metric174===1&&(u.id===car.id||u===g.player&&car.driving))return g.expeditions.overlapsVehicle175(b,car);
   return collides({def:true,left:b.x,top:b.y,right:b.x+b.w,bottom:b.y+b.h},u.x,u.y,u.radius||12);
  }
- function positionFree(u,x,y){const car=g.expeditions.car();if(car?.metric174===1&&car.health>0&&!car.regionAway){if(u===g.player&&car.driving)return g.expeditions.carClear(x,y);if(u.id!==car.id&&root.DeadwallMetric174.bodyCircle(g.expeditions.vehicleBody175(car.x,car.y,car.angle),{x,y},u.radius*.9))return false;}return Number.isFinite(x)&&Number.isFinite(y)&&x>u.radius+3&&y>u.radius+3&&x<C.WORLD_SIZE-u.radius-3&&y<C.WORLD_SIZE-u.radius-3&&!blocked(x,y,u.radius*.9);}
+ function positionFree(u,x,y){const car=g.expeditions.car();if(car?.metric174===1&&car.health>0&&!car.regionAway){if(u===g.player&&car.driving)return g.expeditions.carClear(x,y);if(u.id!==car.id&&root.DeadwallMetric174.bodyCircle(g.expeditions.vehicleBody175(car.x,car.y,car.angle),{x,y},u.radius*.9))return false;}return Number.isFinite(x)&&Number.isFinite(y)&&x>u.radius+3&&y>u.radius+3&&x<(g.local||C.LOCAL_MAP217).size-u.radius-3&&y<(g.local||C.LOCAL_MAP217).size-u.radius-3&&!blocked(x,y,u.radius*.9);}
  function segment(u,a,b,step=7){const n=Math.max(1,Math.ceil(Math.hypot(a.x-b.x,a.y-b.y)/step));for(let i=0;i<=n;i++)if(!g.friendlyPositionClear(u,a.x+(b.x-a.x)*i/n,a.y+(b.y-a.y)*i/n))return false;return true;}
  function service(u,e){
   if(!e)return null;
@@ -78,7 +78,9 @@ function attach(g){
   for(const p of g.world.sites||[])placed.push(reserveRect({...p,renderSize:96}));
   const bins=new Map(),keys=b=>{const a=[];for(let y=Math.floor(b.t/128);y<=Math.floor(b.b/128);y++)for(let x=Math.floor(b.l/128);x<=Math.floor(b.r/128);x++)a.push(x+':'+y);return a;};
   const insert=b=>{for(const k of keys(b)){if(!bins.has(k))bins.set(k,[]);bins.get(k).push(b);}};placed.forEach(insert);
-  const fits=(n,x,y)=>{const b=reserveRect({...n,x,y});if(b.l<38||b.t<38||b.r>4058||b.b>4058||b.l<2100&&b.r>1996||b.t<2100&&b.b>1996||Math.hypot(x-2048,y-2048)<270)return false;for(const k of keys(b))for(const a of bins.get(k)||[])if(overlap(a,b,3))return false;return true;};
+  // O5 : bornes et croix des routes lues sur la carte de la cité (4 096 : 4 058 = côté − 38, 2 100 / 1 996 = centre ± 52).
+  const S217=g.local.size,c217=S217/2;
+  const fits=(n,x,y)=>{const b=reserveRect({...n,x,y});if(b.l<38||b.t<38||b.r>S217-38||b.b>S217-38||b.l<c217+52&&b.r>c217-52||b.t<c217+52&&b.b>c217-52||Math.hypot(x-c217,y-c217)<270)return false;for(const k of keys(b))for(const a of bins.get(k)||[])if(overlap(a,b,3))return false;return true;};
   for(const n of g.world.nodes){if(n.depleted)continue;if(!fits(n,n.x,n.y)){const ox=n.x,oy=n.y;let found=false;for(let r=18;r<=2400&&!found;r+=18){const count=Math.max(12,Math.ceil(r/9));for(let i=0;i<count;i++){const a=i/count*Math.PI*2+(n.id%13)*.11,x=Math.round((ox+Math.cos(a)*r)*100)/100,y=Math.round((oy+Math.sin(a)*r)*100)/100;if(fits(n,x,y)){n.x=x;n.y=y;found=true;break;}}}if(!found)throw Error('Décor sans emplacement libre : '+n.id);}insert(reserveRect(n));}
  }
  function recoverActor(u){if(!live(u)||positionFree(u,u.x,u.y))return;const obstruction=blocked(u.x,u.y,u.radius);let candidates=obstruction?[service(u,obstruction)].filter(Boolean):[];for(let r=16;r<700;r+=16){for(let i=0;i<24;i++)candidates.push({x:u.x+Math.cos(i*Math.PI/12)*r,y:u.y+Math.sin(i*Math.PI/12)*r});const p=candidates.find(p=>{if(!positionFree(u,p.x,p.y))return false;const count=Math.max(1,Math.ceil(Math.hypot(p.x-u.x,p.y-u.y)/6));for(let i=1;i<=count;i++)if(blocked(u.x+(p.x-u.x)*i/count,u.y+(p.y-u.y)*i/count,u.radius*.9,obstruction))return false;return true;});if(p){u.x=p.x;u.y=p.y;u.navigation=null;return;}candidates=[];}}
@@ -111,8 +113,8 @@ function attach(g){
  function steerZombie(z,dir,step){
   if(!Number.isFinite(step)||step<=0)return dir;
   if(propSegment(z,{x:z.x+dir.x*step,y:z.y+dir.y*step}))return dir;
-  const gx=Math.max(0,Math.min(127,Math.floor(z.x/32))),gy=Math.max(0,Math.min(127,Math.floor(z.y/32))),candidates=[];
-  for(const [dx,dy]of [[0,0],[-1,0],[1,0],[0,-1],[0,1]]){const x=gx+dx,y=gy+dy;if(x<0||y<0||x>=128||y>=128)continue;const p={x:x*32+16,y:y*32+16},d=Math.hypot(p.x-z.x,p.y-z.y);if(d<.05||!propSegment(z,p))continue;candidates.push({...p,d,cost:g.flow.values[y*128+x]});}
+  const T217=g.local.tiles,gx=Math.max(0,Math.min(T217-1,Math.floor(z.x/32))),gy=Math.max(0,Math.min(T217-1,Math.floor(z.y/32))),candidates=[];
+  for(const [dx,dy]of [[0,0],[-1,0],[1,0],[0,-1],[0,1]]){const x=gx+dx,y=gy+dy;if(x<0||y<0||x>=T217||y>=T217)continue;const p={x:x*32+16,y:y*32+16},d=Math.hypot(p.x-z.x,p.y-z.y);if(d<.05||!propSegment(z,p))continue;candidates.push({...p,d,cost:g.flow.values[y*T217+x]});}
   candidates.sort((a,b)=>a.cost-b.cost||a.d-b.d);const p=candidates[0];if(!p)return{x:0,y:0};const scale=Math.max(p.d,step);return{x:(p.x-z.x)/scale,y:(p.y-z.y)/scale};
  }
  wrap('spawnZombie',(old,...a)=>{const r=old(...a),z=r?g.zombies[g.zombies.length-1]:null;if(z&&[...props(z.x,z.y,z.radius)].some(p=>collides(p,z.x,z.y,z.radius*.7)))recoverActor(z);return r;});

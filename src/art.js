@@ -565,7 +565,8 @@
       else this.blit(ctx, atlas, rect, -width / 2 - 2, -height / 2 - 5, width + 4, height + 7);
       if(b.def.gate&&b.gateMode==='closed'){ctx.fillStyle='#dfb06e';ctx.fillRect(-4,-height*.46,8,6);ctx.strokeStyle='#dfb06e';ctx.lineWidth=1.5;ctx.strokeRect(-2.5,-height*.46-4,5,5);}
       ctx.restore();
-      if (b.corpseLoad > 4) {
+      // Les amas dessinés par corpse-heaps217 remplacent ces marques ; sans lui, ou pour un mur qu'il ne couvre pas, elles restent.
+      if (b.corpseLoad > 4 && !globalThis.DEADWALL?.corpseHeaps217?.covers?.(b)) {
         ctx.fillStyle = 'rgba(64,39,32,.8)';
         for (let i = 0; i < Math.min(8, b.corpseLoad / 3); i++) {
           ctx.beginPath(); ctx.ellipse(b.left + 4 + i * width / 8, b.top + height + 1, 6, 4, 0, 0, Math.PI * 2); ctx.fill();

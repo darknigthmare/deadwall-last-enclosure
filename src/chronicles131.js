@@ -5,7 +5,10 @@ const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):nul
 const D=root.DeadwallChronicles131Data||(typeof require==='function'?require('./chronicles131-data.js'):null);
 const G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null);
 const ids=D.records.map(r=>r.id),sceneIds=Object.keys(D.scenes),copy=v=>JSON.parse(JSON.stringify(v));
-function initial(legacy=false){return{version:1,siteGeneration:null,collected:[],read:[],choices:{},voices:[],selected:0,page:0,prologue:{status:legacy?'skipped':'available',stage:0,gathered:0,deposited:0,completed:[]},scenes:legacy?[...sceneIds]:[]};}
+// Arcs des compagnons : une étape acquise s’écrit « compagnon:étape ». L’âge Ville et la cadence de lecture des faits
+// ne sont pas des valeurs d’équilibrage : aucune étape ne donne de ressource, de moral ni de bonus.
+const A=D.companionArcs,arcIds=A.flatMap(a=>a.steps.map(s=>a.id+':'+s.stage)),ARC_CITY_TIER=C.CITY_TIERS.find(t=>t.name==='VILLE')?.id??4,ARC_CHECK_SECONDS=.5;
+function initial(legacy=false){return{version:1,siteGeneration:null,collected:[],read:[],choices:{},voices:[],arcs:[],selected:0,page:0,prologue:{status:legacy?'skipped':'available',stage:0,gathered:0,deposited:0,completed:[]},scenes:legacy?[...sceneIds]:[]};}
 function normalize(raw){
  if(raw===undefined)return initial(true);
  const fail=()=>{throw Error('Chroniques de D-17 invalides.');},s=initial();
@@ -14,6 +17,8 @@ function normalize(raw){
  const list=(value,allowed)=>{if(!Array.isArray(value)||value.length>allowed.length||new Set(value).size!==value.length||value.some(k=>!allowed.includes(k)))fail();return[...value];};
  s.collected=list(raw.collected,ids);s.read=list(raw.read,s.collected);s.scenes=list(raw.scenes,sceneIds);s.voices=list(raw.voices,D.voices.map(v=>v.id));
  if(s.voices.some(id=>!s.collected.includes(D.voices.find(v=>v.id===id).arc+'-0')))fail();
+ // Champ additif : une sauvegarde antérieure aux arcs se charge avec une liste vide. La rencontre précède toute autre étape.
+ s.arcs=raw.arcs===undefined?[]:list(raw.arcs,arcIds);if(s.arcs.some(id=>!s.arcs.includes(id.split(':')[0]+':1')))fail();
  if(!Number.isInteger(raw.selected)||raw.selected<0||raw.selected>=D.arcs.length||!Number.isInteger(raw.page)||raw.page<0||raw.page>2)fail();
  s.selected=raw.selected;s.page=raw.page;
  if(!raw.choices||Array.isArray(raw.choices)||typeof raw.choices!=='object')fail();
@@ -26,7 +31,7 @@ function normalize(raw){
 function install(g){
  if(g.chronicles131)return g.chronicles131;
  if(!g.expansions)throw Error('Installer les opérations avant les chroniques.');
- let state=initial(true),task=null,scene=null,message='',worldRef=null,placements=null,lastActive=false,lastWave=g.stats?.wavesSurvived||0;
+ let state=initial(true),task=null,scene=null,message='',worldRef=null,placements=null,lastActive=false,lastWave=g.stats?.wavesSurvived||0,arcClock=Infinity,arcQuiet=false;
  const wrap=(name,fn)=>{const old=g[name].bind(g);g[name]=(...a)=>fn(old,...a);},fail=reason=>({ok:false,reason}),can=()=>g.expansions.canAct();
  const local=()=>!g.frontier.active(),home=()=>local()&&!g.expeditions.driving()&&g.core()&&g.workerCanWorkAt(g.player,g.core(),R.homeReach);
  const running=()=>g.state==='playing'&&!g.gameOver&&!g.paused&&!g.activeOverlay&&!g.player.dead&&g.player.health>0;
@@ -86,10 +91,30 @@ function install(g){
   if(p.stage===2&&[...g.world.buildings.values()].some(b=>b.type!=='core'&&!b.dead&&b.completed&&!p.completed.includes(b.id))){p.stage=3;p.status='done';announce('Une première place tient debout. Préparez sa défense avant la nuit.');}
   if(old!==p.stage)g.save(false);
  }
+ // Faits lus, jamais créés : affectation réelle, relevé achevé, brèche ou secteur perdu de la nuit en cours, âge atteint.
+ function arcFacts(){
+  const team=g.worldEvolution?.snapshot?.().companions||[],order=g.fallbackOrder,log=order?.nightLog?.(),breach=order?.status?.().lastBreach,done=C.NARRATIVE_RULES.surveySeconds;
+  return{alive:id=>team.some(c=>c.id===id&&c.health>0),
+   trace:a=>g.narrative?.sectors?.[a.sector]?.survey===done||!!a.record&&state.collected.includes(a.record),
+   trial:g.phase==='assault'&&(!!log&&log.wave===g.wave&&log.lost.length>0||!!breach&&breach.wave===g.wave),
+   city:(g.tier?.id??0)>=ARC_CITY_TIER};
+ }
+ // Après une reprise, la première lecture consigne sans annonce ce qui est déjà vrai. Une nuit passée ne se rejoue pas :
+ // l’épreuve n’est jamais consignée en silence. Un compagnon mort ou non affecté ne parle pas.
+ function arcTick(dt){
+  arcClock+=dt;if(arcClock<ARC_CHECK_SECONDS)return;arcClock=0;
+  const f=arcFacts(),quiet=arcQuiet;arcQuiet=false;let added=false;
+  for(const a of A){if(!f.alive(a.id))continue;
+   const due=[true,f.trace(a),!quiet&&f.trial,f.city];
+   for(const step of a.steps){const id=a.id+':'+step.stage;if(state.arcs.includes(id)||!due[step.stage-1])continue;state.arcs.push(id);added=true;if(!quiet)announce('Entretien : '+a.name+' — '+step.title+'.');}
+  }
+  if(added&&!quiet)g.save(false);
+ }
+ function companionArcs(){return A.map(a=>({id:a.id,name:a.name,dossier:a.dossier,link:a.link,origin:a.origin,question:a.question,steps:a.steps.filter(s=>state.arcs.includes(a.id+':'+s.stage)).map(s=>({...s}))}));}
  function trigger(id){if(state.scenes.includes(id))return false;state.scenes.push(id);scene={id,elapsed:0};g.audio.tone?.(440,.1,'sine',.025);g.audio.noise?.(.08,.01,900);g.save(false);return true;}
  function dismissScene(){if(!scene)return false;scene=null;return true;}
  function tick(dt){if(!Number.isFinite(dt)||dt<=0||!running())return;
-  dt=Math.min(dt,R.maxStep);collectTick(dt);prologueTick();
+  dt=Math.min(dt,R.maxStep);collectTick(dt);prologueTick();arcTick(dt);
   const active=g.frontier.active(),waves=g.stats.wavesSurvived;
   if(scene){scene.elapsed+=dt;if(scene.elapsed>=R.sceneSeconds)scene=null;}
   // Each event has a real edge. Migration and restore only prime these baselines.
@@ -112,6 +137,7 @@ function install(g){
   if(consequence(a.id))rows.push({label:'Consigne retenue',value:consequence(a.id)});
   if(decision)rows.push({label:'Décision consignée',value:a.choice.options.find(o=>o[0]===decision)[2]});
   for(const v of D.voices.filter(v=>v.arc===a.id&&state.voices.includes(v.id)))rows.push({label:'Propos recueillis auparavant · '+v.name+' · '+v.title,value:v.text});
+  for(const c of companionArcs().filter(c=>c.dossier===a.id&&c.steps.length)){rows.push({label:'Parcours · '+c.name,value:c.origin+' Entretiens consignés : '+c.steps.length+' / '+A.find(x=>x.id===c.id).steps.length+'.'});for(const s of c.steps)rows.push({label:'Entretien · '+c.name+' · '+s.stage+'. '+s.label+' · '+s.title,value:s.text});}
   return{summary:a.mission+(consequence(a.id)?' '+consequence(a.id):''),rows,arcs:counts,record:found?{...r,read:state.read.includes(r.id)}:null,target:k?p:null,task:task?{kind:'document',progress:task.elapsed/R.readSeconds}:null,prologue:copy(state.prologue),scene:scene?{...D.scenes[scene.id],id:scene.id,progress:scene.elapsed/R.sceneSeconds}:null,message};
  }
  function selectArc(delta){if(!can())return fail('Campagne active requise.');state.selected=(state.selected+delta+D.arcs.length)%D.arcs.length;state.page=0;return{ok:true};}
@@ -131,10 +157,10 @@ function install(g){
  function foundUnread(id){return state.collected.includes(id)&&!state.read.includes(id);}
  function drawMarker(ctx,p,scale=1){ctx.save();ctx.translate(p.x,p.y);ctx.rotate(-.12);ctx.fillStyle='#c6bfa5';ctx.strokeStyle='#3c443d';ctx.lineWidth=.05*scale;ctx.fillRect(-.18*scale,-.23*scale,.36*scale,.46*scale);ctx.strokeRect(-.18*scale,-.23*scale,.36*scale,.46*scale);ctx.strokeStyle='#5d6459';for(let i=0;i<3;i++){ctx.beginPath();ctx.moveTo(-.1*scale,(-.1+i*.1)*scale);ctx.lineTo(.1*scale,(-.1+i*.1)*scale);ctx.stroke();}ctx.restore();}
  function depthEntries(v,view){if(v.z!==0||v.inside)return[];const out=[];for(const a of D.arcs){const r=next(a);if(!r?.types)continue;const p=location(r.id);if(!p||p.x<view.l||p.x>view.r||p.y<view.t||p.y>view.b||!v.world.line(v,p,0,null,null,.01))continue;out.push({kind:'record',id:'record:'+r.id,depth:p.y+.35,draw:c=>drawMarker(c,p)});}return out;}
- function prime(){task=null;scene=null;message='';worldRef=null;placements=null;lastActive=g.frontier.active();lastWave=g.stats?.wavesSurvived||0;}
+ function prime(){task=null;scene=null;message='';worldRef=null;placements=null;lastActive=g.frontier.active();lastWave=g.stats?.wavesSurvived||0;arcClock=Infinity;arcQuiet=true;}
  function restore(raw){state=normalize(raw);prime();}
- function reset(){state=initial();prime();lastActive=false;lastWave=0;}
- const api=Object.freeze({overview,actions,preview,begin,cancel,read,choose,speak,startPrologue,skipPrologue,recordDeposit,location,placements:()=>new Map(sites()),depthEntries,drawMarker,tick,dismissScene,scene:()=>scene?{...D.scenes[scene.id],id:scene.id,progress:scene.elapsed/R.sceneSeconds}:null,snapshot:()=>normalize(state),restore,reset,busy:()=>!!task});g.chronicles131=api;
+ function reset(){state=initial();prime();lastActive=false;lastWave=0;arcQuiet=false;}
+ const api=Object.freeze({overview,actions,preview,begin,cancel,read,choose,speak,companionArcs,startPrologue,skipPrologue,recordDeposit,location,placements:()=>new Map(sites()),depthEntries,drawMarker,tick,dismissScene,scene:()=>scene?{...D.scenes[scene.id],id:scene.id,progress:scene.elapsed/R.sceneSeconds}:null,snapshot:()=>normalize(state),restore,reset,busy:()=>!!task});g.chronicles131=api;
  g.expansions.register({id:'lore131',title:'Chroniques de D-17',overview,actions,validate:normalize,snapshot:api.snapshot,restore,reset,busy:api.busy});
  // The shared depositedResources counter also includes workers. Only the player's
  // actual interaction can advance these first personal gestures or frame this return.

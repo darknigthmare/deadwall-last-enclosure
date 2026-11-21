@@ -41,7 +41,7 @@ const a=state.analyst;if(a){const u=g.units.find(u=>u.id===a.id),p=g.world.build
   function bodyClear175(body,pad=0){
    if(!M.bodyValid(body)||!Number.isFinite(pad)||pad<0)return false;
    const probe={...body,w:body.w+2*pad,h:body.h+2*pad},box=M.bodyBounds(probe),margin=C.MetricRules175.worldMargin;
-   if(body.x<26||body.y<26||body.x>C.WORLD_SIZE-26||body.y>C.WORLD_SIZE-26||box.x<margin||box.y<margin||box.x+box.w>C.WORLD_SIZE-margin||box.y+box.h>C.WORLD_SIZE-margin)return false;
+   if(body.x<26||body.y<26||body.x>(g.local||C.LOCAL_MAP217).size-26||body.y>(g.local||C.LOCAL_MAP217).size-26||box.x<margin||box.y<margin||box.x+box.w>(g.local||C.LOCAL_MAP217).size-margin||box.y+box.h>(g.local||C.LOCAL_MAP217).size-margin)return false;
    for(const b of g.world.buildings.values())if(b.right>=box.x&&b.left<=box.x+box.w&&b.bottom>=box.y&&b.top<=box.y+box.h&&root.DeadwallTactics.blocksFriendly(b)&&M.bodyOverlap(probe,{x:(b.left+b.right)/2,y:(b.top+b.bottom)/2,w:b.right-b.left,h:b.bottom-b.top,a:0}))return false;
    const radius=Math.hypot(probe.w,probe.h)/2;
    if(g.fieldcraft)for(const p of g.fieldcraft.props(body.x,body.y,radius)){
@@ -66,8 +66,8 @@ const a=state.analyst;if(a){const u=g.units.find(u=>u.id===a.id),p=g.world.build
    if(metric)return bodyClear175(vehicleBody175(x,y,angle,p));
    const rr=vehicleRadius(p,false);
    // Untouched compact vehicles retain the original traversal and save contract.
-   if(x<26||y<26||x>C.WORLD_SIZE-26||y>C.WORLD_SIZE-26)return false;
-   if(g.fieldcraft)return g.friendlyPositionClear({radius:rr/0.9},x,y);if(x<rr+4||y<rr+4||x>C.WORLD_SIZE-rr-4||y>C.WORLD_SIZE-rr-4)return false;for(let i=0;i<8;i++)if(g.world.solidForFriendly(x+Math.cos(i*Math.PI/4)*rr,y+Math.sin(i*Math.PI/4)*rr))return false;return !g.world.solidForFriendly(x,y);
+   if(x<26||y<26||x>(g.local||C.LOCAL_MAP217).size-26||y>(g.local||C.LOCAL_MAP217).size-26)return false;
+   if(g.fieldcraft)return g.friendlyPositionClear({radius:rr/0.9},x,y);if(x<rr+4||y<rr+4||x>(g.local||C.LOCAL_MAP217).size-rr-4||y>(g.local||C.LOCAL_MAP217).size-rr-4)return false;for(let i=0;i<8;i++)if(g.world.solidForFriendly(x+Math.cos(i*Math.PI/4)*rr,y+Math.sin(i*Math.PI/4)*rr))return false;return !g.world.solidForFriendly(x,y);
   }
   function buildCar(){reconcile();const vp=g.worldEvolution?.overview().fleet.selectedProfile||profile(),cost=vp.cost||R.buildCar;if(!command()||g.phase!=='calm'||!home(g.player)||!operational('expeditionGarage').length||live(state.vehicle)||!C.canAfford(g.resources,cost))return report('Garage disponible, présence au centre et coût du véhicule sélectionné requis.',false);
    const core=g.core(),metric=g.world.cityGeometry202===1,rr=vehicleRadius(vp,metric);let point=null;
@@ -83,7 +83,7 @@ const a=state.analyst;if(a){const u=g.units.find(u=>u.id===a.id),p=g.world.build
   }
   function board(){const pose=g.vertical175?.pose();if(pose?.site!=null||pose?.travel||pose?.z>0)return report('Redescendez au sol et terminez le trajet intérieur avant de prendre le volant.',false);if(g.vertical175?.network?.carrying())return report('Posez votre équipement de citadelle avant de prendre le volant.',false);reconcile();const v=state.vehicle;if(!command()||!nearCar()||!safe(g.player)&&!v.driving)return report('Rejoignez le break et écartez les menaces immédiates.',false);
    if(!v.driving&&!materialReady())return report('Terminez le rechargement ou l’intervention avant de prendre le volant.',false);
-   if(v.driving){let point=null;const exits=exitPoints175(v);for(const p of exits){if(g.friendlyPositionClear({radius:normalRadius},p.x,p.y)&&(g.nightGear?.localLineClear(v,p)??g.hostileLineClear(v,p,false))&&p.x>normalRadius+4&&p.y>normalRadius+4&&p.x<C.WORLD_SIZE-normalRadius-4&&p.y<C.WORLD_SIZE-normalRadius-4){point=p;break;}}
+   if(v.driving){let point=null;const exits=exitPoints175(v);for(const p of exits){if(g.friendlyPositionClear({radius:normalRadius},p.x,p.y)&&(g.nightGear?.localLineClear(v,p)??g.hostileLineClear(v,p,false))&&p.x>normalRadius+4&&p.y>normalRadius+4&&p.x<(g.local||C.LOCAL_MAP217).size-normalRadius-4&&p.y<(g.local||C.LOCAL_MAP217).size-normalRadius-4){point=p;break;}}
     if(!point)return report('Sortie obstruée : déplacez le véhicule.',false);v.driving=false;g.player.radius=normalRadius;Object.assign(g.player,point);speed=0;return save('À pied. Le break reste à son emplacement.');}
    g.cancelPlacement();g.player.reload=0;g.input.mouseDown=false;g.input.touchFire=false;v.driving=true;g.player.x=v.x;g.player.y=v.y;g.player.radius=vehicleRadius();speed=0;return save('Au volant : déplacements habituels. F pour descendre.');}
   function refuel(){ensure();if(!materialReady())return report('Descendez du véhicule et terminez le rechargement ou l’intervention avant de manipuler le matériel.',false);const v=state.vehicle,p=profile();if(!command()||!nearCar()||p.tank<=0||v.fuel>=p.tank)return report('Break proche et place dans le réservoir requis.',false);let need=p.tank-v.fuel,n=Math.min(need,g.player.carry.fuel);g.player.carry.fuel-=n;v.fuel+=n;need-=n;let c=Math.min(need,v.cargo.fuel);v.cargo.fuel-=c;v.fuel+=c;need-=c;n+=c;if(need>0&&home(v)&&home(g.player)){c=Math.min(need,g.resources.fuel);g.resources.fuel-=c;v.fuel+=c;n+=c;}if(n<=0)return report('Aucun carburant porté. Revenez avec un bidon ou près du dépôt.',false);return save(n.toFixed(1)+' carburant transféré au réservoir.');}
@@ -151,7 +151,7 @@ const a=state.analyst;if(a){const u=g.units.find(u=>u.id===a.id),p=g.world.build
   wrap('setGateMode',(old,mode,b=g.selectedBuilding)=>{const v=api.entity();if(v&&b&&mode!=='open'&&overlapsVehicle175({x:b.left,y:b.top,w:b.right-b.left,h:b.bottom-b.top},v))return false;return old(mode,b);});
   wrap('completeBuilding',(old,b)=>{const v=api.entity();if(v&&b?.def.wall&&overlapsVehicle175({x:b.left,y:b.top,w:b.right-b.left,h:b.bottom-b.top},v)){const p=Math.min(b.progress,.999);b.health=Math.max(.001,b.health-(b.progress-p)*b.maxHealth*.88);b.progress=p;b.completionBlocked=true;return false;}return old(b);});
   wrap('handlePressed',(old,...a)=>{if(g.input.pressed.has('KeyF'))board();return old(...a);});
-  wrap('renderMinimap',(old,...a)=>{const r=old(...a),v=state.vehicle;if(v&&!v.regionAway){const c=g.mctx;c.fillStyle=live(v)?'#dec781':'#736f65';c.fillRect(v.x*g.minimap.width/C.WORLD_SIZE-3,v.y*g.minimap.height/C.WORLD_SIZE-2,6,4);}return r;});
+  wrap('renderMinimap',(old,...a)=>{const r=old(...a),v=state.vehicle;if(v&&!v.regionAway){const c=g.mctx;c.fillStyle=live(v)?'#dec781':'#736f65';c.fillRect(v.x*g.minimap.width/(g.local||C.LOCAL_MAP217).size-3,v.y*g.minimap.height/(g.local||C.LOCAL_MAP217).size-2,6,4);}return r;});
   return g.expeditions;
  }
  const api={install};root.DeadwallExpeditions=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;

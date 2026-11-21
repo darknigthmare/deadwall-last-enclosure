@@ -9,7 +9,8 @@
   const plans=new Map(),patrols=new Map(),visited=new Map();
   const records=()=>h.state().climbers;
   const record=e=>e&&records().find(c=>c.id===e.id);
-  const active=()=>g.state==='playing'&&!g.gameOver&&!g.paused&&!g.activeOverlay&&!g.frontier?.active();
+  // D-17 is simulated as a whole during a regional sortie: climbers keep the same clock as ground enemies.
+  const active=()=>g.state==='playing'&&!g.gameOver&&!g.paused&&!g.activeOverlay;
   function enemyPose(e){
    const c=record(e),b=c&&h.building(c.site);if(!c||!b)return{z:0,site:null,level:-1,stage:'ground',bridge:null};
    let z=floorZ(b,c.level);
@@ -176,7 +177,7 @@
   function localTarget(z,c){
    const origin={x:z.x/R.tile,y:z.y/R.tile,z:enemyPose(z).z+T.bodyHeight},p=h.pose();
    const day=g.nightwatch?.isBlackout?.()?0:C.clamp(g.daylight?.()??1,0,1),range=Math.max(T.nightAwarenessMetres,T.dayAwarenessMetres*day);
-   if(live(g.player)&&p.site===c.site&&p.level===c.level&&!p.travel&&Math.hypot(g.player.x/R.tile-origin.x,g.player.y/R.tile-origin.y)<=range&&line(origin,{x:g.player.x/R.tile,y:g.player.y/R.tile,z:p.z+T.bodyHeight})){
+   if(live(g.player)&&!g.player.regionAbsent&&p.site===c.site&&p.level===c.level&&!p.travel&&Math.hypot(g.player.x/R.tile-origin.x,g.player.y/R.tile-origin.y)<=range&&line(origin,{x:g.player.x/R.tile,y:g.player.y/R.tile,z:p.z+T.bodyHeight})){
     return{x:g.player.x/R.tile,y:g.player.y/R.tile,kind:'player',goals:[{x:g.player.x/R.tile,y:g.player.y/R.tile}]};
    }
    const ally=(h.alliesAt?.(c.site,c.level)||[]).filter(live).filter(u=>Math.hypot(u.x/R.tile-origin.x,u.y/R.tile-origin.y)<=range&&line(origin,{x:u.x/R.tile,y:u.y/R.tile,z:origin.z})).sort((a,b)=>Math.hypot(a.x-z.x,a.y-z.y)-Math.hypot(b.x-z.x,b.y-z.y)||a.id-b.id)[0];

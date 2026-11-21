@@ -232,7 +232,9 @@ function arsenalScenario(){
  assert.equal(g.arsenalUI134.open(),true);const elapsed=g.elapsed;for(let i=0;i<20;i++)g.loop(g.lastFrame+40);assert.equal(g.elapsed,elapsed);
  clickAction(g,doc,'tab:catalog');clickAction(g,doc,'craft:revolver');
  assert.equal(g.arsenalUI134.isOpen(),false,'Le chantier reprend sur le terrain');
- for(let i=0;i<200&&g.arsenal134.busy();i++)g.update(.04);
+ // La récompense d'un objectif de récolte sans rapport, atteint ou non selon les ouvriers, ne doit pas fausser le décompte.
+ const objective=g.updateObjective;g.updateObjective=()=>{};
+ try{for(let i=0;i<200&&g.arsenal134.busy();i++)g.update(.04);}finally{g.updateObjective=objective;}
  assert.equal(g.arsenal134.busy(),false);const item=g.arsenal134.snapshot().locker.find(i=>i.id==='revolver');assert.ok(item);
  assert.equal(g.resources.scrap,before-16);assert.equal(item.rounds,0,'Une fabrication ne fournit pas de cartouches');
  g.arsenalUI134.open();clickAction(g,doc,'tab:locker');clickAction(g,doc,'move:'+item.uid);
