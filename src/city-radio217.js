@@ -117,6 +117,9 @@
     :'Vague '+led.wave+' menée : une Meneuse rassemble la horde '+WHERE[led.side]+'. '+led.alive+' contacts si elle vit à l’assaut, '+led.slain+' si elle tombe.');
    else if(led.status==='slain')add('ledslain:'+led.wave,1,'Meneuse abattue '+WHERE[led.side]+' : la vague '+led.wave+' arrivera dispersée, '+led.slain+' contacts attendus.','good');
   }
+  // Avant-postes (src/outposts217.js) : chute ou passage tenu d'une migration, lus chez leur propriétaire.
+  let posts=[];try{posts=g.outposts217?.radioFacts?.()||[];}catch(error){posts=[];}
+  for(const f of posts)if(f&&typeof f.key==='string'&&typeof f.text==='string')add(f.key,f.level||1,f.text,f.tone||'danger');
   // Maladie des charniers (src/corpse-chain217.js) : mêmes paliers que l'eau, lus dans leur propriétaire.
   const chain=g.corpseChain217;
   if(chain?.open?.()){
@@ -422,7 +425,7 @@
   }
   function overview(){
    const s=state(),last=log[log.length-1];
-   const rows=[{label:'Radio',value:SPEAKER+' transmet les faits de D-17 pendant vos sorties : front, brèche, secteur perdu, mur menacé, amas de corps, eau, moral, centre, munitions. '+(g.outposts217?.active?.()?'Portée : '+C.Outposts217Rules.radio.range+' m autour de D-17 et de chaque avant-poste ; au-delà, silence.':'Portée non limitée pour l’instant.')},
+   const rows=[{label:'Radio',value:SPEAKER+' transmet les faits de D-17 pendant vos sorties : front, brèche, secteur perdu, mur menacé, amas de corps, eau, moral, centre, munitions. '+(g.outposts217?.active?.()?'Portée : '+C.Outposts217Rules.radio.range+' m autour de D-17 et de chaque avant-poste ; au-delà, silence. Selon son rang, un avant-poste porte plus loin ('+C.Outposts217Rules.ranks.map(r=>r.name+' '+r.radio+' m').join(', ')+').':'Portée non limitée pour l’instant.')},
     {label:'Dernier message',value:last?line(last):'Aucun.'},
     {label:'Journal',value:many(log.length,'message','messages')+' sur '+R.journal+' gardés'+(s.active?', sauvegardés avec la campagne.':', non sauvegardés.')}];
    if(!s.active)return{summary:'Cette campagne a commencé avant les consignes d’absence : la radio transmet, mais la cité ne donne aucun ordre sans vous. Les consignes ne s’activent pas en cours de campagne.',

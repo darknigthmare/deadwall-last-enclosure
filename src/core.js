@@ -3541,7 +3541,18 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // en phase calme, contre `fuel` carburant pris au dépôt. radio.range : portée, en mètres, autour de D-17 et de chaque avant-poste.
  C.Outposts217Rules=Object.freeze({startAge:2,
   reach:100,garrison:2,cost:Object.freeze({wood:30,scrap:20,food:20,ammo:20}),upkeep:Object.freeze({food:2}),
-  convoy:Object.freeze({everyWaves:1,lot:16,fuel:2}),radio:Object.freeze({range:3000}),limits:Object.freeze({posts:64,hauled:1000000})});
+  convoy:Object.freeze({everyWaves:1,lot:16,fuel:2}),radio:Object.freeze({range:3000}),limits:Object.freeze({posts:64,hauled:1000000,fallen:64,reinfest:24}),
+  // Troisième tranche. ranks : Relais (0), Poste (1), Avant-poste (2). Un rang se monte sur place (Commandant à `works.reach` m du lieu,
+  // route gardée), contre `cost` pris au dépôt et `seconds` de chantier de la garnison (suspendu tant qu'elle n'est pas ravitaillée).
+  // lot : unités d'un convoi ; radio : portée (m) autour du lieu ; hold : solidité de la garnison ; signature : rayon (m) du bruit
+  // de l'avant-poste, passé à l'écoute existante des hordes régionales (world-evolution `hear`, qui oriente les hordes à 1,6 × ce rayon).
+  // fall : une migration vivante à `range` m d'un avant-poste, Commandant à plus de `unseen` m, le fait tomber si son effectif dépasse
+  // garnison × `perRifle` × hold du rang (× `unfed` si la garnison n'est pas ravitaillée). Tombé : garnison tuée, route perdue ; un lieu
+  // ordinaire reçoit `reinfest.min` à `reinfest.max` infectés (hachage du lieu et de la migration), un lieu remarquable se repeuple par sa règle.
+  ranks:Object.freeze([Object.freeze({name:'Relais',lot:16,radio:3000,hold:1,signature:300}),
+   Object.freeze({name:'Poste',cost:Object.freeze({wood:40,scrap:30,stone:20}),seconds:90,lot:24,radio:4000,hold:2,signature:450}),
+   Object.freeze({name:'Avant-poste',cost:Object.freeze({wood:60,scrap:50,stone:30,ammo:20}),seconds:150,lot:32,radio:5000,hold:3,signature:600})]),
+  works:Object.freeze({reach:80}),fall:Object.freeze({range:250,unseen:400,perRifle:60,unfed:.5,reinfest:Object.freeze({min:3,max:6})})});
  // Filière des corps et maladie (docs/GAME_BIBLE.md §8.7), première tranche, nouvelles campagnes seulement. Valeurs non éprouvées en partie réelle.
  // startAge : indice de C.CITY_TIERS (2 = « Avant-poste ») ; avant, un corps déblayé disparaît comme toujours. reach : portée du dépôt.
  // pyre : `perSecond` corps consumés par seconde ; `cost` combustible par corps (bois ou carburant, au choix à l'allumage) ;

@@ -340,9 +340,12 @@ test('repeuplement : une migration ramène un petit nid, une fois, hors de vue, 
   const forged=copy(data);forged.expansions127.modules.remarkable217.refilled={};forged.expansions127.modules.remarkable217.migrations=[];
   let refused=false;try{refused=g.restoreSave(forged)===false;}catch(error){refused=true;}assert.equal(refused,true);
   assert.equal(g.restoreSave(copy(data)),true);
-  // Sous un avant-poste : aucun repeuplement, même migration nouvelle, Commandant à l'écart.
-  const held=copy(g.serialize());
-  held.expansions127.modules.outposts217={version:2,active:true,posts:[{id:v.id,garrison:C.Outposts217Rules.garrison,founded:0,convoy:0,hauled:C.makeBag(),note:'held',sent:0}]};
+  // Sous un avant-poste : aucun repeuplement, même migration nouvelle, Commandant à l'écart. Depuis la troisième tranche des
+  // avant-postes, une migration peut faire tomber une garnison trop faible : celle-ci est au rang le plus haut, que nulle horde
+  // (au plus `maxGroup` infectés) ne submerge, pour que le lieu reste tenu.
+  const held=copy(g.serialize()),top=C.Outposts217Rules.ranks.length-1;
+  assert.ok(globalThis.DeadwallOutposts217.holds(C.Outposts217Rules.garrison,top,true)>=C.WorldEvolution.RULES.maxGroup);
+  held.expansions127.modules.outposts217={version:3,active:true,posts:[{id:v.id,garrison:C.Outposts217Rules.garrison,founded:0,convoy:0,hauled:C.makeBag(),note:'held',sent:0,rank:top,work:null}],fallen:[],reinfested:{}};
   assert.ok(held.frontier.seen.includes(v.id));assert.equal(g.restoreSave(held),true);assert.equal(g.outposts217.posts().length,1);
   const second=migrate(1,-40);assert.ok(standNear(g,v,Rp.unseen+120)>Rp.unseen);step(g,24);
   assert.deepEqual(saved(g).refilled,{[v.id]:n},'lieu tenu : pas de repeuplement');assert.deepEqual(saved(g).migrations,[first]);
