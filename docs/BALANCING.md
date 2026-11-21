@@ -442,6 +442,10 @@ La nécropole se multiplie avec la corvée de déblaiement (×2,25 pendant la co
 
 `C.CityRadio217Rules.journal` : 12 messages gardés. Les consignes n'ajoutent aucune valeur d'équilibrage : elles appellent les ordres de repli existants, une fois par vague.
 
+## Cité de 192 m — O6b (hors jeu)
+
+`C.OpenCity217Rules` (G12) : `fallbackRing` 192 cases (recherche du repli d'un infecté sur toute la carte ; une poche fermée de 17117 est à 74 cases de tout accès) ; `pathMaxExpanded` 16 384 nœuds pour les chemins amis sur terrain (8 192 sur carte plate, inchangé). Champ de flux à 192 m : 2 à 5 ms pour la partie de terrain, 13 à 28 ms avec les enveloppes déléguées, contre 44 à 47 ms pour la partie actuelle à 128 cases.
+
 ## Rendu du relief — O8a (présentation)
 
 Aucune valeur d'équilibrage. `C.TerrainArt217Rules` est une table de présentation (`cliffMetres` 4, `bevel` .35, `bankMaxCells` 4, `edgeFadeMetres` 6, `grain` 7). La hauteur jouée d'un cran reste à fixer en O8b (D-O3).

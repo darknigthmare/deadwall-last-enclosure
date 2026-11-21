@@ -1421,6 +1421,13 @@ d'atlas calée sur l'étendue totale.
   47 ms pour la carte actuelle de 128 m : la décision de garder 192 m tient.
   Restent (O6b) : projectiles en vol, ouvriers, voirie et véhicule face aux
   falaises ; vivres et carburant dans les gisements.
+- **Tranche O6b livrée, sans effet en jeu (O6 complet)** : le haut d'une
+  falaise est une position à tenir — on y voit et on y tire en contrebas,
+  d'en bas on ne touche rien au-dessus ; la rampe est le seul passage entre
+  paliers pour les survivants, les ouvriers, la voirie et la horde. Le
+  champ de flux à 192 m coûte 2 à 5 ms. Réserves pour O9 : tourelles et
+  soldats choisissent encore une cible sans lire la falaise (munition
+  dépensée) ; le repli d'un infecté hors d'atteinte est un saut.
 - **Tranche O8a livrée, sans effet en jeu** : le relief se dessine. Chaque
   palier est teinté ; la paroi visible se peint sous l'arête (4 m par cran,
   hauteur provisoire jusqu'à O8b) ; le rebord d'un plateau situé au sud
