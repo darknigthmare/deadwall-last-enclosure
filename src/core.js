@@ -3567,7 +3567,10 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // jamais plus de `share` du plan, pris sur son effectif ; placés à `ringMin`–`ringMax` du poste, réveillés par le
  // Commandant à `wake` ou un tir à `shot`. Poste : `tries` points de part et d'autre, au pas `step`, sur deux profondeurs.
  C.Abominations217Rules=Object.freeze({firstWave:12,every:4,gatherShare:.2,cutShare:.12,standoff:256,spanMin:.3,spanMax:.7,
-  escort:Object.freeze({base:6,perLed:2,max:18,share:.08,ringMin:46,ringMax:110,wake:260,shot:150}),post:Object.freeze({tries:6,step:128})});
+  escort:Object.freeze({base:6,perLed:2,max:18,share:.08,ringMin:46,ringMax:110,wake:260,shot:150}),post:Object.freeze({tries:6,step:128}),
+  // Troisième tranche : abominations du siège, au plus `cap` présentes avec les géants et la Meneuse. Comble-fossé : un corps tombé à
+  // `radius` d'elle compte `extra` fois de plus dans le fossé ; Traîne-épave : au contact (`reach`) d'un mur, son épave ajoute `load` de charge.
+  cap:3,filler:Object.freeze({firstWave:14,every:6,lead:.1,radius:96,extra:1,minDitches:1}),dragger:Object.freeze({firstWave:18,every:7,lead:.1,reach:40,load:12})});
  // Monde régional de la génération 12, hors jeu (src/world-open217.js, specs/monde-sans-bord/ouverture.md, tranche O1). Aucune génération 1 à 11 ne le lit.
  // route : zone de recherche = rectangle des cantons de départ et d'arrivée élargi de `margin` cantons, au plus `maxCantons` cantons ; snap : rayon (cantons)
  // où chercher la route la plus proche ; near : rayon maximal (m) d'une recherche de voisinage ; pick : rayon (cantons) des routes candidates d'un tirage (migrations, épaves).

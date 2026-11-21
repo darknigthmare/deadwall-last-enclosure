@@ -366,3 +366,15 @@ test('marée 217 : repère sobre de la Meneuse sur le côté d’une vague mené
   Horizon.paint(off,stub({wave,fronts:[other],wavePlan:{total:200},camera,abominations217:{forecast:()=>forecast}}));assert.ok(!seen.includes('MENEUSE'));
   const source=fs.readFileSync(path.join(root,'src/horde-horizon217.js'),'utf8');assert.doesNotMatch(source,/Math\.random|spawnZombie|\.health\s*-=|g\.random/);
 });
+
+test('marée 217 : repère sobre d’une abomination du siège sur son front, présentation seule',()=>{
+  const side='north',along=SIZE*.4,camera={x:along,y:200,zoom:1};
+  const mark={wave:14,kind:'fill',name:'Comble-fossé',mark:'COMBLE-FOSSÉ',status:'alive',side,along,x:along,y:20,count:0,wall:0};
+  const make=m=>stub({wave:14,fronts:[side],wavePlan:{total:200},camera,abominationsSiege217:{mark:()=>m}});
+  assert.equal(Horizon.siegeOf(make(mark)).kind,'fill');assert.equal(Horizon.siegeOf(stub()),null);
+  assert.equal(Horizon.siegeSentence(mark),' · Comble-fossé dans la horde au nord');
+  assert.equal(Horizon.siegeSentence({...mark,status:'expected',side:''}),' · Comble-fossé annoncée dans la horde');
+  const g=make(mark),ctx=createCanvas(g.width,g.height).getContext('2d'),texts=[],fill=ctx.fillText.bind(ctx);ctx.fillText=(t,...rest)=>{texts.push(t);return fill(t,...rest);};
+  Horizon.paint(ctx,g);assert.ok(texts.includes('COMBLE-FOSSÉ'),'repère devant la masse');
+  assert.equal(Horizon.siegeOf(make({...mark,mark:5})),null,'lecture défensive');
+});

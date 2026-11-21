@@ -407,6 +407,235 @@
    restore:raw=>{state=validate(raw);forget();},reset:()=>{state=fresh();forget();}});
   return api;
  }
- const api=Object.freeze({initial,fresh,validate,hash,led,nextLed,post,posts,escortSize,escortKinds,take,ring,gain,cut,shift,gather,disperse,install});root.DeadwallAbominations217=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
- if(root.DEADWALL&&root.document&&root.DEADWALL.expansions)install(root.DEADWALL,root.document);
+ /* Troisième tranche (docs/GAME_BIBLE.md §3.5) : abominations du siège, Comble-fossé et Traîne-épave. Module à part
+    (`abominationsSiege217`), pour que seules les campagnes commencées avec cette règle la suivent : une campagne des
+    deux premières tranches garde ses vagues menées et n'a ni Comble-fossé ni Traîne-épave.
+    - Le choix de la vague dépend du numéro de vague et de la graine, sans tirage ; jamais une vague de géants ni une
+      vague menée, et les deux ne tombent jamais sur la même vague. La Comble-fossé ne vient que si la cité a au moins
+      `minDitches` fossés ouverts, la Traîne-épave que si elle a un mur ou une porte en service.
+    - Aucune n'est créée : à l'assaut, une fois `lead` de l'effectif entré, l'Errante la plus récemment entrée devient
+      l'abomination. Mêmes points de vie, même pas, mêmes coups ; l'effectif de la nuit ne change pas d'une unité.
+    - Comble-fossé : un infecté abattu à moins de `radius` d'elle tombe dans le fossé `extra` fois de plus, par la
+      réception de corps des travaux de terrain (src/earthworks217.js). Abattue avant la ligne : aucun corps de plus.
+    - Traîne-épave : au contact d'un mur ou d'une porte, son épave de tôle et de câbles reste au pied : `load` de charge
+      de corps en plus, la même charge que lisent la rampe, l'amas visible et le déblaiement. Aucun dégât.
+    - Au plus `cap` abominations présentes à la fois, géants du siège vertical et Meneuse compris. */
+ const SF=R.filler,SD=R.dragger;
+ const SIEGE_KEYS=['version','active','current'],CURRENT_KEYS=['wave','kind','status','from','id','side','count','wall'],SIEGE_STATUS=['expected','alive','slain','absent'];
+ const KINDS=Object.freeze({
+  fill:Object.freeze({name:'Comble-fossé',mark:'COMBLE-FOSSÉ',rules:SF,salt:'comble'}),
+  drag:Object.freeze({name:'Traîne-épave',mark:'TRAÎNE-ÉPAVE',rules:SD,salt:'epave'})});
+ const KIND_IDS=Object.keys(KINDS);
+ function siegeInitial(){return{version:1,active:false,current:null};}
+ function siegeFresh(){return{version:1,active:true,current:null};}
+ function siegeValidate(raw){
+  if(raw===undefined)return siegeInitial();
+  const fail=()=>{throw Error('Abominations du siège 217 invalides.');};
+  if(!strict(raw,SIEGE_KEYS)||raw.version!==1||typeof raw.active!=='boolean')fail();
+  if(raw.current===null)return{version:1,active:raw.active,current:null};
+  const c=raw.current;
+  if(!raw.active||!strict(c,CURRENT_KEYS)||!Object.hasOwn(KINDS,c.kind)||!Number.isInteger(c.wave)||c.wave<KINDS[c.kind].rules.firstWave||c.wave>MAX_WAVE||!SIEGE_STATUS.includes(c.status)
+   ||!Number.isInteger(c.from)||c.from<0||c.from>MAX_ID||!Number.isInteger(c.id)||c.id<0||c.id>MAX_ID||typeof c.side!=='string'||c.side!==''&&!Object.hasOwn(SIDES,c.side)
+   ||!Number.isInteger(c.count)||c.count<0||c.count>MAX_DELTA||!Number.isInteger(c.wall)||c.wall<0||c.wall>MAX_ID)fail();
+  // Désignée (vivante ou abattue) : une infectée entrée avec cet assaut, et son côté. Attendue ou absente : rien encore.
+  const named=c.status==='alive'||c.status==='slain';
+  if(named?c.id<1||c.id<c.from||c.side==='':c.id!==0||c.side!==''||c.count!==0||c.wall!==0)fail();
+  // Seule la Traîne-épave dépose une épave, une seule, contre un mur ; seule la Comble-fossé pousse des corps.
+  if(c.kind==='drag'?c.count>1||(c.count===1)!==(c.wall>0):c.wall!==0)fail();
+  return{version:1,active:true,current:{wave:c.wave,kind:c.kind,status:c.status,from:c.from,id:c.id,side:c.side,count:c.count,wall:c.wall}};
+ }
+ // Vague d'abomination du siège : fonction pure du numéro de vague et de la graine.
+ function siegeWave(kind,wave,seed){
+  const k=KINDS[kind];if(!k||!Number.isInteger(wave)||wave<k.rules.firstWave||wave>MAX_WAVE)return false;
+  if((wave-k.rules.firstWave)%k.rules.every!==hash(seed,k.salt)%k.rules.every||giantWave(wave)||led(wave,seed))return false;
+  return kind==='drag'?!siegeWave('fill',wave,seed):true;
+ }
+ function nextSiege(kind,from,seed){
+  if(!Object.hasOwn(KINDS,kind))return null;
+  for(let wave=Math.max(KINDS[kind].rules.firstWave,Math.floor(Number(from)||1)),n=0;n<SEARCH;wave++,n++)if(siegeWave(kind,wave,seed))return wave;
+  return null;
+ }
+ const siegeKind=(wave,seed)=>KIND_IDS.find(kind=>siegeWave(kind,wave,seed))||null;
+ // Côté d'entrée : le bord de la carte le plus proche du point.
+ function edgeOf(x,y,size){const d={north:y,south:size-y,west:x,east:size-x};return SIDE_IDS.reduce((a,b)=>d[b]<d[a]?b:a,'north');}
+ const bodies=n=>n+' corps';
+ function installSiege(g,doc=root.document){
+  if(g.abominationsSiege217)return g.abominationsSiege217;if(!g.expansions)throw Error('Installer les opérations avant les abominations du siège 217.');
+  let state=siegeInitial(),ref=null,seenPhase=null,clock=-Infinity,node=null,title=null,text=null,shown=null;
+  const forget=()=>{ref=null;seenPhase=null;clock=-Infinity;shown=null;};
+  const playing=()=>g.state==='playing'&&!g.gameOver&&Boolean(g.world);
+  const seed=()=>g.world?.seed??0,size=()=>(g.local||C.LOCAL_MAP217).size;
+  const say=(message,tone)=>g.notify?.(message,tone);
+  const now=()=>state.current&&state.current.wave===g.wave?state.current:null;
+  function body(){
+   const c=now();if(!c||c.status!=='alive'||!c.id)return null;
+   if(ref&&ref.id===c.id&&(ref.dead||g.zombies.includes(ref)))return ref;
+   ref=g.zombies.find(z=>z.id===c.id)||null;return ref;
+  }
+  const openDitches=()=>{try{return g.earthworks217?.active?.()?g.earthworks217.tally().open:0;}catch(error){return 0;}};
+  function walled(){for(const b of g.world?.buildings?.values?.()||[])if(b&&!b.dead&&b.completed&&b.def?.wall&&b.type!=='core')return true;return false;}
+  // Abominations déjà présentes : géants du siège vertical et Meneuse debout (au bord ou dans la horde).
+  function present(){
+   let n=0;
+   try{n+=g.vertical175?.presentation?.()?.giants?.length||0;}catch(error){/* siège vertical absent */}
+   try{const l=g.abominations217?.snapshot?.()?.led;if(l&&l.id&&l.wave===g.wave&&(l.status==='alive'||l.status==='gathered')&&g.zombies.some(z=>z.id===l.id&&!z.dead))n++;}catch(error){/* vagues menées absentes */}
+   return n;
+  }
+  const ruleText=kind=>kind==='fill'?'les corps qui tombent à moins de '+Math.round(SF.radius/32)+' m d’elle comptent '+(1+SF.extra)+' fois dans les fossés':'au contact d’un mur ou d’une porte, son épave de tôle et de câbles reste au pied : '+SD.load+' de charge de corps en plus';
+  // Avant : annoncée à l'alerte, ou au plus tard au lancement de l'assaut. Sans fossé (ou sans mur), elle ne vient pas.
+  function expect(){
+   if(now())return;
+   const kind=siegeKind(g.wave,seed());if(!kind)return;
+   if(kind==='fill'?openDitches()<SF.minDitches:!walled())return;
+   state.current={wave:g.wave,kind,status:'expected',from:0,id:0,side:'',count:0,wall:0};
+   say(kind==='fill'?'Vague '+g.wave+' : une Comble-fossé marche dans la horde. Elle pousse les corps devant elle : '+ruleText(kind)+'. Abattez-la avant la ligne de fossés.'
+    :'Vague '+g.wave+' : une Traîne-épave marche dans la horde, empêtrée de tôle et de câbles. Si elle atteint un mur ou une porte, son épave reste au pied : '+SD.load+' de charge de corps en plus.','danger');
+  }
+  // Pendant : désignée parmi les Errantes déjà entrées, la plus récente, une fois la part réglée de l'effectif entrée.
+  function designate(){
+   const c=now();if(!c||c.status!=='expected'||g.phase!=='assault'||!g.wavePlan)return;
+   const left=(g.spawnQueue?.length||0)+C.spawnCount(g.pendingSpawns||{}),entered=g.wavePlan.total-left;
+   if(entered<Math.max(1,Math.ceil(g.wavePlan.total*KINDS[c.kind].rules.lead))&&left>0)return;
+   // Plus aucune Errante à entrer : n'importe quelle infectée ordinaire de cet assaut fait l'affaire.
+   const any=!(g.pendingSpawns?.walker>0)&&!(g.spawnQueue||[]).includes('walker');
+   let pick=null;for(const z of g.zombies)if(z&&!z.dead&&z.id>=c.from&&(z.kind==='walker'||any)&&(!pick||z.id>pick.id))pick=z;
+   if(!pick){if(!left)c.status='absent';return;}
+   if(present()>=R.cap){c.status='absent';say('Vague '+c.wave+' : '+KINDS[c.kind].name+' perdue dans la masse, '+R.cap+' abominations sont déjà là.','normal');return;}
+   c.status='alive';c.id=pick.id;c.side=edgeOf(pick.x,pick.y,size());ref=pick;
+   say(KINDS[c.kind].name+' entrée '+WHERE[c.side]+' avec la horde : '+ruleText(c.kind)+'. Abattez-la tôt.','danger');
+  }
+  // Traîne-épave au contact d'un mur ou d'une porte : l'épave reste au pied, sur la charge de corps du jeu.
+  function drop(){
+   const c=now();if(!c||c.kind!=='drag'||c.status!=='alive'||c.count)return;
+   const z=body();if(!z||z.dead||typeof g.nearestWall!=='function')return;
+   const wall=g.nearestWall(z.x,z.y,SD.reach,true);if(!wall||!wall.def?.wall)return;
+   wall.corpseLoad=(Number(wall.corpseLoad)||0)+SD.load;c.count=1;c.wall=wall.id;
+   say('Traîne-épave contre '+(wall.def.gate?'la porte':'le mur')+' '+WHERE[c.side]+' : son épave reste au pied, '+SD.load+' de charge de corps en plus. Déblayez avant qu’elle ne fasse rampe.','danger');
+  }
+  // Après : abattue, son effet s'arrête ; le bilan est donné une fois.
+  function sync(){
+   const c=now(),z=body();if(!c||!z||!z.dead)return;
+   c.status='slain';ref=null;
+   if(c.kind==='fill')say(c.count?'Comble-fossé abattue '+WHERE[c.side]+' : '+bodies(c.count)+' de plus poussés dans les fossés. Faites-les déblayer.':'Comble-fossé abattue '+WHERE[c.side]+' avant les fossés : aucun corps de plus.',c.count?'normal':'good');
+   else say(c.count?'Traîne-épave abattue '+WHERE[c.side]+' : son épave reste au pied du mur, à déblayer.':'Traîne-épave abattue '+WHERE[c.side]+' avant les murs : son épave reste loin des défenses.',c.count?'normal':'good');
+  }
+  function tick(){
+   if(!state.active||!playing())return;
+   if(seenPhase!==null&&seenPhase!==g.phase&&g.phase==='warning')expect();
+   designate();sync();drop();
+   // Assaut fini sans qu'elle soit entrée : rien de plus à signaler.
+   const c=now();if(c&&c.status==='expected'&&(g.phase==='aftermath'||g.phase==='calm'))c.status='absent';
+   seenPhase=g.phase;
+  }
+  // Comble-fossé : un corps tombé près d'elle dans un fossé ouvert y compte `extra` fois de plus.
+  const kill=g.killZombie;
+  if(typeof kill==='function')g.killZombie=function(z,...rest){
+   const c=state.active&&z&&!z.dead?now():null,f=c&&c.kind==='fill'&&c.status==='alive'?body():null;
+   const near=Boolean(f&&!f.dead&&f!==z&&(z.x-f.x)**2+(z.y-f.y)**2<=SF.radius**2),pose=near?g.vertical175?.corpsePose?.(z):null,x=z?.x,y=z?.y;
+   const result=kill.call(this,z,...rest);
+   if(near&&z.dead&&!(Number.isFinite(pose?.z)&&pose.z>0))for(let i=0;i<SF.extra;i++)if(g.earthworks217?.receive?.(x,y))c.count++;
+   return result;
+  };
+  const start=g.startAssault;
+  if(typeof start==='function')g.startAssault=function(...args){
+   if(state.active&&playing()){expect();const c=now();if(c&&c.status==='expected')c.from=Math.max(0,Math.min(MAX_ID,Math.floor(Number(g.nextId)||0)));}
+   return start.apply(this,args);
+  };
+  const update=g.update;
+  if(typeof update==='function')g.update=function(...args){const result=update.apply(this,args);tick();return result;};
+  // Vue pour la présentation : nulle hors vague d'abomination.
+  function mark(){
+   if(!state.active||!playing())return null;
+   const c=now();if(!c||c.status!=='alive'&&c.status!=='expected')return null;
+   const z=c.status==='alive'?body():null;if(c.status==='alive'&&(!z||z.dead))return null;
+   const k=KINDS[c.kind];
+   return Object.freeze({wave:c.wave,kind:c.kind,name:k.name,mark:k.mark,status:c.status,side:c.side,along:z?(c.side==='north'||c.side==='south'?z.x:z.y):null,x:z?z.x:null,y:z?z.y:null,count:c.count,wall:c.wall,health:z?z.health:null,maxHealth:z?z.maxHealth:null});
+  }
+  function line(){
+   if(!state.active||!playing())return'';
+   const c=now();
+   if(c){
+    const k=KINDS[c.kind],where=c.side?WHERE[c.side]:'';
+    if(c.status==='expected')return'Vague '+c.wave+' : une '+k.name+' est annoncée dans la horde — '+ruleText(c.kind)+'.';
+    if(c.status==='absent')return'Vague '+c.wave+' : la '+k.name+' annoncée n’est pas entrée.';
+    if(c.kind==='fill')return c.status==='alive'?'Vague '+c.wave+' : Comble-fossé dans la horde '+where+' — '+ruleText('fill')+' ('+bodies(c.count)+' de plus pour l’instant). Abattez-la avant la ligne de fossés.'
+     :'Vague '+c.wave+' : Comble-fossé abattue '+where+', '+(c.count?bodies(c.count)+' de plus poussés dans les fossés.':'avant les fossés.');
+    if(c.status==='alive')return'Vague '+c.wave+' : Traîne-épave dans la horde '+where+(c.count?' — son épave est déjà au pied du mur : '+SD.load+' de charge de corps en plus.':' — '+ruleText('drag')+'. Abattez-la avant les murs.');
+    return'Vague '+c.wave+' : Traîne-épave abattue '+where+(c.count?', son épave reste au pied du mur.':', avant les murs.');
+   }
+   const fill=nextSiege('fill',g.wave,seed()),drag=nextSiege('drag',g.wave,seed()),parts=[];
+   if(fill!==null)parts.push('Comble-fossé : vague '+fill+(openDitches()>=SF.minDitches?'':', si la cité a des fossés'));
+   if(drag!==null)parts.push('Traîne-épave : vague '+drag);
+   return parts.length?'Prochaines abominations du siège — '+parts.join(' · ')+'.':'';
+  }
+  const capital=t=>t.charAt(0).toUpperCase()+t.slice(1);
+  function overview(){
+   if(!state.active)return{summary:'Cette campagne a commencé avant cette règle : ni Comble-fossé ni Traîne-épave. La règle ne s’active pas en cours de campagne.',rows:[
+    {label:'Comble-fossé',value:'Sans objet.'},{label:'Traîne-épave',value:'Sans objet.'}]};
+   const fill=g.world?nextSiege('fill',g.wave,seed()):null,drag=g.world?nextSiege('drag',g.wave,seed()):null;
+   return{summary:'Deux abominations marchent parfois dans la horde. D’apparence et de points de vie ordinaires, elles ne frappent pas plus fort : elles changent ce que fait la horde. Abattues tôt, leur effet n’a pas lieu.',rows:[
+    {label:'Comble-fossé',value:'À partir de la vague '+SF.firstWave+', une vague sur '+SF.every+', seulement si la cité a des fossés ouverts. '+capital(ruleText('fill'))+' : la ligne se comble bien plus vite. Prochaine : '+(fill===null?'aucune en vue':'vague '+fill)+'.'},
+    {label:'Traîne-épave',value:'À partir de la vague '+SD.firstWave+', une vague sur '+SD.every+'. '+capital(ruleText('drag'))+', une fois : l’amas fait rampe plus tôt. Prochaine : '+(drag===null?'aucune en vue':'vague '+drag)+'.'},
+    {label:'Règle',value:'Jamais une vague de géants ni une vague menée. Elle entre avec la horde, une Errante parmi d’autres : rien n’est ajouté à l’effectif. '+R.cap+' abominations au plus à la fois, géants et Meneuse compris.'},
+    {label:'En cours',value:line()||'Aucune.'}]};
+  }
+  // Marqueur sobre au sol et sur la carte réduite. Lecture seule.
+  const ground=g.drawGround;
+  if(typeof ground==='function')g.drawGround=function(...args){
+   const result=ground.apply(this,args);
+   try{
+    const ctx=args[0],m=ctx&&playing()?mark():null;
+    if(m&&m.x!==null&&typeof ctx.arc==='function'){
+     ctx.save();ctx.strokeStyle='rgba(196,186,156,.8)';ctx.lineWidth=1.5;ctx.setLineDash?.([3,4]);ctx.beginPath();ctx.arc(m.x,m.y,24,0,TAU);ctx.stroke();ctx.setLineDash?.([]);
+     ctx.fillStyle='rgba(196,186,156,.9)';ctx.font='10px sans-serif';ctx.textAlign='center';ctx.fillText?.(m.mark,m.x,m.y-32);
+     if(m.kind==='fill'){ctx.strokeStyle='rgba(196,186,156,.25)';ctx.lineWidth=1;ctx.setLineDash?.([2,8]);ctx.beginPath();ctx.arc(m.x,m.y,SF.radius,0,TAU);ctx.stroke();ctx.setLineDash?.([]);}
+     else if(!m.count){ctx.strokeStyle='rgba(120,116,104,.85)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(m.x,m.y);ctx.lineTo(m.x+9,m.y+15);ctx.lineTo(m.x-6,m.y+19);ctx.stroke();ctx.fillStyle='rgba(88,86,78,.85)';ctx.fillRect?.(m.x-9,m.y+14,16,7);}
+     ctx.restore();
+    }
+    const c=ctx&&state.active?now():null,wall=c&&c.kind==='drag'&&c.wall?g.world?.buildings?.get?.(c.wall):null;
+    if(wall&&!wall.dead&&wall.corpseLoad>0&&typeof ctx.strokeRect==='function'){
+     ctx.save();ctx.strokeStyle='rgba(150,146,132,.7)';ctx.lineWidth=1.5;ctx.setLineDash?.([4,4]);ctx.strokeRect(wall.left-4,wall.top-4,wall.right-wall.left+8,wall.bottom-wall.top+8);ctx.setLineDash?.([]);
+     ctx.fillStyle='rgba(196,186,156,.85)';ctx.font='9px sans-serif';ctx.textAlign='center';ctx.fillText?.('ÉPAVE',(wall.left+wall.right)/2,wall.top-8);ctx.restore();
+    }
+   }catch(error){/* le marqueur ne doit jamais interrompre le rendu */}
+   return result;
+  };
+  const minimap=g.renderMinimap;
+  if(typeof minimap==='function')g.renderMinimap=function(...args){
+   const result=minimap.apply(this,args);
+   try{
+    const ctx=this.mctx,m=ctx&&this.minimap&&playing()?mark():null;
+    if(m&&m.x!==null&&typeof ctx.arc==='function'){const sx=this.minimap.width/size(),sy=this.minimap.height/size();ctx.save();ctx.strokeStyle='#c4ba9c';ctx.lineWidth=1;ctx.beginPath();ctx.arc(m.x*sx,m.y*sy,4,0,TAU);ctx.stroke();ctx.restore();}
+   }catch(error){/* idem */}
+   return result;
+  };
+  // Ligne du dossier de situation, sous celle des vagues menées quand elle existe.
+  function render(){
+   if(!doc?.createElement||!doc.getElementById)return false;
+   const value=line();
+   if(!node){
+    const host=doc.getElementById('rightPanel');if(!host)return false;
+    node=doc.createElement('section');node.id='abominationsSiege217Readout';node.className='siege-readout';node.setAttribute?.('aria-label','Abominations du siège');
+    const card=doc.createElement('article');card.className='siege-readout-card';
+    const small=doc.createElement('small');small.textContent='ABOMINATION DU SIÈGE';title=doc.createElement('h3');title.id='abominationsSiege217Title';text=doc.createElement('p');text.id='abominationsSiege217Line';text.className='siege-readout-note';
+    card.append?card.append(small,title,text):[small,title,text].forEach(n=>card.appendChild(n));node.appendChild(card);
+    const box=doc.getElementById('abominations217Readout')||doc.getElementById('siegeReadout');
+    if(box&&box.parentNode===host&&typeof host.insertBefore==='function')host.insertBefore(node,box.nextSibling||null);else host.appendChild(node);
+   }
+   node.hidden=!value;
+   if(value!==shown){shown=value;const c=now();title.textContent=c?(c.status==='slain'?KINDS[c.kind].name+' abattue':c.status==='absent'?'Aucune abomination entrée':KINDS[c.kind].name+(c.side?' '+WHERE[c.side]:' annoncée')):'Aucune abomination en vue';text.textContent=value;}
+   return true;
+  }
+  const updateUI=g.updateUI;
+  if(typeof updateUI==='function')g.updateUI=function(...args){const result=updateUI.apply(this,args);const t=Number(g.elapsed)||0;if(t<clock||t-clock>=REFRESH_SECONDS||g.state!=='playing'){clock=t;try{render();}catch(error){/* DOM partiel */}}return result;};
+  const api=Object.freeze({active:()=>state.active,wave:(kind,wave)=>state.active&&Boolean(g.world)&&siegeWave(kind,wave,seed()),next:kind=>state.active&&g.world?nextSiege(kind,g.wave,seed()):null,
+   current:()=>{const c=state.active?now():null;return c?Object.freeze({...c}):null;},mark,line,tick,render,overview,present,
+   actions:()=>[],snapshot:()=>{if(state.active&&playing())sync();return siegeValidate(state);}});g.abominationsSiege217=api;
+  g.expansions.register({id:'abominationsSiege217',title:'Abominations du siège',overview,actions:api.actions,validate:siegeValidate,snapshot:api.snapshot,
+   restore:raw=>{state=siegeValidate(raw);forget();},reset:()=>{state=siegeFresh();forget();}});
+  return api;
+ }
+ const api=Object.freeze({initial,fresh,validate,hash,led,nextLed,post,posts,escortSize,escortKinds,take,ring,gain,cut,shift,gather,disperse,install,
+  siegeInitial,siegeFresh,siegeValidate,siegeWave,nextSiege,siegeKind,edgeOf,installSiege});root.DeadwallAbominations217=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
+ if(root.DEADWALL&&root.document&&root.DEADWALL.expansions){install(root.DEADWALL,root.document);installSiege(root.DEADWALL,root.document);}
 })(globalThis);

@@ -30,7 +30,9 @@ function toAssault(g){
 test('vagues menées 217 : règles gelées, état validé strictement',()=>{
   assert.ok(Object.isFrozen(R));
   assert.deepEqual(copy(R),{firstWave:12,every:4,gatherShare:.2,cutShare:.12,standoff:256,spanMin:.3,spanMax:.7,
-    escort:{base:6,perLed:2,max:18,share:.08,ringMin:46,ringMax:110,wake:260,shot:150},post:{tries:6,step:128}});
+    escort:{base:6,perLed:2,max:18,share:.08,ringMin:46,ringMax:110,wake:260,shot:150},post:{tries:6,step:128},
+    cap:3,filler:{firstWave:14,every:6,lead:.1,radius:96,extra:1,minDitches:1},dragger:{firstWave:18,every:7,lead:.1,reach:40,load:12}});
+  assert.ok(Object.isFrozen(R.filler)&&Object.isFrozen(R.dragger));
   assert.ok(Object.isFrozen(R.escort)&&Object.isFrozen(R.post));
   assert.ok(R.gatherShare>0&&R.gatherShare<=.25&&R.cutShare>0&&R.cutShare<=.2&&R.every>=2);
   assert.deepEqual(A.validate(undefined),{version:1,active:false,led:null});
@@ -396,4 +398,149 @@ test('vagues menées 217 : prévision et annonce de migration donnent l’effect
   const {g:h,doc:hd}=campaign();Readout.install(h,hd);calm(h,wave+1);h.phaseTime=0;h.update(DT);
   assert.equal(h.notifications.map(n=>n.text).find(t=>t.startsWith('Migration détectée')),'Migration détectée — '+h.wavePlan.total+' contacts estimés.');
   h.siegeReadout.render();assert.equal(hd.getElementById('siegeReadoutLed').hidden,true);
+});
+
+// ——— Troisième tranche : Comble-fossé et Traîne-épave (module `abominationsSiege217`) ———
+const siege=g=>g.serialize().expansions127.modules.abominationsSiege217;
+const E217=C.Earthworks217Rules;
+// Fossés creusés et ouverts, posés par la sauvegarde : une ligne de six cases libres au sud-est du centre.
+function ditched(g){
+  const core=g.core(),cx=C.grid(core.x),cy=C.grid(core.y),cells=[];
+  for(let x=cx+20;cells.length<6&&x<cx+40;x++)if(!g.world.atCell(x,cy+20))cells.push({x,y:cy+20,dug:E217.digSeconds,fill:0,wet:false,back:null});
+  const data=copy(g.serialize());data.expansions127.modules.earthworks217.ditches=cells;assert.equal(g.restoreSave(data),true);
+  assert.equal(g.earthworks217.tally().open,cells.length);return cells;
+}
+const centre=c=>({x:c.x*C.TILE+C.TILE/2,y:c.y*C.TILE+C.TILE/2});
+// Mur achevé posé à côté du centre, comme dans les tests de la brèche.
+function wall(g,dx=-4,dy=-6,type='woodWall'){
+  const core=g.core(),T=require('../src/tactics.js'),cells=T.footprint(core),W=core.constructor;
+  const b=new W(g.nextId++,type,cells.x+dx,cells.y+dy,0,1);b.progress=1;b.health=b.def.health;g.world.add(b);g.world.navigationVersion++;return b;
+}
+// Assaut jusqu'à l'entrée de l'abomination.
+function untilNamed(g,api){
+  for(let i=0;i<3000&&api.current()?.status==='expected';i++)g.update(DT);
+  assert.equal(api.current()?.status,'alive','abomination entrée');return g.zombies.find(z=>z.id===api.current().id);
+}
+
+test('abominations du siège 217 : règles, état versionné strict, choix déterministe sans géants ni vague menée',()=>{
+  assert.deepEqual(A.siegeValidate(undefined),{version:1,active:false,current:null});
+  assert.deepEqual(A.siegeFresh(),{version:1,active:true,current:null});
+  const cur={wave:14,kind:'fill',status:'alive',from:5,id:9,side:'north',count:3,wall:0};
+  const good=[{version:1,active:true,current:null},{version:1,active:true,current:cur},{version:1,active:true,current:{...cur,status:'slain'}},
+    {version:1,active:true,current:{wave:14,kind:'fill',status:'expected',from:0,id:0,side:'',count:0,wall:0}},{version:1,active:true,current:{wave:18,kind:'drag',status:'alive',from:5,id:9,side:'east',count:1,wall:44}}];
+  for(const ok of good){assert.deepEqual(A.siegeValidate(ok),ok);assert.notEqual(A.siegeValidate(ok),ok);}
+  for(const bad of [null,{},{version:2,active:true,current:null},{version:1,active:false,current:cur},{version:1,active:true,current:null,x:1},
+    {version:1,active:true,current:{...cur,kind:'boss'}},{version:1,active:true,current:{...cur,wave:13}},{version:1,active:true,current:{...cur,id:4}},
+    {version:1,active:true,current:{...cur,side:''}},{version:1,active:true,current:{...cur,wall:3}},{version:1,active:true,current:{...cur,status:'expected'}},
+    {version:1,active:true,current:{...cur,health:9999}},{version:1,active:true,current:{...cur,kind:'drag',wave:18,count:1,wall:0}},{version:1,active:true,current:{...cur,kind:'drag',wave:18,count:2,wall:4}}])
+    assert.throws(()=>A.siegeValidate(bad),/Abominations du siège 217/);
+  const siegeR=C.VerticalCitadel175.siege,giant=w=>w>=siegeR.firstWave&&w%siegeR.spawnWaveInterval===0,all=Array.from({length:120},(_,i)=>i+1);
+  for(const seed of [0,1,42,17117,84329,967313470,1947648717,4294967295]){
+    const fill=all.filter(w=>A.siegeWave('fill',w,seed)),drag=all.filter(w=>A.siegeWave('drag',w,seed));
+    assert.deepEqual(fill,all.filter(w=>A.siegeWave('fill',w,seed)),'même réponse');assert.ok(fill.length>5&&drag.length>5);
+    for(const w of fill){assert.ok(w>=R.filler.firstWave&&!giant(w)&&!A.led(w,seed));}
+    for(const w of drag){assert.ok(w>=R.dragger.firstWave&&!giant(w)&&!A.led(w,seed)&&!fill.includes(w));}
+    assert.equal(A.nextSiege('fill',1,seed),fill[0]);assert.equal(A.nextSiege('drag',fill[0],seed),drag.find(w=>w>=fill[0]));
+  }
+  for(const bad of [0,13.5,NaN,'14',null])assert.equal(A.siegeWave('fill',bad,17117),false);
+});
+
+test('Comble-fossé 217 : sans fossé, elle ne vient pas ; avec fossés, annoncée, entrée ordinaire, sans tirage ni infecté de plus',()=>{
+  const {g}=campaign(),api=g.abominationsSiege217,wave=api.next('fill');assert.ok(api.active());assert.equal(api.wave('fill',wave),true);
+  let notes=watch(g);calm(g,wave);const plain=toAssault(g);assert.equal(api.current(),null);assert.deepEqual(copy(g.wavePlan),plain);
+  assert.equal(notes.filter(t=>/Comble-fossé/.test(t)).length,0,'aucune annonce sans fossé');
+  const {g:h,doc}=campaign(),hapi=h.abominationsSiege217;ditched(h);notes=watch(h);calm(h,wave);
+  h.phaseTime=0;h.update(DT);assert.equal(h.phase,'warning');assert.equal(hapi.current().status,'expected');
+  assert.equal(notes.filter(t=>t.startsWith('Vague '+wave+' : une Comble-fossé marche dans la horde')).length,1,'annoncée avant');
+  const announced=copy(h.wavePlan);h.phaseTime=0;h.update(DT);assert.equal(h.phase,'assault');assert.deepEqual(copy(h.wavePlan),announced,'plan inchangé');
+  const z=untilNamed(h,hapi);assert.ok(z&&!z.dead);assert.equal(z.kind,'walker');
+  assert.equal(notes.filter(t=>t.startsWith('Comble-fossé entrée')).length,1,'annoncée pendant');
+  // Aucun infecté ajouté : à entrer + présents + abattus = plan.
+  assert.equal(Object.values(h.pendingSpawns).reduce((a,b)=>a+b,0)+h.spawnQueue.length+h.zombies.length,announced.total);
+  // Points de vie ordinaires : ceux d'une Errante de la même vague.
+  h.spawnZombie('walker');const twin=h.zombies[h.zombies.length-1];assert.equal(z.maxHealth,twin.maxHealth);assert.equal(z.radius,twin.radius);twin.dead=true;h.zombies=h.zombies.filter(e=>!e.dead);
+  // Sa désignation ne tire rien dans le flux du jeu.
+  const {g:k}=campaign(),kapi=k.abominationsSiege217;ditched(k);calm(k,wave);toAssault(k);
+  const lead=()=>k.wavePlan.total-k.spawnQueue.length-Object.values(k.pendingSpawns).reduce((a,b)=>a+b,0)>=Math.ceil(k.wavePlan.total*R.filler.lead);
+  // Le moteur avance seul jusqu'au seuil (la désignation suit dans la même image) ; la relève directe ne tire rien.
+  for(let i=0;i<3000&&!lead();i++)k.update(DT);
+  const before=k.random.state;kapi.tick();assert.equal(k.random.state,before,'aucun tirage');assert.equal(kapi.current().status,'alive');
+  // Marqueur au sol, dans la marée, ligne du dossier.
+  const m=hapi.mark();assert.equal(m.mark,'COMBLE-FOSSÉ');assert.equal(m.x,z.x);assert.equal(m.health,z.health);
+  hapi.render();assert.match(doc.getElementById('abominationsSiege217Line').textContent,/^Vague \d+ : Comble-fossé dans la horde/);
+  const Horizon=require('../src/horde-horizon217.js');assert.equal(Horizon.siegeOf(h).kind,'fill');assert.match(Horizon.siegeSentence(Horizon.siegeOf(h)),/Comble-fossé dans la horde/);
+  assert.equal(JSON.stringify(C.ENEMIES),ENEMIES);assert.equal(JSON.stringify(C.ENEMY_RULES),RULES);
+});
+
+test('Comble-fossé 217 : les corps tombés près d’elle comptent double dans le fossé ; abattue tôt, effet évité',()=>{
+  const {g}=campaign(),api=g.abominationsSiege217,wave=api.next('fill'),cells=ditched(g);calm(g,wave);toAssault(g);
+  const z=untilNamed(g,api),a=centre(cells[0]),far=centre(cells[5]);
+  z.x=a.x+20;z.y=a.y;
+  const victims=g.zombies.filter(e=>e!==z&&!e.dead).slice(0,2);assert.equal(victims.length,2);
+  victims[0].x=a.x;victims[0].y=a.y;g.killZombie(victims[0],false);
+  assert.equal(g.earthworks217.at(cells[0].x,cells[0].y).fill,2,'près d’elle : deux corps dans le fossé');assert.equal(api.current().count,1);
+  victims[1].x=far.x;victims[1].y=far.y;g.killZombie(victims[1],false);
+  assert.equal(g.earthworks217.at(cells[5].x,cells[5].y).fill,1,'loin d’elle : un corps, la règle des travaux de terrain');
+  // Sauvegarde et reprise pendant qu'elle vit : même infectée, même compte, contrôles des échelons verts.
+  const data=copy(g.serialize());assert.deepEqual(data.expansions127.modules.abominationsSiege217.current,copy(api.current()));
+  assert.equal(data.dayworks.night.total,data.wavePlan.total);
+  assert.equal(g.restoreSave(copy(data)),true);const again=g.zombies.find(e=>e.id===z.id);assert.ok(again);assert.equal(api.current().status,'alive');assert.equal(api.current().count,1);
+  const notes=watch(g);g.killZombie(again,false);g.update(DT);assert.equal(api.current().status,'slain');
+  assert.equal(notes.filter(t=>t.startsWith('Comble-fossé abattue')&&t.includes('1 corps de plus')).length,1,'annoncée après');
+  const next=g.zombies.find(e=>!e.dead);
+  if(next){next.x=a.x;next.y=a.y;const before=g.earthworks217.at(cells[0].x,cells[0].y).fill;g.killZombie(next,false);assert.equal(g.earthworks217.at(cells[0].x,cells[0].y).fill,before+1,'abattue : plus d’effet');}
+  // Abattue avant la ligne : aucun corps de plus.
+  const {g:h}=campaign(),hapi=h.abominationsSiege217,hc=ditched(h);calm(h,wave);toAssault(h);
+  const hz=untilNamed(h,hapi);h.killZombie(hz,false);h.update(DT);
+  const v=h.zombies.find(e=>!e.dead),p=centre(hc[0]);v.x=p.x;v.y=p.y;h.killZombie(v,false);
+  assert.equal(h.earthworks217.at(hc[0].x,hc[0].y).fill,1);assert.equal(hapi.current().count,0);assert.match(hapi.line(),/abattue .*avant les fossés/);
+  // État altéré refusé.
+  const bad=copy(data);bad.expansions127.modules.abominationsSiege217.current.id=0;assert.throws(()=>{if(g.restoreSave(bad)!==true)throw Error('refusée');});
+});
+
+test('Traîne-épave 217 : au contact d’un mur, son épave ajoute à la charge de corps et fait rampe ; abattue avant, rien',()=>{
+  const {g}=campaign(),api=g.abominationsSiege217,wave=api.next('drag');assert.ok(wave>=R.dragger.firstWave);
+  const w=wall(g),notes=watch(g);calm(g,wave);g.phaseTime=0;g.update(DT);
+  assert.equal(notes.filter(t=>t.startsWith('Vague '+wave+' : une Traîne-épave marche dans la horde')).length,1);
+  g.phaseTime=0;g.update(DT);const z=untilNamed(g,api);assert.equal(z.kind,'walker');
+  const probe={id:0,kind:'runner'};w.corpseLoad=10;assert.equal(g.zombieCanClimb(probe,w),false);
+  z.x=w.left-12;z.y=(w.top+w.bottom)/2;api.tick();
+  assert.equal(w.corpseLoad,10+R.dragger.load,'épave = charge de corps');assert.deepEqual([api.current().count,api.current().wall],[1,w.id]);
+  assert.equal(g.zombieCanClimb(probe,w),true,'l’amas fait rampe : mécanique de franchissement du jeu');
+  assert.equal(w.health,w.def.health,'aucun dégât');
+  api.tick();assert.equal(w.corpseLoad,10+R.dragger.load,'une seule épave');
+  assert.equal(notes.filter(t=>t.startsWith('Traîne-épave contre le mur')).length,1);
+  const data=copy(g.serialize());assert.equal(g.restoreSave(data),true);assert.deepEqual(copy(api.current()),data.expansions127.modules.abominationsSiege217.current);
+  // Abattue loin du mur : aucune épave.
+  const {g:h}=campaign(),hapi=h.abominationsSiege217,hw=wall(h);calm(h,wave);toAssault(h);const hz=untilNamed(h,hapi);
+  h.killZombie(hz,false);h.update(DT);hz.x=hw.left-12;hz.y=(hw.top+hw.bottom)/2;hapi.tick();
+  assert.equal(hw.corpseLoad,0);assert.equal(hapi.current().status,'slain');assert.equal(hapi.current().count,0);
+  // Sans mur, elle ne vient pas.
+  const {g:k}=campaign(),kapi=k.abominationsSiege217;calm(k,wave);toAssault(k);assert.equal(kapi.current(),null);
+});
+
+test('abominations du siège 217 : plafond de trois avec les géants et la Meneuse',()=>{
+  const {g}=campaign(),api=g.abominationsSiege217,wave=api.next('fill');ditched(g);calm(g,wave);toAssault(g);
+  const v=g.vertical175;g.vertical175={...v,presentation:()=>({...v.presentation(),giants:[{},{},{}]})};
+  const notes=watch(g);for(let i=0;i<3000&&api.current().status==='expected';i++)g.update(DT);
+  assert.equal(api.current().status,'absent');assert.equal(notes.filter(t=>t.includes('abominations sont déjà là')).length,1);
+  g.vertical175=v;assert.equal(api.present(),0);
+});
+
+test('abominations du siège 217 : ancienne campagne (et campagne des vagues menées) inchangée',()=>{
+  const {g,doc}=campaign(),api=g.abominationsSiege217,wave=api.next('fill');ditched(g);
+  const data=copy(g.serialize());delete data.expansions127.modules.abominationsSiege217;assert.equal(g.restoreSave(data),true);
+  assert.equal(api.active(),false);assert.deepEqual(siege(g),{version:1,active:false,current:null});assert.equal(api.next('fill'),null);assert.equal(g.abominations217.active(),true,'les vagues menées restent');
+  const notes=watch(g);calm(g,wave);const announced=toAssault(g);
+  for(let i=0;i<300;i++)g.update(DT);
+  assert.equal(api.current(),null);assert.deepEqual(copy(g.wavePlan),announced);assert.equal(notes.filter(t=>/Comble-fossé|Traîne-épave/.test(t)).length,0);
+  assert.equal(api.line(),'');api.render();assert.equal(doc.getElementById('abominationsSiege217Readout')?.hidden??true,true);assert.match(api.overview().summary,/avant cette règle/);
+  assert.equal(reference(),PRISTINE);
+});
+
+test('abominations du siège 217 : inscrit partout, sans tirage, sans dégât',()=>{
+  const kit=fs.readFileSync(path.join(root,'src/expansion-kit.js'),'utf8');assert.ok(kit.indexOf("'abominationsSiege217'")>0&&kit.indexOf("'abominationsSiege217'")<kit.indexOf("'balance217','breach217']"));
+  const ui=fs.readFileSync(path.join(root,'src/expansion-ui.js'),'utf8');assert.equal(ui.split('abominationsSiege217').length-1,5);assert.ok(ui.includes("abominationsSiege217:'Abominations du siège'"));
+  const source=fs.readFileSync(path.join(root,'src/abominations217.js'),'utf8'),part=source.slice(source.indexOf('Troisième tranche'));
+  assert.doesNotMatch(part,/random|spawnZombie\(|\.push\(new|damage|\.health\s*[-+*]?=[^=]|maxHealth\s*=/);
 });
