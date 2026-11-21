@@ -3622,6 +3622,11 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   // génération ; `generationTiles` nomme la seule exception, la génération 12 (192 m, D-O5), encore refusée.
   // La sauvegarde n'écrit `localTiles` que s'il diffère de `defaultTiles`.
   C.LocalMap217Rules=Object.freeze({defaultTiles:128,generationTiles:Object.freeze({12:192})});
+ // Session de vraie coopération (specs/cooperation/, tranche C1) : un hôte autoritaire, au plus trois
+ // invités qui n'envoient que des intentions. Budgets de protocole, sans effet sur la simulation solo.
+ C.CoopSession217Rules=Object.freeze({protocol:217,maxGuests:3,codeChars:Object.freeze([6,12]),nameChars:24,maxPending:32,perStep:8,maxSeq:2147483647,maxTick:2147483647,
+  roles:Object.freeze({district:Object.freeze(['move','aim','fire','ping','hold']),sortie:Object.freeze(['move','aim','fire','ping'])}),
+  view:Object.freeze({radius:900,maxZombies:240,maxBuildings:400,maxDistricts:16})});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),
