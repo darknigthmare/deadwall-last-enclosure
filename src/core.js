@@ -252,9 +252,10 @@
   function lerp(a, b, t) { return a + (b - a) * t; }
   function dist(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
   function distSq(a, b) { const x = a.x - b.x; const y = a.y - b.y; return x * x + y * y; }
-  function grid(value) { return clamp(Math.floor(value / TILE), 0, WORLD_TILES - 1); }
+  // `map` (facultatif) : carte locale de la partie ; absente, carte par défaut (WORLD_TILES cases).
+  function grid(value, map) { return clamp(Math.floor(value / TILE), 0, (map ? map.tiles : WORLD_TILES) - 1); }
   function world(cell) { return cell * TILE + TILE / 2; }
-  function index(x, y) { return y * WORLD_TILES + x; }
+  function index(x, y, map) { return y * (map ? map.tiles : WORLD_TILES) + x; }
   // Carte locale de la cité : taille, centre et bornes portés par un seul objet gelé.
   // Une seule taille aujourd'hui (WORLD_TILES cases) ; chaque prédicat reprend la
   // comparaison historique qu'il remplace : `contains` (bord admis, NaN refusé),
@@ -280,6 +281,24 @@
     });
   }
   const LOCAL_MAP217 = localMap217(WORLD_TILES);
+  // O5 : carte locale d'une campagne. `source` est une carte (rendue telle quelle) ou des données de
+  // sauvegarde : `localTiles` absent = carte par défaut. Une instance par taille, gardée en cache.
+  const LOCAL_MAPS217 = new Map([[WORLD_TILES, LOCAL_MAP217]]);
+  function localMapOf217(source) {
+    if (source && typeof source.cellInside === 'function' && Number.isInteger(source.tiles)) return source;
+    const tiles = source?.localTiles;
+    if (tiles === undefined) return LOCAL_MAP217;
+    let map = LOCAL_MAPS217.get(tiles);
+    if (!map) { map = localMap217(tiles); LOCAL_MAPS217.set(tiles, map); }
+    return map;
+  }
+  // Carte lue par un validateur : celle des données validées quand il les reçoit ; sans données
+  // (reprise ou instantané d'un module), celle de la partie en cours ; carte par défaut sinon.
+  function campaignLocal217(data) {
+    if (data) return localMapOf217(data);
+    const live = global.DEADWALL?.local;
+    return live && typeof live.cellInside === 'function' ? live : LOCAL_MAP217;
+  }
   function makeBag(source = {}) { const bag = {}; for (const key of RESOURCE_KEYS) bag[key] = Number(source[key] || 0); return bag; }
   function bagTotal(bag) { return RESOURCE_KEYS.reduce((sum, key) => sum + Number(bag[key] || 0), 0); }
   function canAfford(stock, cost, multiplier = 1) { return RESOURCE_KEYS.every(key => (stock[key] || 0) + 1e-6 >= (cost[key] || 0) * multiplier); }
@@ -315,7 +334,7 @@
   function cityTier(score) { let result = CITY_TIERS[0]; for (const tier of CITY_TIERS) { if (score >= tier.requiredScore) result = tier; else break; } return result; }
   function buildingList(category) { return Object.values(BUILDINGS).filter(def => def.category === category && !['core', 'armoredGate'].includes(def.id)); }
   function enemyHealthScale(wave) { return 1 + clamp(Math.log2(Math.max(1, wave)) * 0.055, 0, 0.34); }
-  function wallLine(a, b) {
+  function wallLine(a, b, map) {
     const cells = [{ x: a.x, y: a.y }];
     let x = a.x, y = a.y;
     const sx = Math.sign(b.x - a.x), sy = Math.sign(b.y - a.y);
@@ -327,7 +346,7 @@
       if (e2 < dx) { err += dx; y += sy; }
       if (x !== ox && y !== oy) cells.push({ x, y: oy });
       cells.push({ x, y });
-      if (cells.length > WORLD_TILES * 4) break;
+      if (cells.length > (map ? map.tiles : WORLD_TILES) * 4) break;
     }
     const seen = new Set();
     return cells.filter(cell => {
@@ -385,7 +404,7 @@
     for (const [key, rate] of Object.entries(consumes || {})) if (rate > 0) fraction = Math.min(fraction, Math.max(0, stock[key] || 0) / (rate * seconds));
     return clamp(fraction, 0, 1);
   }
-  function findFriendlyPath(start, goal, blocked, width = WORLD_TILES, height = WORLD_TILES, maxExpanded = STRATEGY_RULES.pathMaxExpanded) {
+  function findFriendlyPath(start, goal, blocked, width = LOCAL_MAP217.tiles, height = LOCAL_MAP217.tiles, maxExpanded = STRATEGY_RULES.pathMaxExpanded) {
     const valid = point => point.x >= 0 && point.y >= 0 && point.x < width && point.y < height;
     if (!valid(start) || !valid(goal) || blocked(goal.x, goal.y)) return null;
     const key = point => point.y * width + point.x, origin = key(start), target = key(goal);
@@ -523,7 +542,7 @@
     RESOURCE_KEYS, RESOURCE_META, DIFFICULTIES, START_SCENARIOS, START_SCENARIO_STORY_BONUS, CITY_TIERS, BUILDINGS, ENEMIES, ENEMY_RULES, WEAPONS, OBJECTIVES,
     RESEARCH, RESEARCH_INSIGHT_MAX, CRISES, PERFORMANCE_LIMITS, SIMULATION_RULES, STRATEGY_RULES, WORKER_RULES, LINECARE_RULES, SURVIVORS, NPC_RULES, NARRATIVE_RULES, NARRATIVE_OPERATIONS,
     SCENERY_DEFS, SQUAD_RULES, BATTLEFIELD_RULES, MAINTENANCE_RULES,
-    clamp, lerp, dist, distSq, grid, world, index, localMap217, LOCAL_MAP217, makeBag, bagTotal, canAfford, spend, add,
+    clamp, lerp, dist, distSq, grid, world, index, localMap217, LOCAL_MAP217, localMapOf217, campaignLocal217, makeBag, bagTotal, canAfford, spend, add,
     scaledCost, resourceText, formatNumber, formatTime, seededHash, cityTier, buildingList,
     enemyHealthScale, wallLine, powerPriority, researchById, crisisForWave, normalizeResearch, migrateSaveData,
     normalizeCrisis, normalizeSpawnCounts, spawnCount, takeSpawnKind, productionFraction, findFriendlyPath,
@@ -841,7 +860,9 @@
     workerId:null,postId:null,everHeld:false,captures:0,losses:0,exported:0,automatic:false,nextDispatch:0});
   function create(){return{version:1,sectors:Object.fromEntries(SECTORS.map(s=>[s.id,emptySector(s)])),trucks:[],nextTruckId:1,
     withdrawing:[],fallbackId:null,stats:{delivered:0,convoysReturned:0,convoysLost:0,reclaimed:0},events:[]};}
-  function normalize(raw){
+  // `local` : carte locale de la campagne (O5), carte par défaut en repli.
+  const localSize217=local=>local?.size??root.DeadwallCore?.LOCAL_MAP217?.size??4096;
+  function normalize(raw,local){
     if(raw===undefined)return create();
     if(!object(raw)||raw.version!==1||!object(raw.sectors)||Object.keys(raw.sectors).length!==SECTORS.length)fail('registre');
     const state=create(),workers=new Set(),posts=new Set();
@@ -862,7 +883,7 @@
     state.trucks=raw.trucks.map(t=>{
       if(!object(t)||!integer(t.id,1)||t.id>=raw.nextTruckId||truckIds.has(t.id)||!has(t.theme)||destinations.has(t.theme))fail('identité de convoi');
       truckIds.add(t.id);destinations.add(t.theme);
-      if(!['outbound','returning'].includes(t.phase)||!finite(t.x,0,4096)||!finite(t.y,0,4096)||!finite(t.health,Number.MIN_VALUE,RULES.truckHealth)||!finite(t.food,0,RULES.supplyPack)||!finite(t.cargo,0,RULES.truckCapacity)||!finite(t.angle,-Math.PI,Math.PI))fail('véhicule');
+      if(!['outbound','returning'].includes(t.phase)||!finite(t.x,0,localSize217(local))||!finite(t.y,0,localSize217(local))||!finite(t.health,Number.MIN_VALUE,RULES.truckHealth)||!finite(t.food,0,RULES.supplyPack)||!finite(t.cargo,0,RULES.truckCapacity)||!finite(t.angle,-Math.PI,Math.PI))fail('véhicule');
       if(t.phase==='outbound'&&t.cargo!==0)fail('cargaison aller');
       if(typeof t.recalled!=='boolean'||t.recalled&&t.phase!=='returning')fail('rappel');
       const s=state.sectors[t.theme];if(s.remaining+s.stock+s.exported+t.cargo>BY_ID[t.theme].reserve+RULES.epsilon)fail('lot en transit dupliqué');
@@ -879,7 +900,7 @@
   }
   const safeBag=bag=>object(bag)&&KEYS.every(k=>finite(bag[k]??0));
   class Engine{
-    constructor(raw){this.state=normalize(raw);}
+    constructor(raw,local){this.local=local;this.state=normalize(raw,local);}
     snapshot(){return clone(this.state);}
     sector(id){return has(id)?this.state.sectors[id]:null;}
     log(type,theme){this.state.events.push({type,theme});if(this.state.events.length>RULES.eventLimit)this.state.events.shift();}
@@ -951,7 +972,7 @@
       if(this.state.trucks.some(t=>t.theme===id)||this.state.trucks.length>=RULES.truckMax)return result(false,'Un convoi dessert déjà ce quartier.');
       if(this.state.nextTruckId>=RULES.maxCounter)return result(false,'Compteur de convois épuisé.');
       if(!safeBag(ctx.resources)||Object.entries(RULES.convoyCost).some(([k,v])=>(ctx.resources[k]||0)<v))return result(false,'12 rations et 6 carburants sont nécessaires.');
-      if(!finite(ctx.origin?.x,0,4096)||!finite(ctx.origin?.y,0,4096))return result(false,'Dépôt inaccessible.');
+      if(!finite(ctx.origin?.x,0,localSize217(this.local))||!finite(ctx.origin?.y,0,localSize217(this.local)))return result(false,'Dépôt inaccessible.');
       return result(true,'Engager 12 rations et 6 carburants. Le fourgon sera exposé pendant le trajet.');
     }
     dispatch(id,ctx){
@@ -996,7 +1017,7 @@
     const migrate=C.migrateSaveData;
     C.migrateSaveData=function(input){
       if(!object(input))return null;
-      if(input.version===4){if(input.territories===undefined)fail('registre v4 absent');const territories=normalize(input.territories);const base=migrate({...input,version:3});return base?{...base,version:4,territories}:null;}
+      if(input.version===4){if(input.territories===undefined)fail('registre v4 absent');const territories=normalize(input.territories,C.localMapOf217?.(input));const base=migrate({...input,version:3});return base?{...base,version:4,territories}:null;}
       if(![1,2,3].includes(input.version))return null;const base=migrate(input);return base?{...base,version:4,territories:create()}:null;
     };
     C.SAVE_VERSION=4;C.SAVE_KEY='deadwall-save-v4';C.SAVE_BACKUP_KEY='deadwall-save-backup-v4';
@@ -1485,8 +1506,10 @@
   const integer=(n,a=0,b=0x7ffffffe)=>Number.isInteger(n)&&finite(n,a,b);
   const object=v=>v!==null&&typeof v==='object'&&!Array.isArray(v);
   const copy=x=>JSON.parse(JSON.stringify(x));
-  const key=(x,y)=>y*RULES.worldTiles+x;
-  const cell=p=>object(p)&&integer(p.x,1,126)&&integer(p.y,1,126);
+  // Grille de la voirie dérivée de la carte locale de la campagne (O5) ; `worldTiles` en repli.
+  const tilesOf=local=>local?.tiles??RULES.worldTiles;
+  const key=(x,y,local)=>y*tilesOf(local)+x;
+  const cell=(p,local)=>object(p)&&integer(p.x,1,tilesOf(local)-2)&&integer(p.y,1,tilesOf(local)-2);
   const fail=message=>{throw new Error('Réseau de cité invalide : '+message+'.');};
   const surface=p=>SURFACES[p?.surface||'gravel'];
   const unfinished=p=>p.progress<1||Boolean(p.upgrade);
@@ -1497,12 +1520,12 @@
     return{ok:true,reason:s.name+' disponible.'};
   }
   function create(){return{version:1,roads:[],crew:[],ruins:[],stats:{laid:0,reconstructed:0,forgotten:0}};}
-  function normalize(raw){
+  function normalize(raw,local){
     if(raw===undefined)return create();
     if(!object(raw)||raw.version!==1||!Array.isArray(raw.roads)||raw.roads.length>RULES.maxRoads||!Array.isArray(raw.crew)||raw.crew.length>RULES.maxCrew||!Array.isArray(raw.ruins)||raw.ruins.length>RULES.maxRuins)fail('format ou capacité');
     const ids=new Set(),workers=new Set(),ruins=new Set(),positions=new Set();
     const roads=raw.roads.map(p=>{
-      if(!cell(p)||!finite(p.progress,0,1)||ids.has(key(p.x,p.y)))fail('piste dupliquée ou hors carte');ids.add(key(p.x,p.y));
+      if(!cell(p,local)||!finite(p.progress,0,1)||ids.has(key(p.x,p.y,local)))fail('piste dupliquée ou hors carte');ids.add(key(p.x,p.y,local));
       const road={x:p.x,y:p.y,progress:p.progress};
       if(Object.hasOwn(p,'surface')){if(typeof p.surface!=='string'||!Object.hasOwn(SURFACES,p.surface))fail('revêtement inconnu');road.surface=p.surface;}
       if(Object.hasOwn(p,'upgrade')){
@@ -1513,14 +1536,14 @@
     });
     const crew=raw.crew.map(u=>{if(!object(u)||!integer(u.id,1)||typeof u.returning!=='boolean'||workers.has(u.id))fail('équipe');workers.add(u.id);return{id:u.id,returning:u.returning};});
     const blueprints=raw.ruins.map(b=>{
-      if(!object(b)||!integer(b.id,1)||typeof b.type!=='string'||!/^[a-zA-Z][a-zA-Z0-9]{0,39}$/.test(b.type)||b.type==='core'||!integer(b.gx,1,126)||!integer(b.gy,1,126)||!integer(b.rotation,0,3)||!finite(b.at)||ruins.has(b.id)||positions.has(b.gx+':'+b.gy))fail('empreinte de reconstruction');
+      if(!object(b)||!integer(b.id,1)||typeof b.type!=='string'||!/^[a-zA-Z][a-zA-Z0-9]{0,39}$/.test(b.type)||b.type==='core'||!integer(b.gx,1,tilesOf(local)-2)||!integer(b.gy,1,tilesOf(local)-2)||!integer(b.rotation,0,3)||!finite(b.at)||ruins.has(b.id)||positions.has(b.gx+':'+b.gy))fail('empreinte de reconstruction');
       ruins.add(b.id);positions.add(b.gx+':'+b.gy);return{id:b.id,type:b.type,gx:b.gx,gy:b.gy,rotation:b.rotation,at:b.at};
     });
     const stats={};for(const name of ['laid','reconstructed','forgotten']){const n=raw.stats?.[name]??0;if(!integer(n,0,1e12))fail('statistique');stats[name]=n;}
     return{version:1,roads,crew,ruins:blueprints,stats};
   }
-  function line(a,b){
-    if(!cell(a)||!cell(b))return null;
+  function line(a,b,local){
+    if(!cell(a,local)||!cell(b,local))return null;
     // One cardinal leg followed by the other. No diagonal gaps; never an unbounded trace.
     if(Math.abs(a.x-b.x)+Math.abs(a.y-b.y)+1>RULES.maxTrace)return null;
     const out=[{x:a.x,y:a.y}],p={...a};
@@ -1528,17 +1551,17 @@
     while(p.y!==b.y){p.y+=Math.sign(b.y-p.y);out.push({...p});}
     return out;
   }
-  function quote(state,cells,stock,blocked=()=>false,options){
+  function quote(state,cells,stock,blocked=()=>false,options,local){
     if(!Array.isArray(cells)||!cells.length||cells.length>RULES.maxTrace||!object(stock))return{ok:false,reason:'Trace vide, trop longue ou réserves absentes.'};
     const id=options?.surface??'gravel',mode=options?.mode??'new',target=Object.hasOwn(SURFACES,id)&&SURFACES[id];
     if(!target||!['new','upgrade'].includes(mode))return{ok:false,reason:'Revêtement ou mode de travaux invalide.'};
     if(options){const status=surfaceStatus(id,options.tier,options.has);if(!status.ok)return status;}
     else if(id!=='gravel'||mode!=='new')return{ok:false,reason:'Conditions de déblocage absentes.'};
-    const seen=new Set(),existing=new Map(state.roads.map(p=>[key(p.x,p.y),p])),fresh=[],cost={};
+    const seen=new Set(),existing=new Map(state.roads.map(p=>[key(p.x,p.y,local),p])),fresh=[],cost={};
     for(const p of cells){
-      if(!cell(p)||seen.has(key(p.x,p.y)))return{ok:false,reason:'Une cellule de la trace est invalide ou répétée.'};
+      if(!cell(p,local)||seen.has(key(p.x,p.y,local)))return{ok:false,reason:'Une cellule de la trace est invalide ou répétée.'};
       if(seen.size){const prev=cells[seen.size-1];if(Math.abs(prev.x-p.x)+Math.abs(prev.y-p.y)!==1)return{ok:false,reason:'La piste doit rester raccordée par ses côtés.'};}
-      seen.add(key(p.x,p.y));const previous=existing.get(key(p.x,p.y));
+      seen.add(key(p.x,p.y,local));const previous=existing.get(key(p.x,p.y,local));
       if(mode==='new'&&previous)continue;
       if(mode==='upgrade'){
         if(!previous)return{ok:false,reason:'La mise à niveau exige une route achevée sur chaque cellule.'};
@@ -1559,9 +1582,10 @@
     push(v){let i=this.items.length;this.items.push(v);while(i){const p=(i-1)>>1;if(this.items[p].f<=v.f)break;this.items[i]=this.items[p];i=p;}this.items[i]=v;}
     pop(){const top=this.items[0],end=this.items.pop();if(this.items.length){let i=0;while(i*2+1<this.items.length){let c=i*2+1;if(c+1<this.items.length&&this.items[c+1].f<this.items[c].f)c++;if(this.items[c].f>=end.f)break;this.items[i]=this.items[c];i=c;}this.items[i]=end;}return top;}
   }
-  function findRoute(start,goal,blocked,cost=()=>1,width=128,height=128,maxExpanded=RULES.maxExpanded,minCost=1/RULES.truckSpeed){
+  // `limit` : côté de la carte locale (O5), plafond des dimensions demandées.
+  function findRoute(start,goal,blocked,cost=()=>1,width=RULES.worldTiles,height=RULES.worldTiles,maxExpanded=RULES.maxExpanded,minCost=1/RULES.truckSpeed,limit=RULES.worldTiles){
     const valid=p=>object(p)&&integer(p.x,0,width-1)&&integer(p.y,0,height-1);
-    if(!integer(width,1,128)||!integer(height,1,128)||!integer(maxExpanded,1,16384)||!finite(minCost,.1,1)||!valid(start)||!valid(goal)||typeof blocked!=='function'||blocked(goal.x,goal.y))return null;
+    if(!integer(width,1,limit)||!integer(height,1,limit)||!integer(maxExpanded,1,16384)||!finite(minCost,.1,1)||!valid(start)||!valid(goal)||typeof blocked!=='function'||blocked(goal.x,goal.y))return null;
     const origin=start.y*width+start.x,target=goal.y*width+goal.x;if(origin===target)return[];
     const best=new Float64Array(width*height);best.fill(Infinity);best[origin]=0;
     const previous=new Int32Array(width*height);previous.fill(-1);const open=new Heap();
@@ -1578,15 +1602,15 @@
     }return null;
   }
   class Engine{
-    constructor(raw){this.state=normalize(raw);this.index=new Map(this.state.roads.map(p=>[key(p.x,p.y),p]));}
+    constructor(raw,local){this.local=local;this.state=normalize(raw,local);this.index=new Map(this.state.roads.map(p=>[key(p.x,p.y,local),p]));}
     snapshot(){return copy(this.state);}
-    road(x,y){return this.index.get(key(x,y))||null;}
-    at(x,y){if(!finite(x,0,4096)||!finite(y,0,4096))return null;return this.road(Math.floor(x/32),Math.floor(y/32));}
+    road(x,y){return this.index.get(key(x,y,this.local))||null;}
+    at(x,y){const size=tilesOf(this.local)*RULES.tile;if(!finite(x,0,size)||!finite(y,0,size))return null;return this.road(Math.floor(x/32),Math.floor(y/32));}
     multiplier(x,y,kind='friendly'){const p=this.at(x,y),s=surface(p);return p?.progress===1?(kind==='truck'?s.truckSpeed:kind==='hostile'?s.hostileSpeed:s.friendlySpeed):1;}
-    commit(cells,stock,blocked,options){const q=quote(this.state,cells,stock,blocked,options);if(!q.ok)return q;
+    commit(cells,stock,blocked,options){const q=quote(this.state,cells,stock,blocked,options,this.local);if(!q.ok)return q;
       for(const [k,n]of Object.entries(q.cost))stock[k]-=n;
       for(const p of q.cells){if(q.mode==='upgrade'){this.road(p.x,p.y).upgrade={surface:q.surface,progress:0};continue;}
-        const item={...p,progress:0};if(q.surface!=='gravel')item.surface=q.surface;this.state.roads.push(item);this.index.set(key(p.x,p.y),item);}return q;
+        const item={...p,progress:0};if(q.surface!=='gravel')item.surface=q.surface;this.state.roads.push(item);this.index.set(key(p.x,p.y,this.local),item);}return q;
     }
     work(x,y,seconds){const p=this.road(x,y);if(!p||!unfinished(p)||!finite(seconds,0,RULES.maxStep*RULES.playerWork)||seconds===0)return false;
       if(p.upgrade){const u=p.upgrade,required=SURFACES[u.surface].workSeconds-surface(p).workSeconds;u.progress=Math.min(1,u.progress+seconds/required);
@@ -1594,11 +1618,11 @@
       p.progress=Math.min(1,p.progress+seconds/surface(p).workSeconds);if(p.progress>1-1e-9)p.progress=1;
       if(p.progress===1){this.state.stats.laid=Math.min(1e12,this.state.stats.laid+1);return true;}return false;
     }
-    remove(x,y){const p=this.road(x,y);if(!p)return false;this.state.roads=this.state.roads.filter(r=>r!==p);this.index.delete(key(x,y));return true;}
+    remove(x,y){const p=this.road(x,y);if(!p)return false;this.state.roads=this.state.roads.filter(r=>r!==p);this.index.delete(key(x,y,this.local));return true;}
     assign(id){if(!integer(id,1)||this.state.crew.length>=RULES.maxCrew||this.state.crew.some(u=>u.id===id))return false;this.state.crew.push({id,returning:false});return true;}
     recall(id){const u=this.state.crew.find(u=>u.id===id);if(!u)return false;u.returning=true;return true;}
     remember(b,at){const record={id:b.id,type:b.type,gx:b.gx,gy:b.gy,rotation:b.rotation||0,at};
-      if(b.type==='core')return false;normalize({...create(),ruins:[record]});
+      if(b.type==='core')return false;normalize({...create(),ruins:[record]},this.local);
       this.state.ruins=this.state.ruins.filter(r=>r.id!==b.id&&(r.gx!==b.gx||r.gy!==b.gy));this.state.ruins.push(record);
       if(this.state.ruins.length>RULES.maxRuins){this.state.ruins.shift();this.state.stats.forgotten=Math.min(1e12,this.state.stats.forgotten+1);}return true;
     }
@@ -1609,7 +1633,7 @@
     for(const [id,b]of Object.entries(BUILDINGS)){if(Object.hasOwn(C.BUILDINGS,id))throw Error('Construction en conflit : '+id);C.BUILDINGS[id]=b;}
     const old=C.migrateSaveData;C.migrateSaveData=raw=>{
       if(!object(raw))return null;
-      if(raw.version===8){if(raw.infrastructure===undefined)fail('registre v8 absent');const state=normalize(raw.infrastructure),base=old({...raw,version:7});return base?{...base,version:8,infrastructure:state}:null;}
+      if(raw.version===8){if(raw.infrastructure===undefined)fail('registre v8 absent');const state=normalize(raw.infrastructure,C.localMapOf217?.(raw)),base=old({...raw,version:7});return base?{...base,version:8,infrastructure:state}:null;}
       if(![1,2,3,4,5,6,7].includes(raw.version))return null;const base=old(raw);return base?{...base,version:8,infrastructure:create()}:null;
     };
     const previousPath=C.findFriendlyPath;
@@ -1760,18 +1784,19 @@
  stop('terminal','Le terminal des anciens convois',704,1312,18,'archives','ammo',85,12,'Dernière halte identifiée par la chaîne de renseignements. Ramenez les réserves avant la nuit.')]);
  const BY_ID=Object.freeze(Object.fromEntries(SITES.map(s=>[s.id,s])));
  const initial=()=>({version:1,intel:0,sites:SITES.map(d=>({id:d.id,known:d.intel===0,progress:0,reported:false,stock:C.makeBag({[d.resource]:d.amount,...(d.resource!=='fuel'?{fuel:d.fuel}:{})})})),analyst:null,vehicle:null,active:null,trade:{wave:1,remaining:RULES.tradeStock},stats:{built:0,departed:0,returned:0,lost:0,distance:0,fuelUsed:0,delivered:0,reports:0}});
- function normalize(raw){if(raw===undefined)return initial();const bad=m=>{throw Error('Expéditions invalides : '+m+'.')},num=(x,min,max)=>typeof x==='number'&&Number.isFinite(x)&&x>=min&&x<=max,id=x=>Number.isSafeInteger(x)&&x>0&&x<0x7ffffffe;
+ // `data` : sauvegarde en cours de lecture (O5 : carte de la cité du véhicule) ; sans elle, partie en cours.
+ function normalize(raw,data){if(raw===undefined)return initial();const bad=m=>{throw Error('Expéditions invalides : '+m+'.')},num=(x,min,max)=>typeof x==='number'&&Number.isFinite(x)&&x>=min&&x<=max,id=x=>Number.isSafeInteger(x)&&x>0&&x<0x7ffffffe;
   if(!raw||raw.version!==1||!Number.isInteger(raw.intel)||!num(raw.intel,0,40)||!Array.isArray(raw.sites)||raw.sites.length!==SITES.length||!raw.stats||!raw.trade)bad('registre');
   const out=initial(),seen=new Set();out.intel=raw.intel;
   out.sites=raw.sites.map(s=>{const d=BY_ID[s?.id];if(!d||seen.has(s.id)||typeof s.known!=='boolean'||typeof s.reported!=='boolean'||!num(s.progress,0,d.seconds)||s.reported!==(s.progress===d.seconds)||!s.stock)bad('lieu');seen.add(s.id);const stock=C.makeBag();for(const k of C.RESOURCE_KEYS){const cap=k===d.resource?d.amount:k==='fuel'?d.fuel:0;if(!num(s.stock[k],0,cap))bad('réserve');stock[k]=s.stock[k];}if((s.reported||C.bagTotal(stock)<d.amount+d.fuel)&&!s.known)bad('lieu non repéré');return{id:s.id,known:s.known,progress:s.progress,reported:s.reported,stock};});
   if(raw.analyst!==null){const a=raw.analyst;if(!a||!id(a.id)||!id(a.post)||!num(a.progress,0,RULES.researchSeconds)||typeof a.returning!=='boolean')bad('analyste');out.analyst={id:a.id,post:a.post,progress:a.progress,returning:a.returning};}
-  if(raw.vehicle!==null){const v=raw.vehicle;if(!v||!id(v.id)||!num(v.x,26,C.LOCAL_MAP217.size-26)||!num(v.y,26,C.LOCAL_MAP217.size-26)||!num(v.health,0,800)||!num(v.fuel,0,80)||!num(v.angle,-Math.PI,Math.PI)||typeof v.driving!=='boolean'||!v.cargo)bad('véhicule');const cargo=C.makeBag();for(const k of C.RESOURCE_KEYS){if(!num(v.cargo[k],0,300))bad('coffre');cargo[k]=v.cargo[k];}if(C.bagTotal(cargo)>300.000001||v.health===0&&(v.fuel>0||v.driving||C.bagTotal(cargo)>0))bad('épave');out.vehicle={id:v.id,x:v.x,y:v.y,health:v.health,fuel:v.fuel,angle:v.angle,driving:v.driving,cargo};if(v.metric174!==undefined){if(v.metric174!==1)bad('révision métrique');out.vehicle.metric174=1;}}
+  if(raw.vehicle!==null){const v=raw.vehicle;if(!v||!id(v.id)||!num(v.x,26,C.campaignLocal217(data).size-26)||!num(v.y,26,C.campaignLocal217(data).size-26)||!num(v.health,0,800)||!num(v.fuel,0,80)||!num(v.angle,-Math.PI,Math.PI)||typeof v.driving!=='boolean'||!v.cargo)bad('véhicule');const cargo=C.makeBag();for(const k of C.RESOURCE_KEYS){if(!num(v.cargo[k],0,300))bad('coffre');cargo[k]=v.cargo[k];}if(C.bagTotal(cargo)>300.000001||v.health===0&&(v.fuel>0||v.driving||C.bagTotal(cargo)>0))bad('épave');out.vehicle={id:v.id,x:v.x,y:v.y,health:v.health,fuel:v.fuel,angle:v.angle,driving:v.driving,cargo};if(v.metric174!==undefined){if(v.metric174!==1)bad('révision métrique');out.vehicle.metric174=1;}}
   if(raw.active!==null){if(!raw.active||!BY_ID[raw.active.id]||!Number.isSafeInteger(raw.active.wave)||!num(raw.active.wave,1,1e7))bad('sortie');out.active={id:raw.active.id,wave:raw.active.wave};}
   if(!Number.isInteger(raw.trade.wave)||!num(raw.trade.wave,1,1e7)||!num(raw.trade.remaining,0,RULES.tradeStock))bad('troc');out.trade={wave:raw.trade.wave,remaining:raw.trade.remaining};
   for(const k of Object.keys(out.stats)){if(!num(raw.stats[k],0,1e12)||!['distance','fuelUsed','delivered'].includes(k)&&!Number.isInteger(raw.stats[k]))bad('compteur');out.stats[k]=raw.stats[k];}
   if(out.stats.returned>out.stats.departed||out.stats.lost>out.stats.built||out.stats.reports!==out.sites.filter(s=>s.reported).length||out.intel<Math.min(40,out.stats.reports*2))bad('bilan');return out;
  }
- const old=C.migrateSaveData;C.migrateSaveData=raw=>{if(!raw||typeof raw!=='object')return null;const modern=raw.version===12;if(modern&&raw.expeditions===undefined)throw Error('Sauvegarde v12 sans expéditions.');const s=normalize(modern?raw.expeditions:undefined),base=old(modern?{...raw,version:11}:raw);if(!base)return null;if(!modern)s.trade.wave=base.wave;return{...base,version:12,expeditions:s};};
+ const old=C.migrateSaveData;C.migrateSaveData=raw=>{if(!raw||typeof raw!=='object')return null;const modern=raw.version===12;if(modern&&raw.expeditions===undefined)throw Error('Sauvegarde v12 sans expéditions.');const s=normalize(modern?raw.expeditions:undefined,raw),base=old(modern?{...raw,version:11}:raw);if(!base)return null;if(!modern)s.trade.wave=base.wave;return{...base,version:12,expeditions:s};};
  C.Expeditions=Object.freeze({RULES,BUILDINGS,SITES,BY_ID,initial,normalize});C.SAVE_VERSION=12;C.SAVE_KEY='deadwall-save-v12';C.SAVE_BACKUP_KEY='deadwall-save-backup-v12';C.LEGACY_SAVE_KEYS=[...new Set(['deadwall-save-v11','deadwall-save-backup-v11',...C.LEGACY_SAVE_KEYS])];
 })(globalThis);
 
@@ -1780,19 +1805,20 @@
  'use strict';const C=root.DeadwallCore;if(C.Fieldcraft)return;
  const RULES=Object.freeze({moveRate:.2,rotateRate:.05,range:78,transition:8,penalty:.8,reloadGoodStart:.44,reloadGoodEnd:.70,reloadPerfectStart:.53,reloadPerfectEnd:.60,maxNodes:4096});
  const empty=()=>({version:1,nodes:[],opacity:null,attempt:false,outcome:'',legacyLayout:true,weatherTarget:0});
- function normalize(raw){
+ // `data` : sauvegarde en cours de lecture (O5 : carte de la cité des décors) ; sans elle, partie en cours.
+ function normalize(raw,data){
   if(raw===undefined)return empty();
   if(!raw||raw.version!==1||!Array.isArray(raw.nodes)||raw.nodes.length>RULES.maxNodes||!(raw.opacity===null||Number.isFinite(raw.opacity)&&raw.opacity>=0&&raw.opacity<=1)||typeof raw.attempt!=='boolean'||!['','normal','good','perfect','failed'].includes(raw.outcome))throw Error('Registre de terrain invalide.');
-  const ids=new Set();const nodes=raw.nodes.map(n=>{if(!Array.isArray(n)||n.length!==3||!Number.isInteger(n[0])||n[0]<1||ids.has(n[0])||!Number.isFinite(n[1])||!Number.isFinite(n[2])||n[1]<0||n[2]<0||n[1]>C.LOCAL_MAP217.size||n[2]>C.LOCAL_MAP217.size)throw Error('Emplacement de décor invalide.');ids.add(n[0]);return n.slice();});
+  const ids=new Set();const nodes=raw.nodes.map(n=>{if(!Array.isArray(n)||n.length!==3||!Number.isInteger(n[0])||n[0]<1||ids.has(n[0])||!Number.isFinite(n[1])||!Number.isFinite(n[2])||n[1]<0||n[2]<0||n[1]>C.campaignLocal217(data).size||n[2]>C.campaignLocal217(data).size)throw Error('Emplacement de décor invalide.');ids.add(n[0]);return n.slice();});
   return{version:1,nodes,opacity:raw.opacity,attempt:raw.attempt,outcome:raw.outcome};
  }
  const previous=C.migrateSaveData;
- C.migrateSaveData=raw=>{if(!raw||typeof raw!=='object')return null;const modern=raw.version===13;if(modern&&!raw.fieldcraft)throw Error('Sauvegarde v13 sans registre de terrain.');const record=normalize(modern?raw.fieldcraft:undefined),base=previous(modern?{...raw,version:12}:raw);return base?{...base,version:13,fieldcraft:record}:null;};
+ C.migrateSaveData=raw=>{if(!raw||typeof raw!=='object')return null;const modern=raw.version===13;if(modern&&!raw.fieldcraft)throw Error('Sauvegarde v13 sans registre de terrain.');const record=normalize(modern?raw.fieldcraft:undefined,raw),base=previous(modern?{...raw,version:12}:raw);return base?{...base,version:13,fieldcraft:record}:null;};
  C.Fieldcraft=Object.freeze({RULES,empty,normalize});C.SAVE_VERSION=13;C.SAVE_KEY='deadwall-save-v13';C.SAVE_BACKUP_KEY='deadwall-save-backup-v13';C.LEGACY_SAVE_KEYS=[...new Set(['deadwall-save-v12','deadwall-save-backup-v12',...C.LEGACY_SAVE_KEYS])];
 })(globalThis);
 
 /* 1.15 — regional exploration has a separate metre-based spatial domain. */
-(function(root){'use strict';const C=root.DeadwallCore,S=root.DeadwallFrontierState||(typeof require==='function'?require('./frontier-state.js'):null),W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null);C.Frontier={...S,RULES:W.RULES};const previous=C.migrateSaveData;C.migrateSaveData=raw=>{if(!raw||typeof raw!=='object')return null;const modern=raw.version===14;if(modern&&raw.frontier===undefined)throw Error('Sauvegarde v14 sans région.');const d=previous(modern?{...raw,version:13}:raw);return d?{...d,version:14,frontier:S.normalize(modern?raw.frontier:undefined)}:null;};C.SAVE_VERSION=14;C.SAVE_KEY='deadwall-save-v14';C.SAVE_BACKUP_KEY='deadwall-save-backup-v14';C.LEGACY_SAVE_KEYS=[...new Set(['deadwall-save-v13','deadwall-save-backup-v13',...C.LEGACY_SAVE_KEYS])];})(globalThis);
+(function(root){'use strict';const C=root.DeadwallCore,S=root.DeadwallFrontierState||(typeof require==='function'?require('./frontier-state.js'):null),W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null);C.Frontier={...S,RULES:W.RULES};const previous=C.migrateSaveData;C.migrateSaveData=raw=>{if(!raw||typeof raw!=='object')return null;const modern=raw.version===14;if(modern&&raw.frontier===undefined)throw Error('Sauvegarde v14 sans région.');const d=previous(modern?{...raw,version:13}:raw);return d?{...d,version:14,frontier:S.normalize(modern?raw.frontier:undefined,raw)}:null;};C.SAVE_VERSION=14;C.SAVE_KEY='deadwall-save-v14';C.SAVE_BACKUP_KEY='deadwall-save-backup-v14';C.LEGACY_SAVE_KEYS=[...new Set(['deadwall-save-v13','deadwall-save-backup-v13',...C.LEGACY_SAVE_KEYS])];})(globalThis);
 
 (function(root){'use strict';const C=root.DeadwallCore,old=C.migrateSaveData;C.migrateSaveData=raw=>{if(!raw||typeof raw!=='object')return null;const modern=raw.version===15;if(modern&&raw.frontier?.version!==2)throw Error('Sauvegarde v15 sans carnet régional.');const d=old(modern?{...raw,version:14}:raw);return d?{...d,version:15}:null;};C.SAVE_VERSION=15;C.SAVE_KEY='deadwall-save-v15';C.SAVE_BACKUP_KEY='deadwall-save-backup-v15';C.LEGACY_SAVE_KEYS=[...new Set(['deadwall-save-v14','deadwall-save-backup-v14',...C.LEGACY_SAVE_KEYS])];})(globalThis);
 
@@ -3592,6 +3618,10 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // du joueur (au-delà, contrôle de forme seul) ; `maxSeenCantons` cantons vus ; les autres plafonds sont ceux du registre régional G1–G11.
  // open : registre G12 accepté par frontier-state (faux jusqu'à la tranche O9, qui ouvre la génération 12).
  C.WorldSave217Rules=Object.freeze({open:false,maxCantons:64,maxSeenCantons:4096,maxSeen:5000,maxTaken:120000,maxEnemies:15000});
+  // Taille de la carte de la cité portée par la campagne (ouverture.md, tranche O5) : 128 cases pour toute
+  // génération ; `generationTiles` nomme la seule exception, la génération 12 (192 m, D-O5), encore refusée.
+  // La sauvegarde n'écrit `localTiles` que s'il diffère de `defaultTiles`.
+  C.LocalMap217Rules=Object.freeze({defaultTiles:128,generationTiles:Object.freeze({12:192})});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),

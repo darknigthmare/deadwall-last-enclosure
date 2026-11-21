@@ -22,6 +22,8 @@ function normalize(raw,data){
  if(!raw||raw.version!==1||!Array.isArray(raw.devices)||raw.devices.length>R.maxDevices)bad();
  let regionalWorld=null;
  const W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null),L217=limitsOf217(W,data?.frontier?.generation??5,()=>W.sizeForGeneration(data?.frontier?.generation??5));
+ // O5 : domaine « local » borné par la carte de la campagne (repli : 4 096 historique).
+ const LS217=C.campaignLocal217?.(data)?.size??4096;
  const out=initial(),seen=new Set();out.serial=number(raw.serial,1,1e9,true);let held=0,lit=0,placed=0;
  const advancedAllowed=!data||Object.entries(data.essentials?.jobs||{}).some(([id,j])=>j.stage==='delivered'&&C.Essentials.content.byId[id]?.family==='light');
  for(const d of raw.devices){
@@ -31,7 +33,7 @@ function normalize(raw,data){
   if(d.location==='belt'){held++;if(d.on)lit++;}
   if(d.location==='placed'){
    placed++;if(!['local','region'].includes(d.domain))bad();
-   Object.assign(item,{domain:d.domain,x:number(d.x,d.domain==='local'?0:L217.axisMin(),d.domain==='local'?4096:L217.axisMax()),y:number(d.y,d.domain==='local'?0:L217.axisMin(),d.domain==='local'?4096:L217.axisMax()),z:number(d.z,-1,2,true),inside:d.inside??null,angle:number(d.angle,-Math.PI*2,Math.PI*2)});
+   Object.assign(item,{domain:d.domain,x:number(d.x,d.domain==='local'?0:L217.axisMin(),d.domain==='local'?LS217:L217.axisMax()),y:number(d.y,d.domain==='local'?0:L217.axisMin(),d.domain==='local'?LS217:L217.axisMax()),z:number(d.z,-1,2,true),inside:d.inside??null,angle:number(d.angle,-Math.PI*2,Math.PI*2)});
    if(item.inside!==null&&!/^P\d{4}$/.test(item.inside)||item.domain==='local'&&(item.z!==0||item.inside!==null))bad();
    if(data&&item.domain==='region'&&(item.z!==0||item.inside!==null)){
     const W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null),G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null),w=regionalWorld||(regionalWorld=validationWorld(W,data.worldSeed,data.frontier.generation,data.frontier)),p=siteOf217(w,item.inside);

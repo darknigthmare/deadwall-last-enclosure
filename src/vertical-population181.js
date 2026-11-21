@@ -54,7 +54,7 @@
       }
       if (m.travel !== null) {
         const t = m.travel;
-        if (!fields(t, ['from', 'to', 'progress', 'startX', 'startY']) || m.site === null || m.bridge !== null || !integer(t.from, -1, R.maxDecks - 1) || !integer(t.to, -1, R.maxDecks - 1) || Math.abs(t.to - t.from) !== 1 || m.level !== t.from || !finite(t.progress, 0, 1) || !finite(t.startX, 0, C.WORLD_SIZE) || !finite(t.startY, 0, C.WORLD_SIZE)) bad('escalier');
+        if (!fields(t, ['from', 'to', 'progress', 'startX', 'startY']) || m.site === null || m.bridge !== null || !integer(t.from, -1, R.maxDecks - 1) || !integer(t.to, -1, R.maxDecks - 1) || Math.abs(t.to - t.from) !== 1 || m.level !== t.from || !finite(t.progress, 0, 1) || !finite(t.startX, 0, C.campaignLocal217?.(full)?.size ?? C.WORLD_SIZE) || !finite(t.startY, 0, C.campaignLocal217?.(full)?.size ?? C.WORLD_SIZE)) bad('escalier');
         if (full) {
           for (const level of [t.from, t.to]) if (level >= 0 && !validFloor({ site: m.site, level })) bad('palier d’escalier');
           const start = point(b, t.from, S), end = point(b, t.to, S);

@@ -161,7 +161,7 @@
    gl.viewport(0,0,w,h);const day=g.nightwatch?.isBlackout?.()?0:(g.daylight?.()??.6);gl.clearColor(.16*day+.04,.20*day+.04,.18*day+.04,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.enable(gl.DEPTH_TEST);gl.disable(gl.CULL_FACE);gl.useProgram(program);
    const camera=V.muzzle(q),out=dynamic,geometry=V.geometry(),staticBoxes=[];out.reset();gl.uniform3f(eye,camera.x,camera.y,camera.z);gl.uniform2f(angles,q.m.yaw,q.m.pitch);gl.uniform1f(aspect,w/h);gl.uniform1f(light,day);
    const fixed=(box,tint)=>staticBoxes.push({box,tint});
-   fixed({x:0,y:0,z:-.2,w:C.WORLD_SIZE/R.tile,h:C.WORLD_SIZE/R.tile,d:.2},[.27,.31,.23]);
+   fixed({x:0,y:0,z:-.2,w:(g.local||C.LOCAL_MAP217).size/R.tile,h:(g.local||C.LOCAL_MAP217).size/R.tile,d:.2},[.27,.31,.23]);
    for(const b of geometry){if(b.module===q.m.id)continue;const def=R.bases[g.world.buildings.get(b.owner)?.type];let tint=b.type==='deck'?[.60,.59,.48]:b.type==='module'?[.35,.42,.34]:[.50,.52,.43];if(def?.age177&&b.type==='structure')tint=[1,3,5].map(i=>parseInt(def.color.slice(i,i+2),16)/255);fixed(b,tint);}
    for(const s of state.sites){const b=g.world.buildings.get(s.id);if(!alive(b)||!b.completed)continue;const box=S.bounds(b);for(let i=0;i<s.decks.length;i++){if(s.decks[i].progress<1)continue;const z=R.bases[b.type].height+i*R.deckRise;
      for(const rail of V.network.railGeometry(b,i))fixed(rail,[.68,.64,.47]);

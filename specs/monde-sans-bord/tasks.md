@@ -513,8 +513,9 @@ cité reste de 128 cases (4 096 unités, 128 m).
       `NaN`, infinis, marges fractionnaires), propriétaires et repli, parcours de 70 s avec vague
       et reprise identique quelle que soit la source de l'accesseur (monde, copie, repli), lecteurs
       convertis sans lecture en dur.
-- [ ] T5.B5 Restant : tableau « Restent en clair » ; puis carte par campagne (`WorldMap` reçoit
+- [x] T5.B5 Restant : tableau « Restent en clair » ; puis carte par campagne (`WorldMap` reçoit
       `tiles`), sauvegarde portant la taille, validateurs lisant la carte de la sauvegarde.
+      → livré avec O5 (section O5 plus bas).
 
 ### Volet A — relief, hors jeu
 
@@ -753,6 +754,84 @@ Fiche : [ouverture.md](ouverture.md), O3. Test `tests/world-save217.test.cjs` (8
 - Réserves : aucune campagne G12 jouée (G12 non créable) ; le registre G12 n'est éprouvé que
   par la campagne synthétique ; au-delà de 64 cantons cités, la validation est de forme seule
   (D4) ; la validation recrée un monde neuf à chaque relecture (environ 20 ms par canton cité).
+
+## O5 — Carte de la cité par campagne (livré, sans effet en jeu)
+
+Fiche : [ouverture.md](ouverture.md), O5 (décision D-O5 : la cité reste à 192 m en G12). Toute
+campagne G1–G11 garde 128 cases ; la sauvegarde n'écrit rien de plus.
+
+- [x] O5.1 Règles et accesseurs (`src/core.js`) : `C.LocalMap217Rules` (`defaultTiles` 128,
+      `generationTiles` {12 : 192}) ; `C.localMapOf217(source)` (données de sauvegarde —
+      `localTiles` absent = carte par défaut — ou carte rendue telle quelle ; une instance par
+      taille) ; `C.campaignLocal217(data)` (carte des données validées ; sans données, carte de la
+      partie en cours ; sinon carte par défaut). `grid`, `index`, `wallLine` : carte en dernier
+      argument facultatif ; `findFriendlyPath` : défaut `LOCAL_MAP217.tiles`.
+- [x] O5.2 Cité (`src/game.js`) : `WorldMap(seed, géométrie, carte)` garde sa carte dans une
+      table faible (rien de sérialisé ni d'énuméré) ; `restoreSave` construit le monde sur
+      `C.localMapOf217(data)` ; `serialize` écrit `localTiles` seulement s'il diffère de 128 ;
+      `Zombie` reçoit la carte (orientation vers son centre) ; les `grid(…)` des méthodes de
+      `Game`, `wallLine` et `findFriendlyPath` lisent `this.local` ; sections (`squads.js` :
+      `create`, `normalize`, `withOrder` reçoivent la carte). `WORLD_SIZE` / `WORLD_TILES` ne sont
+      plus lus par `game.js`.
+- [x] O5.3 Sauvegarde (`src/save.js`) : `localTiles` absent = 128 ; refusé s'il vaut 128 en clair,
+      s'il n'est pas entier ou s'il diffère de la taille que `generationTiles` associe à la
+      génération déclarée (192 en G12, que le registre régional refuse toujours). Bornes des
+      positions, des structures et du ralliement lues sur cette carte.
+- [x] O5.4 Tableau « Restent en clair » de T5.B3 entièrement converti, repli local identique :
+      cœur (`grid`, `index`, `wallLine`, `findFriendlyPath`) ; orientation d'un infecté ; voirie
+      (`Infrastructure` : clé, cellules 1…taille − 2, `at`, `line`, `quote`, `findRoute` plafonné
+      par la carte, `Engine(raw, carte)` ; `game.js` : emprise, `findPath`, `drawRoads`,
+      `atlas-render.js`) ; validateurs « local » (`succession133`, `essential-state`,
+      `night-gear`, `survival-pack`, `frontier-state` — l'ancre ; la position initiale
+      `4162, 4096` est régionale et reste —, `arsenal134`, `fortification-pack`,
+      `exploration-pack`, `vertical-citadel175-state`, `vertical-network179`,
+      `vertical-population181`, territoires, expéditions, décor `Fieldcraft`) ; vue FPS
+      (`vertical-citadel175.js` siège, `-render.js` sol) ; plan des abords (`exploration-125.js`
+      suit `game.local.size`, `barricades134.js` avec la carte dans la clé du cache) ;
+      présentation (`exploration-needs217`, `horde-horizon217`, `seed-card217`) ; centre `2048`
+      en clair (`frontier.js`, `fieldcraft.js`, `atlas-projection.js` `exitSide(p, context)`,
+      `recon-ui.js`) ; et, hors tableau, `128,128` des recherches de chemin (`game.js`
+      territoires, `recon.js`) et `127` / `128` de `fieldcraft.js` (repli des infectés).
+      Les migrations qui normalisent territoires, voirie, région, expéditions et décor reçoivent
+      la sauvegarde lue.
+- [x] O5.5 Tests : `tests/local-bounds217.test.cjs` de 5 à 9 cas — règles et accesseurs ;
+      lecteurs convertis (motifs présents, lectures nues absentes) ; sauvegarde (aucun champ à
+      128, refus de 128 en clair, 192 hors G12, `'192'`, `null`, 64, 191,5, et G12) ; **fumée hors
+      jeu à 192 m** : `C.localMap217(192)` passée à une `WorldMap` construite à part (36 864
+      cases, gisements au-delà de 4 096, construction en 180, 180), au champ de flux (toute case
+      atteinte, direction vers le centre), à la voirie, aux territoires et à sept validateurs
+      (bivouac, débris, ancre, véhicule, décor, ralliement, éclairage) qui acceptent à 192 la
+      position que la carte par défaut refuse ; la partie en cours ne bouge pas.
+- [x] O5.6 Preuves (base `c9e60c2` contre l'arbre de travail) : parcours déterministe de 240 s
+      (procédure 3) — sauvegardes de départ, de mi-parcours et de fin identiques octet pour octet,
+      huit points de contrôle identiques ; sauvegarde de mi-parcours d'avant relue après et
+      inversement : même état relu, même état 30 s plus tard. Mondes G1–G11 des huit graines :
+      `audit-campaign-sites205` identique à `campagne205-eligibilite.json` hors empreintes de
+      sources. 119 fichiers de tests des familles touchées (sauvegardes, sections, voirie,
+      territoires, expéditions, terrain, région, survivants tombés, services, nuit, bivouacs,
+      armurerie, fortifications, exploration, citadelle et vue FPS, barricades, horizon de
+      horde, fiche de graine, reconnaissance, atlas, `static`, `audit183`, `siege-readout`,
+      `fallback-order`, `breach217`) : 1 516 cas réussis avant, 1 520 après (les 4 nouveaux),
+      aucun échec. `tests/codex-campaign*` : 31 sur 31. Navigateur : partie 17117, vague,
+      sauvegarde, puis citadelle verticale, affût pris, vue FPS demandée — aucune erreur de page ;
+      le Chromium sans écran perd le contexte WebGL et revient à la vue classique, **comme la
+      base** (rendu FPS non vu à l'image, couvert par les tests de la citadelle).
+- [x] O5.7 Coût du champ de flux (préparation de D-O5 ; médiane de 60 reconstructions, machine
+      partagée et chargée) : carte nue 5,7 ms à 128 cases, 15,7 ms à 192 (× 2,7) ; avec les
+      enveloppes de `movementCost` posées par la partie (décor métrique, obstacles), 72 ms à 128
+      et 170 ms à 192 (× 2,4 ; enveloppes recopiées sur la carte de 192, qui lisent encore le
+      monde de 128 hors de ses bornes : ordre de grandeur seulement). Le coût vient surtout des
+      enveloppes : O6b doit les optimiser (coût par case mis en cache, reconstruction
+      incrémentale) plutôt que la taille.
+- Réserves : les reprises et instantanés de modules sans données (`restore`, `snapshot`) lisent
+  la carte de la partie en cours, juste après le remplacement du monde ; un validateur appelé sans
+  données pendant l'import d'une autre campagne lirait la carte de la partie affichée (aucun cas
+  relevé ; à garder en tête pour O3/O9). Les lecteurs « par défaut » de T5.B3 sans partie à portée
+  (`tactics.js`, `linecare.js`, `narrative.js`, `earthworks217.js`, `great-works217.js`,
+  `world-content.js`, `fallback-order.js`, `districts.js`, `abominations217.js` poste,
+  `recon.js` `valid`) gardent la carte par défaut : à brancher avec O6/O7. `AtlasRules`
+  (`localUnits`, empreinte de D-17 dans la région) et la position régionale initiale restent à
+  128 m : O9/O10. Rien n'a été joué à 192 m dans une partie.
 
 ## T5 — Ouverture expérimentale
 

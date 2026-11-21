@@ -81,7 +81,7 @@
   }
   if(raw.cargo!==null){checkModule(raw.cargo);if(full&&(full.player?.dead||!(full.player?.health>0)||full.frontier?.active||full.expeditions?.vehicle?.driving))bad('porteur absent ou hors secteur');}
   for(const crate of raw.crates){
-   if(!fields(crate,['module','x','y','z','site','level'])||!finite(crate.x,0,C.WORLD_SIZE)||!finite(crate.y,0,C.WORLD_SIZE)||!finite(crate.z,0,V.maxHeight))bad('caisse');checkModule(crate.module);
+   if(!fields(crate,['module','x','y','z','site','level'])||!finite(crate.x,0,C.campaignLocal217?.(full)?.size??C.WORLD_SIZE)||!finite(crate.y,0,C.campaignLocal217?.(full)?.size??C.WORLD_SIZE)||!finite(crate.z,0,V.maxHeight))bad('caisse');checkModule(crate.module);
    if(crate.site===null){if(crate.level!==-1||crate.z!==0)bad('caisse au sol');}
    else if(!integer(crate.site,1)||!integer(crate.level,0,V.maxDecks-1))bad('palier de caisse');
    else if(full){const p={site:crate.site,level:crate.level},b=buildings.get(p.site);if(!ready(b,sites.find(s=>s.id===p.site),p)||Math.abs(deckZ(b,p)-crate.z)>EPS||!insideFloor(p,crate,buildings,sites,.05)&&!onBridge({...raw,cargo:null},p,crate,buildings,sites,.05))bad('caisse hors sol porteur');}

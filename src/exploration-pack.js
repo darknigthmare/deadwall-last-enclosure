@@ -14,7 +14,9 @@ function normalize(raw,full){
  out.serial=n(raw.serial,1,1e9,true);out.delivered=n(raw.delivered,0,1e12);
  const list=(a,max)=>{if(!Array.isArray(a)||a.length>max)bad();return a;};
  const id=v=>{n(v,1,out.serial-1,true);if(used.has(v))bad();used.add(v);return v;};
- const pos=d=>({x:n(d.x,0,C.WORLD_SIZE||4096),y:n(d.y,0,C.WORLD_SIZE||4096)});
+ // O5 : positions bornées par la carte de la cité de la campagne (repli : constante historique).
+ const S217=C.campaignLocal217?.(full)?.size??(C.WORLD_SIZE||4096);
+ const pos=d=>({x:n(d.x,0,S217),y:n(d.y,0,S217)});
  const node=v=>{n(v,0,1e9,true);if(nodeIds&&!nodeIds.has(v))bad();return v;};
  const seen=new Set();for(const s of list(raw.surveys,R.maxSurveys)){const nodeId=node(s.nodeId);if(seen.has(nodeId)||!C.RESOURCE_KEYS.includes(s.type)||types&&types.get(nodeId)!==s.type)bad();seen.add(nodeId);out.surveys.push({nodeId,type:s.type,...pos(s)});}
  for(const c of list(raw.caches,R.maxCaches)){const bag=C.makeBag();for(const k of C.RESOURCE_KEYS)bag[k]=n(c.stock?.[k],0,R.cacheCapacity);if(C.bagTotal(bag)>R.cacheCapacity+.000001)bad();out.caches.push({id:id(c.id),...pos(c),stock:bag});}

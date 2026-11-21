@@ -29,7 +29,7 @@
   for(const end of candidates.slice(0,R.routeQueries)){
    const goal={x:Math.floor(end.x/32),y:Math.floor(end.y/32)};
    const blocked=(x,y)=>!clear({x:x*32+16,y:y*32+16});
-   const cells=g.infrastructure?.findPath?g.infrastructure.findPath(start,goal,blocked,128,128,R.maxExpanded):C.findFriendlyPath(start,goal,blocked,128,128,R.maxExpanded);
+   const cells=g.infrastructure?.findPath?g.infrastructure.findPath(start,goal,blocked,g.local.tiles,g.local.tiles,R.maxExpanded):C.findFriendlyPath(start,goal,blocked,g.local.tiles,g.local.tiles,R.maxExpanded);
    if(!cells)continue;const path=[{x:from.x,y:from.y},origin,...cells.map(p=>({x:p.x*32+16,y:p.y*32+16})),end];
    if(!path.slice(1).every((p,i)=>segmentClear(g,path[i],p,radius)))continue;
    return{ok:true,path,distance:path.slice(1).reduce((n,p,i)=>n+dist(path[i],p),0),reason:'Trajet par les accès actuels. Portes et pistes prises en compte ; aucun danger évalué.'};

@@ -5,7 +5,7 @@
   const T = globalThis.DeadwallTactics;
   if (!T) throw new Error('DeadwallTactics introuvable.');
   const {
-    TILE, WORLD_TILES, WORLD_SIZE, SAVE_KEY, LEGACY_SAVE_KEYS, SAVE_BACKUP_KEY, SETTINGS_KEY, SAVE_VERSION,
+    TILE, SAVE_KEY, LEGACY_SAVE_KEYS, SAVE_BACKUP_KEY, SETTINGS_KEY, SAVE_VERSION,
     RESOURCE_KEYS, RESOURCE_META, DIFFICULTIES, CITY_TIERS, BUILDINGS, ENEMIES, WEAPONS, OBJECTIVES,
     RESEARCH, CRISES, PERFORMANCE_LIMITS, STRATEGY_RULES,
     clamp, lerp, dist, distSq, grid, world, index, makeBag, bagTotal, canAfford, spend, add,
@@ -87,7 +87,8 @@
   }
 
   class Zombie {
-    constructor(id, kind, x, y, difficulty, waveNumber) {
+    // `local` : carte locale de la partie, dont le centre oriente boucliers et chargeurs à leur création.
+    constructor(id, kind, x, y, difficulty, waveNumber, local = C.LOCAL_MAP217) {
       if (!Object.hasOwn(ENEMIES, kind)) throw new RangeError('Profil infecté inconnu.');
       const def = ENEMIES[kind];
       this.id = id; this.kind = kind; this.x = x; this.y = y; this.dead = false;
@@ -96,7 +97,7 @@
       this.howl = 2 + Math.random() * 7; this.bias = Math.random() * 1000; this.anim = Math.random() * 10;
       this.rage = 0; this.stuck = 0; this.lastX = x; this.lastY = y;
       this.prey = null; this.huntThink = Math.random() * C.ENEMY_RULES.stalkThinkSeconds;
-      if(kind==='shielded'||kind==='charger')this.facing=Math.atan2(WORLD_SIZE/2-y,WORLD_SIZE/2-x);
+      if(kind==='shielded'||kind==='charger')this.facing=Math.atan2(local.size/2-y,local.size/2-x);
       if(kind==='charger')this.charge={stage:'ready',timer:0,angle:this.facing};
     }
   }
@@ -184,10 +185,14 @@
     ui() { this.tone(440, .04, 'square', .025, 70); }
   }
 
+  // Carte locale propre à chaque monde (O5), hors des propriétés du monde : rien de sérialisé ni d'énuméré.
+  const WORLD_LOCAL217 = new WeakMap();
   class WorldMap {
-    // Accesseurs de taille : une seule carte, celle par défaut, aujourd'hui.
-    get local() { return C.LOCAL_MAP217; }
-    constructor(seed = 17117, cityGeometry202 = 0) {
+    // Accesseur de taille : la carte reçue à la construction, la carte par défaut sinon.
+    get local() { return WORLD_LOCAL217.get(this) || C.LOCAL_MAP217; }
+    // `local` : carte locale de la campagne (`C.localMapOf217`), carte par défaut en repli.
+    constructor(seed = 17117, cityGeometry202 = 0, local = C.LOCAL_MAP217) {
+      if (local !== C.LOCAL_MAP217) WORLD_LOCAL217.set(this, C.localMapOf217(local));
       this.seed = seed; this.occupancy = new Int32Array(this.local.cells);
       this.cityGeometry202 = C.CityGeometry202.version(cityGeometry202);
       this.buildings = new Map(); this.nodes = []; this.nodeId = 1; this.flowDirty = true; this.navigationVersion = 0;
@@ -238,7 +243,7 @@
       for (const node of this.nodes) if (!node.depleted && node.x + node.radius > l && node.x - node.radius < r && node.y + node.radius > t && node.y - node.radius < b) return { valid: false, reason: 'Ressource à déblayer' };
       return { valid: true, reason: '' };
     }
-    line(a, b) { return wallLine(a, b); }
+    line(a, b) { return wallLine(a, b, this.local); }
     nearestNode(x, y, max = 1000, type = null) {
       let result = null, best = max * max;
       for (const node of this.nodes) { if (node.depleted || (type && node.type !== type)) continue; const d = (node.x - x) ** 2 + (node.y - y) ** 2; if (d < best) { best = d; result = node; } }
@@ -480,8 +485,8 @@
           if (this.rallyPlacement) { this.placeSquadRally({ x: this.input.mouseWorldX, y: this.input.mouseWorldY }); return; }
           if (this.selectedBuild) {
             const def = BUILDINGS[this.selectedBuild];
-            if (this.isLineWall(def)) { this.wallStart = { x: grid(this.input.mouseWorldX), y: grid(this.input.mouseWorldY) }; this.wallPreview = [this.wallStart]; }
-            else this.placeOne(this.selectedBuild, grid(this.input.mouseWorldX), grid(this.input.mouseWorldY), this.buildRotation);
+            if (this.isLineWall(def)) { this.wallStart = { x: grid(this.input.mouseWorldX, this.local), y: grid(this.input.mouseWorldY, this.local) }; this.wallPreview = [this.wallStart]; }
+            else this.placeOne(this.selectedBuild, grid(this.input.mouseWorldX, this.local), grid(this.input.mouseWorldY, this.local), this.buildRotation);
             return;
           }
           this.mouseFireHeld = true; syncHeld('fire');
@@ -517,8 +522,8 @@
         mousePosition(event);
         if (this.rallyPlacement) this.placeSquadRally({ x: this.input.mouseWorldX, y: this.input.mouseWorldY });
         else if (this.selectedBuild) {
-          if (this.isLineWall(BUILDINGS[this.selectedBuild])) { this.wallStart = { x: grid(this.input.mouseWorldX), y: grid(this.input.mouseWorldY) }; this.updateWallPreview(); }
-          else this.placeOne(this.selectedBuild, grid(this.input.mouseWorldX), grid(this.input.mouseWorldY), this.buildRotation);
+          if (this.isLineWall(BUILDINGS[this.selectedBuild])) { this.wallStart = { x: grid(this.input.mouseWorldX, this.local), y: grid(this.input.mouseWorldY, this.local) }; this.updateWallPreview(); }
+          else this.placeOne(this.selectedBuild, grid(this.input.mouseWorldX, this.local), grid(this.input.mouseWorldY, this.local), this.buildRotation);
         } else this.selectBuilding(this.buildingAtVisual(this.input.mouseWorldX, this.input.mouseWorldY));
       });
       this.canvas.addEventListener('pointermove', event => {
@@ -676,7 +681,7 @@
 
     updateWallPreview() {
       if (!this.wallStart) return;
-      this.wallPreview = this.world.line(this.wallStart, { x: grid(this.input.mouseWorldX), y: grid(this.input.mouseWorldY) });
+      this.wallPreview = this.world.line(this.wallStart, { x: grid(this.input.mouseWorldX, this.local), y: grid(this.input.mouseWorldY, this.local) });
     }
 
     isLineWall(def) { return ['woodWall','steelWall','concreteWall'].includes(def.id); }
@@ -757,7 +762,7 @@
       this.elapsed = 0; this.dayClock = .24; this.weather = 0; this.weatherTarget = 0; this.morale = 100; this.damageFlash = 0; this.stats = createStats();
       this.research = normalizeResearch(); this.activeCrisis = null; this.depositedResources = 0;
       this.objectiveIndex = 0; this.objectiveProgress = 0; this.objectiveReady = false; this.rally = this.world.cityGeometry202 ? { x: core.x, y: core.bottom + C.CityGeometry202.initialRallyClearance } : { x: core.x + 120, y: core.y }; this.gameOver = false; this.paused = false;
-      this.squads = globalThis.DeadwallSquads.create(this.rally);
+      this.squads = globalThis.DeadwallSquads.create(this.rally, this.local);
       this.ensureSquads();
       this.cancelPlacement(); this.selectBuilding(null); this.refreshMetrics(true); this.flow.rebuild(this.world, core); this.camera.x = this.player.x; this.camera.y = this.player.y; this.camera.zoom = this.world.cityGeometry202 ? C.CityGeometry202.defaultZoom : 1;
       this.camera.shake = 0; this.frameShake = {x: 0, y: 0};
@@ -772,6 +777,7 @@
       return {
         version: SAVE_VERSION, timestamp: Date.now(), difficulty: this.difficulty.id, worldSeed: this.world.seed,
         ...(this.world.cityGeometry202 ? {cityGeometry202: this.world.cityGeometry202} : {}),
+        ...(this.local.tiles !== C.LocalMap217Rules.defaultTiles ? {localTiles: this.local.tiles} : {}),
         scenarioId: this.scenarioId, squads: this.squads,
         workerOrder: this.workerOrder, runId: this.runId, narrative:this.narrative,
         resources: this.resources, player: { x: this.player.x, y: this.player.y, health: this.player.health, weapon: this.player.weapon, magazine: this.player.magazine, carry: this.player.carry,
@@ -824,13 +830,13 @@
     }
 
     restoreSave(input) {
-      const data=globalThis.DeadwallSave.validate(input), difficulty=DIFFICULTIES[data.difficulty], nextWorld=new WorldMap(data.worldSeed, data.cityGeometry202 || 0), nextFlow=new FlowField();
+      const data=globalThis.DeadwallSave.validate(input), difficulty=DIFFICULTIES[data.difficulty], nextWorld=new WorldMap(data.worldSeed, data.cityGeometry202 || 0, C.localMapOf217(data)), nextFlow=new FlowField();
       const savedPositions=new Map((data.fieldcraft?.nodes||[]).map(p=>[p[0],p]));for(const node of nextWorld.nodes){const p=savedPositions.get(node.id);if(p){node.x=p[1];node.y=p[2];}}
       const amounts=new Map(data.nodes);for(const node of nextWorld.nodes)if(amounts.has(node.id)){node.amount=amounts.get(node.id);node.depleted=node.amount<=.01;}
       for(const raw of data.buildings){const b=new Building(raw.id,raw.type,raw.gx,raw.gy,raw.rotation,raw.progress);Object.assign(b,{health:raw.health,corpseLoad:raw.corpseLoad,priority:raw.priority,gateMode:raw.gateMode});nextWorld.add(b);}
       const nextCore=[...nextWorld.buildings.values()].find(b=>b.type==='core');if(!nextCore)throw new Error('Centre absent');
       const nextUnits=data.units.map(raw=>{const unit=new Unit(raw.id,raw.kind,raw.x,raw.y);Object.assign(unit,raw);if(unit.state==='gather'){const node=nextWorld.nodes.find(item=>item.id===unit.targetNode);if(!node||node.depleted||(unit.carry>0&&unit.carryType!==node.type)){unit.state=unit.carry>0?'return':'idle';unit.targetNode=-1;}else unit.think=.3;}return unit;});
-      const nextZombies=data.zombies.map(raw=>{const zombie=new Zombie(raw.id,raw.kind,raw.x,raw.y,difficulty,data.wave);zombie.health=Math.min(zombie.maxHealth,raw.health);zombie.attackCooldown=raw.attackCooldown;
+      const nextZombies=data.zombies.map(raw=>{const zombie=new Zombie(raw.id,raw.kind,raw.x,raw.y,difficulty,data.wave,nextWorld.local);zombie.health=Math.min(zombie.maxHealth,raw.health);zombie.attackCooldown=raw.attackCooldown;
         zombie.stagger=raw.stagger;zombie.rage=raw.rage;
         if(raw.kind==='howler'&&raw.howl!==undefined)zombie.howl=raw.howl;
         if(raw.kind==='stalker'&&raw.huntThink!==undefined)zombie.huntThink=raw.huntThink;
@@ -934,7 +940,7 @@
       if (!Array.isArray(cells) || cells.length === 0 || cells.some(cell => !cell || !Number.isInteger(cell.x) || !Number.isInteger(cell.y) || cell.x < 0 || cell.y < 0 || cell.x >= this.local.tiles || cell.y >= this.local.tiles)) return false;
       const candidate = Object.hasOwn(BUILDINGS, type) ? BUILDINGS[type] : null;
       if (!candidate || !this.isLineWall(candidate) || candidate.unlockTier > this.tier.id || (candidate.requires && !this.world.has(candidate.requires))) { this.notify('Technologie non disponible.', 'danger'); return; }
-      const def = BUILDINGS[type], unique = wallLine(cells[0] || { x:0, y:0 }, cells[cells.length - 1] || { x:0, y:0 });
+      const def = BUILDINGS[type], unique = wallLine(cells[0] || { x:0, y:0 }, cells[cells.length - 1] || { x:0, y:0 }, this.local);
       const cost = scaledCost(def.cost, unique.length);
       if (!canAfford(this.resources, cost)) { this.notify(`Ligne complète impossible : ${resourceText(cost)} requis.`, 'danger'); return; }
       for (const cell of unique) {
@@ -1046,7 +1052,7 @@
     core() { for (const b of this.world.buildings.values()) if (b.type === 'core' && !b.dead) return b; return null; }
 
     ensureSquads() {
-      const Q=globalThis.DeadwallSquads;if(!this.squads)this.squads=Q.create(this.rally);
+      const Q=globalThis.DeadwallSquads;if(!this.squads)this.squads=Q.create(this.rally,this.local);
       const missing=this.units.some(unit=>unit.kind==='soldier'&&!unit.dead&&!Q.validIndex(unit.squad));
       if(missing){const assignments=Q.assignments(this.units);for(const unit of this.units)if(assignments.has(unit.id))unit.squad=assignments.get(unit.id);}
       for(let index=0;index<this.squads.groups.length;index++){
@@ -1084,7 +1090,7 @@
       for(const point of [preferred,group.rally]){
         if(!Number.isFinite(point.x)||!Number.isFinite(point.y)||this.local.outside(point.x,point.y,margin))continue;
         const probe={...point,radius};let blocked=false;
-        for(let y=Math.ceil((point.y-radius)/TILE)-1;y<=grid(point.y+radius)&&!blocked;y++)for(let x=Math.ceil((point.x-radius)/TILE)-1;x<=grid(point.x+radius);x++){
+        for(let y=Math.ceil((point.y-radius)/TILE)-1;y<=grid(point.y+radius, this.local)&&!blocked;y++)for(let x=Math.ceil((point.x-radius)/TILE)-1;x<=grid(point.x+radius, this.local);x++){
           const b=this.world.atCell(x,y);if(T.blocksFriendly(b)&&T.overlapsBuilding(b,probe)){blocked=true;break;}
         }
         if(!blocked)return{x:point.x,y:point.y};
@@ -1095,8 +1101,8 @@
       const Q=globalThis.DeadwallSquads;if(!this.canCommandSquads()||(index!==null&&!Q.validIndex(index)))return false;
       const status=this.squadRallyStatus(point);if(!status.ok){this.notify(status.reason,'danger');this.squadUI?.announce(status.reason);return false;}
       this.ensureSquads();
-      if(index===null){this.rally={x:point.x,y:point.y};for(let group=0;group<C.SQUAD_RULES.count;group++)this.squads=Q.withOrder(this.squads,group,'rally',point);}
-      else this.squads=Q.withOrder(this.squads,index,'rally',point);
+      if(index===null){this.rally={x:point.x,y:point.y};for(let group=0;group<C.SQUAD_RULES.count;group++)this.squads=Q.withOrder(this.squads,group,'rally',point,undefined,this.local);}
+      else this.squads=Q.withOrder(this.squads,index,'rally',point,undefined,this.local);
       for(const unit of this.units)if(unit.kind==='soldier'&&(index===null||unit.squad===index))unit.navigation=null;
       const message=index===null?'Ralliement général transmis aux trois sections.':'Section '+C.SQUAD_RULES.labels[index]+' : point de ralliement transmis.';
       this.notify(message,'good');this.squadUI?.announce(message);this.audio.ui();this.save(false);this.squadUI?.refresh();return true;
@@ -1104,7 +1110,7 @@
     retreatSquad(index=this.squads?.selected??0,destination=this.core()) {
       const Q=globalThis.DeadwallSquads;if(!this.canCommandSquads()||!Q.validIndex(index)||!this.core()||!destination||this.world.buildings.get(destination.id)!==destination||destination.dead||destination.health<=0||!destination.completed||!['core','fallbackRedoubt'].includes(destination.type))return false;
       const redoubt=destination.type==='fallbackRedoubt';
-      this.ensureSquads();this.squads=Q.withOrder(this.squads,index,'retreat',undefined,redoubt?destination.id:undefined);
+      this.ensureSquads();this.squads=Q.withOrder(this.squads,index,'retreat',undefined,redoubt?destination.id:undefined,this.local);
       for(const unit of this.units)if(unit.kind==='soldier'&&unit.squad===index)unit.navigation=null;
       if(this.rallyPlacement&&this.rallyPlacement.squad===index)this.rallyPlacement=false;
       const message='Section '+C.SQUAD_RULES.labels[index]+' : repli vers '+(redoubt?'la redoute #'+destination.id:'le centre')+', par les accès ouverts. Riposte conservée, aucune poursuite.';
@@ -1314,7 +1320,7 @@
 
     moveUnitToward(unit, target, dt, speed = unit.speed) {
       if (dist(unit, target) < 1e-6) return true;
-      const goalX = grid(target.x), goalY = grid(target.y), version = this.world.navigationVersion;
+      const goalX = grid(target.x, this.local), goalY = grid(target.y, this.local), version = this.world.navigationVersion;
       let route = unit.navigation;
       if (!route || route.goalX !== goalX || route.goalY !== goalY || route.version !== version || (route.retryAt && this.elapsed >= route.retryAt)) {
         const steps = Math.max(1, Math.ceil(dist(unit, target) / (TILE / 3)));
@@ -1322,7 +1328,7 @@
         for (let i = 1; i <= steps; i++) if (!this.friendlyPositionClear(unit, lerp(unit.x, target.x, i / steps), lerp(unit.y, target.y, i / steps))) { direct = false; break; }
         if (!direct && this.navigationBudget === 0) return false;
         if (!direct && Number.isFinite(this.navigationBudget)) this.navigationBudget--;
-        const cells = direct ? [] : findFriendlyPath({ x: grid(unit.x), y: grid(unit.y) }, { x: goalX, y: goalY }, (x, y) => !this.friendlyPositionClear(unit,world(x),world(y)));
+        const cells = direct ? [] : findFriendlyPath({ x: grid(unit.x, this.local), y: grid(unit.y, this.local) }, { x: goalX, y: goalY }, (x, y) => !this.friendlyPositionClear(unit,world(x),world(y)), this.local.tiles, this.local.tiles);
         route = unit.navigation = { goalX, goalY, version, cells, next: 0, direct, retryAt: cells === null ? this.elapsed + STRATEGY_RULES.pathRetrySeconds : 0 };
       }
       if (route.cells === null) return false;
@@ -1652,7 +1658,7 @@
     moveWorkerToJob(unit, target, dt, key) {
       this.moveUnitToward(unit,target,dt);
       const route=unit.navigation;
-      if(route?.cells===null&&((route.goalX===grid(target.x)&&route.goalY===grid(target.y))||(route.requestX===grid(target.x)&&route.requestY===grid(target.y)))&&route.version===this.world.navigationVersion){
+      if(route?.cells===null&&((route.goalX===grid(target.x, this.local)&&route.goalY===grid(target.y, this.local))||(route.requestX===grid(target.x, this.local)&&route.requestY===grid(target.y, this.local)))&&route.version===this.world.navigationVersion){
         // Remember failed jobs briefly so one inaccessible target cannot monopolize the A* budget.
         if(!unit.blockedJobs)unit.blockedJobs=new Map();
         if(unit.blockedJobs.size>=32)unit.blockedJobs.delete(unit.blockedJobs.keys().next().value);
@@ -1781,7 +1787,7 @@
       if(!Object.hasOwn(ENEMIES,kind))return false;
       const front=this.random.pick(this.fronts.length?this.fronts:['north']),margin=18;let x,y;
       if(front==='north'){x=this.random.range(80,this.local.size-80);y=margin;}else if(front==='south'){x=this.random.range(80,this.local.size-80);y=this.local.size-margin;}else if(front==='east'){x=this.local.size-margin;y=this.random.range(80,this.local.size-80);}else{x=margin;y=this.random.range(80,this.local.size-80);}
-      x+=this.random.range(-22,22);y+=this.random.range(-22,22);this.zombies.push(new Zombie(this.nextId++,kind,x,y,this.difficulty,this.wave));return true;
+      x+=this.random.range(-22,22);y+=this.random.range(-22,22);this.zombies.push(new Zombie(this.nextId++,kind,x,y,this.difficulty,this.wave,this.local));return true;
     }
 
     get remainingAssault(){return this.spawnQueue.length+spawnCount(this.pendingSpawns)+this.zombies.filter(z=>!z.dead).length;}
@@ -1812,7 +1818,7 @@
     }
     hostileBuildingAt(entity,x,y){
       const radius=entity.radius||0,probe={x,y,radius,dead:false};
-      for(let gy=grid(y-radius);gy<=grid(y+radius);gy++)for(let gx=grid(x-radius);gx<=grid(x+radius);gx++){
+      for(let gy=grid(y-radius, this.local);gy<=grid(y+radius, this.local);gy++)for(let gx=grid(x-radius, this.local);gx<=grid(x+radius, this.local);gx++){
         const building=this.world.at(world(gx),world(gy));
         if(building&&!building.dead&&!T.openGate(building)&&!this.zombieCanClimb(entity,building)&&T.overlapsBuilding(building,probe))return building;
       }
@@ -1832,7 +1838,7 @@
     hostileLineClear(from,to,barriersOnly=true,ignored=null){
       // Exact segment/rectangle clipping also catches the thin edge of a wall corner.
       const seen=new Set();
-      for(let gy=grid(Math.min(from.y,to.y));gy<=grid(Math.max(from.y,to.y));gy++)for(let gx=grid(Math.min(from.x,to.x));gx<=grid(Math.max(from.x,to.x));gx++){
+      for(let gy=grid(Math.min(from.y,to.y), this.local);gy<=grid(Math.max(from.y,to.y), this.local);gy++)for(let gx=grid(Math.min(from.x,to.x), this.local);gx<=grid(Math.max(from.x,to.x), this.local);gx++){
         const building=this.world.at(world(gx),world(gy));
         if(!building||building===ignored||seen.has(building)||building.dead||T.openGate(building)||(barriersOnly&&!T.blocksEnclosure(building)))continue;
         seen.add(building);let near=0,far=1,intersects=true;
@@ -2556,7 +2562,7 @@
 
     drawRally(ctx){ctx.save();ctx.translate(this.rally.x,this.rally.y);ctx.strokeStyle='rgba(125,169,113,.7)';ctx.fillStyle='rgba(125,169,113,.08)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,34+(this.settings.reducedMotion?0:Math.sin(this.elapsed*2)*3),0,Math.PI*2);ctx.fill();ctx.stroke();ctx.beginPath();ctx.moveTo(-8,0);ctx.lineTo(8,0);ctx.moveTo(0,-8);ctx.lineTo(0,8);ctx.stroke();ctx.restore();this.squadUI?.drawMarkers(ctx,this.viewBounds());}
 
-    drawPlacement(ctx){if(this.rallyPlacement){ctx.save();ctx.translate(this.input.mouseWorldX,this.input.mouseWorldY);ctx.strokeStyle='#8db57f';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,38,0,Math.PI*2);ctx.stroke();ctx.restore();return;}if(!this.selectedBuild)return;const d=this.world.definition(this.selectedBuild),cells=this.isLineWall(d)?(this.wallPreview.length?this.wallPreview:[{x:grid(this.input.mouseWorldX),y:grid(this.input.mouseWorldY)}]):[{x:grid(this.input.mouseWorldX),y:grid(this.input.mouseWorldY)}];ctx.save();ctx.globalAlpha=.58;for(const cell of cells){const valid=this.world.placement(d,cell.x,cell.y,this.buildRotation).valid&&canAfford(this.resources,d.cost),size=rotateSize(d,this.buildRotation);ctx.fillStyle=valid?'rgba(111,164,102,.55)':'rgba(183,71,62,.55)';ctx.fillRect(cell.x*TILE+2,cell.y*TILE+2,size[0]*TILE-4,size[1]*TILE-4);ctx.strokeStyle='rgba(255,255,255,.7)';ctx.strokeRect(cell.x*TILE+2,cell.y*TILE+2,size[0]*TILE-4,size[1]*TILE-4);}ctx.restore();}
+    drawPlacement(ctx){if(this.rallyPlacement){ctx.save();ctx.translate(this.input.mouseWorldX,this.input.mouseWorldY);ctx.strokeStyle='#8db57f';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,38,0,Math.PI*2);ctx.stroke();ctx.restore();return;}if(!this.selectedBuild)return;const d=this.world.definition(this.selectedBuild),cells=this.isLineWall(d)?(this.wallPreview.length?this.wallPreview:[{x:grid(this.input.mouseWorldX, this.local),y:grid(this.input.mouseWorldY, this.local)}]):[{x:grid(this.input.mouseWorldX, this.local),y:grid(this.input.mouseWorldY, this.local)}];ctx.save();ctx.globalAlpha=.58;for(const cell of cells){const valid=this.world.placement(d,cell.x,cell.y,this.buildRotation).valid&&canAfford(this.resources,d.cost),size=rotateSize(d,this.buildRotation);ctx.fillStyle=valid?'rgba(111,164,102,.55)':'rgba(183,71,62,.55)';ctx.fillRect(cell.x*TILE+2,cell.y*TILE+2,size[0]*TILE-4,size[1]*TILE-4);ctx.strokeStyle='rgba(255,255,255,.7)';ctx.strokeRect(cell.x*TILE+2,cell.y*TILE+2,size[0]*TILE-4,size[1]*TILE-4);}ctx.restore();}
 
     drawNight(ctx){const darkness=clamp(1-this.daylight(),0,1)*.72;if(darkness<=.02)return;ctx.save();ctx.fillStyle=`rgba(4,8,12,${darkness})`;ctx.fillRect(0,0,this.width,this.height);ctx.globalCompositeOperation='screen';const lights=[{x:this.player.x,y:this.player.y,r:145,s:.2}];for(const b of this.world.buildings.values()){if(!b.completed||b.dead||!b.powered||!b.def.light||lights.length>=PERFORMANCE_LIMITS.lights)continue;lights.push({x:b.x,y:b.y,r:b.def.light,s:.18});}for(const l of lights){const sx=(l.x-this.camera.x)*this.camera.zoom+this.width/2,sy=(l.y-this.camera.y)*this.camera.zoom+this.height/2,r=l.r*this.camera.zoom;if(sx+r<0||sx-r>this.width||sy+r<0||sy-r>this.height)continue;const g=ctx.createRadialGradient(sx,sy,0,sx,sy,r);g.addColorStop(0,`rgba(255,218,143,${l.s})`);g.addColorStop(.5,`rgba(186,164,112,${l.s*.5})`);g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(sx,sy,r,0,Math.PI*2);ctx.fill();}ctx.restore();}
 
@@ -2876,7 +2882,7 @@
  function site(id){return (g.world.sites||[]).find(s=>s.theme===id)||null;}
  function post(id){const s=engine.sector(id);const b=s?g.world.buildings.get(s.postId):null;return live(b)&&b.completed&&b.type==='sectorPost'?b:null;}
  function ensure(){
-   if(worldRef!==g.world){worldRef=g.world;engine=new T.Engine(pendingRestore||undefined);pendingRestore=null;routes.clear();reports.clear();contexts.clear();inspectionTimer=0;supplyCooldown=0;pendingEvacuation=null;selected='housing';showMarker=false;}
+   if(worldRef!==g.world){worldRef=g.world;engine=new T.Engine(pendingRestore||undefined,g.local);pendingRestore=null;routes.clear();reports.clear();contexts.clear();inspectionTimer=0;supplyCooldown=0;pendingEvacuation=null;selected='housing';showMarker=false;}
    return engine;
  }
  function nearSite(point,max=R.buildRadius){let best=null,dist=max;for(const candidate of g.world.sites||[]){const d=distance(point,candidate);if(d<=dist&&Object.hasOwn(T.BY_ID,candidate.theme)){best=candidate;dist=d;}}return best;}
@@ -2961,7 +2967,7 @@
    const blocked=(x,y)=>!g.friendlyPositionClear({radius:R.truckRadius},x*32+16,y*32+16);
    const start={x:Math.floor(truck.x/32),y:Math.floor(truck.y/32)},goal={x:Math.floor(destination.x/32),y:Math.floor(destination.y/32)};
    let cells=null;
-   if(g.infrastructure)cells=g.infrastructure.findPath(start,goal,blocked,128,128,R.maxPathExpanded,'truck');else if(typeof C.findFriendlyPath==='function')cells=C.findFriendlyPath(start,goal,blocked,128,128,R.maxPathExpanded);
+   if(g.infrastructure)cells=g.infrastructure.findPath(start,goal,blocked,g.local.tiles,g.local.tiles,R.maxPathExpanded,'truck');else if(typeof C.findFriendlyPath==='function')cells=C.findFriendlyPath(start,goal,blocked,g.local.tiles,g.local.tiles,R.maxPathExpanded);
    route={cells:cells?.map(cell=>({x:cell.x*32+16,y:cell.y*32+16}))||null,endpoint:destination,index:0,version:revision,key:targetKey,wait:R.repathSeconds};
    routes.set(truck.id,route);return route;
  }
@@ -3073,7 +3079,7 @@
  }
  wrap('serialize',(original,...args)=>{reconcile();return{...original(...args),territories:engine.snapshot()};});
  wrap('restoreSave',(original,input)=>{
-   const data=root.DeadwallSave.validate(input),before=g.world;pendingRestore=T.normalize(data.territories);
+   const data=root.DeadwallSave.validate(input),before=g.world;pendingRestore=T.normalize(data.territories,C.localMapOf217(data));
    try{return original(data);}finally{if(g.world!==before){ensure();reconcile();markOffline();}pendingRestore=null;}
  });
  wrap('startNew',(original,...args)=>{const r=original(...args);ensure();reconcile();markOffline();refresh();return r;});
@@ -3947,7 +3953,7 @@
   const running=()=>g.state==='playing'&&!g.paused&&!g.gameOver&&!g.activeOverlay;
   const activeDay=()=>running()&&g.phase==='calm';
   const wrap=(name,fn)=>{const old=g[name];if(typeof old!=='function')throw Error('Interface de voirie absente : '+name);g[name]=function(...args){return fn(old.bind(g),...args);};};
-  function ensure(){if(worldRef!==g.world){worldRef=g.world;engine=new D.Engine(pending||undefined);pending=null;tool='none';preview=null;anchor=null;notice='';marked=null;buildingAgain=false;rebuildPreview=null;selectedSurface='gravel';roadMode='new';assignments.clear();nextInspection=0;}return engine;}
+  function ensure(){if(worldRef!==g.world){worldRef=g.world;engine=new D.Engine(pending||undefined,g.local);pending=null;tool='none';preview=null;anchor=null;notice='';marked=null;buildingAgain=false;rebuildPreview=null;selectedSurface='gravel';roadMode='new';assignments.clear();nextInspection=0;}return engine;}
   const tell=(text,tone=null)=>{notice=text;if(tone){g.notify(text,tone);g.audio?.ui();}g.infrastructureUI?.refresh(true);return text;};
   const depots=()=>buildings().filter(b=>op(b)&&b.type==='roadDepot'&&b.powered&&!b.siegeOffline&&!b.territoryOffline);
   const slots=()=>Math.min(R.maxCrew,depots().length*R.crewPerDepot);
@@ -3988,7 +3994,7 @@
     // A pure indexed read includes paid unfinished cells. Planning an ordinary
     // building cannot erase a funded route or reconcile worker assignments.
     const tile=C.TILE,left=footprint.x-clearance,top=footprint.y-clearance,right=footprint.x+footprint.w+clearance,bottom=footprint.y+footprint.h+clearance;
-    for(let y=Math.max(0,Math.floor(top/tile));y<=Math.min(C.WORLD_TILES-1,Math.floor(bottom/tile));y++)for(let x=Math.max(0,Math.floor(left/tile));x<=Math.min(C.WORLD_TILES-1,Math.floor(right/tile));x++){
+    for(let y=Math.max(0,Math.floor(top/tile));y<=Math.min(g.local.tiles-1,Math.floor(bottom/tile));y++)for(let x=Math.max(0,Math.floor(left/tile));x<=Math.min(g.local.tiles-1,Math.floor(right/tile));x++){
       if(x*tile<right&&(x+1)*tile>left&&y*tile<bottom&&(y+1)*tile>top&&engine.road(x,y))return true;
     }
     return false;
@@ -4005,8 +4011,8 @@
     tell('Choisissez le départ puis l’arrivée. Le coude suit d’abord l’axe horizontal ; le financement sera confirmé séparément.');return{ok:true};
   }
   function plan(a,b){ensure();rebuildPreview=null;preview=null;anchor=null;tool='none';const status=roadStatus();if(!status.ok)return{ok:false,reason:tell(status.reason)};
-    const cells=D.line(a,b);if(!cells)return{ok:false,reason:tell('Trace hors carte ou trop longue : 64 cellules maximum.')};
-    preview=cells;anchor=null;tool='none';const q=D.quote(engine.state,cells,g.resources,blocked,roadOptions());tell(q.reason);return q;
+    const cells=D.line(a,b,g.local);if(!cells)return{ok:false,reason:tell('Trace hors carte ou trop longue : 64 cellules maximum.')};
+    preview=cells;anchor=null;tool='none';const q=D.quote(engine.state,cells,g.resources,blocked,roadOptions(),g.local);tell(q.reason);return q;
   }
   function commit(){ensure();if(!available()||!g.world.has('planningOffice')||!preview)return{ok:false,reason:tell('Aucun projet finançable pendant cette phase.')};
     const q=engine.commit(preview,g.resources,blocked,roadOptions());if(!q.ok){tell(q.reason);return q;}
@@ -4095,11 +4101,11 @@
     const finished=engine.road(x,y).progress===1;engine.remove(x,y);if(finished)changed();g.save(false);tell('Piste retirée, sans remboursement. Le sol reste praticable.');return{ok:true};
   }
   function mark(id){ensure();const r=engine.state.ruins.find(r=>r.id===id);if(!r||!g.canIssueCommand())return false;marked=id;g.showCommand?.(false);tell('Empreinte marquée. Aucun déplacement automatique du commandant.');return true;}
-  function findPath(start,goal,isBlocked,width=128,height=128,maxExpanded=8192,kind='friendly'){
+  function findPath(start,goal,isBlocked,width=g.local.tiles,height=g.local.tiles,maxExpanded=8192,kind='friendly'){
     ensure();const maximum=Math.max(...Object.values(D.SURFACES).map(s=>kind==='truck'?s.truckSpeed:s.friendlySpeed));
-    return D.findRoute(start,goal,isBlocked,(x,y)=>{const road=engine.road(x,y);if(road?.progress!==1)return 1;const b=g.world.atCell?.(x,y),s=D.surface(road),ratio=kind==='truck'?s.truckSpeed:s.friendlySpeed;return live(b)&&!b.def.gate?1:1/ratio;},width,height,maxExpanded,1/maximum);
+    return D.findRoute(start,goal,isBlocked,(x,y)=>{const road=engine.road(x,y);if(road?.progress!==1)return 1;const b=g.world.atCell?.(x,y),s=D.surface(road),ratio=kind==='truck'?s.truckSpeed:s.friendlySpeed;return live(b)&&!b.def.gate?1:1/ratio;},width,height,maxExpanded,1/maximum,g.local.tiles);
   }
-  function drawRoads(ctx,view){ensure();const v=view||{left:0,top:0,right:4096,bottom:4096};ctx.save();
+  function drawRoads(ctx,view){ensure();const v=view||{left:0,top:0,right:g.local.size,bottom:g.local.size};ctx.save();
     for(const p of engine.state.roads){const x=p.x*32,y=p.y*32;if(x+32<v.left||x>v.right||y+32<v.top||y>v.bottom)continue;
       const s=D.surface(p);ctx.fillStyle=p.progress===1?s.color:'rgba(200,178,112,.20)';ctx.globalAlpha=p.progress===1?.85:1;ctx.fillRect(x+1,y+1,30,30);
       if(p.progress===1){ctx.strokeStyle='rgba(218,213,190,.42)';ctx.lineWidth=1;
@@ -4121,7 +4127,7 @@
     crew:engine.state.crew.map(c=>({...c,job:assignments.get(c.id)||'Prise de poste',blocked:g.units.find(u=>u.id===c.id)?.navigation?.cells===null})),
     ruins:engine.state.ruins.map(r=>({...r,name:C.BUILDINGS[r.type]?.name||r.type,status:reconstructionStatus(r.id)})),stats:{...engine.state.stats}};}
   wrap('serialize',(old,...args)=>{reconcile();return{...old(...args),infrastructure:engine.snapshot()};});
-  wrap('restoreSave',(old,input)=>{const data=root.DeadwallSave.validate(input),before=g.world;pending=D.normalize(data.infrastructure);try{return old(data);}finally{if(g.world!==before){ensure();reconcile();}pending=null;}});
+  wrap('restoreSave',(old,input)=>{const data=root.DeadwallSave.validate(input),before=g.world;pending=D.normalize(data.infrastructure,C.localMapOf217(data));try{return old(data);}finally{if(g.world!==before){ensure();reconcile();}pending=null;}});
   wrap('startNew',(old,...args)=>{const before=g.world,result=old(...args);if(g.world!==before){ensure();g.save(false);}return result;});
   wrap('returnToMenu',(old,...args)=>{rebuildPreview=null;return old(...args);});
   wrap('update',(old,dt)=>{ensure();if(running()&&finiteStep(dt)){nextInspection-=dt;if(nextInspection<=0){reconcile();nextInspection=.5;}}
@@ -4159,7 +4165,7 @@
   function canvasPoint(e){return{x:Math.floor(((e.clientX-g.width/2)/g.camera.zoom+g.camera.x)/32),y:Math.floor(((e.clientY-g.height/2)/g.camera.zoom+g.camera.y)/32)};}
   if(g.canvas?.addEventListener){let clickPointer=null;
     g.canvas.addEventListener('pointerdown',e=>{if(tool!=='trace'||!running()||e.button!==0||clickPointer!==null||e.isPrimary===false)return;e.preventDefault();e.stopImmediatePropagation();clickPointer=e.pointerId;try{g.canvas.setPointerCapture?.(e.pointerId);}catch{/* A detached or cancelled pointer no longer owns native capture. */}
-      const p=canvasPoint(e);if(!anchor){if(D.line(p,p)){anchor=p;tell('Départ posé. Choisissez maintenant l’arrivée.');}}
+      const p=canvasPoint(e);if(!anchor){if(D.line(p,p,g.local)){anchor=p;tell('Départ posé. Choisissez maintenant l’arrivée.');}}
       else{const result=plan(anchor,p);if(preview){g.showCommand?.(true,'field');g.infrastructureUI?.open();}else tell(result.reason);}g.input.mouseDown=false;
     },true);
     for(const type of ['pointerup','pointercancel','lostpointercapture'])g.canvas.addEventListener(type,e=>{if(clickPointer===e.pointerId){clickPointer=null;if(type!=='pointerup'&&tool==='trace'){anchor=null;}e.preventDefault();e.stopImmediatePropagation();}},true);

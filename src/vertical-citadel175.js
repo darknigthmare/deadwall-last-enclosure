@@ -357,7 +357,7 @@
   }
   function spawnSiege(){if(g.phase!=='assault'||g.wave<R.siege.firstWave||g.wave%R.siege.spawnWaveInterval||state.lastSiegeWave===g.wave||state.giants.length>=R.siege.maxGiants)return;
    const wall=state.sites.map(s=>building(s.id)).find(b=>live(b)&&b.completed&&base(b).wall);if(!wall||g.tier.id<6)return;
-   state.lastSiegeWave=g.wave;const kind=g.tier.id>=10?'colossus':g.tier.id>=8?'carrier':'breaker',d=R.siege.kinds[kind],m=(d.radius+2)*R.tile,W=C.WORLD_SIZE;
+   state.lastSiegeWave=g.wave;const kind=g.tier.id>=10?'colossus':g.tier.id>=8?'carrier':'breaker',d=R.siege.kinds[kind],m=(d.radius+2)*R.tile,W=(g.local||C.LOCAL_MAP217).size;
    const points=[{x:m,y:W*.25},{x:W-m,y:W*.75},{x:W*.75,y:m},{x:W*.25,y:W-m}];
    for(let i=0;i<4;i++){const p=points[(i+g.wave)%4],probe={...p,radius:d.radius*R.tile,kind:'walker'};if(g.hostilePositionClear(probe,p.x,p.y)&&!g.visible(p.x,p.y,120,g.viewBounds())){state.giants.push({id:state.nextId++,kind,...p,health:d.health,cooldown:R.siege.interval,windup:0,target:null,yaw:0});notice=d.name+' repéré sur le front extérieur.';break;}}
   }

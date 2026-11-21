@@ -122,8 +122,9 @@
   return{level,word:DENSITY[level],towns:wide.length,townsNear:near.length,places,nearestTown:first,all:towns,text};
  }
  // Ressources d'ouverture : gisements du site de D-17 à portée de marche du centre, à leur quantité d'origine.
- function opening(nodes,C){
-  const centre=(C?.WORLD_SIZE||4096)/2,out={radius:RULES.walkRadius,metres:Math.round(RULES.walkRadius/(C?.TILE||32))};
+ // `local` : carte de la cité de la partie (O5) ; repli : constante historique.
+ function opening(nodes,C,local){
+  const centre=(local?.size||C?.WORLD_SIZE||4096)/2,out={radius:RULES.walkRadius,metres:Math.round(RULES.walkRadius/(C?.TILE||32))};
   for(const key of OPENING)out[key]={count:0,amount:0,level:'scarce'};
   let known=false;
   for(const n of nodes||[]){
@@ -212,7 +213,7 @@
   const h=world?.home&&finite(world.home.x)&&finite(world.home.y)?{x:world.home.x,y:world.home.y}:{x:0,y:0};
   const landscape=input?.landscape??world?.landscape189??null,preset=landscape&&C?.Landscape189Rules?.presets?.[landscape];
   const card={seed,generation:world?.generation??null,profile:preset?{id:landscape,name:preset.name}:null,home:h};
-  card.biomes=biomes(world,h);card.water=water(world,h);card.density=density(world,h);card.opening=opening(input?.nodes,C);card.sources=sources(world,h);
+  card.biomes=biomes(world,h);card.water=water(world,h);card.density=density(world,h);card.opening=opening(input?.nodes,C,input?.local);card.sources=sources(world,h);
   // Aperçu avant le départ : la carte locale de D-17 n'existe pas encore, ses gisements ne peuvent pas être comptés.
   card.preview=input?.preview===true;
   if(card.preview&&!card.opening.known)card.opening.text='Gisements à portée du centre : relevés au départ seulement, la carte locale de D-17 n’est tracée qu’au lancement.';
@@ -249,7 +250,7 @@
    }
   }catch{milieu={active:false,profile:null};}
   const nodes=g?.world?.nodes;
-  return{seed:g?.world?.seed,world,landscape:world?.landscape189||'classic',nodes:nodes?[...(typeof nodes.values==='function'?nodes.values():nodes)]:[],remarkable,milieu};
+  return{seed:g?.world?.seed,world,landscape:world?.landscape189||'classic',nodes:nodes?[...(typeof nodes.values==='function'?nodes.values():nodes)]:[],remarkable,milieu,local:g?.local};
  }
  // Arguments de départ lus au menu, comme `requestNewGame` (src/game.js) les passe à `startNew`.
  function startChoice(doc){

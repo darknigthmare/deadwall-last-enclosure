@@ -30,7 +30,8 @@
  const BODY_TINTS=Object.freeze(['#1f231d','#2a2a21','#322d24','#252b29']),HEAD_TINTS=Object.freeze(['#49443a','#34322c']),BACK_TINTS=Object.freeze(['#181c17','#1f1f19','#24211b','#1b201f']);
  const CUE_LABELS=Object.freeze({north:'HORDE · NORD',east:'HORDE · EST',south:'HORDE · SUD',west:'HORDE · OUEST'});
  const clamp=(value,lo,hi)=>Math.max(lo,Math.min(hi,value));
- const worldSize=()=>{const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null);return C?.WORLD_SIZE||4096;};
+ // O5 : côté de la carte de la cité de la partie `g` (repli : constante historique).
+ const worldSize=g=>{const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null);return g?.local?.size||C?.WORLD_SIZE||4096;};
  function spawnCount(counts){
   const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null);
   if(C?.spawnCount)return C.spawnCount(counts||{});
@@ -74,7 +75,7 @@
   let f=null;try{f=g?.abominations217?.forecast?.()||null;}catch(error){f=null;}
   if(!f||!DIRECTIONS.includes(f.side)||f.status==='slain'||f.status==='dispersed')return null;
   const A=root.DeadwallAbominations217||(typeof require==='function'?(()=>{try{return require('./abominations217.js');}catch(error){return null;}})():null);
-  let along=worldSize()/2;
+  let along=worldSize(g)/2;
   try{const p=A?.post?.(g.world?.seed??0,f.wave);if(p)along=f.side==='north'||f.side==='south'?p.x:p.y;}catch(error){/* repli : milieu du bord */}
   return Object.freeze({side:f.side,along,status:f.status,wave:f.wave});
  }
@@ -134,7 +135,7 @@
  // (`detail`) sont des silhouettes entières ; derrière eux, la masse se réduit à des têtes de rang.
  function silhouettes(g,options={}){
   const state=options.state===undefined?horizon(g):options.state;if(!state)return [];
-  const size=worldSize(),view=options.view||{left:0,top:0,right:size,bottom:size},inner=options.inner||view;
+  const size=worldSize(g),view=options.view||{left:0,top:0,right:size,bottom:size},inner=options.inner||view;
   const budget=budgetFor(g,options.budget),heads=headBudgetFor(g,options.budget);
   if(budget<=0)return [];
   const clear=options.clearance||NO_CLEARANCE,player=options.player||null;
@@ -245,7 +246,7 @@
    // Du fond vers l'avant de l'écran : chaque rang recouvre celui qui est derrière lui.
    list.sort((a,b)=>a.y-b.y);
    const strength=mass(g,state);
-   frame={layout,state,zoom,still,safe,clear,view,inner,list,strength,depth:rowsOf(strength),leader:null};
+   frame={layout,state,zoom,still,safe,clear,view,inner,list,strength,depth:rowsOf(strength),leader:null,size:worldSize(g)};
   }
   // Mouvement collectif : une houle lente le long de la masse et le pas de chacun, lus dans le temps de jeu.
   if(!still)for(const s of frame.list){
@@ -289,7 +290,7 @@
  // Passe au sol, en coordonnées du monde : appelée dans la transformation de la scène, avant les corps,
  // les acteurs et les bâtiments. La masse passe donc sous tout ce qui se joue.
  function groundPass(ctx,f){
-  const size=worldSize(),view=f.view,alpha=clamp(.08+.76*f.strength,0,.8);
+  const size=f.size??worldSize(),view=f.view,alpha=clamp(.08+.76*f.strength,0,.8);
   ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;
   for(const front of f.state.fronts){
    const horizontal=front==='north'||front==='south',low=front==='north'||front==='west',sign=low?1:-1,edge=low?0:size;
@@ -327,7 +328,7 @@
  // Repère sobre de la Meneuse : un cercle fin en pointillé, posé juste devant la masse, à son poste. Lecture seule.
  function leaderMark(ctx,f){
   const l=f.leader;if(!l||typeof ctx.arc!=='function')return false;
-  const size=worldSize(),low=l.side==='north'||l.side==='west',inward=f.clear[l.side]+EDGE+f.depth*ROW_DEPTH+16,at=low?inward:size-inward;
+  const size=f.size??worldSize(),low=l.side==='north'||l.side==='west',inward=f.clear[l.side]+EDGE+f.depth*ROW_DEPTH+16,at=low?inward:size-inward;
   const x=l.side==='north'||l.side==='south'?l.along:at,y=l.side==='north'||l.side==='south'?at:l.along;
   ctx.save();
   try{
@@ -361,7 +362,7 @@
  // Repère de bord : quand la masse d'un front est hors champ ou sous le HUD, une bande d'ombre et un
  // libellé court tiennent le long du bord visible du cadre sûr. Ni flèche, ni couleur vive.
  function cuePass(ctx,g,f){
-  const size=worldSize(),zoom=f.zoom,safe=f.safe,margin=safe.measured?CUE_MARGIN:0,compact=g.width<=720,depth=compact?40:CUE;
+  const size=worldSize(g),zoom=f.zoom,safe=f.safe,margin=safe.measured?CUE_MARGIN:0,compact=g.width<=720,depth=compact?40:CUE;
   const sx=x=>(x-g.camera.x)*zoom+g.width/2,sy=y=>(y-g.camera.y)*zoom+g.height/2;
   let drawn=0;
   for(const front of f.state.fronts){

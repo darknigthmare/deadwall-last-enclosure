@@ -66,7 +66,7 @@
   }
   return items;
  }
- const centre=(g,C)=>{const b=read(()=>g.core(),null);return b&&finite(b.x,b.y)?{x:b.x,y:b.y}:{x:C.WORLD_SIZE/2,y:C.WORLD_SIZE/2};};
+ const centre=(g,C)=>{const b=read(()=>g.core(),null);return b&&finite(b.x,b.y)?{x:b.x,y:b.y}:{x:(g.local?.size??C.WORLD_SIZE)/2,y:(g.local?.size??C.WORLD_SIZE)/2};};
  const expeditionSites=(g,C)=>read(()=>C.Expeditions.sitesFor({cityGeometry202:g.world.cityGeometry202??0}),C.Expeditions?.SITES||[]);
  // Tout ce que les couches savent d'un lieu encore approvisionné. Fonction pure de l'état : elle ne fait que lire.
  // Un lieu vidé n'apparaît pas ; un lieu non repéré non plus.

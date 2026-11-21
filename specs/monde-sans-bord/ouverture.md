@@ -68,7 +68,7 @@ O1 monde régional G12 (interface)  ── livré, hors jeu
 | O2 | Lieux G12 complets et collisions régionales | Aucun (hors jeu) | L | nul / haut | O4, O5 |
 | O3 | Sauvegarde G12 creuse, validation sans régénération globale (**livré**) | Aucun (G12 non créable) | L | moyen / moyen | O4, O5, O6 |
 | O4 | Lecteurs de la liste complète des lieux → lecteurs de voisinage (**premier lot livré**) | Aucun (valeurs identiques) | L | moyen / bas | O2, O3, O5–O8 |
-| O5 | Carte de la cité par campagne, taille portée par la sauvegarde | Aucun (128 partout) | L | haut / moyen | O2, O3, O4 |
+| O5 | Carte de la cité par campagne, taille portée par la sauvegarde (**livré**) | Aucun (128 partout) | L | haut / moyen | O2, O3, O4 |
 | O6 | Carte de 192 m née de `world-local217` : arêtes de falaise, flux, collisions, gisements | Aucun (G12 non créable) | XL → O6a, O6b | moyen / haut | O3, O4 |
 | O7 | Siège adossé : fronts par côté ouvert, enceintes sur falaise, équilibrage à deux côtés | Aucun | L | moyen / haut | O8 |
 | O8 | Rendu des falaises et de l'eau en 2D/2,5D (O8a), vue FPS (O8b) | Aucun | L + L | bas / moyen | O7 |
@@ -291,7 +291,7 @@ le **dernier** doublon comme les `Map` actuelles, cf. T1.6).
   les candidats bruts des huit cantons de 4 096 m voisins), à trancher avec O2. D'ici là,
   `select` rend une liste vide en G12, comme avant.
 
-### O5 — Carte de la cité par campagne (128 partout)
+### O5 — Carte de la cité par campagne (128 partout) (**livré**, sans effet en jeu)
 
 But : que la taille de la carte locale soit une donnée de la campagne, portée par la
 sauvegarde, sans qu'aucune campagne ne change de taille. Points 1 et 10 de `tasks.md`, et le
@@ -318,6 +318,33 @@ tableau « Restent en clair » de T5.B3.
 - Innocuité : procédure 3 **octet pour octet** (aucun champ ajouté à 128) ; procédure 4.
 - Parcours joueur : partie standard 17117, une vague, sauvegarde, reprise — identique.
 - Ampleur L, risque G1–G11 haut (35 fichiers) : par lots, chacun avec la procédure 3.
+- **Livré** (sans effet en jeu ; détail, preuves et réserves : `tasks.md`, section O5) :
+  - Règles `C.LocalMap217Rules` (`defaultTiles` 128, `generationTiles` {12 : 192}) ; accesseurs
+    `C.localMapOf217(source)` (carte d'une sauvegarde ou carte passée telle quelle, une instance
+    par taille) et `C.campaignLocal217(data)` (carte des données validées ; sans données, celle de
+    la partie en cours ; sinon la carte par défaut). `grid`, `index`, `wallLine` prennent la carte
+    en dernier argument facultatif ; `findFriendlyPath` a pour défaut `LOCAL_MAP217.tiles`.
+  - Cité : `WorldMap(seed, géométrie, carte)` (carte gardée hors des propriétés du monde),
+    `restoreSave` construit le monde sur `C.localMapOf217(data)`, `serialize` n'écrit
+    `localTiles` que s'il diffère de 128, `Zombie` reçoit la carte (orientation vers son centre),
+    `grid(…)` des méthodes de `Game` et chemins amis lisent `this.local`.
+  - Sauvegarde : `localTiles` absent = 128 ; toute autre valeur est refusée sauf celle que
+    `generationTiles` associe à la génération déclarée (192 pour G12, toujours refusée par le
+    registre régional) ; 128 écrit en clair est refusé (jamais produit).
+  - Voirie (`Infrastructure` : clé, cellules, `at`, `line`, `quote`, `findRoute` plafonné par la
+    carte, `Engine(raw, carte)`), territoires (convois, dépôt), expéditions (véhicule), décor
+    (`Fieldcraft`), sections (`squads.js`), tous les validateurs « local » listés plus haut,
+    vue FPS (siège et sol de la citadelle), plan des abords, présentation (centre `2048` en clair,
+    `128,128` des recherches de chemin, `4096` de la carte de reconnaissance) : lus sur la carte
+    de la campagne, repli local identique.
+  - Fumée hors jeu à 192 m (`tests/local-bounds217.test.cjs`, 4 cas de plus) : carte, champ de
+    flux, voirie, territoires et sept validateurs acceptent à 192 une position que la carte par
+    défaut refuse ; la partie en cours ne bouge pas.
+  - **Coût du champ de flux** (préparation de D-O5, médiane de 60 reconstructions, machine
+    chargée) : carte nue 5,7 ms à 128 cases, 15,7 ms à 192 (× 2,7) ; avec les enveloppes de
+    `movementCost` de la partie (décor métrique, obstacles), 72 ms à 128, 170 ms à 192 (× 2,4).
+    Le coût vient surtout des enveloppes (× 12 sur la carte nue) : c'est elles qu'O6b devra
+    optimiser (coût par case mis en cache, reconstruction incrémentale), avant la taille.
 
 ### O6 — Carte de la cité de 192 m née de `world-local217` (G12 non créable)
 

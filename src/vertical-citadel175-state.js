@@ -17,7 +17,10 @@
  const slots=b=>{const q=bounds(b);return [[.23,.23],[.77,.23],[.23,.77],[.77,.77]].map(([x,y])=>({x:q.x+q.w*x,y:q.y+q.h*y}));};
  function moduleBox(b,m,z){const p=slots(b)[m.slot],d=R.modules[m.kind];return {x:p.x-d.size[0]/2,y:p.y-d.size[1]/2,z,w:d.size[0],h:d.size[1],d:d.range?1.5:2.6};}
  const mass=s=>s.decks.reduce((v,d,i)=>v+(i?R.deckMass:0)+d.modules.reduce((n,m)=>n+R.modules[m.kind].mass,0),0);
+ // O5 : carte de la cité de la campagne validée (repli : constantes historiques).
+ const local217=full=>C.campaignLocal217?.(full)??{size:C.WORLD_SIZE,tiles:C.WORLD_TILES};
  function normalize(raw,full){
+  const L217=local217(full);
   if(raw===undefined){const empty=initial();if(full?.buildings)empty.sites=full.buildings.filter(b=>R.bases[b.type]).map(b=>siteInitial(b.id));return normalize(empty,full);}
   const bad=why=>{throw Error('Cité verticale invalide : '+why);};
   const fields=(o,keys)=>o&&typeof o==='object'&&!Array.isArray(o)&&Object.keys(o).length===keys.length&&Object.keys(o).every(k=>keys.includes(k));
@@ -62,11 +65,11 @@
   }
   if(!Array.isArray(raw.giants)||raw.giants.length>R.siege.maxGiants)bad('siège');
   const giantIds=new Set();for(const e of raw.giants){const d=R.siege.kinds[e.kind];
-   if(!fields(e,['id','kind','x','y','health','cooldown','windup','target','yaw'])||!d||!integer(e.id,1,raw.nextId-1)||moduleIds.has(e.id)||giantIds.has(e.id)||!finite(e.x,0,C.WORLD_SIZE)||!finite(e.y,0,C.WORLD_SIZE)||!finite(e.health,Number.EPSILON,d.health)||!finite(e.cooldown,0,R.siege.interval)||!finite(e.windup,0,R.siege.telegraph)||!finite(e.yaw,-Math.PI,Math.PI)||(e.target!==null&&!integer(e.target,1)))bad('colosse');giantIds.add(e.id);
+   if(!fields(e,['id','kind','x','y','health','cooldown','windup','target','yaw'])||!d||!integer(e.id,1,raw.nextId-1)||moduleIds.has(e.id)||giantIds.has(e.id)||!finite(e.x,0,L217.size)||!finite(e.y,0,L217.size)||!finite(e.health,Number.EPSILON,d.health)||!finite(e.cooldown,0,R.siege.interval)||!finite(e.windup,0,R.siege.telegraph)||!finite(e.yaw,-Math.PI,Math.PI)||(e.target!==null&&!integer(e.target,1)))bad('colosse');giantIds.add(e.id);
   }
   const enemies=new Map((full?.zombies||[]).map(z=>[z.id,z])),climberIds=new Set(),Q=C.VerticalSiege176;
   for(const c of raw.climbers){
-   if(!fields(c,['id','site','side','lane','start','progress','stage','fallHeight','level','bridge','stair'])||!finite(c.fallHeight,0,R.maxHeight)||!integer(c.id,1)||climberIds.has(c.id)||!ids.has(c.site)||!integer(c.side,0,3)||!finite(c.lane,Q.margin,C.WORLD_TILES)||!finite(c.start,0,Q.apron)||!finite(c.progress,0,1)||!['climb','roof','fall','stairs'].includes(c.stage)||!integer(c.level,0,R.maxDecks-1)||(c.bridge!==null&&!integer(c.bridge,1)))bad('grimpeur');
+   if(!fields(c,['id','site','side','lane','start','progress','stage','fallHeight','level','bridge','stair'])||!finite(c.fallHeight,0,R.maxHeight)||!integer(c.id,1)||climberIds.has(c.id)||!ids.has(c.site)||!integer(c.side,0,3)||!finite(c.lane,Q.margin,L217.tiles)||!finite(c.start,0,Q.apron)||!finite(c.progress,0,1)||!['climb','roof','fall','stairs'].includes(c.stage)||!integer(c.level,0,R.maxDecks-1)||(c.bridge!==null&&!integer(c.bridge,1)))bad('grimpeur');
    if(['roof','stairs'].includes(c.stage)&&c.progress!==1)bad('progression de palier');
    if(['climb','fall'].includes(c.stage)&&(c.level!==0||c.bridge!==null||c.stair!==null))bad('ascension hors façade');
    if(c.stage==='stairs'){

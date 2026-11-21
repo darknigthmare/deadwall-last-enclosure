@@ -22,14 +22,16 @@ function validate(raw,full){
  obj(raw.current,['number','profile','weapons']);if(!Object.hasOwn(R.profiles,raw.current.profile))bad();
  const out={version:1,serial:n(raw.serial,1,R.maxRemains+1,true),current:{number:n(raw.current.number,1,R.maxRemains+1,true),profile:raw.current.profile,weapons:owned(raw.current.weapons)},pending:raw.pending,remains:[]},ids=new Set(),zids=new Set();
  const L217=limitsOf217(root.DeadwallFrontierWorld,full?.frontier?.generation??5,()=>root.DeadwallFrontierWorld?.sizeForGeneration(full?.frontier?.generation??5)||WIDE_REGION_217);
+ // O5 : domaine « local » borné par la carte de la campagne validée (repli : constante historique).
+ const LS217=C.campaignLocal217?.(full)?.size??C.WORLD_SIZE;
  for(const r of raw.remains){
   obj(r,['id','profile','point','bag','magazine','weapons','gear','kits','body','time']);if(ids.has(r.id)||!Object.hasOwn(R.profiles,r.profile))bad();ids.add(r.id);n(r.id,1,out.serial-1,true);
   obj(r.point,['domain','x','y','z','inside','angle']);const p=r.point;if(!['local','region'].includes(p.domain)||p.inside!==null&&!/^P\d{4}$/.test(p.inside)||p.domain==='local'&&(p.z!==0||p.inside!==null)||p.z!==0&&p.inside===null)bad();
-  n(p.x,p.domain==='local'?0:L217.axisMin(),p.domain==='local'?C.WORLD_SIZE:L217.axisMax());n(p.y,p.domain==='local'?0:L217.axisMin(),p.domain==='local'?C.WORLD_SIZE:L217.axisMax());n(p.z,-1,2,true);n(p.angle,-Math.PI*2,Math.PI*2);
+  n(p.x,p.domain==='local'?0:L217.axisMin(),p.domain==='local'?LS217:L217.axisMax());n(p.y,p.domain==='local'?0:L217.axisMin(),p.domain==='local'?LS217:L217.axisMax());n(p.z,-1,2,true);n(p.angle,-Math.PI*2,Math.PI*2);
   obj(r.magazine,weapons);const magazine=Object.fromEntries(weapons.map(k=>[k,n(r.magazine[k],0,C.WEAPONS[k].magazine,true)]));
   obj(r.kits,kitKeys);const kits=Object.fromEntries(kitKeys.map(k=>[k,n(r.kits[k],0,C.Essentials.RULES.beltMax,true)]));if(Object.values(kits).reduce((a,b)=>a+b,0)>C.Essentials.RULES.beltMax)bad();
   const gear=root.DeadwallPlayerPack131.validate(r.gear);obj(r.body,['phase','left','roll','x','y','health','zombieId']);const b=r.body;
-  if(!['waiting','rest','risen','neutralized'].includes(b.phase))bad();n(b.left,0,R.reanimationMax);n(b.roll,0,0xffffffff,true);n(b.x,p.domain==='local'?0:L217.axisMin(),p.domain==='local'?C.WORLD_SIZE:L217.axisMax());n(b.y,p.domain==='local'?0:L217.axisMin(),p.domain==='local'?C.WORLD_SIZE:L217.axisMax());n(b.health,0,R.health);if(b.zombieId!==null)n(b.zombieId,1,0x7ffffffe,true);
+  if(!['waiting','rest','risen','neutralized'].includes(b.phase))bad();n(b.left,0,R.reanimationMax);n(b.roll,0,0xffffffff,true);n(b.x,p.domain==='local'?0:L217.axisMin(),p.domain==='local'?LS217:L217.axisMax());n(b.y,p.domain==='local'?0:L217.axisMin(),p.domain==='local'?LS217:L217.axisMax());n(b.health,0,R.health);if(b.zombieId!==null)n(b.zombieId,1,0x7ffffffe,true);
   if(b.phase==='waiting'&&b.roll/4294967296>=R.reanimationChance||b.phase==='rest'&&b.roll/4294967296<R.reanimationChance||b.phase==='risen'&&b.health<=0||b.phase!=='risen'&&b.zombieId!==null||p.domain==='region'&&b.zombieId!==null)bad();
   if(p.domain==='local'&&b.phase==='risen'){if(b.zombieId===null||zids.has(b.zombieId))bad();zids.add(b.zombieId);if(full&&!full.zombies?.some(z=>z.id===b.zombieId&&z.kind==='walker'&&Math.abs(z.x-b.x)<.001&&Math.abs(z.y-b.y)<.001&&Math.abs(z.health-b.health)<.001))bad();}
   if(full&&p.domain==='region'&&(p.inside!==null||p.z!==0)){

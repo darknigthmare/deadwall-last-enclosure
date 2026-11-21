@@ -1496,8 +1496,10 @@
       const seed = Number(game.world?.seed) || 0;
       const revision=[2,3,4].includes(game.exploration125?.layoutRevision)?game.exploration125.layoutRevision:1;
       if(revision===4&&game.world?.cityGeometry202!==1)throw Error('Le plan métrique D-17 exige des emprises urbaines métriques.');
-      if (plan.seed !== seed || plan.layoutRevision !== revision) {
-        const fresh = createFeaturePlan(seed, plan.worldSize, revision);
+      // O5 : le plan des abords suit la carte de la cité de la partie (repli : taille du plan en place).
+      const size = game.local?.size ?? plan.worldSize;
+      if (plan.seed !== seed || plan.layoutRevision !== revision || plan.worldSize !== size) {
+        const fresh = createFeaturePlan(seed, size, revision);
         for(const key of Object.keys(plan))if(!(key in fresh))delete plan[key];
         Object.assign(plan, fresh);
       }
@@ -1936,7 +1938,7 @@
   function install(game, document) {
     if (!game || !document || game.__exploration125Installed) return false;
     game.__exploration125Installed = true;
-    const worldSize = C?.WORLD_SIZE || 4096;
+    const worldSize = game.local?.size || C?.WORLD_SIZE || 4096;
     const plan = createFeaturePlan(game.world?.seed ?? 17117, worldSize);
     game.exploration125 = { version: VERSION, plan, codex: WORLD_CODEX, generation: 3, layoutRevision:1, prepareMetricScenery202:revision=>prepareMetricScenery202(game,revision) };
     installSaveExtension(game);

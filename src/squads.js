@@ -4,20 +4,22 @@
   const RULES=C.SQUAD_RULES,validIndex=value=>Number.isInteger(value)&&value>=0&&value<RULES.count;
   const invalid=label=>{throw new RangeError('Sections invalides : '+label+'.');};
   const object=value=>value&&typeof value==='object'&&!Array.isArray(value);
-  function point(value){
-    if(!object(value)||!Number.isFinite(value.x)||!Number.isFinite(value.y)||value.x< -64||value.y< -64||value.x>C.LOCAL_MAP217.size+64||value.y>C.LOCAL_MAP217.size+64)invalid('ralliement');
+  // `local` : carte locale de la campagne (O5) ; carte par défaut en repli.
+  function point(value,local=C.LOCAL_MAP217){
+    if(!object(value)||!Number.isFinite(value.x)||!Number.isFinite(value.y)||value.x< -64||value.y< -64||value.x>local.size+64||value.y>local.size+64)invalid('ralliement');
     return{x:value.x,y:value.y};
   }
-  function create(rally={x:C.LOCAL_MAP217.size/2,y:C.LOCAL_MAP217.size/2}){
-    return{version:1,selected:0,groups:Array.from({length:RULES.count},()=>({order:'rally',rally:point(rally)}))};
+  function create(rally,local=C.LOCAL_MAP217){
+    if(rally===undefined)rally={x:local.size/2,y:local.size/2};
+    return{version:1,selected:0,groups:Array.from({length:RULES.count},()=>({order:'rally',rally:point(rally,local)}))};
   }
-  function normalize(raw,legacyRally,buildings){
-    if(raw===undefined)return create(legacyRally);
+  function normalize(raw,legacyRally,buildings,local=C.LOCAL_MAP217){
+    if(raw===undefined)return create(legacyRally,local);
     if(!object(raw)||raw.version!==1||!validIndex(raw.selected)||!Array.isArray(raw.groups)||raw.groups.length!==RULES.count)invalid('format');
     const structures=buildings===undefined?null:new Map(buildings.map(b=>[b.id,b]));
     return{version:1,selected:raw.selected,groups:raw.groups.map(group=>{
       if(!object(group)||!['rally','retreat'].includes(group.order))invalid('ordre');
-      const result={order:group.order,rally:point(group.rally)};
+      const result={order:group.order,rally:point(group.rally,local)};
       if(group.retreatBuildingId!==undefined){
         const id=group.retreatBuildingId;
         if(group.order!=='retreat'||!Number.isInteger(id)||id<1||id>0x7ffffffe)invalid('destination de repli');
@@ -50,12 +52,12 @@
     }
     return assigned;
   }
-  function withOrder(state,index,order,rally,retreatBuildingId){
+  function withOrder(state,index,order,rally,retreatBuildingId,local=C.LOCAL_MAP217){
     if(!validIndex(index)||!['rally','retreat'].includes(order))return null;
-    const result=normalize(state);
-    result.groups[index]={order,rally:order==='rally'?point(rally):result.groups[index].rally};
+    const result=normalize(state,undefined,undefined,local);
+    result.groups[index]={order,rally:order==='rally'?point(rally,local):result.groups[index].rally};
     if(retreatBuildingId!==undefined)result.groups[index].retreatBuildingId=retreatBuildingId;
-    return normalize(result);
+    return normalize(result,undefined,undefined,local);
   }
   const api={RULES,validIndex,create,normalize,unitGroup,counts,nextGroup,assignments,withOrder};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;

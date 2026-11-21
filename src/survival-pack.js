@@ -11,8 +11,10 @@ function normalize(raw,full){
  const number=(v,min,max,integer=false)=>{if(!Number.isFinite(v)||v<min||v>max||integer&&!Number.isInteger(v))bad();return v;};
  if(!raw||raw.version!==1||!Array.isArray(raw.camps)||raw.camps.length>R.maxCamps||!raw.meal||!raw.dressing)bad();
  const W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null),L217=limitsOf217(W,full?.frontier?.generation??5,()=>W.sizeForGeneration(full?.frontier?.generation??5));
+ // O5 : domaine « local » borné par la carte de la campagne (repli : 4 096 historique).
+ const LS217=C.campaignLocal217?.(full)?.size??4096;
  const out=initial(),seen=new Set();out.serial=number(raw.serial,1,R.maxSerial,true);
- for(const camp of raw.camps){if(!camp||!['local','region'].includes(camp.domain)||camp.z!==0||camp.inside!==null)bad();const q={id:number(camp.id,1,out.serial-1,true),domain:camp.domain,x:number(camp.x,camp.domain==='local'?0:L217.axisMin(),camp.domain==='local'?4096:L217.axisMax()),y:number(camp.y,camp.domain==='local'?0:L217.axisMin(),camp.domain==='local'?4096:L217.axisMax()),z:0,inside:null,left:number(camp.left,0,R.campLife),cover:number(camp.cover,0,R.cover.duration)};if(seen.has(q.id)||q.left===0)bad();seen.add(q.id);out.camps.push(q);}
+ for(const camp of raw.camps){if(!camp||!['local','region'].includes(camp.domain)||camp.z!==0||camp.inside!==null)bad();const q={id:number(camp.id,1,out.serial-1,true),domain:camp.domain,x:number(camp.x,camp.domain==='local'?0:L217.axisMin(),camp.domain==='local'?LS217:L217.axisMax()),y:number(camp.y,camp.domain==='local'?0:L217.axisMin(),camp.domain==='local'?LS217:L217.axisMax()),z:0,inside:null,left:number(camp.left,0,R.campLife),cover:number(camp.cover,0,R.cover.duration)};if(seen.has(q.id)||q.left===0)bad();seen.add(q.id);out.camps.push(q);}
  out.meal={left:number(raw.meal.left,0,R.meal.duration),budget:number(raw.meal.budget,0,R.meal.budget)};
  out.dressing={left:number(raw.dressing.left,0,R.dressing.duration),remaining:number(raw.dressing.remaining,0,R.dressing.heal)};
  if(out.meal.left===0&&out.meal.budget!==0||out.dressing.left===0&&out.dressing.remaining!==0)bad();return out;
@@ -54,7 +56,7 @@ function install(g){
  }
  function campPosition(p){const s=scale(p);return{domain:p.domain,x:p.x+Math.cos(p.angle)*R.placeDistance*s,y:p.y+Math.sin(p.angle)*R.placeDistance*s,z:0,inside:null};}
  function clearCamp(p){
-  const s=scale(p),bounds=p.domain==='local'?4096:g.frontier.world().size;if(!outdoors(p)||p.x<R.campRadius*s||p.y<R.campRadius*s||p.x>bounds-R.campRadius*s||p.y>bounds-R.campRadius*s)return false;
+  const s=scale(p),bounds=p.domain==='local'?g.local.size:g.frontier.world().size;if(!outdoors(p)||p.x<R.campRadius*s||p.y<R.campRadius*s||p.x>bounds-R.campRadius*s||p.y>bounds-R.campRadius*s)return false;
   if(p.domain==='region'){if(g.frontier.world().blocked(p.x,p.y,R.campRadius,0,null))return false;}
   else for(const [dx,dy]of[[0,0],[R.campRadius,0],[-R.campRadius,0],[0,R.campRadius],[0,-R.campRadius]])if(!g.friendlyPositionClear({radius:10},p.x+dx*s,p.y+dy*s))return false;
   const car=p.domain==='local'?g.expeditions.car():frontierPosition().car;if(car&&Math.hypot(car.x-p.x,car.y-p.y)<(R.campRadius+3)*s)return false;
