@@ -133,10 +133,10 @@
   const vs=`attribute vec3 position; attribute vec3 color; uniform vec3 eye; uniform vec2 angles; uniform float aspect; varying vec3 tint; varying float distance;
   void main(){float y=angles.x,p=angles.y;vec3 right=vec3(-sin(y),cos(y),0.);vec3 forward=vec3(cos(y)*cos(p),sin(y)*cos(p),sin(p));vec3 up=cross(right,forward)*-1.;vec3 v=position-eye;float z=dot(v,forward);gl_Position=vec4(dot(v,right)*1.3/aspect,dot(v,up)*1.3,z*1.0005-.20005,z);tint=color;distance=length(v);}`;
   const fs=`precision mediump float; varying vec3 tint; varying float distance; uniform float light; void main(){vec3 fog=mix(vec3(.065,.08,.067),vec3(.31,.36,.31),light);gl_FragColor=vec4(mix(tint*(.28+light*.72),fog,clamp(distance/190.,0.,.9)),1.);}`;
-  let program=null,buffer=null,staticBuffer=null,position,color,eye,angles,aspect,light,lost=false,disposed=false;
+  let program=null,buffer=null,staticBuffer=null,terrainBuffer=null,terrainUploaded=null,position,color,eye,angles,aspect,light,lost=false,disposed=false;
   const shaders=[];
   const remove=(method,object)=>{if(object)try{gl[method](object);}catch{/* Context teardown must not interrupt the classic fallback. */}};
-  function free(){remove('deleteBuffer',buffer);remove('deleteBuffer',staticBuffer);remove('deleteProgram',program);buffer=staticBuffer=program=null;}
+  function free(){remove('deleteBuffer',buffer);remove('deleteBuffer',staticBuffer);remove('deleteBuffer',terrainBuffer);remove('deleteProgram',program);buffer=staticBuffer=terrainBuffer=program=null;terrainUploaded=null;}
   function shader(type,source){
    const value=gl.createShader(type);if(!value)throw Error('Allocation shader refusée.');shaders.push(value);
    gl.shaderSource(value,source);gl.compileShader(value);
@@ -159,22 +159,28 @@
   function draw(g){if(disposed||lost)return false;if(gl.isContextLost()){lost=true;return false;}const V=g.vertical175,state=V.presentation(),q=V.moduleRef(state.controlled);if(!q)return false;
    const rect=canvas.getBoundingClientRect(),scale=Math.min(root.devicePixelRatio||1,1.5),w=Math.max(1,Math.round(rect.width*scale)),h=Math.max(1,Math.round(rect.height*scale));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
    gl.viewport(0,0,w,h);const day=g.nightwatch?.isBlackout?.()?0:(g.daylight?.()??.6);gl.clearColor(.16*day+.04,.20*day+.04,.18*day+.04,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.enable(gl.DEPTH_TEST);gl.disable(gl.CULL_FACE);gl.useProgram(program);
-   const camera=V.muzzle(q),out=dynamic,geometry=V.geometry(),staticBoxes=[];out.reset();gl.uniform3f(eye,camera.x,camera.y,camera.z);gl.uniform2f(angles,q.m.yaw,q.m.pitch);gl.uniform1f(aspect,w/h);gl.uniform1f(light,day);
+   // O8b (G12, hors jeu) : relief du terrain de la cité. Sans terrain (G1–G11), aucune branche ci-dessous n'est prise :
+   // mêmes boîtes, mêmes valeurs, même séquence d'appels. La simulation garde ses hauteurs relatives au sol local ; seule
+   // la peinture ajoute le palier (œil, boîtes, infectés, équipe, caisses, gisements) et applique D-O1 à la vue.
+   const T=g.world?.terrain217?root.DeadwallTerrainFPS217||null:null,W=g.world,links=T?T.linkFloors(W,V.network.presentation().links):null,lift=(box,dz)=>dz?{...box,z:box.z+dz}:box,add=(z,dz)=>dz?z+dz:z;
+   const camera=V.muzzle(q),view=T?T.eye(W,camera,q.b):camera,out=dynamic,geometry=V.geometry(),staticBoxes=[];out.reset();gl.uniform3f(eye,view.x,view.y,view.z);gl.uniform2f(angles,q.m.yaw,q.m.pitch);gl.uniform1f(aspect,w/h);gl.uniform1f(light,day);
    const fixed=(box,tint)=>staticBoxes.push({box,tint});
-   fixed({x:0,y:0,z:-.2,w:(g.local||C.LOCAL_MAP217).size/R.tile,h:(g.local||C.LOCAL_MAP217).size/R.tile,d:.2},[.27,.31,.23]);
-   for(const b of geometry){if(b.module===q.m.id)continue;const def=R.bases[g.world.buildings.get(b.owner)?.type];let tint=b.type==='deck'?[.60,.59,.48]:b.type==='module'?[.35,.42,.34]:[.50,.52,.43];if(def?.age177&&b.type==='structure')tint=[1,3,5].map(i=>parseInt(def.color.slice(i,i+2),16)/255);fixed(b,tint);}
+   if(!T)fixed({x:0,y:0,z:-.2,w:(g.local||C.LOCAL_MAP217).size/R.tile,h:(g.local||C.LOCAL_MAP217).size/R.tile,d:.2},[.27,.31,.23]);
+   for(const b of geometry){if(b.module===q.m.id)continue;const def=R.bases[g.world.buildings.get(b.owner)?.type];let tint=b.type==='deck'?[.60,.59,.48]:b.type==='module'?[.35,.42,.34]:[.50,.52,.43];if(def?.age177&&b.type==='structure')tint=[1,3,5].map(i=>parseInt(def.color.slice(i,i+2),16)/255);fixed(T?lift(b,T.boxFloor(W,b,links)):b,tint);}
    for(const s of state.sites){const b=g.world.buildings.get(s.id);if(!alive(b)||!b.completed)continue;const box=S.bounds(b);for(let i=0;i<s.decks.length;i++){if(s.decks[i].progress<1)continue;const z=R.bases[b.type].height+i*R.deckRise;
-     for(const rail of V.network.railGeometry(b,i))fixed(rail,[.68,.64,.47]);
+     for(const rail of V.network.railGeometry(b,i))fixed(T?lift(rail,T.siteFloor(W,b)):rail,[.68,.64,.47]);
     }}
-   for(const pile of V.pressure()){if(pile.height<.3)continue;const b=g.world.buildings.get(pile.site);if(!alive(b))continue;const box=S.bounds(b),N=C.VerticalSiege176.pressureSteps,apron=C.VerticalSiege176.apron;
-    for(let i=0;i<N;i++){const size=apron*(N-i)/N,vertical=pile.height/N,z=i*vertical,side=pile.side;const shape=side===0?{x:box.x,y:box.y-size,w:box.w,h:size}:side===1?{x:box.x+box.w,y:box.y,w:size,h:box.h}:side===2?{x:box.x,y:box.y+box.h,w:box.w,h:size}:{x:box.x-size,y:box.y,w:size,h:box.h};cube(out,{...shape,z,d:vertical},[.32,.29,.23]);}
+   for(const pile of V.pressure()){if(pile.height<.3)continue;const b=g.world.buildings.get(pile.site);if(!alive(b))continue;const box=S.bounds(b),N=C.VerticalSiege176.pressureSteps,apron=C.VerticalSiege176.apron,floor=T?T.siteFloor(W,b):0;
+    for(let i=0;i<N;i++){const size=apron*(N-i)/N,vertical=pile.height/N,z=i*vertical,side=pile.side;const shape=side===0?{x:box.x,y:box.y-size,w:box.w,h:size}:side===1?{x:box.x+box.w,y:box.y,w:size,h:box.h}:side===2?{x:box.x,y:box.y+box.h,w:box.w,h:size}:{x:box.x-size,y:box.y,w:size,h:box.h};cube(out,{...shape,z:add(z,floor),d:vertical},[.32,.29,.23]);}
    }
    const visible=V.sightQuery(camera,q.def.range,q.m.id,geometry);
-   for(const e of g.zombies)if(visible(e))humanoid(out,e.x/R.tile,e.y/R.tile,e.kind==='crawler'?.6:1.8,e.radius/R.tile,e.facing||0,motion(e,g.elapsed,V.enemyPose(e).z,!!g.settings?.reducedMotion),false,V.enemyPose(e).z);
-   for(const e of state.giants){if(!visible(e))continue;const d=R.siege.kinds[e.kind];humanoid(out,e.x/R.tile,e.y/R.tile,d.height,d.radius,e.yaw,motion(e,g.elapsed,0,!!g.settings?.reducedMotion),e.windup>0);}
-   for(const c of V.network.presentation().crates)cube(out,{x:c.x/R.tile-.325,y:c.y/R.tile-.325,z:c.z,w:.65,h:.65,d:.65},[.56,.44,.28]);
-   for(const u of g.units)if(alive(u)&&!u.regionAbsent)humanoid(out,u.x/R.tile,u.y/R.tile,1.8,.28,u.facing||0,motion(u,g.elapsed,V.population.pose(u).z,!!g.settings?.reducedMotion),false,V.population.pose(u).z);
-   for(const n of g.world.nodes)if(!n.depleted&&n.amount>0){const x=n.x/R.tile,y=n.y/R.tile;if(n.type==='wood'){fixed({x:x-.12,y:y-.12,z:0,w:.24,h:.24,d:2.5},[.35,.27,.17]);fixed({x:x-.8,y:y-.8,z:1.8,w:1.6,h:1.6,d:2.2},[.18,.28,.16]);}else fixed({x:x-.5,y:y-.5,z:0,w:1,h:1,d:.7},[.40,.42,.34]);}
+   // D-O1 : depuis le palier du support, un infecté au-dessus d'une falaise montante n'est pas peint.
+   const level=T?T.levelOf(W,q.b):undefined,seen=T?e=>visible(e)&&T.sightClear(W,camera,e,level):visible;
+   for(const e of g.zombies)if(seen(e)){const p=V.enemyPose(e);humanoid(out,e.x/R.tile,e.y/R.tile,e.kind==='crawler'?.6:1.8,e.radius/R.tile,e.facing||0,motion(e,g.elapsed,p.z,!!g.settings?.reducedMotion),false,T?p.z+T.actorFloor(W,e,p,W.buildings,links):p.z);}
+   for(const e of state.giants){if(!seen(e))continue;const d=R.siege.kinds[e.kind];humanoid(out,e.x/R.tile,e.y/R.tile,d.height,d.radius,e.yaw,motion(e,g.elapsed,0,!!g.settings?.reducedMotion),e.windup>0,T?T.elevation(W,e.x,e.y):0);}
+   for(const c of V.network.presentation().crates)cube(out,{x:c.x/R.tile-.325,y:c.y/R.tile-.325,z:T?c.z+T.actorFloor(W,c,c,W.buildings,links):c.z,w:.65,h:.65,d:.65},[.56,.44,.28]);
+   for(const u of g.units)if(alive(u)&&!u.regionAbsent){const p=V.population.pose(u);humanoid(out,u.x/R.tile,u.y/R.tile,1.8,.28,u.facing||0,motion(u,g.elapsed,p.z,!!g.settings?.reducedMotion),false,T?p.z+T.actorFloor(W,u,p,W.buildings,links):p.z);}
+   for(const n of g.world.nodes)if(!n.depleted&&n.amount>0){const x=n.x/R.tile,y=n.y/R.tile,z=T?T.elevation(W,n.x,n.y):0;if(n.type==='wood'){fixed({x:x-.12,y:y-.12,z,w:.24,h:.24,d:2.5},[.35,.27,.17]);fixed({x:x-.8,y:y-.8,z:add(1.8,z),w:1.6,h:1.6,d:2.2},[.18,.28,.16]);}else fixed({x:x-.5,y:y-.5,z,w:1,h:1,d:.7},[.40,.42,.34]);}
    const changed=staticMesh.update(staticBoxes);
    function upload(target,mesh,capacity){
     gl.bindBuffer(gl.ARRAY_BUFFER,target);
@@ -186,9 +192,12 @@
     gl.enableVertexAttribArray(color);gl.vertexAttribPointer(color,3,gl.FLOAT,false,24,12);gl.drawArrays(gl.TRIANGLES,0,mesh.length/6);
    }
    if(changed){staticCapacity=upload(staticBuffer,staticMesh.mesh,staticCapacity);staticUploads++;}
+   // O8b : maillage du relief, statique, alloué au premier tableau d'un monde de terrain et envoyé une fois par terrain.
+   const relief=T?T.mesh(W):null;if(relief&&!terrainBuffer)terrainBuffer=gl.createBuffer();
+   if(relief&&terrainBuffer){gl.bindBuffer(gl.ARRAY_BUFFER,terrainBuffer);if(terrainUploaded!==relief){gl.bufferData(gl.ARRAY_BUFFER,relief.data,gl.STATIC_DRAW??gl.DYNAMIC_DRAW);terrainUploaded=relief;}paint(terrainBuffer,relief);}
    dynamicCapacity=upload(buffer,out,dynamicCapacity);paint(staticBuffer,staticMesh.mesh);paint(buffer,out);return !gl.isContextLost();
   }
-  return{draw,diagnostics:()=>({staticUploads,staticVertices:staticMesh.mesh.length/6,dynamicVertices:dynamic.length/6,staticCapacity,dynamicCapacity}),dispose(){if(disposed)return;disposed=true;canvas.removeEventListener('webglcontextlost',onLost);if(!lost&&!gl.isContextLost())free();},get lost(){return lost||gl.isContextLost();}};
+  return{draw,diagnostics:()=>({staticUploads,staticVertices:staticMesh.mesh.length/6,dynamicVertices:dynamic.length/6,staticCapacity,dynamicCapacity,...(terrainUploaded?{terrainVertices:terrainUploaded.vertices}:{})}),dispose(){if(disposed)return;disposed=true;canvas.removeEventListener('webglcontextlost',onLost);if(!lost&&!gl.isContextLost())free();},get lost(){return lost||gl.isContextLost();}};
  }
  const api={install,createFPS,VertexBuffer,cube,humanoid,createMotionSampler,createStaticMesh};root.DeadwallVertical175Render=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root.DEADWALL&&root.document)install(root.DEADWALL);
 })(globalThis);

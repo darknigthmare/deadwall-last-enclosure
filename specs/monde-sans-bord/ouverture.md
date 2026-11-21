@@ -71,7 +71,7 @@ O1 monde régional G12 (interface)  ── livré, hors jeu
 | O5 | Carte de la cité par campagne, taille portée par la sauvegarde (**livré**) | Aucun (128 partout) | L | haut / moyen | O2, O3, O4 |
 | O6 | Carte de 192 m née de `world-local217` : arêtes de falaise, flux, collisions, gisements (**livré** : O6a, O6b) | Aucun (G12 non créable) | XL → O6a, O6b | moyen / haut | O3, O4 |
 | O7 | Siège adossé : fronts par côté ouvert, enceintes sur falaise, équilibrage à deux côtés | Aucun | L | moyen / haut | O8 |
-| O8 | Rendu des falaises et de l'eau en 2D/2,5D (O8a, **livré**), vue FPS (O8b) | Aucun | L + L | bas / moyen | O7 |
+| O8 | Rendu des falaises et de l'eau en 2D/2,5D (O8a, **livré**), vue FPS (O8b, **livré**) | Aucun | L + L | bas / moyen | O7 |
 | O9 | Ouverture : option de menu, fiche, branchement, chargement par anneau | **Oui, derrière l'option** | L | moyen / haut | — |
 | O10 | Atlas et minicarte sans étendue fixe ; rayon d'action (T6) | Oui (G12) | M | bas / bas | après O9 |
 
@@ -459,7 +459,7 @@ Points 5 et 6 de `tasks.md`, et la question (f).
 - Parcours joueur (harnais) : vague 5 sur la graine 17117 — deux fronts, est et ouest.
 - Ampleur L, risque G12 haut (équilibrage), parallélisable avec O8.
 
-### O8 — Rendu des falaises et de l'eau, puis vue FPS (**O8a livré**, hors jeu)
+### O8 — Rendu des falaises et de l'eau, puis vue FPS (**O8a et O8b livrés**, hors jeu)
 
 Point 8 et point 9 de `tasks.md`. Présentation seule : lit la grille, ne crée ni stock, ni
 dégât, ni tirage, ni horloge.
@@ -515,6 +515,34 @@ cran en mètres : D-O3), parois verticales, plans inclinés des rampes, caméra 
 - Innocuité : procédure 3 et comparaison d'images de la partie 17117 avant/après.
 - Parcours joueur (harnais) : voir la falaise de 17117, ses deux rampes, la rivière d'une
   graine à eau.
+- **Livré O8b** (présentation seule, hors jeu ; détail, mesures et réserves : `tasks.md`, section O8b) :
+  - Hauteur jouée d'un cran (D-O3) : **4 m**, `C.TerrainRelief217Rules.stepMetres` — un étage de support
+    (`VerticalCitadel175.structureHeight`), plus du double de l'œil (1,65 m) : d'en bas, ni l'œil ni une
+    bouche d'arme au sol ne dépassent le rebord (D-O1) ; rampe de 12 m à 18°. Égale à la hauteur peinte
+    d'O8a (`TerrainArt217Rules.cliffMetres` 4) : la peinture 2D n'a pas changé.
+  - Module `src/terrain-fps217.js` (`DeadwallTerrainFPS217`), absent d'`index.html`, de `sw.js` et du
+    build : champ de hauteur (palier × 4 m, rampes en plan incliné du palier bas au palier haut le long de
+    leur axe, eau abaissée de 0,45 m) et maillage dérivés une fois par terrain (table faible) : sol en blocs
+    de 4 × 4 cases, parois verticales sur toute arête entre deux hauteurs (falaises avec strates d'un
+    mètre, flancs de rampe, rives), jupe au bord de la carte ; 89 000 à 103 000 sommets (17117, 0, 46).
+  - Peintre FPS (`vertical-citadel175-render.js`) : sur un monde de terrain seulement, le sol plat est
+    remplacé par ce maillage (tampon statique alloué au premier tableau, envoyé une fois par terrain), et
+    l'œil, les boîtes de la géométrie partagée (bâtiments, dalles, garde-corps, passerelles), les talus de
+    cadavres, infectés, géants, équipe, caisses et gisements sont levés de leur palier. La simulation garde
+    ses hauteurs relatives au sol local (`siege.enemyPose`, `population.pose`, `muzzle`, `sightQuery`,
+    `raycast` inchangés) : la pose d'un infecté est décalée du palier dans la peinture seulement, sans quoi
+    `canMelee` et `hostileLineClear` changeraient de chemin pour tout infecté au sol d'un plateau.
+  - D-O1 dans la vue : depuis le palier du support, un infecté ou un géant au-dessus d'une falaise
+    montante n'est pas peint (`sightClear217`, même accesseur que le jeu) ; d'en haut, le contrebas reste
+    visible.
+  - Commandant borné par `canStep` (G12 seulement) : entrée et sortie par l'escalier refusées quand une
+    falaise sépare l'entrée du support (`landing217`, segment `stepClear217`) ; chute (support perdu) jamais
+    posée par-dessus une falaise ; passerelle refusée entre deux supports posés sur deux paliers (leurs
+    dalles ne sont pas à la même hauteur). L'œil est la bouche de l'arme levée du palier du support, dont
+    l'emprise tient sur un seul palier.
+  - En G1–G11 : séquence d'appels WebGL identique avec ou sans le module, et identique au peintre de la
+    base `8d7ea21` (contexte factice enregistreur, 24 images, citadelle, sentinelle, trois infectés).
+    Harnais : `tests/helpers/terrain-fps217.cjs`, `scripts/browser-terrain-fps217.mjs`.
 
 ### O9 — Ouverture « expérimental » (premier effet en jeu)
 
@@ -577,8 +605,8 @@ Puis T7 (défaut pour toute nouvelle campagne, gradient de distance) : hors de c
   **le même effectif, concentré sur les côtés ouverts**. Aucune réduction pour les côtés fermés.
   Les valeurs du plafond de passage par front restent à mesurer en O7.
 - **D-O3 — tranché** : la vue à la première personne est **disponible dès l'ouverture** de
-  l'option expérimentale. O8b passe donc sur le chemin critique de O9 ; la hauteur d'un cran reste
-  à fixer en O8b.
+  l'option expérimentale. O8b passe donc sur le chemin critique de O9 ; la hauteur d'un cran est
+  fixée en O8b à 4 m (`C.TerrainRelief217Rules.stepMetres`, égale à la hauteur peinte d'O8a).
 - **D-O4 — ouvert** : gel des règles de génération à l'ouverture. Proposé : gel à O9, version de
   détail propre à G12 pour les corrections.
 - **D-O5 — tranché** : la carte de la cité **reste à 192 m** ; si le champ de flux coûte trop, on

@@ -3644,6 +3644,12 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   // plus proche accès) ; plafond des chemins amis sur le terrain (un détour par une rampe sur 192 cases dépasse les
   // 8 192 nœuds des cartes plates ; 16 384 = plafond de la voirie).
   C.OpenCity217Rules=Object.freeze({version:1,generation:12,fallbackRing:192,pathMaxExpanded:16384});
+  // Relief joué de la cité de génération 12 (ouverture.md, tranche O8b, D-O3 ; vue FPS, présentation seule, hors jeu) :
+  // hauteur d'un cran de palier (mètres ; un étage de support `VerticalCitadel175.structureHeight`, plus du double de
+  // l'œil `eyeHeight` 1,65 : d'en bas on ne voit pas par-dessus le rebord, D-O1 ; rampe de 12 m à 18°), égale à la
+  // hauteur peinte `TerrainArt217Rules.cliffMetres` ; surface de l'eau sous son palier (mètres) ; strates des parois
+  // (mètres) ; bloc de sol fusionné (cases) ; pied de la jupe du bord de carte sous le palier le plus bas (mètres).
+  C.TerrainRelief217Rules=Object.freeze({version:1,stepMetres:4,waterDrop:.45,strataMetres:1,block:4,skirtMetres:6});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),

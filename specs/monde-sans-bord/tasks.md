@@ -1014,6 +1014,63 @@ ce monde, sont laissés de côté pendant la pose du mur.
   de `recoverActor` (`fieldcraft`) ignore le terrain ; vue D-O1 et tirs centrés sur les cases, sans hauteur d'œil
   (O8).
 
+## O8b — Relief de la cité de 192 m dans la vue FPS (livré, présentation seule, hors jeu)
+
+Fiche : [ouverture.md](ouverture.md), O8b (décisions D-O1, D-O3). Atteint seulement par un harnais : la génération 12
+reste refusée, `terrain-fps217.js` absent d'`index.html`. `tests/helpers/terrain-fps217.cjs` pose sur la partie de
+terrain d'O8a une citadelle achevée (ajout direct au monde : les quartiers et le bilan de la cité plantent sur un monde
+de terrain, `cancelPlacement` et `refreshMetrics` neutralisés le temps de la pose), y monte le commandant par
+l'escalier, construit une sentinelle par les contrôleurs de production et la possède.
+
+- [x] O8b.1 Hauteur jouée d'un cran : `C.TerrainRelief217Rules` (`version` 1, `stepMetres` 4, `waterDrop` .45,
+      `strataMetres` 1, `block` 4, `skirtMetres` 6). 4 m = un étage de support (`structureHeight`), plus du double
+      de l'œil 1,65 m (D-O1 : d'en bas on ne voit pas par-dessus le rebord), rampe de 12 m à 18° ; égale à
+      `TerrainArt217Rules.cliffMetres` (peinture O8a inchangée, égalité vérifiée par le test).
+- [x] O8b.2 Module `src/terrain-fps217.js` (`DeadwallTerrainFPS217` : `mesh`, `elevation`, `siteFloor`,
+      `actorFloor`, `boxFloor`, `linkFloors`, `sightClear`, `levelOf`, `eye`, `summary`) : coins de case
+      (palier × 4 m, eau − 0,45 m, rampes en plan incliné sur la longueur de leur composante), sol en blocs de
+      4 × 4 cases uniformes, parois verticales sur toute arête entre deux hauteurs (strates d'un mètre sur les
+      falaises), jupe du bord de carte. Maillage dérivé une fois par terrain (35 à 55 ms sous Node) :
+      99 144 sommets (17117), 103 110 (0), 89 022 (46).
+- [x] O8b.3 Peintre FPS (`createFPS`) : branche prise seulement si `g.world.terrain217` ; sol plat remplacé par le
+      maillage (troisième tampon alloué au premier tableau d'un terrain, envoyé une fois par terrain, libéré avec
+      les autres) ; œil = bouche levée du palier du support ; boîtes de `geometry()` et garde-corps levés du palier
+      de leur propriétaire (passerelles : palier de leur premier support), talus de cadavres, infectés
+      (`enemyPose` + palier du support ou surface sous les pieds), géants, équipe, caisses et gisements levés.
+      Simulation inchangée : hauteurs relatives au sol local, `sightQuery` et `raycast` reçoivent la bouche simulée.
+- [x] O8b.4 D-O1 dans la vue : un infecté ou un géant que `sightClear217` cache depuis le palier du support n'est
+      pas peint ; vu d'en haut, le contrebas l'est.
+- [x] O8b.5 Commandant borné par `canStep` (`vertical-citadel175.js`, `landing217`, neutre sans terrain) : escalier
+      refusé quand une falaise sépare l'entrée du support (entrée comme sortie, et fin de trajet), chute d'un support
+      perdu posée seulement sur un point relié par `stepClear217`. `vertical-network179.js` : passerelle refusée
+      entre deux supports sur deux paliers.
+- [x] O8b.6 Tests : `tests/terrain-fps217.test.cjs` (8 cas) — règle et cohérence avec l'œil ; isolement et test
+      statique (ni tirage, ni horloge, ni affectation ; hors `index.html`, `sw.js`, build ; points d'appel gardés) ;
+      champ de hauteur sur 17117, 0, 46 (aucune marche sur un pas franchissable hors flanc de rampe, paroi d'au moins
+      un cran moins l'eau sur chaque arête de falaise, rampes monotones raccordées aux deux paliers, rampes plates
+      de 46, maillage fini et borné) ; œil levé du palier, bouche sur le palier du support ; entrée refusée par la
+      falaise ; chute bornée (la recherche d'origine aurait franchi la falaise) ; peinture levée (boîtes de la
+      citadelle, pieds d'un infecté sur le sol), D-O1 vers le haut et vers le bas ; passerelle refusée entre deux
+      paliers ; sonde de 600 images sur 17117, 0, 46 (aucun tirage ni horloge pendant le tracé, relief envoyé une
+      fois, état, monde, terrain, sauvegarde de base, citadelle et `streamStats` régionaux inchangés) ; G1–G11 :
+      séquence d'appels WebGL identique avec ou sans le module (module jamais appelé) et identique au peintre de la
+      base `8d7ea21` (lu par `git show`, sauté sans historique).
+- [x] O8b.7 Innocuité : mondes G1–G11 des huit graines identiques à `campagne205-eligibilite.json` hors empreintes
+      de sources ; parcours déterministe (procédure 3, base `8d7ea21` contre l'arbre : horloges, tirages et
+      `crypto.randomUUID` figés, partie 17117 d'âge 10, citadelle posée, montée, sentinelle construite et possédée,
+      vague forcée, 240 s à 30 pas par seconde avec tirs, un rendu sur quatre) : sauvegardes de départ, de
+      mi-parcours et de fin identiques octet pour octet, sauvegarde de mi-parcours relue à l'identique.
+      Navigateur : `scripts/browser-terrain-fps217.mjs` (WebGL logiciel), graines 17117 (falaise), 0 (rampe de col),
+      46 (rivière et rampes vues du plateau sud), trois vues chacune, aucune erreur de page.
+- Réserves : la visée et les tirs des affûts (`sightQuery`, `raycast`, cibles automatiques) ne lisent pas encore le
+  terrain — une sentinelle du contrebas vise et touche un infecté du plateau que la vue ne peint pas (D-O1 à brancher
+  sur les tirs verticaux avant O9) ; le placement du terrain admet encore un support dont l'entrée tombe sur l'autre
+  palier (escalier alors refusé, à refuser dès la pose en O9) ; le flanc d'une rampe, du côté de son propre palier
+  (franchissable en jeu), montre une marche d'au plus 2 m le long du plan incliné ; les hauteurs simulées restent
+  relatives au sol local (corps à corps entre paliers, chute, talus) ; vue FPS du commandant à pied absente (la vue
+  reste celle d'un affût) ; aucune partie G12 lancée par le menu ; les quartiers ne vivent toujours pas sur un monde
+  de terrain.
+
 ## T5 — Ouverture expérimentale
 
 - [ ] T5.1 `src/world-open217.js` : façade ; aiguillage dans `frontier-world.create`.
