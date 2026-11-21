@@ -67,8 +67,8 @@
     },
     {
       "path": "src/abominations217.js",
-      "bytes": 30658,
-      "sha256": "c98cf731c529c55c2b78af566966765ad2a648ed01ea8493a324152b774171b4"
+      "bytes": 50315,
+      "sha256": "126d86350daf0338ea22fcbfe5fb70e7cd26fb423a8defb46329dc85e436090e"
     },
     {
       "path": "src/actor-actions159.js",
@@ -92,8 +92,8 @@
     },
     {
       "path": "src/arsenal134.js",
-      "bytes": 27219,
-      "sha256": "d779b6dc938e27e81d50f8357409c521d3ed2840acd51669cf45960a891f0de8"
+      "bytes": 27356,
+      "sha256": "8fcd5a823e0e7398728f425f59df024d891f5e2ef6a78aa6c5423ba4a8a718b7"
     },
     {
       "path": "src/art.js",
@@ -107,13 +107,13 @@
     },
     {
       "path": "src/atlas-projection.js",
-      "bytes": 6287,
-      "sha256": "0fde90b475af4b10d572735fe956f0f8915c3350d76d4086f7a90d619b5834bb"
+      "bytes": 6460,
+      "sha256": "bbcdbf2a2bd5a91ac4f69f33b1e62c68e06a824894dcb4b11ab44629de599eef"
     },
     {
       "path": "src/atlas-render.js",
-      "bytes": 17994,
-      "sha256": "bedd78aca265b253b96764ea6668a7fa41dcd28e8c13e3b3074a68c1dea2d3fa"
+      "bytes": 18046,
+      "sha256": "54f9d28e507f7c7f21cd8cf566f9a81fd21379c919c4bca3e543ca22467cf508"
     },
     {
       "path": "src/atlas-view.js",
@@ -132,8 +132,8 @@
     },
     {
       "path": "src/barricades134.js",
-      "bytes": 27304,
-      "sha256": "45faaa80843a13e7182a4e1c1d2f43256ca970a28cc264342a2f7f1064c6354c"
+      "bytes": 27391,
+      "sha256": "84da34408873e57d0e7f021354b945cf8eb570f5fd98a790ad7f597e560a2c94"
     },
     {
       "path": "src/battlefield-ui.js",
@@ -197,8 +197,8 @@
     },
     {
       "path": "src/campaign-pack.js",
-      "bytes": 24053,
-      "sha256": "0b07ef63608a9281c4a4b102441aac3b7ef0028c207efa99c81b90a1ec860cc3"
+      "bytes": 24257,
+      "sha256": "b85543725e15a42345aa1425ee5ee4cb155e99b3591ce2c1c2e0c5cd3209beeb"
     },
     {
       "path": "src/campaign-services208.js",
@@ -217,8 +217,8 @@
     },
     {
       "path": "src/campaign-water214.js",
-      "bytes": 16413,
-      "sha256": "056ca5d191937b56ea2a0c1f525cd7980a6c0bcc645b94d53c58e9447f2ad72e"
+      "bytes": 16602,
+      "sha256": "e016cf8015e1bd1258d5352ce66ddb550495dde4681f5a759901e586a6b15d88"
     },
     {
       "path": "src/chronicles131-data.js",
@@ -252,8 +252,8 @@
     },
     {
       "path": "src/city-radio217.js",
-      "bytes": 43451,
-      "sha256": "ea0f71208dff4ed8a0418371801d50a8ce96b84d868c72b3cc8e002d03ec966d"
+      "bytes": 43892,
+      "sha256": "4c7df8c625924a1e86c438467f4d08bfd7f8499ef5ddbbbf373aa330d73a1a5f"
     },
     {
       "path": "src/city-water215.js",
@@ -462,8 +462,8 @@
     },
     {
       "path": "src/context-operations160.js",
-      "bytes": 12291,
-      "sha256": "8b7fcf7755586440820c8990c053ae46c843734343e200a461f26042144d06db"
+      "bytes": 12495,
+      "sha256": "ff54877ef83e2c9b31475689b1d73afc8b8e7c8bdf7070b74e1b2c685cc2e653"
     },
     {
       "path": "src/coop.js",
@@ -482,8 +482,8 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 365589,
-      "sha256": "5afafa18cb2820db6d391099e439133aa2d49ff14df841782e3f05e68fc50d1d"
+      "bytes": 370927,
+      "sha256": "29db3743cf9fb3f616a012a3dc2bc366f56eab3a811148d6617b4a34f6d47c8f"
     },
     {
       "path": "src/corpse-chain217.js",
@@ -572,8 +572,8 @@
     },
     {
       "path": "src/essential-state.js",
-      "bytes": 5911,
-      "sha256": "89c03c6d168449230466509cc296335457439ccc32ff47d50a1875241296c2f4"
+      "bytes": 6546,
+      "sha256": "c0d96501fa66d2ae7a7e2ab1c47d29d9091da2b0cd8b3ed77b6673fd83c3683c"
     },
     {
       "path": "src/essential-ui.js",
@@ -582,13 +582,13 @@
     },
     {
       "path": "src/expansion-kit.js",
-      "bytes": 5498,
-      "sha256": "e4595a14798e0d85c4129d9cec45a74e5c702025cd24d36b67fc43d223206cdd"
+      "bytes": 5521,
+      "sha256": "31c68b7043007f921c2f3d3e4c51d313698e7f0237790c2d4349e71c20ddc3c1"
     },
     {
       "path": "src/expansion-ui.js",
-      "bytes": 26110,
-      "sha256": "bdfb4e3791fc174fbebe391924de3b3988564df1d2a497a5a2aa16ee81c2fe55"
+      "bytes": 26247,
+      "sha256": "eb901a60cf56add3888312a2846b5c0f5d154dd9bca80693570c0e698bbbdaf9"
     },
     {
       "path": "src/expedition-art.js",
@@ -612,18 +612,18 @@
     },
     {
       "path": "src/exploration-125.js",
-      "bytes": 171169,
-      "sha256": "b1646f2c6f3a5fabd9603a8b766e06032cb49c3ec9f3e7897c64767a637a63e7"
+      "bytes": 171368,
+      "sha256": "5d0167ce7fc959ae0b2e8e2f44bd6523b57d5f9bc9509d373141f80bb7f28e5c"
     },
     {
       "path": "src/exploration-needs217.js",
-      "bytes": 18746,
-      "sha256": "163114b422b673ba5b59f3306aed727052f86746eaa3b33b20735c52e12a9dd5"
+      "bytes": 18780,
+      "sha256": "5ba10260846de4491d76bca5fada8fa8bbb3fc0a9d1cb9325cfccbdc1a3b3a5d"
     },
     {
       "path": "src/exploration-pack.js",
-      "bytes": 22294,
-      "sha256": "674c263c5a14466d91c6c502e7b50b7e55daac492c1f16f516c45297f7c8c118"
+      "bytes": 22434,
+      "sha256": "f961945680dcec953e3db01bca85bd5a77eccaaf0c472b65a3ef2fcbead692f0"
     },
     {
       "path": "src/exploration-pack131.js",
@@ -652,8 +652,8 @@
     },
     {
       "path": "src/field-atlas-state.js",
-      "bytes": 5873,
-      "sha256": "6d0defdd551f9e8f260df8e723d03edef3016ebdc33959b3f4a4d44ff8ba96f1"
+      "bytes": 6077,
+      "sha256": "1343fbea09b8c77da45f935ce4f0280f4a0f969f372c0940dee2c39b1515f8ce"
     },
     {
       "path": "src/field-atlas-ui.js",
@@ -677,8 +677,8 @@
     },
     {
       "path": "src/fieldcraft.js",
-      "bytes": 27347,
-      "sha256": "01c09b4e27e760b3efd69f6cbabb6b08bbb1c3ddee185bd7fbfbf764178e6c0b"
+      "bytes": 27562,
+      "sha256": "8076d71c1ecefcfbe80eddc1665c8feea7335826ed806cbd81b46a07cff38e79"
     },
     {
       "path": "src/forage-art193.js",
@@ -692,8 +692,8 @@
     },
     {
       "path": "src/fortification-pack.js",
-      "bytes": 43515,
-      "sha256": "10c081024e67b6c273715fcec50802030a11da0fe7dc9f2b57cb0c9f216bfec3"
+      "bytes": 43640,
+      "sha256": "fbc18af4d52f6b3979fa8512969ddfc258fb26b77ff7afa92b8bf9f36450e2b4"
     },
     {
       "path": "src/frontage174.js",
@@ -742,8 +742,8 @@
     },
     {
       "path": "src/frontier-state.js",
-      "bytes": 13440,
-      "sha256": "205af72c82d3e6239c2ca47e48c77933c385e5b7fed917f6ea2a80ab4c9fb7f3"
+      "bytes": 14841,
+      "sha256": "94353969d180949506ed6efaa39cb02ce4b54a7f73c823a817684f96a769115f"
     },
     {
       "path": "src/frontier-survey.js",
@@ -762,13 +762,13 @@
     },
     {
       "path": "src/frontier.js",
-      "bytes": 49166,
-      "sha256": "a4943d2a13af41a39a9cb70dc6f94f77e0f6b7794ed6463466f7a6270162fce5"
+      "bytes": 49315,
+      "sha256": "2ec5a6750be5c62f947275ea884832b91ab940c4406f76bf6fd831dac8bd1ee7"
     },
     {
       "path": "src/game.js",
-      "bytes": 459478,
-      "sha256": "5c208c9ab94794986157fa9d1ed78274e13e563c837fdfdbf86287d4c5593292"
+      "bytes": 460838,
+      "sha256": "0732eff6741a31a68a4dae956317ac811dc96ee8f3e29739f350a57c8d868e08"
     },
     {
       "path": "src/geography135.js",
@@ -792,8 +792,8 @@
     },
     {
       "path": "src/horde-horizon217.js",
-      "bytes": 29802,
-      "sha256": "51e3a73c3b054164caf4df0f822b78b4506ea13e915db1686e12ff8812c026f9"
+      "bytes": 31595,
+      "sha256": "1f1582e50c891e76585b1cde2d9b6d1ca90eb6cdc132f7df8eecca0f87564e46"
     },
     {
       "path": "src/hud135.js",
@@ -887,8 +887,8 @@
     },
     {
       "path": "src/night-gear.js",
-      "bytes": 30604,
-      "sha256": "0ed1949272daac7108db08b4f5a192d4d55e6cdbdbab9a0d51741f2582c2cf02"
+      "bytes": 30751,
+      "sha256": "9b5cda74469bf1d316ae7c854528a359e05e576532e424f703c2b6ea152c9b61"
     },
     {
       "path": "src/nightwatch.js",
@@ -902,8 +902,8 @@
     },
     {
       "path": "src/outposts217.js",
-      "bytes": 24378,
-      "sha256": "fe3c68e9b2fdac2939341898c744dc76b285814f8251bf46ec96ab57edaef230"
+      "bytes": 38791,
+      "sha256": "87a051d6d01c8fb8213adde8f89d9e113d789ebbfbf0ffd064863d5daa80e8a0"
     },
     {
       "path": "src/player-menus194.js",
@@ -957,13 +957,13 @@
     },
     {
       "path": "src/recon-ui.js",
-      "bytes": 15878,
-      "sha256": "7725ef5a07119ebd924d8d856f78d6263740fc33147db988670feb94610746cd"
+      "bytes": 16066,
+      "sha256": "bcb9a221fb7defc3777bc98de9dc666549a2fce2041581af0eee37e3127050b2"
     },
     {
       "path": "src/recon.js",
-      "bytes": 8557,
-      "sha256": "8d0695db524e0bf1cc4c4baf0c0b98c0ff9a7454e0f4decad76ff38734d9da88"
+      "bytes": 8597,
+      "sha256": "7ecadea537f15d3aa6f7f07f2bbc8bb9a297ce0088e4f61111f674a9e06c74af"
     },
     {
       "path": "src/region-roadkit.js",
@@ -987,13 +987,13 @@
     },
     {
       "path": "src/return-routes-ui.js",
-      "bytes": 6627,
-      "sha256": "6a17ccb388c103c896b6b261877c2bf464c83f0cf7ffa8515cbadb2250a474ab"
+      "bytes": 6796,
+      "sha256": "7d0a5e19d6491061c4f99a9dfeae9f909abe4842d9d96825ab2bb1c8579fa7d5"
     },
     {
       "path": "src/return-routes.js",
-      "bytes": 13270,
-      "sha256": "16a2d004af1ddb756c35a70edb86668c351e41c27fbfba24665461d59665ba22"
+      "bytes": 13474,
+      "sha256": "a8b70d32f98f9822923c92583a67b3f810d79157e7c81a5d4d5da30b17f7a4fb"
     },
     {
       "path": "src/road-profiles133.js",
@@ -1012,8 +1012,8 @@
     },
     {
       "path": "src/save.js",
-      "bytes": 36627,
-      "sha256": "2393ac0e1c2b3942a0579aac76ce564cf0c8360e811c2d0b95c45108f4e94ccf"
+      "bytes": 37323,
+      "sha256": "d048ba1fbbcda6ca58df889cc02e6c91bafc467572faabe18e2feabb7040c394"
     },
     {
       "path": "src/scenario-ui.js",
@@ -1027,8 +1027,8 @@
     },
     {
       "path": "src/seed-card217.js",
-      "bytes": 41834,
-      "sha256": "1a54127a60612a25a39115b5b03bb34a4d7de0e0e11a479a3760a6caf52f516f"
+      "bytes": 41963,
+      "sha256": "2accf17916c48f48266dd10d70a38b443adcce435281cbba5707ec7fe51cd401"
     },
     {
       "path": "src/seed-detail-art157.js",
@@ -1062,8 +1062,8 @@
     },
     {
       "path": "src/squads.js",
-      "bytes": 3618,
-      "sha256": "65b885ce182b7164a951249a50a64da9cc8bce640ffc7aa2d4538ce5bd54b1f4"
+      "bytes": 3852,
+      "sha256": "25d0d1e6003bf49b677dc346cdc8243e60d32dd1cd52f3b890eb805231692019"
     },
     {
       "path": "src/structure-art159.js",
@@ -1077,13 +1077,13 @@
     },
     {
       "path": "src/succession133.js",
-      "bytes": 29991,
-      "sha256": "8d75c0e82154b7695e373d46751a505cf38ae232d0ec37555598360539e7e1cd"
+      "bytes": 30129,
+      "sha256": "d7fa70082484e032364c9705dc1ba997ce3a57b2cd78007433573ffddde5302b"
     },
     {
       "path": "src/survival-pack.js",
-      "bytes": 27838,
-      "sha256": "f092b6de49bedeeaf6f04bbd42fe229dc73ae05c1243d125d40904f0c8aee710"
+      "bytes": 27993,
+      "sha256": "269832ed0db0debd35e1915e203227d36739c6388eeebf81ceed2c95c7c0851b"
     },
     {
       "path": "src/tactics.js",
@@ -1127,13 +1127,13 @@
     },
     {
       "path": "src/vertical-citadel175-render.js",
-      "bytes": 23147,
-      "sha256": "9b7b25a926ade64aae010e1584d56d261a520b841ed91844ee60fff0b08559a8"
+      "bytes": 23183,
+      "sha256": "3933a8612b250a89b6c06c9d4e9d6d741c3f260a583b854eca3fc0130c5250dd"
     },
     {
       "path": "src/vertical-citadel175-state.js",
-      "bytes": 12337,
-      "sha256": "1ff201ff7441f9fd70d74101f7ae9b915baef41d3ce47d2ff01ad79853d04401"
+      "bytes": 12533,
+      "sha256": "f114e1438688eb63ef07ada7da91e55c8e35eeb5b8f7c29d2864065d2946b878"
     },
     {
       "path": "src/vertical-citadel175-ui.js",
@@ -1142,18 +1142,18 @@
     },
     {
       "path": "src/vertical-citadel175.js",
-      "bytes": 58642,
-      "sha256": "4cbb7a281a1da35d7a1fe279dfc991bdffb51e1c9e8c9601f216a1ab0f47f5f1"
+      "bytes": 58660,
+      "sha256": "f65f8cc8cc9ea7e9b9e5a86b57f8e5a291da69f412544c6c1383b26c8ef25a20"
     },
     {
       "path": "src/vertical-network179.js",
-      "bytes": 30501,
-      "sha256": "f64fa106100fb98f1d34eea023ce36cf8ada9cb24e7ead23908f22778c08172a"
+      "bytes": 30569,
+      "sha256": "75ce94527f95499b6e0c6d283afff54134a7aca01207e09a1a5197efd7734dd6"
     },
     {
       "path": "src/vertical-population181.js",
-      "bytes": 31398,
-      "sha256": "da3c1996f9ce01be33e8b50cfe2340dec9512d7748ac44993ac95a673683c498"
+      "bytes": 31470,
+      "sha256": "20d4505910ae890612b965467d5c415e338039002623f65286f157408ed687ca"
     },
     {
       "path": "src/vertical-siege176.js",
@@ -1252,8 +1252,8 @@
     },
     {
       "path": "src/world-evolution-state.js",
-      "bytes": 7199,
-      "sha256": "076a0ce1fe8cf6260783c32549e19acbc4392efe511995ca3401d2afd18eec0d"
+      "bytes": 7407,
+      "sha256": "bccf1be5b21529aea4196a5903b0c907c0d234a220eddf6ca9a755e2639d68de"
     },
     {
       "path": "src/world-evolution-ui.js",
@@ -1267,8 +1267,8 @@
     },
     {
       "path": "src/world-pack131.js",
-      "bytes": 46391,
-      "sha256": "d33b1352da682e3b678034677c4d8f20f15897b575b565fca6ca0b728dd20ebb"
+      "bytes": 46595,
+      "sha256": "7761076308948da3a58192d9219df193ffba0520b059c1270442900852754775"
     },
     {
       "path": "src/world-props-art153.js",
@@ -1409,8 +1409,8 @@
     },
     {
       "path": "src/abominations217.js",
-      "bytes": 30658,
-      "sha256": "c98cf731c529c55c2b78af566966765ad2a648ed01ea8493a324152b774171b4"
+      "bytes": 50315,
+      "sha256": "126d86350daf0338ea22fcbfe5fb70e7cd26fb423a8defb46329dc85e436090e"
     },
     {
       "path": "src/actor-actions159.js",
@@ -1434,8 +1434,8 @@
     },
     {
       "path": "src/arsenal134.js",
-      "bytes": 27219,
-      "sha256": "d779b6dc938e27e81d50f8357409c521d3ed2840acd51669cf45960a891f0de8"
+      "bytes": 27356,
+      "sha256": "8fcd5a823e0e7398728f425f59df024d891f5e2ef6a78aa6c5423ba4a8a718b7"
     },
     {
       "path": "src/art.js",
@@ -1449,13 +1449,13 @@
     },
     {
       "path": "src/atlas-projection.js",
-      "bytes": 6287,
-      "sha256": "0fde90b475af4b10d572735fe956f0f8915c3350d76d4086f7a90d619b5834bb"
+      "bytes": 6460,
+      "sha256": "bbcdbf2a2bd5a91ac4f69f33b1e62c68e06a824894dcb4b11ab44629de599eef"
     },
     {
       "path": "src/atlas-render.js",
-      "bytes": 17994,
-      "sha256": "bedd78aca265b253b96764ea6668a7fa41dcd28e8c13e3b3074a68c1dea2d3fa"
+      "bytes": 18046,
+      "sha256": "54f9d28e507f7c7f21cd8cf566f9a81fd21379c919c4bca3e543ca22467cf508"
     },
     {
       "path": "src/atlas-view.js",
@@ -1474,8 +1474,8 @@
     },
     {
       "path": "src/barricades134.js",
-      "bytes": 27304,
-      "sha256": "45faaa80843a13e7182a4e1c1d2f43256ca970a28cc264342a2f7f1064c6354c"
+      "bytes": 27391,
+      "sha256": "84da34408873e57d0e7f021354b945cf8eb570f5fd98a790ad7f597e560a2c94"
     },
     {
       "path": "src/battlefield-ui.js",
@@ -1539,8 +1539,8 @@
     },
     {
       "path": "src/campaign-pack.js",
-      "bytes": 24053,
-      "sha256": "0b07ef63608a9281c4a4b102441aac3b7ef0028c207efa99c81b90a1ec860cc3"
+      "bytes": 24257,
+      "sha256": "b85543725e15a42345aa1425ee5ee4cb155e99b3591ce2c1c2e0c5cd3209beeb"
     },
     {
       "path": "src/campaign-services208.js",
@@ -1559,8 +1559,8 @@
     },
     {
       "path": "src/campaign-water214.js",
-      "bytes": 16413,
-      "sha256": "056ca5d191937b56ea2a0c1f525cd7980a6c0bcc645b94d53c58e9447f2ad72e"
+      "bytes": 16602,
+      "sha256": "e016cf8015e1bd1258d5352ce66ddb550495dde4681f5a759901e586a6b15d88"
     },
     {
       "path": "src/chronicles131-data.js",
@@ -1594,8 +1594,8 @@
     },
     {
       "path": "src/city-radio217.js",
-      "bytes": 43451,
-      "sha256": "ea0f71208dff4ed8a0418371801d50a8ce96b84d868c72b3cc8e002d03ec966d"
+      "bytes": 43892,
+      "sha256": "4c7df8c625924a1e86c438467f4d08bfd7f8499ef5ddbbbf373aa330d73a1a5f"
     },
     {
       "path": "src/city-water215.js",
@@ -1804,8 +1804,8 @@
     },
     {
       "path": "src/context-operations160.js",
-      "bytes": 12291,
-      "sha256": "8b7fcf7755586440820c8990c053ae46c843734343e200a461f26042144d06db"
+      "bytes": 12495,
+      "sha256": "ff54877ef83e2c9b31475689b1d73afc8b8e7c8bdf7070b74e1b2c685cc2e653"
     },
     {
       "path": "src/coop.js",
@@ -1824,8 +1824,8 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 365589,
-      "sha256": "5afafa18cb2820db6d391099e439133aa2d49ff14df841782e3f05e68fc50d1d"
+      "bytes": 370927,
+      "sha256": "29db3743cf9fb3f616a012a3dc2bc366f56eab3a811148d6617b4a34f6d47c8f"
     },
     {
       "path": "src/corpse-chain217.js",
@@ -1914,8 +1914,8 @@
     },
     {
       "path": "src/essential-state.js",
-      "bytes": 5911,
-      "sha256": "89c03c6d168449230466509cc296335457439ccc32ff47d50a1875241296c2f4"
+      "bytes": 6546,
+      "sha256": "c0d96501fa66d2ae7a7e2ab1c47d29d9091da2b0cd8b3ed77b6673fd83c3683c"
     },
     {
       "path": "src/essential-ui.js",
@@ -1924,13 +1924,13 @@
     },
     {
       "path": "src/expansion-kit.js",
-      "bytes": 5498,
-      "sha256": "e4595a14798e0d85c4129d9cec45a74e5c702025cd24d36b67fc43d223206cdd"
+      "bytes": 5521,
+      "sha256": "31c68b7043007f921c2f3d3e4c51d313698e7f0237790c2d4349e71c20ddc3c1"
     },
     {
       "path": "src/expansion-ui.js",
-      "bytes": 26110,
-      "sha256": "bdfb4e3791fc174fbebe391924de3b3988564df1d2a497a5a2aa16ee81c2fe55"
+      "bytes": 26247,
+      "sha256": "eb901a60cf56add3888312a2846b5c0f5d154dd9bca80693570c0e698bbbdaf9"
     },
     {
       "path": "src/expedition-art.js",
@@ -1954,18 +1954,18 @@
     },
     {
       "path": "src/exploration-125.js",
-      "bytes": 171169,
-      "sha256": "b1646f2c6f3a5fabd9603a8b766e06032cb49c3ec9f3e7897c64767a637a63e7"
+      "bytes": 171368,
+      "sha256": "5d0167ce7fc959ae0b2e8e2f44bd6523b57d5f9bc9509d373141f80bb7f28e5c"
     },
     {
       "path": "src/exploration-needs217.js",
-      "bytes": 18746,
-      "sha256": "163114b422b673ba5b59f3306aed727052f86746eaa3b33b20735c52e12a9dd5"
+      "bytes": 18780,
+      "sha256": "5ba10260846de4491d76bca5fada8fa8bbb3fc0a9d1cb9325cfccbdc1a3b3a5d"
     },
     {
       "path": "src/exploration-pack.js",
-      "bytes": 22294,
-      "sha256": "674c263c5a14466d91c6c502e7b50b7e55daac492c1f16f516c45297f7c8c118"
+      "bytes": 22434,
+      "sha256": "f961945680dcec953e3db01bca85bd5a77eccaaf0c472b65a3ef2fcbead692f0"
     },
     {
       "path": "src/exploration-pack131.js",
@@ -1994,8 +1994,8 @@
     },
     {
       "path": "src/field-atlas-state.js",
-      "bytes": 5873,
-      "sha256": "6d0defdd551f9e8f260df8e723d03edef3016ebdc33959b3f4a4d44ff8ba96f1"
+      "bytes": 6077,
+      "sha256": "1343fbea09b8c77da45f935ce4f0280f4a0f969f372c0940dee2c39b1515f8ce"
     },
     {
       "path": "src/field-atlas-ui.js",
@@ -2019,8 +2019,8 @@
     },
     {
       "path": "src/fieldcraft.js",
-      "bytes": 27347,
-      "sha256": "01c09b4e27e760b3efd69f6cbabb6b08bbb1c3ddee185bd7fbfbf764178e6c0b"
+      "bytes": 27562,
+      "sha256": "8076d71c1ecefcfbe80eddc1665c8feea7335826ed806cbd81b46a07cff38e79"
     },
     {
       "path": "src/forage-art193.js",
@@ -2034,8 +2034,8 @@
     },
     {
       "path": "src/fortification-pack.js",
-      "bytes": 43515,
-      "sha256": "10c081024e67b6c273715fcec50802030a11da0fe7dc9f2b57cb0c9f216bfec3"
+      "bytes": 43640,
+      "sha256": "fbc18af4d52f6b3979fa8512969ddfc258fb26b77ff7afa92b8bf9f36450e2b4"
     },
     {
       "path": "src/frontage174.js",
@@ -2084,8 +2084,8 @@
     },
     {
       "path": "src/frontier-state.js",
-      "bytes": 13440,
-      "sha256": "205af72c82d3e6239c2ca47e48c77933c385e5b7fed917f6ea2a80ab4c9fb7f3"
+      "bytes": 14841,
+      "sha256": "94353969d180949506ed6efaa39cb02ce4b54a7f73c823a817684f96a769115f"
     },
     {
       "path": "src/frontier-survey.js",
@@ -2104,13 +2104,13 @@
     },
     {
       "path": "src/frontier.js",
-      "bytes": 49166,
-      "sha256": "a4943d2a13af41a39a9cb70dc6f94f77e0f6b7794ed6463466f7a6270162fce5"
+      "bytes": 49315,
+      "sha256": "2ec5a6750be5c62f947275ea884832b91ab940c4406f76bf6fd831dac8bd1ee7"
     },
     {
       "path": "src/game.js",
-      "bytes": 459478,
-      "sha256": "5c208c9ab94794986157fa9d1ed78274e13e563c837fdfdbf86287d4c5593292"
+      "bytes": 460838,
+      "sha256": "0732eff6741a31a68a4dae956317ac811dc96ee8f3e29739f350a57c8d868e08"
     },
     {
       "path": "src/geography135.js",
@@ -2134,8 +2134,8 @@
     },
     {
       "path": "src/horde-horizon217.js",
-      "bytes": 29802,
-      "sha256": "51e3a73c3b054164caf4df0f822b78b4506ea13e915db1686e12ff8812c026f9"
+      "bytes": 31595,
+      "sha256": "1f1582e50c891e76585b1cde2d9b6d1ca90eb6cdc132f7df8eecca0f87564e46"
     },
     {
       "path": "src/hud135.js",
@@ -2229,8 +2229,8 @@
     },
     {
       "path": "src/night-gear.js",
-      "bytes": 30604,
-      "sha256": "0ed1949272daac7108db08b4f5a192d4d55e6cdbdbab9a0d51741f2582c2cf02"
+      "bytes": 30751,
+      "sha256": "9b5cda74469bf1d316ae7c854528a359e05e576532e424f703c2b6ea152c9b61"
     },
     {
       "path": "src/nightwatch.js",
@@ -2244,8 +2244,8 @@
     },
     {
       "path": "src/outposts217.js",
-      "bytes": 24378,
-      "sha256": "fe3c68e9b2fdac2939341898c744dc76b285814f8251bf46ec96ab57edaef230"
+      "bytes": 38791,
+      "sha256": "87a051d6d01c8fb8213adde8f89d9e113d789ebbfbf0ffd064863d5daa80e8a0"
     },
     {
       "path": "src/player-menus194.js",
@@ -2299,13 +2299,13 @@
     },
     {
       "path": "src/recon-ui.js",
-      "bytes": 15878,
-      "sha256": "7725ef5a07119ebd924d8d856f78d6263740fc33147db988670feb94610746cd"
+      "bytes": 16066,
+      "sha256": "bcb9a221fb7defc3777bc98de9dc666549a2fce2041581af0eee37e3127050b2"
     },
     {
       "path": "src/recon.js",
-      "bytes": 8557,
-      "sha256": "8d0695db524e0bf1cc4c4baf0c0b98c0ff9a7454e0f4decad76ff38734d9da88"
+      "bytes": 8597,
+      "sha256": "7ecadea537f15d3aa6f7f07f2bbc8bb9a297ce0088e4f61111f674a9e06c74af"
     },
     {
       "path": "src/region-roadkit.js",
@@ -2329,13 +2329,13 @@
     },
     {
       "path": "src/return-routes-ui.js",
-      "bytes": 6627,
-      "sha256": "6a17ccb388c103c896b6b261877c2bf464c83f0cf7ffa8515cbadb2250a474ab"
+      "bytes": 6796,
+      "sha256": "7d0a5e19d6491061c4f99a9dfeae9f909abe4842d9d96825ab2bb1c8579fa7d5"
     },
     {
       "path": "src/return-routes.js",
-      "bytes": 13270,
-      "sha256": "16a2d004af1ddb756c35a70edb86668c351e41c27fbfba24665461d59665ba22"
+      "bytes": 13474,
+      "sha256": "a8b70d32f98f9822923c92583a67b3f810d79157e7c81a5d4d5da30b17f7a4fb"
     },
     {
       "path": "src/road-profiles133.js",
@@ -2354,8 +2354,8 @@
     },
     {
       "path": "src/save.js",
-      "bytes": 36627,
-      "sha256": "2393ac0e1c2b3942a0579aac76ce564cf0c8360e811c2d0b95c45108f4e94ccf"
+      "bytes": 37323,
+      "sha256": "d048ba1fbbcda6ca58df889cc02e6c91bafc467572faabe18e2feabb7040c394"
     },
     {
       "path": "src/scenario-ui.js",
@@ -2369,8 +2369,8 @@
     },
     {
       "path": "src/seed-card217.js",
-      "bytes": 41834,
-      "sha256": "1a54127a60612a25a39115b5b03bb34a4d7de0e0e11a479a3760a6caf52f516f"
+      "bytes": 41963,
+      "sha256": "2accf17916c48f48266dd10d70a38b443adcce435281cbba5707ec7fe51cd401"
     },
     {
       "path": "src/seed-detail-art157.js",
@@ -2404,8 +2404,8 @@
     },
     {
       "path": "src/squads.js",
-      "bytes": 3618,
-      "sha256": "65b885ce182b7164a951249a50a64da9cc8bce640ffc7aa2d4538ce5bd54b1f4"
+      "bytes": 3852,
+      "sha256": "25d0d1e6003bf49b677dc346cdc8243e60d32dd1cd52f3b890eb805231692019"
     },
     {
       "path": "src/structure-art159.js",
@@ -2419,13 +2419,13 @@
     },
     {
       "path": "src/succession133.js",
-      "bytes": 29991,
-      "sha256": "8d75c0e82154b7695e373d46751a505cf38ae232d0ec37555598360539e7e1cd"
+      "bytes": 30129,
+      "sha256": "d7fa70082484e032364c9705dc1ba997ce3a57b2cd78007433573ffddde5302b"
     },
     {
       "path": "src/survival-pack.js",
-      "bytes": 27838,
-      "sha256": "f092b6de49bedeeaf6f04bbd42fe229dc73ae05c1243d125d40904f0c8aee710"
+      "bytes": 27993,
+      "sha256": "269832ed0db0debd35e1915e203227d36739c6388eeebf81ceed2c95c7c0851b"
     },
     {
       "path": "src/tactics.js",
@@ -2469,13 +2469,13 @@
     },
     {
       "path": "src/vertical-citadel175-render.js",
-      "bytes": 23147,
-      "sha256": "9b7b25a926ade64aae010e1584d56d261a520b841ed91844ee60fff0b08559a8"
+      "bytes": 23183,
+      "sha256": "3933a8612b250a89b6c06c9d4e9d6d741c3f260a583b854eca3fc0130c5250dd"
     },
     {
       "path": "src/vertical-citadel175-state.js",
-      "bytes": 12337,
-      "sha256": "1ff201ff7441f9fd70d74101f7ae9b915baef41d3ce47d2ff01ad79853d04401"
+      "bytes": 12533,
+      "sha256": "f114e1438688eb63ef07ada7da91e55c8e35eeb5b8f7c29d2864065d2946b878"
     },
     {
       "path": "src/vertical-citadel175-ui.js",
@@ -2484,18 +2484,18 @@
     },
     {
       "path": "src/vertical-citadel175.js",
-      "bytes": 58642,
-      "sha256": "4cbb7a281a1da35d7a1fe279dfc991bdffb51e1c9e8c9601f216a1ab0f47f5f1"
+      "bytes": 58660,
+      "sha256": "f65f8cc8cc9ea7e9b9e5a86b57f8e5a291da69f412544c6c1383b26c8ef25a20"
     },
     {
       "path": "src/vertical-network179.js",
-      "bytes": 30501,
-      "sha256": "f64fa106100fb98f1d34eea023ce36cf8ada9cb24e7ead23908f22778c08172a"
+      "bytes": 30569,
+      "sha256": "75ce94527f95499b6e0c6d283afff54134a7aca01207e09a1a5197efd7734dd6"
     },
     {
       "path": "src/vertical-population181.js",
-      "bytes": 31398,
-      "sha256": "da3c1996f9ce01be33e8b50cfe2340dec9512d7748ac44993ac95a673683c498"
+      "bytes": 31470,
+      "sha256": "20d4505910ae890612b965467d5c415e338039002623f65286f157408ed687ca"
     },
     {
       "path": "src/vertical-siege176.js",
@@ -2594,8 +2594,8 @@
     },
     {
       "path": "src/world-evolution-state.js",
-      "bytes": 7199,
-      "sha256": "076a0ce1fe8cf6260783c32549e19acbc4392efe511995ca3401d2afd18eec0d"
+      "bytes": 7407,
+      "sha256": "bccf1be5b21529aea4196a5903b0c907c0d234a220eddf6ca9a755e2639d68de"
     },
     {
       "path": "src/world-evolution-ui.js",
@@ -2609,8 +2609,8 @@
     },
     {
       "path": "src/world-pack131.js",
-      "bytes": 46391,
-      "sha256": "d33b1352da682e3b678034677c4d8f20f15897b575b565fca6ca0b728dd20ebb"
+      "bytes": 46595,
+      "sha256": "7761076308948da3a58192d9219df193ffba0520b059c1270442900852754775"
     },
     {
       "path": "src/world-props-art153.js",
