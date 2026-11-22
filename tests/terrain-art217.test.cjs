@@ -15,8 +15,8 @@ const read = file => fs.readFileSync(path.join(ROOT, file), 'utf8');
 const { g } = bootDocument134();
 g.startNew('standard', '17117'); g.campaignIntro132?.skip?.();
 const C = globalThis.DeadwallCore, T = C.TILE, Lw = require('../src/world-local217.js'), A = require('../src/terrain-art217.js');
-const Game = g.constructor, minimap = () => Game.prototype.renderMinimap.call(g);
-// Constructeur des infectés pris sur la partie d'origine (le monde de terrain n'a pas de quartiers à bâtir).
+const Game = g.constructor, minimap = () => g.renderMinimap();
+// Constructeur des infectés pris sur la partie d'origine.
 g.spawnZombie('walker'); const Zombie = g.zombies.at(-1).constructor; g.zombies.pop();
 const descs = new Map(), describe = s => { if (!descs.has(s)) descs.set(s, Lw.describe(s)); return descs.get(s); };
 const hash = v => crypto.createHash('sha256').update(v).digest('hex');
@@ -202,8 +202,8 @@ test('O8a : sonde — 600 images sans tirage, horloge ni écriture : état, mond
     const back = p.backs[0]; g.zombies.push(new Zombie(g.nextId++, 'walker', (back.x0 + .5) * T, back.y * T - 20, g.difficulty, g.wave, g.local));
     g.settings.reducedMotion = false;
     const region = g.frontier?.world?.(), stats = () => JSON.stringify(region?.streamStats?.() ?? null);
-    // Sauvegarde de base (les extensions de quartier attendent des lieux que le monde de terrain n'a pas encore).
-    const base = () => { const d = Game.prototype.serialize.call(g); delete d.timestamp; return JSON.stringify(d); };
+    // Sauvegarde complète (extensions de quartier comprises depuis le préalable O9 (a)).
+    const base = () => { const d = g.serialize(); delete d.timestamp; return JSON.stringify(d); };
     const print = () => hash(JSON.stringify([base(), g.random, g.nextId, g.resources, [...world.occupancy], world.nodes, [...world.buildings.keys()], ['levels', 'passes', 'water', 'roads', 'kinds', 'deep', 'ford'].map(k => [...t[k]]), g.zombies.map(z => [z.x, z.y, z.health]), g.units.map(u => [u.x, u.y]), g.player.x, g.player.y, g.elapsed, g.camera]));
     const before = print(), stream = stats();
     // Module espionné : tout tirage, horloge ou lecture du temps de simulation pendant ses appels est compté.

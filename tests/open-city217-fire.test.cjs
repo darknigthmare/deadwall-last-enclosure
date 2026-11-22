@@ -45,18 +45,13 @@ function dryCliff(d, k, kHigh = k) {
     return true;
   });
 }
-// Partie de terrain sans quartiers (ils ne savent pas encore vivre sur ce monde) ; `fieldcraft` relu si demandé.
+// Partie de terrain (quartiers posés sur le terrain depuis le préalable O9 (a)) ; `fieldcraft` relu si demandé.
 function terrain(seed, options = {}) {
   g.startNew('standard', String(seed)); g.campaignIntro132?.skip?.();
   const built = buildTerrainGame217(g, describe, seed, {});
-  if (options.setup) quietSetup();
+  if (options.setup) g.fieldcraft.setup();
   g.zombies.length = 0; g.projectiles.length = 0; g.buckets.clear();
   return { ...built, w: built.world, d: built.description };
-}
-// `fieldcraft.setup` lit les chantiers de jour, dont l'instantané passe par les quartiers : vide le temps de l'appel.
-function quietSetup() {
-  const dw = g.dayworks; g.dayworks = { ...dw, snapshot: () => ({ sites: [] }) };
-  try { g.fieldcraft.setup(); } finally { g.dayworks = dw; }
 }
 
 test('O6c : carte plate — choix de cible inchangé, points d’appel gardés', () => {
@@ -202,7 +197,7 @@ test('O6c : `fieldcraft` sur un monde de terrain — eau profonde, gisements rep
   const e = dryCliff(d, 2), probes = [];
   for (const n of w.nodes) { const c = w.terrainAt217(n.x, n.y); if (c && !c.deep) probes.push({ x: n.x, y: n.y }); if (probes.length >= 24) break; }
   g.units = probes.map(q => Object.assign(new Unit(g.nextId++, 'worker', q.x, q.y), { navigation: null }));
-  quietSetup();
+  g.fieldcraft.setup();
   // Eau profonde : obstacle ami du monde (enveloppe du terrain conservée) et position refusée.
   assert.ok(w.solidForFriendly(p.x, p.y), 'eau profonde solide après `setup`');
   assert.equal(g.friendlyPositionClear(g.player, p.x, p.y), false, 'eau profonde refusée');

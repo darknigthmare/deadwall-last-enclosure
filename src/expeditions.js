@@ -8,7 +8,8 @@
   const normalRadius=g.makePlayer(0).radius;let state=E.initial(),world=g.world,pending=null,notice='',speed=0,phase=g.phase,metricSpatial175=null,boundPlayer175=null;
   const wrap=(n,fn)=>{const old=g[n].bind(g);g[n]=(...a)=>fn(old,...a);};
   const profile=()=>g.worldEvolution?.vehicleProfile()||{name:'Break',speed:R.speed/32,fuel:R.fuelPerUnit*32,tank:R.tank,cargo:R.cargo,w:4.6,h:1.85,health:R.carHealth,cost:R.buildCar};const vehicleRadius=(p=profile(),metric=state.vehicle?.metric174===1)=>metric?Math.hypot(p.w,p.h)*C.Frontier.RULES.metreUnits/2:Math.max(12,Number((Math.max(p.w,p.h)*(22/4.6)).toFixed(6)));
-  const siteOptions=()=>({cityGeometry202:g.world.cityGeometry202??0}),sites=()=>E.sitesFor(siteOptions()),site=id=>E.siteFor(id,siteOptions());
+  // Préalable O9 (a) : sur un terrain de génération 12, haltes posées par le monde sur le terrain atteint ; carte plate inchangée.
+  const siteOptions=()=>({cityGeometry202:g.world.cityGeometry202??0}),sites=()=>g.world.terrain217?g.world.halts217(E.sitesFor(siteOptions())):E.sitesFor(siteOptions()),site=id=>g.world.terrain217?sites().find(s=>s.id===id):E.siteFor(id,siteOptions());
   function ensure(){if(world!==g.world){world=g.world;state=E.normalize(pending||undefined);pending=null;speed=0;phase=g.phase;notice='';const placement=world.placement.bind(world);world.placement=(def,x,y,rotation=0,ignore=0)=>{if(def?.id&&world.definition)def=world.definition(def.id)||def;const q=placement(def,x,y,rotation,ignore),v=state.vehicle;if(!q.valid||!live(v)||v.regionAway)return q;const w=def.size[rotation%2?1:0]*32,h=def.size[rotation%2?0:1]*32;return overlapsVehicle175({x:x*32,y:y*32,w,h},v)?{valid:false,reason:'Véhicule à déplacer'}:q;};}return state;}
   function reconcile(){ensure();
    if(boundPlayer175!==g.player){boundPlayer175=g.player;M.bindBody175(g.player,()=>state.vehicle?.driving&&!state.vehicle.regionAway&&state.vehicle.metric174===1&&live(state.vehicle)?vehicleBody175():null);}

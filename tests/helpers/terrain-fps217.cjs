@@ -3,8 +3,9 @@
 // (`buildTerrainGame217`), pose une citadelle verticale achevée près d'un point, y monte le commandant par
 // l'escalier, construit une sentinelle par les contrôleurs de production et en prend le contrôle (`module: null` :
 // commandant laissé sur le palier, sans arme).
-// Les quartiers et le bilan de la cité ne lisent pas encore un monde de terrain (moteur de quartiers) : la pose
-// contourne `placeOne` et `refreshMetrics` en ajoutant le bâtiment directement au monde, comme le cœur du harnais.
+// La citadelle est posée achevée (ajout direct au monde, comme le cœur du harnais : un chantier de support prendrait
+// plusieurs minutes de jeu) ; depuis le préalable O9 (a), l'annulation de placement et le bilan de la cité sont ceux de
+// la partie (ils ne plantent plus sur un monde de terrain) : seul l'âge de la campagne d'origine est gardé (voir plus bas).
 // Fonction autonome (aucune fermeture) : le harnais de navigateur l'évalue telle quelle dans la page.
 function armTerrainCitadel217(g, near, options) {
   const C = globalThis.DeadwallCore, R = C.VerticalCitadel175, S = globalThis.DeadwallVertical175State, V = g.vertical175;
@@ -27,12 +28,15 @@ function armTerrainCitadel217(g, near, options) {
   }
   if (!b) throw Error('Aucune emprise de citadelle sur ce terrain près du point demandé.');
   g.flow.rebuild(w, g.core());
-  // Quartiers et bilan de la cité laissés de côté pendant la pose (ils plantent sur un monde de terrain) : l'annulation
-  // de placement (menu de construction des quartiers) et le bilan sont neutralisés, puis rendus à la partie.
-  const own = ['cancelPlacement', 'refreshMetrics'].map(k => [k, Object.getOwnPropertyDescriptor(g, k)]);
+  // Âge de la campagne : la partie avancée (âge 10) des tests est une partie plate dont le harnais remplace le monde ; le
+  // registre urbain, propre au monde, repart à neuf sur le terrain, et une campagne G12 avancée ne se reprend qu'avec le
+  // registre régional G12 ouvert (O9). Le bilan de la cité est rafraîchi pour de bon (modules compris) ; seul l'âge déjà
+  // atteint par la partie d'origine est gardé le temps de la pose. Aucune autre méthode n'est neutralisée.
+  const tier = g.tier, own = Object.getOwnPropertyDescriptor(g, 'refreshMetrics'), refresh = g.refreshMetrics;
+  g.refreshMetrics = function (...a) { const r = refresh.apply(this, a); if (this.tier.id < tier.id) this.tier = tier; return r; };
   // Une partie en pause (harnais de navigateur) est rendue active le temps de la pose, d'un seul bloc synchrone.
-  const paused = g.paused; g.cancelPlacement = () => {}; g.refreshMetrics = () => {}; g.paused = false;
-  try { return arm(); } finally { g.paused = paused; for (const [k, o] of own) { if (o) Object.defineProperty(g, k, o); else delete g[k]; } }
+  const paused = g.paused; g.paused = false;
+  try { g.refreshMetrics(true); return arm(); } finally { g.paused = paused; if (own) Object.defineProperty(g, 'refreshMetrics', own); else delete g.refreshMetrics; }
   function arm() {
   const step = s => { for (let n = 0; n < s - 1e-6; n += .1) V.step(Math.min(.1, s - n)); };
   const door = V.entrance(b); g.player.x = door.x; g.player.y = door.y; g.player.reload = 0; V.step(.1);

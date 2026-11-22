@@ -24,13 +24,15 @@
  const TIER=(n=>n.charAt(0)+n.slice(1).toLowerCase())(C.CITY_TIERS[R.unlockTier].name);
  function initial(){return{version:2,active:false,earth:0,ditches:[],banks:[]};}
  function fresh(){return{version:2,active:true,earth:0,ditches:[],banks:[]};}
- const key=(x,y)=>x+y*TILES;
+ // Préalable O9 (a) : côté de la carte de la campagne (`data` validées, sinon la partie en cours) ; 128 sur une carte plate.
+ const tilesOf=data=>C.campaignLocal217?C.campaignLocal217(data).tiles:TILES;
+ const key=(x,y,n=TILES)=>x+y*n;
  const within=(v,max)=>typeof v==='number'&&Number.isFinite(v)&&v>=0&&v<=max;
- const inMap=(x,y)=>Number.isInteger(x)&&Number.isInteger(y)&&x>=1&&y>=1&&x<TILES-2&&y<TILES-2;
+ const inMap=(x,y,n=TILES)=>Number.isInteger(x)&&Number.isInteger(y)&&x>=1&&y>=1&&x<n-2&&y<n-2;
  const shape=(o,keys)=>Boolean(o)&&typeof o==='object'&&!Array.isArray(o)&&Object.keys(o).length===keys.length&&Object.keys(o).every(k=>keys.includes(k));
- function validate(raw){
+ function validate(raw,data){
   if(raw===undefined)return initial();
-  const bad=()=>{throw Error('Travaux de terrain 217 invalides.');};
+  const bad=()=>{throw Error('Travaux de terrain 217 invalides.');},n=tilesOf(data);
   // Forme de la première tranche ({version:1,active,ditches}) : acceptée et convertie. La terre des fossés déjà
   // creusés est tenue pour restée au bord : elle entre dans la réserve. Ni talus, ni douve, ni remblai en cours.
   const first=raw&&raw.version===1;
@@ -40,16 +42,16 @@
   const ditches=raw.ditches.map(d=>{
    if(!shape(d,first?CELL1:CELL))bad();
    const wet=first?false:d.wet,back=first?null:d.back;
-   if(!inMap(d.x,d.y)||!within(d.dug,R.digSeconds)||!within(d.fill,first?R.capacity:M.capacity)||typeof wet!=='boolean'||back!==null&&!within(back,F.seconds)||seen.has(key(d.x,d.y)))bad();
+   if(!inMap(d.x,d.y,n)||!within(d.dug,R.digSeconds)||!within(d.fill,first?R.capacity:M.capacity)||typeof wet!=='boolean'||back!==null&&!within(back,F.seconds)||seen.has(key(d.x,d.y,n)))bad();
    // Seul un fossé creusé reçoit des corps, de l'eau ou un remblai ; on ne remblaie ni une douve ni des corps.
    if(d.dug<R.digSeconds&&(d.fill>0||wet||back!==null)||back!==null&&(wet||d.fill>0||back>=F.seconds))bad();
-   seen.add(key(d.x,d.y));return{x:d.x,y:d.y,dug:d.dug,fill:d.fill,wet,back};
+   seen.add(key(d.x,d.y,n));return{x:d.x,y:d.y,dug:d.dug,fill:d.fill,wet,back};
   });
   if(first)return{version:2,active:raw.active,earth:Math.min(R.maxEarth,ditches.filter(d=>d.dug>=R.digSeconds).length*R.earthPerDitch),ditches,banks:[]};
   if(!within(raw.earth,R.maxEarth)||!Array.isArray(raw.banks)||raw.banks.length>B.maxBanks||!raw.active&&(raw.banks.length||raw.earth>0))bad();
   const banks=raw.banks.map(b=>{
-   if(!shape(b,MOUND)||!inMap(b.x,b.y)||!within(b.built,B.buildSeconds)||seen.has(key(b.x,b.y)))bad();
-   seen.add(key(b.x,b.y));return{x:b.x,y:b.y,built:b.built};
+   if(!shape(b,MOUND)||!inMap(b.x,b.y,n)||!within(b.built,B.buildSeconds)||seen.has(key(b.x,b.y,n)))bad();
+   seen.add(key(b.x,b.y,n));return{x:b.x,y:b.y,built:b.built};
   });
   return{version:2,active:raw.active,earth:raw.earth,ditches,banks};
  }
@@ -71,6 +73,8 @@
  function install(g){
   if(g.earthworks217)return g.earthworks217;if(!g.expansions)throw Error('Installer les opérations avant les travaux de terrain.');
   let state=initial(),cells=new Map(),mounds=new Map(),bound=null,quietFull=-Infinity,quietDug=-Infinity,quietBank=-Infinity;
+  // Clés et bornes lues sur la carte de la partie (192 cases sur un terrain de génération 12, 128 sinon).
+  const key=(x,y)=>x+y*(g.local?.tiles||TILES),inMap=(x,y)=>Number.isInteger(x)&&Number.isInteger(y)&&x>=1&&y>=1&&x<(g.local?.tiles||TILES)-2&&y<(g.local?.tiles||TILES)-2;
   const claims=new WeakMap();
   const active=()=>state.active,playing=()=>g.state==='playing'&&!g.gameOver&&Boolean(g.world);
   const unlocked=()=>active()&&(g.tier?.id||0)>=R.unlockTier;

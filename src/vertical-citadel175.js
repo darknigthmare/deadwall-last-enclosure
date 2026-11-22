@@ -4,6 +4,8 @@
  const S=root.DeadwallVertical175State||(typeof require==='function'?require('./vertical-citadel175-state.js'):null);
  const N=root.DeadwallVerticalNetwork179||(typeof require==='function'?require('./vertical-network179.js'):null);
  const Siege=root.DeadwallVerticalSiege176||(typeof require==='function'?require('./vertical-siege176.js'):null);
+ // O9 (b) (G12 hors jeu) : relief du terrain lu par le peintre FPS (`terrain-fps217.js`), chargé seulement sur un terrain.
+ const relief217=()=>root.DeadwallTerrainFPS217||(typeof require==='function'?require('./terrain-fps217.js'):null);
  const copy=o=>JSON.parse(JSON.stringify(o)),live=o=>o&&!o.dead&&o.health>0,dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
  const angle=a=>Math.atan2(Math.sin(a),Math.cos(a)),clamp=C.clamp;
  function install(g){
@@ -281,10 +283,14 @@
   }
   function setView(next){if(controlled===null||!['classic','fps'].includes(next))return false;view=next;g.input.mouseDown=false;g.input.touchFire=false;return true;}
   function aim(yaw,pitch){const q=moduleRef(controlled);if(!q||![yaw,pitch].every(Number.isFinite))return false;q.m.yaw=angle(yaw);q.m.pitch=clamp(pitch,-1.45,1.1);return true;}
-  function screenAim(origin){const x=g.input.mouseWorldX,y=g.input.mouseWorldY,visible=sightQuery(origin,R.maxShotRange);let picked=null,best=C.VerticalSiege176.aimPickPixels;
+  function screenAim(origin){const x=g.input.mouseWorldX,y=g.input.mouseWorldY,visible=sightQuery(origin,R.maxShotRange);let picked=null,pickedEnemy=null,best=C.VerticalSiege176.aimPickPixels;
    for(const e of [...g.zombies,...state.giants]){if(!live(e)||!visible(e))continue;const z=siege.enemyPose(e).z,d=R.siege.kinds[e.kind],height=d?.height||(e.kind==='crawler'?.6:1.8),r=(d?.radius||e.radius/R.tile)*R.tile,top=e.y-(z+height)*R.projectedHeight,bottom=e.y-z*R.projectedHeight;
-    const delta=Math.hypot(x-C.clamp(x,e.x-r,e.x+r),y-C.clamp(y,top,bottom));if(delta<best){best=delta;picked={x:e.x/R.tile,y:e.y/R.tile,z:C.clamp((e.y-y)/R.projectedHeight,z+.1,z+height-.1)};}
-   }return picked||{x:x/R.tile,y:y/R.tile,z:.9};
+    const delta=Math.hypot(x-C.clamp(x,e.x-r,e.x+r),y-C.clamp(y,top,bottom));if(delta<best){best=delta;pickedEnemy=e;picked={x:e.x/R.tile,y:e.y/R.tile,z:C.clamp((e.y-y)/R.projectedHeight,z+.1,z+height-.1)};}
+   }
+   // O9 (b) : sur un terrain, la hauteur choisie (relative au sol de l'infecté ou du point visé) passe dans le repère
+   // de l'origine, comme la géométrie du tir. Carte plate : aucun appel.
+   const L=terrain217();if(L){const f=L.floorAt(origin);if(picked){const e=pickedEnemy;picked.z+=L.actor(e)-f;}else return{x:x/R.tile,y:y/R.tile,z:.9+L.F.elevation(L.W,x,y)-f};}
+   return picked||{x:x/R.tile,y:y/R.tile,z:.9};
   }
   function muzzle(q){const p=S.slots(q.b)[q.m.slot],z=S.height(q.s,q.level,base(q.b))+R.muzzleHeight;return{x:p.x,y:p.y,z};}
   function geometry(){const boxes=[];
@@ -303,40 +309,64 @@
    return nearest<=distance?{fraction:nearest/distance,vertical176:true}:null;
   }
   function giantBox(e){const d=R.siege.kinds[e.kind];return{x:e.x/R.tile-d.radius,y:e.y/R.tile-d.radius,z:0,w:d.radius*2,h:d.radius*2,d:d.height};}
-  function aimPoint(e){return{x:e.x/R.tile,y:e.y/R.tile,z:R.siege.kinds[e.kind]?R.siege.kinds[e.kind].height*.86:((e.kind==='crawler'?.3:.9)+siege.enemyPose(e).z)};}
-  function sightQuery(origin,range,ignoreModule=null,boxes=geometry()){
+  function aimPoint(e,from){const p={x:e.x/R.tile,y:e.y/R.tile,z:R.siege.kinds[e.kind]?R.siege.kinds[e.kind].height*.86:((e.kind==='crawler'?.3:.9)+siege.enemyPose(e).z)};
+   // O9 (b) : `from` (origine du tir, ou son sol en mètres) place le point visé dans le repère de l'origine sur un terrain.
+   if(from===undefined)return p;const L=terrain217();if(L)p.z+=L.actor(e)-(typeof from==='number'?from:L.floorAt(from));return p;}
+  // O9 (b) (G12 hors jeu, revue de la PR #39) : la simulation garde ses hauteurs relatives au sol local ; la vue FPS
+  // lève l'œil, les boîtes et les acteurs de leur palier (`terrain-fps217.js`). La géométrie d'intersection du tir et de
+  // la visée applique les mêmes décalages, sans changer les hauteurs stockées : l'origine prend le sol de la boîte qui la
+  // porte (citadelle, passerelle) ou du relief, chaque boîte et chaque acteur le sol que le peintre lui donne, et le sol
+  // du tir est le relief (falaise vue d'en haut, contrebas, rampe) au lieu du plan z = 0. `null` sans terrain : carte
+  // plate, aucun appel.
+  function terrain217(boxes){const W=g.world;if(!W?.terrain217)return null;const F=relief217();if(!F)return null;
+   const links=F.linkFloors(W,network?.presentation?.().links),lift=b=>{const dz=F.boxFloor(W,b,links);return dz?{...b,z:b.z+dz}:b;};
+   const L={F,W,links,boxes:boxes?boxes.map(lift):null,
+    actor:e=>R.siege.kinds[e.kind]?F.elevation(W,e.x,e.y):F.actorFloor(W,e,siege.enemyPose(e),W.buildings,links),
+    floorAt:p=>{const own=L.boxes||geometry();for(const b of own)if((b.link!=null||b.owner!=null)&&p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h)return F.boxFloor(W,b,links);return F.elevation(W,p.x*R.tile,p.y*R.tile);},
+    // Première rencontre d'un rayon descendant avec le relief (pas de 25 cm, puis dichotomie).
+    ground:(o,dir,max)=>{const under=t=>o.z+dir.z*t<=F.elevation(W,(o.x+dir.x*t)*R.tile,(o.y+dir.y*t)*R.tile);let prev=0;
+     for(let d=.25;;d+=.25){const t=Math.min(d,max);if(under(t)){let a=prev,b=t;for(let i=0;i<14;i++){const m=(a+b)/2;if(under(m))b=m;else a=m;}return b;}if(t>=max)return null;prev=t;}}};
+   return L;}
+  function sightQuery(origin,range,ignoreModule=null,boxes=geometry(),floor217){
+   // O9 (b) : sur un terrain, origine, boîtes, lumières et cibles passent dans le repère du relief (mêmes décalages que le peintre).
+   const L=terrain217(boxes),lifted=L?{...origin,z:origin.z+(floor217??L.floorAt(origin))}:null;if(L)boxes=L.boxes;
    const blackout=g.nightwatch?.isBlackout?.(),day=blackout?0:clamp(g.daylight?.()??1,0,1),lights=[];
    const clear=(from,to,ignoredOwner=null,ignoredModule=ignoreModule)=>{const a=S.lookAt(from,to),direction=S.direction(a.yaw,a.pitch),distance=Math.hypot(to.x-from.x,to.y-from.y,to.z-from.z);return boxes.every(box=>box.owner===ignoredOwner||box.module===ignoredModule||S.rayBox(from,direction,box,Math.max(0,distance-.02))===null);};
    if(day<1){
-    for(const l of g.nightwatch?.sources?.(false)||[])if(l.r>0)lights.push({x:l.x/R.tile,y:l.y/R.tile,z:R.eyeHeight,range:l.r/R.tile,owner:l.id??null,angle:l.angle||0,half:l.half??Math.PI});
-    for(const s of state.sites){const b=building(s.id);if(!online(b))continue;for(let level=0;level<s.decks.length;level++)for(const m of s.decks[level].modules)if(R.modules[m.kind].light>0&&m.progress===1){const p=S.slots(b)[m.slot];lights.push({x:p.x,y:p.y,z:S.height(s,level,base(b))+R.muzzleHeight,range:R.modules[m.kind].light/R.tile,owner:null,module:m.id,half:Math.PI});}}
+    for(const l of g.nightwatch?.sources?.(false)||[])if(l.r>0)lights.push({x:l.x/R.tile,y:l.y/R.tile,z:L?R.eyeHeight+L.F.elevation(L.W,l.x,l.y):R.eyeHeight,range:l.r/R.tile,owner:l.id??null,angle:l.angle||0,half:l.half??Math.PI});
+    for(const s of state.sites){const b=building(s.id);if(!online(b))continue;for(let level=0;level<s.decks.length;level++)for(const m of s.decks[level].modules)if(R.modules[m.kind].light>0&&m.progress===1){const p=S.slots(b)[m.slot];lights.push({x:p.x,y:p.y,z:L?S.height(s,level,base(b))+R.muzzleHeight+L.F.siteFloor(L.W,b):S.height(s,level,base(b))+R.muzzleHeight,range:R.modules[m.kind].light/R.tile,owner:null,module:m.id,half:Math.PI});}}
    }
+   if(L)origin=lifted;
    // O6c (D-O1, G12 hors jeu) : depuis le palier de la bouche, une falaise montante cache la cible, comme dans la vue.
    const terrain=g.world?.terrain217?g.world:null,from217=terrain&&{x:origin.x*R.tile,y:origin.y*R.tile};
-   return e=>{if(!live(e))return false;const to=aimPoint(e),distance=Math.hypot(to.x-origin.x,to.y-origin.y,to.z-origin.z);if(distance>range||!clear(origin,to))return false;
+   return e=>{if(!live(e))return false;const to=aimPoint(e);if(L)to.z+=L.actor(e);const distance=Math.hypot(to.x-origin.x,to.y-origin.y,to.z-origin.z);if(distance>range||!clear(origin,to))return false;
     if(terrain&&!terrain.sightClear217(from217,e))return false;
     if(distance<=Math.max(R.nightSight,range*day))return true;
     return lights.some(l=>Math.hypot(to.x-l.x,to.y-l.y,to.z-l.z)<=l.range&&Math.abs(angle(Math.atan2(to.y-l.y,to.x-l.x)-(l.angle||0)))<=l.half&&clear(l,to,l.owner,l.module??null));
    };
   }
-  function raycast(origin,yaw,pitch,range,ignoreModule=null,boxes=geometry(),level217){
+  function raycast(origin,yaw,pitch,range,ignoreModule=null,boxes=geometry(),level217,floor217){
    const dir=S.direction(yaw,pitch);let best={distance:range,type:'miss',entity:null};
-   if(dir.z<0){const d=-origin.z/dir.z;if(d>=0&&d<best.distance)best={distance:d,type:'ground',entity:null};}
+   // O9 (b) : sur un terrain, intersections dans le repère du relief (`o`), point rendu dans celui de l'origine.
+   const L=terrain217(boxes),f217=L?floor217??L.floorAt(origin):undefined,o=L?{...origin,z:origin.z+f217}:origin;if(L)boxes=L.boxes;
+   if(L){if(dir.z<0){const d=L.ground(o,dir,best.distance);if(d!==null&&d<best.distance)best={distance:d,type:'ground',entity:null};}}
+   else if(dir.z<0){const d=-origin.z/dir.z;if(d>=0&&d<best.distance)best={distance:d,type:'ground',entity:null};}
    // O6c (D-O1, G12 hors jeu) : le tir s'arrête sur la falaise qu'il monte depuis le palier de la bouche (ou `level217`),
    // un peu avant l'arête pour que l'éclat reste au pied. Carte plate : aucun appel.
    if(g.world?.terrain217&&(dir.x||dir.y)){const far=best.distance,f=g.world.sightObstruction217({x:origin.x*R.tile,y:origin.y*R.tile},{x:(origin.x+dir.x*far)*R.tile,y:(origin.y+dir.y*far)*R.tile},level217);if(f!==null)best={distance:Math.max(0,f*far-.02),type:'terrain217',entity:null};}
-   for(const box of boxes){if(box.module===ignoreModule)continue;const d=S.rayBox(origin,dir,box,best.distance);if(d!==null&&d<best.distance)best={distance:d,type:box.type,entity:box};}
-   for(const e of g.zombies){if(!live(e))continue;const h=e.kind==='crawler'?.6:1.8,r=e.radius/R.tile,box={x:e.x/R.tile-r,y:e.y/R.tile-r,z:siege.enemyPose(e).z,w:2*r,h:2*r,d:h};const d=S.rayBox(origin,dir,box,best.distance);if(d!==null&&d<best.distance)best={distance:d,type:'zombie',entity:e};}
-   for(const e of state.giants){const d=S.rayBox(origin,dir,giantBox(e),best.distance);if(d!==null&&d<best.distance)best={distance:d,type:'giant',entity:e};}
-   return{...best,origin,point:{x:origin.x+dir.x*best.distance,y:origin.y+dir.y*best.distance,z:origin.z+dir.z*best.distance}};
+   for(const box of boxes){if(box.module===ignoreModule)continue;const d=S.rayBox(o,dir,box,best.distance);if(d!==null&&d<best.distance)best={distance:d,type:box.type,entity:box};}
+   for(const e of g.zombies){if(!live(e))continue;const h=e.kind==='crawler'?.6:1.8,r=e.radius/R.tile,box={x:e.x/R.tile-r,y:e.y/R.tile-r,z:L?siege.enemyPose(e).z+L.actor(e):siege.enemyPose(e).z,w:2*r,h:2*r,d:h};const d=S.rayBox(o,dir,box,best.distance);if(d!==null&&d<best.distance)best={distance:d,type:'zombie',entity:e};}
+   for(const e of state.giants){const gb=giantBox(e);if(L)gb.z+=L.actor(e);const d=S.rayBox(o,dir,gb,best.distance);if(d!==null&&d<best.distance)best={distance:d,type:'giant',entity:e};}
+   const out={...best,origin,point:{x:origin.x+dir.x*best.distance,y:origin.y+dir.y*best.distance,z:origin.z+dir.z*best.distance}};if(L)out.floor217=f217;return out;
   }
   function hit(result,damage){if(result.type==='zombie'&&live(result.entity)){const from={x:result.origin.x*R.tile,y:result.origin.y*R.tile},applied=g.zombieBulletDamage?.(result.entity,damage,from)??damage;if(applied<damage)result.entity.shieldImpact=.12;result.entity.health-=applied;if(result.entity.health<=0)g.killZombie(result.entity,false);}
    if(result.type==='giant'){const e=result.entity,d=R.siege.kinds[e.kind],weak=result.point.z<d.height*.18||result.point.z>d.height*.84;e.health-=damage*(weak?d.weakDamage:1);if(e.health<=0){state.giants=state.giants.filter(v=>v!==e);g.stats.kills++;notice=d.name+' abattu ; les infectés ordinaires restent actifs.';}}
   }
   function shoot(q){if(!operational(q)||q.m.progress!==1||q.m.ammo<q.def.ammoPerShot||q.m.cooldown>0||q.m.overheated)return false;
    const origin=muzzle(q),result=raycast(origin,q.m.yaw,q.m.pitch,q.def.range,q.m.id);q.m.ammo-=q.def.ammoPerShot;q.m.cooldown=1/q.def.rate;q.m.heat=Math.min(R.heatLimit,q.m.heat+q.def.heat);if(q.m.heat>=R.heatLimit)q.m.overheated=true;hit(result,q.def.damage);
-   if(q.def.splash&&result.type!=='miss')for(const e of [...g.zombies,...state.giants]){if(!live(e)||e===result.entity)continue;const to={x:e.x/R.tile,y:e.y/R.tile,z:aimPoint(e).z},d=Math.hypot(to.x-result.point.x,to.y-result.point.y,to.z-result.point.z);if(d>q.def.splash)continue;
-    const start={...result.point,z:result.point.z+.06},a=S.lookAt(start,to),r=raycast(start,a.yaw,a.pitch,d+.05,q.m.id);if(r.entity===e)hit(r,q.def.damage*(1-d/q.def.splash));
+   const L217=result.floor217!==undefined?terrain217():null,splashZ=L217?e=>aimPoint(e).z+L217.actor(e)-result.floor217:e=>aimPoint(e).z;
+   if(q.def.splash&&result.type!=='miss')for(const e of [...g.zombies,...state.giants]){if(!live(e)||e===result.entity)continue;const to={x:e.x/R.tile,y:e.y/R.tile,z:splashZ(e)},d=Math.hypot(to.x-result.point.x,to.y-result.point.y,to.z-result.point.z);if(d>q.def.splash)continue;
+    const start={...result.point,z:result.point.z+.06},a=S.lookAt(start,to),r=raycast(start,a.yaw,a.pitch,d+.05,q.m.id,undefined,undefined,result.floor217);if(r.entity===e)hit(r,q.def.damage*(1-d/q.def.splash));
    }
    traces.push({from:origin,to:result.point,life:R.traceLife});if(traces.length>R.maxTraces)traces.shift();g.audio?.shoot?.('rifle');return true;
   }
@@ -386,11 +416,13 @@
     m.cooldown=Math.max(0,m.cooldown-delta);m.heat=Math.max(0,m.heat-R.heatRecovery*delta);if(m.overheated&&m.heat<=R.heatResume)m.overheated=false;
     const q={b,s,level,m,def};if(m.id===controlled){if(!nearModule(q)){release();continue;}if(view==='classic'){const p=muzzle(q),to=screenAim(p),a=S.lookAt(p,to);aim(a.yaw,a.pitch);}if(g.input.mouseDown||g.input.touchFire)fire();}
     else if(!(job?.kind==='engineering178'&&job.object===m)&&!def.manualOnly&&operational(q)&&m.ammo>=def.ammoPerShot){boxes??=geometry();const origin=muzzle(q);let enemy=autoTargets.get(m.id);
+     // O9 (b) : sur un terrain, cibles placées dans le repère de la bouche (un seul contexte de relief par affût).
+     const L217=g.world?.terrain217?terrain217(boxes):null,f217=L217?L217.floorAt(origin):0,at=L217?e=>{const p=aimPoint(e);p.z+=L217.actor(e)-f217;return p;}:aimPoint;
      if(scanClock<=0){const visible=sightQuery(origin,def.range,m.id,boxes),candidates=[];
-      for(const e of [...g.zombies,...state.giants]){if(!live(e))continue;const p=aimPoint(e),distance=Math.hypot(p.x-origin.x,p.y-origin.y,p.z-origin.z);if(distance>def.range)continue;let index=candidates.findIndex(v=>v.distance>distance);if(index<0)index=candidates.length;if(index>=R.targetCandidates)continue;candidates.splice(index,0,{e,distance});if(candidates.length>R.targetCandidates)candidates.pop();}
+      for(const e of [...g.zombies,...state.giants]){if(!live(e))continue;const p=at(e),distance=Math.hypot(p.x-origin.x,p.y-origin.y,p.z-origin.z);if(distance>def.range)continue;let index=candidates.findIndex(v=>v.distance>distance);if(index<0)index=candidates.length;if(index>=R.targetCandidates)continue;candidates.splice(index,0,{e,distance});if(candidates.length>R.targetCandidates)candidates.pop();}
       enemy=candidates.find(v=>visible(v.e))?.e;autoTargets.set(m.id,enemy);
      }
-     if(live(enemy)&&m.cooldown<=0&&!m.overheated){const a=S.lookAt(origin,aimPoint(enemy));m.yaw=a.yaw;m.pitch=clamp(a.pitch,-1.45,1.1);shoot(q);}
+     if(live(enemy)&&m.cooldown<=0&&!m.overheated){const a=S.lookAt(origin,at(enemy));m.yaw=a.yaw;m.pitch=clamp(a.pitch,-1.45,1.1);shoot(q);}
     }
    }}
    if(scanClock<=0)scanClock=R.scanInterval;for(let i=traces.length-1;i>=0;i--){traces[i].life-=delta;if(traces[i].life<=0)traces.splice(i,1);}giantStep(delta);

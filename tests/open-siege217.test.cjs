@@ -21,24 +21,17 @@ const World = g.world.constructor, Game = g.constructor, MAP = C.localMap217(192
 const Building = [...g.world.buildings.values()].find(b => b.type === 'core').constructor;
 const SIDES = ['north', 'east', 'south', 'west'];
 const descs = new Map(), desc = s => { if (!descs.has(s)) descs.set(s, Lw.describe(s)); return descs.get(s); };
-const THEMES = [...new Set(C.Dayworks.SITES.map(s => s.theme))];
-const ownSave = Object.getOwnPropertyDescriptor(g, 'save');
-
-// Partie de terrain jouable : harnais O8a, plus des quartiers fictifs autour du cœur. Contournement (comme O6b/O8a) :
-// le moteur des chantiers tire ses lieux des quartiers G1–G11, absents d'un monde de terrain (« Quartier absent :
-// housing ») ; la sauvegarde est coupée (la génération 12 n'est pas sauvegardable avant O9).
+// Partie de terrain jouable : harnais O8a. Depuis le préalable O9 (a), le monde de terrain porte ses quartiers (posés sur
+// le terrain atteint) et la sauvegarde automatique est laissée au jeu, qui la refuse proprement tant que le registre
+// régional G12 est fermé (tests/open-city217-life.test.cjs) : plus de quartiers fictifs ni de sauvegarde coupée.
 function terrainGame(seed, d = desc(seed)) {
   restoreFlat();
-  const r = buildTerrainGame217(g, () => d, seed), c = r.core;
-  r.world.sites = THEMES.map((theme, k) => ({ id: 'harnais-' + k, theme, x: c.x + 160 * Math.cos(k), y: c.y + 160 * Math.sin(k) }));
-  Object.defineProperty(g, 'save', { value: () => false, writable: true, configurable: true });
-  return r;
+  return buildTerrainGame217(g, () => d, seed);
 }
 // Gisements retirés : les enceintes de ces tests se posent sans « ressource à déblayer ».
 function cleared(r) { r.world.nodes.length = 0; return r;
 }
 function restoreFlat() {
-  if (ownSave) Object.defineProperty(g, 'save', ownSave); else delete g.save;
   g.startNew('standard', '17117'); g.campaignIntro132?.skip?.();
 }
 // Partie minimale (prototype du jeu) : assez pour `prepareWave` et `spawnZombie`, sans modules.

@@ -19,10 +19,12 @@
   const bag = value => { const raw = object(value === undefined ? {} : value, 'ressources'); return Object.fromEntries(C.RESOURCE_KEYS.map(key => [key, number(raw[key], 0, 0, 1e12, key)])); };
   // O5 : taille de la carte de la cité portée par la campagne. Absente = carte par défaut ; une autre
   // taille n'est admise que pour la génération qui la nomme (`C.LocalMap217Rules`, génération 12 encore refusée).
-  const localTiles217 = data => {
+  // Préalable O9 (a) : la génération est lue sur le registre régional du document reçu (`source`) ; la migration des
+  // couches anciennes remet ce registre à neuf avant la couche régionale, qui le valide ensuite (G12 refusée tant que fermée).
+  const localTiles217 = (data, source = data) => {
     const rules = C.LocalMap217Rules, tiles = data.localTiles;
     if (tiles === undefined) return rules.defaultTiles;
-    if (!Number.isInteger(tiles) || tiles === rules.defaultTiles || tiles !== rules.generationTiles[data.frontier?.generation]) fail('taille de carte locale');
+    if (!Number.isInteger(tiles) || tiles === rules.defaultTiles || tiles !== rules.generationTiles[(source?.frontier ?? data.frontier)?.generation]) fail('taille de carte locale');
     return tiles;
   };
 
@@ -30,7 +32,7 @@
     const source = object(input, 'document');
     const data = C.migrateSaveData(source); if (!data) fail('version incompatible');
     const cityGeometry202=C.CityGeometry202.version(data.cityGeometry202===undefined?0:data.cityGeometry202);
-    const localTiles=localTiles217(data),L=C.localMapOf217(localTiles===C.LocalMap217Rules.defaultTiles?undefined:{localTiles});
+    const localTiles=localTiles217(data,source),L=C.localMapOf217(localTiles===C.LocalMap217Rules.defaultTiles?undefined:{localTiles});
     const position = raw => ({ x: number(raw.x, undefined, -64, L.size + 64, 'position X'), y: number(raw.y, undefined, -64, L.size + 64, 'position Y') });
     const scenarioId = S.normalize(data.scenarioId);
     const ids = new Set(), nodeIds = new Set(), occupied = new Set(); let maximumId = 0, cores = 0;
@@ -221,7 +223,7 @@
  const previous=S.validate;
  function validate(input){
   const extended=input?.version===6;if(extended&&input.dayworks===undefined)throw new Error('Sauvegarde v6 sans carnet de reconstruction.');
-  const state=D.normalize(extended?input.dayworks:undefined);
+  const state=D.normalize(extended?input.dayworks:undefined,input);
   // Feed the previous validator the last format it understands, preserving every old registry.
   const base=previous(extended?{...input,version:5}:input),byId=new Map(base.buildings.map(b=>[b.id,b]));
   for(const b of state.braces){const gate=byId.get(b.id);if(!gate||!C.BUILDINGS[gate.type]?.gate||gate.progress<1||b.wave!==base.wave)throw new Error('Étai sans porte achevée ou réservé à une autre vague.');}
@@ -357,3 +359,7 @@
 (function(root){'use strict';const C=root.DeadwallCore,S=root.DeadwallSave,old=S.validate;S.validate=raw=>{const modern=raw?.version===19;if(modern&&!raw.essentials)throw Error('Sauvegarde v19 sans services.');const d=old(modern?{...raw,version:18}:raw);return{...d,version:19,essentials:C.Essentials.validate(modern?raw.essentials:undefined,d)};};S.parse=text=>{if(typeof text!=='string'||new TextEncoder().encode(text).byteLength>S.MAX_FILE_BYTES)throw Error('Sauvegarde trop volumineuse.');return S.validate(JSON.parse(text));};})(globalThis);
 
 (function(root){'use strict';const C=root.DeadwallCore,S=root.DeadwallSave,old=S.validate;S.validate=raw=>{const modern=raw?.version===20;if(modern&&!raw.worldEvolution)throw Error('Sauvegarde v20 sans évolution.');const d=old(modern?{...raw,version:19}:raw);return{...d,version:20,worldEvolution:C.WorldEvolution.validate(modern?raw.worldEvolution:undefined,d)};};S.parse=text=>{if(typeof text!=='string'||new TextEncoder().encode(text).byteLength>S.MAX_FILE_BYTES)throw Error('Sauvegarde trop volumineuse.');return S.validate(JSON.parse(text));};})(globalThis);
+
+// Siège adossé (O9 b, génération 12 hors jeu) : état de la vague en cours (`openSiege217`) porté de façon additive, version
+// 20 inchangée. Absent (toute sauvegarde G1–G11, ou plus ancienne) : rien n'est ajouté, l'état est reconstruit à la reprise.
+(function(root){'use strict';const C=root.DeadwallCore,S=root.DeadwallSave;if(S.openSiege217Version)return;const old=S.validate;S.validate=raw=>{const d=old(raw);return raw?.openSiege217===undefined?d:{...d,openSiege217:C.OpenSiege217.normalize(raw.openSiege217,d)};};S.openSiege217Version=1;})(globalThis);

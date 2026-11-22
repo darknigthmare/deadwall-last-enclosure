@@ -459,7 +459,13 @@ La nécropole se multiplie avec la corvée de déblaiement (×2,25 pendant la co
 
 Réglages mesurés, non appliqués : `sickness.perPerson` 8 (vagues malades réduites de 30 à 60 % sur 3 graines, moral pire sur une) ; `graceSeconds` 240 (−10 à −35 %). Le levier dominant est la charge des murs pendant les assauts tardifs. Réserves : le banc n'est pas une partie humaine (la défense laisse fuir ~90 % de l'effectif dans l'enceinte) ; âges 3+ atteints par promotion ; sorties régionales, avant-postes, lois, factions et grands ouvrages non joués.
 
+## Vie de la cité de terrain — préalable O9 (a) (hors jeu)
+
+`C.OpenCityLife217Rules` : `clear` 2 cases (carré libre de 5 × 5 autour d'un lieu), `quarters.target` 45 m, bande `near` 28 / `far` 72 m, `spacing` 22 m entre quartiers ; `halts.spacing` 8 m. Points des chantiers de jour bornés à côté − 48 unités (6 096 sur 192 m). Aucune valeur de combat, de stock ou de vague. À confirmer en O9 : distance des quartiers dans un couloir étroit (17117) et trajets vers les points de terrain.
+
 ## Siège adossé — O7 (hors jeu)
+
+Préalable O9 (b) : aucune valeur nouvelle. Le côté de la Meneuse sur terrain est `h modulo (nombre de côtés ouverts)` (identique à `h & 3` sur carte plate) ; poste à `standoff` 256 unités du bord, sur 30 à 70 % du côté, mesurés sur la carte de 192 m. Sur une cité à un seul côté ouvert, la Meneuse vient toujours de ce côté et son escorte (+20 %) s'ajoute au front étroit : renforce le risque relevé ci-dessous ; `passRate` et `minShare` à confirmer en O9.
 
 `C.OpenSiege217Rules` (G12, décision D-O2 : même effectif, concentré sur les côtés ouverts) :
 

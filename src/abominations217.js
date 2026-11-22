@@ -72,18 +72,26 @@
   for(let wave=Math.max(R.firstWave,Math.floor(Number(from)||1)),n=0;n<SEARCH;wave++,n++)if(led(wave,seed))return wave;
   return null;
  }
+ // Côtés ouverts d'un terrain (siège adossé, `C.OpenSiege217.open`), dans l'ordre de `SIDE_IDS` ; sans terrain, les quatre.
+ function openSides(sides){const list=sides?C.OpenSiege217.open(sides):SIDE_IDS;return list.length?list:SIDE_IDS;}
+ // O9 (b) : cadre du terrain d'une partie (côtés, taille de la carte) ; `undefined` sur une carte plate.
+ function frameOf(g){const sides=g?.world?.terrain217?.sides;return sides?{sides,size:(g.local||C.LOCAL_MAP217).size}:undefined;}
  // Poste de la Meneuse : un côté et un point du bord, fonction pure de la graine et de la vague.
- function post(seed,wave){
-  const h=hash(seed,wave),side=SIDE_IDS[h&3],along=(R.spanMin+(R.spanMax-R.spanMin)*((h>>>8)%1024)/1023)*C.LOCAL_MAP217.size,near=R.standoff,far=C.LOCAL_MAP217.size-R.standoff;
+ // O9 (b) (G12 hors jeu) : `frame` = {sides, size} d'un terrain — côté pris parmi les seuls côtés ouverts par le même
+ // hachage (h modulo leur nombre : aucun tirage de plus), bord de la carte de terrain. Sans `frame` (carte plate) :
+ // quatre côtés, h modulo 4 = h & 3, mêmes postes qu'avant.
+ function post(seed,wave,frame){
+  const size=frame?.size||C.LOCAL_MAP217.size,open=frame?.sides?openSides(frame.sides):null;
+  const h=hash(seed,wave),side=open?open[h%open.length]:SIDE_IDS[h&3],along=(R.spanMin+(R.spanMax-R.spanMin)*((h>>>8)%1024)/1023)*size,near=R.standoff,far=size-R.standoff;
   const at=side==='north'?{x:along,y:near}:side==='south'?{x:along,y:far}:side==='east'?{x:far,y:along}:{x:near,y:along};
   return Object.freeze({side,name:SIDES[side],where:WHERE[side],x:at.x,y:at.y});
  }
  // Autres points du même côté, dans un ordre fixe : le poste d'origine, puis de part et d'autre le long du bord,
  // puis la même suite un pas plus loin du bord.
- function posts(seed,wave){
-  const p=post(seed,wave),lo=R.spanMin*C.LOCAL_MAP217.size,hi=R.spanMax*C.LOCAL_MAP217.size,horizontal=p.side==='north'||p.side==='south',along=horizontal?p.x:p.y,list=[];
+ function posts(seed,wave,frame){
+  const size=frame?.size||C.LOCAL_MAP217.size,p=post(seed,wave,frame),lo=R.spanMin*size,hi=R.spanMax*size,horizontal=p.side==='north'||p.side==='south',along=horizontal?p.x:p.y,list=[];
   for(let depth=0;depth<2;depth++){
-   const off=R.standoff+depth*P.step,deep=p.side==='north'||p.side==='west'?off:C.LOCAL_MAP217.size-off;
+   const off=R.standoff+depth*P.step,deep=p.side==='north'||p.side==='west'?off:size-off;
    for(let i=0;i<=P.tries*2;i++){
     const a=along+(i===0?0:(i%2?1:-1)*Math.ceil(i/2)*P.step);if(a<lo||a>hi)continue;
     list.push(Object.freeze({side:p.side,name:p.name,where:p.where,x:horizontal?a:deep,y:horizontal?deep:a}));
@@ -144,6 +152,7 @@
   const forget=()=>{ref=null;refs.clear();seenPhase=null;clock=-Infinity;shown=null;};
   const playing=()=>g.state==='playing'&&!g.gameOver&&Boolean(g.world);
   const seed=()=>g.world?.seed??0;
+  const frame=()=>frameOf(g);
   const current=()=>state.led&&state.led.wave===g.wave?state.led:null;
   // Le corps de la Meneuse tant qu'elle rassemble ; retrouvé par son identifiant après une reprise.
   function body(){
@@ -180,7 +189,7 @@
    }catch(error){return false;}
    return true;
   }
-  const place=wave=>posts(seed(),wave).find(p=>clear(p.x,p.y))||null;
+  const place=wave=>posts(seed(),wave,frame()).find(p=>clear(p.x,p.y))||null;
   // Dérangée : un membre du groupe touché ou tombé, le Commandant tout près, ou un tir qui passe à proximité.
   function disturbed(){
    const e=escort(),l=current();if(!e||e.woken||!l)return false;
@@ -196,14 +205,14 @@
   function rouse(){
    const e=escort();if(!e||e.woken)return;
    const z=body(),n=guards().length;e.woken=true;
-   if(z&&!z.dead)say('Meneuse dérangée '+post(seed(),e.wave).where+' : elle ne rassemble plus à l’abri'+(n?', et son escorte se réveille — '+infected(n)+' en marche avec elle':'')+'. Elle frappe désormais comme une Errante.','danger');
-   else if(n)say('L’escorte de la Meneuse se réveille '+post(seed(),e.wave).where+' : '+infected(n)+' en marche sur la cité.','danger');
+   if(z&&!z.dead)say('Meneuse dérangée '+post(seed(),e.wave,frame()).where+' : elle ne rassemble plus à l’abri'+(n?', et son escorte se réveille — '+infected(n)+' en marche avec elle':'')+'. Elle frappe désormais comme une Errante.','danger');
+   else if(n)say('L’escorte de la Meneuse se réveille '+post(seed(),e.wave,frame()).where+' : '+infected(n)+' en marche sur la cité.','danger');
   }
   function sync(){
    const l=current(),z=body();
    if(l&&z&&z.dead){
     l.status='slain';ref=null;
-    say('Meneuse abattue '+post(seed(),l.wave).where+' : la horde ne se rassemblera pas. Environ '+contacts(cut(g.wavePlan&&g.phase==='warning'?g.wavePlan.total:estimate()))+' de moins à l’assaut.','good');
+    say('Meneuse abattue '+post(seed(),l.wave,frame()).where+' : la horde ne se rassemblera pas. Environ '+contacts(cut(g.wavePlan&&g.phase==='warning'?g.wavePlan.total:estimate()))+' de moins à l’assaut.','good');
    }
   }
   // Première vague menée de la campagne : fonction pure de la graine, l'explication n'est donc donnée qu'une fois.
@@ -217,7 +226,7 @@
    if(!p){
     // Aucun point praticable de ce côté : pas de Meneuse, la vague reste une vague ordinaire.
     state.led={wave,id:0,status:'absent',delta:0};delete state.escort;ref=null;refs.clear();
-    say('Vague '+wave+' : le terrain '+post(seed(),wave).where+' ne laisse aucun poste à une Meneuse. Vague ordinaire.'+(firstLed(wave)?' '+FIRST:''),'normal');
+    say('Vague '+wave+' : le terrain '+post(seed(),wave,frame()).where+' ne laisse aucun poste à une Meneuse. Vague ordinaire.'+(firstLed(wave)?' '+FIRST:''),'normal');
     return false;
    }
    // Places de l'escorte : chaque membre cherche un sol libre sur son rayon, en se rapprochant ; sinon il manque.
@@ -252,7 +261,7 @@
    sync();
    if(seenPhase!==null&&seenPhase!==g.phase&&g.phase==='warning'){
     const l=current();
-    if(l?.status==='alive')say('Vague menée : la Meneuse tient toujours '+post(seed(),l.wave).where+'. Si elle vit à l’assaut, la horde comptera '+contacts(gain(g.wavePlan?.total||estimate()))+' de plus.','danger');
+    if(l?.status==='alive')say('Vague menée : la Meneuse tient toujours '+post(seed(),l.wave,frame()).where+'. Si elle vit à l’assaut, la horde comptera '+contacts(gain(g.wavePlan?.total||estimate()))+' de plus.','danger');
    }
    seenPhase=g.phase;
   }
@@ -281,7 +290,7 @@
     if(!g.wavePlan)g.prepareWave();
     let l=current();if(!l)l=state.led={wave:g.wave,id:0,status:'alive',delta:0};
     if(l.status==='alive'||l.status==='slain'){
-     const slain=l.status==='slain',before=g.wavePlan,plan=slain?disperse(before):gather(before),where=post(seed(),l.wave).where;
+     const slain=l.status==='slain',before=g.wavePlan,plan=slain?disperse(before):gather(before),where=post(seed(),l.wave,frame()).where;
      // L'escorte fait partie de cet effectif : ses membres, tombés ou debout, ne sont pas à faire entrer une seconde fois.
      const e=escort(),standing=guards().length,rest=e?take(plan,e.kinds):{plan,taken:0};
      g.wavePlan=rest.plan;l.delta=plan.total-before.total;l.status=slain?'dispersed':'gathered';ref=null;
@@ -298,14 +307,14 @@
   // Vue de la Meneuse pour la présentation : nulle dès qu'elle ne rassemble plus.
   function leader(){
    const z=state.active?body():null;if(!z||z.dead)return null;
-   const p=post(seed(),state.led.wave);return Object.freeze({wave:state.led.wave,id:z.id,side:p.side,name:p.name,x:z.x,y:z.y,health:z.health,maxHealth:z.maxHealth});
+   const p=post(seed(),state.led.wave,frame());return Object.freeze({wave:state.led.wave,id:z.id,side:p.side,name:p.name,x:z.x,y:z.y,health:z.health,maxHealth:z.maxHealth});
   }
   // Effectif réel de la vague menée en cours, pour les lectures : fourchette tant que rien n'est décidé.
   // `plan` est le plan avant l'écart ; `alive` et `slain` comptent l'escorte, qui en fait partie.
   function forecast(){
    if(!state.active||!playing())return null;
    const l=current();if(!l||l.status==='absent')return null;
-   const e=escort(),size=e?e.ids.length:0,standing=e?guards().length:0,p=post(seed(),l.wave),decided=l.status==='gathered'||l.status==='dispersed';
+   const e=escort(),size=e?e.ids.length:0,standing=e?guards().length:0,p=post(seed(),l.wave,frame()),decided=l.status==='gathered'||l.status==='dispersed';
    let plan,real=null,entering=null;
    if(decided){entering=Math.floor(Number(g.wavePlan?.total)||0);real=entering+(e?e.taken:0);plan=real-l.delta;}
    else{plan=g.wavePlan&&g.phase==='warning'?g.wavePlan.total:estimate();if(l.status==='slain')real=plan-cut(plan);}
@@ -332,7 +341,7 @@
    const l=current();
    if(l&&l.status==='absent')return'Vague '+l.wave+' : aucun poste praticable pour une Meneuse, vague ordinaire.';
    if(l){
-    const where=post(seed(),l.wave).where,total=g.wavePlan&&g.phase!=='calm'?g.wavePlan.total:estimate();
+    const where=post(seed(),l.wave,frame()).where,total=g.wavePlan&&g.phase!=='calm'?g.wavePlan.total:estimate();
     if(l.status==='alive')return'Vague '+l.wave+' menée : Meneuse repérée '+where+(escort()?.woken?', dérangée : elle marche et frappe comme une Errante':', au bord de la carte')+'. Vivante à l’assaut : environ '+contacts(gain(total))+' de plus. Abattue avant : environ '+contacts(cut(total))+' de moins.'+guardText();
     if(l.status==='slain')return'Vague '+l.wave+' : Meneuse abattue. La horde arrivera dispersée, environ '+contacts(cut(total))+' de moins.'+guardText();
     const taken=escort()?.taken?' Dont '+escort().taken+' de l’escorte, déjà sur place.':'';
@@ -394,7 +403,7 @@
     if(box&&box.parentNode===host&&typeof host.insertBefore==='function')host.insertBefore(node,box.nextSibling||null);else host.appendChild(node);
    }
    node.hidden=!value;
-   if(value!==shown){shown=value;const l=current();title.textContent=l&&l.status!=='absent'?(l.status==='alive'?'Meneuse '+post(seed(),l.wave).where:l.status==='slain'||l.status==='dispersed'?'Meneuse abattue':'Meneuse dans la horde'):'Aucune Meneuse en vue';text.textContent=value;}
+   if(value!==shown){shown=value;const l=current();title.textContent=l&&l.status!=='absent'?(l.status==='alive'?'Meneuse '+post(seed(),l.wave,frame()).where:l.status==='slain'||l.status==='dispersed'?'Meneuse abattue':'Meneuse dans la horde'):'Aucune Meneuse en vue';text.textContent=value;}
    return true;
   }
   const updateUI=g.updateUI;
@@ -456,8 +465,9 @@
   return null;
  }
  const siegeKind=(wave,seed)=>KIND_IDS.find(kind=>siegeWave(kind,wave,seed))||null;
- // Côté d'entrée : le bord de la carte le plus proche du point.
- function edgeOf(x,y,size){const d={north:y,south:size-y,west:x,east:size-x};return SIDE_IDS.reduce((a,b)=>d[b]<d[a]?b:a,'north');}
+ // Côté d'entrée : le bord de la carte le plus proche du point. O9 (b) : sur un terrain (`sides`), parmi les seuls
+ // côtés ouverts ; sans `sides`, les quatre (même réduction qu'avant).
+ function edgeOf(x,y,size,sides){const d={north:y,south:size-y,west:x,east:size-x},list=openSides(sides);return list.reduce((a,b)=>d[b]<d[a]?b:a,list[0]);}
  const bodies=n=>n+' corps';
  function installSiege(g,doc=root.document){
   if(g.abominationsSiege217)return g.abominationsSiege217;if(!g.expansions)throw Error('Installer les opérations avant les abominations du siège 217.');
@@ -501,7 +511,7 @@
    let pick=null;for(const z of g.zombies)if(z&&!z.dead&&z.id>=c.from&&(z.kind==='walker'||any)&&(!pick||z.id>pick.id))pick=z;
    if(!pick){if(!left)c.status='absent';return;}
    if(present()>=R.cap){c.status='absent';say('Vague '+c.wave+' : '+KINDS[c.kind].name+' perdue dans la masse, '+R.cap+' abominations sont déjà là.','normal');return;}
-   c.status='alive';c.id=pick.id;c.side=edgeOf(pick.x,pick.y,size());ref=pick;
+   c.status='alive';c.id=pick.id;c.side=edgeOf(pick.x,pick.y,size(),g.world?.terrain217?.sides);ref=pick;
    say(KINDS[c.kind].name+' entrée '+WHERE[c.side]+' avec la horde : '+ruleText(c.kind)+'. Abattez-la tôt.','danger');
   }
   // Traîne-épave au contact d'un mur ou d'une porte : l'épave reste au pied, sur la charge de corps du jeu.
@@ -635,7 +645,7 @@
    restore:raw=>{state=siegeValidate(raw);forget();},reset:()=>{state=siegeFresh();forget();}});
   return api;
  }
- const api=Object.freeze({initial,fresh,validate,hash,led,nextLed,post,posts,escortSize,escortKinds,take,ring,gain,cut,shift,gather,disperse,install,
+ const api=Object.freeze({initial,fresh,validate,hash,led,nextLed,post,posts,openSides,frameOf,escortSize,escortKinds,take,ring,gain,cut,shift,gather,disperse,install,
   siegeInitial,siegeFresh,siegeValidate,siegeWave,nextSiege,siegeKind,edgeOf,installSiege});root.DeadwallAbominations217=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
  if(root.DEADWALL&&root.document&&root.DEADWALL.expansions){install(root.DEADWALL,root.document);installSiege(root.DEADWALL,root.document);}
 })(globalThis);

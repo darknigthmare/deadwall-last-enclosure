@@ -597,7 +597,63 @@ cran en mètres : D-O3), parois verticales, plans inclinés des rampes, caméra 
     base `8d7ea21` (contexte factice enregistreur, 24 images, citadelle, sentinelle, trois infectés).
     Harnais : `tests/helpers/terrain-fps217.cjs`, `scripts/browser-terrain-fps217.mjs`.
 
+### Préalable O9 (b) — tir FPS entre paliers, côtés de la Meneuse et des abominations, siège adossé sauvegardé (**livré**, hors jeu)
+
+Dettes relevées par la revue de la PR #39 et par les réserves d'O7 ; G12 toujours non créable (aucun module ajouté à
+`index.html`). Décisions D-O1 (la falaise arrête vue et tirs d'en bas, pas d'en haut), D-O2 (même effectif concentré
+sur les côtés ouverts), D-O3 (FPS dès l'ouverture).
+
+- Tir FPS entre paliers (`vertical-citadel175.js`) : la simulation garde ses hauteurs relatives au sol local ; sur un
+  terrain, `raycast`, `sightQuery`, `aimPoint(e, origine)` et la visée de la vue classique (`screenAim`) passent dans le
+  repère du relief avec les décalages du peintre O8b (`terrain-fps217.js` : `siteFloor`, `boxFloor`, `actorFloor`,
+  `linkFloors`, `elevation`) — origine levée du sol de la boîte qui la porte (citadelle, passerelle) ou du relief,
+  boîtes et acteurs levés de leur sol, sol du tir = relief (marche de 25 cm puis dichotomie) au lieu du plan z = 0.
+  Point d'impact rendu dans le repère de l'origine (traces 2D inchangées). Les gardes de palier
+  (`vertical-population181.js`) visent par `aimPoint(cible, origine)`. Carte plate : aucun appel au relief, mêmes
+  calculs qu'avant.
+- Côtés (`abominations217.js`) : `post(graine, vague, cadre)` et `posts` prennent le côté de la Meneuse parmi les côtés
+  ouverts (`C.OpenSiege217.open`) par le même hachage, `h` modulo leur nombre (aucun tirage de plus), au bord de la
+  carte de terrain (192 m) ; `edgeOf(x, y, taille, côtés)` ne retient que les côtés ouverts pour la Comble-fossé et la
+  Traîne-épave. `frameOf(g)` donne le cadre ; `horde-horizon217` et `factions217` le passent. Sans cadre : quatre côtés,
+  `h % 4 = h & 3`, mêmes postes et mêmes côtés qu'avant.
+- Sauvegarde (`game.js`, `save.js`, `core.js`) : `serialize` ajoute `openSiege217` sur un terrain seulement, quand l'état
+  est celui de la vague en cours ; la dernière enveloppe de `DeadwallSave.validate` le relit par
+  `C.OpenSiege217.normalize(brut, partie)` (forme stricte, vague et phase de la partie, fronts parmi `fronts`, parts de
+  somme 1, arrivées entières bornées par le plan) ; version 20 inchangée ; absent = reconstruit comme avant
+  (`openSiegeState217`, qui reconstruit aussi un état dont un front n'est plus ouvert).
+- Tests : `tests/open-city217-shot.test.cjs` (4 cas), `tests/open-siege217-sides.test.cjs` (5 cas).
+- Innocuité : procédure 3 (base O6c, plus une vague menée et une vague de Traîne-épave) identique octet pour octet ;
+  mondes des huit graines identiques hors tailles de sources.
+
 ### O9 — Ouverture « expérimental » (premier effet en jeu)
+
+**Préalable O9 (a) — Quartiers, chantiers de jour et systèmes de cité sur un monde de terrain (livré, hors jeu).**
+Les chantiers O6b à O8b contournaient dans leurs harnais les systèmes de cité qui plantaient sur un monde de terrain ;
+une partie construite sur la carte de 192 m (harnais) tourne désormais sans contournement : construire, mettre en
+service, bilan, menu de construction, sauvegarde et reprise de la cité, minicarte et plan complets, vague complète.
+Détail, mesures et réserves : `tasks.md`, section « préalable O9 (a) ».
+
+- Quartiers (`WorldMap#buildTerrain217`) : six quartiers (thèmes de `C.TERRITORY_SECTORS`) posés par une fonction pure
+  de la graine et de la description (hachage, aucun flux de génération) : un par secteur de 60° à partir d'une
+  orientation hachée, au plus près de 45 m du centre, sur une case « libre » (carré de 5 cases atteint depuis le centre,
+  à sec, d'un seul palier, hors rampe), à 22 m au moins l'un de l'autre ; un secteur fermé par la falaise ou l'eau cède
+  son quartier au terrain atteint le plus proche de sa direction. Règles `C.OpenCityLife217Rules`. Le terrain porte
+  `reach` (cases atteintes depuis le centre par les arêtes franchissables, bâtiments exclus) et `centre`.
+- Chantiers de jour : 18 points de terrain sur la carte de la campagne (`generate` et `normalize` bornés à
+  côté − 48 : 4 048 à 128 m, 6 096 à 192 m), sur une case atteinte (`clearLocation` lit `reach217`).
+- Haltes d'expédition (« sites nommés ») : position de la carte de 128 m mise à l'échelle autour du centre de la cité,
+  puis case libre la plus proche, à 8 m des autres lieux (`WorldMap#halts217`, lu par `expeditions` et les repères).
+- Plan de la carte plate absent d'un terrain (`exploration-125` `planOn`) : ni solides invisibles, coût, vue, butin de
+  station, placement ni surface ; la route est celle de la description. CARTE [M] : paliers, eau, routes, falaises,
+  quartiers nommés et haltes au lieu des hameaux, stations et carrefours du plan plat.
+- `fieldcraft.pack` : routes du terrain (`roads`) au lieu de la croix, anneau autour du centre de la cité, place
+  nouvelle atteinte (`reach217`) quand l'ancienne l'était. `earthworks217` : grille et clés sur la carte de la partie.
+- Sauvegarde : `save.js` lit la génération sur le registre régional du document reçu (la migration des couches
+  anciennes remettait ce registre à neuf : une carte de 192 m n'était jamais admise) ; `world-pack131` n'admet en G12
+  que son registre vide (préparations G5–G11 sans objet) ; `restoreSave` reconstruit la cité sur le terrain de la graine
+  (`Game#cityTerrain217`, carte locale requise). La génération 12 reste refusée par le registre régional fermé.
+- Tests : `tests/open-city217-life.test.cjs` ; harnais sans quartiers fictifs, chantiers vidés ni bilan neutralisé.
+- Innocuité : procédure 3 (base `37984c1`) identique octet pour octet ; mondes G1–G11 des huit graines inchangés.
 
 Conditions : O2, O3, O4, O5, O6, O7, O8a livrés ; O8b livré **ou** vue FPS indisponible en
 G12 avec un message (décision D-O3).

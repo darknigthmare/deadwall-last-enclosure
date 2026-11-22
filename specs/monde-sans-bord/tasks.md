@@ -1227,6 +1227,118 @@ sauvegarde ; la partie complète joue alors `g.update` sur le terrain.
   scénario de mesure ne remplace pas une partie jouée (tourelles fixes au centre, aucun soldat posté, pas de
   réparation) : les valeurs `passRate` et `minShare` restent à confirmer en O9.
 
+## Préalable O9 (b) — Tir FPS entre paliers, côtés de la Meneuse et des abominations, siège adossé sauvegardé (livré, sans effet en jeu)
+
+Fiche : [ouverture.md](ouverture.md), préalable O9 (b) (décisions D-O1, D-O2, D-O3). Revue de la PR #39 (P2) et réserves
+d'O7. Toujours atteint par un harnais seulement : la génération 12 reste refusée par le jeu et par la sauvegarde.
+
+- [x] O9b.1 Tir FPS entre paliers (`src/vertical-citadel175.js`) : sur un terrain, `raycast`, `sightQuery`,
+      `aimPoint(e, origine)` et `screenAim` appliquent les décalages de palier du peintre O8b (`terrain-fps217.js`) à la
+      géométrie d'intersection — origine levée du sol de la boîte qui la porte ou du relief, boîtes et infectés levés
+      de leur sol, géants du relief, sol du tir = relief (marche de 25 cm, dichotomie) ; point rendu dans le repère de
+      l'origine ; hauteurs stockées inchangées. Affût automatique, tir possédé, visée classique, éclats, commandant,
+      gardes de palier (`vertical-population181` : `aimPoint(cible, origine)`) concordent. La falaise d'O6c (D-O1)
+      reste appliquée en plus. Reproduction de la revue (17117, support au palier 3, infecté du contrebas 8 m plus bas) :
+      sans les décalages (chemin de la base), le tir s’arrête sur la structure du support ; l’arbre touche l’infecté.
+- [x] O9b.2 Côtés (`src/abominations217.js`) : Meneuse (`post`, `posts`) parmi les côtés ouverts, `h` modulo leur
+      nombre, au bord de la carte de terrain ; abomination de siège (`edgeOf`) parmi les côtés ouverts ; `openSides`,
+      `frameOf` exportés ; `horde-horizon217` et `factions217` passent le cadre. Carte plate : identité (postes de 6
+      graines × 388 vagues et 2 000 points comparés à l'ancienne formule). Sur 50 graines × 100 vagues du terrain,
+      plus de 200 postes tombaient sur un côté clos ; la base plaçait aussi la Meneuse à 2 304 unités du bord (cadre de
+      128 m dans une carte de 192 m).
+- [x] O9b.3 Sauvegarde additive du siège adossé : `openSiege217` dans `serialize` (terrain seulement, vague en cours),
+      `C.OpenSiege217.normalize` (`src/core.js`) appelé par une dernière enveloppe de `DeadwallSave.validate`
+      (`src/save.js`), relu par `restoreSave` ; version 20 inchangée ; absent = reconstruit. `openSiegeState217`
+      reconstruit aussi un état dont un front n'est plus ouvert.
+- [x] O9b.4 Tests : `tests/open-city217-shot.test.cjs` (4 cas ; le premier échoue sur la base) — d'en haut, visée FPS
+      vers le point peint d'un infecté du contrebas : touché (tir possédé, affût automatique de même direction, vue
+      classique), impact derrière lui sur le relief du contrebas ; d'en bas, cible cachée ni vue, ni peinte, ni touchée,
+      aucune munition ; même palier : décalage nul ; carte plate : relief empoisonné jamais lu.
+      `tests/open-siege217-sides.test.cjs` (5 cas, tous en échec sur la base) — postes de la Meneuse, côté de
+      l'abomination (Traîne-épave désignée sur 17117 : est ou ouest), Meneuse postée sur 17117, validation additive
+      (carte plate sans clé, bloc cohérent porté, onze corruptions refusées), reprise en pleine vague 10 sur 17117
+      (mêmes parts et mêmes côtés d'arrivée qu'une vague sans interruption ; sans le bloc, compteurs remis à zéro).
+- [x] O9b.5 Innocuité : procédure 3 (`scratchpad/o9b/proc3.cjs` : base O6c — citadelle, sentinelle possédée,
+      tourelle, caserne, fusiliers, vague de 240 s — plus la vague menée 13 et la vague 28 de Traîne-épave, notes du
+      jeu hachées) : base `37984c1` et arbre identiques octet pour octet (départ, mi-parcours, vague menée, fin,
+      relecture). Mondes G1–G11 des huit graines : `audit-campaign-sites205` identique à
+      `campagne205-eligibilite.json` hors tailles des huit sources touchées. Navigateur (port 8748) : partie 17117 par
+      le menu, vague 1 (aucune clé `openSiege217`), puis harnais de terrain 17117 (support au palier 3, infecté 8 m plus
+      bas, tir possédé : touché, 32 dégâts), aucune erreur de page.
+- Réserves : la reprise d'un monde G12 n'existe pas encore (garde de taille de carte de la sauvegarde ; le test la
+  contourne et rend le terrain à la main) ; le test de reprise compare les côtés d'arrivée, pas les cases ni les types
+  (la reprise remet la file d'apparition dans son ordre sauvegardé) ; les échelons de nuit des chantiers de jour suivent
+  le monde par son identité et repartent à zéro quand le harnais remplace le monde ; le poste de la Meneuse reste sur
+  toute la longueur du côté ouvert (30 à 70 %), pas limité aux `entries` du côté — un poste derrière une falaise est
+  écarté par la garde de champ de marche existante (« aucun poste praticable ») ; le sol du tir est échantillonné tous
+  les 25 cm (une arête plus fine qu'une case n'existe pas sur la grille d'un mètre) ; coût : une marche du relief par
+  tir descendant et un relevé des sols de passerelles par requête de visée, sur un terrain seulement ; rien n'a été joué
+  en G12 par le menu.
+## Préalable O9 (a) — Quartiers, chantiers de jour et systèmes de cité sur un monde de terrain (livré, sans effet en jeu)
+
+Fiche : [ouverture.md](ouverture.md), O9, « Préalable O9 (a) ». Réserves des sections O6b, O6c, O7, O8a et O8b : les
+harnais (`tests/helpers/terrain-game217.cjs`, `tests/helpers/terrain-fps217.cjs`) contournaient le moteur de quartiers
+(« Quartier absent : housing », atteint par `spawnZombie`, `serialize`, la minicarte complète, `completeBuilding`,
+`refreshMetrics`, `cancelPlacement`), l'instantané des chantiers de jour dans `fieldcraft.setup`, la croix et l'anneau
+de `fieldcraft.pack`, la grille de 128 cases d'`earthworks217` et les sites nommés de la carte plate. Toujours hors jeu :
+la génération 12 reste refusée par le registre régional fermé (`C.WorldSave217Rules.open` faux).
+
+- [x] O9a.1 Règles `C.OpenCityLife217Rules` (`src/core.js`, après `C.OpenSiege217`) : `clear` 2 (demi-côté du carré
+      libre), `quarters` {`target` 45, `near` 28, `far` 72, `spacing` 22} (mètres), `halts.spacing` 8.
+- [x] O9a.2 Terrain (`src/game.js`) : `terrain217` porte `centre` (case du centre de la description) et `reach` (cases
+      atteintes depuis le centre par les arêtes franchissables : même parcours que le champ de flux, bâtiments et décor
+      exclus) ; `WorldMap#reach217(x, y)` (vrai sur une carte plate).
+- [x] O9a.3 Quartiers : `quarters217` pose les six thèmes de `C.TERRITORY_SECTORS` (identifiants `site-1` … `site-6`,
+      noms des secteurs) sur des cases libres, un par secteur de 60° à partir d'une orientation hachée de la graine,
+      au plus près de 45 m, à 22 m au moins l'un de l'autre ; secteur fermé : terrain atteint le plus proche de sa
+      direction. Fonction pure de la graine et de la description, aucun tirage de partie ni de génération.
+- [x] O9a.4 Chantiers de jour : `Dayworks.generate(…, edge)` et `normalize(raw, data)` bornés à côté − 48 de la carte de
+      la campagne (4 048 inchangé à 128 m ; taille inconnue : borne historique) ; `clearLocation` refuse un point hors
+      de `reach` sur un terrain ; `save.js` et `migrateSaveData` passent les données.
+- [x] O9a.5 Haltes d'expédition : `WorldMap#halts217(catalogue)` — position de la carte de 128 m mise à l'échelle
+      (192 / 128) autour du centre, puis case libre la plus proche à 8 m des autres lieux ; lue par `expeditions`
+      (`sites`, `site`) et `exploration-needs217` ; catalogue rendu tel quel sur une carte plate.
+- [x] O9a.6 Plan de la carte plate (`exploration-125`) : `planOn` = génération 4 et pas de terrain ; solides, coût,
+      vue, obstruction, butin des stations, placement, mini-routes ne s'appliquent pas sur un terrain ; surface du
+      commandant lue sur les routes de la description (`surface217`). CARTE [M] d'un terrain (`drawTerrainMap`) :
+      paliers, eau, routes, falaises, gisements, bâtiments, quartiers nommés, haltes ; plus de hameaux, stations,
+      carrefours ni épaves du plan plat. Postures, faune et sauvegarde de génération 4 inchangées.
+- [x] O9a.7 `fieldcraft.pack` sur un terrain : routes `roads` de la description au lieu de la croix, anneau de 270
+      unités autour du centre de la cité, place nouvelle atteinte (`reach217`) quand l'ancienne l'était (O6c : un seul
+      palier, à sec, hors rampe, reliée sans falaise).
+- [x] O9a.8 `earthworks217` : clés et bornes sur la carte de la partie (`g.local.tiles`), validation sur la carte des
+      données (`validate(raw, data)`).
+- [x] O9a.9 Sauvegarde : `save.js` lit la génération sur le registre régional du document reçu — la migration des
+      couches anciennes le remettait à neuf, si bien qu'une carte de 192 m n'était jamais admise ; `world-pack131`
+      n'admet en génération 12 que son registre vide ; `Game#cityTerrain217` : `restoreSave` reconstruit la cité sur
+      le terrain de la graine (carte locale `DeadwallWorldLocal217` requise, sinon refus explicite).
+- [x] O9a.10 Harnais sans contournement : quartiers fictifs retirés (`tests/open-siege217.test.cjs`,
+      `scripts/measure-open-siege217.cjs`, `scripts/browser-open-siege217.mjs`) ; `quietSetup` (instantané des
+      chantiers vidé) retiré de `tests/open-city217-fire.test.cjs` ; `quiet` et la neutralisation de
+      `cancelPlacement` / `refreshMetrics` retirés de `tests/terrain-fps217.test.cjs` et du harnais de citadelle ;
+      `completeBuilding` / `refreshMetrics` remplacés retirés de `tests/open-city217.test.cjs` ; sauvegarde et minicarte
+      complètes dans `tests/terrain-art217.test.cjs` et `tests/terrain-fps217.test.cjs`.
+- [x] O9a.11 Tests : `tests/open-city217-life.test.cjs` (6 cas) — règles, quartiers et haltes purs et atteints
+      (17117, 0, 46) ; partie de terrain sans contournement (17117, 46) : 18 points de terrain atteints au-delà de
+      4 048, chantier posé par `placeOne`, bâti et mis en service, bilan, minicarte et CARTE [M] sans nom du plan plat,
+      vague 1 complète jusqu'à l'aube (sauvegarde automatique refusée proprement) ; `fieldcraft` (routes, anneau,
+      place atteinte) et parcours empoisonné sur carte plate ; bornes des registres ; sauvegarde refusée G12 fermée,
+      puis (registre G12 ouvert par le test, comme `tests/world-save217.test.cjs`) validation, reprise sur le terrain,
+      sauvegarde relue identique, `world-pack131` non vide refusé, reprise sans carte locale refusée ; isolement.
+- [x] O9a.12 Innocuité : procédure 3 (base `37984c1` contre l'arbre de travail, parcours d'O8b complété : plan CARTE [M]
+      enregistré, minicarte, haltes, points de terrain, gisements, repères, obstruction du plan, travaux de terrain,
+      reprise) — sauvegardes de départ, de mi-parcours et de fin, relecture et sondes identiques octet pour octet.
+- Restent (harnais) : la partie de terrain avancée des tests de citadelle (âge 10) est une partie plate dont le monde
+  est remplacé ; le registre urbain, propre au monde, repart à neuf : le harnais de citadelle garde l'âge de la partie
+  d'origine le temps de la pose (bilan rafraîchi pour de bon). La sauvegarde automatique reste coupée dans les deux
+  scripts de mesure et de navigateur d'O7 (refusée tant que G12 est fermée : coupée pour ne pas bruiter les relevés).
+- Réserves : la reprise d'une campagne G12 reconstruit la cité, mais la boucle de jeu qui suit atteint le monde
+  régional (`frontier.world()` → `frontier-world.create(…, 12)`, refusé) : branchement O9 ; les autres modules
+  régionaux (`remarkable217`, `seed-card217`…) lisent ce monde. Les quartiers n'ont pas de décor de quartier (les
+  maisons et étals du contenu généré ne sont pas posés sur un terrain) ; la place d'un quartier ne garde pas une
+  parcelle constructible ; les haltes reprennent le catalogue de la carte plate (noms, réserves) à une place
+  déplacée ; les mesures d'O7 n'ont pas été rejouées sans quartiers fictifs ; rien n'a été joué par le menu.
+
 ## T5 — Ouverture expérimentale
 
 - [ ] T5.1 `src/world-open217.js` : façade ; aiguillage dans `frontier-world.create`.

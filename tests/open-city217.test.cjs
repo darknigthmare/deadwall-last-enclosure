@@ -33,8 +33,8 @@ function cliffs(d) {
   return out;
 }
 // Partie de terrain : la partie du harnais reçoit le monde de génération 12, un centre au milieu, son champ de flux.
-// Les modules qui ne savent pas encore lire ce monde (quartiers, chantiers) ne sont pas appelés : on joue les
-// méthodes du jeu (unités, infectés, projectiles) comme le fait `update`.
+// On joue les méthodes du jeu (unités, infectés, projectiles) comme le fait `update` ; la partie complète sur un terrain
+// (quartiers, chantiers de jour, sauvegarde) est éprouvée par tests/open-city217-life.test.cjs.
 function play(seed) {
   g.startNew('standard', String(seed)); g.campaignIntro132?.skip?.();
   const w = build(seed); g.world = w;
@@ -250,11 +250,8 @@ test('O6b : parcours d’ouvriers — poser un mur, récolter un gisement sur l�
     const wallAt = [core.gx - 3, core.gy + 7]; assert.equal(w.placement(w.definition('woodWall'), ...wallAt).valid, true);
     const wall = new Building(g.nextId++, 'woodWall', ...wallAt, 0, 0, w.cityGeometry202); w.add(wall); g.flow.rebuild(w, core);
     g.workerOrder = 'build'; for (const u of g.units) Object.assign(u, { x: core.x, y: core.bottom + 40, navigation: null, state: 'idle', think: 0 });
-    // Mise en service par la méthode du jeu ; les quartiers et chantiers des modules ne lisent pas encore ce monde.
-    // (bilan de la cité laissé de côté pendant ce parcours).
-    const own = ['completeBuilding', 'refreshMetrics'].map(k => [k, Object.getOwnPropertyDescriptor(g, k)]);
-    g.completeBuilding = Game.prototype.completeBuilding.bind(g); g.refreshMetrics = () => {};
-    try { frames(30 * 90, () => { if (!wall.completed) g.updateUnits(1 / 30); }); } finally { for (const [k, o] of own) { if (o) Object.defineProperty(g, k, o); else delete g[k]; } }
+    // Mise en service et bilan par les méthodes de la partie, modules compris (préalable O9 (a)).
+    frames(30 * 90, () => { if (!wall.completed) g.updateUnits(1 / 30); });
     assert.ok(wall.completed, s + ' : mur bâti');
     // Gisement le plus proche sur l'autre palier ; les autres sont épuisés pour ce parcours.
     const node = w.nodes.filter(n => !n.depleted && lvl(n) !== home).sort((a, b) => Math.hypot(a.x - core.x, a.y - core.y) - Math.hypot(b.x - core.x, b.y - core.y))[0];

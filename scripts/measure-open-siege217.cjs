@@ -5,8 +5,8 @@
 // l'on atteint l'anneau depuis l'intérieur : les falaises ferment le reste), défendue par des tourelles, puis une
 // vague de l'âge est jouée par `g.update` jusqu'à sa fin (ou `--max` secondes). Relevés : temps de vague, cadavres
 // par mètre de front ouvert, murs perdus, cœur debout.
-// Contournements du harnais (comme O6b/O8a) : quartiers fictifs autour du cœur (le moteur des chantiers tire ses lieux
-// des quartiers G1–G11 : « Quartier absent : housing »), sauvegarde coupée, gisements retirés de l'emprise des murs.
+// Réglages du harnais : quartiers du terrain (préalable O9 (a) ; plus de quartiers fictifs), sauvegarde coupée (refusée
+// tant que le registre régional G12 est fermé : coupée pour ne pas bruiter les relevés), gisements retirés de l'emprise des murs.
 // Variante « graine:catégorie:12 » : même grille, l'unique côté non clos réduit à une rampe de 12 m (aucune graine
 // à un seul passage n'existe sur 3 000 graines de la version 2 de la carte locale ; mesure indicative du plafond).
 // usage : node scripts/measure-open-siege217.cjs <sortie.json> <graine[:catégorie[:rampe]]>... [--ages=2,4,6] [--max=300] [--dt=0.1]
@@ -27,7 +27,7 @@ const { buildTerrainGame217 } = require(path.join(root, 'tests/helpers/terrain-g
 const Lw = require(path.join(root, 'src/world-local217.js'));
 const { g } = bootDocument134();
 g.startNew('standard', '17117'); g.campaignIntro132?.skip?.();
-const C = globalThis.DeadwallCore, T = globalThis.DeadwallTactics, N = 192, THEMES = [...new Set(C.Dayworks.SITES.map(s => s.theme))];
+const C = globalThis.DeadwallCore, T = globalThis.DeadwallTactics, N = 192;
 const Building = g.core().constructor;
 function ring(w, r) {
   const c = N / 2, inside = new Uint8Array(N * N), queue = [c * N + c], cells = new Set(); inside[c * N + c] = 1;
@@ -50,7 +50,6 @@ function run(seed, category, age, ramp) {
   const P = PROFILE[age], d = ramp ? narrowed(Lw.describe(seed), ramp) : Lw.describe(seed);
   g.startNew('standard', '17117'); g.campaignIntro132?.skip?.();
   const { world: w, core } = buildTerrainGame217(g, () => d, seed);
-  w.sites = THEMES.map((theme, k) => ({ id: 'harnais-' + k, theme, x: core.x + 160 * Math.cos(k), y: core.y + 160 * Math.sin(k) }));
   Object.defineProperty(g, 'save', { value: () => false, writable: true, configurable: true });
   w.nodes.length = 0;
   // Ville de l'âge : le score de cité ne compte pas ici, seules la vague, les murs et les tourelles changent.
