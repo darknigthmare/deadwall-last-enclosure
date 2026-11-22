@@ -61,7 +61,10 @@ test('O6a : chemin de construction séparé — terrain et gisements de la descr
       assert.ok(d.cost[i] >= 0 && !d.water[i] && d.kinds[i] !== Lw.KIND.ramp, 'gisement à portée, à sec, hors rampe');
     }
     assert.deepEqual([...new Set(w.nodes.map(n => n.type))].sort(), ['scrap', 'stone', 'wood']);
-    assert.deepEqual(w.sites, []);
+    // Préalable O9 (a) : les six quartiers sont posés sur le terrain atteint (un par thème), jamais repris du contenu G1–G11.
+    assert.deepEqual(w.sites.map(s => s.theme), C.TERRITORY_SECTORS.map(s => s.id));
+    for (const s of w.sites) assert.equal(w.reach217(s.x, s.y), true, 'quartier atteint ' + s.id);
+    if (globalThis.DeadwallWorldContent) assert.notDeepEqual(w.sites, globalThis.DeadwallWorldContent.generate(SEEDS[k]).sites);
     // Rien d'énuméré en plus d'une carte plate : enveloppes et terrain sont hors des propriétés.
     assert.deepEqual(Object.keys(w).sort(), Object.keys(new World(SEEDS[k], 0, MAP)).sort());
   }
