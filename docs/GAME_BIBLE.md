@@ -1421,6 +1421,13 @@ d'atlas calée sur l'étendue totale.
   47 ms pour la carte actuelle de 128 m : la décision de garder 192 m tient.
   Restent (O6b) : projectiles en vol, ouvriers, voirie et véhicule face aux
   falaises ; vivres et carburant dans les gisements.
+- **Préalable O9 (a) livré, sans effet en jeu** : la cité adossée a ses
+  quartiers. Les six quartiers, les points des chantiers de jour et les
+  haltes d'expédition ne tombent jamais sur un plateau inaccessible, dans
+  l'eau ou sur une rampe : ils sont posés sur le terrain atteint depuis le
+  centre, d'après la graine seule. Les hameaux et stations de la carte plate
+  n'existent pas sur ce monde. Réserves : quartiers sans décor propre,
+  haltes au catalogue de la carte plate.
 - **Préalable O9 (b) livré, sans effet en jeu** : en vue FPS, un tir suit
   le relief réel — d'en haut on touche ce qu'on voit en contrebas, d'en bas
   la falaise arrête toujours vue et tir (D-O1). La Meneuse rassemble la
