@@ -448,7 +448,7 @@ La nécropole se multiplie avec la corvée de déblaiement (×2,25 pendant la co
 
 | Risque | Verdict | Chiffres |
 |---|---|---|
-| Maladie chronique (`C.CorpseChain217Rules.sickness`) | Confirmé | Rempart : palier ≥ 2 dans 39/49 vagues 11–17 et 50/56 vagues 18–25, malades dans 21/56 vagues tardives, aucun mort. Cause : la charge des murs pendant des assauts de 300–600 s (médiane 438 s), charge max médiane 332 pour un seuil de 124–184. |
+| Maladie chronique (`C.CorpseChain217Rules.sickness`) | Réglé (`siegeWalls` .25) | Avant : rempart palier ≥ 2 dans 39/49 vagues 11–17 et 50/56 vagues 18–25 (charge des murs pendant des assauts de 300–600 s). Après : 4/49 et 20/56, 3 malades en 8 parties (contre 54), aucun départ ; la négligée reste au palier 6 dans 4/4 parties (159 départs). |
 | Escorte réveillée de jour | Infirmé sans sortie | 49 vagues menées : 0 réveil de jour. En sortie, Meneuse abattue dans 21/25 vagues menées. |
 | Ruptures (`C.Breach217Rules` 4/6) | Infirmé | 0 rupture en 16 parties soignées ; 2 en 8 parties négligées. |
 | Traîne-épave | Partiel | 12 < `rampMin` 15 : pas de rampe sur un mur propre (mesuré 0 → 12) ; sur un mur à 18 → 30. |
@@ -456,6 +456,8 @@ La nécropole se multiplie avec la corvée de déblaiement (×2,25 pendant la co
 | Signature et moral | Sans alerte | Attirance > +80 % dans 86/200 vagues ; pas de départ hors maladie. |
 | Eau de cité | Sans alerte | Âge Ville dans 7/24 parties (vagues 15–22) ; pénurie seulement si une citerne tombe. |
 | Lois | Non éprouvé | Âge 7 jamais atteint (âge max 4). |
+
+`sickness.siegeWalls` 0,25 : pendant l'assaut et la sécurisation, la maladie ne compte que le quart de la charge au pied des murs (les corps frais d'un mur assiégé ne pourrissent pas encore). Au calme, la charge non déblayée compte en entier ; corps à traiter et douves toujours en entier. Charge mécanique des murs (rampes, brèches, `C.CORPSE_PRESSURE`) inchangée. Règle sans état (lue dans la phase de vague déjà sauvegardée), seuil par habitant inchangé à 4. Reste 20/56 vagues tardives (5/8 sur 17117, 6/8 sur 4294967295) : levier restant = rythme du déblaiement au calme (230–330 corps en ~210 s). Non éprouvé en partie humaine.
 
 Réglages mesurés, non appliqués : `sickness.perPerson` 8 (vagues malades réduites de 30 à 60 % sur 3 graines, moral pire sur une) ; `graceSeconds` 240 (−10 à −35 %). Le levier dominant est la charge des murs pendant les assauts tardifs. Réserves : le banc n'est pas une partie humaine (la défense laisse fuir ~90 % de l'effectif dans l'enceinte) ; âges 3+ atteints par promotion ; sorties régionales, avant-postes, lois, factions et grands ouvrages non joués.
 
