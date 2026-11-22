@@ -1110,6 +1110,10 @@
     if (!game || game.state !== 'playing') return false;
     return game.exploration125?.generation === 4 || typeof game.runId === 'string' && game.runId.includes(GENERATION_MARKER);
   }
+  // Préalable O9 (a) : le plan de la carte plate (routes, stations, hameaux, solides, butin des stations) n'existe pas sur
+  // une cité de terrain (génération 12, harnais hors jeu) : ni collision, ni coût, ni vue, ni butin, ni placement n'en
+  // viennent. Postures, faune et sauvegarde de la génération 4 restent celles de la campagne.
+  function planOn(game) { return isGeneration4(game) && !game.world?.terrain217; }
 
   function runtimeLootNode(spec, amount = spec.amount) {
     const node={id:spec.id,type:spec.type,x:spec.x,y:spec.y,amount:Math.max(0,amount),maxAmount:spec.amount,radius:spec.radius,variant:spec.id%4,depleted:amount<=.01,flash:0,__exploration125Loot:true,stationId:spec.stationId};
@@ -1351,7 +1355,7 @@
     if (!game?.world?.nodes) return;
     const amounts=savedAmounts instanceof Map?savedAmounts:new Map(game.world.nodes.filter(node=>node.__exploration125Loot).map(node=>[node.id,node.amount]));
     removeRuntimeLoot(game);
-    if (!isGeneration4(game)) return;
+    if (!planOn(game)) return;
     for(const spec of plan.stationLoot||[]){const amount=amounts.has(spec.id)?amounts.get(spec.id):spec.amount;game.world.nodes.push(runtimeLootNode(spec,amount));}
     const protectedBoxes=[...(plan.solids||[])].filter(box=>['settlement-building','house','station-wall','station-furniture','terrain-prop'].includes(box.kind));
     for(const station of plan.stations)protectedBoxes.push(rect(station.x-station.w/2-12,station.y-station.h/2-12,station.w+24,station.h+24,'station-floor'));
@@ -1366,6 +1370,14 @@
     for(const road of plan.roads||[])if(roadContains(road,x,y,-4)){if(road.surface==='dirt')return{id:'dirt',label:'chemin de terre',multiplier:weather>.62?.78:.94};if(road.surface==='gravel')return{id:'gravel',label:'chemin empierré',multiplier:.98};if(road.surface==='concrete')return{id:'concrete',label:'accès béton',multiplier:1};return {id:'asphalt',label:road.lanes===1?'desserte locale':`asphalte ${road.lanes||2} voies`,multiplier:1.05};}
     if((plan.settlements||[]).some(st=>[st.street,st.connector].filter(Boolean).some(local=>pointSegmentDistance(x,y,local.x1,local.y1,local.x2,local.y2)<=local.width/2)))return {id:'street',label:'voie locale',multiplier:.98};
     if((plan.backyards||[]).some(yard=>Math.abs(x-yard.x)<=yard.w/2&&Math.abs(y-yard.y)<=yard.h/2))return {id:'yard',label:'terre de cour',multiplier:.9};
+    if(weather>.62)return {id:'mud',label:'terre détrempée',multiplier:.78};
+    return {id:'ground',label:'terrain irrégulier',multiplier:.92};
+  }
+
+  // Préalable O9 (a) : sur une cité de terrain, la route est celle de la description (`roads`), le reste est le sol commun.
+  function surface217(game,plan,x,y,weather=0){
+    const t=game.world?.terrain217;if(!t)return surfaceAt(plan,x,y,weather);
+    const cell=game.world.terrainAt217(x,y);if(cell?.road)return {id:'asphalt',label:'route',multiplier:1};
     if(weather>.62)return {id:'mud',label:'terre détrempée',multiplier:.78};
     return {id:'ground',label:'terrain irrégulier',multiplier:.92};
   }
@@ -1458,7 +1470,7 @@
     const basePlacement = world.placement.bind(world), baseSolid=world.solidForFriendly?.bind(world), baseCost=world.movementCost?.bind(world), tile = C?.TILE || 32;
     world.placement = function placement125(def, gx, gy, rotation = 0, ignoreId = 0) {
       const result = basePlacement(def, gx, gy, rotation, ignoreId);
-      if (!result.valid || !isGeneration4(game)) return result;
+      if (!result.valid || !planOn(game)) return result;
       const physicalDef=world.definition?.(def.id)||def,footprint = buildingFootprint(physicalDef, gx, gy, rotation, tile);
       const rules=C.CityRoadRules202;
       if (rules && !rules.allowedProperties.some(key=>Boolean(physicalDef[key]))) {
@@ -1475,12 +1487,12 @@
       return overlaps ? { valid: false, reason: 'Décor, habitation ou accès à préserver' } : result;
     };
     if(baseSolid)world.solidForFriendly=function solidForFriendly125(x,y){
-      const existing=baseSolid(x,y);if(existing||!isGeneration4(game))return existing;
+      const existing=baseSolid(x,y);if(existing||!planOn(game))return existing;
       const boxes=querySpatialIndexCircle(planSpatial(plan).solidIndex,x,y,1.5);
       return boxes.length?{id:-125,type:'world125',dead:false,completed:true,def:{wall:true}}:null;
     };
     if(baseCost)world.movementCost=function movementCost125(gx,gy){
-      const cost=baseCost(gx,gy);if(!isGeneration4(game))return cost;
+      const cost=baseCost(gx,gy);if(!planOn(game))return cost;
       const cell={x:gx*tile,y:gy*tile,w:tile,h:tile};
       if(querySpatialIndexRect(planSpatial(plan).solidIndex,cell).length)return Math.max(cost,1200);
       return cost;
@@ -1547,14 +1559,15 @@
     const extensionClear = (entity, x, y) => {
       if(!isGeneration4(game))return true;
       if(entity===game.player&&game.expeditions?.driving()&&game.expeditions.car()?.metric174===1)return game.expeditions.carClear(x,y);
+      if(!planOn(game))return true;
       const radius = Math.max(5, (entity.radius || 10) * .78);
       return querySpatialIndexCircle(planSpatial(plan).solidIndex,x,y,radius).length===0;
     };
     game.friendlyPositionClear = function patchedFriendly(entity, x, y) { return baseFriendly(entity, x, y) && extensionClear(entity, x, y); };
     game.hostilePositionClear = function patchedHostile(entity, x, y) { return baseHostile(entity, x, y) && extensionClear(entity, x, y); };
     const baseLine=game.hostileLineClear?.bind(game),baseSight=game.hasLineOfSight?.bind(game);
-    if(baseLine)game.hostileLineClear=function(from,to,barriersOnly=true,...rest){return baseLine(from,to,barriersOnly,...rest)&&(!isGeneration4(this)||!firstObstruction134(plan,from,to,0,barriersOnly));};
-    if(baseSight)game.hasLineOfSight=function(from,to,...rest){return baseSight(from,to,...rest)&&(!isGeneration4(this)||!firstObstruction134(plan,from,to,0,true));};
+    if(baseLine)game.hostileLineClear=function(from,to,barriersOnly=true,...rest){return baseLine(from,to,barriersOnly,...rest)&&(!planOn(this)||!firstObstruction134(plan,from,to,0,barriersOnly));};
+    if(baseSight)game.hasLineOfSight=function(from,to,...rest){return baseSight(from,to,...rest)&&(!planOn(this)||!firstObstruction134(plan,from,to,0,true));};
 
   }
 
@@ -1686,7 +1699,35 @@
     return { overlay, card, close };
   }
 
+  // Préalable O9 (a) : plan d'une cité de terrain (génération 12, harnais hors jeu). Le tracé, les carrefours, stations,
+  // hameaux nommés et épaves du plan de la carte plate n'existent pas sur ce monde : paliers, eau et routes de la
+  // description, puis gisements, bâtiments, quartiers et haltes posés sur le terrain. Lecture seule.
+  function drawTerrainMap(game, canvas, t) {
+    const ctx = canvas.getContext('2d'), w = canvas.width, h = canvas.height, N = t.tiles, size = game.local.size, sx = w / size, sy = h / size, cw = w / N, ch = h / N;
+    ctx.fillStyle = '#d7cfb0'; ctx.fillRect(0, 0, w, h);
+    const tint = i => t.roads[i] ? '#72776e' : t.water[i] ? (t.deep[i] ? '#6f8fa0' : '#9fb3b0') : ['#b8b094', '#c9c1a2', '#d9d1b2', '#e6dfc4', '#efe9d2'][Math.min(4, t.levels[i])];
+    // Une bande par suite de cases de même teinte sur une ligne.
+    for (let y = 0; y < N; y++) for (let x = 0; x < N;) {
+      const colour = tint(y * N + x); let end = x + 1; while (end < N && tint(y * N + end) === colour) end++;
+      ctx.fillStyle = colour; ctx.fillRect(x * cw, y * ch, (end - x) * cw + .5, ch + .5); x = end;
+    }
+    ctx.strokeStyle = '#5c4f3a'; ctx.lineWidth = 1.2; ctx.beginPath();
+    for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+      const i = y * N + x;
+      if (x + 1 < N && t.levels[i] !== t.levels[i + 1] && !(t.passes[i] & 1)) { ctx.moveTo((x + 1) * cw, y * ch); ctx.lineTo((x + 1) * cw, (y + 1) * ch); }
+      if (y + 1 < N && t.levels[i] !== t.levels[i + N] && !(t.passes[i] & 2)) { ctx.moveTo(x * cw, (y + 1) * ch); ctx.lineTo((x + 1) * cw, (y + 1) * ch); }
+    }
+    ctx.stroke();
+    const live = game.state === 'playing'; if (live) { drawMapResources(ctx, game, sx, sy, true); drawMapBuildings(ctx, game, sx, sy, true); }
+    ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center';
+    for (const site of game.world.sites || []) { ctx.fillStyle = '#526451'; ctx.beginPath(); ctx.arc(site.x * sx, site.y * sy, 5, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = '#3f473e'; ctx.fillText(String(site.name || '').toUpperCase(), site.x * sx, site.y * sy - 10); }
+    ctx.fillStyle = '#8a6a43'; for (const halt of game.expeditions?.sites?.() || []) ctx.fillRect(halt.x * sx - 3, halt.y * sy - 3, 6, 6);
+    if (live && !game.frontier?.active()) { ctx.fillStyle = '#b5443d'; ctx.beginPath(); ctx.arc(game.player.x * sx, game.player.y * sy, 5, 0, Math.PI * 2); ctx.fill(); }
+    ctx.fillStyle = '#544b3d'; ctx.font = '11px sans-serif'; ctx.fillText('CITÉ DE TERRAIN · CARTE ' + game.world.seed, w / 2, h - 12);
+  }
+
   function drawRoadMap(game, plan, canvas) {
+    if (game.state === 'playing' && game.world?.terrain217) return drawTerrainMap(game, canvas, game.world.terrain217);
     const ctx = canvas.getContext('2d'), w = canvas.width, h = canvas.height, sx = w / plan.worldSize, sy = h / plan.worldSize, active=game.state!=='playing'||isGeneration4(game);
     ctx.fillStyle = '#d7cfb0'; ctx.fillRect(0, 0, w, h);
     const live=game.state==='playing'&&plan===game.exploration125?.plan;
@@ -1768,7 +1809,7 @@
     function renderInventory() {
       const p = game.player || { carry: {}, carryCapacity: 0, health: 0, maxHealth: 0, weapon: '—', magazine: {} };
       const regional = game.frontier?.active() ? game.worldEvolution?.overview() : null;
-      const packed = packInventory(p.carry || {}), surface=regional?.surface ? {label:regional.surface.name} : surfaceAt(plan,p.x||0,p.y||0,game.weather||0), posture=regional?.posture?.key||p.posture||'stand';
+      const packed = packInventory(p.carry || {}), surface=regional?.surface ? {label:regional.surface.name} : surface217(game,plan,p.x||0,p.y||0,game.weather||0), posture=regional?.posture?.key||p.posture||'stand';
       inventoryBody.replaceChildren();
       const equip = document.createElement('section'); equip.className = 'deadwall125-equip';
       const weaponRows=Object.entries(C?.WEAPONS||{}).map(([id,def])=>{const locked=(game.tier?.id||0)<def.tier;return `<div class="equip-slot ${id===p.weapon?'active':''}"><small>${locked?'À DÉBLOQUER':id===p.weapon?'ARME ACTIVE':'ARME DISPONIBLE'}</small><strong>${String(def.name||id).toUpperCase()}</strong><span>${locked?'Requiert '+(C.CITY_TIERS?.[def.tier]?.name||'le palier '+def.tier):`${Math.round(p.magazine?.[id]||0)} / ${def.magazine||0} dans le chargeur`}</span></div>`;}).join('');
@@ -1852,7 +1893,7 @@
     const baseUpdate=game.updatePlayer.bind(game),baseDraw=game.drawPlayer.bind(game),baseMove=game.moveFriendly.bind(game);
     game.moveFriendly=function moveWithPosture125(entity,dx,dy){
       if(entity===this.player&&isGeneration4(this)&&!this.frontier?.active()&&!this.expeditions?.driving()){
-        const factor=surfaceAt(plan,entity.x,entity.y,this.weather||0).multiplier*postureMultiplier(entity.posture||'stand');
+        const factor=surface217(this,plan,entity.x,entity.y,this.weather||0).multiplier*postureMultiplier(entity.posture||'stand');
         dx*=factor;dy*=factor;
       }
       return baseMove(entity,dx,dy);
@@ -1862,7 +1903,7 @@
       const active=isGeneration4(this)&&!this.frontier?.active()&&!this.expeditions?.driving(),posture=this.player.posture;let restoreShift=false;
       if(active&&posture!=='stand'&&this.input.keys.has('ShiftLeft')){this.input.keys.delete('ShiftLeft');restoreShift=true;}
       const result=baseUpdate(dt);if(restoreShift)this.input.keys.add('ShiftLeft');
-      if(active){const surface=surfaceAt(plan,this.player.x,this.player.y,this.weather||0);this.exploration125.currentSurface=surface;const mobility=surface.multiplier*postureMultiplier(posture);this.player.vx*=mobility;this.player.vy*=mobility;if(indicator){const text=`${posture==='prone'?'ALLONGÉ':posture==='crouch'?'ACCROUPI':'DEBOUT'} · ${surface.label.toUpperCase()} · ${Math.round(mobility*100)}%`;if(indicator.textContent!==text)indicator.textContent=text;}}
+      if(active){const surface=surface217(this,plan,this.player.x,this.player.y,this.weather||0);this.exploration125.currentSurface=surface;const mobility=surface.multiplier*postureMultiplier(posture);this.player.vx*=mobility;this.player.vy*=mobility;if(indicator){const text=`${posture==='prone'?'ALLONGÉ':posture==='crouch'?'ACCROUPI':'DEBOUT'} · ${surface.label.toUpperCase()} · ${Math.round(mobility*100)}%`;if(indicator.textContent!==text)indicator.textContent=text;}}
       return result;
     };
     game.drawPlayer=function drawPlayer125(ctx){
@@ -1947,8 +1988,8 @@
     installSaveExtension(game);
     const syncPlan = installPlanSync(game, plan);
     game.exploration125.syncPlan = syncPlan;
-    game.exploration125.firstObstruction=(from,to,pad=0,barriersOnly=false)=>isGeneration4(game)?firstObstruction134(plan,from,to,pad,barriersOnly):null;
-    game.exploration125.drawMap=(ctx,sx,sy,options={})=>{if(!isGeneration4(game))return false;if(options.resources!==false)drawMapResources(ctx,game,sx,sy,options.paper);drawMiniRoads(ctx,plan,sx,sy,options);return true;};
+    game.exploration125.firstObstruction=(from,to,pad=0,barriersOnly=false)=>planOn(game)?firstObstruction134(plan,from,to,pad,barriersOnly):null;
+    game.exploration125.drawMap=(ctx,sx,sy,options={})=>{if(!planOn(game))return false;if(options.resources!==false)drawMapResources(ctx,game,sx,sy,options.paper);drawMiniRoads(ctx,plan,sx,sy,options);return true;};
     game.exploration125.renderMap=(ctx,width,height)=>drawRoadMap(game,plan,{width,height,getContext:()=>ctx});
     installCollision(game, plan);
     installMobility(game, plan, document);

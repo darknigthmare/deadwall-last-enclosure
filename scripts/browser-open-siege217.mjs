@@ -35,13 +35,11 @@ const before = errors.length;
 for (const file of ['src/world-cantons217.js', 'src/world-canton-gen217.js', 'src/world-local217.js', 'src/terrain-art217.js'])
   await page.addScriptTag({ content: readFileSync(join(root, file), 'utf8') });
 await page.evaluate(source => { globalThis.buildTerrainGame217 = (0, eval)('(' + source + ')'); }, buildTerrainGame217.toString());
-// Terrain 17117 : quartiers fictifs autour du cœur (le moteur des chantiers lit les quartiers G1–G11) et sauvegarde
-// coupée, comme le harnais de test ; vague 5 annoncée par le directeur, puis jouée en temps réel.
+// Terrain 17117 : quartiers posés sur le terrain par le monde (préalable O9 (a)) ; sauvegarde coupée (refusée tant que
+// le registre régional G12 est fermé, coupée pour ne pas bruiter la console) ; vague 5 annoncée, puis jouée en temps réel.
 const terrain = await page.evaluate(async () => {
   const g = DEADWALL, notes = [], notify = g.notify;
   const built = buildTerrainGame217(g, DeadwallWorldLocal217.describe, 17117, { zoom: .32 });
-  const themes = [...new Set(DeadwallCore.Dayworks.SITES.map(s => s.theme))];
-  built.world.sites = themes.map((theme, k) => ({ id: 'harnais-' + k, theme, x: built.core.x + 1400 * Math.cos(k), y: built.core.y + 1400 * Math.sin(k) }));
   g.save = () => false;
   g.notify = function (text, ...rest) { notes.push(String(text)); return notify.call(this, text, ...rest); };
   g.wave = 5; g.phase = 'calm'; g.phaseTime = .2; g.paused = false;

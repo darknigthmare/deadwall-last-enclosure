@@ -35,7 +35,7 @@ for (const seed of seeds) {
   // Points de vue tirés de la grille (lecture seule) : centre, première face de falaise, rampes, eau.
   const views = await page.evaluate(seed => {
     const g = DEADWALL; g.paused = true;
-    // Constructeur des infectés pris sur la partie d'origine (le monde de terrain n'a pas de quartiers à bâtir).
+    // Constructeur des infectés pris sur la partie d'origine.
     if (!globalThis.Zombie217) { g.spawnZombie('walker'); globalThis.Zombie217 = g.zombies.at(-1).constructor; }
     const built = buildTerrainGame217(g, DeadwallWorldLocal217.describe, seed, { zoom: .55 });
     const A = DeadwallTerrainArt217, t = g.world.terrain217, p = A.prepare(t), T = DeadwallCore.TILE, N = p.tiles, out = [];
@@ -59,7 +59,7 @@ for (const seed of seeds) {
   for (const v of views.views) {
     await page.evaluate(v => {
       const g = DEADWALL; Object.assign(g.camera, { x: v.x, y: v.y, zoom: v.zoom, shake: 0 }); g.dayClock = .44; g.weather = 0;
-      g.render(); Object.getPrototypeOf(g).renderMinimap.call(g);
+      g.render(); g.renderMinimap();
     }, v);
     const file = join(out, 'o8a-' + seed + '-' + v.name + '.png');
     await page.locator('#game').screenshot({ path: file });

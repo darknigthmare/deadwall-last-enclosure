@@ -1274,6 +1274,70 @@ d'O7. Toujours atteint par un harnais seulement : la génération 12 reste refus
   les 25 cm (une arête plus fine qu'une case n'existe pas sur la grille d'un mètre) ; coût : une marche du relief par
   tir descendant et un relevé des sols de passerelles par requête de visée, sur un terrain seulement ; rien n'a été joué
   en G12 par le menu.
+## Préalable O9 (a) — Quartiers, chantiers de jour et systèmes de cité sur un monde de terrain (livré, sans effet en jeu)
+
+Fiche : [ouverture.md](ouverture.md), O9, « Préalable O9 (a) ». Réserves des sections O6b, O6c, O7, O8a et O8b : les
+harnais (`tests/helpers/terrain-game217.cjs`, `tests/helpers/terrain-fps217.cjs`) contournaient le moteur de quartiers
+(« Quartier absent : housing », atteint par `spawnZombie`, `serialize`, la minicarte complète, `completeBuilding`,
+`refreshMetrics`, `cancelPlacement`), l'instantané des chantiers de jour dans `fieldcraft.setup`, la croix et l'anneau
+de `fieldcraft.pack`, la grille de 128 cases d'`earthworks217` et les sites nommés de la carte plate. Toujours hors jeu :
+la génération 12 reste refusée par le registre régional fermé (`C.WorldSave217Rules.open` faux).
+
+- [x] O9a.1 Règles `C.OpenCityLife217Rules` (`src/core.js`, après `C.OpenSiege217`) : `clear` 2 (demi-côté du carré
+      libre), `quarters` {`target` 45, `near` 28, `far` 72, `spacing` 22} (mètres), `halts.spacing` 8.
+- [x] O9a.2 Terrain (`src/game.js`) : `terrain217` porte `centre` (case du centre de la description) et `reach` (cases
+      atteintes depuis le centre par les arêtes franchissables : même parcours que le champ de flux, bâtiments et décor
+      exclus) ; `WorldMap#reach217(x, y)` (vrai sur une carte plate).
+- [x] O9a.3 Quartiers : `quarters217` pose les six thèmes de `C.TERRITORY_SECTORS` (identifiants `site-1` … `site-6`,
+      noms des secteurs) sur des cases libres, un par secteur de 60° à partir d'une orientation hachée de la graine,
+      au plus près de 45 m, à 22 m au moins l'un de l'autre ; secteur fermé : terrain atteint le plus proche de sa
+      direction. Fonction pure de la graine et de la description, aucun tirage de partie ni de génération.
+- [x] O9a.4 Chantiers de jour : `Dayworks.generate(…, edge)` et `normalize(raw, data)` bornés à côté − 48 de la carte de
+      la campagne (4 048 inchangé à 128 m ; taille inconnue : borne historique) ; `clearLocation` refuse un point hors
+      de `reach` sur un terrain ; `save.js` et `migrateSaveData` passent les données.
+- [x] O9a.5 Haltes d'expédition : `WorldMap#halts217(catalogue)` — position de la carte de 128 m mise à l'échelle
+      (192 / 128) autour du centre, puis case libre la plus proche à 8 m des autres lieux ; lue par `expeditions`
+      (`sites`, `site`) et `exploration-needs217` ; catalogue rendu tel quel sur une carte plate.
+- [x] O9a.6 Plan de la carte plate (`exploration-125`) : `planOn` = génération 4 et pas de terrain ; solides, coût,
+      vue, obstruction, butin des stations, placement, mini-routes ne s'appliquent pas sur un terrain ; surface du
+      commandant lue sur les routes de la description (`surface217`). CARTE [M] d'un terrain (`drawTerrainMap`) :
+      paliers, eau, routes, falaises, gisements, bâtiments, quartiers nommés, haltes ; plus de hameaux, stations,
+      carrefours ni épaves du plan plat. Postures, faune et sauvegarde de génération 4 inchangées.
+- [x] O9a.7 `fieldcraft.pack` sur un terrain : routes `roads` de la description au lieu de la croix, anneau de 270
+      unités autour du centre de la cité, place nouvelle atteinte (`reach217`) quand l'ancienne l'était (O6c : un seul
+      palier, à sec, hors rampe, reliée sans falaise).
+- [x] O9a.8 `earthworks217` : clés et bornes sur la carte de la partie (`g.local.tiles`), validation sur la carte des
+      données (`validate(raw, data)`).
+- [x] O9a.9 Sauvegarde : `save.js` lit la génération sur le registre régional du document reçu — la migration des
+      couches anciennes le remettait à neuf, si bien qu'une carte de 192 m n'était jamais admise ; `world-pack131`
+      n'admet en génération 12 que son registre vide ; `Game#cityTerrain217` : `restoreSave` reconstruit la cité sur
+      le terrain de la graine (carte locale `DeadwallWorldLocal217` requise, sinon refus explicite).
+- [x] O9a.10 Harnais sans contournement : quartiers fictifs retirés (`tests/open-siege217.test.cjs`,
+      `scripts/measure-open-siege217.cjs`, `scripts/browser-open-siege217.mjs`) ; `quietSetup` (instantané des
+      chantiers vidé) retiré de `tests/open-city217-fire.test.cjs` ; `quiet` et la neutralisation de
+      `cancelPlacement` / `refreshMetrics` retirés de `tests/terrain-fps217.test.cjs` et du harnais de citadelle ;
+      `completeBuilding` / `refreshMetrics` remplacés retirés de `tests/open-city217.test.cjs` ; sauvegarde et minicarte
+      complètes dans `tests/terrain-art217.test.cjs` et `tests/terrain-fps217.test.cjs`.
+- [x] O9a.11 Tests : `tests/open-city217-life.test.cjs` (6 cas) — règles, quartiers et haltes purs et atteints
+      (17117, 0, 46) ; partie de terrain sans contournement (17117, 46) : 18 points de terrain atteints au-delà de
+      4 048, chantier posé par `placeOne`, bâti et mis en service, bilan, minicarte et CARTE [M] sans nom du plan plat,
+      vague 1 complète jusqu'à l'aube (sauvegarde automatique refusée proprement) ; `fieldcraft` (routes, anneau,
+      place atteinte) et parcours empoisonné sur carte plate ; bornes des registres ; sauvegarde refusée G12 fermée,
+      puis (registre G12 ouvert par le test, comme `tests/world-save217.test.cjs`) validation, reprise sur le terrain,
+      sauvegarde relue identique, `world-pack131` non vide refusé, reprise sans carte locale refusée ; isolement.
+- [x] O9a.12 Innocuité : procédure 3 (base `37984c1` contre l'arbre de travail, parcours d'O8b complété : plan CARTE [M]
+      enregistré, minicarte, haltes, points de terrain, gisements, repères, obstruction du plan, travaux de terrain,
+      reprise) — sauvegardes de départ, de mi-parcours et de fin, relecture et sondes identiques octet pour octet.
+- Restent (harnais) : la partie de terrain avancée des tests de citadelle (âge 10) est une partie plate dont le monde
+  est remplacé ; le registre urbain, propre au monde, repart à neuf : le harnais de citadelle garde l'âge de la partie
+  d'origine le temps de la pose (bilan rafraîchi pour de bon). La sauvegarde automatique reste coupée dans les deux
+  scripts de mesure et de navigateur d'O7 (refusée tant que G12 est fermée : coupée pour ne pas bruiter les relevés).
+- Réserves : la reprise d'une campagne G12 reconstruit la cité, mais la boucle de jeu qui suit atteint le monde
+  régional (`frontier.world()` → `frontier-world.create(…, 12)`, refusé) : branchement O9 ; les autres modules
+  régionaux (`remarkable217`, `seed-card217`…) lisent ce monde. Les quartiers n'ont pas de décor de quartier (les
+  maisons et étals du contenu généré ne sont pas posés sur un terrain) ; la place d'un quartier ne garde pas une
+  parcelle constructible ; les haltes reprennent le catalogue de la carte plate (noms, réserves) à une place
+  déplacée ; les mesures d'O7 n'ont pas été rejouées sans quartiers fictifs ; rien n'a été joué par le menu.
 
 ## T5 — Ouverture expérimentale
 

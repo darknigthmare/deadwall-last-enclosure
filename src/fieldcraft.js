@@ -85,9 +85,15 @@ function attach(g){
   // O5 : bornes et croix des routes lues sur la carte de la cité (4 096 : 4 058 = côté − 38, 2 100 / 1 996 = centre ± 52).
   const S217=g.local.size,c217=S217/2;
   // O6c (G12, hors jeu) : un gisement déplacé reste sur un seul palier, à sec, hors rampe, relié à sa place sans falaise.
-  const t217=Boolean(g.world?.terrain217);
-  const fits=(n,x,y)=>{const b=reserveRect({...n,x,y});if(b.l<38||b.t<38||b.r>S217-38||b.b>S217-38||b.l<c217+52&&b.r>c217-52||b.t<c217+52&&b.b>c217-52||Math.hypot(x-c217,y-c217)<270)return false;if(t217&&(!g.world.footprintClear217(b.l,b.t,b.r-b.l,b.b-b.t)||!g.world.stepClear217(n.x,n.y,x,y)))return false;for(const k of keys(b))for(const a of bins.get(k)||[])if(overlap(a,b,3))return false;return true;};
-  for(const n of g.world.nodes){if(n.depleted)continue;if(!fits(n,n.x,n.y)){const ox=n.x,oy=n.y;let found=false;for(let r=18;r<=2400&&!found;r+=18){const count=Math.max(12,Math.ceil(r/9));for(let i=0;i<count;i++){const a=i/count*Math.PI*2+(n.id%13)*.11,x=Math.round((ox+Math.cos(a)*r)*100)/100,y=Math.round((oy+Math.sin(a)*r)*100)/100;if(fits(n,x,y)){n.x=x;n.y=y;found=true;break;}}}if(!found)throw Error('Décor sans emplacement libre : '+n.id);}insert(reserveRect(n));}
+  const t217=g.world?.terrain217||null;
+  // Préalable O9 (a), terrain : routes de la description (`roads`) au lieu de la croix, anneau autour du centre de la cité,
+  // et une place nouvelle sur le terrain atteint depuis le centre quand l'ancienne l'était.
+  const road217=b=>{const N=t217.tiles;for(let y=Math.max(0,Math.floor(b.t/32));y<=Math.min(N-1,Math.floor(b.b/32));y++)for(let x=Math.max(0,Math.floor(b.l/32));x<=Math.min(N-1,Math.floor(b.r/32));x++)if(t217.roads[y*N+x])return true;return false;};
+  const m217=t217?{x:t217.centre.x*32+16,y:t217.centre.y*32+16}:null;let from217=true;
+  const fits=(n,x,y)=>{const b=reserveRect({...n,x,y});if(b.l<38||b.t<38||b.r>S217-38||b.b>S217-38)return false;
+   if(!t217&&(b.l<c217+52&&b.r>c217-52||b.t<c217+52&&b.b>c217-52||Math.hypot(x-c217,y-c217)<270))return false;
+   if(t217&&(road217(b)||Math.hypot(x-m217.x,y-m217.y)<270||!g.world.footprintClear217(b.l,b.t,b.r-b.l,b.b-b.t)||!g.world.stepClear217(n.x,n.y,x,y)||from217&&(x!==n.x||y!==n.y)&&!g.world.reach217(x,y)))return false;for(const k of keys(b))for(const a of bins.get(k)||[])if(overlap(a,b,3))return false;return true;};
+  for(const n of g.world.nodes){if(n.depleted)continue;if(t217)from217=g.world.reach217(n.x,n.y);if(!fits(n,n.x,n.y)){const ox=n.x,oy=n.y;let found=false;for(let r=18;r<=2400&&!found;r+=18){const count=Math.max(12,Math.ceil(r/9));for(let i=0;i<count;i++){const a=i/count*Math.PI*2+(n.id%13)*.11,x=Math.round((ox+Math.cos(a)*r)*100)/100,y=Math.round((oy+Math.sin(a)*r)*100)/100;if(fits(n,x,y)){n.x=x;n.y=y;found=true;break;}}}if(!found)throw Error('Décor sans emplacement libre : '+n.id);}insert(reserveRect(n));}
  }
  function recoverActor(u){if(!live(u)||positionFree(u,u.x,u.y))return;const obstruction=blocked(u.x,u.y,u.radius);let candidates=obstruction?[service(u,obstruction)].filter(Boolean):[];for(let r=16;r<700;r+=16){for(let i=0;i<24;i++)candidates.push({x:u.x+Math.cos(i*Math.PI/12)*r,y:u.y+Math.sin(i*Math.PI/12)*r});const p=candidates.find(p=>{if(!positionFree(u,p.x,p.y)||!cliff217(u,p))return false;const count=Math.max(1,Math.ceil(Math.hypot(p.x-u.x,p.y-u.y)/6));for(let i=1;i<=count;i++)if(blocked(u.x+(p.x-u.x)*i/count,u.y+(p.y-u.y)*i/count,u.radius*.9,obstruction))return false;return true;});if(p){u.x=p.x;u.y=p.y;u.navigation=null;return;}candidates=[];}}
  function setup(coords=[],preserveLayout=false){

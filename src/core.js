@@ -1302,11 +1302,14 @@
  const object=x=>x&&typeof x==='object'&&!Array.isArray(x);
  const fail=m=>{throw new Error('Registre Aube & Bastions invalide : '+m+'.');};
  function create(){return {version:1,initialized:false,sites:[],day:{wave:0,duration:0},braces:[],night:null,stats:{surveyed:0,salvaged:0,plans:0,bonusWork:0,foodSpent:0,braced:0,absorbed:0}};}
- function normalize(raw){
+ // Préalable O9 (a) : bord des points de terrain lu sur la carte de la campagne (`data` validées, sinon la partie en
+ // cours) ; 4 048 sur la carte de 128 m. Une taille de carte inconnue garde la borne historique (refusée ailleurs).
+ function limit217(data){const C=root.DeadwallCore,t=data?.localTiles;if(!C?.campaignLocal217||t!==undefined&&!Object.values(C.LocalMap217Rules?.generationTiles||{}).includes(t))return 4048;return C.campaignLocal217(data).size-48;}
+ function normalize(raw,data){
   if(raw===undefined)return create();if(!object(raw)||raw.version!==1||typeof raw.initialized!=='boolean')fail('version');
   const out=create();out.initialized=raw.initialized;
   if(!Array.isArray(raw.sites)||raw.sites.length>18||(raw.initialized&&raw.sites.length!==18)||(!raw.initialized&&raw.sites.length))fail('découvertes');
-  const ids=new Set();out.sites=raw.sites.map(s=>{const spec=BY_ID[s?.id];if(!spec||ids.has(s.id)||!finite(s.x,48,4048)||!finite(s.y,48,4048)||typeof s.seen!=='boolean'||!finite(s.survey,0,RULES.surveySeconds)||!finite(s.remaining,0,spec.amount))fail('point de terrain');
+  const edge=limit217(data),ids=new Set();out.sites=raw.sites.map(s=>{const spec=BY_ID[s?.id];if(!spec||ids.has(s.id)||!finite(s.x,48,edge)||!finite(s.y,48,edge)||typeof s.seen!=='boolean'||!finite(s.survey,0,RULES.surveySeconds)||!finite(s.remaining,0,spec.amount))fail('point de terrain');
    if(!s.seen&&(s.survey!==0||s.remaining!==spec.amount)||s.survey<RULES.surveySeconds&&s.remaining!==spec.amount)fail('relevé et réserve incohérents');ids.add(s.id);return{id:s.id,x:s.x,y:s.y,seen:s.seen,survey:s.survey,remaining:s.remaining};});
   if(!object(raw.day)||!integer(raw.day.wave,0,1e7)||!finite(raw.day.duration,0,1e12))fail('durée du jour');out.day={wave:raw.day.wave,duration:raw.day.duration};
   if(!Array.isArray(raw.braces)||raw.braces.length>RULES.maxBraces)fail('étais');ids.clear();out.braces=raw.braces.map(b=>{if(!object(b)||!integer(b.id,1)||ids.has(b.id)||!integer(b.wave,1,1e7)||!finite(b.work,0,RULES.braceSeconds)||!finite(b.hp,0,RULES.braceHp)||(b.work<RULES.braceSeconds&&b.hp!==0))fail('étai');ids.add(b.id);return{id:b.id,wave:b.wave,work:b.work,hp:b.hp};});
@@ -1315,14 +1318,14 @@
   if(!object(raw.stats))fail('statistiques');for(const k of Object.keys(out.stats)){if(!finite(raw.stats[k]))fail(k);out.stats[k]=raw.stats[k];}
   return out;
  }
- function generate(seed,sites,clear=()=>true){
-  if(!integer(seed,0,0xffffffff)||!Array.isArray(sites))throw new Error('Carte de terrain invalide.');let state=(seed^0x14a0bed5)>>>0;
+ function generate(seed,sites,clear=()=>true,edge=4048){
+  if(!integer(seed,0,0xffffffff)||!Array.isArray(sites)||!finite(edge,4048,1e6))throw new Error('Carte de terrain invalide.');let state=(seed^0x14a0bed5)>>>0;
   const rand=()=>{state=(Math.imul(state,1664525)+1013904223)>>>0;return state/4294967296;},result=[];
   for(const spec of SITES){const parent=sites.find(s=>s.theme===spec.theme);if(!parent)throw new Error('Quartier absent : '+spec.theme);let chosen=null;
-   for(let i=0;i<320;i++){const a=rand()*Math.PI*2,r=170+rand()*(i>150?580:240),x=Math.max(48,Math.min(4048,parent.x+Math.cos(a)*r)),y=Math.max(48,Math.min(4048,parent.y+Math.sin(a)*r));
+   for(let i=0;i<320;i++){const a=rand()*Math.PI*2,r=170+rand()*(i>150?580:240),x=Math.max(48,Math.min(edge,parent.x+Math.cos(a)*r)),y=Math.max(48,Math.min(edge,parent.y+Math.sin(a)*r));
     if(result.every(s=>Math.hypot(s.x-x,s.y-y)>80)&&clear(x,y)){chosen={id:spec.id,x:Math.round(x*100)/100,y:Math.round(y*100)/100,seen:false,survey:0,remaining:spec.amount};break;}}
    // A fully built legacy map must still load. The point waits for a real open approach; no building is erased.
-   if(!chosen)chosen={id:spec.id,x:Math.max(48,Math.min(4048,parent.x)),y:Math.max(48,Math.min(4048,parent.y)),seen:false,survey:0,remaining:spec.amount};result.push(chosen);
+   if(!chosen)chosen={id:spec.id,x:Math.max(48,Math.min(edge,parent.x)),y:Math.max(48,Math.min(edge,parent.y)),seen:false,survey:0,remaining:spec.amount};result.push(chosen);
   }return result;
  }
  function dayDuration(wave,factor=1,scenarioSeconds=82){if(!integer(wave,1,1e7)||!finite(factor,.1,3)||!finite(scenarioSeconds,0,300))throw new Error('Cycle invalide.');return (wave===1?RULES.firstDay+scenarioSeconds-82:Math.max(RULES.minDay,RULES.day-(wave-1)*RULES.dayDecay))*factor;}
@@ -1352,7 +1355,7 @@
  class Engine{
   constructor(raw){this.state=normalize(raw);}
   snapshot(){return clone(this.state);}
-  initialize(seed,sites,clear){if(this.state.initialized)return false;const result=generate(seed,sites,clear);this.state.sites=result;this.state.initialized=true;return true;}
+  initialize(seed,sites,clear,edge){if(this.state.initialized)return false;const result=generate(seed,sites,clear,edge);this.state.sites=result;this.state.initialized=true;return true;}
   unlocked(k){return unlocked(this.state,k);}
   discover(player,visible=()=>true){let count=0;for(const s of this.state.sites)if(!s.seen&&Math.hypot(player.x-s.x,player.y-s.y)<=RULES.discoveryRadius&&visible(s)){s.seen=true;count++;}return count;}
   explore(id,dt,ctx){const s=this.state.sites.find(s=>s.id===id);if(!s||!s.seen||!finite(dt,Number.MIN_VALUE,RULES.maxStep)||!ctx.running||!ctx.day||!ctx.accessible||!ctx.secure||ctx.dead)return {survey:0,taken:0};
@@ -1368,7 +1371,7 @@
   absorb(id,wave,damage){const b=this.state.braces.find(b=>b.id===id&&b.wave===wave&&b.work===RULES.braceSeconds);if(!b||!finite(damage,Number.MIN_VALUE))return damage;const used=Math.min(b.hp,damage*RULES.braceFraction);b.hp-=used;this.state.stats.absorbed+=used;return damage-used;}
  }
  function installCatalogue(C){if(!C||C.Dayworks)return;for(const [id,b]of Object.entries(BUILDINGS)){if(Object.hasOwn(C.BUILDINGS,id))throw new Error('Construction en conflit : '+id);C.BUILDINGS[id]=b;}
-  const old=C.migrateSaveData;C.migrateSaveData=raw=>{if(!object(raw))return null;if(raw.version===6){if(raw.dayworks===undefined)fail('registre v6 absent');const d=normalize(raw.dayworks),base=old({...raw,version:5});return base?{...base,version:6,dayworks:d}:null;}if(![1,2,3,4,5].includes(raw.version))return null;const base=old(raw);return base?{...base,version:6,dayworks:create()}:null;};
+  const old=C.migrateSaveData;C.migrateSaveData=raw=>{if(!object(raw))return null;if(raw.version===6){if(raw.dayworks===undefined)fail('registre v6 absent');const d=normalize(raw.dayworks,raw),base=old({...raw,version:5});return base?{...base,version:6,dayworks:d}:null;}if(![1,2,3,4,5].includes(raw.version))return null;const base=old(raw);return base?{...base,version:6,dayworks:create()}:null;};
   C.SAVE_VERSION=6;C.SAVE_KEY='deadwall-save-v6';C.SAVE_BACKUP_KEY='deadwall-save-backup-v6';C.LEGACY_SAVE_KEYS=[...new Set(['deadwall-save-v5','deadwall-save-backup-v5',...C.LEGACY_SAVE_KEYS])];C.DAYWORKS_RULES=RULES;C.Dayworks=API;
  }
  const API=Object.freeze({RULES,SITES,BY_ID,BUILDINGS,PLANS,create,normalize,generate,dayDuration,clock,unlocked,footprint,quote,beginNight,frontGroup,emitted,Engine,installCatalogue});root.DeadwallDayworks=API;
@@ -3719,6 +3722,12 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
    }
    return Object.freeze({SIDES,open,shares,fold,quotas,pick,rate,gap,label,phrase,normalize});
   })();
+  // Vie de la cité de génération 12 (ouverture.md, préalable O9 (a), hors jeu) : quartiers et haltes d'expédition posés
+  // sur le terrain par une fonction pure de la graine et de la description (hachage, aucun flux de génération). `clear` :
+  // demi-côté (cases) du carré atteint depuis le centre, à sec, d'un seul palier et hors rampe autour d'un lieu ;
+  // `quarters` : distance au centre visée et bande préférée (mètres ; 31 à 50 m sur la carte de 128 m, × 1,5), écart
+  // minimal entre deux quartiers ; `halts.spacing` : écart minimal d'une halte aux autres lieux (mètres).
+  C.OpenCityLife217Rules=Object.freeze({version:1,generation:12,clear:2,quarters:Object.freeze({target:45,near:28,far:72,spacing:22}),halts:Object.freeze({spacing:8})});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),

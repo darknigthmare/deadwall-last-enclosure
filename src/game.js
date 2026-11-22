@@ -206,7 +206,64 @@
       deep[i] = w === WATER217.sea || w === WATER217.lake || (w === WATER217.river && !road) ? 1 : 0;
       ford[i] = w === WATER217.stream && !road ? 1 : 0;
     }
-    return Object.freeze({ seed: local.seed, version: local.version, digest: local.digest, tiles: map.tiles, ...own, deep, ford, sides: local.sides || null });
+    const t = { seed: local.seed, version: local.version, digest: local.digest, tiles: map.tiles, ...own, deep, ford, sides: local.sides || null };
+    // Préalable O9 (a) : cases atteintes depuis le centre de la cité par les arêtes franchissables (même parcours que le
+    // champ de flux, bâtiments et décor exclus). Lu pour poser quartiers, haltes, points de terrain et gisements replacés.
+    const N = map.tiles, c = local.centre || { x: N / 2, y: N / 2 }, start = Math.min(N - 1, Math.max(0, Math.floor(c.y))) * N + Math.min(N - 1, Math.max(0, Math.floor(c.x)));
+    const reach = new Uint8Array(cells), queue = new Int32Array(cells); let head = 0, tail = 0;
+    if (!deep[start]) { reach[start] = 1; queue[tail++] = start; }
+    while (head < tail) {
+      const i = queue[head++], gx = i % N, gy = (i - gx) / N;
+      for (const [nx, ny] of [[gx + 1, gy], [gx - 1, gy], [gx, gy + 1], [gx, gy - 1]]) {
+        if (nx < 0 || ny < 0 || nx >= N || ny >= N) continue; const j = ny * N + nx;
+        if (!reach[j] && edge217(t, gx, gy, nx, ny)) { reach[j] = 1; queue[tail++] = j; }
+      }
+    }
+    return Object.freeze(Object.assign(t, { centre: Object.freeze({ x: start % N, y: Math.floor(start / N) }), reach }));
+  }
+  // Préalable O9 (a) : lieux de la cité de terrain, fonction pure de la graine et de la description (hachage, aucun
+  // flux de génération). Case « libre » : carré de `clear` cases autour, atteint, à sec, d'un seul palier, hors rampe.
+  function spots217(t) {
+    const N = t.tiles, k = C.OpenCityLife217Rules.clear, out = [];
+    for (let y = k; y < N - k; y++) for (let x = k; x < N - k; x++) {
+      const level = t.levels[y * N + x]; let ok = true;
+      for (let dy = -k; dy <= k && ok; dy++) for (let dx = -k; dx <= k; dx++) { const i = (y + dy) * N + x + dx; if (!t.reach[i] || t.water[i] || t.kinds[i] === RAMP217 || t.levels[i] !== level) { ok = false; break; } }
+      if (ok) out.push({ x, y, d: Math.hypot(x - t.centre.x, y - t.centre.y), a: Math.atan2(y - t.centre.y, x - t.centre.x) });
+    }
+    return out;
+  }
+  const angle217 = (a, b) => { const d = Math.abs(a - b) % (2 * Math.PI); return d > Math.PI ? 2 * Math.PI - d : d; };
+  // Six quartiers (thèmes de `C.TERRITORY_SECTORS`) : un par secteur de 60° à partir d'une orientation hachée, au plus
+  // près de la distance visée ; un secteur fermé par la falaise ou l'eau cède son quartier au terrain atteint le plus
+  // proche de sa direction, à `spacing` mètres au moins des autres.
+  function quarters217(t) {
+    const R = C.OpenCityLife217Rules.quarters, spots = spots217(t), out = [], T = TILE, orientation = seededHash(t.seed % 65521, 217, 911) * Math.PI * 2;
+    for (const [k, sector] of (C.TERRITORY_SECTORS || []).entries()) {
+      const aim = orientation + k * Math.PI / 3; let best = null, score = Infinity;
+      for (const s of spots) {
+        const close = out.some(o => Math.hypot(o.gx - s.x, o.gy - s.y) < R.spacing), band = s.d < R.near || s.d > R.far;
+        const v = (close ? 100 : 0) + (band ? 10 : 0) + angle217(s.a, aim) + .5 * Math.abs(s.d - R.target) / R.target;
+        if (v < score - 1e-12) { score = v; best = s; }
+      }
+      if (!best) break;
+      out.push({ id: 'site-' + (k + 1), name: sector.name, theme: sector.id, x: best.x * T + T / 2, y: best.y * T + T / 2, gx: best.x, gy: best.y });
+    }
+    return out.map(({ gx, gy, ...site }) => Object.freeze(site));
+  }
+  // Haltes d'expédition : position de la carte de la campagne mise à l'échelle autour du centre de la cité, puis case
+  // libre la plus proche, à `spacing` mètres au moins des quartiers et des haltes déjà posées.
+  const HALTS217 = new WeakMap();
+  function halts217(t, sites, defs, flatSize) {
+    let cache = HALTS217.get(t); if (!cache) { cache = new Map(); HALTS217.set(t, cache); }
+    if (cache.has(defs)) return cache.get(defs);
+    const R = C.OpenCityLife217Rules.halts, spots = spots217(t), T = TILE, scale = t.tiles / (flatSize / T), placed = sites.map(s => ({ x: s.x / T, y: s.y / T })), out = [];
+    for (const def of defs) {
+      const wx = t.centre.x + (def.x / T - flatSize / T / 2) * scale, wy = t.centre.y + (def.y / T - flatSize / T / 2) * scale; let best = null, score = Infinity;
+      for (const s of spots) { if (placed.some(p => Math.hypot(p.x - s.x, p.y - s.y) < R.spacing)) continue; const v = Math.hypot(s.x - wx, s.y - wy); if (v < score - 1e-12) { score = v; best = s; } }
+      const at = best || t.centre; placed.push({ x: at.x, y: at.y });
+      out.push(Object.freeze({ ...def, x: at.x * T + T / 2, y: at.y * T + T / 2 }));
+    }
+    const list = Object.freeze(out); cache.set(defs, list); return list;
   }
   // Arête entre deux cases voisines, comme la carte locale : eau profonde à l'arrivée refusée, même palier
   // admis, changement de palier par la seule rampe.
@@ -332,7 +389,8 @@
         const node = new ResourceNode(this.nodeId++, d.type, d.x * TILE, d.y * TILE, d.amount, d.radius * TILE, Math.floor(seededHash(n, seed, 217) * 4) % 4);
         node.depositId = d.id; this.nodes.push(node);
       }
-      this.sites = [];
+      // Préalable O9 (a) : six quartiers posés sur le terrain atteint (chantiers de jour, secteurs, récit), sans tirage.
+      this.sites = quarters217(t);
       // Enveloppes propres au terrain, non énumérables : le prototype des cartes plates ne change pas.
       const base = { solid: this.solidForFriendly, cost: this.movementCost, place: this.placement }, ford = C.CityTerrain217Rules.fordCost;
       const hidden = (name, value) => Object.defineProperty(this, name, { value, writable: true, configurable: true, enumerable: false });
@@ -357,6 +415,15 @@
         }
         return result;
       });
+    }
+    // Préalable O9 (a) : point (unités) sur une case atteinte depuis le centre ; toujours vrai sur une carte plate.
+    reach217(x, y) {
+      const t = WORLD_TERRAIN217.get(this); if (!t) return true;
+      const L = this.local, gx = Math.floor(x / TILE), gy = Math.floor(y / TILE); return L.cellInside(gx, gy) && t.reach[L.index(gx, gy)] === 1;
+    }
+    // Haltes d'expédition (`defs` : catalogue de la campagne) posées sur le terrain ; `defs` tel quel sur une carte plate.
+    halts217(defs) {
+      const t = WORLD_TERRAIN217.get(this); return t ? halts217(t, this.sites, defs, C.LOCAL_MAP217.size) : defs;
     }
     // Case du terrain sous un point (unités) ; `null` sans terrain ou hors carte.
     terrainAt217(x, y) {
@@ -1014,7 +1081,7 @@
     }
 
     restoreSave(input) {
-      const data=globalThis.DeadwallSave.validate(input), difficulty=DIFFICULTIES[data.difficulty], nextWorld=new WorldMap(data.worldSeed, data.cityGeometry202 || 0, C.localMapOf217(data)), nextFlow=new FlowField();
+      const data=globalThis.DeadwallSave.validate(input), difficulty=DIFFICULTIES[data.difficulty], terrain217=this.cityTerrain217(data), nextWorld=terrain217?new WorldMap(data.worldSeed, data.cityGeometry202 || 0, C.localMapOf217(data), terrain217):new WorldMap(data.worldSeed, data.cityGeometry202 || 0, C.localMapOf217(data)), nextFlow=new FlowField();
       const savedPositions=new Map((data.fieldcraft?.nodes||[]).map(p=>[p[0],p]));for(const node of nextWorld.nodes){const p=savedPositions.get(node.id);if(p){node.x=p[1];node.y=p[2];}}
       const amounts=new Map(data.nodes);for(const node of nextWorld.nodes)if(amounts.has(node.id)){node.amount=amounts.get(node.id);node.depleted=node.amount<=.01;}
       for(const raw of data.buildings){const b=new Building(raw.id,raw.type,raw.gx,raw.gy,raw.rotation,raw.progress);Object.assign(b,{health:raw.health,corpseLoad:raw.corpseLoad,priority:raw.priority,gateMode:raw.gateMode});nextWorld.add(b);}
@@ -1042,6 +1109,15 @@
       this.buckets.clear();this.cancelPlacement();this.selectBuilding(null);this.refreshMetrics(true);this.camera.x=this.player.x;this.camera.y=this.player.y;
       this.camera.shake = 0; this.frameShake = {x: 0, y: 0};
       this.state='playing';for(const node of [this.ui.mainMenu,this.ui.pauseMenu,this.ui.helpModal,this.ui.gameOver,this.ui.settingsModal])node?.classList.add('hidden');this.ui.hud.classList.remove('hidden');this.syncOverlayFocus();this.refreshBuildMenu(true);this.updateUI();this.audio.unlock();return true;
+    }
+
+    // Préalable O9 (a) : une campagne de génération 12 (carte de 192 cases, registre régional G12, refusé tant que fermé)
+    // reprend sur le terrain de sa graine, décrit par la carte locale ; carte plate (`null`) pour toute autre campagne.
+    cityTerrain217(data) {
+      const local = C.localMapOf217(data);
+      if (local.tiles === C.LocalMap217Rules.defaultTiles || data.frontier?.generation !== 12 || local.tiles !== C.LocalMap217Rules.generationTiles[12]) return null;
+      const L = globalThis.DeadwallWorldLocal217; if (typeof L?.describe !== 'function') throw new Error('Carte locale de génération 12 absente : campagne sans bord non chargeable ici.');
+      return L.describe(data.worldSeed);
     }
 
     load() {
@@ -3777,11 +3853,12 @@
  const canSpend=cost=>Object.entries(cost).every(([k,n])=>(g.resources[k]||0)>=n),atCore=()=>live(g.player)&&g.core()&&g.workerCanWorkAt(g.player,g.core(),180);
  const wrap=(name,fn)=>{const original=g[name];if(typeof original!=='function')throw new Error('Interface de reconstruction absente : '+name);g[name]=function(...args){return fn(original.bind(g),...args);};};
  const tell=text=>{notice=text;g.dayworksUI?.refresh();return text;};
- function clearLocation(x,y){if(list().some(b=>live(b)&&Math.abs(x-b.x)<b.w*16+R.siteClearance&&Math.abs(y-b.y)<b.h*16+R.siteClearance))return false;
+ // Préalable O9 (a) : sur un terrain, un point de terrain tombe sur une case atteinte depuis le centre ; carte plate inchangée.
+ function clearLocation(x,y){if(g.world.terrain217&&!g.world.reach217(x,y))return false;if(list().some(b=>live(b)&&Math.abs(x-b.x)<b.w*16+R.siteClearance&&Math.abs(y-b.y)<b.h*16+R.siteClearance))return false;
   return !(g.world.nodes||[]).some(n=>!n.depleted&&Math.hypot(n.x-x,n.y-y)<(n.radius||20)+R.siteClearance);
  }
  function ensure(){if(worldRef!==g.world){worldRef=g.world;engine=new D.Engine(pending||undefined);pending=null;tool='none';preview=null;placing=null;selectedSite=null;anchorClick=null;
-   engine.initialize(g.world.seed,g.world.sites,clearLocation);
+   engine.initialize(g.world.seed,g.world.sites,clearLocation,g.local.size-48);
    if(!engine.state.day.wave)engine.state.day={wave:g.wave||1,duration:Math.max(0,Number.isFinite(g.phaseTime)?g.phaseTime:0)};
    installPlacement();wireWork();
   }return engine;}
@@ -3859,7 +3936,7 @@
  wrap('damageBuilding',(original,b,amount)=>original(b,braceHit===b?engine.absorb(b.id,g.wave,amount):amount));
  wrap('destroyBuilding',(original,...args)=>{const result=original(...args);reconcile();return result;});
  wrap('serialize',(original,...args)=>{reconcile();return {...original(...args),dayworks:engine.snapshot()};});
- wrap('restoreSave',(original,input)=>{anchorClick=null;const data=root.DeadwallSave.validate(input),before=g.world;pending=D.normalize(data.dayworks);try{return original(data);}finally{if(g.world!==before){ensure();reconcile();mark();syncClock();}pending=null;}});
+ wrap('restoreSave',(original,input)=>{anchorClick=null;const data=root.DeadwallSave.validate(input),before=g.world;pending=D.normalize(data.dayworks,data);try{return original(data);}finally{if(g.world!==before){ensure();reconcile();mark();syncClock();}pending=null;}});
  wrap('startNew',(original,...args)=>{anchorClick=null;const before=g.world,result=original(...args);if(g.world!==before){ensure();beginDay();mark();g.save(false);g.dayworksUI?.refresh();}return result;});
  wrap('damagePlayer',(original,...args)=>{const result=original(...args);if(!live(g.player))anchorClick=null;return result;});
  wrap('triggerGameOver',(original,...args)=>{anchorClick=null;return original(...args);});

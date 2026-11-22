@@ -49,9 +49,6 @@ function recorder() {
 }
 // Sommets (x, y, z) du dernier envoi du tampon dynamique (acteurs).
 const lastDynamic = r => { const d = r.data.filter(Boolean).at(-1); const out = []; for (let i = 0; i < d.length; i += 6) out.push([d[i], d[i + 1], d[i + 2]]); return out; };
-const restore = (own) => { for (const [k, o] of own) { if (o) Object.defineProperty(g, k, o); else delete g[k]; } };
-// Les quartiers et le bilan de la cité ne savent pas encore vivre sur un monde de terrain (moteur de quartiers).
-function quiet(fn) { const own = ['cancelPlacement', 'refreshMetrics'].map(k => [k, Object.getOwnPropertyDescriptor(g, k)]); g.cancelPlacement = () => {}; g.refreshMetrics = () => {}; try { return fn(); } finally { restore(own); } }
 
 test('O8b : règle de hauteur du cran, alignée sur la peinture O8a et cohérente avec l’œil (D-O1, D-O3)', () => {
   assert.ok(Object.isFrozen(RR));
@@ -187,7 +184,7 @@ test('O8b : œil et commandant bornés par canStep — palier du support, entré
     // Recherche d'origine (sans la garde) : premier point libre de l'anneau.
     let naive = null; c.health = 0;
     for (let r = T; r < T * 12 && !naive; r += T) for (let k = 0; k < 16; k++) { const p = { x: from.x + Math.cos(k * Math.PI / 8) * r, y: from.y + Math.sin(k * Math.PI / 8) * r }; if (Game.prototype.friendlyPositionClear.call(g, g.player, p.x, p.y)) { naive = p; break; } }
-    quiet(() => V.step(.1));
+    V.step(.1);
     assert.equal(V.pose().site, null, 'commandant tombé');
     fall = { seed, naive: naive && w2.terrainAt217(naive.x, naive.y).level, landed: w2.terrainAt217(g.player.x, g.player.y).level, home };
     assert.ok(w2.stepClear217(from.x, from.y, g.player.x, g.player.y), seed + ' : chute bornée par canStep');
@@ -273,7 +270,7 @@ test('O8b : sonde — 600 images sans tirage, horloge ni écriture : état, mond
     for (const [dx, dy] of [[0, -8], [6, -14], [-9, 10]]) g.zombies.push(new Zombie(g.nextId++, 'walker', g.player.x + dx * T, g.player.y + dy * T, g.difficulty, g.wave, g.local));
     g.settings.reducedMotion = false;
     const region = g.frontier?.world?.(), stats = () => JSON.stringify(region?.streamStats?.() ?? null);
-    const base = () => { const d = Game.prototype.serialize.call(g); delete d.timestamp; return JSON.stringify(d); };
+    const base = () => { const d = g.serialize(); delete d.timestamp; return JSON.stringify(d); };
     const print = () => hash(JSON.stringify([base(), V.snapshot(), g.random, g.nextId, g.resources, [...world.occupancy], world.nodes, [...world.buildings.keys()], ['levels', 'passes', 'water', 'roads', 'kinds', 'deep', 'ford'].map(k => [...t[k]]), g.zombies.map(z => [z.x, z.y, z.health, z.facing]), g.units.map(u => [u.x, u.y]), g.player.x, g.player.y, g.elapsed]));
     const before = print(), stream = stats(), r = recorder(), fps = Render.createFPS(r.canvas);
     // Tout tirage ou lecture d'horloge pendant le tracé d'une image est compté (peintre et module du relief).
