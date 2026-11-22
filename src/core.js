@@ -3596,11 +3596,14 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // `sickSeconds` puis tous les `sickInterval` ; morts annoncées à `deathWarnSeconds`, une à `deathSeconds` puis toutes les
  // `deathInterval`, évitée contre `medicine.plain` médicaments (`medicine.clinic` avec une clinique en service).
  // weather : l'exposition avance ×`wet` quand la pluie observée dépasse `wetAbove`, ×`dry` sous `dryBelow`.
+ // sickness.siegeWalls : part de la charge au pied des murs comptée par la maladie pendant l'assaut et la sécurisation (les corps
+ // frais d'un mur assiégé ne pourrissent pas encore) ; toute la charge compte de nouveau au calme. La charge des murs (rampes,
+ // brèches) n'en dépend pas.
  C.CorpseChain217Rules=Object.freeze({startAge:2,reach:100,
   pyre:Object.freeze({perSecond:1.5,cost:Object.freeze({wood:.4,fuel:.1}),signature:60}),
   pit:Object.freeze({cost:Object.freeze({wood:20}),digSeconds:45,perSecond:.25,capacity:120}),
   sickness:Object.freeze({base:40,perPerson:4,clearRatio:.6,graceSeconds:120,moraleDrain:.2,sickWarnSeconds:300,sickSeconds:420,sickInterval:90,sickDamage:.35,
-   deathWarnSeconds:780,deathSeconds:960,deathInterval:180,medicine:Object.freeze({plain:4,clinic:2})}),
+   deathWarnSeconds:780,deathSeconds:960,deathInterval:180,medicine:Object.freeze({plain:4,clinic:2}),siegeWalls:.25}),
   weather:Object.freeze({wetAbove:.62,wet:1.5,dryBelow:.1,dry:.75})});
  // Vagues menées (GAME_BIBLE §3.5, la Meneuse), nouvelles campagnes seulement. À partir de `firstWave`, une vague sur
  // `every` est menée (décalage tiré de la graine, jamais une vague de géants). La Meneuse est une Errante ordinaire,

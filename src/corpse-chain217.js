@@ -6,6 +6,9 @@
    - des corps laissés (à traiter + charge au pied des murs) au-delà d'un seuil rendent la cité malade, par paliers annoncés
      d'avance, comme la pénurie d'eau (src/city-water215.js) : le moral baisse, des habitants tombent malades, puis les
      plus fragiles meurent par `g.damageUnit`, le chemin de mort ordinaire. Les médicaments évitent une mort.
+     Pendant l'assaut et la sécurisation, la maladie ne compte que `sickness.siegeWalls` de la charge au pied des murs : les
+     corps frais d'un mur assiégé ne pourrissent pas encore. Au calme, ceux que le déblaiement n'a pas retirés comptent en entier.
+     Cette part ne touche que le compte de la maladie : la charge du mur, ses rampes et ses brèches restent celles du moteur.
    Cette maladie est celle des charniers ; elle n'a rien à voir avec ce qui relève les morts.
    Bûcher et fosse sont des emplacements tenus par ce module, près du dépôt : aucun bâtiment n'est posé.
    La Nécropole achevée (src/great-works217.js, lue par `corpses()`) hâte le bûcher et agrandit les fosses : un corps n'y
@@ -61,6 +64,10 @@
   // Corps laissés : ceux qui attendent d'être traités et ceux qui n'ont pas été déblayés.
   // Les corps d'une douve restent dans l'eau : ils comptent aussi (src/earthworks217.js).
   const left=()=>state.pending+walls()+(g.earthworks217?.moatBodies?.()||0),limit=()=>threshold(g.population||0);
+  // Corps comptés par la maladie : `left()`, la charge des murs réduite à `siegeWalls` pendant l'assaut et la sécurisation.
+  // Règle sans état : elle se lit dans la phase de la vague, que la sauvegarde du moteur garde déjà.
+  const settling=()=>g.phase==='assault'||g.phase==='aftermath';
+  const counted=()=>state.pending+walls()*(settling()?S.siegeWalls:1)+(g.earthworks217?.moatBodies?.()||0);
   const rain=()=>weatherFactor(Number(g.weather)||0);
   // Nécropole : facteurs du bûcher et de la fosse, lus chez leur propriétaire ; 1 sans elle.
   const boost=()=>{const b=g.greatWorks217?.corpses?.();return{pyre:b?.pyre>0?b.pyre:1,pit:b?.pit>0?b.pit:1};};
@@ -182,7 +189,7 @@
    g.notify?.('Maladie : un '+name+' est mort dans les murs, emporté par la fièvre des charniers.','danger');return true;
   }
   function sickness(dt){
-   const load=left(),cap=limit(),exposed=state.exposure>0?load>=cap*S.clearRatio:load>=cap;
+   const load=counted(),cap=limit(),exposed=state.exposure>0?load>=cap*S.clearRatio:load>=cap;
    if(!exposed){
     if(state.exposure>0){if(announced)g.notify?.('Salubrité : la cité est assainie. La maladie recule.','good');state.exposure=0;state.sick=0;state.deaths=0;announced=0;}
     return;
@@ -220,6 +227,8 @@
     :'Prochaine mort dans '+wait(S.deathSeconds+state.deaths*S.deathInterval)+'.';
    return text+pace+' Repasser sous '+whole(limit()*S.clearRatio)+' corps laissés arrête tout.';
   }
+  // Pendant l'assaut, ce que la maladie compte vraiment.
+  const siegeText=()=>settling()?' · pendant l’assaut, la maladie n’en compte que '+whole(counted())+' : les corps au pied des murs pour '+Math.round(S.siegeWalls*100)+' %':'';
   function overview(){
    if(!active())return{summary:'Cette campagne ne suit pas la filière des corps : elle vient avec les campagnes commencées après son arrivée. Les corps déblayés disparaissent comme avant.',rows:[{label:'Filière des corps',value:'Non suivie'}]};
    if(!open())return{summary:'La cité est encore assez petite pour enterrer ses morts sans y penser. La filière des corps viendra à l’âge '+START+'.',rows:[{label:'Filière des corps',value:'Aucune avant l’âge '+START}]};
@@ -229,7 +238,7 @@
     :state.pyre?'Le bûcher brûle : sa fumée attire tant qu’il reste des corps et du combustible.':'Un corps déblayé reste à traiter : bûcher rapide et visible de loin, ou fosse lente et discrète.';
    return{summary,rows:[
     {label:'Corps à traiter',value:whole(state.pending)+' · déblayés des murs et des fossés'},
-    {label:'Corps laissés',value:whole(load)+' (à traiter + au pied des murs) · seuil '+whole(cap)+' pour '+(g.population||0)+' habitants'},
+    {label:'Corps laissés',value:whole(load)+' (à traiter + au pied des murs) · seuil '+whole(cap)+' pour '+(g.population||0)+' habitants'+siegeText()},
     ...(districtText()?[{label:'Par district',value:districtText()}]:[]),
     {label:'Bûcher',value:pyreText()+' — '+amount(P.cost.wood)+' bois ou '+amount(P.cost.fuel)+' carburant par corps ; s’éteint seul sans corps ni combustible.'},
     {label:'Fosse',value:pitText()+' — '+cost(F.cost)+' et '+C.formatTime(F.digSeconds)+' de chantier ; '+amount(F.perSecond*60)+' corps par minute, '+whole(pitCapacity())+' corps'+necropolis()+', puis elle se referme.'},
@@ -284,7 +293,7 @@
   function lines(){
    const s=stage(state.exposure);
    return{head:s>0?PHASES[s]:state.pyre?'Le bûcher brûle':state.pitOpen?'Fosse ouverte':state.pending>=1?'Des corps attendent':'Cité salubre',
-    rows:{pending:whole(state.pending),left:whole(left())+' · seuil '+whole(limit()),pyre:state.pyre?'Brûle au '+FUEL_NAMES[state.pyre]+' · signature +'+P.signature:'Éteint',
+    rows:{pending:whole(state.pending),left:whole(left())+(settling()?' (comptés '+whole(counted())+')':'')+' · seuil '+whole(limit()),pyre:state.pyre?'Brûle au '+FUEL_NAMES[state.pyre]+' · signature +'+P.signature:'Éteint',
      pit:state.pitLeft>0?'En chantier · '+C.formatTime(state.pitLeft):state.pitOpen?whole(pitBodies())+' / '+whole(pitCapacity()):'Aucune',health:PHASES[s],next:nextText()},
     foot:'Bûcher et fosse se décident au dépôt, fiche « Corps et salubrité » des opérations.'+(state.pyre?' Signature du bûcher : +'+P.signature+' (part « Grands ouvrages et bûcher » de la signature ci-dessus).':'')};
   }
@@ -335,7 +344,7 @@
    return result;
   };
   const fresh=()=>{text='';clock=-Infinity;};
-  const api=Object.freeze({active,open,pending:()=>state.pending,left,byDistrict,threshold:limit,stage:()=>stage(state.exposure),burning:()=>open()&&state.pyre?state.pyre:null,signature:()=>open()&&state.pyre?P.signature:0,
+  const api=Object.freeze({active,open,pending:()=>state.pending,left,counted,byDistrict,threshold:limit,stage:()=>stage(state.exposure),burning:()=>open()&&state.pyre?state.pyre:null,signature:()=>open()&&state.pyre?P.signature:0,
    pit:()=>({digging:state.pitLeft>0,left:state.pitLeft,open:state.pitOpen,fill:state.pitFill,closed:state.pitsClosed}),
    receive,lightQuote,light,douseQuote,douse,pitQuote,openPit,tick,overview,actions,render,marks,drawMarks,snapshot:()=>validate(state)});g.corpseChain217=api;
   g.expansions.register({id:'corpseChain217',title:'Corps et salubrité',overview,actions,validate,snapshot:api.snapshot,

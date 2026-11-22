@@ -329,3 +329,39 @@ test('filière des corps : la fosse qui prend les derniers corps pendant que le 
   assert.ok(K.validate(s),'état sauvegardable');assert.ok(g.serialize());
   assert.ok(mine(notes).some(t=>/^Bûcher éteint/.test(t)));
 });
+
+test('filière des corps : pendant l’assaut et la sécurisation, la maladie ne compte qu’une part de la charge des murs ; au calme, toute',()=>{
+  assert.ok(S.siegeWalls>0&&S.siegeWalls<1,'une part, jamais rien ni tout');
+  const g=outpost(),A=g.corpseChain217,{wall}=wallWithWorker(g),cap=A.threshold();
+  // Assez de corps au pied du mur pour rendre malade au calme, pas assez pour leur part pendant l'assaut.
+  const load=Math.ceil(cap/S.siegeWalls*S.clearRatio)-2;assert.ok(load>=cap&&load*S.siegeWalls<cap*S.clearRatio);
+  wall.corpseLoad=load;
+  run(g,10);assert.equal(state(g).exposure,10,'au calme, toute la charge compte');near(A.counted(),A.left());
+  for(const phase of ['assault','aftermath']){
+    g.phase=phase;near(A.left(),load,'les corps laissés restent tous affichés');near(A.counted(),load*S.siegeWalls,phase);
+    assert.match(row(g,'Corps laissés'),new RegExp('pendant l’assaut, la maladie n’en compte que '+Math.ceil(load*S.siegeWalls-1e-9)+' : les corps au pied des murs pour '+Math.round(S.siegeWalls*100)+' %'));
+  }
+  g.phase='assault';run(g,30);assert.equal(state(g).exposure,0,'les corps frais d’un mur assiégé ne rendent pas malade');assert.equal(A.stage(),0);
+  // La charge mécanique du mur n'est pas touchée : rampes et brèches lisent toujours toute la charge.
+  assert.equal(wall.corpseLoad,load);
+  g.phase='warning';near(A.counted(),load,'l’alerte précède l’assaut : la charge restée compte en entier');
+  calm(g);assert.doesNotMatch(row(g,'Corps laissés'),/pendant l’assaut/);run(g,10);assert.equal(state(g).exposure,10,'non déblayés, les corps comptent de nouveau au calme');
+  // Les corps à traiter comptent toujours en entier : une cité qui ne brûle ni n'ensevelit reste punie pendant l'assaut.
+  wall.corpseLoad=0;const h=withState(g,{pending:cap+5});h.phase='assault';run(h,S.graceSeconds);
+  near(h.corpseChain217.counted(),cap+5);assert.equal(h.corpseChain217.stage(),2);
+});
+
+test('filière des corps : la part des murs pendant l’assaut ne change ni la sauvegarde, ni les anciennes campagnes',()=>{
+  const g=outpost(),{wall}=wallWithWorker(g),cap=g.corpseChain217.threshold();wall.corpseLoad=cap*3;
+  g.phase='assault';g.corpseChain217.tick(5);
+  const data=JSON.parse(JSON.stringify(g.serialize())),mod=data.expansions127.modules.corpseChain217;
+  assert.deepEqual(Object.keys(mod),Object.keys(none()),'aucune clé ajoutée à l’état sauvegardé');assert.equal(mod.version,1);
+  assert.equal(data.phase,'assault','la phase qui règle la part est celle que le moteur sauvegarde déjà');
+  // Reprise pendant l'assaut : même compte, aucune horloge propre à rejouer.
+  assert.equal(g.restoreSave(JSON.parse(JSON.stringify(data))),true);const A=g.corpseChain217;
+  assert.equal(g.phase,'assault');near(A.counted(),cap*3*S.siegeWalls);near(A.left(),cap*3);assert.deepEqual(state(g),mod);
+  // Ancienne campagne (sans filière) : inactive, rien n'est compté ni annoncé, même mur chargé pendant l'assaut.
+  const old=JSON.parse(JSON.stringify(data));delete old.expansions127.modules.corpseChain217;assert.equal(g.restoreSave(old),true);
+  const B=g.corpseChain217,notes=watch(g);assert.equal(B.active(),false);g.phase='assault';run(g,S.graceSeconds+10);calm(g);run(g,S.graceSeconds+10);
+  assert.equal(B.stage(),0);assert.deepEqual(state(g),none());assert.equal(mine(notes).length,0);
+});
