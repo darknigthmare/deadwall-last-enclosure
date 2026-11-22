@@ -1421,6 +1421,14 @@ d'atlas calée sur l'étendue totale.
   47 ms pour la carte actuelle de 128 m : la décision de garder 192 m tient.
   Restent (O6b) : projectiles en vol, ouvriers, voirie et véhicule face aux
   falaises ; vivres et carburant dans les gisements.
+- **Préalable O9 (b) livré, sans effet en jeu** : en vue FPS, un tir suit
+  le relief réel — d'en haut on touche ce qu'on voit en contrebas, d'en bas
+  la falaise arrête toujours vue et tir (D-O1). La Meneuse rassemble la
+  horde au bord d'un côté ouvert, jamais devant une falaise ou une eau qui
+  ferme la cité ; l'abomination de siège est annoncée par un côté ouvert.
+  Une reprise en pleine vague garde la répartition déjà jouée entre les
+  côtés. À surveiller en O9 : sur une cité à un seul côté ouvert, la
+  Meneuse, son escorte et son gain s'ajoutent au même front étroit.
 - **Tranche O7 livrée, sans effet en jeu** : « une falaise vaut une
   enceinte ; une pente est une porte » est appliqué par le moteur sur la
   carte de terrain. La horde ne vient que par les côtés ouverts, en même

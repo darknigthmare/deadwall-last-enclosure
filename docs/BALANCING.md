@@ -461,6 +461,8 @@ Réglages mesurés, non appliqués : `sickness.perPerson` 8 (vagues malades réd
 
 ## Siège adossé — O7 (hors jeu)
 
+Préalable O9 (b) : aucune valeur nouvelle. Le côté de la Meneuse sur terrain est `h modulo (nombre de côtés ouverts)` (identique à `h & 3` sur carte plate) ; poste à `standoff` 256 unités du bord, sur 30 à 70 % du côté, mesurés sur la carte de 192 m. Sur une cité à un seul côté ouvert, la Meneuse vient toujours de ce côté et son escorte (+20 %) s'ajoute au front étroit : renforce le risque relevé ci-dessous ; `passRate` et `minShare` à confirmer en O9.
+
 `C.OpenSiege217Rules` (G12, décision D-O2 : même effectif, concentré sur les côtés ouverts) :
 
 | Clé | Valeur | Effet |
