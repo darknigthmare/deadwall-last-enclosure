@@ -442,6 +442,20 @@ La nécropole se multiplie avec la corvée de déblaiement (×2,25 pendant la co
 
 `C.CityRadio217Rules.journal` : 12 messages gardés. Les consignes n'ajoutent aucune valeur d'équilibrage : elles appellent les ordres de repli existants, une fois par vague.
 
+## Siège adossé — O7 (hors jeu)
+
+`C.OpenSiege217Rules` (G12, décision D-O2 : même effectif, concentré sur les côtés ouverts) :
+
+| Clé | Valeur | Effet |
+|---|---|---|
+| `foldShares.basis` | `'width'` | Parts des fronts au prorata de la largeur des côtés non clos |
+| `foldShares.minShare` | 0,1 | Part plancher d'un passage étroit |
+| `passRate.perMetre` | 0,25 | Arrivées par seconde et par mètre, cité à un seul front (rampe de 12 m : 3/s ; 32 m : 8/s) |
+| `passRate.min` | 1 | Plancher du débit d'entrée |
+| `minFronts` | 1 | En dessous, aucun siège possible |
+
+Mesures partielles (27 relevés sur 39, scénario `scripts/measure-open-siege217.cjs`, détail dans `specs/monde-sans-bord/tasks.md` O7.7) : à l'âge 6, une cité ouverte tient 104 s en moyenne, à deux côtés 75 s, à un seul côté 117 s ; les cadavres par mètre de front triplent à un seul côté (0,57 à 1,10 contre 0,11 à 0,21). Risque principal : une cité à un côté de 32 à 64 m tombe en 61 à 141 s, plus vite que sur quatre fronts, car le plafond ne mord qu'au-dessous d'environ 28 m. Non éprouvé en jeu ; à reprendre en O9.
+
 ## Cité de 192 m — O6b (hors jeu)
 
 `C.OpenCity217Rules` (G12) : `fallbackRing` 192 cases (recherche du repli d'un infecté sur toute la carte ; une poche fermée de 17117 est à 74 cases de tout accès) ; `pathMaxExpanded` 16 384 nœuds pour les chemins amis sur terrain (8 192 sur carte plate, inchangé). Champ de flux à 192 m : 2 à 5 ms pour la partie de terrain, 13 à 28 ms avec les enveloppes déléguées, contre 44 à 47 ms pour la partie actuelle à 128 cases.

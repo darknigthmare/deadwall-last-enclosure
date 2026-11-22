@@ -1421,6 +1421,18 @@ d'atlas calée sur l'étendue totale.
   47 ms pour la carte actuelle de 128 m : la décision de garder 192 m tient.
   Restent (O6b) : projectiles en vol, ouvriers, voirie et véhicule face aux
   falaises ; vivres et carburant dans les gisements.
+- **Tranche O7 livrée, sans effet en jeu** : « une falaise vaut une
+  enceinte ; une pente est une porte » est appliqué par le moteur sur la
+  carte de terrain. La horde ne vient que par les côtés ouverts, en même
+  nombre (D-O2). Une cité adossée se ferme avec moins de murs mais concentre
+  la pression sur ses passages ; une rampe barrée est un point faible comme
+  une porte, la falaise ne cède pas. Sur 3 000 graines, aucune cité n'a
+  qu'une rampe pour accès : les cités à un seul côté ont un front de 32 à
+  142 m. Risque mesuré : une cité à un côté de 32 à 64 m tombe plus vite que
+  la même vague sur quatre fronts (plafond de passage inopérant au-dessus
+  de ~28 m) ; valeur à confirmer en O9. Réserves : Meneuse et abomination
+  de siège tirent encore leur côté parmi les quatre ; état du siège non
+  sauvegardé (reconstruit à la reprise).
 - **Tranche O6c livrée, sans effet en jeu** : D-O1 s'applique aussi au
   choix de cible — un tireur ne vise que ce qu'il voit depuis le palier de
   sa bouche (tourelles, fusiliers, affûts). L'entrée d'une citadelle est
