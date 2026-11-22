@@ -3702,7 +3702,22 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
     return n===1?noun[0]+' '+OF[side]:'les '+(COUNT[n]||n)+' '+noun[1]+' '+OF[side];
    }
    const phrase=(fronts,sides)=>fronts.map(f=>label(f,sides?.[f])).join(', ').replace(/, ([^,]*)$/,' et $1');
-   return Object.freeze({SIDES,open,shares,fold,quotas,pick,rate,gap,label,phrase});
+   // O9 (b) : état du siège de la vague en cours (`openSiege217` du jeu) relu d'une sauvegarde, contre la partie validée
+   // (`base` : vague, phase, fronts, plan). Absent : `undefined` (reconstruit à la reprise). Incohérent : refusé.
+   const KEYS=['wave','asked','folded','fronts','shares','emitted'];
+   function normalize(raw,base){
+    if(raw===undefined)return undefined;
+    const fail=why=>{throw new RangeError('Siège adossé sauvegardé invalide : '+why+'.');};
+    const plain=(v,keys)=>v&&typeof v==='object'&&!Array.isArray(v)&&Object.keys(v).length===keys.length&&keys.every(k=>Object.hasOwn(v,k));
+    if(!plain(raw,KEYS))fail('forme');
+    if(raw.wave!==base?.wave||!['warning','assault','aftermath'].includes(base.phase))fail('vague');
+    const f=raw.fronts;if(!Array.isArray(f)||!f.length||f.length>SIDES.length||new Set(f).size!==f.length||f.some(s=>!SIDES.includes(s)||!(base.fronts||[]).includes(s)))fail('fronts');
+    if(!Number.isInteger(raw.asked)||raw.asked<1||raw.asked>SIDES.length||typeof raw.folded!=='boolean'||raw.folded&&f.length>=raw.asked)fail('repli');
+    if(!plain(raw.shares,f)||f.some(s=>!Number.isFinite(raw.shares[s])||raw.shares[s]<=0||raw.shares[s]>1)||Math.abs(f.reduce((n,s)=>n+raw.shares[s],0)-1)>1e-9)fail('parts');
+    if(!plain(raw.emitted,f)||f.some(s=>!Number.isInteger(raw.emitted[s])||raw.emitted[s]<0)||f.reduce((n,s)=>n+raw.emitted[s],0)>(base.wavePlan?.total??0))fail('arrivées');
+    return{wave:raw.wave,asked:raw.asked,folded:raw.folded,fronts:f.slice(),shares:Object.fromEntries(f.map(s=>[s,raw.shares[s]])),emitted:Object.fromEntries(f.map(s=>[s,raw.emitted[s]]))};
+   }
+   return Object.freeze({SIDES,open,shares,fold,quotas,pick,rate,gap,label,phrase,normalize});
   })();
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({

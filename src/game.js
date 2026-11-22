@@ -973,7 +973,9 @@
           ...(z.kind==='shielded'||z.kind==='charger'?{facing:z.facing}:{}),...(z.kind==='charger'?{charge:{...z.charge}}:{}) })),
         nodes: this.world.nodes.map(n => [n.id, n.amount]), wave:this.wave, phase:this.phase, phaseTime:this.phaseTime, spawnQueue:this.spawnQueue, pendingSpawns:this.pendingSpawns, fronts:this.fronts, wavePlan:this.wavePlan, spawnTimer:this.spawnTimer,
         elapsed:this.elapsed, dayClock:this.dayClock, weather:this.weather, weatherTarget:this.weatherTarget, morale:this.morale, rally:this.rally, stats:this.stats, objectiveIndex:this.objectiveIndex, objectiveProgress:this.objectiveProgress, objectiveReady:this.objectiveReady, nextId:this.nextId,
-        randomState:this.random.state, research:this.research, activeCrisis:this.activeCrisis, depositedResources:this.depositedResources
+        randomState:this.random.state, research:this.research, activeCrisis:this.activeCrisis, depositedResources:this.depositedResources,
+        // O9 (b) : siège adossé de la vague en cours, sur un terrain seulement (carte plate : aucune clé de plus).
+        ...(this.world.terrain217?.sides&&this.openSiege217?.wave===this.wave?{openSiege217:JSON.parse(JSON.stringify(this.openSiege217))}:{})
       };
     }
 
@@ -1033,6 +1035,8 @@
       const rebuiltPlan=data.wavePlan||wavePlan(data.wave,difficulty,0);
       // Commit only after the complete candidate world, entities and navigation have been constructed.
       Object.assign(this,{difficulty,nextId:data.nextId,random:new Random(data.randomState),world:nextWorld,flow:nextFlow,resources:data.resources,player:nextPlayer,units:nextUnits,zombies:nextZombies,projectiles:[],particles:[],corpses:[],floaters:[],wave:data.wave,phase:data.phase,phaseTime:data.phaseTime,spawnQueue:pending?(buffered||[]):data.spawnQueue,pendingSpawns:pending||{},fronts:data.fronts,wavePlan:rebuiltPlan,spawnTimer:data.spawnTimer,elapsed:data.elapsed,dayClock:data.dayClock,weather:data.weather,weatherTarget:data.weatherTarget,morale:data.morale,rally:data.rally,stats:data.stats,objectiveIndex:data.objectiveIndex,objectiveProgress:data.objectiveProgress,objectiveReady:data.objectiveReady,research:data.research,activeCrisis:data.activeCrisis,depositedResources:data.depositedResources,gameOver:false,paused:false,saveTimer:0,helpWasPaused:null});
+      // O9 (b) : siège adossé relu s'il est sauvegardé ; sinon (et toujours sur une carte plate), reconstruit au besoin.
+      if(data.openSiege217){const s=data.openSiege217;this.openSiege217={...s,fronts:Object.freeze(s.fronts.slice()),shares:Object.freeze({...s.shares}),emitted:{...s.emitted}};}else if(this.openSiege217!==undefined)this.openSiege217=undefined;
       this.fieldMarker=null;this.narrative=data.narrative;this.workerOrder=data.workerOrder;this.runId=data.runId;this.ui.commandModal?.classList.add('hidden');
       this.scenarioId = data.scenarioId; this.squads = data.squads;
       this.buckets.clear();this.cancelPlacement();this.selectBuilding(null);this.refreshMetrics(true);this.camera.x=this.player.x;this.camera.y=this.player.y;
@@ -1931,7 +1935,7 @@
     // État du siège adossé de la vague en cours, reconstruit des fronts annoncés après une reprise.
     openSiegeState217() {
       const sides=this.world.terrain217?.sides;if(!sides)return null;
-      if(this.openSiege217?.wave===this.wave)return this.openSiege217;
+      if(this.openSiege217?.wave===this.wave&&this.openSiege217.fronts.every(f=>C.OpenSiege217.open(sides).includes(f)))return this.openSiege217;
       const fronts=this.fronts.filter(f=>C.OpenSiege217.open(sides).includes(f)),list=fronts.length?fronts:C.OpenSiege217.open(sides);
       return this.openSiege217={wave:this.wave,asked:this.wavePlan?.fronts||list.length,folded:(this.wavePlan?.fronts||0)>list.length,fronts:Object.freeze(list.slice()),shares:C.OpenSiege217.shares(list,sides),emitted:Object.fromEntries(list.map(f=>[f,0]))};
     }

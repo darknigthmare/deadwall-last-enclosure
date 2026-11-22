@@ -1227,6 +1227,54 @@ sauvegarde ; la partie complète joue alors `g.update` sur le terrain.
   scénario de mesure ne remplace pas une partie jouée (tourelles fixes au centre, aucun soldat posté, pas de
   réparation) : les valeurs `passRate` et `minShare` restent à confirmer en O9.
 
+## Préalable O9 (b) — Tir FPS entre paliers, côtés de la Meneuse et des abominations, siège adossé sauvegardé (livré, sans effet en jeu)
+
+Fiche : [ouverture.md](ouverture.md), préalable O9 (b) (décisions D-O1, D-O2, D-O3). Revue de la PR #39 (P2) et réserves
+d'O7. Toujours atteint par un harnais seulement : la génération 12 reste refusée par le jeu et par la sauvegarde.
+
+- [x] O9b.1 Tir FPS entre paliers (`src/vertical-citadel175.js`) : sur un terrain, `raycast`, `sightQuery`,
+      `aimPoint(e, origine)` et `screenAim` appliquent les décalages de palier du peintre O8b (`terrain-fps217.js`) à la
+      géométrie d'intersection — origine levée du sol de la boîte qui la porte ou du relief, boîtes et infectés levés
+      de leur sol, géants du relief, sol du tir = relief (marche de 25 cm, dichotomie) ; point rendu dans le repère de
+      l'origine ; hauteurs stockées inchangées. Affût automatique, tir possédé, visée classique, éclats, commandant,
+      gardes de palier (`vertical-population181` : `aimPoint(cible, origine)`) concordent. La falaise d'O6c (D-O1)
+      reste appliquée en plus. Reproduction de la revue (17117, support au palier 3, infecté du contrebas 8 m plus bas) :
+      sans les décalages (chemin de la base), le tir s’arrête sur la structure du support ; l’arbre touche l’infecté.
+- [x] O9b.2 Côtés (`src/abominations217.js`) : Meneuse (`post`, `posts`) parmi les côtés ouverts, `h` modulo leur
+      nombre, au bord de la carte de terrain ; abomination de siège (`edgeOf`) parmi les côtés ouverts ; `openSides`,
+      `frameOf` exportés ; `horde-horizon217` et `factions217` passent le cadre. Carte plate : identité (postes de 6
+      graines × 388 vagues et 2 000 points comparés à l'ancienne formule). Sur 50 graines × 100 vagues du terrain,
+      plus de 200 postes tombaient sur un côté clos ; la base plaçait aussi la Meneuse à 2 304 unités du bord (cadre de
+      128 m dans une carte de 192 m).
+- [x] O9b.3 Sauvegarde additive du siège adossé : `openSiege217` dans `serialize` (terrain seulement, vague en cours),
+      `C.OpenSiege217.normalize` (`src/core.js`) appelé par une dernière enveloppe de `DeadwallSave.validate`
+      (`src/save.js`), relu par `restoreSave` ; version 20 inchangée ; absent = reconstruit. `openSiegeState217`
+      reconstruit aussi un état dont un front n'est plus ouvert.
+- [x] O9b.4 Tests : `tests/open-city217-shot.test.cjs` (4 cas ; le premier échoue sur la base) — d'en haut, visée FPS
+      vers le point peint d'un infecté du contrebas : touché (tir possédé, affût automatique de même direction, vue
+      classique), impact derrière lui sur le relief du contrebas ; d'en bas, cible cachée ni vue, ni peinte, ni touchée,
+      aucune munition ; même palier : décalage nul ; carte plate : relief empoisonné jamais lu.
+      `tests/open-siege217-sides.test.cjs` (5 cas, tous en échec sur la base) — postes de la Meneuse, côté de
+      l'abomination (Traîne-épave désignée sur 17117 : est ou ouest), Meneuse postée sur 17117, validation additive
+      (carte plate sans clé, bloc cohérent porté, onze corruptions refusées), reprise en pleine vague 10 sur 17117
+      (mêmes parts et mêmes côtés d'arrivée qu'une vague sans interruption ; sans le bloc, compteurs remis à zéro).
+- [x] O9b.5 Innocuité : procédure 3 (`scratchpad/o9b/proc3.cjs` : base O6c — citadelle, sentinelle possédée,
+      tourelle, caserne, fusiliers, vague de 240 s — plus la vague menée 13 et la vague 28 de Traîne-épave, notes du
+      jeu hachées) : base `37984c1` et arbre identiques octet pour octet (départ, mi-parcours, vague menée, fin,
+      relecture). Mondes G1–G11 des huit graines : `audit-campaign-sites205` identique à
+      `campagne205-eligibilite.json` hors tailles des huit sources touchées. Navigateur (port 8748) : partie 17117 par
+      le menu, vague 1 (aucune clé `openSiege217`), puis harnais de terrain 17117 (support au palier 3, infecté 8 m plus
+      bas, tir possédé : touché, 32 dégâts), aucune erreur de page.
+- Réserves : la reprise d'un monde G12 n'existe pas encore (garde de taille de carte de la sauvegarde ; le test la
+  contourne et rend le terrain à la main) ; le test de reprise compare les côtés d'arrivée, pas les cases ni les types
+  (la reprise remet la file d'apparition dans son ordre sauvegardé) ; les échelons de nuit des chantiers de jour suivent
+  le monde par son identité et repartent à zéro quand le harnais remplace le monde ; le poste de la Meneuse reste sur
+  toute la longueur du côté ouvert (30 à 70 %), pas limité aux `entries` du côté — un poste derrière une falaise est
+  écarté par la garde de champ de marche existante (« aucun poste praticable ») ; le sol du tir est échantillonné tous
+  les 25 cm (une arête plus fine qu'une case n'existe pas sur la grille d'un mètre) ; coût : une marche du relief par
+  tir descendant et un relevé des sols de passerelles par requête de visée, sur un terrain seulement ; rien n'a été joué
+  en G12 par le menu.
+
 ## T5 — Ouverture expérimentale
 
 - [ ] T5.1 `src/world-open217.js` : façade ; aiguillage dans `frontier-world.create`.

@@ -597,6 +597,34 @@ cran en mètres : D-O3), parois verticales, plans inclinés des rampes, caméra 
     base `8d7ea21` (contexte factice enregistreur, 24 images, citadelle, sentinelle, trois infectés).
     Harnais : `tests/helpers/terrain-fps217.cjs`, `scripts/browser-terrain-fps217.mjs`.
 
+### Préalable O9 (b) — tir FPS entre paliers, côtés de la Meneuse et des abominations, siège adossé sauvegardé (**livré**, hors jeu)
+
+Dettes relevées par la revue de la PR #39 et par les réserves d'O7 ; G12 toujours non créable (aucun module ajouté à
+`index.html`). Décisions D-O1 (la falaise arrête vue et tirs d'en bas, pas d'en haut), D-O2 (même effectif concentré
+sur les côtés ouverts), D-O3 (FPS dès l'ouverture).
+
+- Tir FPS entre paliers (`vertical-citadel175.js`) : la simulation garde ses hauteurs relatives au sol local ; sur un
+  terrain, `raycast`, `sightQuery`, `aimPoint(e, origine)` et la visée de la vue classique (`screenAim`) passent dans le
+  repère du relief avec les décalages du peintre O8b (`terrain-fps217.js` : `siteFloor`, `boxFloor`, `actorFloor`,
+  `linkFloors`, `elevation`) — origine levée du sol de la boîte qui la porte (citadelle, passerelle) ou du relief,
+  boîtes et acteurs levés de leur sol, sol du tir = relief (marche de 25 cm puis dichotomie) au lieu du plan z = 0.
+  Point d'impact rendu dans le repère de l'origine (traces 2D inchangées). Les gardes de palier
+  (`vertical-population181.js`) visent par `aimPoint(cible, origine)`. Carte plate : aucun appel au relief, mêmes
+  calculs qu'avant.
+- Côtés (`abominations217.js`) : `post(graine, vague, cadre)` et `posts` prennent le côté de la Meneuse parmi les côtés
+  ouverts (`C.OpenSiege217.open`) par le même hachage, `h` modulo leur nombre (aucun tirage de plus), au bord de la
+  carte de terrain (192 m) ; `edgeOf(x, y, taille, côtés)` ne retient que les côtés ouverts pour la Comble-fossé et la
+  Traîne-épave. `frameOf(g)` donne le cadre ; `horde-horizon217` et `factions217` le passent. Sans cadre : quatre côtés,
+  `h % 4 = h & 3`, mêmes postes et mêmes côtés qu'avant.
+- Sauvegarde (`game.js`, `save.js`, `core.js`) : `serialize` ajoute `openSiege217` sur un terrain seulement, quand l'état
+  est celui de la vague en cours ; la dernière enveloppe de `DeadwallSave.validate` le relit par
+  `C.OpenSiege217.normalize(brut, partie)` (forme stricte, vague et phase de la partie, fronts parmi `fronts`, parts de
+  somme 1, arrivées entières bornées par le plan) ; version 20 inchangée ; absent = reconstruit comme avant
+  (`openSiegeState217`, qui reconstruit aussi un état dont un front n'est plus ouvert).
+- Tests : `tests/open-city217-shot.test.cjs` (4 cas), `tests/open-siege217-sides.test.cjs` (5 cas).
+- Innocuité : procédure 3 (base O6c, plus une vague menée et une vague de Traîne-épave) identique octet pour octet ;
+  mondes des huit graines identiques hors tailles de sources.
+
 ### O9 — Ouverture « expérimental » (premier effet en jeu)
 
 Conditions : O2, O3, O4, O5, O6, O7, O8a livrés ; O8b livré **ou** vue FPS indisponible en

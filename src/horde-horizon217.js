@@ -84,7 +84,7 @@
   if(!f||!DIRECTIONS.includes(f.side)||f.status==='slain'||f.status==='dispersed')return null;
   const A=root.DeadwallAbominations217||(typeof require==='function'?(()=>{try{return require('./abominations217.js');}catch(error){return null;}})():null);
   let along=worldSize(g)/2;
-  try{const p=A?.post?.(g.world?.seed??0,f.wave);if(p)along=f.side==='north'||f.side==='south'?p.x:p.y;}catch(error){/* repli : milieu du bord */}
+  try{const p=A?.post?.(g.world?.seed??0,f.wave,A.frameOf?.(g));if(p)along=f.side==='north'||f.side==='south'?p.x:p.y;}catch(error){/* repli : milieu du bord */}
   return Object.freeze({side:f.side,along,status:f.status,wave:f.wave});
  }
  function leaderSentence(leader){

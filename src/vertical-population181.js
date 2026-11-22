@@ -286,7 +286,7 @@
         const visible = h.sightQuery(origin, P.guardRange);
         const target = g.zombies.filter(live).filter(visible).sort((a, b) => Math.hypot(a.x - u.x, a.y - u.y) - Math.hypot(b.x - u.x, b.y - u.y) || a.id - b.id)[0];
         if (target && u.fireCooldown <= 0 && u.carry >= 1) {
-          const aim = S.lookAt(origin, h.aimPoint(target)), result = h.raycast(origin, aim.yaw, aim.pitch, P.guardRange);
+          const aim = S.lookAt(origin, h.aimPoint(target, origin)), result = h.raycast(origin, aim.yaw, aim.pitch, P.guardRange);
           u.carry -= 1; u.fireCooldown = C.SQUAD_RULES.fireCooldown; u.facing = aim.yaw;
           h.hit(result, g.hasResearch('ballistics') ? C.SQUAD_RULES.researchedDamage : C.SQUAD_RULES.damage);
           h.trace(origin, result.point); g.audio?.noise?.(.035, .025, 1600); g.recordActorAction159?.(u, 'shoot', u.fireCooldown);

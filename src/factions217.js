@@ -323,7 +323,7 @@
   function intelText(i){
    if(!i)return'';
    if(i.kind==='led'){
-    const A=root.DeadwallAbominations217||(typeof require==='function'?require('./abominations217.js'):null),where=A?.post?.(g.world?.seed??0,i.ref)?.where;
+    const A=root.DeadwallAbominations217||(typeof require==='function'?require('./abominations217.js'):null),where=A?.post?.(g.world?.seed??0,i.ref,A.frameOf?.(g))?.where;
     return'vague '+i.ref+' menée : la Meneuse rassemblera la horde '+(where||'au bord de la carte');
    }
    const w=world(),v=g.remarkable217?.list?.().find(e=>e.id===i.ref);
