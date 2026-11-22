@@ -55,7 +55,7 @@ O1 monde régional G12 (interface)  ── livré, hors jeu
  │                                                              │
  O5 carte de la cité par campagne (taille, sauvegarde)          │
  └─ O6 arêtes de falaise dans la cité (pas, flux, collisions)   │
-     ├─ O7 siège adossé : fronts, enceintes, équilibrage  ∥     │
+     ├─ O7 siège adossé : fronts, enceintes (livré)       ∥     │
      └─ O8 rendu 2D/2,5D puis vue FPS                     ∥     │
                                                                 ▼
                          O9 ouverture « expérimental » (menu, fiche, branchement)
@@ -70,7 +70,7 @@ O1 monde régional G12 (interface)  ── livré, hors jeu
 | O4 | Lecteurs de la liste complète des lieux → lecteurs de voisinage (**premier lot livré**) | Aucun (valeurs identiques) | L | moyen / bas | O2, O3, O5–O8 |
 | O5 | Carte de la cité par campagne, taille portée par la sauvegarde (**livré**) | Aucun (128 partout) | L | haut / moyen | O2, O3, O4 |
 | O6 | Carte de 192 m née de `world-local217` : arêtes de falaise, flux, collisions, gisements (**livré** : O6a, O6b) | Aucun (G12 non créable) | XL → O6a, O6b | moyen / haut | O3, O4 |
-| O7 | Siège adossé : fronts par côté ouvert, enceintes sur falaise, équilibrage à deux côtés | Aucun | L | moyen / haut | O8 |
+| O7 | Siège adossé : fronts par côté ouvert, enceintes sur falaise, équilibrage à deux côtés (**livré**) | Aucun (G12 non créable) | L | moyen / haut | O8 |
 | O8 | Rendu des falaises et de l'eau en 2D/2,5D (O8a, **livré**), vue FPS (O8b, **livré**) | Aucun | L + L | bas / moyen | O7 |
 | O9 | Ouverture : option de menu, fiche, branchement, chargement par anneau | **Oui, derrière l'option** | L | moyen / haut | — |
 | O10 | Atlas et minicarte sans étendue fixe ; rayon d'action (T6) | Oui (G12) | M | bas / bas | après O9 |
@@ -450,7 +450,7 @@ décision D-O1. Ampleur L, risque G12 haut (performances du flux sur 36 864 case
   du pas en cours (compteur `fallback217`) ; posé contre un décor, l'infecté en est dégagé (`recoverActor`).
 - Innocuité : procédure 3 (base `a94915f`) identique octet pour octet ; mondes G1–G11 inchangés.
 
-### O7 — Siège adossé : fronts, enceintes et équilibrage à deux côtés
+### O7 — Siège adossé : fronts, enceintes et équilibrage à deux côtés (**livré**, hors jeu)
 
 Points 5 et 6 de `tasks.md`, et la question (f).
 
@@ -481,6 +481,36 @@ Points 5 et 6 de `tasks.md`, et la question (f).
   prouver sur les plans des vagues 1 à 60 des trois difficultés).
 - Parcours joueur (harnais) : vague 5 sur la graine 17117 — deux fronts, est et ouest.
 - Ampleur L, risque G12 haut (équilibrage), parallélisable avec O8.
+- **Livré O7** (sans effet en jeu ; détail, mesures et réserves : `tasks.md`, section O7) :
+  - Règles `C.OpenSiege217Rules` (`src/core.js`, après `C.OpenCity217Rules`) : `foldShares` {`basis` 'width',
+    `minShare` 0,1}, `passRate` {`perMetre` 0,25, `min` 1}, `minFronts` 1 ; lecture pure `C.OpenSiege217` (`open`,
+    `shares`, `fold`, `quotas`, `pick`, `rate`, `gap`, `label`, `phrase`), sans tirage propre.
+  - Fronts : `prepareWave` garde son tirage sur une carte plate ; sur un terrain (`world.terrain217.sides`, copie des
+    côtés de la description), `prepareFronts217` tire `wavePlan.fronts` côtés parmi les non clos avec le même mélange
+    du jeu (`random.shuffle`), replie un plan qui en demande plus (même effectif, parts au prorata de la largeur) et met
+    le côté le plus large en tête (les échelons de nuit, vague 4 et plus, font entrer chaque tiers par un groupe pris
+    dans cet ordre). `spawnZombie217` : front de la prochaine arrivée par retard sur sa part (sans tirage), dans le
+    groupe d'échelon courant ; case tirée dans les `entries` du côté, pondérées par leur largeur ; jamais un côté clos.
+  - Contrainte de passage (cité à un seul front) : `spawnGap217` = max(intervalle du plan, 1 / (0,25 × largeur)) — une
+    rampe de 12 m laisse entrer 3 infectés par seconde, le reste attend dans la file (masse au pied, vague plus
+    longue). Aucun point de vie de plus : mêmes `Zombie`, même `wavePlan`.
+  - Annonce : « Migration détectée — N contacts estimés, par la rampe du nord. » ; renseignement d'alerte « Approche
+    par … » ; `siege-readout.js` : ligne `siegeReadoutFronts` créée au premier terrain (côtés à tenir et clos au
+    calme ; passage, largeur, repli et plafond d'entrée pendant l'alerte et l'assaut), jamais sur une carte plate.
+  - Enceintes : `T.terrainGrid217(monde)` (pas `canStep`, départ des cases à sec du bord) lu par `analyzeEnclosure`
+    (`grid`, grille jusqu'à 192 cases), `getEnclosureStatus`, `fallback-order` (`innerZone`), `districts` (`survey`,
+    aussi pour `factions217`), `linecare` (`traceAccess`). Arête de falaise et eau profonde = mur indestructible ; une
+    rampe se barre d'un mur ou d'une porte posés sur ses cases (porte ouverte = front ouvert). `breach217` exclut
+    l'obstacle `terrain217` des ouvrages ; `earthworks217` refuse un fossé sur une rampe.
+  - `horde-horizon217.js` : fronts filtrés sur les côtés non clos (repli « nord » remplacé par le premier côté ouvert
+    sur un terrain), silhouettes et aplat limités aux tronçons d'entrée du côté.
+  - Mesures (12 graines, harnais `scripts/measure-open-siege217.cjs`, **27 relevés sur 39**, les plus coûteux manquent) :
+    voir `tasks.md`, O7.7. Aucune graine « à un
+    passage » n'existe sur 3 000 graines de la carte locale version 2 : catégorie remplacée par « un seul côté »
+    (ouvert, 32 à 96 m) et une variante synthétique à rampe de 12 m.
+  - Innocuité : parcours déterministe de 240 s (base `8d7ea21` contre l'arbre de travail) identique octet pour
+    octet ; parcours « empoisonné » dans le test ; repli identité prouvé sur les plans des vagues 1 à 60 des trois
+    difficultés ; mondes G1–G11 des huit graines inchangés.
 
 ### O8 — Rendu des falaises et de l'eau, puis vue FPS (**O8a et O8b livrés**, hors jeu)
 
@@ -626,7 +656,9 @@ Puis T7 (défaut pour toute nouvelle campagne, gradient de distance) : hors de c
   S'applique à O6b (collisions des projectiles) et O8a/O8b (vue).
 - **D-O2 — tranché sur le principe** : quand la cité n'a que deux côtés ouverts, la vague garde
   **le même effectif, concentré sur les côtés ouverts**. Aucune réduction pour les côtés fermés.
-  Les valeurs du plafond de passage par front restent à mesurer en O7.
+  Les valeurs du plafond de passage par front restent à mesurer en O7. **O7** : repli au prorata de la largeur
+  des côtés ouverts, plafond d'entrée d'une cité à un seul front de 0,25 arrivée par seconde et par mètre
+  (`C.OpenSiege217Rules`) ; mesures sur 12 graines dans `tasks.md`, section O7 — valeurs à confirmer en jeu (O9).
 - **D-O3 — tranché** : la vue à la première personne est **disponible dès l'ouverture** de
   l'option expérimentale. O8b passe donc sur le chemin critique de O9 ; la hauteur d'un cran est
   fixée en O8b à 4 m (`C.TerrainRelief217Rules.stepMetres`, égale à la hauteur peinte d'O8a).

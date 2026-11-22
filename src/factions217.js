@@ -162,7 +162,7 @@
    try{
     const D=need('DeadwallDistricts','./districts.js'),T=need('DeadwallTactics','./tactics.js'),core=g.core?.();
     if(D&&T&&world&&core){
-     const view=D.survey(C,T,world.buildings.values()),outer=view.rings[view.rings.length-1];
+     const view=D.survey(C,T,world.buildings.values(),world.terrain217?T.terrainGrid217?.(world)||null:null),outer=view.rings[view.rings.length-1];
      const works=outer?outer.works.map(b=>{const f=T.footprint(b);return{x:f.x*C.TILE,y:f.y*C.TILE,w:f.width*C.TILE,h:f.height*C.TILE};}):[];
      let reach=0;for(const r of works)for(const[x,y]of[[r.x,r.y],[r.x+r.w,r.y],[r.x,r.y+r.h],[r.x+r.w,r.y+r.h]])reach=Math.max(reach,Math.hypot(x-core.x,y-core.y));
      value={rings:view.rings.length,districtOf:view.districtOf,works,reach};

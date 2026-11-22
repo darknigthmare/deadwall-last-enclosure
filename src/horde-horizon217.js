@@ -53,19 +53,27 @@
   }catch(error){value=null;}
   echelonMemo.set(g,{key,value});return value;
  }
+ // Terrain de génération 12 (O7) : la masse ne se tient que sur les côtés non clos, devant leurs entrées (tronçons du
+ // bord joints au centre, `sides.<côté>.entries`, en cases). Carte plate : quatre côtés, tout le bord.
+ const terrainSides=g=>{const s=g?.world?.terrain217?.sides;return s&&typeof s==='object'?s:null;};
+ const openSide=(sides,front)=>!sides||Boolean(sides[front]&&sides[front].status!=='clos'&&sides[front].entries?.length);
+ function entrySpans(g,front){
+  const sides=terrainSides(g);if(!sides)return null;const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),T=C?.TILE||32;
+  return (sides[front]?.entries||[]).map(e=>[e.from*T,e.to*T]);
+ }
  // Ce qui reste à entrer. Le directeur tire le front de chaque arrivée au moment où elle entre :
  // la part de chaque front n'existe donc pas à l'avance, et cette lecture n'en invente pas.
  function horizon(g){
   if(!g||(g.phase!=='warning'&&g.phase!=='assault'))return null;
-  const announced=[];for(const front of Array.isArray(g.fronts)?g.fronts:[])if(DIRECTIONS.includes(front)&&!announced.includes(front))announced.push(front);
+  const sides=terrainSides(g),announced=[];for(const front of Array.isArray(g.fronts)?g.fronts:[])if(DIRECTIONS.includes(front)&&!announced.includes(front)&&openSide(sides,front))announced.push(front);
   let remaining=0;
   if(g.phase==='warning')remaining=Math.floor(Number(g.wavePlan?.total)||0);
-  else{remaining=(Array.isArray(g.spawnQueue)?g.spawnQueue.length:0)+spawnCount(g.pendingSpawns);if(!announced.length)announced.push('north');}
+  else{remaining=(Array.isArray(g.spawnQueue)?g.spawnQueue.length:0)+spawnCount(g.pendingSpawns);if(!announced.length){const first=DIRECTIONS.find(front=>openSide(sides,front));if(first)announced.push(first);}}
   if(!(remaining>0)||!announced.length)return null;
   // En assaut, un front dont tous les échelons sont passés ne recevra plus personne : sa masse s'efface.
   let fronts=announced,entering=g.phase==='assault'?announced:[];
   const plan=g.phase==='assault'?echelons(g,remaining):null;
-  if(plan){const left=DIRECTIONS.filter(front=>plan.pending.includes(front));if(left.length){fronts=announced.filter(front=>left.includes(front)).concat(left.filter(front=>!announced.includes(front)));entering=fronts.filter(front=>plan.entering.includes(front));}}
+  if(plan){const left=DIRECTIONS.filter(front=>plan.pending.includes(front)&&openSide(sides,front));if(left.length){fronts=announced.filter(front=>left.includes(front)).concat(left.filter(front=>!announced.includes(front)));entering=fronts.filter(front=>plan.entering.includes(front));}}
   return Object.freeze({phase:g.phase,wave:Math.max(1,Math.floor(Number(g.wave)||1)),fronts:Object.freeze(fronts.slice()),entering:Object.freeze(entering.slice()),remaining,total:Math.max(remaining,Math.floor(Number(g.wavePlan?.total)||0)),perFront:null});
  }
  // Vague menée (src/abominations217.js) : le côté de la Meneuse, lu dans sa prévision, tant qu'elle mène.
@@ -156,7 +164,7 @@
   let length=0;for(const span of spans)length+=span.last-span.first+1;
   const list=[];
   for(const span of spans){
-   const index=DIRECTIONS.indexOf(span.front),cols=span.last-span.first+1,share=Math.max(1,Math.floor(budget*cols/length)),headShare=Math.floor(heads*cols/length);
+   const index=DIRECTIONS.indexOf(span.front),entries=entrySpans(g,span.front),cols=span.last-span.first+1,share=Math.max(1,Math.floor(budget*cols/length)),headShare=Math.floor(heads*cols/length);
    // Vue large : moins de rangs entiers et des têtes de rang espacées, pour tenir les deux plafonds.
    const van=clamp(Math.floor(share/(cols*.72)),1,VANGUARD),stride=Math.max(1,Math.ceil(cols*(ROWS-van)*.6/Math.max(1,headShare)));
    const fx=span.front==='west'?1:span.front==='east'?-1:0,fy=span.front==='north'?1:span.front==='south'?-1:0;
@@ -171,6 +179,7 @@
    for(let row=ROWS-1;row>=0;row--){
     for(let col=span.first;col<=span.last;col++){
      const reach=local[col-span.first];if(row>=reach)continue;
+     if(entries&&!entries.some(([a,b])=>INSET+col*SPACING>=a&&INSET+col*SPACING<=b))continue;
      // Densité croissante vers le bord : les rangs arrière sont pleins, l'avant-garde s'effiloche.
      const rel=row/reach,thin=rel<.5?.97:.97-(rel-.5)*1.26,wantsWhole=row>reach-van-1;
      if(row+hash(seed,state.wave,index,col,row,1)*.999>=reach||hash(seed,state.wave,index,col,row,0)>=thin*packed[col-span.first])continue;
@@ -246,7 +255,8 @@
    // Du fond vers l'avant de l'écran : chaque rang recouvre celui qui est derrière lui.
    list.sort((a,b)=>a.y-b.y);
    const strength=mass(g,state);
-   frame={layout,state,zoom,still,safe,clear,view,inner,list,strength,depth:rowsOf(strength),leader:null,size:worldSize(g)};
+   const spans=terrainSides(g)?Object.fromEntries(state.fronts.map(front=>{const e=entrySpans(g,front);return[front,e.length?[Math.min(...e.map(x=>x[0])),Math.max(...e.map(x=>x[1]))]:[0,0]];})):null;
+   frame={layout,state,zoom,still,safe,clear,view,inner,list,strength,depth:rowsOf(strength),leader:null,size:worldSize(g),spans};
   }
   // Mouvement collectif : une houle lente le long de la masse et le pas de chacun, lus dans le temps de jeu.
   if(!still)for(const s of frame.list){
@@ -296,7 +306,7 @@
    const horizontal=front==='north'||front==='south',low=front==='north'||front==='west',sign=low?1:-1,edge=low?0:size;
    const clear=f.clear[front],reach=clear+EDGE+f.depth*ROW_DEPTH,depth=reach-clear+10;
    const near=front==='north'?view.top<=reach+VEIL:front==='south'?view.bottom>=size-reach-VEIL:front==='west'?view.left<=reach+VEIL:view.right>=size-reach-VEIL;
-   const lo=Math.max(0,horizontal?view.left:view.top),hi=Math.min(size,horizontal?view.right:view.bottom);if(!near||hi<=lo)continue;
+   const cut=f.spans?.[front],lo=Math.max(0,horizontal?view.left:view.top,cut?cut[0]:0),hi=Math.min(size,horizontal?view.right:view.bottom,cut?cut[1]:size);if(!near||hi<=lo)continue;
    // Base sombre continue : un aplat depuis le bord du monde, marge cachée par le HUD comprise, puis
    // des paliers qui s'éteignent sous l'avant-garde. Des aplats coûtent bien moins qu'un dégradé.
    const solid=clear+depth*.3,fade=depth*.7/SHADE_STEPS;

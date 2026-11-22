@@ -29,8 +29,10 @@
  // Chaque case n'est visitée qu'une fois, tous anneaux confondus.
  // Les cases d'un ouvrage appartiennent au district extérieur à cet ouvrage, comme dans le module de repli :
  // se tenir sur une porte, ce n'est pas être rentré.
- function survey(C,T,buildings){
-  const size=Math.min(MAX_GRID,C.LOCAL_MAP217?.tiles??C.WORLD_TILES),total=size*size;
+ // `grid` (O7, terrain de génération 12, `T.terrainGrid217`) : une arête de falaise borne l'enceinte comme un mur
+ // indestructible, sans ouvrage à franchir ; la grille est alors celle du terrain.
+ function survey(C,T,buildings,grid=null){
+  const size=grid?grid.tiles:Math.min(MAX_GRID,C.LOCAL_MAP217?.tiles??C.WORLD_TILES),total=size*size;
   const barrier=new Uint8Array(total),owner=new Int32Array(total).fill(-1),level=new Uint8Array(total),queue=new Int32Array(total);
   const works=[],cellsOf=[];let core=null;
   for(const building of Array.from(buildings)){
@@ -54,13 +56,14 @@
   if(!origin)return Object.freeze({hasCore:false,rings:Object.freeze([]),capped:false,looseWorks:Object.freeze(works.slice()),districtOf});
   const crossed=new Uint8Array(works.length);
   let head=0,tail=0,rank=1,edge=false,open=0,filled=0,touched=[];
-  const visit=(x,y)=>{
+  const visit=(x,y,fx,fy)=>{
    if(x<0||y<0||x>=size||y>=size){edge=true;return;}
+   if(grid&&fx!==undefined&&!grid.step(fx,fy,x,y))return;
    const cell=y*size+x;if(level[cell])return;
    if(barrier[cell]){const index=owner[cell];if(!crossed[index]){crossed[index]=1;touched.push(index);}return;}
    level[cell]=rank;open++;filled++;queue[tail++]=cell;
   };
-  const around=cell=>{const x=cell%size,y=(cell-x)/size;visit(x-1,y);visit(x+1,y);visit(x,y-1);visit(x,y+1);};
+  const around=cell=>{const x=cell%size,y=(cell-x)/size;visit(x-1,y,x,y);visit(x+1,y,x,y);visit(x,y-1,x,y);visit(x,y+1,x,y);};
   // Le pourtour d'une enceinte = les ouvrages touchés depuis l'intérieur, angles compris : un ouvrage d'angle
   // n'est touché qu'en diagonale, sans que l'inondation passe elle-même en diagonale.
   const corner=(x,y)=>{if(x<0||y<0||x>=size||y>=size)return;const index=owner[y*size+x];if(index>=0&&!crossed[index]){crossed[index]=1;touched.push(index);}};
@@ -160,7 +163,7 @@
   const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),T=root.DeadwallTactics||(typeof require==='function'?require('./tactics.js'):null);
   if(!g||!doc?.body||!C||!T||g.districts)return false;
   let cache=null,choice=1;
-  const view=()=>{const version=g.world?.navigationVersion;if(!cache||cache.world!==g.world||cache.version!==version)cache={world:g.world,version,view:survey(C,T,g.world.buildings.values())};return cache.view;};
+  const view=()=>{const version=g.world?.navigationVersion;if(!cache||cache.world!==g.world||cache.version!==version)cache={world:g.world,version,view:survey(C,T,g.world.buildings.values(),g.world?.terrain217?T.terrainGrid217?.(g.world)||null:null)};return cache.view;};
   const playing=()=>g.state==='playing'&&!g.gameOver&&Boolean(g.world);
   const list=()=>playing()?facts(C,T,view(),{buildings:g.world.buildings.values(),units:g.units,zombies:g.zombies,player:g.player}):Object.freeze([]);
   // Ligne de repli : l'enceinte choisie si elle est encore fermée, sinon la plus extérieure qui le soit en deçà.

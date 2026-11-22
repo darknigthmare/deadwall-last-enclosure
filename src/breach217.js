@@ -23,7 +23,8 @@
   return{version:1,active:raw.active};
  }
  // Même critère que le décompte des murs fragiles du champ de bataille : un ouvrage de mur achevé, debout, sous le seuil.
- const wall=b=>Boolean(b&&b.def?.wall&&b.type!=='core'&&T.operational(b));
+ // Une falaise ou l'eau profonde du terrain de génération 12 (O7, `terrain217`) n'est jamais un ouvrage : elle ne cède pas.
+ const wall=b=>Boolean(b&&b.def?.wall&&b.type!=='core'&&b.type!=='terrain217'&&T.operational(b));
  const fragile=b=>wall(b)&&b.health/b.maxHealth<=RATIO;
  const many=n=>n+' ouvrage'+(n>1?'s':'');
  // Relevé des pans menacés. Un ouvrage large d'une case en hauteur peut tenir dans un pan horizontal, un ouvrage

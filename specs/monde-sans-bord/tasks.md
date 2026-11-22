@@ -1124,6 +1124,108 @@ seulement : la génération 12 reste refusée, aucun module ajouté à `index.ht
   atteinte par le champ de flux ; les quartiers et les chantiers de jour ne vivent toujours pas sur un monde de
   terrain (le test vide l'instantané des chantiers de jour le temps de `setup`) ; rien n'a été joué en G12 par le
   menu ; coût du filtre : un `sightClear217` par infecté à portée et par choix de cible, sur un terrain seulement.
+## O7 — Siège adossé : fronts, enceintes et équilibrage à deux côtés (livré, sans effet en jeu)
+
+Fiche : [ouverture.md](ouverture.md), O7 (points 5 et 6 de la liste de T4, question (f) ; décisions D-O1, D-O2).
+Toujours atteint par un harnais seulement : la génération 12 reste refusée. Le harnais des tests et des mesures
+(`tests/helpers/terrain-game217.cjs`) ajoute autour du cœur des quartiers fictifs (le moteur des chantiers tire ses
+lieux des quartiers G1–G11 : « Quartier absent : housing », contourné comme en O6b/O8a, non corrigé) et coupe la
+sauvegarde ; la partie complète joue alors `g.update` sur le terrain.
+
+- [x] O7.1 Règles `C.OpenSiege217Rules` (`version` 1, `generation` 12, `foldShares` {`basis` 'width', `minShare` 0,1},
+      `passRate` {`perMetre` 0,25, `min` 1}, `minFronts` 1) et lecture pure `C.OpenSiege217` (`open`, `shares`,
+      `fold`, `quotas`, `pick`, `rate`, `gap`, `label`, `phrase`) dans `src/core.js`, sans tirage propre.
+- [x] O7.2 Fronts (`src/game.js`) : le terrain porte les côtés de la description (`terrain217.sides`) ;
+      `prepareWave` → `prepareFronts217` sur un terrain : `wavePlan.fronts` côtés tirés parmi les non clos avec le
+      mélange du jeu, repli d'un plan qui en demande plus (même effectif, parts au prorata de la largeur, plancher
+      0,1), côté le plus large en tête (échelons de nuit). `spawnZombie217` : front par retard sur sa part dans le
+      groupe d'échelon courant, sans tirage ; case dans les `entries` du côté pondérées par leur largeur ;
+      `openSiegeState217` reconstruit l'état après une reprise. Carte plate : code d'origine, aucun champ de plus.
+- [x] O7.3 Contrainte de passage : `spawnGap217` = max(intervalle du plan, 1 / max(1, 0,25 × largeur)) pour une cité
+      à un seul front (rampe de 12 m : 3 par seconde ; 32 m : 8). Le reste attend dans la file.
+- [x] O7.4 Annonce et lecture : « Migration détectée — N contacts estimés, par l’est et l’ouest. », alerte « Approche
+      par la rampe du nord… », `siege-readout.js` ligne `siegeReadoutFronts` (créée seulement sur un terrain ;
+      `frontsSentence` exporté).
+- [x] O7.5 Enceintes : `T.terrainGrid217` (`src/tactics.js`) lu par `analyzeEnclosure` (`grid`), `getEnclosureStatus`,
+      `fallback-order.innerZone`, `districts.survey` (et `factions217`), `linecare.traceAccess` ; falaise et eau profonde
+      = mur indestructible, départ de la horde depuis les cases à sec du bord ; rampe barrée par murs ou porte ;
+      `breach217` exclut l'obstacle `terrain217` ; `earthworks217` refuse le fossé sur une rampe.
+- [x] O7.6 `horde-horizon217.js` : masse lointaine sur les seuls côtés non clos, limitée à leurs tronçons d'entrée.
+- [x] O7.7 Mesures (harnais `scripts/measure-open-siege217.cjs`, 180 s de jeu au plus, pas de 0,125 s) : enceinte
+      adossée carrée (rayon 22, 26, 30 cases selon l'âge, murs seulement là où l'intérieur touche l'anneau),
+      tourelles au centre (4 tourelles à l'âge 2, 6 et 8 tourelles lourdes aux âges 4 et 6), murs d'acier puis de
+      béton ; âge 2 = vague 6, âge 4 = vague 18, âge 6 = vague 36 (correspondance posée pour la mesure, aucune règle).
+      **Aucune graine « à un passage »** sur 3 000 graines de la carte locale version 2 (43 cités à un seul côté, toutes
+      ouvertes de 32 à 142 m ; 294 cités ont un côté à rampe unique, toujours avec d'autres côtés) : catégorie
+      remplacée par « un seul côté » (714, 2761, 450, 113) et une variante synthétique de 714 réduite à une rampe de 12 m.
+
+      Relevé (« > » : vague non achevée à la borne ; temps = jusqu'à la fin de vague, la chute du cœur ou 180 s ;
+      cadavres par mètre = tués / largeur des fronts tenus ; murs perdus / murs de l'anneau). **Mesures partielles :
+      27 relevés sur 39** — les parties à quatre fronts ouverts et les cités à deux côtés de 96 m et plus aux âges 4 et
+      6 coûtent plus de 30 min de calcul par vague sur la machine partagée ; manquent 6 (âges 4, 6), 20 (âges 4, 6),
+      28 (tous), 10 (âges 4, 6), 50 (tous). Relancer : `node scripts/measure-open-siege217.cjs <sortie> 6:ouverte …
+      --max=180 --dt=0.125`.
+
+| Catégorie | Graine | Âge (vague) | Fronts (demandés → tenus) | Largeur | Effectif | Intervalle | Temps | Restants | Tués | Cadavres/m | Murs perdus | Cœur |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| deux côtés | 1 | 2 (6) | 2 → west/north | 224 m | 86 | 0.426 s | > 180 s | 39 | 47 | 0.21 | 4/172 | debout |
+| deux côtés | 1 | 4 (18) | 4 → west/north (replié) | 224 m | 369 | 0.289 s | > 169 s | 249 | 120 | 0.54 | 3/204 | tombé |
+| deux côtés | 1 | 6 (36) | 4 → west/north (replié) | 224 m | 1014 | 0.15 s | > 89 s | 961 | 53 | 0.24 | 2/236 | tombé |
+| deux côtés | 10 | 2 (6) | 2 → north/south | 128 m | 86 | 0.358 s | > 180 s | 43 | 43 | 0.34 | 3/172 | debout |
+| deux côtés | 17117 | 2 (6) | 2 → east/west | 128 m | 86 | 0.426 s | > 180 s | 10 | 76 | 0.59 | 3/172 | debout |
+| deux côtés | 17117 | 4 (18) | 4 → east/west (replié) | 128 m | 369 | 0.304 s | > 103 s | 300 | 69 | 0.54 | 3/204 | tombé |
+| deux côtés | 17117 | 6 (36) | 4 → east/west (replié) | 128 m | 1014 | 0.075 s | > 62 s | 996 | 18 | 0.14 | 2/236 | tombé |
+| ouverte | 6 | 2 (6) | 2 → west/east | 288 m | 86 | 0.358 s | > 180 s | 23 | 63 | 0.22 | 5/172 | debout |
+| ouverte | 9 | 2 (6) | 2 → west/east | 288 m | 86 | 0.426 s | > 180 s | 34 | 52 | 0.18 | 10/172 | debout |
+| ouverte | 9 | 4 (18) | 4 → north/west/east/south | 544 m | 369 | 0.289 s | > 168 s | 272 | 97 | 0.18 | 5/204 | tombé |
+| ouverte | 9 | 6 (36) | 4 → west/north/east/south | 544 m | 1014 | 0.15 s | > 104 s | 952 | 62 | 0.11 | 2/236 | tombé |
+| ouverte | 20 | 2 (6) | 2 → south/west | 256 m | 86 | 0.502 s | > 180 s | 27 | 59 | 0.23 | 4/172 | debout |
+| rampe 12 m (synthétique) | 714 | 2 (6) | 2 → north (replié) | 12 m | 86 | 0.358 s | > 180 s | 76 | 10 | 0.83 | 2/172 | debout |
+| rampe 12 m (synthétique) | 714 | 4 (18) | 4 → north (replié) | 12 m | 369 | 0.395 s | > 180 s | 337 | 32 | 2.67 | 2/204 | debout |
+| rampe 12 m (synthétique) | 714 | 6 (36) | 4 → north (replié) | 12 m | 1014 | 0.333 s | > 180 s | 1014 | 0 | 0 | 1/236 | debout |
+| un seul côté | 113 | 2 (6) | 2 → north (replié) | 96 m | 86 | 0.426 s | > 180 s | 67 | 19 | 0.2 | 2/172 | debout |
+| un seul côté | 113 | 4 (18) | 4 → north (replié) | 96 m | 442 | 0.289 s | > 180 s | 350 | 92 | 0.96 | 3/204 | debout |
+| un seul côté | 113 | 6 (36) | 4 → north (replié) | 96 m | 1014 | 0.15 s | > 157 s | 905 | 109 | 1.14 | 2/236 | tombé |
+| un seul côté | 450 | 2 (6) | 2 → west (replié) | 64 m | 86 | 0.358 s | > 180 s | 11 | 75 | 1.17 | 1/172 | debout |
+| un seul côté | 450 | 4 (18) | 4 → west (replié) | 64 m | 442 | 0.395 s | > 141 s | 357 | 85 | 1.33 | 1/204 | tombé |
+| un seul côté | 450 | 6 (36) | 4 → west (replié) | 64 m | 1014 | 0.088 s | > 61 s | 995 | 19 | 0.3 | 1/236 | tombé |
+| un seul côté | 714 | 2 (6) | 2 → north (replié) | 32 m | 86 | 0.358 s | > 180 s | 75 | 11 | 0.34 | 1/172 | debout |
+| un seul côté | 714 | 4 (18) | 4 → north (replié) | 32 m | 369 | 0.395 s | > 180 s | 347 | 22 | 0.69 | 1/204 | debout |
+| un seul côté | 714 | 6 (36) | 4 → north (replié) | 32 m | 1014 | 0.125 s | > 180 s | 1014 | 0 | 0 | 1/236 | debout |
+| un seul côté | 2761 | 2 (6) | 2 → east (replié) | 32 m | 86 | 0.426 s | 158 s | 0 | 86 | 2.69 | 1/172 | debout |
+| un seul côté | 2761 | 4 (18) | 4 → east (replié) | 32 m | 442 | 0.289 s | > 76 s | 407 | 35 | 1.09 | 1/204 | tombé |
+| un seul côté | 2761 | 6 (36) | 4 → east (replié) | 32 m | 1014 | 0.15 s | > 70 s | 987 | 27 | 0.84 | 1/236 | tombé |
+
+      Lecture : à l'âge 2, aucune cité ne tombe ; la cité à un seul côté étroit encaisse 1,1 cadavre par mètre en
+      moyenne contre 0,38 à deux côtés et 0,21 ouverte (même effectif, front plus court : D-O2 tient la pression).
+      Aux âges 4 et 6, ce scénario (tourelles fixes, sans soldats ni réparation) perd le cœur partout sauf derrière
+      la rampe synthétique de 12 m, où le plafond de 3 arrivées par seconde étale la vague au-delà de 180 s ; une
+      cité à un seul côté de 32 à 64 m tombe plus vite (61 à 141 s) que la même vague sur quatre fronts (104 à 168 s) :
+      la concentration sans plafond pour une largeur de 32 m et plus est le risque d'équilibrage principal à
+      confirmer en O9. Murs perdus : 1 à 10 par vague (une brèche suffit). Anomalie non expliquée : 714 à l'âge 6
+      (un côté de 32 m et sa variante à rampe) n'a aucun tué en 180 s, la file entière restant au pied ou hors de
+      portée des tourelles.
+
+- [x] O7.8 Tests : `tests/open-siege217.test.cjs` (9 cas) — règles et repli identité (plans des vagues 1 à 60 des trois
+      difficultés, même mélange et mêmes tirages que la carte plate) ; parcours plat empoisonné de 20 s ; 1 000 vagues
+      sur 50 graines à côté clos (12 000 apparitions, toutes dans une entrée d'un côté non clos) ; repli des effectifs
+      (17117, vague 10 : 4 fronts → est/ouest, somme conservée, parts 0,75/0,25 à une arrivée près, mêmes points de vie
+      qu'en carte plate) ; contrainte de passage sur le directeur (714 et sa variante à rampe de 12 m) ; enceinte
+      adossée lue par les quatre lecteurs, brèche d'un pan fragile sans effet sur les falaises ; rampe barrée (porte
+      fermée = enceinte close, ouverte = front ouvert) et fossé refusé sur la rampe ; masse, annonce et lecture
+      (vague 5 sur 17117 : deux fronts, est et ouest) ; mesures consignées.
+- [x] O7.9 Innocuité : parcours déterministe de 240 s (procédure 3, base `8d7ea21` contre l'arbre de travail) —
+      sauvegardes de départ, de mi-parcours et de fin identiques octet pour octet. Mondes G1–G11 des huit graines :
+      `audit-campaign-sites205` identique à `campagne205-eligibilite.json` hors empreintes de sources. Navigateur
+      (`scripts/browser-open-siege217.mjs`, port 8744) : partie 17117 plate puis terrain 17117, vague 5 annoncée par
+      l'est et l'ouest, aucune erreur de page.
+- Réserves : rien n'a été joué en G12 par le menu ; l'état du siège (`openSiege217`) n'est pas sauvegardé (reconstruit
+  à la reprise, parts recomptées à zéro ; à porter par la sauvegarde G12 en O9) ; sous les échelons de nuit (vague 4
+  et plus), chaque tiers de la vague entre par son groupe : les parts réalisées valent 2/3–1/3 à deux fronts quelle que
+  soit la largeur (le côté large mène) ; la Meneuse et l'abomination de siège (`abominations217`) tirent encore leur
+  côté sur les quatre directions ; `earthworks217` garde une grille de 128 cases (cases au-delà refusées) ; le
+  scénario de mesure ne remplace pas une partie jouée (tourelles fixes au centre, aucun soldat posté, pas de
+  réparation) : les valeurs `passRate` et `minShare` restent à confirmer en O9.
 
 ## T5 — Ouverture expérimentale
 

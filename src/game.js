@@ -206,7 +206,7 @@
       deep[i] = w === WATER217.sea || w === WATER217.lake || (w === WATER217.river && !road) ? 1 : 0;
       ford[i] = w === WATER217.stream && !road ? 1 : 0;
     }
-    return Object.freeze({ seed: local.seed, version: local.version, digest: local.digest, tiles: map.tiles, ...own, deep, ford });
+    return Object.freeze({ seed: local.seed, version: local.version, digest: local.digest, tiles: map.tiles, ...own, deep, ford, sides: local.sides || null });
   }
   // Arête entre deux cases voisines, comme la carte locale : eau profonde à l'arrivée refusée, même palier
   // admis, changement de palier par la seule rampe.
@@ -1355,7 +1355,8 @@
     getEnclosureStatus() {
       const cached = this.enclosureCache;
       if (cached?.world === this.world && cached.version === this.world.navigationVersion) return cached.status;
-      const status = T.analyzeEnclosure({ buildings: this.world.buildings.values(), target: this.core() });
+      const grid = this.world.terrain217 ? T.terrainGrid217(this.world) : null;
+      const status = T.analyzeEnclosure(grid ? { buildings: this.world.buildings.values(), target: this.core(), grid } : { buildings: this.world.buildings.values(), target: this.core() });
       this.enclosureCache = { world: this.world, version: this.world.navigationVersion, status }; return status;
     }
 
@@ -1901,20 +1902,47 @@
 
     updateDirector(dt) {
       this.phaseTime-=dt;
-      if(this.phase==='calm'&&this.phaseTime<=0){this.phase='warning';this.phaseTime=10+(this.hasResearch('recon')?5:0);this.prepareWave();this.triggerCrisis();this.notify(`Migration détectée — ${this.wavePlan.total} contacts estimés.`,'danger');this.audio.siren();}
+      if(this.phase==='calm'&&this.phaseTime<=0){this.phase='warning';this.phaseTime=10+(this.hasResearch('recon')?5:0);this.prepareWave();this.triggerCrisis();this.notify(`Migration détectée — ${this.wavePlan.total} contacts estimés${this.world.terrain217?.sides?`, par ${this.siegeApproach217()}`:''}.`,'danger');this.audio.siren();}
       else if(this.phase==='warning'&&this.phaseTime<=0){this.phase='assault';this.phaseTime=0;this.startAssault();this.notify('ASSAUT : toutes les unités aux remparts !','danger');}
       else if(this.phase==='assault'){
         this.spawnTimer-=dt;
         // Capacity delays arrivals; it must not bank a burst of overdue spawns.
         if(this.zombies.length>=PERFORMANCE_LIMITS.zombies)this.spawnTimer=Math.max(0,this.spawnTimer);
-        while((this.spawnQueue.length||spawnCount(this.pendingSpawns))&&this.spawnTimer<=0&&this.zombies.length<PERFORMANCE_LIMITS.zombies){this.refillSpawnQueue();this.spawnZombie(this.spawnQueue.pop());this.spawnTimer+=this.wavePlan?.spawnInterval||.3;}
+        while((this.spawnQueue.length||spawnCount(this.pendingSpawns))&&this.spawnTimer<=0&&this.zombies.length<PERFORMANCE_LIMITS.zombies){this.refillSpawnQueue();this.spawnZombie(this.spawnQueue.pop());this.spawnTimer+=this.world.terrain217?this.spawnGap217():this.wavePlan?.spawnInterval||.3;}
         if(this.zombies.length>=PERFORMANCE_LIMITS.zombies)this.spawnTimer=Math.max(0,this.spawnTimer);
         if(!this.spawnQueue.length&&!spawnCount(this.pendingSpawns)&&!this.zombies.some(z=>!z.dead)&&!this.vertical175?.hasActiveSiege()){this.phase='aftermath';this.phaseTime=8;this.stats.wavesSurvived++;this.research.insight=Math.min(C.RESEARCH_INSIGHT_MAX,this.research.insight+1+(this.wave%5===0?1:0));this.notify(`Vague ${this.wave} repoussée. Sécurisation du périmètre.`,'good');this.save(false);}
       }else if(this.phase==='aftermath'&&this.phaseTime<=0){const completed=this.wave;this.wave++;this.phase='calm';this.phaseTime=Math.max(38,84-this.wave*1.15)*this.difficulty.calmTime;add(this.resources,{food:10+completed*1.5,ammo:12+completed*2,scrap:5+completed},this.storage);if(completed%2===0&&this.population<this.housing){const core=this.core();this.units.push(new Unit(this.nextId++,'worker',core.x+this.random.range(-40,40),core.y+this.random.range(-40,40)));this.notify('Des survivants ont rejoint la cité.','good');}if(!this.weather193?.active()&&this.random.chance(.35))this.weatherTarget=this.random.range(.3,1);this.refreshMetrics(true);}
     }
 
     prepareWave() {
-      this.wavePlan=wavePlan(this.wave,this.difficulty,this.signature,this.balance217?.curve());const dirs=['north','east','south','west'];this.random.shuffle(dirs);this.fronts=dirs.slice(0,this.wavePlan.fronts);
+      this.wavePlan=wavePlan(this.wave,this.difficulty,this.signature,this.balance217?.curve());
+      if(this.world.terrain217?.sides)return this.prepareFronts217();
+      const dirs=['north','east','south','west'];this.random.shuffle(dirs);this.fronts=dirs.slice(0,this.wavePlan.fronts);
+    }
+    // Siège adossé (O7, terrain de génération 12 seulement) : fronts tirés parmi les côtés non clos, même mélange que
+    // la carte plate ; un plan qui en demande plus se replie (même effectif, parts au prorata de la largeur, D-O2).
+    prepareFronts217() {
+      // Le côté le plus large mène : les échelons de la nuit (à partir de la vague 4) font entrer chaque tiers de la vague
+      // par un groupe de fronts pris dans cet ordre ; un tri stable garde le mélange entre côtés de même largeur.
+      const sides=this.world.terrain217.sides,fold=C.OpenSiege217.fold(this.wavePlan.fronts,sides,list=>this.random.shuffle(list));
+      const fronts=Object.freeze(fold.fronts.slice().sort((a,b)=>fold.shares[b]-fold.shares[a]));this.fronts=fronts.slice();
+      this.openSiege217={wave:this.wave,asked:fold.asked,folded:fold.folded,fronts,shares:fold.shares,emitted:Object.fromEntries(fronts.map(f=>[f,0]))};
+    }
+    // État du siège adossé de la vague en cours, reconstruit des fronts annoncés après une reprise.
+    openSiegeState217() {
+      const sides=this.world.terrain217?.sides;if(!sides)return null;
+      if(this.openSiege217?.wave===this.wave)return this.openSiege217;
+      const fronts=this.fronts.filter(f=>C.OpenSiege217.open(sides).includes(f)),list=fronts.length?fronts:C.OpenSiege217.open(sides);
+      return this.openSiege217={wave:this.wave,asked:this.wavePlan?.fronts||list.length,folded:(this.wavePlan?.fronts||0)>list.length,fronts:Object.freeze(list.slice()),shares:C.OpenSiege217.shares(list,sides),emitted:Object.fromEntries(list.map(f=>[f,0]))};
+    }
+    // Intervalle entre deux arrivées : celui du plan, plafonné par le passage d'une cité à un seul front.
+    spawnGap217() {
+      const s=this.openSiegeState217(),interval=this.wavePlan?.spawnInterval||.3;
+      return s?C.OpenSiege217.gap(interval,s.fronts,this.world.terrain217.sides):interval;
+    }
+    // Annonce : le passage par lequel la horde entre (« par la rampe du nord »).
+    siegeApproach217() {
+      const sides=this.world.terrain217?.sides;return sides?C.OpenSiege217.phrase(this.fronts,sides):'';
     }
     triggerCrisis(){
       if(this.wave<2||this.activeCrisis||!this.random.chance(.22-(this.hasResearch('recon')?.08:0)))return;
@@ -1979,9 +2007,25 @@
     }
     spawnZombie(kind) {
       if(!Object.hasOwn(ENEMIES,kind))return false;
+      if(this.world.terrain217?.sides)return this.spawnZombie217(kind);
       const front=this.random.pick(this.fronts.length?this.fronts:['north']),margin=18;let x,y;
       if(front==='north'){x=this.random.range(80,this.local.size-80);y=margin;}else if(front==='south'){x=this.random.range(80,this.local.size-80);y=this.local.size-margin;}else if(front==='east'){x=this.local.size-margin;y=this.random.range(80,this.local.size-80);}else{x=margin;y=this.random.range(80,this.local.size-80);}
       x+=this.random.range(-22,22);y+=this.random.range(-22,22);this.zombies.push(new Zombie(this.nextId++,kind,x,y,this.difficulty,this.wave,this.local));return true;
+    }
+
+    // Apparition sur un terrain (O7) : front choisi par sa part (sans tirage), puis une case des `entries` du côté,
+    // tronçons du bord joints au centre, pondérés par leur largeur. Jamais sur un côté clos.
+    spawnZombie217(kind) {
+      const sides=this.world.terrain217.sides,open=C.OpenSiege217.open(sides),state=this.openSiegeState217();
+      const group=(this.fronts.length?this.fronts:state.fronts).filter(f=>open.includes(f)),pool=group.length?group:state.fronts;
+      const front=C.OpenSiege217.pick(pool,state.shares,state.emitted),entries=sides[front]?.entries||[];
+      if(!entries.length)return false;
+      let left=this.random.range(0,entries.reduce((n,e)=>n+e.width,0)),entry=entries[entries.length-1];
+      for(const e of entries){if(left<e.width){entry=e;break;}left-=e.width;}
+      const size=this.local.size,margin=18,along=clamp((entry.from+this.random.range(0,entry.width))*TILE,entry.from*TILE+4,entry.to*TILE-4);
+      const x=front==='west'?margin:front==='east'?size-margin:along,y=front==='north'?margin:front==='south'?size-margin:along;
+      state.emitted[front]=(state.emitted[front]||0)+1;
+      this.zombies.push(new Zombie(this.nextId++,kind,x,y,this.difficulty,this.wave,this.local));return true;
     }
 
     get remainingAssault(){return this.spawnQueue.length+spawnCount(this.pendingSpawns)+this.zombies.filter(z=>!z.dead).length;}
@@ -2466,7 +2510,7 @@
       delete this.ui.waveIntel.dataset.detail;
       delete this.ui.waveIntel.dataset.compact;
       delete this.ui.waveIntel.dataset.counts;
-      if(this.phase==='warning')this.ui.waveIntel.textContent=`Approche par ${this.fronts.map(f=>({north:'le nord',south:'le sud',east:'l’est',west:'l’ouest'})[f]).join(' et ')}. Préparez les portes.`;
+      if(this.phase==='warning')this.ui.waveIntel.textContent=`Approche par ${this.world.terrain217?.sides?this.siegeApproach217():this.fronts.map(f=>({north:'le nord',south:'le sud',east:'l’est',west:'l’ouest'})[f]).join(' et ')}. Préparez les portes.`;
       else if(this.phase==='assault'){
         const B=globalThis.DeadwallBattlefield;
         const sample=this.battlefieldUI?.snapshot()||B.inspect(this.core(),this.zombies,this.world.buildings.values());

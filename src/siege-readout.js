@@ -47,6 +47,26 @@
   if(f.status==='slain')return 'Vague '+f.wave+' menée : Meneuse abattue, '+people(f.slain)+' attendus au lieu de '+whole(f.plan)+guard+'.';
   return 'Vague '+f.wave+' menée : '+people(f.alive)+' si la Meneuse vit à l’assaut, '+whole(f.slain)+' si elle tombe ('+whole(f.plan)+' au plan'+guard+').';
  }
+ // Siège adossé (O7, terrain de génération 12 seulement) : côtés à tenir, puis passage et largeur de chaque front de la
+ // vague annoncée, repli et plafond d'entrée, lus chez le jeu (`openSiegeState217`) et dans `C.OpenSiege217`.
+ const SIDE_NAMES=Object.freeze({north:'nord',east:'est',south:'sud',west:'ouest'});
+ const joined=list=>list.join(', ').replace(/, ([^,]*)$/,' et $1');
+ function frontsSentence(C,g){
+  const sides=g?.world?.terrain217?.sides,O=C?.OpenSiege217;if(!sides||!O)return '';
+  const open=O.open(sides),metres=f=>whole(sides[f].width)+' m';
+  if(!open.length)return 'Aucun côté ouvert : la cité n’a pas de front.';
+  if(g.phase==='warning'||g.phase==='assault'){
+   let state=null;try{state=g.openSiegeState217?.()||null;}catch(error){state=null;}
+   const fronts=(state?.fronts||g.fronts||[]).filter(f=>open.includes(f));if(!fronts.length)return '';
+   let text='Vague '+Math.max(1,Math.floor(Number(g.wave)||1))+' par '+joined(fronts.map(f=>O.label(f,sides[f])+' ('+metres(f)+')'));
+   if(state?.folded)text+=' — plan de '+state.asked+' fronts replié sur '+fronts.length+', même effectif';
+   const rate=O.rate(fronts,sides),interval=Number(g.wavePlan?.spawnInterval)||0;
+   if(Number.isFinite(rate)&&1/rate>interval)text+=' ; entrée plafonnée à '+(Math.round(rate*10)/10)+' par seconde, le reste attend au pied';
+   return text+'.';
+  }
+  const closed=O.SIDES.filter(f=>!open.includes(f));
+  return 'Côtés à tenir : '+joined(open.map(f=>O.label(f,sides[f])+' ('+metres(f)+')'))+(closed.length?' ; clos : '+joined(closed.map(f=>SIDE_NAMES[f]+(sides[f]?.cause==='eau'?' (eau)':' (falaise)'))):'')+'.';
+ }
  function ledForecast(g){try{return g.abominations217?.forecast?.()||null;}catch(error){return null;}}
  function lastNight(g){
   const history=g.citadel?.snapshot?.()?.history;
@@ -89,13 +109,17 @@
   box.append(signature,night);
   // En tête du dossier de situation : c'est la première chose lue à son ouverture.
   if(host.firstChild&&typeof host.insertBefore==='function')host.insertBefore(box,host.firstChild);else host.appendChild(box);
-  let clock=0,nightKey='',announced=0,primed=false,phase=null,last=null;
+  let clock=0,nightKey='',announced=0,primed=false,phase=null,last=null,sigFronts=null;
   function render(){
    const playing=g.state==='playing';box.hidden=!playing;if(!playing)return false;
    const sig=signatureParts(g),effect=hordeEffect(C,g);
    write(sigTitle,String(whole(sig.total)));
    write(sigEffect,effect.extra>0?'Vague '+effect.wave+' : +'+effect.percent+' % d’infectés, soit '+effect.extra+' de plus ('+effect.actual+' au lieu de '+effect.quiet+').':'Vague '+effect.wave+' : aucun infecté supplémentaire pour l’instant ('+effect.actual+').');
    const led=ledSentence(ledForecast(g));write(sigLed,led);sigLed.hidden=!led;
+   // Ligne des fronts : créée au premier terrain qui en a ; une carte plate n'en reçoit jamais.
+   const fronts=frontsSentence(C,g);
+   if(fronts&&!sigFronts){sigFronts=el('p',undefined,'siege-readout-effect');sigFronts.id='siegeReadoutFronts';if(typeof signature.insertBefore==='function'&&sigList.parentNode===signature)signature.insertBefore(sigFronts,sigList);else signature.appendChild(sigFronts);}
+   if(sigFronts){write(sigFronts,fronts);sigFronts.hidden=!fronts;}
    for(const part of sig.parts)write(sigRows.get(part.key),whole(part.value));
    // Le registre des nuits n'est relu qu'au changement de phase : il n'évolue qu'à ce moment.
    if(phase!==g.phase||!primed){phase=g.phase;last=lastNight(g);}
@@ -115,8 +139,8 @@
   const updateUI=g.updateUI;
   if(typeof updateUI==='function')g.updateUI=function(...args){const result=updateUI.apply(this,args);const now=Number(g.elapsed)||0;if(now<clock||now-clock>=REFRESH_SECONDS||g.state!=='playing'){clock=now;render();}return result;};
   for(const name of ['startNew','restoreSave']){const old=g[name];if(typeof old!=='function')continue;g[name]=function(...args){const result=old.apply(this,args);primed=false;phase=null;nightKey='\u0000';clock=-Infinity;render();return result;};}
-  g.siegeReadout=Object.freeze({render,signature:()=>signatureParts(g),effect:()=>hordeEffect(C,g),lastNight:()=>lastNight(g),led:()=>ledSentence(ledForecast(g))});
+  g.siegeReadout=Object.freeze({render,signature:()=>signatureParts(g),effect:()=>hordeEffect(C,g),lastNight:()=>lastNight(g),led:()=>ledSentence(ledForecast(g)),fronts:()=>frontsSentence(C,g)});
   render();return true;
  }
- return Object.freeze({install,signatureParts,hordeEffect,nightSentence,ledSentence});
+ return Object.freeze({install,signatureParts,hordeEffect,nightSentence,ledSentence,frontsSentence});
 });

@@ -3650,6 +3650,60 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   // hauteur peinte `TerrainArt217Rules.cliffMetres` ; surface de l'eau sous son palier (mètres) ; strates des parois
   // (mètres) ; bloc de sol fusionné (cases) ; pied de la jupe du bord de carte sous le palier le plus bas (mètres).
   C.TerrainRelief217Rules=Object.freeze({version:1,stepMetres:4,waterDrop:.45,strataMetres:1,block:4,skirtMetres:6});
+  // Siège adossé de la cité de génération 12 (ouverture.md, tranche O7, hors jeu ; décision D-O2). Un plan de vague qui
+  // demande plus de fronts que la cité n'a de côtés non clos se replie sur eux : même effectif, réparti au prorata de la
+  // largeur de chaque côté (`sides.<côté>.width`), une part plancher `foldShares.minShare` gardant un passage étroit
+  // vivant ; jamais plus de points de vie. Une cité à un seul front a une entrée plafonnée : `passRate.perMetre` arrivées
+  // par seconde et par mètre de largeur (rampe de 12 m : 3 par seconde), au moins `passRate.min` ; le reste attend au pied.
+  // `minFronts` : nombre de côtés non clos sans lequel aucun siège n'est possible.
+  C.OpenSiege217Rules=Object.freeze({version:1,generation:12,foldShares:Object.freeze({basis:'width',minShare:.1}),passRate:Object.freeze({perMetre:.25,min:1}),minFronts:1});
+  // Lecture pure de ces règles, sans tirage propre (le mélange des fronts est celui du jeu, passé en argument).
+  // Sur une carte plate (`sides` absent), quatre côtés ouverts de même poids : le repli est l'identité.
+  C.OpenSiege217=(()=>{
+   const R=C.OpenSiege217Rules,SIDES=Object.freeze(['north','east','south','west']),COUNT=Object.freeze(['','un','deux','trois','quatre','cinq','six']);
+   const THE=Object.freeze({north:'le nord',east:'l’est',south:'le sud',west:'l’ouest'}),OF=Object.freeze({north:'du nord',east:'de l’est',south:'du sud',west:'de l’ouest'});
+   const width=(sides,f)=>Math.max(0,Number(sides?.[f]?.width)||0);
+   const open=sides=>sides?SIDES.filter(s=>sides[s]&&sides[s].status!=='clos'&&width(sides,s)>0):SIDES.slice();
+   function shares(fronts,sides){
+    const w=fronts.map(f=>sides?width(sides,f):1),sum=w.reduce((a,b)=>a+b,0);
+    const raw=w.map(v=>Math.max(R.foldShares.minShare,sum>0?v/sum:1/fronts.length)),total=raw.reduce((a,b)=>a+b,0);
+    return Object.freeze(Object.fromEntries(fronts.map((f,i)=>[f,raw[i]/total])));
+   }
+   // Fronts d'une vague : `count` demandés par le plan, tirés parmi les côtés non clos par `shuffle` (celui du jeu).
+   function fold(count,sides,shuffle=list=>list){
+    const list=open(sides);if(list.length<R.minFronts)throw new RangeError('Cité sans côté ouvert : aucun siège possible.');
+    const asked=Math.max(1,Math.floor(Number(count)||1)),fronts=shuffle(list).slice(0,Math.min(asked,list.length));
+    return Object.freeze({asked,fronts:Object.freeze(fronts),folded:asked>list.length,shares:shares(fronts,sides)});
+   }
+   // Effectif par front (plus forts restes) : la somme est toujours l'effectif total.
+   function quotas(total,share){
+    const keys=Object.keys(share),out={},rest=[];let used=0;
+    for(const k of keys){const v=total*share[k],f=Math.floor(v);out[k]=f;used+=f;rest.push([k,v-f]);}
+    rest.sort((a,b)=>b[1]-a[1]||keys.indexOf(a[0])-keys.indexOf(b[0]));
+    for(let i=0;used<total&&rest.length;i++,used++)out[rest[i%rest.length][0]]++;
+    return Object.freeze(out);
+   }
+   // Front de la prochaine arrivée parmi `group` : celui dont le retard sur sa part est le plus grand (sans tirage).
+   function pick(group,share,emitted){
+    const sum=group.reduce((n,f)=>n+(share[f]||0),0)||1,done=group.reduce((n,f)=>n+(emitted[f]||0),0);let best=null,score=-Infinity;
+    for(const f of group){const s=(share[f]||0)/sum*(done+1)-(emitted[f]||0);if(s>score+1e-12){score=s;best=f;}}
+    return best;
+   }
+   const rate=(fronts,sides)=>!sides||fronts.length!==1?Infinity:Math.max(R.passRate.min,R.passRate.perMetre*width(sides,fronts[0]));
+   const gap=(interval,fronts,sides)=>Math.max(interval,1/rate(fronts,sides));
+   // Nom du passage d'un côté, pour l'annonce : « la rampe du nord », « les deux ponts de l’est », « l’ouest ».
+   function label(side,s){
+    if(!s||s.status==='ouvert')return THE[side];
+    if(s.status==='ralenti')return 'le gué '+OF[side];
+    if(s.status==='clos')return THE[side];
+    const p=s.passages||[],kinds=[...new Set(p.map(q=>q.kind))],n=p.length;
+    if(!n||kinds.length>1)return n>1?'les '+(COUNT[n]||n)+' passages '+OF[side]:'le passage '+OF[side];
+    const noun={col:['la rampe','rampes'],pont:['le pont','ponts'],goulet:['le goulet','goulets']}[kinds[0]]||['le passage','passages'];
+    return n===1?noun[0]+' '+OF[side]:'les '+(COUNT[n]||n)+' '+noun[1]+' '+OF[side];
+   }
+   const phrase=(fronts,sides)=>fronts.map(f=>label(f,sides?.[f])).join(', ').replace(/, ([^,]*)$/,' et $1');
+   return Object.freeze({SIDES,open,shares,fold,quotas,pick,rate,gap,label,phrase});
+  })();
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),

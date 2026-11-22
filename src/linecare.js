@@ -16,14 +16,16 @@
   }
   // Structural access only: non-wall buildings and corpse ramps are deliberately not obstacles here.
   // Keep the same cardinal connectivity as analyzeEnclosure; do not invent an enemy route or ring count.
-  function traceAccess(buildings,target,width=C.LOCAL_MAP217.tiles,height=C.LOCAL_MAP217.tiles){
-    if(!Number.isInteger(width)||!Number.isInteger(height)||width<1||height<1||width>C.LOCAL_MAP217.tiles||height>C.LOCAL_MAP217.tiles)throw new RangeError('Grille de diagnostic invalide.');
+  // `grid` (O7, terrain de génération 12, `T.terrainGrid217`) : mêmes arêtes que `analyzeEnclosure` (falaise, eau profonde).
+  function traceAccess(buildings,target,width=C.LOCAL_MAP217.tiles,height=C.LOCAL_MAP217.tiles,grid=null){
+    const limit=grid?Math.max(C.LOCAL_MAP217.tiles,grid.tiles):C.LOCAL_MAP217.tiles;
+    if(!Number.isInteger(width)||!Number.isInteger(height)||width<1||height<1||width>limit||height>limit)throw new RangeError('Grille de diagnostic invalide.');
     const size=width*height,barrier=new Uint8Array(size),parents=new Int32Array(size);parents.fill(-2);
     const queue=new Int32Array(size),list=Array.from(buildings);let head=0,tail=0;
     for(const b of list)if(T.blocksEnclosure(b)){const f=T.footprint(b);for(let y=Math.max(0,f.y);y<Math.min(height,f.y+f.height);y++)for(let x=Math.max(0,f.x);x<Math.min(width,f.x+f.width);x++)barrier[y*width+x]=1;}
     const f=operational(target)?T.footprint(target):null;
     if(!f||f.x<0||f.y<0||f.x+f.width>width||f.y+f.height>height)return {hasCore:false,reachable:false,path:[],barrier,visited:0,width,height};
-    const visit=(i,parent)=>{if(!barrier[i]&&parents[i]===-2){parents[i]=parent;queue[tail++]=i;}};
+    const visit=(i,parent)=>{if(grid&&(parent<0?!grid.seed(i):!grid.step(parent%width,Math.floor(parent/width),i%width,Math.floor(i/width))))return;if(!barrier[i]&&parents[i]===-2){parents[i]=parent;queue[tail++]=i;}};
     for(let x=0;x<width;x++){visit(x,-1);visit((height-1)*width+x,-1);}for(let y=1;y<height-1;y++){visit(y*width,-1);visit(y*width+width-1,-1);}
     let found=-1;
     while(head<tail){const i=queue[head++],x=i%width,y=Math.floor(i/width);if(x>=f.x&&x<f.x+f.width&&y>=f.y&&y<f.y+f.height){found=i;break;}
@@ -54,7 +56,7 @@
     const reset=()=>{world=g.world;cache=null;overlay=false;stow();marked=null;pending=null;message='';};
     const sync=()=>{if(world!==g.world)reset();if(marked&&!g.world.buildings.has(marked))marked=null;};
     const say=text=>{message=text;g.linecareUI?.refresh(true);return text;};
-    const geometry=()=>{sync();if(!cache||cache.revision!==g.world.navigationVersion||cache.core!==g.core())cache={revision:g.world.navigationVersion,core:g.core(),value:traceAccess(g.world.buildings.values(),g.core())};return cache.value;};
+    const geometry=()=>{sync();if(!cache||cache.revision!==g.world.navigationVersion||cache.core!==g.core())cache={revision:g.world.navigationVersion,core:g.core(),value:g.world.terrain217?traceAccess(g.world.buildings.values(),g.core(),g.world.terrain217.tiles,g.world.terrain217.tiles,T.terrainGrid217(g.world)):traceAccess(g.world.buildings.values(),g.core())};return cache.value;};
     function competing(){return Boolean(g.siege?.toolActive()||(g.dayworks&&g.dayworks.overview().tool!=='none')||(g.infrastructure&&g.infrastructure.overview().tool!=='none'));}
     function active(){if(tool&&competing())stow();return tool;}
     function equip(){if(g.frontier?.active()||!playing()||!alive(g.player)||!['calm','aftermath'].includes(g.phase)||g.activeOverlay&&g.activeOverlay!==g.ui.commandModal)return false;
