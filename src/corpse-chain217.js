@@ -155,6 +155,8 @@
    // Une place de fosse ordinaire reçoit `pit` corps dans une fosse de nécropole.
    const room=boost().pit,done=Math.min(state.pending,F.perSecond*dt,(F.capacity-state.pitFill)*room);
    if(done>0){state.pending=Math.max(0,state.pending-done);if(!(state.pending>EPS))state.pending=0;state.pitFill+=done/room;state.buried=Math.min(MAX,state.buried+done);}
+   // La fosse a pris les derniers corps pendant que le bûcher brûlait : il s'éteint, rien ne reste à brûler.
+   if(state.pyre&&!(state.pending>0))out('Bûcher éteint : tous les corps sont traités.','good');
    if(state.pitFill>=F.capacity-EPS){
     state.pitOpen=false;state.pitFill=0;state.pitsClosed=Math.min(MAX_COUNT,state.pitsClosed+1);
     g.notify?.('Fosse pleine : elle est refermée. Il faut en ouvrir une autre pour continuer d’ensevelir.','normal');

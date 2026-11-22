@@ -320,3 +320,12 @@ test('filière des corps : corps laissés lus par district, la maladie reste com
   const old=JSON.parse(JSON.stringify(g.serialize()));delete old.expansions127.modules.corpseChain217;assert.equal(g.restoreSave(old),true);
   assert.deepEqual(g.corpseChain217.byDistrict(),{districts:[],moat:0});
 });
+
+test('filière des corps : la fosse qui prend les derniers corps pendant que le bûcher brûle l’éteint, l’état reste valide',()=>{
+  const g=withState(outpost(),{pending:1.6,pyre:'wood',pitOpen:true});
+  g.resources.wood=Math.max(g.resources.wood||0,100);
+  const notes=watch(g);g.corpseChain217.tick(1);
+  const s=state(g);assert.equal(s.pending,0);assert.equal(s.pyre,null);
+  assert.ok(K.validate(s),'état sauvegardable');assert.ok(g.serialize());
+  assert.ok(mine(notes).some(t=>/^Bûcher éteint/.test(t)));
+});

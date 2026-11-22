@@ -442,6 +442,23 @@ La nécropole se multiplie avec la corvée de déblaiement (×2,25 pendant la co
 
 `C.CityRadio217Rules.journal` : 12 messages gardés. Les consignes n'ajoutent aucune valeur d'équilibrage : elles appellent les ordres de repli existants, une fois par vague.
 
+## Banc d'équilibrage par simulation — 217
+
+`scripts/balance-soak217.cjs`, avec le test court `tests/balance-soak217.test.cjs`. Une campagne neuve en standard est jouée hors navigateur jusqu'à la vague 25 sur les huit graines de référence, par une stratégie scriptée déterministe : rempart (enceinte à 7 cases, 4 portes, fossés, plan fixe, déblaiement, réparations, bûcher et fosse), négligée (ni bûcher, ni fosse, ni réparation) ou sortie (rempart, plus la chasse à la Meneuse). Aides déclarées : âge accordé hors critères d'exploration, munitions et ravitaillement, garde de l'enceinte (l'infecté entré est abattu à la brèche, donc la pression des corps mesurée est une borne haute), clôture des assauts figés, rappel du Commandant. Aucune règle n'est modifiée.
+
+| Risque | Verdict | Chiffres |
+|---|---|---|
+| Maladie chronique (`C.CorpseChain217Rules.sickness`) | Confirmé | Rempart : palier ≥ 2 dans 39/49 vagues 11–17 et 50/56 vagues 18–25, malades dans 21/56 vagues tardives, aucun mort. Cause : la charge des murs pendant des assauts de 300–600 s (médiane 438 s), charge max médiane 332 pour un seuil de 124–184. |
+| Escorte réveillée de jour | Infirmé sans sortie | 49 vagues menées : 0 réveil de jour. En sortie, Meneuse abattue dans 21/25 vagues menées. |
+| Ruptures (`C.Breach217Rules` 4/6) | Infirmé | 0 rupture en 16 parties soignées ; 2 en 8 parties négligées. |
+| Traîne-épave | Partiel | 12 < `rampMin` 15 : pas de rampe sur un mur propre (mesuré 0 → 12) ; sur un mur à 18 → 30. |
+| Avant-postes | Non éprouvé en jeu | Relais 120 (60 sans ravitaillement) contre des migrations de 70–360 : environ 85 % le font tomber. 16 unités par vague restent sous une casse (≈ 120 ferraille par vague). |
+| Signature et moral | Sans alerte | Attirance > +80 % dans 86/200 vagues ; pas de départ hors maladie. |
+| Eau de cité | Sans alerte | Âge Ville dans 7/24 parties (vagues 15–22) ; pénurie seulement si une citerne tombe. |
+| Lois | Non éprouvé | Âge 7 jamais atteint (âge max 4). |
+
+Réglages mesurés, non appliqués : `sickness.perPerson` 8 (vagues malades réduites de 30 à 60 % sur 3 graines, moral pire sur une) ; `graceSeconds` 240 (−10 à −35 %). Le levier dominant est la charge des murs pendant les assauts tardifs. Réserves : le banc n'est pas une partie humaine (la défense laisse fuir ~90 % de l'effectif dans l'enceinte) ; âges 3+ atteints par promotion ; sorties régionales, avant-postes, lois, factions et grands ouvrages non joués.
+
 ## Siège adossé — O7 (hors jeu)
 
 `C.OpenSiege217Rules` (G12, décision D-O2 : même effectif, concentré sur les côtés ouverts) :
