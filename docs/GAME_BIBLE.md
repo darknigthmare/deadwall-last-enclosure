@@ -1421,6 +1421,12 @@ d'atlas calée sur l'étendue totale.
   47 ms pour la carte actuelle de 128 m : la décision de garder 192 m tient.
   Restent (O6b) : projectiles en vol, ouvriers, voirie et véhicule face aux
   falaises ; vivres et carburant dans les gisements.
+- **Siège adossé, plafond du passage unique (hors jeu)** : une cité adossée
+  reçoit la même horde, mais son unique passage ne laisse entrer qu'un flot
+  limité — au plus 1,5 par seconde, quelle que soit la largeur — et le reste
+  attend au pied. La Meneuse et son escorte passent par le même goulot. La
+  nuit est plus longue et les corps s'entassent sur un front court : la
+  pression vient de la durée et des corps, jamais de points de vie.
 - **Préalable O9 (a) livré, sans effet en jeu** : la cité adossée a ses
   quartiers. Les six quartiers, les points des chantiers de jour et les
   haltes d'expédition ne tombent jamais sur un plateau inaccessible, dans

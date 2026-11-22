@@ -467,6 +467,8 @@ Réglages mesurés, non appliqués : `sickness.perPerson` 8 (vagues malades réd
 
 ## Siège adossé — O7 (hors jeu)
 
+Décision du 22 novembre 2026 : `passRate.max` 1,5 (arrivées par seconde au plus, toute cité à un seul côté non clos, quelle que soit sa largeur) ; `C.OpenSiege217.rate` = max(`min`, min(`max`, `perMetre` × largeur)). Une cité à plusieurs côtés dont la vague ne prend qu'un front garde le débit par mètre seul. La Meneuse rassemblée et son escorte debout entrent dans le débit (une place chacune avant la première arrivée). Mesures (51 relevés) : à 1,5/s, une cité à un seul côté de 32 à 64 m tient 164 à 176 s à l'âge 4 et 147 à 156 s à l'âge 6, contre 107 à 137 s et 73 à 88 s sur quatre fronts ; aucune chute à l'âge 2 (à 2/s, la graine 714 tombait : écarté). Cadavres par mètre : 0,8 à 4,7 sur un seul côté contre 0,05 à 0,44 sur quatre fronts. Une vague de l'âge 6 dure 11 min 16 s au plafond (à éprouver en jeu). Les cités à deux côtés (59 à 64 s à l'âge 6) restent plus fragiles que sur quatre fronts : non traité. Écart de mesure ±15 s d'une exécution à l'autre.
+
 Préalable O9 (b) : aucune valeur nouvelle. Le côté de la Meneuse sur terrain est `h modulo (nombre de côtés ouverts)` (identique à `h & 3` sur carte plate) ; poste à `standoff` 256 unités du bord, sur 30 à 70 % du côté, mesurés sur la carte de 192 m. Sur une cité à un seul côté ouvert, la Meneuse vient toujours de ce côté et son escorte (+20 %) s'ajoute au front étroit : renforce le risque relevé ci-dessous ; `passRate` et `minShare` à confirmer en O9.
 
 `C.OpenSiege217Rules` (G12, décision D-O2 : même effectif, concentré sur les côtés ouverts) :
