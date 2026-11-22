@@ -37,7 +37,9 @@ function attach(g){
   const car=g.expeditions.car();if(car?.metric174===1&&(u.id===car.id||u===g.player&&car.driving))return g.expeditions.overlapsVehicle175(b,car);
   return collides({def:true,left:b.x,top:b.y,right:b.x+b.w,bottom:b.y+b.h},u.x,u.y,u.radius||12);
  }
- function positionFree(u,x,y){const car=g.expeditions.car();if(car?.metric174===1&&car.health>0&&!car.regionAway){if(u===g.player&&car.driving)return g.expeditions.carClear(x,y);if(u.id!==car.id&&root.DeadwallMetric174.bodyCircle(g.expeditions.vehicleBody175(car.x,car.y,car.angle),{x,y},u.radius*.9))return false;}return Number.isFinite(x)&&Number.isFinite(y)&&x>u.radius+3&&y>u.radius+3&&x<(g.local||C.LOCAL_MAP217).size-u.radius-3&&y<(g.local||C.LOCAL_MAP217).size-u.radius-3&&!blocked(x,y,u.radius*.9);}
+ function positionFree(u,x,y){const car=g.expeditions.car();if(car?.metric174===1&&car.health>0&&!car.regionAway){if(u===g.player&&car.driving)return g.expeditions.carClear(x,y);if(u.id!==car.id&&root.DeadwallMetric174.bodyCircle(g.expeditions.vehicleBody175(car.x,car.y,car.angle),{x,y},u.radius*.9))return false;}return Number.isFinite(x)&&Number.isFinite(y)&&x>u.radius+3&&y>u.radius+3&&x<(g.local||C.LOCAL_MAP217).size-u.radius-3&&y<(g.local||C.LOCAL_MAP217).size-u.radius-3&&!blocked(x,y,u.radius*.9)&&!deep217(x,y,u.radius*.78);}
+ // Terrain G12 (O6c, hors jeu) : l'eau profonde reste un obstacle, aux mêmes points que la garde de base ; carte plate : faux.
+ function deep217(x,y,r){const w=g.world;return Boolean(w?.terrain217&&[[0,0],[-r,0],[r,0],[0,-r],[0,r]].some(([dx,dy])=>w.terrainAt217(x+dx,y+dy)?.deep));}
  function segment(u,a,b,step=7){const n=Math.max(1,Math.ceil(Math.hypot(a.x-b.x,a.y-b.y)/step));for(let i=0;i<=n;i++)if(!g.friendlyPositionClear(u,a.x+(b.x-a.x)*i/n,a.y+(b.y-a.y)*i/n))return false;return true;}
  function service(u,e){
   if(!e)return null;
@@ -69,7 +71,9 @@ function attach(g){
   }
   return pick(candidates);
  }
- function workFrom(u,at,e,r){if(!e||!u)return false;if(!physical(e))return Math.hypot(at.x-e.x,at.y-e.y)<=r&&segment(u,at,e);if(distance(at,e)>r||!g.friendlyPositionClear(u,at.x,at.y))return false;const b=rect(e),p={x:Math.max(b.l,Math.min(b.r,at.x)),y:Math.max(b.t,Math.min(b.b,at.y))},d=Math.hypot(at.x-p.x,at.y-p.y);return d===0?Boolean(e.def&&!e.completed):segment(u,at,{x:p.x+(at.x-p.x)/d*(u.radius+1),y:p.y+(at.y-p.y)/d*(u.radius+1)});}
+ // Terrain G12 (O6b, hors jeu) : un geste ou un pas ne franchit pas une falaise ; carte plate : toujours vrai.
+ function cliff217(a,b){return !g.world?.terrain217||g.world.stepClear217(a.x,a.y,b.x,b.y);}
+ function workFrom(u,at,e,r){if(!e||!u)return false;if(!cliff217(at,e))return false;if(!physical(e))return Math.hypot(at.x-e.x,at.y-e.y)<=r&&segment(u,at,e);if(distance(at,e)>r||!g.friendlyPositionClear(u,at.x,at.y))return false;const b=rect(e),p={x:Math.max(b.l,Math.min(b.r,at.x)),y:Math.max(b.t,Math.min(b.b,at.y))},d=Math.hypot(at.x-p.x,at.y-p.y);return d===0?Boolean(e.def&&!e.completed):segment(u,at,{x:p.x+(at.x-p.x)/d*(u.radius+1),y:p.y+(at.y-p.y)/d*(u.radius+1)});}
  function workAt(u,e,r){return workFrom(u,u,e,r);}
  function pack(){
   const placed=[...g.world.buildings.values()].filter(live).map(reserveRect);
@@ -80,10 +84,12 @@ function attach(g){
   const insert=b=>{for(const k of keys(b)){if(!bins.has(k))bins.set(k,[]);bins.get(k).push(b);}};placed.forEach(insert);
   // O5 : bornes et croix des routes lues sur la carte de la cité (4 096 : 4 058 = côté − 38, 2 100 / 1 996 = centre ± 52).
   const S217=g.local.size,c217=S217/2;
-  const fits=(n,x,y)=>{const b=reserveRect({...n,x,y});if(b.l<38||b.t<38||b.r>S217-38||b.b>S217-38||b.l<c217+52&&b.r>c217-52||b.t<c217+52&&b.b>c217-52||Math.hypot(x-c217,y-c217)<270)return false;for(const k of keys(b))for(const a of bins.get(k)||[])if(overlap(a,b,3))return false;return true;};
+  // O6c (G12, hors jeu) : un gisement déplacé reste sur un seul palier, à sec, hors rampe, relié à sa place sans falaise.
+  const t217=Boolean(g.world?.terrain217);
+  const fits=(n,x,y)=>{const b=reserveRect({...n,x,y});if(b.l<38||b.t<38||b.r>S217-38||b.b>S217-38||b.l<c217+52&&b.r>c217-52||b.t<c217+52&&b.b>c217-52||Math.hypot(x-c217,y-c217)<270)return false;if(t217&&(!g.world.footprintClear217(b.l,b.t,b.r-b.l,b.b-b.t)||!g.world.stepClear217(n.x,n.y,x,y)))return false;for(const k of keys(b))for(const a of bins.get(k)||[])if(overlap(a,b,3))return false;return true;};
   for(const n of g.world.nodes){if(n.depleted)continue;if(!fits(n,n.x,n.y)){const ox=n.x,oy=n.y;let found=false;for(let r=18;r<=2400&&!found;r+=18){const count=Math.max(12,Math.ceil(r/9));for(let i=0;i<count;i++){const a=i/count*Math.PI*2+(n.id%13)*.11,x=Math.round((ox+Math.cos(a)*r)*100)/100,y=Math.round((oy+Math.sin(a)*r)*100)/100;if(fits(n,x,y)){n.x=x;n.y=y;found=true;break;}}}if(!found)throw Error('Décor sans emplacement libre : '+n.id);}insert(reserveRect(n));}
  }
- function recoverActor(u){if(!live(u)||positionFree(u,u.x,u.y))return;const obstruction=blocked(u.x,u.y,u.radius);let candidates=obstruction?[service(u,obstruction)].filter(Boolean):[];for(let r=16;r<700;r+=16){for(let i=0;i<24;i++)candidates.push({x:u.x+Math.cos(i*Math.PI/12)*r,y:u.y+Math.sin(i*Math.PI/12)*r});const p=candidates.find(p=>{if(!positionFree(u,p.x,p.y))return false;const count=Math.max(1,Math.ceil(Math.hypot(p.x-u.x,p.y-u.y)/6));for(let i=1;i<=count;i++)if(blocked(u.x+(p.x-u.x)*i/count,u.y+(p.y-u.y)*i/count,u.radius*.9,obstruction))return false;return true;});if(p){u.x=p.x;u.y=p.y;u.navigation=null;return;}candidates=[];}}
+ function recoverActor(u){if(!live(u)||positionFree(u,u.x,u.y))return;const obstruction=blocked(u.x,u.y,u.radius);let candidates=obstruction?[service(u,obstruction)].filter(Boolean):[];for(let r=16;r<700;r+=16){for(let i=0;i<24;i++)candidates.push({x:u.x+Math.cos(i*Math.PI/12)*r,y:u.y+Math.sin(i*Math.PI/12)*r});const p=candidates.find(p=>{if(!positionFree(u,p.x,p.y)||!cliff217(u,p))return false;const count=Math.max(1,Math.ceil(Math.hypot(p.x-u.x,p.y-u.y)/6));for(let i=1;i<=count;i++)if(blocked(u.x+(p.x-u.x)*i/count,u.y+(p.y-u.y)*i/count,u.radius*.9,obstruction))return false;return true;});if(p){u.x=p.x;u.y=p.y;u.navigation=null;return;}candidates=[];}}
  function setup(coords=[],preserveLayout=false){
   world=g.world;
   if(coords.length){const map=new Map(coords.map(p=>[p[0],p]));for(const n of world.nodes){const p=map.get(n.id);if(p){n.x=p[1];n.y=p[2];}}}
@@ -91,7 +97,10 @@ function attach(g){
   // outside a vehicle's collider but inside its older packing reserve.
   // Repacking on Continue would move that saved vehicle without player action.
   if(!preserveLayout)pack();index();
-  if(!world._fieldcraft){world._fieldcraft=true;world.solidForFriendly=(x,y)=>blocked(x,y);const cost=world.movementCost.bind(world);world.movementCost=(x,y)=>[...props(x*32+16,y*32+16,12)].some(p=>collides(p,x*32+16,y*32+16,12))?Infinity:cost(x,y);const place=world.placement.bind(world);world.placement=(def,x,y,rotation=0,ignore=0)=>{if(def?.id&&world.definition)def=world.definition(def.id)||def;const q=place(def,x,y,rotation,ignore);if(!q.valid)return q;const a={l:x*32,t:y*32,r:(x+def.size[rotation%2?1:0])*32,b:(y+def.size[rotation%2?0:1])*32};for(const p of objects())if(overlap(a,rect(p)))return{valid:false,reason:'Décor ou station dans l’emprise.'};return q;};}
+  if(!world._fieldcraft){world._fieldcraft=true;
+   // O6c : sur un terrain G12, l'eau profonde de l'enveloppe du monde reste un obstacle ami ; carte plate inchangée.
+   const solid217=world.terrain217?world.solidForFriendly.bind(world):null;
+   world.solidForFriendly=solid217?(x,y)=>blocked(x,y)||(world.terrainAt217(x,y)?.deep?solid217(x,y):null):(x,y)=>blocked(x,y);const cost=world.movementCost.bind(world);world.movementCost=(x,y)=>[...props(x*32+16,y*32+16,12)].some(p=>collides(p,x*32+16,y*32+16,12))?Infinity:cost(x,y);const place=world.placement.bind(world);world.placement=(def,x,y,rotation=0,ignore=0)=>{if(def?.id&&world.definition)def=world.definition(def.id)||def;const q=place(def,x,y,rotation,ignore);if(!q.valid)return q;const a={l:x*32,t:y*32,r:(x+def.size[rotation%2?1:0])*32,b:(y+def.size[rotation%2?0:1])*32};for(const p of objects())if(overlap(a,rect(p)))return{valid:false,reason:'Décor ou station dans l’emprise.'};return q;};}
   const v=g.expeditions.car(),metricDriving=v?.metric174===1&&v.driving;
   for(const u of [g.player,...g.units])if(!(metricDriving&&u===g.player))recoverActor(u);
   if(v&&v.health>0&&!(v.metric174===1&&g.expeditions.carClear(v.x,v.y))){const p={x:v.x,y:v.y,radius:g.expeditions.entity()?.radius||C.Expeditions.RULES.carRadius,health:1};recoverActor(p);v.x=p.x;v.y=p.y;if(v.driving){g.player.x=v.x;g.player.y=v.y;}}
@@ -103,7 +112,7 @@ function attach(g){
  const originalMove=g.moveUnitToward.bind(g);g.moveUnitToward=(u,t,dt,speed=u.speed)=>{
  const p=service(u,t);if(!p){u.navigation={goalX:Math.floor(t.x/32),goalY:Math.floor(t.y/32),version:g.world.navigationVersion,cells:null,next:0,direct:false,retryAt:g.elapsed+2};return false;}
  const result=originalMove(u,p,dt,speed);if(u.navigation){u.navigation.requestX=Math.floor(t.x/32);u.navigation.requestY=Math.floor(t.y/32);}return result;};
- g.moveFriendly=(u,dx,dy)=>{if(!Number.isFinite(dx)||!Number.isFinite(dy))return;const b=g.infrastructure.speed(u.x,u.y);dx*=b;dy*=b;const n=Math.max(1,Math.ceil(Math.hypot(dx,dy)/5));for(let i=0;i<n;i++){if(g.friendlyPositionClear(u,u.x+dx/n,u.y))u.x+=dx/n;if(g.friendlyPositionClear(u,u.x,u.y+dy/n))u.y+=dy/n;}};
+ g.moveFriendly=(u,dx,dy)=>{if(!Number.isFinite(dx)||!Number.isFinite(dy))return;const b=g.infrastructure.speed(u.x,u.y);dx*=b;dy*=b;const n=Math.max(1,Math.ceil(Math.hypot(dx,dy)/5));const t217=Boolean(g.world?.terrain217);for(let i=0;i<n;i++){if(g.friendlyPositionClear(u,u.x+dx/n,u.y)&&(!t217||cliff217(u,{x:u.x+dx/n,y:u.y})))u.x+=dx/n;if(g.friendlyPositionClear(u,u.x,u.y+dy/n)&&(!t217||cliff217(u,{x:u.x,y:u.y+dy/n})))u.y+=dy/n;}};
  wrap('recruit',(old,...a)=>{const ids=new Set(g.units.map(u=>u.id)),r=old(...a);for(const u of g.units)if(!ids.has(u.id))recoverActor(u);return r;});
  wrap('updateDirector',(old,...a)=>{const ids=new Set(g.units.map(u=>u.id)),r=old(...a);for(const u of g.units)if(!ids.has(u.id))recoverActor(u);return r;});
  const arrival=g.coreArrivalPosition.bind(g);g.coreArrivalPosition=(u,p)=>{const q={...u,...arrival(u,p),health:1,dead:false};recoverActor(q);return{x:q.x,y:q.y};};
@@ -119,7 +128,10 @@ function attach(g){
  }
  wrap('spawnZombie',(old,...a)=>{const r=old(...a),z=r?g.zombies[g.zombies.length-1]:null;if(z&&[...props(z.x,z.y,z.radius)].some(p=>collides(p,z.x,z.y,z.radius*.7)))recoverActor(z);return r;});
  const hostile=g.hostilePositionClear.bind(g);g.hostilePositionClear=(u,x,y)=>hostile(u,x,y)&&![...props(x,y,u.radius)].some(p=>collides(p,x,y,u.radius*.7));
- wrap('updateZombies',(old,dt)=>{const before=new Map(g.zombies.map(z=>[z.id,{x:z.x,y:z.y}])),r=old(dt);for(const z of g.zombies)if(!z.dead&&![...props(z.x,z.y,z.radius)].every(p=>!collides(p,z.x,z.y,z.radius*.7))){const p=before.get(z.id);if(p){z.x=p.x;z.y=p.y;}}return r;});
+ // O6c (G12, hors jeu) : un repli d'infecté hors d'atteinte (`zombieFallback217`, compteur `fallback217`) n'est pas défait
+ // par le retour en arrière (qui le remettrait hors d'atteinte) : posé contre un décor, il en est dégagé. Carte plate :
+ // le compteur n'existe pas, retour en arrière inchangé.
+ wrap('updateZombies',(old,dt)=>{const before=new Map(g.zombies.map(z=>[z.id,{x:z.x,y:z.y,f:z.fallback217||0}])),r=old(dt);for(const z of g.zombies)if(!z.dead&&![...props(z.x,z.y,z.radius)].every(p=>!collides(p,z.x,z.y,z.radius*.7))){const p=before.get(z.id);if(p&&(z.fallback217||0)!==p.f)recoverActor(z);else if(p){z.x=p.x;z.y=p.y;}}return r;});
  function allowed(){return !g.frontier?.active()&&g.canIssueCommand()&&!g.player.dead&&!g.expeditions.driving()&&g.player.reload<=0&&!g.expansions?.busy();}
  function nearby(){return [...world.buildings.values()].filter(b=>live(b)&&workAt(g.player,b,rules.range)).sort((a,b)=>distance(g.player,a)-distance(g.player,b))[0]||null;}
  function price(b,rate){const cost={};for(const k of ['wood','scrap','stone'])if(b.def.cost[k])cost[k]=Math.max(1,Math.ceil(b.def.cost[k]*rate));if(!Object.keys(cost).length)cost.scrap=1;return cost;}

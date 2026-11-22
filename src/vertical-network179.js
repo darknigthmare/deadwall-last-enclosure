@@ -112,6 +112,9 @@
    const candidate={id:net().nextId,kind,a:{site:f.p.site,level:f.p.level},b:{site:toSite,level:toLevel},progress:0,health:d.health};
    if(net().links.some(l=>[key(l.a),key(l.b)].sort().join('/')===[key(candidate.a),key(candidate.b)].sort().join('/')))return no('Ces paliers possèdent déjà une liaison ou un chantier.');
    const q=linkShape(candidate);if(!q)return no('Il faut deux paliers alignés, de même hauteur et à portée du kit.');
+   // O8b (G12, hors jeu) : deux supports posés sur deux paliers du terrain n'ont pas leurs dalles à la même hauteur.
+   const tier217=id=>{const b=buildings().get(id);return g.world.terrainAt217(b?.x,b?.y)?.level;};
+   if(g.world?.terrain217&&tier217(f.p.site)!==tier217(toSite))return no('Les deux supports reposent sur deux paliers : leurs dalles ne sont pas à la même hauteur.');
    if(!corridorFree(candidate,q))return no('La portée ou ses accès rencontrent un obstacle ; libérez le passage.');
    const mass=(q.gap+2*R.landing)*d.massPerMetre/2;
    for(const p of [candidate.a,candidate.b]){const s=sites().find(s=>s.id===p.site),b=buildings().get(p.site);if(S.mass(s)+weight(p.site)+mass>V.bases[b.type].capacity+EPS)return no('Charge d’ancrage excessive sur un support.');}

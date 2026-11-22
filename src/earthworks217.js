@@ -125,6 +125,8 @@
    if(at(gx,gy))return{ok:false,reason:'Un fossé occupe déjà cette case'};
    if(bankAt(gx,gy))return{ok:false,reason:'Un talus occupe déjà cette case'};
    const check=g.world.placement(C.BUILDINGS.woodWall,gx,gy,0);if(!check.valid)return{ok:false,reason:check.reason};
+   // Terrain de génération 12 (O7) : la rampe se barre d'un mur ou d'une porte, jamais d'un fossé (même grille que le champ de flux).
+   if(type===ID&&g.world.terrain217&&g.world.terrainAt217(gx*TILE+TILE/2,gy*TILE+TILE/2)?.kind===2)return{ok:false,reason:'Pas de fossé sur une rampe : barrez-la d’un mur ou d’une porte.'};
    const core=g.core?.();
    if(!core||Math.max(Math.abs(gx-C.grid(core.x)),Math.abs(gy-C.grid(core.y)))>R.cityRadiusTiles)return{ok:false,reason:'Hors de l’emprise de la cité'};
    if(type===BANK){

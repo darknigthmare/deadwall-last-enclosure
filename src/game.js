@@ -194,6 +194,8 @@
   const TERRAIN217_BLOCK = Object.freeze({ id: -217, type: 'terrain217', dead: false, completed: true, def: Object.freeze({ wall: true }) });
   // Eau de la carte locale : 1 mer, 2 lac, 3 rivière, 4 ruisseau ; nature 2 = rampe.
   const WATER217 = Object.freeze({ sea: 1, lake: 2, river: 3, stream: 4 }), RAMP217 = 2;
+  // O6c (D-O1) : tireur dont `nearbyZombies` filtre les candidats le temps d'un choix de cible (`Game#fireTarget217`).
+  let SIGHT217 = null;
   function terrain217(local, map) {
     const cells = map.cells, arrays = ['levels', 'passes', 'water', 'roads', 'kinds'];
     if (!local || local.generation !== 12 || local.frame !== map.tiles || local.tile !== 1 || local.unit !== TILE || !Array.isArray(local.deposits) || arrays.some(k => !(local[k] instanceof Uint8Array) || local[k].length !== cells))
@@ -204,7 +206,7 @@
       deep[i] = w === WATER217.sea || w === WATER217.lake || (w === WATER217.river && !road) ? 1 : 0;
       ford[i] = w === WATER217.stream && !road ? 1 : 0;
     }
-    return Object.freeze({ seed: local.seed, version: local.version, digest: local.digest, tiles: map.tiles, ...own, deep, ford });
+    return Object.freeze({ seed: local.seed, version: local.version, digest: local.digest, tiles: map.tiles, ...own, deep, ford, sides: local.sides || null });
   }
   // Arête entre deux cases voisines, comme la carte locale : eau profonde à l'arrivée refusée, même palier
   // admis, changement de palier par la seule rampe.
@@ -347,6 +349,12 @@
           if (t.deep[i] || t.ford[i] || t.water[i]) return { valid: false, reason: 'Emprise sur l’eau : choisissez la rive.' };
           if (t.kinds[i] === RAMP217 && !barrier) return { valid: false, reason: 'Emprise sur une rampe : seuls murs et portes la barrent.' };
         }
+        // O6c : l'entrée d'un support de citadelle reste sur le palier de son emprise (escalier praticable dès la pose).
+        const V175 = d.vertical175 ? globalThis.DeadwallVertical175State : null;
+        if (V175?.entrance) {
+          const door = V175.entrance({ type: id, gx, gy, rotation, def: d }), cx = (gx + w / 2) * TILE, cy = (gy + h / 2) * TILE;
+          if (!L.contains(door.x, door.y) || !this.stepClear217(cx, cy, door.x, door.y)) return { valid: false, reason: 'Entrée de la citadelle hors du palier de l’emprise : la falaise ou l’eau couperait l’escalier.' };
+        }
         return result;
       });
     }
@@ -397,6 +405,19 @@
       });
     }
     sightClear217(from, to, level) { return this.sightObstruction217(from, to, level) === null; }
+    // O6b : emprise (unités) posée sur un seul palier, à sec et hors rampe ; toujours vrai sur une carte plate.
+    // Lu par le décor métrique replacé (`packMetricScenery202`).
+    footprintClear217(x, y, w, h) {
+      const t = WORLD_TERRAIN217.get(this); if (!t) return true;
+      const L = this.local; if (![x, y, w, h].every(Number.isFinite) || w <= 0 || h <= 0) return false;
+      const x0 = Math.floor(x / TILE), y0 = Math.floor(y / TILE), x1 = Math.ceil((x + w) / TILE) - 1, y1 = Math.ceil((y + h) / TILE) - 1;
+      if (!L.cellInside(x0, y0) || !L.cellInside(x1, y1)) return false;
+      const level = t.levels[L.index(x0, y0)];
+      for (let gy = y0; gy <= y1; gy++) for (let gx = x0; gx <= x1; gx++) {
+        const i = L.index(gx, gy); if (t.levels[i] !== level || t.water[i] || t.deep[i] || t.ford[i] || t.kinds[i] === RAMP217) return false;
+      }
+      return true;
+    }
   }
 
   class FlowField {
@@ -440,6 +461,27 @@
         }
       }
       map.flowDirty = false;
+    }
+    // O6b : repli d'un infecté posé sur une case hors d'atteinte du champ (poche fermée par la falaise ou
+    // l'eau profonde). Case atteinte la plus proche (distance au point, puis indice), dans `ring` cases et
+    // libre selon `free(gx, gy)` ; `null` sur une carte plate, sur une case atteinte ou sans case trouvée.
+    fallback217(x, y, ring, free = () => true) {
+      if (!this.terrain217 || !Number.isFinite(x) || !Number.isFinite(y)) return null;
+      const L = this.local, gx = L.cellOf(x), gy = L.cellOf(y);
+      if (L.cellInside(gx, gy) && this.values[L.index(gx, gy)] < 0x3fffffff) return null;
+      let best = null, bestD = Infinity, bestI = Infinity;
+      for (let r = 1; r <= ring; r++) {
+        for (let ny = gy - r; ny <= gy + r; ny++) for (let nx = gx - r; nx <= gx + r; nx++) {
+          if (Math.max(Math.abs(nx - gx), Math.abs(ny - gy)) !== r || !L.cellInside(nx, ny)) continue;
+          const i = L.index(nx, ny); if (this.values[i] >= 0x3fffffff || !free(nx, ny)) continue;
+          const d = (world(nx) - x) ** 2 + (world(ny) - y) ** 2;
+          if (d < bestD || (d === bestD && i < bestI)) { best = { gx: nx, gy: ny, x: world(nx), y: world(ny) }; bestD = d; bestI = i; }
+        }
+        // Une case d'un anneau plus large peut être plus proche du point que le coin d'un anneau : on s'arrête
+        // dès que la meilleure case est à moins d'un anneau complet.
+        if (best && Math.sqrt(bestD) <= r * TILE) break;
+      }
+      return best;
     }
     direction(x, y, bias, time) {
       const L = this.local, N = L.tiles, gx = L.cellOf(x), gy = L.cellOf(y), dirs = [[-1,0],[1,0],[0,-1],[0,1]], t = this.terrain217 || null;
@@ -1313,7 +1355,8 @@
     getEnclosureStatus() {
       const cached = this.enclosureCache;
       if (cached?.world === this.world && cached.version === this.world.navigationVersion) return cached.status;
-      const status = T.analyzeEnclosure({ buildings: this.world.buildings.values(), target: this.core() });
+      const grid = this.world.terrain217 ? T.terrainGrid217(this.world) : null;
+      const status = T.analyzeEnclosure(grid ? { buildings: this.world.buildings.values(), target: this.core(), grid } : { buildings: this.world.buildings.values(), target: this.core() });
       this.enclosureCache = { world: this.world, version: this.world.navigationVersion, status }; return status;
     }
 
@@ -1438,7 +1481,7 @@
       const sprint = !this.essentials?.carrying() && !this.campaignPack?.carrying() && this.input.keys.has('ShiftLeft') && p.stamina > 2 && len > 0; const speed = (sprint ? 205 : 136) * (this.essentials?.carrying()?C.Essentials.RULES.packSpeed:1) * (this.campaignPack?.movementFactor?.()??1);
       if (sprint) p.stamina = Math.max(0, p.stamina - dt * 25); else p.stamina = Math.min(p.maxStamina, p.stamina + dt * 17);
       p.vx = dx * speed; p.vy = dy * speed; this.moveFriendly(p, p.vx * dt, p.vy * dt);
-      if(this.input.touchFire){if(this.nightwatch?.isBlackout())p.facing=Math.atan2(this.input.mouseWorldY-p.y,this.input.mouseWorldX-p.x);const target=this.nightwatch?this.nightwatch.target(p.x,p.y,720):this.nearestZombie(p.x,p.y,720);if(target)p.facing=Math.atan2(target.y-p.y,target.x-p.x);}else p.facing = Math.atan2(this.input.mouseWorldY - p.y, this.input.mouseWorldX - p.x);
+      if(this.input.touchFire){if(this.nightwatch?.isBlackout())p.facing=Math.atan2(this.input.mouseWorldY-p.y,this.input.mouseWorldX-p.x);const target=this.fireTarget217(p.x,p.y,720);if(target)p.facing=Math.atan2(target.y-p.y,target.x-p.x);}else p.facing = Math.atan2(this.input.mouseWorldY - p.y, this.input.mouseWorldX - p.x);
       if (this.input.mouseDown && !this.selectedBuild && !this.rallyPlacement) this.shootPlayer();
       // E passes through several legacy owners before the base handler. Gate
       // their common entry while another action owns the commander's hands.
@@ -1472,7 +1515,9 @@
         if (direct && terrain && !this.world.stepClear217(unit.x, unit.y, target.x, target.y)) direct = false;
         if (!direct && this.navigationBudget === 0) return false;
         if (!direct && Number.isFinite(this.navigationBudget)) this.navigationBudget--;
-        const cells = direct ? [] : findFriendlyPath({ x: grid(unit.x, this.local), y: grid(unit.y, this.local) }, { x: goalX, y: goalY }, (x, y) => !this.friendlyPositionClear(unit,world(x),world(y)), this.local.tiles, this.local.tiles, undefined, terrain);
+        const start = { x: grid(unit.x, this.local), y: grid(unit.y, this.local) }, goal = { x: goalX, y: goalY }, blocked = (x, y) => !this.friendlyPositionClear(unit,world(x),world(y));
+        // Terrain G12 (O6b) : la voirie cherche le chemin avec le prédicat d'arête ; carte plate : appel inchangé.
+        const cells = direct ? [] : terrain && this.infrastructure?.findPath ? this.infrastructure.findPath(start, goal, blocked, this.local.tiles, this.local.tiles, C.OpenCity217Rules.pathMaxExpanded, 'friendly', terrain) : findFriendlyPath(start, goal, blocked, this.local.tiles, this.local.tiles, terrain ? C.OpenCity217Rules.pathMaxExpanded : undefined, terrain);
         route = unit.navigation = { goalX, goalY, version, cells, next: 0, direct, retryAt: cells === null ? this.elapsed + STRATEGY_RULES.pathRetrySeconds : 0 };
       }
       if (route.cells === null) return false;
@@ -1535,8 +1580,11 @@
       // A close barrier can lie entirely before the rendered weapon muzzle.
       // Start the sweep at the shooter in that case, so the normal collision
       // resolver applies the impact, including damage to a barricade.
-      return this.exploration125?.firstObstruction?.(source,muzzle,radius,true)||this.barricades134?.firstObstruction?.(source,muzzle,radius)?source:muzzle;
+      // Terrain G12 (O6b) : une bouche passée au-dessus d'une falaise montante fait partir le tir du tireur (D-O1).
+      return this.exploration125?.firstObstruction?.(source,muzzle,radius,true)||this.barricades134?.firstObstruction?.(source,muzzle,radius)||(this.world.terrain217&&!this.world.sightClear217(source,muzzle))?source:muzzle;
     }
+    // Terrain G12 (O6b) : palier du tireur capté au tir, relu par `updateProjectiles` (D-O1) ; carte plate : rien.
+    shot217(projectile,x,y) { if(this.world.terrain217)projectile.level217=this.world.terrainAt217(x,y)?.level; return projectile; }
 
     shootPlayer() {
       const p = this.player, w = this.arsenal134?.weaponSpec() || WEAPONS[p.weapon]; if (p.dead || p.reload > 0 || p.shootCooldown > 0) return;
@@ -1546,7 +1594,7 @@
       for (let i = 0; i < w.pellets; i++) {
         const angle = p.facing + this.random.range(-w.spread, w.spread), speed = 970;
         const radius=p.weapon==='shotgun'?1.4:2,origin=this.projectileOrigin(p.x,p.y,angle,22,radius);
-        this.projectiles.push(new Projectile(this.nextId++, origin.x, origin.y, Math.cos(angle)*speed, Math.sin(angle)*speed, w.damage, w.range, 'player', '#ffe2a0', radius, w.headshotChance, w.headshotMultiplier));
+        this.projectiles.push(this.shot217(new Projectile(this.nextId++, origin.x, origin.y, Math.cos(angle)*speed, Math.sin(angle)*speed, w.damage, w.range, 'player', '#ffe2a0', radius, w.headshotChance, w.headshotMultiplier), p.x, p.y));
       }
       for (let i=0;i<3;i++) this.particles.push(new Particle(p.x+Math.cos(p.facing)*25,p.y+Math.sin(p.facing)*25,Math.cos(p.facing)*this.random.range(50,110)+this.random.range(-20,20),Math.sin(p.facing)*this.random.range(50,110)+this.random.range(-20,20),.1,this.random.range(2,4),'#ffd070','muzzle'));
       if (p.magazine[p.weapon] <= 0) this.startReload();
@@ -1581,7 +1629,7 @@
       for (const b of [...this.world.buildings.values()]) {
         if (b.dead) continue; b.fireCooldown=Math.max(0,b.fireCooldown-dt);b.flash=Math.max(0,b.flash-dt);b.underAttack=Math.max(0,b.underAttack-dt);b.corpseLoad=Math.max(0,b.corpseLoad-dt*C.WORKER_RULES.passiveDecayPerSecond);
         if(!b.completed){if(b.work(dt*.075))this.completeBuilding(b);continue;}
-        if(b.def.range&&b.powered&&this.resources.ammo>=(b.def.ammoPerShot||1)&&(!this.citadel||this.citadel.canFire(b.def.ammoPerShot||1))&&b.fireCooldown<=0){const target=this.nightwatch?this.nightwatch.target(b.x,b.y,b.def.range):this.nearestZombie(b.x,b.y,b.def.range);if(target){b.turretAngle=Math.atan2(target.y-b.y,target.x-b.x);b.fireCooldown=1/b.def.fireRate;this.resources.ammo-=b.def.ammoPerShot||1;b.flash=.06;this.fireFriendly(b.x,b.y-3,b.turretAngle,b.def.damage*(this.hasResearch('ballistics')?1.12:1),b.def.range,b.type==='heavyTurret'?'#ffc56e':'#ffe4a1');}}
+        if(b.def.range&&b.powered&&this.resources.ammo>=(b.def.ammoPerShot||1)&&(!this.citadel||this.citadel.canFire(b.def.ammoPerShot||1))&&b.fireCooldown<=0){const target=this.fireTarget217(b.x,b.y,b.def.range,b.x,b.y-3);if(target){b.turretAngle=Math.atan2(target.y-b.y,target.x-b.x);b.fireCooldown=1/b.def.fireRate;this.resources.ammo-=b.def.ammoPerShot||1;b.flash=.06;this.fireFriendly(b.x,b.y-3,b.turretAngle,b.def.damage*(this.hasResearch('ballistics')?1.12:1),b.def.range,b.type==='heavyTurret'?'#ffc56e':'#ffe4a1');}}
         if(b.type==='clinic'&&b.powered&&b.health>0&&!b.siegeOffline&&!b.territoryOffline&&!b.dayOffline&&!b.gridOffline&&Number.isFinite(dt)&&dt>0){
           const r=C.NPC_RULES;
           for(const u of [...this.units,this.player])if(!u.dead&&u.health>0&&!u.regionAbsent&&distSq(u,b)<r.clinicRange*r.clinicRange&&this.workerCanWorkAt(u,b,r.clinicRange)){
@@ -1608,7 +1656,7 @@
       b.completionBlocked = false; b.progress=1;b.health=Math.min(b.health,b.maxHealth);this.world.flowDirty=true;this.world.navigationVersion++;this.audio.build();this.notify(`${b.def.name} mis en service.`,'good');this.floaters.push({x:b.x,y:b.y-22,text:'OPÉRATIONNEL',color:'#8fb47e',life:1.2,maxLife:1.2});this.refreshMetrics(true);return true;
     }
 
-    fireFriendly(x,y,angle,damage,range,color) { const speed=900,origin=this.projectileOrigin(x,y,angle,18,2);this.projectiles.push(new Projectile(this.nextId++,origin.x,origin.y,Math.cos(angle)*speed,Math.sin(angle)*speed,damage,range,'friendly',color,2));this.audio.noise(.035,.025,1600); }
+    fireFriendly(x,y,angle,damage,range,color) { const speed=900,origin=this.projectileOrigin(x,y,angle,18,2);this.projectiles.push(this.shot217(new Projectile(this.nextId++,origin.x,origin.y,Math.cos(angle)*speed,Math.sin(angle)*speed,damage,range,'friendly',color,2),x,y));this.audio.noise(.035,.025,1600); }
 
     updateUnits(dt) {
       const core=this.core();if(!core)return;
@@ -1666,7 +1714,7 @@
           this.updateSpecialist(u,dt,danger,core);
         } else if(u.kind==='soldier') {
           const rules=C.SQUAD_RULES,group=this.squads.groups[u.squad],retreat=group.order==='retreat';
-          const target=this.nightwatch?this.nightwatch.target(u.x,u.y,rules.range):this.nearestZombie(u.x,u.y,rules.range);
+          const target=this.fireTarget217(u.x,u.y,rules.range);
           if(target){const d=dist(u,target);u.facing=Math.atan2(target.y-u.y,target.x-u.x);
             if(d>rules.advanceRange){if(!retreat){if(this.citadel?.isHolding(u)){const post=this.squadFormationTarget(u,group);if(post&&dist(u,post)>rules.rallyRadius)this.moveUnitToward(u,post,dt);}else this.moveUnitToward(u,target,dt,u.speed*rules.pursuitSpeed);}}
             else if(u.fireCooldown<=0&&this.resources.ammo>=1&&(!this.citadel||this.citadel.canFire(1))){u.fireCooldown=rules.fireCooldown/(this.balance217?.effort()??1);this.resources.ammo-=1;this.fireFriendly(u.x,u.y,u.facing,this.hasResearch('ballistics')?rules.researchedDamage:rules.damage,rules.projectileRange,'#ffe0a0');this.recordActorAction159(u,'shoot',rules.fireCooldown);}
@@ -1782,14 +1830,15 @@
       const distance=dist(unit,target);if(distance>range)return false;
       const steps=Math.max(1,Math.ceil(distance/(TILE/3)));
       for(let i=0;i<=steps;i++)if(!this.friendlyPositionClear(unit,lerp(unit.x,target.x,i/steps),lerp(unit.y,target.y,i/steps)))return false;
-      return true;
+      // Terrain G12 (O6b) : on ne travaille pas par-dessus une falaise ; carte plate : inchangé.
+      return !this.world.terrain217||this.world.stepClear217(unit.x,unit.y,target.x,target.y);
     }
 
     workerBuildExit(unit, building, keyPrefix='exit') {
       // Leave the future collision footprint by walking before finishing a wall around ourselves.
       const offset=Math.max(TILE/2,unit.radius+4),x=clamp(unit.x,building.left+TILE/2,building.right-TILE/2),y=clamp(unit.y,building.top+TILE/2,building.bottom-TILE/2);
       const points=[{x:building.left-offset,y},{x:building.right+offset,y},{x,y:building.top-offset},{x,y:building.bottom+offset}];
-      return points.map((point,i)=>({...point,key:`${keyPrefix}:${building.id}:${i}`})).filter(point=>this.local.contains(point.x,point.y,offset)&&this.friendlyPositionClear(unit,point.x,point.y)&&this.workerJobAvailable(unit,point.key)).sort((a,b)=>distSq(unit,a)-distSq(unit,b))[0]||null;
+      return points.map((point,i)=>({...point,key:`${keyPrefix}:${building.id}:${i}`})).filter(point=>this.local.contains(point.x,point.y,offset)&&this.friendlyPositionClear(unit,point.x,point.y)&&(!this.world.terrain217||this.world.stepClear217(unit.x,unit.y,point.x,point.y))&&this.workerJobAvailable(unit,point.key)).sort((a,b)=>distSq(unit,a)-distSq(unit,b))[0]||null;
     }
 
     workerJobAvailable(unit, key) {
@@ -1834,6 +1883,8 @@
       for(const wall of this.world.buildings.values()){
         if(wall.dead||!wall.completed||!wall.def.wall||wall.corpseLoad<=0||!this.workerJobAvailable(unit,`clear:${wall.id}`))continue;
         const point=this.workerCleanupPoint(unit,wall);if(!this.friendlyPositionClear(unit,point.x,point.y))continue;
+        // Terrain G12 (O6b) : la face de nettoyage reste sur le palier du mur (pas de point en contrebas d'une falaise).
+        if(this.world.terrain217&&!this.world.stepClear217(wall.x,wall.y,point.x,point.y))continue;
         const score=distSq(unit,point)/Math.max(1,wall.corpseLoad)*(4-(wall.priority||2));if(score<best){best=score;result=wall;}
       }
       return result;
@@ -1851,20 +1902,47 @@
 
     updateDirector(dt) {
       this.phaseTime-=dt;
-      if(this.phase==='calm'&&this.phaseTime<=0){this.phase='warning';this.phaseTime=10+(this.hasResearch('recon')?5:0);this.prepareWave();this.triggerCrisis();this.notify(`Migration détectée — ${this.wavePlan.total} contacts estimés.`,'danger');this.audio.siren();}
+      if(this.phase==='calm'&&this.phaseTime<=0){this.phase='warning';this.phaseTime=10+(this.hasResearch('recon')?5:0);this.prepareWave();this.triggerCrisis();this.notify(`Migration détectée — ${this.wavePlan.total} contacts estimés${this.world.terrain217?.sides?`, par ${this.siegeApproach217()}`:''}.`,'danger');this.audio.siren();}
       else if(this.phase==='warning'&&this.phaseTime<=0){this.phase='assault';this.phaseTime=0;this.startAssault();this.notify('ASSAUT : toutes les unités aux remparts !','danger');}
       else if(this.phase==='assault'){
         this.spawnTimer-=dt;
         // Capacity delays arrivals; it must not bank a burst of overdue spawns.
         if(this.zombies.length>=PERFORMANCE_LIMITS.zombies)this.spawnTimer=Math.max(0,this.spawnTimer);
-        while((this.spawnQueue.length||spawnCount(this.pendingSpawns))&&this.spawnTimer<=0&&this.zombies.length<PERFORMANCE_LIMITS.zombies){this.refillSpawnQueue();this.spawnZombie(this.spawnQueue.pop());this.spawnTimer+=this.wavePlan?.spawnInterval||.3;}
+        while((this.spawnQueue.length||spawnCount(this.pendingSpawns))&&this.spawnTimer<=0&&this.zombies.length<PERFORMANCE_LIMITS.zombies){this.refillSpawnQueue();this.spawnZombie(this.spawnQueue.pop());this.spawnTimer+=this.world.terrain217?this.spawnGap217():this.wavePlan?.spawnInterval||.3;}
         if(this.zombies.length>=PERFORMANCE_LIMITS.zombies)this.spawnTimer=Math.max(0,this.spawnTimer);
         if(!this.spawnQueue.length&&!spawnCount(this.pendingSpawns)&&!this.zombies.some(z=>!z.dead)&&!this.vertical175?.hasActiveSiege()){this.phase='aftermath';this.phaseTime=8;this.stats.wavesSurvived++;this.research.insight=Math.min(C.RESEARCH_INSIGHT_MAX,this.research.insight+1+(this.wave%5===0?1:0));this.notify(`Vague ${this.wave} repoussée. Sécurisation du périmètre.`,'good');this.save(false);}
       }else if(this.phase==='aftermath'&&this.phaseTime<=0){const completed=this.wave;this.wave++;this.phase='calm';this.phaseTime=Math.max(38,84-this.wave*1.15)*this.difficulty.calmTime;add(this.resources,{food:10+completed*1.5,ammo:12+completed*2,scrap:5+completed},this.storage);if(completed%2===0&&this.population<this.housing){const core=this.core();this.units.push(new Unit(this.nextId++,'worker',core.x+this.random.range(-40,40),core.y+this.random.range(-40,40)));this.notify('Des survivants ont rejoint la cité.','good');}if(!this.weather193?.active()&&this.random.chance(.35))this.weatherTarget=this.random.range(.3,1);this.refreshMetrics(true);}
     }
 
     prepareWave() {
-      this.wavePlan=wavePlan(this.wave,this.difficulty,this.signature,this.balance217?.curve());const dirs=['north','east','south','west'];this.random.shuffle(dirs);this.fronts=dirs.slice(0,this.wavePlan.fronts);
+      this.wavePlan=wavePlan(this.wave,this.difficulty,this.signature,this.balance217?.curve());
+      if(this.world.terrain217?.sides)return this.prepareFronts217();
+      const dirs=['north','east','south','west'];this.random.shuffle(dirs);this.fronts=dirs.slice(0,this.wavePlan.fronts);
+    }
+    // Siège adossé (O7, terrain de génération 12 seulement) : fronts tirés parmi les côtés non clos, même mélange que
+    // la carte plate ; un plan qui en demande plus se replie (même effectif, parts au prorata de la largeur, D-O2).
+    prepareFronts217() {
+      // Le côté le plus large mène : les échelons de la nuit (à partir de la vague 4) font entrer chaque tiers de la vague
+      // par un groupe de fronts pris dans cet ordre ; un tri stable garde le mélange entre côtés de même largeur.
+      const sides=this.world.terrain217.sides,fold=C.OpenSiege217.fold(this.wavePlan.fronts,sides,list=>this.random.shuffle(list));
+      const fronts=Object.freeze(fold.fronts.slice().sort((a,b)=>fold.shares[b]-fold.shares[a]));this.fronts=fronts.slice();
+      this.openSiege217={wave:this.wave,asked:fold.asked,folded:fold.folded,fronts,shares:fold.shares,emitted:Object.fromEntries(fronts.map(f=>[f,0]))};
+    }
+    // État du siège adossé de la vague en cours, reconstruit des fronts annoncés après une reprise.
+    openSiegeState217() {
+      const sides=this.world.terrain217?.sides;if(!sides)return null;
+      if(this.openSiege217?.wave===this.wave)return this.openSiege217;
+      const fronts=this.fronts.filter(f=>C.OpenSiege217.open(sides).includes(f)),list=fronts.length?fronts:C.OpenSiege217.open(sides);
+      return this.openSiege217={wave:this.wave,asked:this.wavePlan?.fronts||list.length,folded:(this.wavePlan?.fronts||0)>list.length,fronts:Object.freeze(list.slice()),shares:C.OpenSiege217.shares(list,sides),emitted:Object.fromEntries(list.map(f=>[f,0]))};
+    }
+    // Intervalle entre deux arrivées : celui du plan, plafonné par le passage d'une cité à un seul front.
+    spawnGap217() {
+      const s=this.openSiegeState217(),interval=this.wavePlan?.spawnInterval||.3;
+      return s?C.OpenSiege217.gap(interval,s.fronts,this.world.terrain217.sides):interval;
+    }
+    // Annonce : le passage par lequel la horde entre (« par la rampe du nord »).
+    siegeApproach217() {
+      const sides=this.world.terrain217?.sides;return sides?C.OpenSiege217.phrase(this.fronts,sides):'';
     }
     triggerCrisis(){
       if(this.wave<2||this.activeCrisis||!this.random.chance(.22-(this.hasResearch('recon')?.08:0)))return;
@@ -1929,9 +2007,25 @@
     }
     spawnZombie(kind) {
       if(!Object.hasOwn(ENEMIES,kind))return false;
+      if(this.world.terrain217?.sides)return this.spawnZombie217(kind);
       const front=this.random.pick(this.fronts.length?this.fronts:['north']),margin=18;let x,y;
       if(front==='north'){x=this.random.range(80,this.local.size-80);y=margin;}else if(front==='south'){x=this.random.range(80,this.local.size-80);y=this.local.size-margin;}else if(front==='east'){x=this.local.size-margin;y=this.random.range(80,this.local.size-80);}else{x=margin;y=this.random.range(80,this.local.size-80);}
       x+=this.random.range(-22,22);y+=this.random.range(-22,22);this.zombies.push(new Zombie(this.nextId++,kind,x,y,this.difficulty,this.wave,this.local));return true;
+    }
+
+    // Apparition sur un terrain (O7) : front choisi par sa part (sans tirage), puis une case des `entries` du côté,
+    // tronçons du bord joints au centre, pondérés par leur largeur. Jamais sur un côté clos.
+    spawnZombie217(kind) {
+      const sides=this.world.terrain217.sides,open=C.OpenSiege217.open(sides),state=this.openSiegeState217();
+      const group=(this.fronts.length?this.fronts:state.fronts).filter(f=>open.includes(f)),pool=group.length?group:state.fronts;
+      const front=C.OpenSiege217.pick(pool,state.shares,state.emitted),entries=sides[front]?.entries||[];
+      if(!entries.length)return false;
+      let left=this.random.range(0,entries.reduce((n,e)=>n+e.width,0)),entry=entries[entries.length-1];
+      for(const e of entries){if(left<e.width){entry=e;break;}left-=e.width;}
+      const size=this.local.size,margin=18,along=clamp((entry.from+this.random.range(0,entry.width))*TILE,entry.from*TILE+4,entry.to*TILE-4);
+      const x=front==='west'?margin:front==='east'?size-margin:along,y=front==='north'?margin:front==='south'?size-margin:along;
+      state.emitted[front]=(state.emitted[front]||0)+1;
+      this.zombies.push(new Zombie(this.nextId++,kind,x,y,this.difficulty,this.wave,this.local));return true;
     }
 
     get remainingAssault(){return this.spawnQueue.length+spawnCount(this.pendingSpawns)+this.zombies.filter(z=>!z.dead).length;}
@@ -1969,6 +2063,9 @@
       return null;
     }
     // Terrain G12 (O6a) : depuis la position de l'infecté, ni falaise franchie ni eau profonde ; carte plate inchangée.
+    // Terrain G12 (O6b) : un infecté posé sur une case hors d'atteinte du champ (poche fermée) se replie sur la
+    // case atteinte et libre la plus proche (`C.OpenCity217Rules.fallbackRing`), sans tirage. Vrai s'il a bougé.
+    zombieFallback217(z){const spot=this.flow.fallback217?.(z.x,z.y,C.OpenCity217Rules.fallbackRing,(x,y)=>!this.world.atCell(x,y));if(!spot)return false;z.x=spot.x;z.y=spot.y;z.fallback217=(z.fallback217||0)+1;return true;}
     hostilePositionClear(entity,x,y){if(this.hostileBuildingAt(entity,x,y))return false;const t=this.world.terrain217;return !t||!Number.isFinite(entity?.x)||!Number.isFinite(entity?.y)||this.world.stepClear217(entity.x,entity.y,x,y);}
     stalkerCorridorClear(z,target){
       const steps=Math.max(1,Math.ceil(dist(z,target)/(TILE/3)));
@@ -2063,6 +2160,7 @@
       for(const z of this.zombies){if(this.gameOver)break;if(z.dead)continue;const def=ENEMIES[z.kind],staggered=z.stagger>0;z.attackCooldown=Math.max(0,z.attackCooldown-dt);z.stagger=Math.max(0,z.stagger-dt);z.rage=Math.max(0,z.rage-dt);z.howl-=dt;if(z.kind==='shielded')z.shieldImpact=Math.max(0,(z.shieldImpact||0)-dt);
         if(this.vertical175?.updateClimber?.(z,dt))continue;
         if(z.kind==='howler'&&z.howl<=0){z.howl=9+this.random.range(-1,2);for(const other of this.nearbyZombies(z.x,z.y,190))other.rage=Math.max(other.rage,3);for(let i=0;i<10;i++){const a=this.random.range(0,Math.PI*2);this.particles.push(new Particle(z.x,z.y,Math.cos(a)*this.random.range(20,90),Math.sin(a)*this.random.range(20,90),.7,2,'#9d554d','dust'));}}
+        if(this.flow.terrain217)this.zombieFallback217(z);
         let dir=this.flow.direction(z.x,z.y,z.bias,this.elapsed),speed=def.speed*night*(z.rage>0?1.18:1)*(z.stagger>0?.35:1)*(1-this.weather*.05)*(this.infrastructure?this.infrastructure.speed(z.x,z.y,'hostile'):1)*(this.earthworks217?.speed(z.x,z.y)??1);const look=z.radius+13;
         if(z.kind==='stalker'){
           z.huntThink-=dt;
@@ -2117,7 +2215,11 @@
     }
 
     rebuildBuckets(){this.buckets.clear();for(const z of this.zombies){if(z.dead)continue;const bx=Math.floor(z.x/this.bucketSize),by=Math.floor(z.y/this.bucketSize),key=bx+by*1000;if(!this.buckets.has(key))this.buckets.set(key,[]);this.buckets.get(key).push(z);}}
-    nearbyZombies(x,y,range){const out=[],minX=Math.floor((x-range)/this.bucketSize),maxX=Math.floor((x+range)/this.bucketSize),minY=Math.floor((y-range)/this.bucketSize),maxY=Math.floor((y+range)/this.bucketSize),r2=range*range;for(let by=minY;by<=maxY;by++)for(let bx=minX;bx<=maxX;bx++){const bucket=this.buckets.get(bx+by*1000);if(bucket)for(const z of bucket)if(!z.dead&&(z.x-x)**2+(z.y-y)**2<=r2)out.push(z);}return out;}
+    nearbyZombies(x,y,range){const sight=SIGHT217?.game===this?SIGHT217:null,out=[],minX=Math.floor((x-range)/this.bucketSize),maxX=Math.floor((x+range)/this.bucketSize),minY=Math.floor((y-range)/this.bucketSize),maxY=Math.floor((y+range)/this.bucketSize),r2=range*range;for(let by=minY;by<=maxY;by++)for(let bx=minX;bx<=maxX;bx++){const bucket=this.buckets.get(bx+by*1000);if(bucket)for(const z of bucket)if(!z.dead&&(z.x-x)**2+(z.y-y)**2<=r2&&(!sight||this.world.sightClear217(sight,z,sight.level)))out.push(z);}return out;}
+    // O6c (D-O1) : cible d'un tireur ami (tourelle, fusilier, visée tactile, caisson local) par le choix existant
+    // (`nightwatch`, arcs de tir, plus proche) ; sur un terrain, un infecté que la falaise cache depuis le palier de la
+    // bouche (`sx`, `sy`) n'est pas candidat : aucune munition sur un tir arrêté. Carte plate : appel inchangé.
+    fireTarget217(x,y,range,sx=x,sy=y){const pick=()=>this.nightwatch?this.nightwatch.target(x,y,range):this.nearestZombie(x,y,range);if(!this.world.terrain217)return pick();const prior=SIGHT217;SIGHT217={game:this,x:sx,y:sy,level:this.world.terrainAt217(sx,sy)?.level};try{return pick();}finally{SIGHT217=prior;}}
     nearestZombie(x,y,range){let result=null,best=range*range;for(const z of this.nearbyZombies(x,y,range)){const d=(z.x-x)**2+(z.y-y)**2;if(d<best){best=d;result=z;}}return result;}
 
     updateProjectiles(dt) {
@@ -2135,6 +2237,12 @@
         const dx = fullDx * fraction, dy = fullDy * fraction, length = fullLength * fraction, lengthSq = dx * dx + dy * dy;
         const endpoint = {x:p.x+dx,y:p.y+dy};
         const obstructions = [this.exploration125?.firstObstruction?.(p,endpoint,p.radius,true),this.barricades134?.firstObstruction?.(p,endpoint,p.radius),this.vertical175?.groundObstruction?.(p,endpoint)].filter(Boolean);
+        // Terrain G12 (O6b, D-O1) : une falaise arrête le tir parti d'en bas, pas celui parti d'en haut ;
+        // palier du tireur capté au tir, sinon celui du premier point du projectile.
+        if (this.world.terrain217) {
+          if (p.level217 === undefined) p.level217 = this.world.terrainAt217(p.x, p.y)?.level;
+          const cliff = this.world.sightObstruction217(p, endpoint, p.level217); if (cliff !== null) obstructions.push({ fraction: cliff, terrain217: true });
+        }
         const obstruction = obstructions.sort((a,b)=>a.fraction-b.fraction)[0] || null;
         const barrierImpact = obstruction?.fraction ?? Infinity;
         let target = null, impact = barrierImpact;
@@ -2402,7 +2510,7 @@
       delete this.ui.waveIntel.dataset.detail;
       delete this.ui.waveIntel.dataset.compact;
       delete this.ui.waveIntel.dataset.counts;
-      if(this.phase==='warning')this.ui.waveIntel.textContent=`Approche par ${this.fronts.map(f=>({north:'le nord',south:'le sud',east:'l’est',west:'l’ouest'})[f]).join(' et ')}. Préparez les portes.`;
+      if(this.phase==='warning')this.ui.waveIntel.textContent=`Approche par ${this.world.terrain217?.sides?this.siegeApproach217():this.fronts.map(f=>({north:'le nord',south:'le sud',east:'l’est',west:'l’ouest'})[f]).join(' et ')}. Préparez les portes.`;
       else if(this.phase==='assault'){
         const B=globalThis.DeadwallBattlefield;
         const sample=this.battlefieldUI?.snapshot()||B.inspect(this.core(),this.zombies,this.world.buildings.values());
@@ -2486,6 +2594,8 @@
         const depth=this.vertical175?.corpseDepth?.(corpse),height=corpse.altitude*C.VerticalCitadel175.projectedHeight;
         if(Number.isFinite(depth)&&this.visible(corpse.x,corpse.y-height,25,view))entries.push({kind:7,entity:corpse,depth,id:0,order:entries.length,draw:ctx=>this.drawCorpse(ctx,corpse)});
       }
+      // Terrain (O8a) : rebords arrière des falaises dans la même file, triés avec les acteurs.
+      if(this.world.terrain217)globalThis.DeadwallTerrainArt217?.depthEntries(this,view,entries);
       entries.sort((a, b) => a.depth - b.depth || a.kind - b.kind || a.id - b.id || a.order - b.order);
       return entries;
     }
@@ -2532,7 +2642,11 @@
 
     drawGround(ctx,v){
       const pose=this.frontier?.position(),biomeGround=pose?.generation>=6&&globalThis.DeadwallGround135;
-      if(biomeGround){
+      // Terrain de génération 12 (O8a, harnais hors jeu) : paliers, falaises, rampes, eau et routes de la grille ;
+      // une carte plate n'a pas de terrain et garde exactement ses appels de dessin.
+      const art217=this.world.terrain217?globalThis.DeadwallTerrainArt217:null;
+      if(art217)art217.drawGround(ctx,v,this);
+      else if(biomeGround){
         const h=globalThis.DeadwallAtlasProjection.home(this),regionView={left:h.minX+Math.max(0,v.left)/32,right:h.minX+Math.min(this.local.size,v.right)/32,top:h.minY+Math.max(0,v.top)/32,bottom:h.minY+Math.min(this.local.size,v.bottom)/32};
         let ground=this.groundEcology164;
         if(!ground||ground.owner!==this.world||ground.seed!==this.world.seed||ground.generation!==pose.generation||ground.ecologyVersion!==(pose.ecologyVersion||0)||ground.hydrologyVersion!==(pose.hydrologyVersion||0)||ground.landscape189!==(pose.landscape189||'classic')||ground.frontier!==this.frontier){
@@ -2548,17 +2662,17 @@
       this.art?.drawGround(ctx,v,this.local.size);
       }
       const c=this.local.size/2;
-      if(![3,4].includes(this.exploration125?.layoutRevision)){
+      if(!art217&&![3,4].includes(this.exploration125?.layoutRevision)){
       ctx.fillStyle='#242a28';ctx.fillRect(0,c-66,this.local.size,132);ctx.fillRect(c-66,0,132,this.local.size);
       ctx.fillStyle='rgba(7,10,9,.28)';ctx.fillRect(0,c-70,this.local.size,4);ctx.fillRect(0,c+66,this.local.size,4);ctx.fillRect(c-70,0,4,this.local.size);ctx.fillRect(c+66,0,4,this.local.size);
       }
-      if(v.right>c-620&&v.left<c+620&&v.bottom>c-520&&v.top<c+520){
+      if(!art217&&v.right>c-620&&v.left<c+620&&v.bottom>c-520&&v.top<c+520){
         const yard=ctx.createRadialGradient(c,c,70,c,c,560);yard.addColorStop(0,'rgba(55,62,58,.95)');yard.addColorStop(.52,'rgba(45,52,49,.72)');yard.addColorStop(.82,'rgba(38,44,41,.25)');yard.addColorStop(1,'rgba(35,41,38,0)');ctx.fillStyle=yard;ctx.fillRect(c-580,c-500,1160,1000);
         for(let i=0;i<18;i++){const a=seededHash(i,this.world.seed,71)*Math.PI*2,rad=90+seededHash(i,12,this.world.seed)*410,x=c+Math.cos(a)*rad,y=c+Math.sin(a)*rad*.72,w=34+seededHash(i,22,9)*82,h=15+seededHash(i,41,3)*34;ctx.save();ctx.translate(x,y);ctx.rotate((seededHash(i,7,13)-.5)*.55);ctx.fillStyle=`rgba(112,117,108,${.018+seededHash(i,44,2)*.035})`;ctx.fillRect(-w/2,-h/2,w,h);ctx.restore();}
         ctx.strokeStyle='rgba(216,190,112,.055)';ctx.lineWidth=2;for(const radius of [225,355,490]){ctx.beginPath();ctx.ellipse(c,c,radius,radius*.72,0,0,Math.PI*2);ctx.stroke();}
       }
-      if(![3,4].includes(this.exploration125?.layoutRevision)){ctx.strokeStyle='rgba(208,196,142,.13)';ctx.lineWidth=3;ctx.setLineDash([38,32]);ctx.beginPath();ctx.moveTo(0,c);ctx.lineTo(this.local.size,c);ctx.moveTo(c,0);ctx.lineTo(c,this.local.size);ctx.stroke();ctx.setLineDash([]);}
-      ctx.strokeStyle='rgba(220,225,215,.09)';ctx.lineWidth=5;ctx.strokeRect(3,3,this.local.size-6,this.local.size-6);
+      if(!art217&&![3,4].includes(this.exploration125?.layoutRevision)){ctx.strokeStyle='rgba(208,196,142,.13)';ctx.lineWidth=3;ctx.setLineDash([38,32]);ctx.beginPath();ctx.moveTo(0,c);ctx.lineTo(this.local.size,c);ctx.moveTo(c,0);ctx.lineTo(c,this.local.size);ctx.stroke();ctx.setLineDash([]);}
+      if(!art217){ctx.strokeStyle='rgba(220,225,215,.09)';ctx.lineWidth=5;ctx.strokeRect(3,3,this.local.size-6,this.local.size-6);}
       this.infrastructure?.drawRoads(ctx,v);
       if(this.selectedBuild||this.rallyPlacement){const minGX=Math.max(0,Math.floor(v.left/TILE)),maxGX=Math.min(this.local.tiles,Math.ceil(v.right/TILE)),minGY=Math.max(0,Math.floor(v.top/TILE)),maxGY=Math.min(this.local.tiles,Math.ceil(v.bottom/TILE));ctx.strokeStyle='rgba(210,220,210,.055)';ctx.lineWidth=1/this.camera.zoom;ctx.beginPath();for(let x=minGX;x<=maxGX;x++){ctx.moveTo(x*TILE,minGY*TILE);ctx.lineTo(x*TILE,maxGY*TILE);}for(let y=minGY;y<=maxGY;y++){ctx.moveTo(minGX*TILE,y*TILE);ctx.lineTo(maxGX*TILE,y*TILE);}ctx.stroke();}
     }
@@ -2744,7 +2858,7 @@
       if(this.state!=='playing'||this.selectedBuild||this.rallyPlacement||globalThis.matchMedia?.('(pointer: coarse)')?.matches)return;const x=this.input.mouseX,y=this.input.mouseY,gap=this.player.weapon==='shotgun'?8:5;ctx.save();ctx.strokeStyle=this.player.reload>0?'rgba(216,173,77,.78)':'rgba(235,240,235,.88)';ctx.lineWidth=1.25;ctx.beginPath();ctx.moveTo(x-gap-8,y);ctx.lineTo(x-gap,y);ctx.moveTo(x+gap,y);ctx.lineTo(x+gap+8,y);ctx.moveTo(x,y-gap-8);ctx.lineTo(x,y-gap);ctx.moveTo(x,y+gap);ctx.lineTo(x,y+gap+8);ctx.stroke();ctx.fillStyle=this.player.reload>0?'#d8ad4d':'#edf1ec';ctx.fillRect(x-1,y-1,2,2);ctx.restore();
     }
 
-    renderMinimap(){if(this.state!=='playing')return;const ctx=this.mctx,w=this.minimap.width,h=this.minimap.height,sx=w/this.local.size,sy=h/this.local.size;ctx.clearRect(0,0,w,h);ctx.fillStyle='#151b17';ctx.fillRect(0,0,w,h);ctx.strokeStyle='rgba(255,255,255,.035)';for(let i=0;i<=8;i++){const x=i/8*w,y=i/8*h;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}ctx.fillStyle='rgba(125,130,120,.08)';ctx.fillRect((this.local.size/2-430)*sx,(this.local.size/2-320)*sy,860*sx,640*sy);for(const b of this.world.buildings.values()){if(b.dead)continue;ctx.fillStyle=b.type==='core'?'#d2a84a':b.def.defense?'#89958f':'#687a68';ctx.fillRect(b.left*sx,b.top*sy,Math.max(1,b.w*TILE*sx),Math.max(1,b.h*TILE*sy));}this.contentUI?.drawMinimap(ctx,sx,sy);ctx.fillStyle='#b64f45';const vision=this.visibility?.frame?.(),step=this.zombies.length>400?2:1;for(let i=0;i<this.zombies.length;i+=step){const z=this.zombies[i];if(vision?.canSeeLocal(z))ctx.fillRect(z.x*sx,z.y*sy,1.5,1.5);}ctx.fillStyle='#85a975';for(const u of this.units)if(!u.dead)ctx.fillRect(u.x*sx-1,u.y*sy-1,2,2);ctx.fillStyle='#f2d16d';ctx.beginPath();ctx.arc(this.player.x*sx,this.player.y*sy,3,0,Math.PI*2);ctx.fill();const hw=this.width/this.camera.zoom/2,hh=this.height/this.camera.zoom/2;ctx.strokeStyle='rgba(255,255,255,.55)';ctx.strokeRect((this.camera.x-hw)*sx,(this.camera.y-hh)*sy,hw*2*sx,hh*2*sy);}
+    renderMinimap(){if(this.state!=='playing')return;const ctx=this.mctx,w=this.minimap.width,h=this.minimap.height,sx=w/this.local.size,sy=h/this.local.size;ctx.clearRect(0,0,w,h);ctx.fillStyle='#151b17';ctx.fillRect(0,0,w,h);const art217=this.world.terrain217?globalThis.DeadwallTerrainArt217:null;if(art217)art217.drawMinimap(ctx,this,w,h);else{ctx.strokeStyle='rgba(255,255,255,.035)';for(let i=0;i<=8;i++){const x=i/8*w,y=i/8*h;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}ctx.fillStyle='rgba(125,130,120,.08)';ctx.fillRect((this.local.size/2-430)*sx,(this.local.size/2-320)*sy,860*sx,640*sy);}for(const b of this.world.buildings.values()){if(b.dead)continue;ctx.fillStyle=b.type==='core'?'#d2a84a':b.def.defense?'#89958f':'#687a68';ctx.fillRect(b.left*sx,b.top*sy,Math.max(1,b.w*TILE*sx),Math.max(1,b.h*TILE*sy));}this.contentUI?.drawMinimap(ctx,sx,sy);ctx.fillStyle='#b64f45';const vision=this.visibility?.frame?.(),step=this.zombies.length>400?2:1;for(let i=0;i<this.zombies.length;i+=step){const z=this.zombies[i];if(vision?.canSeeLocal(z))ctx.fillRect(z.x*sx,z.y*sy,1.5,1.5);}ctx.fillStyle='#85a975';for(const u of this.units)if(!u.dead)ctx.fillRect(u.x*sx-1,u.y*sy-1,2,2);ctx.fillStyle='#f2d16d';ctx.beginPath();ctx.arc(this.player.x*sx,this.player.y*sy,3,0,Math.PI*2);ctx.fill();const hw=this.width/this.camera.zoom/2,hh=this.height/this.camera.zoom/2;ctx.strokeStyle='rgba(255,255,255,.55)';ctx.strokeRect((this.camera.x-hw)*sx,(this.camera.y-hh)*sy,hw*2*sx,hh*2*sy);}
   }
 
   try {
@@ -4248,9 +4362,11 @@
     const finished=engine.road(x,y).progress===1;engine.remove(x,y);if(finished)changed();g.save(false);tell('Piste retirée, sans remboursement. Le sol reste praticable.');return{ok:true};
   }
   function mark(id){ensure();const r=engine.state.ruins.find(r=>r.id===id);if(!r||!g.canIssueCommand())return false;marked=id;g.showCommand?.(false);tell('Empreinte marquée. Aucun déplacement automatique du commandant.');return true;}
-  function findPath(start,goal,isBlocked,width=g.local.tiles,height=g.local.tiles,maxExpanded=8192,kind='friendly'){
+  // `step` (O6b) : prédicat d'arête ; par défaut, celui du terrain G12 de la carte ; carte plate : aucun.
+  function findPath(start,goal,isBlocked,width=g.local.tiles,height=g.local.tiles,maxExpanded=8192,kind='friendly',step=null){
     ensure();const maximum=Math.max(...Object.values(D.SURFACES).map(s=>kind==='truck'?s.truckSpeed:s.friendlySpeed));
-    return D.findRoute(start,goal,isBlocked,(x,y)=>{const road=engine.road(x,y);if(road?.progress!==1)return 1;const b=g.world.atCell?.(x,y),s=D.surface(road),ratio=kind==='truck'?s.truckSpeed:s.friendlySpeed;return live(b)&&!b.def.gate?1:1/ratio;},width,height,maxExpanded,1/maximum,g.local.tiles);
+    const edge=typeof step==='function'?step:g.world?.terrain217?(x,y,nx,ny)=>g.world.canStep(x,y,nx,ny):null;
+    return D.findRoute(start,goal,isBlocked,(x,y)=>{const road=engine.road(x,y);if(road?.progress!==1)return 1;const b=g.world.atCell?.(x,y),s=D.surface(road),ratio=kind==='truck'?s.truckSpeed:s.friendlySpeed;return live(b)&&!b.def.gate?1:1/ratio;},width,height,maxExpanded,1/maximum,g.local.tiles,...(edge?[edge]:[]));
   }
   function drawRoads(ctx,view){ensure();const v=view||{left:0,top:0,right:g.local.size,bottom:g.local.size};ctx.save();
     for(const p of engine.state.roads){const x=p.x*32,y=p.y*32;if(x+32<v.left||x>v.right||y+32<v.top||y>v.bottom)continue;

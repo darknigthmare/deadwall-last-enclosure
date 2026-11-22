@@ -44,8 +44,16 @@
     return !closing || !isGateOccupied(building, entities);
   }
 
-  function analyzeEnclosure({ buildings, target = null, width = C.LOCAL_MAP217.tiles, height = C.LOCAL_MAP217.tiles }) {
-    if (!Number.isInteger(width) || !Number.isInteger(height) || width < 1 || height < 1 || width > C.LOCAL_MAP217.tiles || height > C.LOCAL_MAP217.tiles) throw new RangeError('Grille tactique invalide.');
+  // Grille d'arêtes du terrain de génération 12 (O7) : une arête de falaise ou l'eau profonde arrête l'inondation comme
+  // un mur indestructible ; une rampe se barre comme une porte (mur posé sur ses cases). `null` sur une carte plate.
+  // `step(x, y, nx, ny)` : l'arête du monde (`canStep`) ; `seed(i)` : case du bord d'où une horde peut partir (à sec).
+  function terrainGrid217(world) {
+    const t = world?.terrain217; if (!t || typeof world.canStep !== 'function') return null;
+    return Object.freeze({ tiles: t.tiles, step: (x, y, nx, ny) => world.canStep(x, y, nx, ny), seed: index => !t.deep[index] });
+  }
+  function analyzeEnclosure({ buildings, target = null, grid = null, width = grid ? grid.tiles : C.LOCAL_MAP217.tiles, height = grid ? grid.tiles : C.LOCAL_MAP217.tiles }) {
+    const limit = grid ? Math.max(C.LOCAL_MAP217.tiles, grid.tiles) : C.LOCAL_MAP217.tiles;
+    if (!Number.isInteger(width) || !Number.isInteger(height) || width < 1 || height < 1 || width > limit || height > limit) throw new RangeError('Grille tactique invalide.');
     const structures = Array.from(buildings), size = width * height, barrier = new Uint8Array(size), exterior = new Uint8Array(size), queue = new Int32Array(size);
     let gates = 0, openGates = 0, wallCount = 0, barrierCells = 0;
     for (const building of structures) {
@@ -62,12 +70,24 @@
     }
     let head = 0, tail = 0;
     const visit = index => { if (!barrier[index] && !exterior[index]) { exterior[index] = 1; queue[tail++] = index; } };
+    if (grid) {
+      // Terrain : la horde part des cases à sec du bord et ne passe que les arêtes franchissables.
+      const start = index => { if (grid.seed(index)) visit(index); }, edge = (cell, x, y, nx, ny) => { if (grid.step(x, y, nx, ny)) visit(ny * width + nx); };
+      for (let x = 0; x < width; x++) { start(x); start((height - 1) * width + x); }
+      for (let y = 1; y < height - 1; y++) { start(y * width); start(y * width + width - 1); }
+      while (head < tail) {
+        const cell = queue[head++], x = cell % width, y = Math.floor(cell / width);
+        if (x > 0) edge(cell, x, y, x - 1, y); if (x + 1 < width) edge(cell, x, y, x + 1, y);
+        if (y > 0) edge(cell, x, y, x, y - 1); if (y + 1 < height) edge(cell, x, y, x, y + 1);
+      }
+    } else {
     for (let x = 0; x < width; x++) { visit(x); visit((height - 1) * width + x); }
     for (let y = 1; y < height - 1; y++) { visit(y * width); visit(y * width + width - 1); }
     while (head < tail) {
       const cell = queue[head++], x = cell % width, y = Math.floor(cell / width);
       if (x > 0) visit(cell - 1); if (x + 1 < width) visit(cell + 1);
       if (y > 0) visit(cell - width); if (y + 1 < height) visit(cell + width);
+    }
     }
     const core = target || structures.find(building => building.type === 'core' && operational(building));
     const cells = core && operational(core) ? footprint(core) : null;
@@ -77,7 +97,7 @@
     return Object.freeze({ enclosed: hasCore && !coreReachable, hasCore, coreReachable, openGates, gates, wallCount, barrierCells, exteriorCells: tail, interiorCells: size - barrierCells - tail });
   }
 
-  const api = { GATE_MODES, gateMode, operational, isGate, openGate, blocksFriendly, blocksEnclosure, footprint, overlapsBuilding, isGateOccupied, gateChangeAllowed, analyzeEnclosure };
+  const api = { GATE_MODES, gateMode, operational, isGate, openGate, blocksFriendly, blocksEnclosure, footprint, overlapsBuilding, isGateOccupied, gateChangeAllowed, analyzeEnclosure, terrainGrid217 };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   global.DeadwallTactics = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this);

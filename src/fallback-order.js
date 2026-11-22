@@ -51,8 +51,9 @@
  const alive=entity=>Boolean(entity&&!entity.dead&&entity.health>0);
  // Zone tenue autour du centre : tout ce qu'on atteint depuis le centre sans franchir un mur ni une porte,
  // quel que soit le mode de la porte. `closed` vaut faux si cette zone touche le bord de la carte.
- function innerZone(C,T,buildings){
-  const size=C.LOCAL_MAP217?.tiles??C.WORLD_TILES,total=size*size,barrier=new Uint8Array(total),owner=new Int32Array(total).fill(-1),inside=new Uint8Array(total),queue=new Int32Array(total);
+ // `grid` (O7, terrain de génération 12, `T.terrainGrid217`) : une arête de falaise ferme la zone comme un mur.
+ function innerZone(C,T,buildings,grid=null){
+  const size=grid?grid.tiles:C.LOCAL_MAP217?.tiles??C.WORLD_TILES,total=size*size,barrier=new Uint8Array(total),owner=new Int32Array(total).fill(-1),inside=new Uint8Array(total),queue=new Int32Array(total);
   const list=Array.from(buildings),walls=[];let core=null;
   for(const building of list){
    if(!T.operational(building))continue;
@@ -65,14 +66,15 @@
   const empty=Object.freeze({hasCore:false,closed:false,cells:0,gates:Object.freeze([]),contains:()=>false});
   const origin=core&&T.footprint(core);if(!origin)return empty;
   let head=0,tail=0,closed=true;const touched=new Set();
-  const visit=(x,y)=>{
+  const visit=(x,y,fx,fy)=>{
    if(x<0||y<0||x>=size||y>=size){closed=false;return;}
+   if(grid&&fx!==undefined&&!grid.step(fx,fy,x,y))return;
    const cell=y*size+x;if(inside[cell])return;
    if(barrier[cell]){touched.add(owner[cell]);return;}
    inside[cell]=1;queue[tail++]=cell;
   };
   for(let y=origin.y;y<origin.y+origin.height;y++)for(let x=origin.x;x<origin.x+origin.width;x++)visit(x,y);
-  while(head<tail){const cell=queue[head++],x=cell%size,y=(cell-x)/size;visit(x-1,y);visit(x+1,y);visit(x,y-1);visit(x,y+1);}
+  while(head<tail){const cell=queue[head++],x=cell%size,y=(cell-x)/size;visit(x-1,y,x,y);visit(x+1,y,x,y);visit(x,y-1,x,y);visit(x,y+1,x,y);}
   const gates=Object.freeze([...touched].map(index=>walls[index]).filter(building=>T.isGate(building)).sort((a,b)=>a.id-b.id));
   const contains=entity=>{
    if(!entity||!Number.isFinite(entity.x)||!Number.isFinite(entity.y))return false;
@@ -110,7 +112,7 @@
   let pending=null,cache=null,clock=0,notice='',walls=null,wallWorld=null,lastBreach=null,quietUntil=0,incoming,savedLine=1,primed=true;
   const B=root.DeadwallBattlefield||null,breaches=new Map(),known=new Map();let nightLog={wave:0,lost:[],retaken:[]};
   const sideIds=Object.keys(SIDES);
-  const zone=()=>{const version=g.world?.navigationVersion;if(!cache||cache.world!==g.world||cache.version!==version)cache={world:g.world,version,zone:innerZone(C,T,g.world.buildings.values())};return cache.zone;};
+  const zone=()=>{const version=g.world?.navigationVersion;if(!cache||cache.world!==g.world||cache.version!==version)cache={world:g.world,version,zone:innerZone(C,T,g.world.buildings.values(),g.world?.terrain217?T.terrainGrid217?.(g.world)||null:null)};return cache.zone;};
   const troops=()=>g.units.filter(alive);
   // Ligne de repli général. Par défaut l'enceinte intérieure ; le module des districts peut en proposer une autre,
   // qui n'est retenue que si elle est fermée. Seule l'enceinte dont on verrouille les portes change.

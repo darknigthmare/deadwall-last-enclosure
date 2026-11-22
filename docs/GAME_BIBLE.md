@@ -1421,6 +1421,44 @@ d'atlas calée sur l'étendue totale.
   47 ms pour la carte actuelle de 128 m : la décision de garder 192 m tient.
   Restent (O6b) : projectiles en vol, ouvriers, voirie et véhicule face aux
   falaises ; vivres et carburant dans les gisements.
+- **Tranche O7 livrée, sans effet en jeu** : « une falaise vaut une
+  enceinte ; une pente est une porte » est appliqué par le moteur sur la
+  carte de terrain. La horde ne vient que par les côtés ouverts, en même
+  nombre (D-O2). Une cité adossée se ferme avec moins de murs mais concentre
+  la pression sur ses passages ; une rampe barrée est un point faible comme
+  une porte, la falaise ne cède pas. Sur 3 000 graines, aucune cité n'a
+  qu'une rampe pour accès : les cités à un seul côté ont un front de 32 à
+  142 m. Risque mesuré : une cité à un côté de 32 à 64 m tombe plus vite que
+  la même vague sur quatre fronts (plafond de passage inopérant au-dessus
+  de ~28 m) ; valeur à confirmer en O9. Réserves : Meneuse et abomination
+  de siège tirent encore leur côté parmi les quatre ; état du siège non
+  sauvegardé (reconstruit à la reprise).
+- **Tranche O6c livrée, sans effet en jeu** : D-O1 s'applique aussi au
+  choix de cible — un tireur ne vise que ce qu'il voit depuis le palier de
+  sa bouche (tourelles, fusiliers, affûts). L'entrée d'une citadelle est
+  toujours sur le palier de son emprise. Réserve : règle centrée sur les
+  cases et le palier du support, sans hauteur d'œil (un affût haut reste
+  aveugle vers le plateau).
+- **Tranche O8b livrée, sans effet en jeu (O8 complet)** : relief joué dans
+  la vue FPS. Un cran mesure 4 m, un étage de citadelle et plus du double
+  de la hauteur d'œil : d'en bas on ne voit rien par-dessus le rebord,
+  d'en haut on domine le contrebas. Les rampes de 12 m (18°) sont les seuls
+  passages ; une passerelle ne relie que deux supports du même palier.
+  (D-O1 branchée sur les affûts en O6c.)
+- **Tranche O6b livrée, sans effet en jeu (O6 complet)** : le haut d'une
+  falaise est une position à tenir — on y voit et on y tire en contrebas,
+  d'en bas on ne touche rien au-dessus ; la rampe est le seul passage entre
+  paliers pour les survivants, les ouvriers, la voirie et la horde. Le
+  champ de flux à 192 m coûte 2 à 5 ms. Réserves pour O9 : tourelles et
+  soldats choisissent encore une cible sans lire la falaise (munition
+  dépensée) ; le repli d'un infecté hors d'atteinte est un saut.
+- **Tranche O8a livrée, sans effet en jeu** : le relief se dessine. Chaque
+  palier est teinté ; la paroi visible se peint sous l'arête (4 m par cran,
+  hauteur provisoire jusqu'à O8b) ; le rebord d'un plateau situé au sud
+  cache le contrebas derrière lui ; rampes hachurées, eau et berge, routes
+  de la carte locale, minicarte du terrain. D'en haut on voit le contrebas,
+  d'en bas on ne voit pas le plateau. Réserves : acteurs non décalés par
+  palier, moteur de quartiers encore lié aux lieux G1–G11 (O9/O10).
 - **Tranche O3 livrée, sans effet en jeu** : une campagne sans bord se
   sauvegarde en ne gardant que les écarts (lieux repérés, prélèvements,
   occupants, cantons vus) ; une campagne synthétique de 60 cantons tient en

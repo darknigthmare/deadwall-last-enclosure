@@ -908,6 +908,325 @@ reste refusée partout, aucune option de menu, `world-local217.js` toujours abse
   deux paliers ; la vue D-O1 est centrée sur les cases (pas de hauteur d'œil ni de bord de falaise
   adouci, O8).
 
+## O8a — Rendu 2D/2,5D des falaises, rampes, eau et routes (livré, présentation seule, hors jeu)
+
+Fiche : [ouverture.md](ouverture.md), O8 (point 8 de la liste de T4 ; décision D-O1). Atteint seulement par
+un harnais qui remplace le monde d'une partie par une carte de terrain (`tests/helpers/terrain-game217.cjs`) :
+la génération 12 reste refusée, aucune option de menu, le module n'est pas chargé par `index.html`.
+
+- [x] O8a.1 Module `src/terrain-art217.js` (`DeadwallTerrainArt217` : `prepare`, `drawGround`, `depthEntries`,
+      `backEntries`, `hiddenBehind`, `drawMinimap`, `summary`, `colourAt`) ; règles de présentation
+      `C.TerrainArt217Rules` (`cliffMetres` 4, `bevel` .35, `bankMaxCells` 4, `edgeFadeMetres` 6, `grain` 7).
+      Lit `world.terrain217` seulement ; données de peinture dérivées une fois par terrain (table faible).
+- [x] O8a.2 Sol : teinte par palier, grain par hachage de case, image d'un pixel par case agrandie avec
+      lissage (adoucissement des bords de palier, des rives et des routes ; repli par bandes sans canevas).
+      Eau d'après `water` avec lit (berge `Hydrology165Rules.kinds[…].bankWidth`, au plus 4 cases), routes
+      d'après `roads` (trois classes, pont sur l'eau). Sur un monde de terrain : ni croix fixe, ni cour, ni
+      cadre (fondu de 6 m), ni plan d'`exploration-125.js` (routes, stations, cours, minicarte).
+- [x] O8a.3 Falaises : face visible du côté bas, hauteur projetée `cliffMetres` × 16 unités par mètre et par
+      cran (64 unités) ; arêtes est-ouest en ombre latérale ; rebord arrière dans la file de profondeur
+      (`kind` 8, profondeur = arête) : acteur du contrebas derrière le rebord peint avant lui, acteur du
+      plateau après.
+- [x] O8a.4 Rampes : sens de la pente par les arêtes franchies, ombrage, trois marches par case, chevrons.
+- [x] O8a.5 Minicarte (`renderMinimap`) : terrain, traits de falaise, rampes.
+- [x] O8a.6 D-O1 dans `visibility146.js` : rayon local coupé par une falaise vers le haut avant tout autre
+      calcul (couvre aussi le chemin en hauteur : géants, bouches de tir).
+- [x] O8a.7 Tests : `tests/terrain-art217.test.cjs` (6 cas) — isolement et test statique (ni tirage, ni
+      horloge, ni affectation sur la partie, appels gardés par le terrain) ; G1–G11 : séquence d'appels de
+      dessin identique avec et sans le module, module jamais appelé ; falaises (toutes les arêtes de falaise
+      nord-sud une fois, côté bas, hauteur projetée), tri derrière/rebord/dessus ; rampes (graine 0 : deux
+      rampes de 144 cases), routes, teintes, rivière et berge (graine 46), minicarte ; D-O1 (infecté et géant,
+      vu d'en haut, pas d'en bas) ; sonde de 600 images sur 17117 et 46 (aucun tirage ni horloge pendant les
+      appels du module, état, monde, terrain et `streamStats` régionaux inchangés).
+- [x] O8a.8 Innocuité : arbre de travail contre la base `5b0d8ab` (horloges et tirages figés, partie 17117,
+      quatre vues puis vague 1 forcée et 60 s à 30 pas par seconde, un rendu tous les 150 pas, minicarte
+      comprise) : 299 751 appels de dessin et sauvegarde finale identiques. Navigateur : partie 17117 lancée
+      par le menu, harnais de terrain 17117, 0 et 46 (`scripts/browser-terrain-art217.mjs`), aucune erreur
+      de page ; deux infectés témoins par graine (derrière un rebord : masqué ; sur le plateau : visible).
+- Réserves : 17117 n'a **pas de rampe** dans la version 2 de la carte locale (couloir fermé au nord et au
+  sud) ; les rampes sont montrées sur 0 et 46. La hauteur peinte d'un cran (4 m) est une valeur de
+  présentation : la hauteur jouée reste à fixer en O8b (D-O3). Les acteurs ne sont pas décalés par palier
+  (chaque palier peint à sa vraie position) ; projectiles, particules et textes flottants ne passent pas
+  par la file de profondeur et restent visibles devant un rebord. Les modules de la partie qui lisent les
+  lieux et le plan G1–G11 (quartiers, sites nommés, d-17) ne savent pas encore vivre sur un monde de
+  terrain : le harnais met la partie en pause et appelle la minicarte de base (O9/O10). La vue D-O1 reste
+  centrée sur les cases (pas de hauteur d'œil).
+## O6b — Arêtes de falaise dans la cité de 192 m (livré, sans effet en jeu)
+
+Fiche : [ouverture.md](ouverture.md), O6b (décisions D-O1, D-O5). Toujours atteint par un harnais seulement :
+la génération 12 reste refusée, `world-local217.js` absent d'`index.html`. Le harnais de
+`tests/open-city217.test.cjs` donne à la partie complète du test (modules chargés) le monde de terrain, un centre
+au milieu et son champ de flux, puis joue les méthodes du jeu (`updateUnits`, `updateZombies`,
+`updateProjectiles`, contrôles de `fieldcraft`) ; les quartiers et le bilan de la cité, qui ne lisent pas encore
+ce monde, sont laissés de côté pendant la pose du mur.
+
+- [x] O6b.1 Projectiles (D-O1) : `Game#shot217` capte le palier du tireur au tir (tir du joueur, `fireFriendly` :
+      tourelles et soldats) ; `updateProjectiles` ajoute `sightObstruction217(p, fin, palier)` aux obstacles (le
+      projectile s'arrête à la fraction de l'arête) ; repli sur le palier du premier point pour un projectile créé
+      ailleurs. `projectileOrigin` fait partir du tireur un tir dont la bouche passerait au-dessus d'une falaise
+      montante. Carte plate : aucun champ, aucun appel.
+- [x] O6b.2 Contrôles directs des ouvriers : `workerCanWorkAt` (segment sans falaise), `workerBuildExit` (point de
+      sortie sur le palier de l'ouvrier), `workerCleanupTarget` (face de nettoyage sur le palier du mur). Dans la
+      partie complète, `fieldcraft.js` remplace `moveFriendly` et `workerCanWorkAt` : `cliff217` est lu par son
+      `moveFriendly` (chaque sous-pas, chaque axe) et par `workFrom` (travail, points de service). Sans cela, les
+      gardes O6a de `Game#moveFriendly` étaient contournées en partie (trouvé par les marches aléatoires).
+- [x] O6b.3 Voirie : `Infrastructure.findRoute(…, limit, step)` ; `findPath(…, kind, step)` de la partie prend
+      par défaut `canStep` du terrain ; `moveUnitToward` passe par la voirie avec le prédicat sur un terrain
+      (`C.OpenCity217Rules.pathMaxExpanded` 16 384), appel inchangé sur une carte plate. `C.findFriendlyPath`
+      avec un 7e argument reste le chemin ami de base (test O6a).
+- [x] O6b.4 Repli d'un infecté hors d'atteinte : `FlowField#fallback217(x, y, anneau, libre)` — case atteinte
+      (`< 0x3fffffff`) et libre la plus proche du point, égalité départagée par l'indice, sans tirage ;
+      `Game#zombieFallback217` dans `updateZombies` sur un terrain ; `z.fallback217` compte les replis.
+      `C.OpenCity217Rules.fallbackRing` 192 : sur 17117, 1 062 cases sèches hors d'atteinte sur 1 892 relevées sont
+      à plus de 24 cases d'un accès (jusqu'à 74).
+- [x] O6b.5 Décor métrique : `WorldMap#footprintClear217(x, y, l, h)` (un palier, sans eau ni gué, hors rampe ;
+      vrai sur une carte plate) lu par `fits` de `createMetricSceneryPlacement202`, donc par toutes les recherches
+      de `packMetricScenery202` ; `packMetricScenery202` exporté par `exploration-125.js`.
+- [x] O6b.6 Règles : `C.OpenCity217Rules` (`version` 1, `generation` 12, `fallbackRing` 192, `pathMaxExpanded`
+      16 384).
+- [x] O6b.7 Tests : `tests/open-city217.test.cjs` (10 cas) — règles et parcours plat empoisonné (20 s, vague,
+      tirs ; `canStep`, `walk217`, `stepClear217`, `sightObstruction217`, `footprintClear217`, `terrainAt217`,
+      `rebuildTerrain217`, `fallback217`, `zombieFallback217` jettent s'ils sont appelés) ; 10 000 pas aléatoires
+      d'amis (`moveFriendly` de la partie) et d'infectés (`hostilePositionClear`) par graine 17117, 42, 46, la moitié
+      au bord d'une rampe, plus 40 infectés de `updateZombies` pendant 10 s : aucun pas à travers une falaise,
+      451 pas d'un palier à l'autre, tous par une rampe ; champ de flux contre `pathToCentre` (cases
+      atteintes identiques, champ = 2 × coût de la carte locale moins 30 par rampe franchie, descente le long de
+      chaque chemin de la carte locale) ; projectiles D-O1 (17117, 42) ; ouvriers ; voirie ; repli ; décor
+      métrique (42, 46) ; parcours mur + récolte par la rampe (42, 46 : mur bâti, aller et retour par la rampe,
+      matériaux déposés) ; coût du flux.
+- [x] O6b.8 Coût (D-O5, médiane de 15 reconstructions) : partie de terrain à 192 m, centre posé, enveloppes du jeu
+      de base, 2 à 5 ms (17117 / 42 / 46) contre 44 à 47 ms pour la partie 17117 à 128 cases et toutes ses enveloppes ;
+      Chromium (harnais dans la page) 2 à 5 ms, description 113 à 115 ms. Avec les enveloppes de la partie déléguées
+      (mesure O6a) : 13 à 28 ms. Aucune optimisation de plus n'est nécessaire avant O9.
+- [x] O6b.9 Innocuité : parcours déterministe de 240 s (procédure 3, base `5b0d8ab` contre l'arbre de travail ;
+      vague forcée, déplacements, 243 tirs, 18 tués, un rendu sur quatre) — sauvegardes de départ, de mi-parcours et
+      de fin identiques octet pour octet ; sauvegardes de la base relues par l'arbre et resérialisées à l'identique
+      de la base. Mondes G1–G11 des huit graines : `audit-campaign-sites205` identique à
+      `campagne205-eligibilite.json` hors empreintes de sources (`src/core.js`, `src/exploration-125.js`,
+      `src/fieldcraft.js`, `src/game.js`). Navigateur : partie 17117, vague, tirs, aucune erreur de page ;
+      harnais G12 dans la page, sauvegarde de la partie inchangée.
+- Réserves : rien n'a été joué en G12 dans une partie lancée par le menu ; `fieldcraft` au chargement d'un monde
+  (`setup`) remplace encore `solidForFriendly` du monde (l'eau profonde n'y bloquerait plus les amis) et replace
+  les gisements (`pack`) sans lire le terrain — à brancher en O9, quand une partie G12 passera par `setup` ; le
+  repli remet l'infecté sur la case atteinte la plus proche (déplacement instantané, sûreté avant les apparitions
+  par passage d'O7) et peut être défait par l'enveloppe de `fieldcraft` si la case touche un décor ; tourelles et
+  soldats choisissent encore une cible sans lire la falaise (le tir s'arrête, la munition est dépensée) ; le repli
+  de `recoverActor` (`fieldcraft`) ignore le terrain ; vue D-O1 et tirs centrés sur les cases, sans hauteur d'œil
+  (O8).
+
+## O8b — Relief de la cité de 192 m dans la vue FPS (livré, présentation seule, hors jeu)
+
+Fiche : [ouverture.md](ouverture.md), O8b (décisions D-O1, D-O3). Atteint seulement par un harnais : la génération 12
+reste refusée, `terrain-fps217.js` absent d'`index.html`. `tests/helpers/terrain-fps217.cjs` pose sur la partie de
+terrain d'O8a une citadelle achevée (ajout direct au monde : les quartiers et le bilan de la cité plantent sur un monde
+de terrain, `cancelPlacement` et `refreshMetrics` neutralisés le temps de la pose), y monte le commandant par
+l'escalier, construit une sentinelle par les contrôleurs de production et la possède.
+
+- [x] O8b.1 Hauteur jouée d'un cran : `C.TerrainRelief217Rules` (`version` 1, `stepMetres` 4, `waterDrop` .45,
+      `strataMetres` 1, `block` 4, `skirtMetres` 6). 4 m = un étage de support (`structureHeight`), plus du double
+      de l'œil 1,65 m (D-O1 : d'en bas on ne voit pas par-dessus le rebord), rampe de 12 m à 18° ; égale à
+      `TerrainArt217Rules.cliffMetres` (peinture O8a inchangée, égalité vérifiée par le test).
+- [x] O8b.2 Module `src/terrain-fps217.js` (`DeadwallTerrainFPS217` : `mesh`, `elevation`, `siteFloor`,
+      `actorFloor`, `boxFloor`, `linkFloors`, `sightClear`, `levelOf`, `eye`, `summary`) : coins de case
+      (palier × 4 m, eau − 0,45 m, rampes en plan incliné sur la longueur de leur composante), sol en blocs de
+      4 × 4 cases uniformes, parois verticales sur toute arête entre deux hauteurs (strates d'un mètre sur les
+      falaises), jupe du bord de carte. Maillage dérivé une fois par terrain (35 à 55 ms sous Node) :
+      99 144 sommets (17117), 103 110 (0), 89 022 (46).
+- [x] O8b.3 Peintre FPS (`createFPS`) : branche prise seulement si `g.world.terrain217` ; sol plat remplacé par le
+      maillage (troisième tampon alloué au premier tableau d'un terrain, envoyé une fois par terrain, libéré avec
+      les autres) ; œil = bouche levée du palier du support ; boîtes de `geometry()` et garde-corps levés du palier
+      de leur propriétaire (passerelles : palier de leur premier support), talus de cadavres, infectés
+      (`enemyPose` + palier du support ou surface sous les pieds), géants, équipe, caisses et gisements levés.
+      Simulation inchangée : hauteurs relatives au sol local, `sightQuery` et `raycast` reçoivent la bouche simulée.
+- [x] O8b.4 D-O1 dans la vue : un infecté ou un géant que `sightClear217` cache depuis le palier du support n'est
+      pas peint ; vu d'en haut, le contrebas l'est.
+- [x] O8b.5 Commandant borné par `canStep` (`vertical-citadel175.js`, `landing217`, neutre sans terrain) : escalier
+      refusé quand une falaise sépare l'entrée du support (entrée comme sortie, et fin de trajet), chute d'un support
+      perdu posée seulement sur un point relié par `stepClear217`. `vertical-network179.js` : passerelle refusée
+      entre deux supports sur deux paliers.
+- [x] O8b.6 Tests : `tests/terrain-fps217.test.cjs` (8 cas) — règle et cohérence avec l'œil ; isolement et test
+      statique (ni tirage, ni horloge, ni affectation ; hors `index.html`, `sw.js`, build ; points d'appel gardés) ;
+      champ de hauteur sur 17117, 0, 46 (aucune marche sur un pas franchissable hors flanc de rampe, paroi d'au moins
+      un cran moins l'eau sur chaque arête de falaise, rampes monotones raccordées aux deux paliers, rampes plates
+      de 46, maillage fini et borné) ; œil levé du palier, bouche sur le palier du support ; entrée refusée par la
+      falaise ; chute bornée (la recherche d'origine aurait franchi la falaise) ; peinture levée (boîtes de la
+      citadelle, pieds d'un infecté sur le sol), D-O1 vers le haut et vers le bas ; passerelle refusée entre deux
+      paliers ; sonde de 600 images sur 17117, 0, 46 (aucun tirage ni horloge pendant le tracé, relief envoyé une
+      fois, état, monde, terrain, sauvegarde de base, citadelle et `streamStats` régionaux inchangés) ; G1–G11 :
+      séquence d'appels WebGL identique avec ou sans le module (module jamais appelé) et identique au peintre de la
+      base `8d7ea21` (lu par `git show`, sauté sans historique).
+- [x] O8b.7 Innocuité : mondes G1–G11 des huit graines identiques à `campagne205-eligibilite.json` hors empreintes
+      de sources ; parcours déterministe (procédure 3, base `8d7ea21` contre l'arbre : horloges, tirages et
+      `crypto.randomUUID` figés, partie 17117 d'âge 10, citadelle posée, montée, sentinelle construite et possédée,
+      vague forcée, 240 s à 30 pas par seconde avec tirs, un rendu sur quatre) : sauvegardes de départ, de
+      mi-parcours et de fin identiques octet pour octet, sauvegarde de mi-parcours relue à l'identique.
+      Navigateur : `scripts/browser-terrain-fps217.mjs` (WebGL logiciel), graines 17117 (falaise), 0 (rampe de col),
+      46 (rivière et rampes vues du plateau sud), trois vues chacune, aucune erreur de page.
+- Réserves : la visée et les tirs des affûts (`sightQuery`, `raycast`, cibles automatiques) ne lisent pas encore le
+  terrain — une sentinelle du contrebas vise et touche un infecté du plateau que la vue ne peint pas (D-O1 à brancher
+  sur les tirs verticaux avant O9) ; le placement du terrain admet encore un support dont l'entrée tombe sur l'autre
+  palier (escalier alors refusé, à refuser dès la pose en O9) ; le flanc d'une rampe, du côté de son propre palier
+  (franchissable en jeu), montre une marche d'au plus 2 m le long du plan incliné ; les hauteurs simulées restent
+  relatives au sol local (corps à corps entre paliers, chute, talus) ; vue FPS du commandant à pied absente (la vue
+  reste celle d'un affût) ; aucune partie G12 lancée par le menu ; les quartiers ne vivent toujours pas sur un monde
+  de terrain.
+
+## O6c — Dettes de falaise soldées avant O9 (livré, sans effet en jeu)
+
+Fiche : [ouverture.md](ouverture.md), O6c (décision D-O1). Réserves d'O6b et d'O8b. Toujours atteint par un harnais
+seulement : la génération 12 reste refusée, aucun module ajouté à `index.html`.
+
+- [x] O6c.1 Choix de cible 2D : `Game#fireTarget217(x, y, portée, sx, sy)` — carte plate : exactement l'ancien appel
+      (`nightwatch.target` ou `nearestZombie`) ; terrain : le même choix, avec `nearbyZombies` filtré le temps de
+      l'appel (`SIGHT217`, variable du module, jamais posée sur une carte plate) par `sightClear217` depuis le
+      palier de la bouche. Les arcs de tir (`defense-pack131`) et la veille nocturne passent par `nearbyZombies` :
+      ils restent appliqués. Points d'appel : tourelle (`updateBuildings`, bouche `b.y − 3`), fusilier
+      (`updateUnits`), visée tactile du commandant, caisson local (`fortification-pack`).
+- [x] O6c.2 Affûts de la citadelle (`vertical-citadel175.js`) : `sightQuery` refuse une cible que
+      `sightClear217` cache depuis le palier de la bouche (même palier que le peintre O8b : la bouche reste dans
+      l'emprise) ; `raycast(…, level217)` ajoute la fraction de `sightObstruction217` (impact `terrain217`, 2 cm
+      avant l'arête : l'éclat reste au pied) ; l'enveloppe des projectiles 2D contre les géants passe
+      `p.level217`. Couvre tir possédé, tir automatique, tir du commandant sur un palier, gardes de palier
+      (`vertical-population181`), éclats. Carte plate : aucun appel au terrain.
+- [x] O6c.3 Pose : `placement217` refuse un support `vertical175` dont l'entrée (`DeadwallVertical175State.entrance`)
+      sort de la carte ou n'est pas reliée au centre de l'emprise par `stepClear217` — « Entrée de la citadelle
+      hors du palier de l’emprise : la falaise ou l’eau couperait l’escalier. ». La garde de l'escalier d'O8b
+      reste (support ajouté directement au monde : accès toujours refusé, test O8b adapté).
+- [x] O6c.4 `fieldcraft.js` sur un terrain : `setup` chaîne l'eau profonde de l'enveloppe du monde dans son
+      `solidForFriendly` ; `positionFree` refuse l'eau profonde au centre et aux quatre points à 0,78 rayon (comme
+      `Game#friendlyPositionClear`) ; `pack` ne replace un gisement que si sa réserve est sur un seul palier, à
+      sec, hors rampe (`footprintClear217`) et reliée à sa place par `stepClear217` ; `recoverActor` exige un
+      segment sans falaise ni eau profonde. Sur 17117 / 42 / 46 (harnais) : 46 / 42 / 46 gisements replacés, tous
+      conformes ; la base en replaçait 36 / 33 / 35, dont 1, 1, 0 hors palier et 2 par-dessus une falaise (17117),
+      et laissait l'eau profonde franchissable aux amis après `setup`.
+- [x] O6c.5 Repli : l'enveloppe `updateZombies` de `fieldcraft` (retour en arrière d'un infecté posé dans un décor)
+      ne défait plus un repli du pas (`fallback217` changé) : l'infecté est dégagé par `recoverActor`. Sans cela, un
+      repli tombé sur un gisement était annulé à chaque pas (infecté figé hors d'atteinte, compteur sans fin).
+- [x] O6c.6 Tests : `tests/open-city217-fire.test.cjs` (6 cas, tous en échec sur la base `a94915f`) — carte plate
+      (choix identique, points d'appel) ; tourelle et fusilier (17117, 42 : caché ignoré, visible retenu, aucune
+      munition ni projectile, tir d'en haut) ; affûts (requête de visée, `raycast` arrêté au pied, affût
+      automatique sans munition, affût du plateau qui touche en contrebas) ; pose refusée (17117, 0, toutes
+      rotations) ; `fieldcraft` (46 : eau profonde, gisements, unités dégagées) ; repli contre un gisement.
+      `tests/terrain-fps217.test.cjs` : la réserve consignée (`aim(zHigh) === true`) exige désormais le refus, et
+      l'emprise à porte sur l'autre palier est refusée dès la pose. Le parcours empoisonné d'O6b (chemins du
+      terrain qui jettent sur une carte plate) passe toujours.
+- [x] O6c.7 Innocuité : parcours déterministe de 240 s (procédure 3, base `a94915f` contre l'arbre : horloges, tirages
+      et `crypto.randomUUID` figés, partie 17117 d'âge 10, citadelle, montée, sentinelle possédée, atelier,
+      générateur, tourelle, caserne et deux fusiliers, vague forcée, tirs, un rendu sur quatre) — sauvegardes de
+      départ, de mi-parcours et de fin identiques octet pour octet, relecture de mi-parcours identique. Mondes G1–G11
+      des huit graines : `audit-campaign-sites205` identique à `campagne205-eligibilite.json` hors tailles de sources.
+      Navigateur : partie 17117 par le menu, vague, tourelle, fusiliers, aucune erreur de page ;
+      `scripts/browser-terrain-fps217.mjs` (17117) sans erreur.
+- Réserves : D-O1 reste centré sur les cases et sur le palier du support — un affût d'un étage élevé ne voit pas
+  par-dessus la falaise, même plus haut qu'elle (hauteur d'œil réelle : O8 ultérieur) ; les lumières de la citadelle
+  éclairent encore par-dessus une falaise (la cible reste refusée par la bouche) ; `pack` garde la croix des routes et
+  l'anneau central de la carte plate (routes du terrain à lire en O9) et ne vérifie pas que la place nouvelle est
+  atteinte par le champ de flux ; les quartiers et les chantiers de jour ne vivent toujours pas sur un monde de
+  terrain (le test vide l'instantané des chantiers de jour le temps de `setup`) ; rien n'a été joué en G12 par le
+  menu ; coût du filtre : un `sightClear217` par infecté à portée et par choix de cible, sur un terrain seulement.
+## O7 — Siège adossé : fronts, enceintes et équilibrage à deux côtés (livré, sans effet en jeu)
+
+Fiche : [ouverture.md](ouverture.md), O7 (points 5 et 6 de la liste de T4, question (f) ; décisions D-O1, D-O2).
+Toujours atteint par un harnais seulement : la génération 12 reste refusée. Le harnais des tests et des mesures
+(`tests/helpers/terrain-game217.cjs`) ajoute autour du cœur des quartiers fictifs (le moteur des chantiers tire ses
+lieux des quartiers G1–G11 : « Quartier absent : housing », contourné comme en O6b/O8a, non corrigé) et coupe la
+sauvegarde ; la partie complète joue alors `g.update` sur le terrain.
+
+- [x] O7.1 Règles `C.OpenSiege217Rules` (`version` 1, `generation` 12, `foldShares` {`basis` 'width', `minShare` 0,1},
+      `passRate` {`perMetre` 0,25, `min` 1}, `minFronts` 1) et lecture pure `C.OpenSiege217` (`open`, `shares`,
+      `fold`, `quotas`, `pick`, `rate`, `gap`, `label`, `phrase`) dans `src/core.js`, sans tirage propre.
+- [x] O7.2 Fronts (`src/game.js`) : le terrain porte les côtés de la description (`terrain217.sides`) ;
+      `prepareWave` → `prepareFronts217` sur un terrain : `wavePlan.fronts` côtés tirés parmi les non clos avec le
+      mélange du jeu, repli d'un plan qui en demande plus (même effectif, parts au prorata de la largeur, plancher
+      0,1), côté le plus large en tête (échelons de nuit). `spawnZombie217` : front par retard sur sa part dans le
+      groupe d'échelon courant, sans tirage ; case dans les `entries` du côté pondérées par leur largeur ;
+      `openSiegeState217` reconstruit l'état après une reprise. Carte plate : code d'origine, aucun champ de plus.
+- [x] O7.3 Contrainte de passage : `spawnGap217` = max(intervalle du plan, 1 / max(1, 0,25 × largeur)) pour une cité
+      à un seul front (rampe de 12 m : 3 par seconde ; 32 m : 8). Le reste attend dans la file.
+- [x] O7.4 Annonce et lecture : « Migration détectée — N contacts estimés, par l’est et l’ouest. », alerte « Approche
+      par la rampe du nord… », `siege-readout.js` ligne `siegeReadoutFronts` (créée seulement sur un terrain ;
+      `frontsSentence` exporté).
+- [x] O7.5 Enceintes : `T.terrainGrid217` (`src/tactics.js`) lu par `analyzeEnclosure` (`grid`), `getEnclosureStatus`,
+      `fallback-order.innerZone`, `districts.survey` (et `factions217`), `linecare.traceAccess` ; falaise et eau profonde
+      = mur indestructible, départ de la horde depuis les cases à sec du bord ; rampe barrée par murs ou porte ;
+      `breach217` exclut l'obstacle `terrain217` ; `earthworks217` refuse le fossé sur une rampe.
+- [x] O7.6 `horde-horizon217.js` : masse lointaine sur les seuls côtés non clos, limitée à leurs tronçons d'entrée.
+- [x] O7.7 Mesures (harnais `scripts/measure-open-siege217.cjs`, 180 s de jeu au plus, pas de 0,125 s) : enceinte
+      adossée carrée (rayon 22, 26, 30 cases selon l'âge, murs seulement là où l'intérieur touche l'anneau),
+      tourelles au centre (4 tourelles à l'âge 2, 6 et 8 tourelles lourdes aux âges 4 et 6), murs d'acier puis de
+      béton ; âge 2 = vague 6, âge 4 = vague 18, âge 6 = vague 36 (correspondance posée pour la mesure, aucune règle).
+      **Aucune graine « à un passage »** sur 3 000 graines de la carte locale version 2 (43 cités à un seul côté, toutes
+      ouvertes de 32 à 142 m ; 294 cités ont un côté à rampe unique, toujours avec d'autres côtés) : catégorie
+      remplacée par « un seul côté » (714, 2761, 450, 113) et une variante synthétique de 714 réduite à une rampe de 12 m.
+
+      Relevé (« > » : vague non achevée à la borne ; temps = jusqu'à la fin de vague, la chute du cœur ou 180 s ;
+      cadavres par mètre = tués / largeur des fronts tenus ; murs perdus / murs de l'anneau). **Mesures partielles :
+      27 relevés sur 39** — les parties à quatre fronts ouverts et les cités à deux côtés de 96 m et plus aux âges 4 et
+      6 coûtent plus de 30 min de calcul par vague sur la machine partagée ; manquent 6 (âges 4, 6), 20 (âges 4, 6),
+      28 (tous), 10 (âges 4, 6), 50 (tous). Relancer : `node scripts/measure-open-siege217.cjs <sortie> 6:ouverte …
+      --max=180 --dt=0.125`.
+
+| Catégorie | Graine | Âge (vague) | Fronts (demandés → tenus) | Largeur | Effectif | Intervalle | Temps | Restants | Tués | Cadavres/m | Murs perdus | Cœur |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| deux côtés | 1 | 2 (6) | 2 → west/north | 224 m | 86 | 0.426 s | > 180 s | 39 | 47 | 0.21 | 4/172 | debout |
+| deux côtés | 1 | 4 (18) | 4 → west/north (replié) | 224 m | 369 | 0.289 s | > 169 s | 249 | 120 | 0.54 | 3/204 | tombé |
+| deux côtés | 1 | 6 (36) | 4 → west/north (replié) | 224 m | 1014 | 0.15 s | > 89 s | 961 | 53 | 0.24 | 2/236 | tombé |
+| deux côtés | 10 | 2 (6) | 2 → north/south | 128 m | 86 | 0.358 s | > 180 s | 43 | 43 | 0.34 | 3/172 | debout |
+| deux côtés | 17117 | 2 (6) | 2 → east/west | 128 m | 86 | 0.426 s | > 180 s | 10 | 76 | 0.59 | 3/172 | debout |
+| deux côtés | 17117 | 4 (18) | 4 → east/west (replié) | 128 m | 369 | 0.304 s | > 103 s | 300 | 69 | 0.54 | 3/204 | tombé |
+| deux côtés | 17117 | 6 (36) | 4 → east/west (replié) | 128 m | 1014 | 0.075 s | > 62 s | 996 | 18 | 0.14 | 2/236 | tombé |
+| ouverte | 6 | 2 (6) | 2 → west/east | 288 m | 86 | 0.358 s | > 180 s | 23 | 63 | 0.22 | 5/172 | debout |
+| ouverte | 9 | 2 (6) | 2 → west/east | 288 m | 86 | 0.426 s | > 180 s | 34 | 52 | 0.18 | 10/172 | debout |
+| ouverte | 9 | 4 (18) | 4 → north/west/east/south | 544 m | 369 | 0.289 s | > 168 s | 272 | 97 | 0.18 | 5/204 | tombé |
+| ouverte | 9 | 6 (36) | 4 → west/north/east/south | 544 m | 1014 | 0.15 s | > 104 s | 952 | 62 | 0.11 | 2/236 | tombé |
+| ouverte | 20 | 2 (6) | 2 → south/west | 256 m | 86 | 0.502 s | > 180 s | 27 | 59 | 0.23 | 4/172 | debout |
+| rampe 12 m (synthétique) | 714 | 2 (6) | 2 → north (replié) | 12 m | 86 | 0.358 s | > 180 s | 76 | 10 | 0.83 | 2/172 | debout |
+| rampe 12 m (synthétique) | 714 | 4 (18) | 4 → north (replié) | 12 m | 369 | 0.395 s | > 180 s | 337 | 32 | 2.67 | 2/204 | debout |
+| rampe 12 m (synthétique) | 714 | 6 (36) | 4 → north (replié) | 12 m | 1014 | 0.333 s | > 180 s | 1014 | 0 | 0 | 1/236 | debout |
+| un seul côté | 113 | 2 (6) | 2 → north (replié) | 96 m | 86 | 0.426 s | > 180 s | 67 | 19 | 0.2 | 2/172 | debout |
+| un seul côté | 113 | 4 (18) | 4 → north (replié) | 96 m | 442 | 0.289 s | > 180 s | 350 | 92 | 0.96 | 3/204 | debout |
+| un seul côté | 113 | 6 (36) | 4 → north (replié) | 96 m | 1014 | 0.15 s | > 157 s | 905 | 109 | 1.14 | 2/236 | tombé |
+| un seul côté | 450 | 2 (6) | 2 → west (replié) | 64 m | 86 | 0.358 s | > 180 s | 11 | 75 | 1.17 | 1/172 | debout |
+| un seul côté | 450 | 4 (18) | 4 → west (replié) | 64 m | 442 | 0.395 s | > 141 s | 357 | 85 | 1.33 | 1/204 | tombé |
+| un seul côté | 450 | 6 (36) | 4 → west (replié) | 64 m | 1014 | 0.088 s | > 61 s | 995 | 19 | 0.3 | 1/236 | tombé |
+| un seul côté | 714 | 2 (6) | 2 → north (replié) | 32 m | 86 | 0.358 s | > 180 s | 75 | 11 | 0.34 | 1/172 | debout |
+| un seul côté | 714 | 4 (18) | 4 → north (replié) | 32 m | 369 | 0.395 s | > 180 s | 347 | 22 | 0.69 | 1/204 | debout |
+| un seul côté | 714 | 6 (36) | 4 → north (replié) | 32 m | 1014 | 0.125 s | > 180 s | 1014 | 0 | 0 | 1/236 | debout |
+| un seul côté | 2761 | 2 (6) | 2 → east (replié) | 32 m | 86 | 0.426 s | 158 s | 0 | 86 | 2.69 | 1/172 | debout |
+| un seul côté | 2761 | 4 (18) | 4 → east (replié) | 32 m | 442 | 0.289 s | > 76 s | 407 | 35 | 1.09 | 1/204 | tombé |
+| un seul côté | 2761 | 6 (36) | 4 → east (replié) | 32 m | 1014 | 0.15 s | > 70 s | 987 | 27 | 0.84 | 1/236 | tombé |
+
+      Lecture : à l'âge 2, aucune cité ne tombe ; la cité à un seul côté étroit encaisse 1,1 cadavre par mètre en
+      moyenne contre 0,38 à deux côtés et 0,21 ouverte (même effectif, front plus court : D-O2 tient la pression).
+      Aux âges 4 et 6, ce scénario (tourelles fixes, sans soldats ni réparation) perd le cœur partout sauf derrière
+      la rampe synthétique de 12 m, où le plafond de 3 arrivées par seconde étale la vague au-delà de 180 s ; une
+      cité à un seul côté de 32 à 64 m tombe plus vite (61 à 141 s) que la même vague sur quatre fronts (104 à 168 s) :
+      la concentration sans plafond pour une largeur de 32 m et plus est le risque d'équilibrage principal à
+      confirmer en O9. Murs perdus : 1 à 10 par vague (une brèche suffit). Anomalie non expliquée : 714 à l'âge 6
+      (un côté de 32 m et sa variante à rampe) n'a aucun tué en 180 s, la file entière restant au pied ou hors de
+      portée des tourelles.
+
+- [x] O7.8 Tests : `tests/open-siege217.test.cjs` (9 cas) — règles et repli identité (plans des vagues 1 à 60 des trois
+      difficultés, même mélange et mêmes tirages que la carte plate) ; parcours plat empoisonné de 20 s ; 1 000 vagues
+      sur 50 graines à côté clos (12 000 apparitions, toutes dans une entrée d'un côté non clos) ; repli des effectifs
+      (17117, vague 10 : 4 fronts → est/ouest, somme conservée, parts 0,75/0,25 à une arrivée près, mêmes points de vie
+      qu'en carte plate) ; contrainte de passage sur le directeur (714 et sa variante à rampe de 12 m) ; enceinte
+      adossée lue par les quatre lecteurs, brèche d'un pan fragile sans effet sur les falaises ; rampe barrée (porte
+      fermée = enceinte close, ouverte = front ouvert) et fossé refusé sur la rampe ; masse, annonce et lecture
+      (vague 5 sur 17117 : deux fronts, est et ouest) ; mesures consignées.
+- [x] O7.9 Innocuité : parcours déterministe de 240 s (procédure 3, base `8d7ea21` contre l'arbre de travail) —
+      sauvegardes de départ, de mi-parcours et de fin identiques octet pour octet. Mondes G1–G11 des huit graines :
+      `audit-campaign-sites205` identique à `campagne205-eligibilite.json` hors empreintes de sources. Navigateur
+      (`scripts/browser-open-siege217.mjs`, port 8744) : partie 17117 plate puis terrain 17117, vague 5 annoncée par
+      l'est et l'ouest, aucune erreur de page.
+- Réserves : rien n'a été joué en G12 par le menu ; l'état du siège (`openSiege217`) n'est pas sauvegardé (reconstruit
+  à la reprise, parts recomptées à zéro ; à porter par la sauvegarde G12 en O9) ; sous les échelons de nuit (vague 4
+  et plus), chaque tiers de la vague entre par son groupe : les parts réalisées valent 2/3–1/3 à deux fronts quelle que
+  soit la largeur (le côté large mène) ; la Meneuse et l'abomination de siège (`abominations217`) tirent encore leur
+  côté sur les quatre directions ; `earthworks217` garde une grille de 128 cases (cases au-delà refusées) ; le
+  scénario de mesure ne remplace pas une partie jouée (tourelles fixes au centre, aucun soldat posté, pas de
+  réparation) : les valeurs `passRate` et `minShare` restent à confirmer en O9.
+
 ## T5 — Ouverture expérimentale
 
 - [ ] T5.1 `src/world-open217.js` : façade ; aiguillage dans `frontier-world.create`.

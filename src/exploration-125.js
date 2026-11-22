@@ -1132,7 +1132,9 @@
     // clearance once; construction reservations and colliders remain untouched.
     const exclusions=settlementProjection?plan.buildExclusions.map(a=>a.kind==='settlement-reserve'?{...a,x:a.x+declared,y:a.y+declared,w:a.w-declared*2,h:a.h-declared*2}:a):plan.buildExclusions;
     const fixtures=[...[...game.world.buildings.values()].filter(b=>!b.dead).map(b=>({x:b.left,y:b.top,w:b.right-b.left,h:b.bottom-b.top})),...(game.expeditions?.sites?.()||C.Expeditions?.SITES||[]).map(p=>bounds({...p,renderSize:90})),...(game.dayworks?.snapshot().sites||[]).map(p=>bounds({...p,renderSize:50})),...(game.world.sites||[]).map(p=>bounds({...p,renderSize:96})),...exclusions,...plan.buildableDistricts202,...physicalSolids134(plan)];
-    const fits=(node,x,y,placed=occupied)=>{const b=reserve({...node,x,y}),padded={x:b.x-margin,y:b.y-margin,w:b.w+margin*2,h:b.h+margin*2};return b.x>=38&&b.y>=38&&b.x+b.w<=plan.worldSize-38&&b.y+b.h<=plan.worldSize-38&&!roadFootprint202(plan,b,margin)&&!fixtures.some(a=>rectsOverlap(a,padded))&&!placed.some(a=>rectsOverlap(a,padded));};
+    // Terrain G12 (O6b, hors jeu) : la parcelle reste sur un palier, à sec et hors rampe ; carte plate : aucun test de plus.
+    const terrain=game.world?.terrain217?b=>game.world.footprintClear217(b.x,b.y,b.w,b.h):null;
+    const fits=(node,x,y,placed=occupied)=>{const b=reserve({...node,x,y}),padded={x:b.x-margin,y:b.y-margin,w:b.w+margin*2,h:b.h+margin*2};return b.x>=38&&b.y>=38&&b.x+b.w<=plan.worldSize-38&&b.y+b.h<=plan.worldSize-38&&!roadFootprint202(plan,b,margin)&&!fixtures.some(a=>rectsOverlap(a,padded))&&!placed.some(a=>rectsOverlap(a,padded))&&(!terrain||terrain(b));};
     return {reserve,fixtures,fits,margin};
   }
 
@@ -1563,7 +1565,8 @@
     const baseEntries = game.depthEntries.bind(game);
     const baseBuilding = game.drawBuilding.bind(game);
     const baseNode = game.drawNode.bind(game);
-    const inHome = view => isGeneration4(game) && (!game.frontier?.active() || view?.homeProjection===true);
+    // Terrain de génération 12 (O8a, harnais hors jeu) : routes et décor viennent de la grille, pas du plan fixe.
+    const inHome = view => isGeneration4(game) && (!game.frontier?.active() || view?.homeProjection===true) && !game.world?.terrain217;
     game.drawGround = function drawGround125(ctx, view) {
       baseGround(ctx, view);
       if (!inHome(view)) return;
@@ -1651,7 +1654,7 @@
   function installMinimap(game, plan, document) {
     const baseMinimap=game.renderMinimap.bind(game);
     game.renderMinimap = function renderMinimap125() {
-      if (!isGeneration4(this) || this.frontier?.active()) return baseMinimap();
+      if (!isGeneration4(this) || this.frontier?.active() || this.world?.terrain217) return baseMinimap();
       if (this.state !== 'playing') return;
       const ctx = this.mctx, w = this.minimap.width, h = this.minimap.height, sx = w / plan.worldSize, sy = h / plan.worldSize;
       ctx.clearRect(0, 0, w, h); ctx.fillStyle = '#121814'; ctx.fillRect(0, 0, w, h);
@@ -1959,5 +1962,5 @@
     return true;
   }
 
-  return Object.freeze({ findMetricSceneryBoundaryPlot202, obstacleFootprint202, projectedBuildingBounds202, roadFootprint202, createBuildingShellCache155, drawCachedBuildingShell155, drawBuildingShell134, drawRoadNetwork, firstObstruction134, physicalSolids134, orientedSolid134, buildingProjection134, VERSION, WORLD_CODEX, INVENTORY_SHAPES, INVENTORY_STACKS, VEHICLE_KINDS, createRoadNetwork, createFeaturePlan, circleIntersectsRect, rectsOverlap, buildingFootprint, createSpatialIndex, querySpatialIndexRect, querySpatialIndexCircle, edgeTransition, packInventory, isVehicleNode, roadContains, surfaceAt, postureMultiplier, stationFurniture, normalizeExplorationSave, applyExplorationState, wildHordeDelay, patchWorldPlacement, installCollision, install });
+  return Object.freeze({ packMetricScenery202, findMetricSceneryBoundaryPlot202, obstacleFootprint202, projectedBuildingBounds202, roadFootprint202, createBuildingShellCache155, drawCachedBuildingShell155, drawBuildingShell134, drawRoadNetwork, firstObstruction134, physicalSolids134, orientedSolid134, buildingProjection134, VERSION, WORLD_CODEX, INVENTORY_SHAPES, INVENTORY_STACKS, VEHICLE_KINDS, createRoadNetwork, createFeaturePlan, circleIntersectsRect, rectsOverlap, buildingFootprint, createSpatialIndex, querySpatialIndexRect, querySpatialIndexCircle, edgeTransition, packInventory, isVehicleNode, roadContains, surfaceAt, postureMultiplier, stationFurniture, normalizeExplorationSave, applyExplorationState, wildHordeDelay, patchWorldPlacement, installCollision, install });
 });

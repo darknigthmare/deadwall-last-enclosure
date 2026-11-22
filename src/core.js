@@ -1584,7 +1584,8 @@
     pop(){const top=this.items[0],end=this.items.pop();if(this.items.length){let i=0;while(i*2+1<this.items.length){let c=i*2+1;if(c+1<this.items.length&&this.items[c+1].f<this.items[c].f)c++;if(this.items[c].f>=end.f)break;this.items[i]=this.items[c];i=c;}this.items[i]=end;}return top;}
   }
   // `limit` : côté de la carte locale (O5), plafond des dimensions demandées.
-  function findRoute(start,goal,blocked,cost=()=>1,width=RULES.worldTiles,height=RULES.worldTiles,maxExpanded=RULES.maxExpanded,minCost=1/RULES.truckSpeed,limit=RULES.worldTiles){
+  // `step(x, y, nx, ny)` (facultatif, O6b) : arête franchissable du terrain G12 ; une falaise ferme une arête.
+  function findRoute(start,goal,blocked,cost=()=>1,width=RULES.worldTiles,height=RULES.worldTiles,maxExpanded=RULES.maxExpanded,minCost=1/RULES.truckSpeed,limit=RULES.worldTiles,step=null){
     const valid=p=>object(p)&&integer(p.x,0,width-1)&&integer(p.y,0,height-1);
     if(!integer(width,1,limit)||!integer(height,1,limit)||!integer(maxExpanded,1,16384)||!finite(minCost,.1,1)||!valid(start)||!valid(goal)||typeof blocked!=='function'||blocked(goal.x,goal.y))return null;
     const origin=start.y*width+start.x,target=goal.y*width+goal.x;if(origin===target)return[];
@@ -1596,7 +1597,7 @@
       const q=open.pop();if(q.g!==best[q.i])continue;
       if(q.i===target){const path=[];for(let k=target;k!==origin;k=previous[k]){if(k<0||path.length>width*height)return null;path.push({x:k%width,y:Math.floor(k/width)});}return path.reverse();}
       expanded++;const x=q.i%width,y=Math.floor(q.i/width);
-      for(const [dx,dy]of [[1,0],[-1,0],[0,1],[0,-1]]){const nx=x+dx,ny=y+dy;if(nx<0||ny<0||nx>=width||ny>=height||blocked(nx,ny))continue;
+      for(const [dx,dy]of [[1,0],[-1,0],[0,1],[0,-1]]){const nx=x+dx,ny=y+dy;if(nx<0||ny<0||nx>=width||ny>=height||blocked(nx,ny)||(step&&!step(x,y,nx,ny)))continue;
         const rate=cost(nx,ny);if(!finite(rate,minCost,100))return null;
         const i=ny*width+nx,g=q.g+rate;if(g>=best[i]-1e-12)continue;best[i]=g;previous[i]=q.i;open.push({i,g,f:g+h(nx,ny)});
       }
@@ -3633,6 +3634,76 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   // dans l'unité de son pas (10 par case) — rampe payée sur l'arête qui change de palier, gué sur la case d'un ruisseau sans pont.
   // Mêmes valeurs que les coûts de chemin de la carte locale (`costs` de ses règles), relues par le test de la tranche.
   C.CityTerrain217Rules=Object.freeze({version:1,generation:12,rampCost:30,fordCost:20});
+  // Rendu du terrain de génération 12 (ouverture.md, tranche O8a, présentation seule, hors jeu) : hauteur d'un cran de
+  // falaise peinte (mètres, projetée à 16 unités par mètre comme les étages ; valeur de présentation, la hauteur jouée
+  // reste à fixer en O8b, D-O3), biseau des extrémités de paroi (fraction de case), berge maximale (cases), fondu du bord
+  // de carte (mètres), grain du sol (écart de teinte).
+  C.TerrainArt217Rules=Object.freeze({version:1,cliffMetres:4,bevel:.35,bankMaxCells:4,edgeFadeMetres:6,grain:7});
+  // Cité de génération 12, arêtes de falaise (ouverture.md, tranche O6b, hors jeu) : anneau de recherche (cases) du repli
+  // d'un infecté posé hors d'atteinte du champ de flux (toute la carte : une poche fermée de 17117 s'étend à 74 cases du
+  // plus proche accès) ; plafond des chemins amis sur le terrain (un détour par une rampe sur 192 cases dépasse les
+  // 8 192 nœuds des cartes plates ; 16 384 = plafond de la voirie).
+  C.OpenCity217Rules=Object.freeze({version:1,generation:12,fallbackRing:192,pathMaxExpanded:16384});
+  // Relief joué de la cité de génération 12 (ouverture.md, tranche O8b, D-O3 ; vue FPS, présentation seule, hors jeu) :
+  // hauteur d'un cran de palier (mètres ; un étage de support `VerticalCitadel175.structureHeight`, plus du double de
+  // l'œil `eyeHeight` 1,65 : d'en bas on ne voit pas par-dessus le rebord, D-O1 ; rampe de 12 m à 18°), égale à la
+  // hauteur peinte `TerrainArt217Rules.cliffMetres` ; surface de l'eau sous son palier (mètres) ; strates des parois
+  // (mètres) ; bloc de sol fusionné (cases) ; pied de la jupe du bord de carte sous le palier le plus bas (mètres).
+  C.TerrainRelief217Rules=Object.freeze({version:1,stepMetres:4,waterDrop:.45,strataMetres:1,block:4,skirtMetres:6});
+  // Siège adossé de la cité de génération 12 (ouverture.md, tranche O7, hors jeu ; décision D-O2). Un plan de vague qui
+  // demande plus de fronts que la cité n'a de côtés non clos se replie sur eux : même effectif, réparti au prorata de la
+  // largeur de chaque côté (`sides.<côté>.width`), une part plancher `foldShares.minShare` gardant un passage étroit
+  // vivant ; jamais plus de points de vie. Une cité à un seul front a une entrée plafonnée : `passRate.perMetre` arrivées
+  // par seconde et par mètre de largeur (rampe de 12 m : 3 par seconde), au moins `passRate.min` ; le reste attend au pied.
+  // `minFronts` : nombre de côtés non clos sans lequel aucun siège n'est possible.
+  C.OpenSiege217Rules=Object.freeze({version:1,generation:12,foldShares:Object.freeze({basis:'width',minShare:.1}),passRate:Object.freeze({perMetre:.25,min:1}),minFronts:1});
+  // Lecture pure de ces règles, sans tirage propre (le mélange des fronts est celui du jeu, passé en argument).
+  // Sur une carte plate (`sides` absent), quatre côtés ouverts de même poids : le repli est l'identité.
+  C.OpenSiege217=(()=>{
+   const R=C.OpenSiege217Rules,SIDES=Object.freeze(['north','east','south','west']),COUNT=Object.freeze(['','un','deux','trois','quatre','cinq','six']);
+   const THE=Object.freeze({north:'le nord',east:'l’est',south:'le sud',west:'l’ouest'}),OF=Object.freeze({north:'du nord',east:'de l’est',south:'du sud',west:'de l’ouest'});
+   const width=(sides,f)=>Math.max(0,Number(sides?.[f]?.width)||0);
+   const open=sides=>sides?SIDES.filter(s=>sides[s]&&sides[s].status!=='clos'&&width(sides,s)>0):SIDES.slice();
+   function shares(fronts,sides){
+    const w=fronts.map(f=>sides?width(sides,f):1),sum=w.reduce((a,b)=>a+b,0);
+    const raw=w.map(v=>Math.max(R.foldShares.minShare,sum>0?v/sum:1/fronts.length)),total=raw.reduce((a,b)=>a+b,0);
+    return Object.freeze(Object.fromEntries(fronts.map((f,i)=>[f,raw[i]/total])));
+   }
+   // Fronts d'une vague : `count` demandés par le plan, tirés parmi les côtés non clos par `shuffle` (celui du jeu).
+   function fold(count,sides,shuffle=list=>list){
+    const list=open(sides);if(list.length<R.minFronts)throw new RangeError('Cité sans côté ouvert : aucun siège possible.');
+    const asked=Math.max(1,Math.floor(Number(count)||1)),fronts=shuffle(list).slice(0,Math.min(asked,list.length));
+    return Object.freeze({asked,fronts:Object.freeze(fronts),folded:asked>list.length,shares:shares(fronts,sides)});
+   }
+   // Effectif par front (plus forts restes) : la somme est toujours l'effectif total.
+   function quotas(total,share){
+    const keys=Object.keys(share),out={},rest=[];let used=0;
+    for(const k of keys){const v=total*share[k],f=Math.floor(v);out[k]=f;used+=f;rest.push([k,v-f]);}
+    rest.sort((a,b)=>b[1]-a[1]||keys.indexOf(a[0])-keys.indexOf(b[0]));
+    for(let i=0;used<total&&rest.length;i++,used++)out[rest[i%rest.length][0]]++;
+    return Object.freeze(out);
+   }
+   // Front de la prochaine arrivée parmi `group` : celui dont le retard sur sa part est le plus grand (sans tirage).
+   function pick(group,share,emitted){
+    const sum=group.reduce((n,f)=>n+(share[f]||0),0)||1,done=group.reduce((n,f)=>n+(emitted[f]||0),0);let best=null,score=-Infinity;
+    for(const f of group){const s=(share[f]||0)/sum*(done+1)-(emitted[f]||0);if(s>score+1e-12){score=s;best=f;}}
+    return best;
+   }
+   const rate=(fronts,sides)=>!sides||fronts.length!==1?Infinity:Math.max(R.passRate.min,R.passRate.perMetre*width(sides,fronts[0]));
+   const gap=(interval,fronts,sides)=>Math.max(interval,1/rate(fronts,sides));
+   // Nom du passage d'un côté, pour l'annonce : « la rampe du nord », « les deux ponts de l’est », « l’ouest ».
+   function label(side,s){
+    if(!s||s.status==='ouvert')return THE[side];
+    if(s.status==='ralenti')return 'le gué '+OF[side];
+    if(s.status==='clos')return THE[side];
+    const p=s.passages||[],kinds=[...new Set(p.map(q=>q.kind))],n=p.length;
+    if(!n||kinds.length>1)return n>1?'les '+(COUNT[n]||n)+' passages '+OF[side]:'le passage '+OF[side];
+    const noun={col:['la rampe','rampes'],pont:['le pont','ponts'],goulet:['le goulet','goulets']}[kinds[0]]||['le passage','passages'];
+    return n===1?noun[0]+' '+OF[side]:'les '+(COUNT[n]||n)+' '+noun[1]+' '+OF[side];
+   }
+   const phrase=(fronts,sides)=>fronts.map(f=>label(f,sides?.[f])).join(', ').replace(/, ([^,]*)$/,' et $1');
+   return Object.freeze({SIDES,open,shares,fold,quotas,pick,rate,gap,label,phrase});
+  })();
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),
