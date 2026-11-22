@@ -153,3 +153,25 @@ test('O9 (b) : carte plate — tir, visée et vue sans aucun appel au relief', (
     for (let k = 0; k < 30; k++) V.step(1 / 30);
   } finally { globalThis.DeadwallTerrainFPS217 = own; g.zombies = []; }
 });
+
+test('O9 (b) : un tir au torse d’un géant sur un autre palier n’est pas compté comme un point faible (revue PR #40)', () => {
+  const { w, t, b, V, q, muzzle, id, level } = armed(3, { x: 96, y: 140 });
+  const d = RV.siege.kinds.breaker, see = V.sightQuery(muzzle, q.def.range, id);
+  // Case du contrebas, à portée, visible d'en haut (même recherche que pour l'infecté).
+  let spot = null;
+  for (let r = 12; r < 40 && !spot; r++) for (let k = 0; k < 32 && !spot; k++) {
+    const a = k * Math.PI / 16, x = Math.floor(muzzle.x + Math.cos(a) * r), y = Math.floor(muzzle.y + Math.sin(a) * r); if (x < 0 || y < 0 || x >= N || y >= N) continue;
+    const i = y * N + x; if (t.levels[i] >= level || t.water[i] || t.kinds[i] === 2) continue;
+    const z = walker({ x: (x + .5) * T, y: (y + .5) * T }); g.zombies = [z]; if (see(z)) spot = { x: (x + .5) * T, y: (y + .5) * T };
+  }
+  assert.ok(spot, 'contrebas visible d’en haut'); g.zombies = [];
+  const giants = V.presentation().giants; giants.length = 0;
+  const giant = { id: 9001, kind: 'breaker', x: spot.x, y: spot.y, health: d.health, maxHealth: d.health }; giants.push(giant);
+  assert.ok(F.siteFloor(w, b) - F.elevation(w, giant.x, giant.y) >= 4, 'au moins un palier plus bas');
+  // Visée au milieu du torse peint (sol du géant + moitié de sa hauteur), hors des deux bandes de point faible.
+  aimTerrainFps217(g, { x: giant.x / T, y: giant.y / T }, F.elevation(w, giant.x, giant.y) + d.height * .5);
+  const m = V.moduleRef(id).m; m.ammo = 40; m.cooldown = 0;
+  assert.equal(V.fire(), true);
+  assert.ok(near(d.health - giant.health, q.def.damage, 1e-9), 'dégâts ordinaires au torse : ' + (d.health - giant.health) + ' au lieu de ' + q.def.damage);
+  giants.length = 0; delete g.daylight; V.release();
+});

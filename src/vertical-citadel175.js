@@ -360,7 +360,7 @@
    const out={...best,origin,point:{x:origin.x+dir.x*best.distance,y:origin.y+dir.y*best.distance,z:origin.z+dir.z*best.distance}};if(L)out.floor217=f217;return out;
   }
   function hit(result,damage){if(result.type==='zombie'&&live(result.entity)){const from={x:result.origin.x*R.tile,y:result.origin.y*R.tile},applied=g.zombieBulletDamage?.(result.entity,damage,from)??damage;if(applied<damage)result.entity.shieldImpact=.12;result.entity.health-=applied;if(result.entity.health<=0)g.killZombie(result.entity,false);}
-   if(result.type==='giant'){const e=result.entity,d=R.siege.kinds[e.kind],weak=result.point.z<d.height*.18||result.point.z>d.height*.84;e.health-=damage*(weak?d.weakDamage:1);if(e.health<=0){state.giants=state.giants.filter(v=>v!==e);g.stats.kills++;notice=d.name+' abattu ; les infectés ordinaires restent actifs.';}}
+   if(result.type==='giant'){const e=result.entity,d=R.siege.kinds[e.kind],L217=result.floor217!==undefined?terrain217():null,z=L217?result.point.z+result.floor217-L217.actor(e):result.point.z,weak=z<d.height*.18||z>d.height*.84;e.health-=damage*(weak?d.weakDamage:1);if(e.health<=0){state.giants=state.giants.filter(v=>v!==e);g.stats.kills++;notice=d.name+' abattu ; les infectés ordinaires restent actifs.';}}
   }
   function shoot(q){if(!operational(q)||q.m.progress!==1||q.m.ammo<q.def.ammoPerShot||q.m.cooldown>0||q.m.overheated)return false;
    const origin=muzzle(q),result=raycast(origin,q.m.yaw,q.m.pitch,q.def.range,q.m.id);q.m.ammo-=q.def.ammoPerShot;q.m.cooldown=1/q.def.rate;q.m.heat=Math.min(R.heatLimit,q.m.heat+q.def.heat);if(q.m.heat>=R.heatLimit)q.m.overheated=true;hit(result,q.def.damage);
