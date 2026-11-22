@@ -210,12 +210,17 @@ test('carte locale 217 : module isolé — absent d’index.html, de sw.js et du
   assert.deepEqual([...source.matchAll(/require\('([^']+)'\)/g)].map(m=>m[1]),['./core.js','./world-cantons217.js','./world-canton-gen217.js']);
   assert.ok(!/G\.hash|G\.rng|Frontier|Geography135|geography141|WorldContent|taken\b(?!\.)|expansions/.test(code.replace(/taken=\[\]|taken\.(some|push)/g,'')),'aucun flux ni registre des générations 1 à 11');
   for(const file of ['index.html','sw.js','scripts/server.mjs','scripts/build.mjs','scripts/public-manifest183.cjs','src/expansion-kit.js','src/expansion-ui.js'])assert.ok(!read(file).includes('world-local217')&&!read(file).includes('WorldLocal217'),file);
-  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(!['world-local217.js','core.js'].includes(file)){const text=read('src/'+file);assert.ok(!text.includes('WorldLocal217')&&!text.includes('world-local217'),file+' ne doit pas dépendre de la carte locale');}
+  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(!['world-local217.js','core.js'].includes(file)){
+    // Préalable O9 (a) : seule `game.js` lit la carte locale, une seule fois, par le global facultatif, pour reprendre une
+    // campagne de génération 12 (refusée sans le module) ; aucune autre mention, aucun chargement du module.
+    let text=read('src/'+file);
+    if(file==='game.js'){assert.equal((text.match(/WorldLocal217|world-local217/g)||[]).length,1,'game.js : une seule lecture de la carte locale');assert.match(text,/const L = globalThis\.DeadwallWorldLocal217; if \(typeof L\?\.describe !== 'function'\) throw new Error/);text=text.replace('globalThis.DeadwallWorldLocal217','');}
+    assert.ok(!text.includes('WorldLocal217')&&!text.includes('world-local217'),file+' ne doit pas dépendre de la carte locale');}
   assert.equal((read('src/core.js').match(/WorldLocal217Rules/g)||[]).length,1);
   // Le build publié, s'il existe, ne contient ni le module ni la page d'aperçu.
   const dist=path.join(ROOT,'dist');
   if(fs.existsSync(dist)){const walk=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(dir,e.name)):[path.join(dir,e.name)]);
-   for(const file of walk(dist)){assert.ok(!/world-local217|world-canton-gen217|apercu-cantons217/.test(file),file);if(/\.(html|js|json|webmanifest)$/.test(file)&&fs.statSync(file).size<4e6&&!file.endsWith(path.join('src','core.js')))assert.ok(!fs.readFileSync(file,'utf8').includes('WorldLocal217'),file);}}
+   for(const file of walk(dist)){assert.ok(!/world-local217|world-canton-gen217|apercu-cantons217/.test(file),file);if(/\.(html|js|json|webmanifest)$/.test(file)&&fs.statSync(file).size<4e6&&!file.endsWith(path.join('src','core.js'))){let text=fs.readFileSync(file,'utf8');if(file.endsWith(path.join('src','game.js')))text=text.replace('globalThis.DeadwallWorldLocal217','');assert.ok(!text.includes('WorldLocal217'),file);}}}
   assert.ok(read('tools/apercu-cantons217.html').includes('hors jeu')&&read('scripts/apercu-cantons217.mjs').includes('world-local217'));
   // La génération 12 reste refusée partout, et aucune option de menu n'en parle.
   const Wd=require('../src/frontier-world.js'),St=require('../src/frontier-state.js');
