@@ -1421,13 +1421,18 @@ d'atlas calée sur l'étendue totale.
   47 ms pour la carte actuelle de 128 m : la décision de garder 192 m tient.
   Restent (O6b) : projectiles en vol, ouvriers, voirie et véhicule face aux
   falaises ; vivres et carburant dans les gisements.
+- **Tranche O6c livrée, sans effet en jeu** : D-O1 s'applique aussi au
+  choix de cible — un tireur ne vise que ce qu'il voit depuis le palier de
+  sa bouche (tourelles, fusiliers, affûts). L'entrée d'une citadelle est
+  toujours sur le palier de son emprise. Réserve : règle centrée sur les
+  cases et le palier du support, sans hauteur d'œil (un affût haut reste
+  aveugle vers le plateau).
 - **Tranche O8b livrée, sans effet en jeu (O8 complet)** : relief joué dans
   la vue FPS. Un cran mesure 4 m, un étage de citadelle et plus du double
   de la hauteur d'œil : d'en bas on ne voit rien par-dessus le rebord,
   d'en haut on domine le contrebas. Les rampes de 12 m (18°) sont les seuls
   passages ; une passerelle ne relie que deux supports du même palier.
-  Réserve avant O9 : les affûts visent et touchent encore à travers une
-  falaise (D-O1 à brancher sur les tirs verticaux).
+  (D-O1 branchée sur les affûts en O6c.)
 - **Tranche O6b livrée, sans effet en jeu (O6 complet)** : le haut d'une
   falaise est une position à tenir — on y voit et on y tire en contrebas,
   d'en bas on ne touche rien au-dessus ; la rampe est le seul passage entre
