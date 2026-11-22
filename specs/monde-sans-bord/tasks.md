@@ -1071,6 +1071,60 @@ l'escalier, construit une sentinelle par les contrôleurs de production et la po
   reste celle d'un affût) ; aucune partie G12 lancée par le menu ; les quartiers ne vivent toujours pas sur un monde
   de terrain.
 
+## O6c — Dettes de falaise soldées avant O9 (livré, sans effet en jeu)
+
+Fiche : [ouverture.md](ouverture.md), O6c (décision D-O1). Réserves d'O6b et d'O8b. Toujours atteint par un harnais
+seulement : la génération 12 reste refusée, aucun module ajouté à `index.html`.
+
+- [x] O6c.1 Choix de cible 2D : `Game#fireTarget217(x, y, portée, sx, sy)` — carte plate : exactement l'ancien appel
+      (`nightwatch.target` ou `nearestZombie`) ; terrain : le même choix, avec `nearbyZombies` filtré le temps de
+      l'appel (`SIGHT217`, variable du module, jamais posée sur une carte plate) par `sightClear217` depuis le
+      palier de la bouche. Les arcs de tir (`defense-pack131`) et la veille nocturne passent par `nearbyZombies` :
+      ils restent appliqués. Points d'appel : tourelle (`updateBuildings`, bouche `b.y − 3`), fusilier
+      (`updateUnits`), visée tactile du commandant, caisson local (`fortification-pack`).
+- [x] O6c.2 Affûts de la citadelle (`vertical-citadel175.js`) : `sightQuery` refuse une cible que
+      `sightClear217` cache depuis le palier de la bouche (même palier que le peintre O8b : la bouche reste dans
+      l'emprise) ; `raycast(…, level217)` ajoute la fraction de `sightObstruction217` (impact `terrain217`, 2 cm
+      avant l'arête : l'éclat reste au pied) ; l'enveloppe des projectiles 2D contre les géants passe
+      `p.level217`. Couvre tir possédé, tir automatique, tir du commandant sur un palier, gardes de palier
+      (`vertical-population181`), éclats. Carte plate : aucun appel au terrain.
+- [x] O6c.3 Pose : `placement217` refuse un support `vertical175` dont l'entrée (`DeadwallVertical175State.entrance`)
+      sort de la carte ou n'est pas reliée au centre de l'emprise par `stepClear217` — « Entrée de la citadelle
+      hors du palier de l’emprise : la falaise ou l’eau couperait l’escalier. ». La garde de l'escalier d'O8b
+      reste (support ajouté directement au monde : accès toujours refusé, test O8b adapté).
+- [x] O6c.4 `fieldcraft.js` sur un terrain : `setup` chaîne l'eau profonde de l'enveloppe du monde dans son
+      `solidForFriendly` ; `positionFree` refuse l'eau profonde au centre et aux quatre points à 0,78 rayon (comme
+      `Game#friendlyPositionClear`) ; `pack` ne replace un gisement que si sa réserve est sur un seul palier, à
+      sec, hors rampe (`footprintClear217`) et reliée à sa place par `stepClear217` ; `recoverActor` exige un
+      segment sans falaise ni eau profonde. Sur 17117 / 42 / 46 (harnais) : 46 / 42 / 46 gisements replacés, tous
+      conformes ; la base en replaçait 36 / 33 / 35, dont 1, 1, 0 hors palier et 2 par-dessus une falaise (17117),
+      et laissait l'eau profonde franchissable aux amis après `setup`.
+- [x] O6c.5 Repli : l'enveloppe `updateZombies` de `fieldcraft` (retour en arrière d'un infecté posé dans un décor)
+      ne défait plus un repli du pas (`fallback217` changé) : l'infecté est dégagé par `recoverActor`. Sans cela, un
+      repli tombé sur un gisement était annulé à chaque pas (infecté figé hors d'atteinte, compteur sans fin).
+- [x] O6c.6 Tests : `tests/open-city217-fire.test.cjs` (6 cas, tous en échec sur la base `a94915f`) — carte plate
+      (choix identique, points d'appel) ; tourelle et fusilier (17117, 42 : caché ignoré, visible retenu, aucune
+      munition ni projectile, tir d'en haut) ; affûts (requête de visée, `raycast` arrêté au pied, affût
+      automatique sans munition, affût du plateau qui touche en contrebas) ; pose refusée (17117, 0, toutes
+      rotations) ; `fieldcraft` (46 : eau profonde, gisements, unités dégagées) ; repli contre un gisement.
+      `tests/terrain-fps217.test.cjs` : la réserve consignée (`aim(zHigh) === true`) exige désormais le refus, et
+      l'emprise à porte sur l'autre palier est refusée dès la pose. Le parcours empoisonné d'O6b (chemins du
+      terrain qui jettent sur une carte plate) passe toujours.
+- [x] O6c.7 Innocuité : parcours déterministe de 240 s (procédure 3, base `a94915f` contre l'arbre : horloges, tirages
+      et `crypto.randomUUID` figés, partie 17117 d'âge 10, citadelle, montée, sentinelle possédée, atelier,
+      générateur, tourelle, caserne et deux fusiliers, vague forcée, tirs, un rendu sur quatre) — sauvegardes de
+      départ, de mi-parcours et de fin identiques octet pour octet, relecture de mi-parcours identique. Mondes G1–G11
+      des huit graines : `audit-campaign-sites205` identique à `campagne205-eligibilite.json` hors tailles de sources.
+      Navigateur : partie 17117 par le menu, vague, tourelle, fusiliers, aucune erreur de page ;
+      `scripts/browser-terrain-fps217.mjs` (17117) sans erreur.
+- Réserves : D-O1 reste centré sur les cases et sur le palier du support — un affût d'un étage élevé ne voit pas
+  par-dessus la falaise, même plus haut qu'elle (hauteur d'œil réelle : O8 ultérieur) ; les lumières de la citadelle
+  éclairent encore par-dessus une falaise (la cible reste refusée par la bouche) ; `pack` garde la croix des routes et
+  l'anneau central de la carte plate (routes du terrain à lire en O9) et ne vérifie pas que la place nouvelle est
+  atteinte par le champ de flux ; les quartiers et les chantiers de jour ne vivent toujours pas sur un monde de
+  terrain (le test vide l'instantané des chantiers de jour le temps de `setup`) ; rien n'a été joué en G12 par le
+  menu ; coût du filtre : un `sightClear217` par infecté à portée et par choix de cible, sur un terrain seulement.
+
 ## T5 — Ouverture expérimentale
 
 - [ ] T5.1 `src/world-open217.js` : façade ; aiguillage dans `frontier-world.create`.

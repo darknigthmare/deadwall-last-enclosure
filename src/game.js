@@ -194,6 +194,8 @@
   const TERRAIN217_BLOCK = Object.freeze({ id: -217, type: 'terrain217', dead: false, completed: true, def: Object.freeze({ wall: true }) });
   // Eau de la carte locale : 1 mer, 2 lac, 3 rivière, 4 ruisseau ; nature 2 = rampe.
   const WATER217 = Object.freeze({ sea: 1, lake: 2, river: 3, stream: 4 }), RAMP217 = 2;
+  // O6c (D-O1) : tireur dont `nearbyZombies` filtre les candidats le temps d'un choix de cible (`Game#fireTarget217`).
+  let SIGHT217 = null;
   function terrain217(local, map) {
     const cells = map.cells, arrays = ['levels', 'passes', 'water', 'roads', 'kinds'];
     if (!local || local.generation !== 12 || local.frame !== map.tiles || local.tile !== 1 || local.unit !== TILE || !Array.isArray(local.deposits) || arrays.some(k => !(local[k] instanceof Uint8Array) || local[k].length !== cells))
@@ -346,6 +348,12 @@
           if (t.levels[i] !== level) return { valid: false, reason: 'Emprise à cheval sur deux paliers : la falaise coupe le chantier.' };
           if (t.deep[i] || t.ford[i] || t.water[i]) return { valid: false, reason: 'Emprise sur l’eau : choisissez la rive.' };
           if (t.kinds[i] === RAMP217 && !barrier) return { valid: false, reason: 'Emprise sur une rampe : seuls murs et portes la barrent.' };
+        }
+        // O6c : l'entrée d'un support de citadelle reste sur le palier de son emprise (escalier praticable dès la pose).
+        const V175 = d.vertical175 ? globalThis.DeadwallVertical175State : null;
+        if (V175?.entrance) {
+          const door = V175.entrance({ type: id, gx, gy, rotation, def: d }), cx = (gx + w / 2) * TILE, cy = (gy + h / 2) * TILE;
+          if (!L.contains(door.x, door.y) || !this.stepClear217(cx, cy, door.x, door.y)) return { valid: false, reason: 'Entrée de la citadelle hors du palier de l’emprise : la falaise ou l’eau couperait l’escalier.' };
         }
         return result;
       });
@@ -1472,7 +1480,7 @@
       const sprint = !this.essentials?.carrying() && !this.campaignPack?.carrying() && this.input.keys.has('ShiftLeft') && p.stamina > 2 && len > 0; const speed = (sprint ? 205 : 136) * (this.essentials?.carrying()?C.Essentials.RULES.packSpeed:1) * (this.campaignPack?.movementFactor?.()??1);
       if (sprint) p.stamina = Math.max(0, p.stamina - dt * 25); else p.stamina = Math.min(p.maxStamina, p.stamina + dt * 17);
       p.vx = dx * speed; p.vy = dy * speed; this.moveFriendly(p, p.vx * dt, p.vy * dt);
-      if(this.input.touchFire){if(this.nightwatch?.isBlackout())p.facing=Math.atan2(this.input.mouseWorldY-p.y,this.input.mouseWorldX-p.x);const target=this.nightwatch?this.nightwatch.target(p.x,p.y,720):this.nearestZombie(p.x,p.y,720);if(target)p.facing=Math.atan2(target.y-p.y,target.x-p.x);}else p.facing = Math.atan2(this.input.mouseWorldY - p.y, this.input.mouseWorldX - p.x);
+      if(this.input.touchFire){if(this.nightwatch?.isBlackout())p.facing=Math.atan2(this.input.mouseWorldY-p.y,this.input.mouseWorldX-p.x);const target=this.fireTarget217(p.x,p.y,720);if(target)p.facing=Math.atan2(target.y-p.y,target.x-p.x);}else p.facing = Math.atan2(this.input.mouseWorldY - p.y, this.input.mouseWorldX - p.x);
       if (this.input.mouseDown && !this.selectedBuild && !this.rallyPlacement) this.shootPlayer();
       // E passes through several legacy owners before the base handler. Gate
       // their common entry while another action owns the commander's hands.
@@ -1620,7 +1628,7 @@
       for (const b of [...this.world.buildings.values()]) {
         if (b.dead) continue; b.fireCooldown=Math.max(0,b.fireCooldown-dt);b.flash=Math.max(0,b.flash-dt);b.underAttack=Math.max(0,b.underAttack-dt);b.corpseLoad=Math.max(0,b.corpseLoad-dt*C.WORKER_RULES.passiveDecayPerSecond);
         if(!b.completed){if(b.work(dt*.075))this.completeBuilding(b);continue;}
-        if(b.def.range&&b.powered&&this.resources.ammo>=(b.def.ammoPerShot||1)&&(!this.citadel||this.citadel.canFire(b.def.ammoPerShot||1))&&b.fireCooldown<=0){const target=this.nightwatch?this.nightwatch.target(b.x,b.y,b.def.range):this.nearestZombie(b.x,b.y,b.def.range);if(target){b.turretAngle=Math.atan2(target.y-b.y,target.x-b.x);b.fireCooldown=1/b.def.fireRate;this.resources.ammo-=b.def.ammoPerShot||1;b.flash=.06;this.fireFriendly(b.x,b.y-3,b.turretAngle,b.def.damage*(this.hasResearch('ballistics')?1.12:1),b.def.range,b.type==='heavyTurret'?'#ffc56e':'#ffe4a1');}}
+        if(b.def.range&&b.powered&&this.resources.ammo>=(b.def.ammoPerShot||1)&&(!this.citadel||this.citadel.canFire(b.def.ammoPerShot||1))&&b.fireCooldown<=0){const target=this.fireTarget217(b.x,b.y,b.def.range,b.x,b.y-3);if(target){b.turretAngle=Math.atan2(target.y-b.y,target.x-b.x);b.fireCooldown=1/b.def.fireRate;this.resources.ammo-=b.def.ammoPerShot||1;b.flash=.06;this.fireFriendly(b.x,b.y-3,b.turretAngle,b.def.damage*(this.hasResearch('ballistics')?1.12:1),b.def.range,b.type==='heavyTurret'?'#ffc56e':'#ffe4a1');}}
         if(b.type==='clinic'&&b.powered&&b.health>0&&!b.siegeOffline&&!b.territoryOffline&&!b.dayOffline&&!b.gridOffline&&Number.isFinite(dt)&&dt>0){
           const r=C.NPC_RULES;
           for(const u of [...this.units,this.player])if(!u.dead&&u.health>0&&!u.regionAbsent&&distSq(u,b)<r.clinicRange*r.clinicRange&&this.workerCanWorkAt(u,b,r.clinicRange)){
@@ -1705,7 +1713,7 @@
           this.updateSpecialist(u,dt,danger,core);
         } else if(u.kind==='soldier') {
           const rules=C.SQUAD_RULES,group=this.squads.groups[u.squad],retreat=group.order==='retreat';
-          const target=this.nightwatch?this.nightwatch.target(u.x,u.y,rules.range):this.nearestZombie(u.x,u.y,rules.range);
+          const target=this.fireTarget217(u.x,u.y,rules.range);
           if(target){const d=dist(u,target);u.facing=Math.atan2(target.y-u.y,target.x-u.x);
             if(d>rules.advanceRange){if(!retreat){if(this.citadel?.isHolding(u)){const post=this.squadFormationTarget(u,group);if(post&&dist(u,post)>rules.rallyRadius)this.moveUnitToward(u,post,dt);}else this.moveUnitToward(u,target,dt,u.speed*rules.pursuitSpeed);}}
             else if(u.fireCooldown<=0&&this.resources.ammo>=1&&(!this.citadel||this.citadel.canFire(1))){u.fireCooldown=rules.fireCooldown/(this.balance217?.effort()??1);this.resources.ammo-=1;this.fireFriendly(u.x,u.y,u.facing,this.hasResearch('ballistics')?rules.researchedDamage:rules.damage,rules.projectileRange,'#ffe0a0');this.recordActorAction159(u,'shoot',rules.fireCooldown);}
@@ -2163,7 +2171,11 @@
     }
 
     rebuildBuckets(){this.buckets.clear();for(const z of this.zombies){if(z.dead)continue;const bx=Math.floor(z.x/this.bucketSize),by=Math.floor(z.y/this.bucketSize),key=bx+by*1000;if(!this.buckets.has(key))this.buckets.set(key,[]);this.buckets.get(key).push(z);}}
-    nearbyZombies(x,y,range){const out=[],minX=Math.floor((x-range)/this.bucketSize),maxX=Math.floor((x+range)/this.bucketSize),minY=Math.floor((y-range)/this.bucketSize),maxY=Math.floor((y+range)/this.bucketSize),r2=range*range;for(let by=minY;by<=maxY;by++)for(let bx=minX;bx<=maxX;bx++){const bucket=this.buckets.get(bx+by*1000);if(bucket)for(const z of bucket)if(!z.dead&&(z.x-x)**2+(z.y-y)**2<=r2)out.push(z);}return out;}
+    nearbyZombies(x,y,range){const sight=SIGHT217?.game===this?SIGHT217:null,out=[],minX=Math.floor((x-range)/this.bucketSize),maxX=Math.floor((x+range)/this.bucketSize),minY=Math.floor((y-range)/this.bucketSize),maxY=Math.floor((y+range)/this.bucketSize),r2=range*range;for(let by=minY;by<=maxY;by++)for(let bx=minX;bx<=maxX;bx++){const bucket=this.buckets.get(bx+by*1000);if(bucket)for(const z of bucket)if(!z.dead&&(z.x-x)**2+(z.y-y)**2<=r2&&(!sight||this.world.sightClear217(sight,z,sight.level)))out.push(z);}return out;}
+    // O6c (D-O1) : cible d'un tireur ami (tourelle, fusilier, visée tactile, caisson local) par le choix existant
+    // (`nightwatch`, arcs de tir, plus proche) ; sur un terrain, un infecté que la falaise cache depuis le palier de la
+    // bouche (`sx`, `sy`) n'est pas candidat : aucune munition sur un tir arrêté. Carte plate : appel inchangé.
+    fireTarget217(x,y,range,sx=x,sy=y){const pick=()=>this.nightwatch?this.nightwatch.target(x,y,range):this.nearestZombie(x,y,range);if(!this.world.terrain217)return pick();const prior=SIGHT217;SIGHT217={game:this,x:sx,y:sy,level:this.world.terrainAt217(sx,sy)?.level};try{return pick();}finally{SIGHT217=prior;}}
     nearestZombie(x,y,range){let result=null,best=range*range;for(const z of this.nearbyZombies(x,y,range)){const d=(z.x-x)**2+(z.y-y)**2;if(d<best){best=d;result=z;}}return result;}
 
     updateProjectiles(dt) {

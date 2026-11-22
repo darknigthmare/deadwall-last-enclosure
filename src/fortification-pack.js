@@ -357,7 +357,8 @@ function install(g){
   for(const f of state.fittings){const b=building(f.id),cost=b?.def.ammoPerShot||1;if(!b||b.id===mounted||!b.def.range||f.ammo<cost||!b.powered||b.siegeOffline||b.territoryOffline||b.gridOffline||b.fireCooldown>0)continue;
    // The caisson is local and already paid. Normal firing always retains its own priority.
    if(g.resources.ammo>=cost&&(!g.citadel||g.citadel.canFire(cost)))continue;
-   const z=g.nightwatch?g.nightwatch.target(b.x,b.y,b.def.range):g.nearestZombie(b.x,b.y,b.def.range);if(!z)continue;
+   // O6c (D-O1) : même choix que la tourelle ordinaire ; sur un terrain, aucune cible cachée par une falaise.
+   const z=g.fireTarget217?g.fireTarget217(b.x,b.y,b.def.range,b.x,b.y-3):g.nightwatch?g.nightwatch.target(b.x,b.y,b.def.range):g.nearestZombie(b.x,b.y,b.def.range);if(!z)continue;
    b.turretAngle=Math.atan2(z.y-b.y,z.x-b.x);b.fireCooldown=1/b.def.fireRate;f.ammo-=cost;b.flash=.06;g.fireFriendly(b.x,b.y-3,b.turretAngle,b.def.damage*(g.hasResearch('ballistics')?1.12:1),b.def.range,b.type==='heavyTurret'?'#ffc56e':'#ffe4a1');
   }return r;
  });

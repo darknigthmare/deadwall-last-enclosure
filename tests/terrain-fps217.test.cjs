@@ -155,13 +155,16 @@ test('O8b : œil et commandant bornés par canStep — palier du support, entré
     assert.deepEqual(V.muzzle(q), muzzle);
   }
   // Entrée par l'escalier : refusée quand la falaise sépare l'entrée du support (emprise sur un palier, porte sur l'autre).
+  // O6c : une telle emprise est désormais refusée dès la pose (`placement217`) ; le support est ajouté directement au
+  // monde pour vérifier que la garde de l'escalier tient toujours (défense en profondeur).
   const { world: w } = terrainGame(17117), V = g.vertical175, def = w.definition('verticalFoundation6'), Building = g.core().constructor;
   let bad = null;
   for (let y = 4; y < N - 16 && !bad; y++) for (let x = 4; x < N - 16 && !bad; x++) {
-    if (!w.placement(def, x, y, 0).valid) continue; const probe = new Building(0, 'verticalFoundation6', x, y, 0, 1, w.cityGeometry202), door = S.entrance(probe);
+    const q = w.placement(def, x, y, 0); if (q.valid || !/Entrée de la citadelle/.test(q.reason)) continue;
+    const probe = new Building(0, 'verticalFoundation6', x, y, 0, 1, w.cityGeometry202), door = S.entrance(probe);
     if (!w.stepClear217(probe.x, probe.y, door.x, door.y) && g.friendlyPositionClear(g.player, door.x, door.y)) bad = { x, y };
   }
-  assert.ok(bad, 'emprise dont la porte tombe sur l’autre palier');
+  assert.ok(bad, 'emprise dont la porte tombe sur l’autre palier, refusée dès la pose');
   const b = new Building(g.nextId++, 'verticalFoundation6', bad.x, bad.y, 0, 1, w.cityGeometry202); b.health = b.maxHealth; w.add(b);
   V.step(.1); const door = V.entrance(b); g.player.x = door.x; g.player.y = door.y;
   const refused = V.accessQuote(b.id, 0); assert.equal(refused.ok, false); assert.match(refused.reason, /falaise/);
@@ -211,8 +214,11 @@ test('O8b : peinture — citadelles, infectés, équipe et gisements posés sur 
   for (const box of geometry) assert.ok(zs.has(Math.round((box.z + floor) * 1000) / 1000), 'boîte levée ' + box.type);
   // Infecté sur le palier de l'œil : peint, pieds à la hauteur du sol ; au-delà d'une falaise montante : caché (D-O1).
   const probe = new Zombie(g.nextId++, 'walker', 0, 0, g.difficulty, g.wave, g.local), aim = V.sightQuery(muzzle, q.def.range, q.m.id);
+  // Même requête, terrain masqué le temps de sa création (portée, boîtes et lumière seules) : sépare l'effet de D-O1.
+  Object.defineProperty(w, 'terrain217', { value: null, configurable: true });
+  let flatAim; try { flatAim = V.sightQuery(muzzle, q.def.range, q.m.id); } finally { delete w.terrain217; }
   const near = (() => { for (let r = 16; r < 60; r++) for (let k = 0; k < 32; k++) { const a = k * Math.PI / 16; Object.assign(probe, { x: (muzzle.x + Math.cos(a) * r) * T, y: (muzzle.y + Math.sin(a) * r) * T }); const c = w.terrainAt217(probe.x, probe.y); if (c && c.level === level && !c.water && aim(probe)) return { x: probe.x, y: probe.y }; } return null; })();
-  const up = (() => { for (let r = 4; r < 80; r++) for (let k = 0; k < 32; k++) { const a = k * Math.PI / 16, x = Math.floor(muzzle.x + Math.cos(a) * r), y = Math.floor(muzzle.y + Math.sin(a) * r); if (x < 0 || y < 0 || x >= N || y >= N) continue; const i = y * N + x; Object.assign(probe, { x: (x + .5) * T, y: (y + .5) * T }); if (t.levels[i] > level && !t.water[i] && aim(probe) && !w.sightClear217({ x: muzzle.x * T, y: muzzle.y * T }, probe, level)) return { x: probe.x, y: probe.y }; } return null; })();
+  const up = (() => { for (let r = 4; r < 80; r++) for (let k = 0; k < 32; k++) { const a = k * Math.PI / 16, x = Math.floor(muzzle.x + Math.cos(a) * r), y = Math.floor(muzzle.y + Math.sin(a) * r); if (x < 0 || y < 0 || x >= N || y >= N) continue; const i = y * N + x; Object.assign(probe, { x: (x + .5) * T, y: (y + .5) * T }); if (t.levels[i] > level && !t.water[i] && flatAim(probe) && !w.sightClear217({ x: muzzle.x * T, y: muzzle.y * T }, probe, level)) return { x: probe.x, y: probe.y }; } return null; })();
   assert.ok(up, 'plateau au-dessus du support');
   assert.ok(near, 'infecté visible sur le palier de l’œil');
   const zLow = new Zombie(g.nextId++, 'walker', near.x, near.y, g.difficulty, g.wave, g.local), zHigh = new Zombie(g.nextId++, 'walker', up.x, up.y, g.difficulty, g.wave, g.local);
@@ -221,7 +227,9 @@ test('O8b : peinture — citadelles, infectés, équipe et gisements posés sur 
   assert.ok(low.length > 0); assert.equal(Math.min(...low.map(v => v[2])), Math.fround(F.elevation(w, zLow.x, zLow.y)), 'pieds sur le sol du palier');
   g.zombies.push(zHigh); const two = draw();
   assert.equal(two.d.dynamicVertices, one.d.dynamicVertices, 'infecté du plateau non peint depuis le contrebas (D-O1)');
-  assert.equal(aim(zHigh), true, 'la requête de visée simulée, elle, ne lit pas le terrain (réserve)');
+  // O6c : la requête de visée simulée applique D-O1 comme la vue (réserve O8b soldée).
+  assert.equal(flatAim(zHigh), true, 'à portée et sans boîte devant');
+  assert.equal(aim(zHigh), false, 'la requête de visée simulée lit la falaise (D-O1)');
   // Depuis le plateau, le contrebas reste visible.
   const { world: w2 } = terrainGame(17117), t2 = w2.terrain217; g.daylight = () => 1; g.units.length = 0;
   const { building: hb } = armTerrainCitadel217(g, { x: up.x / T, y: up.y / T }, { level: t2.levels[Math.floor(up.y / T) * N + Math.floor(up.x / T)], radius: 50 });

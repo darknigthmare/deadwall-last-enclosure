@@ -311,14 +311,20 @@
     for(const l of g.nightwatch?.sources?.(false)||[])if(l.r>0)lights.push({x:l.x/R.tile,y:l.y/R.tile,z:R.eyeHeight,range:l.r/R.tile,owner:l.id??null,angle:l.angle||0,half:l.half??Math.PI});
     for(const s of state.sites){const b=building(s.id);if(!online(b))continue;for(let level=0;level<s.decks.length;level++)for(const m of s.decks[level].modules)if(R.modules[m.kind].light>0&&m.progress===1){const p=S.slots(b)[m.slot];lights.push({x:p.x,y:p.y,z:S.height(s,level,base(b))+R.muzzleHeight,range:R.modules[m.kind].light/R.tile,owner:null,module:m.id,half:Math.PI});}}
    }
+   // O6c (D-O1, G12 hors jeu) : depuis le palier de la bouche, une falaise montante cache la cible, comme dans la vue.
+   const terrain=g.world?.terrain217?g.world:null,from217=terrain&&{x:origin.x*R.tile,y:origin.y*R.tile};
    return e=>{if(!live(e))return false;const to=aimPoint(e),distance=Math.hypot(to.x-origin.x,to.y-origin.y,to.z-origin.z);if(distance>range||!clear(origin,to))return false;
+    if(terrain&&!terrain.sightClear217(from217,e))return false;
     if(distance<=Math.max(R.nightSight,range*day))return true;
     return lights.some(l=>Math.hypot(to.x-l.x,to.y-l.y,to.z-l.z)<=l.range&&Math.abs(angle(Math.atan2(to.y-l.y,to.x-l.x)-(l.angle||0)))<=l.half&&clear(l,to,l.owner,l.module??null));
    };
   }
-  function raycast(origin,yaw,pitch,range,ignoreModule=null,boxes=geometry()){
+  function raycast(origin,yaw,pitch,range,ignoreModule=null,boxes=geometry(),level217){
    const dir=S.direction(yaw,pitch);let best={distance:range,type:'miss',entity:null};
    if(dir.z<0){const d=-origin.z/dir.z;if(d>=0&&d<best.distance)best={distance:d,type:'ground',entity:null};}
+   // O6c (D-O1, G12 hors jeu) : le tir s'arrête sur la falaise qu'il monte depuis le palier de la bouche (ou `level217`),
+   // un peu avant l'arête pour que l'éclat reste au pied. Carte plate : aucun appel.
+   if(g.world?.terrain217&&(dir.x||dir.y)){const far=best.distance,f=g.world.sightObstruction217({x:origin.x*R.tile,y:origin.y*R.tile},{x:(origin.x+dir.x*far)*R.tile,y:(origin.y+dir.y*far)*R.tile},level217);if(f!==null)best={distance:Math.max(0,f*far-.02),type:'terrain217',entity:null};}
    for(const box of boxes){if(box.module===ignoreModule)continue;const d=S.rayBox(origin,dir,box,best.distance);if(d!==null&&d<best.distance)best={distance:d,type:box.type,entity:box};}
    for(const e of g.zombies){if(!live(e))continue;const h=e.kind==='crawler'?.6:1.8,r=e.radius/R.tile,box={x:e.x/R.tile-r,y:e.y/R.tile-r,z:siege.enemyPose(e).z,w:2*r,h:2*r,d:h};const d=S.rayBox(origin,dir,box,best.distance);if(d!==null&&d<best.distance)best={distance:d,type:'zombie',entity:e};}
    for(const e of state.giants){const d=S.rayBox(origin,dir,giantBox(e),best.distance);if(d!==null&&d<best.distance)best={distance:d,type:'giant',entity:e};}
@@ -419,7 +425,7 @@
   for(const action of ['melee','startReload'])wrap(action,(old,...args)=>network.carrying()?false:old(...args));
   wrap('shootPlayer',(old,...args)=>{if(network.carrying())return false;personalShot=!!state.actor;try{return old(...args);}finally{personalShot=false;}});
   wrap('fireFriendly',(old,x,y,yaw,damage,range,...args)=>{if(!personalShot)return old(x,y,yaw,damage,range,...args);const p={x:g.player.x/R.tile,y:g.player.y/R.tile,z:pose().z+R.eyeHeight},to=screenAim(p),a=S.lookAt(p,to),result=raycast(p,a.yaw,a.pitch,range/R.tile);hit(result,damage);traces.push({from:p,to:result.point,life:R.traceLife});if(traces.length>R.maxTraces)traces.shift();});
-  wrap('updateProjectiles',(old,dt)=>{if(state.giants.length)for(const p of g.projectiles){if(p.dead||p.owner!=='friendly')continue;const speed=Math.hypot(p.vx,p.vy),origin={x:p.x/R.tile,y:p.y/R.tile,z:R.eyeHeight},result=raycast(origin,Math.atan2(p.vy,p.vx),0,speed*dt/R.tile);if(result.type==='giant'){hit(result,p.damage);p.dead=true;}}return old(dt);});
+  wrap('updateProjectiles',(old,dt)=>{if(state.giants.length)for(const p of g.projectiles){if(p.dead||p.owner!=='friendly')continue;const speed=Math.hypot(p.vx,p.vy),origin={x:p.x/R.tile,y:p.y/R.tile,z:R.eyeHeight},result=raycast(origin,Math.atan2(p.vy,p.vx),0,speed*dt/R.tile,null,undefined,p.level217);if(result.type==='giant'){hit(result,p.damage);p.dead=true;}}return old(dt);});
   wrap('destroyBuilding',(old,b,...args)=>{
    const z=state.actor?.site===b.id?pose().z:0,heights=new Map(g.units.filter(u=>population.isAssigned(u.id)).map(u=>[u.id,population.pose(u).z])),captured=[];
    // The native destruction removes the building before its occupants die.

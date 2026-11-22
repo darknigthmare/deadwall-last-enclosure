@@ -346,7 +346,7 @@ tableau « Restent en clair » de T5.B3.
     Le coût vient surtout des enveloppes (× 12 sur la carte nue) : c'est elles qu'O6b devra
     optimiser (coût par case mis en cache, reconstruction incrémentale), avant la taille.
 
-### O6 — Carte de la cité de 192 m née de `world-local217` (G12 non créable) (**livré** : O6a, O6b ; hors jeu)
+### O6 — Carte de la cité de 192 m née de `world-local217` (G12 non créable) (**livré** : O6a, O6b, O6c ; hors jeu)
 
 Points 2, 3, 4 et 7 de `tasks.md`. Atteinte seulement par un harnais de test qui construit
 une partie à partir de `L.describe(graine)`.
@@ -426,6 +426,29 @@ décision D-O1. Ampleur L, risque G12 haut (performances du flux sur 36 864 case
   - Innocuité : parcours déterministe de 240 s (base `5b0d8ab` contre l'arbre de travail) identique octet
     pour octet, reprises croisées identiques ; parcours « empoisonné » dans le test (chaque chemin du
     terrain jette s'il est appelé sur une carte plate) ; mondes G1–G11 inchangés.
+
+**O6c — Dettes de falaise soldées avant O9 (livré, hors jeu).** Réserves d'O6b et d'O8b sur le tir, la pose et
+`fieldcraft` ; détail, mesures et réserves : `tasks.md`, section O6c.
+
+- Choix de cible 2D (D-O1) : `Game#fireTarget217(x, y, portée, sx, sy)` garde le choix existant (veille
+  nocturne, arcs de tir de `defense-pack131`, plus proche) et, sur un terrain seulement, retire de
+  `nearbyZombies` le temps de l'appel tout infecté que `sightClear217` cache depuis le palier de la bouche ;
+  lu par la tourelle, le fusilier, la visée tactile du commandant et le caisson local (`fortification-pack`).
+  Plus aucune munition dépensée sur un tir que la falaise arrête.
+- Affûts de la citadelle (vue FPS) : `sightQuery` (cibles automatiques, gardes de palier, lumière) applique
+  D-O1 depuis le palier de la bouche, comme le peintre O8b ; `raycast` s'arrête sur l'arête qu'il monte
+  (`type` `terrain217`, un peu avant l'arête) — tir possédé, tir automatique, tir du commandant sur un palier,
+  gardes de `vertical-population181`, éclats, et projectiles 2D contre les géants (palier capté au tir).
+- Pose : `placement217` refuse un support de citadelle (`vertical175`) dont l'entrée intérieure tombe hors du
+  palier de son emprise (« Entrée de la citadelle hors du palier de l’emprise : la falaise ou l’eau couperait
+  l’escalier. ») ; la garde de l'escalier d'O8b reste en place.
+- `fieldcraft` sur un terrain : `setup` garde l'eau profonde de l'enveloppe du monde dans `solidForFriendly` ;
+  `positionFree` (donc `friendlyPositionClear`) refuse l'eau profonde aux points de la garde de base ; `pack`
+  ne replace un gisement que sur un seul palier, à sec, hors rampe, relié sans falaise à sa place ;
+  `recoverActor` ne dégage un acteur que par un segment sans falaise ni eau profonde.
+- Repli d'un infecté hors d'atteinte : l'enveloppe `updateZombies` de `fieldcraft` ne défait plus un repli
+  du pas en cours (compteur `fallback217`) ; posé contre un décor, l'infecté en est dégagé (`recoverActor`).
+- Innocuité : procédure 3 (base `a94915f`) identique octet pour octet ; mondes G1–G11 inchangés.
 
 ### O7 — Siège adossé : fronts, enceintes et équilibrage à deux côtés
 
