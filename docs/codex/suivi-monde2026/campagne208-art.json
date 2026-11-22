@@ -68,8 +68,8 @@
     },
     {
       "path": "src/abominations217.js",
-      "bytes": 50315,
-      "sha256": "126d86350daf0338ea22fcbfe5fb70e7cd26fb423a8defb46329dc85e436090e"
+      "bytes": 51517,
+      "sha256": "4eec128100ac7afc6d39db420d3c55ecfb537e479e972a7592afd386abfc3f8b"
     },
     {
       "path": "src/actor-actions159.js",
@@ -483,8 +483,8 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 378821,
-      "sha256": "9aebccd9d086ab6f6f1372bed8774096edf7bf89b603920a2434d8e435af6fa7"
+      "bytes": 381794,
+      "sha256": "cbc686b9b60f6ff2cad956e2674e9bae47df0deeddcbe0fa577435f666ba2e82"
     },
     {
       "path": "src/corpse-chain217.js",
@@ -538,8 +538,8 @@
     },
     {
       "path": "src/earthworks217.js",
-      "bytes": 45085,
-      "sha256": "f96949a9c20bb5c593fe15a95956d901605295f8673df7f515c1fbb8acd1bc45"
+      "bytes": 45612,
+      "sha256": "26f3a6460c51c09bb8f8e6a41ef22ba46fb0c7541a9457831db51883f5b9630a"
     },
     {
       "path": "src/ecology-codex189.js",
@@ -608,18 +608,18 @@
     },
     {
       "path": "src/expeditions.js",
-      "bytes": 28366,
-      "sha256": "2b7efe65f887fa9f92f8b4984ef9a126c0ecb7cc74405be4acd6e91c9907edfa"
+      "bytes": 28612,
+      "sha256": "8e4f1fdf2615d3f7eb3606a101869fdf3ab92a601baf8e6593a65abce6e66c78"
     },
     {
       "path": "src/exploration-125.js",
-      "bytes": 171808,
-      "sha256": "93383deb3bca3e0c329c8cef88032252eb03e038c872d5fe327d0e41cb975537"
+      "bytes": 175436,
+      "sha256": "8ea8ef7bbabc8284ff1dd41b3340b2e9b6f13be8fd5a59717f789c18d4d56486"
     },
     {
       "path": "src/exploration-needs217.js",
-      "bytes": 18780,
-      "sha256": "5ba10260846de4491d76bca5fada8fa8bbb3fc0a9d1cb9325cfccbdc1a3b3a5d"
+      "bytes": 18962,
+      "sha256": "dc85126bac555520d7c9716e5047aa42a53347eef639043a6b7a79f1a04972cd"
     },
     {
       "path": "src/exploration-pack.js",
@@ -638,8 +638,8 @@
     },
     {
       "path": "src/factions217.js",
-      "bytes": 50252,
-      "sha256": "53907a2f7b56e6daa95524caacaefe16d424c17fdc8b670a47009a026489ba4f"
+      "bytes": 50267,
+      "sha256": "68ef24fda54d156f19b3b218b596d37f42eb6ebed510f7731f34c2877b312bc3"
     },
     {
       "path": "src/fallback-order.js",
@@ -678,8 +678,8 @@
     },
     {
       "path": "src/fieldcraft.js",
-      "bytes": 29197,
-      "sha256": "c9a5879ad05388f0ff32c91a608c8922eafa9953c553a17d4d3254977354c6a4"
+      "bytes": 29926,
+      "sha256": "78b5fce668071a8089558e0e870993ff259f3c53b52b3319613d93bb7b478ae0"
     },
     {
       "path": "src/forage-art193.js",
@@ -768,8 +768,8 @@
     },
     {
       "path": "src/game.js",
-      "bytes": 484269,
-      "sha256": "a591ce8f7df9579c565cbcfb6a92028c162c7e32edec6c091feaae517a7635bf"
+      "bytes": 491330,
+      "sha256": "50648e28547db8689644e90ca4252bf9bef76629048f1e507ff96cd9d29934c6"
     },
     {
       "path": "src/geography135.js",
@@ -793,8 +793,8 @@
     },
     {
       "path": "src/horde-horizon217.js",
-      "bytes": 32816,
-      "sha256": "c1e5c779ee7606d6d55f2a100bc4e1dde5277790bc874c0a38c881e52acc2741"
+      "bytes": 32831,
+      "sha256": "35a9d1c485b27ad225087d526121759443036c930f2ac6ef4898ceca44099061"
     },
     {
       "path": "src/hud135.js",
@@ -1013,8 +1013,8 @@
     },
     {
       "path": "src/save.js",
-      "bytes": 37323,
-      "sha256": "d048ba1fbbcda6ca58df889cc02e6c91bafc467572faabe18e2feabb7040c394"
+      "bytes": 38203,
+      "sha256": "be8f60d97f0d46107f59bc888074a2a785e5738f5dbc1e0ef3c904b31db14b22"
     },
     {
       "path": "src/scenario-ui.js",
@@ -1143,8 +1143,8 @@
     },
     {
       "path": "src/vertical-citadel175.js",
-      "bytes": 60052,
-      "sha256": "2378c232391815016d324c60800e506cbf2d98d7549f9fe05907f5c6aa2c15bc"
+      "bytes": 64025,
+      "sha256": "65f20b291b2a72fe99c3f79bf9d646b6c5181b2bf45fa712eac709ef96d004ec"
     },
     {
       "path": "src/vertical-network179.js",
@@ -1153,8 +1153,8 @@
     },
     {
       "path": "src/vertical-population181.js",
-      "bytes": 31470,
-      "sha256": "20d4505910ae890612b965467d5c415e338039002623f65286f157408ed687ca"
+      "bytes": 31478,
+      "sha256": "5d8213d5c859c5f0e83136b9c1f2abfce9ed82ec679cb3393d153e9ca7a3638d"
     },
     {
       "path": "src/vertical-siege176.js",
@@ -1268,8 +1268,8 @@
     },
     {
       "path": "src/world-pack131.js",
-      "bytes": 46595,
-      "sha256": "7761076308948da3a58192d9219df193ffba0520b059c1270442900852754775"
+      "bytes": 47057,
+      "sha256": "cb6ddb9a0649d943f8e9a8b0eb444b94375fe6391667fdb7322d178f4af68d27"
     },
     {
       "path": "src/world-props-art153.js",
@@ -1410,8 +1410,8 @@
     },
     {
       "path": "src/abominations217.js",
-      "bytes": 50315,
-      "sha256": "126d86350daf0338ea22fcbfe5fb70e7cd26fb423a8defb46329dc85e436090e"
+      "bytes": 51517,
+      "sha256": "4eec128100ac7afc6d39db420d3c55ecfb537e479e972a7592afd386abfc3f8b"
     },
     {
       "path": "src/actor-actions159.js",
@@ -1825,8 +1825,8 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 378821,
-      "sha256": "9aebccd9d086ab6f6f1372bed8774096edf7bf89b603920a2434d8e435af6fa7"
+      "bytes": 381794,
+      "sha256": "cbc686b9b60f6ff2cad956e2674e9bae47df0deeddcbe0fa577435f666ba2e82"
     },
     {
       "path": "src/corpse-chain217.js",
@@ -1880,8 +1880,8 @@
     },
     {
       "path": "src/earthworks217.js",
-      "bytes": 45085,
-      "sha256": "f96949a9c20bb5c593fe15a95956d901605295f8673df7f515c1fbb8acd1bc45"
+      "bytes": 45612,
+      "sha256": "26f3a6460c51c09bb8f8e6a41ef22ba46fb0c7541a9457831db51883f5b9630a"
     },
     {
       "path": "src/ecology-codex189.js",
@@ -1950,18 +1950,18 @@
     },
     {
       "path": "src/expeditions.js",
-      "bytes": 28366,
-      "sha256": "2b7efe65f887fa9f92f8b4984ef9a126c0ecb7cc74405be4acd6e91c9907edfa"
+      "bytes": 28612,
+      "sha256": "8e4f1fdf2615d3f7eb3606a101869fdf3ab92a601baf8e6593a65abce6e66c78"
     },
     {
       "path": "src/exploration-125.js",
-      "bytes": 171808,
-      "sha256": "93383deb3bca3e0c329c8cef88032252eb03e038c872d5fe327d0e41cb975537"
+      "bytes": 175436,
+      "sha256": "8ea8ef7bbabc8284ff1dd41b3340b2e9b6f13be8fd5a59717f789c18d4d56486"
     },
     {
       "path": "src/exploration-needs217.js",
-      "bytes": 18780,
-      "sha256": "5ba10260846de4491d76bca5fada8fa8bbb3fc0a9d1cb9325cfccbdc1a3b3a5d"
+      "bytes": 18962,
+      "sha256": "dc85126bac555520d7c9716e5047aa42a53347eef639043a6b7a79f1a04972cd"
     },
     {
       "path": "src/exploration-pack.js",
@@ -1980,8 +1980,8 @@
     },
     {
       "path": "src/factions217.js",
-      "bytes": 50252,
-      "sha256": "53907a2f7b56e6daa95524caacaefe16d424c17fdc8b670a47009a026489ba4f"
+      "bytes": 50267,
+      "sha256": "68ef24fda54d156f19b3b218b596d37f42eb6ebed510f7731f34c2877b312bc3"
     },
     {
       "path": "src/fallback-order.js",
@@ -2020,8 +2020,8 @@
     },
     {
       "path": "src/fieldcraft.js",
-      "bytes": 29197,
-      "sha256": "c9a5879ad05388f0ff32c91a608c8922eafa9953c553a17d4d3254977354c6a4"
+      "bytes": 29926,
+      "sha256": "78b5fce668071a8089558e0e870993ff259f3c53b52b3319613d93bb7b478ae0"
     },
     {
       "path": "src/forage-art193.js",
@@ -2110,8 +2110,8 @@
     },
     {
       "path": "src/game.js",
-      "bytes": 484269,
-      "sha256": "a591ce8f7df9579c565cbcfb6a92028c162c7e32edec6c091feaae517a7635bf"
+      "bytes": 491330,
+      "sha256": "50648e28547db8689644e90ca4252bf9bef76629048f1e507ff96cd9d29934c6"
     },
     {
       "path": "src/geography135.js",
@@ -2135,8 +2135,8 @@
     },
     {
       "path": "src/horde-horizon217.js",
-      "bytes": 32816,
-      "sha256": "c1e5c779ee7606d6d55f2a100bc4e1dde5277790bc874c0a38c881e52acc2741"
+      "bytes": 32831,
+      "sha256": "35a9d1c485b27ad225087d526121759443036c930f2ac6ef4898ceca44099061"
     },
     {
       "path": "src/hud135.js",
@@ -2355,8 +2355,8 @@
     },
     {
       "path": "src/save.js",
-      "bytes": 37323,
-      "sha256": "d048ba1fbbcda6ca58df889cc02e6c91bafc467572faabe18e2feabb7040c394"
+      "bytes": 38203,
+      "sha256": "be8f60d97f0d46107f59bc888074a2a785e5738f5dbc1e0ef3c904b31db14b22"
     },
     {
       "path": "src/scenario-ui.js",
@@ -2485,8 +2485,8 @@
     },
     {
       "path": "src/vertical-citadel175.js",
-      "bytes": 60052,
-      "sha256": "2378c232391815016d324c60800e506cbf2d98d7549f9fe05907f5c6aa2c15bc"
+      "bytes": 64025,
+      "sha256": "65f20b291b2a72fe99c3f79bf9d646b6c5181b2bf45fa712eac709ef96d004ec"
     },
     {
       "path": "src/vertical-network179.js",
@@ -2495,8 +2495,8 @@
     },
     {
       "path": "src/vertical-population181.js",
-      "bytes": 31470,
-      "sha256": "20d4505910ae890612b965467d5c415e338039002623f65286f157408ed687ca"
+      "bytes": 31478,
+      "sha256": "5d8213d5c859c5f0e83136b9c1f2abfce9ed82ec679cb3393d153e9ca7a3638d"
     },
     {
       "path": "src/vertical-siege176.js",
@@ -2610,8 +2610,8 @@
     },
     {
       "path": "src/world-pack131.js",
-      "bytes": 46595,
-      "sha256": "7761076308948da3a58192d9219df193ffba0520b059c1270442900852754775"
+      "bytes": 47057,
+      "sha256": "cb6ddb9a0649d943f8e9a8b0eb444b94375fe6391667fdb7322d178f4af68d27"
     },
     {
       "path": "src/world-props-art153.js",
@@ -2752,8 +2752,8 @@
     },
     {
       "path": "src/abominations217.js",
-      "bytes": 50315,
-      "sha256": "126d86350daf0338ea22fcbfe5fb70e7cd26fb423a8defb46329dc85e436090e"
+      "bytes": 51517,
+      "sha256": "4eec128100ac7afc6d39db420d3c55ecfb537e479e972a7592afd386abfc3f8b"
     },
     {
       "path": "src/actor-actions159.js",
@@ -3167,8 +3167,8 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 378821,
-      "sha256": "9aebccd9d086ab6f6f1372bed8774096edf7bf89b603920a2434d8e435af6fa7"
+      "bytes": 381794,
+      "sha256": "cbc686b9b60f6ff2cad956e2674e9bae47df0deeddcbe0fa577435f666ba2e82"
     },
     {
       "path": "src/corpse-chain217.js",
@@ -3222,8 +3222,8 @@
     },
     {
       "path": "src/earthworks217.js",
-      "bytes": 45085,
-      "sha256": "f96949a9c20bb5c593fe15a95956d901605295f8673df7f515c1fbb8acd1bc45"
+      "bytes": 45612,
+      "sha256": "26f3a6460c51c09bb8f8e6a41ef22ba46fb0c7541a9457831db51883f5b9630a"
     },
     {
       "path": "src/ecology-codex189.js",
@@ -3292,18 +3292,18 @@
     },
     {
       "path": "src/expeditions.js",
-      "bytes": 28366,
-      "sha256": "2b7efe65f887fa9f92f8b4984ef9a126c0ecb7cc74405be4acd6e91c9907edfa"
+      "bytes": 28612,
+      "sha256": "8e4f1fdf2615d3f7eb3606a101869fdf3ab92a601baf8e6593a65abce6e66c78"
     },
     {
       "path": "src/exploration-125.js",
-      "bytes": 171808,
-      "sha256": "93383deb3bca3e0c329c8cef88032252eb03e038c872d5fe327d0e41cb975537"
+      "bytes": 175436,
+      "sha256": "8ea8ef7bbabc8284ff1dd41b3340b2e9b6f13be8fd5a59717f789c18d4d56486"
     },
     {
       "path": "src/exploration-needs217.js",
-      "bytes": 18780,
-      "sha256": "5ba10260846de4491d76bca5fada8fa8bbb3fc0a9d1cb9325cfccbdc1a3b3a5d"
+      "bytes": 18962,
+      "sha256": "dc85126bac555520d7c9716e5047aa42a53347eef639043a6b7a79f1a04972cd"
     },
     {
       "path": "src/exploration-pack.js",
@@ -3322,8 +3322,8 @@
     },
     {
       "path": "src/factions217.js",
-      "bytes": 50252,
-      "sha256": "53907a2f7b56e6daa95524caacaefe16d424c17fdc8b670a47009a026489ba4f"
+      "bytes": 50267,
+      "sha256": "68ef24fda54d156f19b3b218b596d37f42eb6ebed510f7731f34c2877b312bc3"
     },
     {
       "path": "src/fallback-order.js",
@@ -3362,8 +3362,8 @@
     },
     {
       "path": "src/fieldcraft.js",
-      "bytes": 29197,
-      "sha256": "c9a5879ad05388f0ff32c91a608c8922eafa9953c553a17d4d3254977354c6a4"
+      "bytes": 29926,
+      "sha256": "78b5fce668071a8089558e0e870993ff259f3c53b52b3319613d93bb7b478ae0"
     },
     {
       "path": "src/forage-art193.js",
@@ -3452,8 +3452,8 @@
     },
     {
       "path": "src/game.js",
-      "bytes": 484269,
-      "sha256": "a591ce8f7df9579c565cbcfb6a92028c162c7e32edec6c091feaae517a7635bf"
+      "bytes": 491330,
+      "sha256": "50648e28547db8689644e90ca4252bf9bef76629048f1e507ff96cd9d29934c6"
     },
     {
       "path": "src/geography135.js",
@@ -3477,8 +3477,8 @@
     },
     {
       "path": "src/horde-horizon217.js",
-      "bytes": 32816,
-      "sha256": "c1e5c779ee7606d6d55f2a100bc4e1dde5277790bc874c0a38c881e52acc2741"
+      "bytes": 32831,
+      "sha256": "35a9d1c485b27ad225087d526121759443036c930f2ac6ef4898ceca44099061"
     },
     {
       "path": "src/hud135.js",
@@ -3697,8 +3697,8 @@
     },
     {
       "path": "src/save.js",
-      "bytes": 37323,
-      "sha256": "d048ba1fbbcda6ca58df889cc02e6c91bafc467572faabe18e2feabb7040c394"
+      "bytes": 38203,
+      "sha256": "be8f60d97f0d46107f59bc888074a2a785e5738f5dbc1e0ef3c904b31db14b22"
     },
     {
       "path": "src/scenario-ui.js",
@@ -3827,8 +3827,8 @@
     },
     {
       "path": "src/vertical-citadel175.js",
-      "bytes": 60052,
-      "sha256": "2378c232391815016d324c60800e506cbf2d98d7549f9fe05907f5c6aa2c15bc"
+      "bytes": 64025,
+      "sha256": "65f20b291b2a72fe99c3f79bf9d646b6c5181b2bf45fa712eac709ef96d004ec"
     },
     {
       "path": "src/vertical-network179.js",
@@ -3837,8 +3837,8 @@
     },
     {
       "path": "src/vertical-population181.js",
-      "bytes": 31470,
-      "sha256": "20d4505910ae890612b965467d5c415e338039002623f65286f157408ed687ca"
+      "bytes": 31478,
+      "sha256": "5d8213d5c859c5f0e83136b9c1f2abfce9ed82ec679cb3393d153e9ca7a3638d"
     },
     {
       "path": "src/vertical-siege176.js",
@@ -3952,8 +3952,8 @@
     },
     {
       "path": "src/world-pack131.js",
-      "bytes": 46595,
-      "sha256": "7761076308948da3a58192d9219df193ffba0520b059c1270442900852754775"
+      "bytes": 47057,
+      "sha256": "cb6ddb9a0649d943f8e9a8b0eb444b94375fe6391667fdb7322d178f4af68d27"
     },
     {
       "path": "src/world-props-art153.js",
@@ -4401,6 +4401,6 @@
     "Four actual V01 source models supply the support rectangles. Activity clocks are explicitly prepared render inputs, not executed service transactions.",
     "No human campaign, physical phone frame rate or complete200model visual qualification is claimed. Transaction and world access proofs are separate."
   ],
-  "startedUtc": "2026-11-22T05:48:42.431Z",
-  "completedUtc": "2026-11-22T05:48:44.403Z"
+  "startedUtc": "2026-11-22T11:42:38.037Z",
+  "completedUtc": "2026-11-22T11:42:39.742Z"
 }
