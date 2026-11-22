@@ -61,7 +61,7 @@
    let text='Vague '+Math.max(1,Math.floor(Number(g.wave)||1))+' par '+joined(fronts.map(f=>O.label(f,sides[f])+' ('+metres(f)+')'));
    if(state?.folded)text+=' — plan de '+state.asked+' fronts replié sur '+fronts.length+', même effectif';
    const rate=O.rate(fronts,sides),interval=Number(g.wavePlan?.spawnInterval)||0;
-   if(Number.isFinite(rate)&&1/rate>interval)text+=' ; entrée plafonnée à '+(Math.round(rate*10)/10)+' par seconde, le reste attend au pied';
+   if(Number.isFinite(rate)&&1/rate>interval)text+=' ; entrée plafonnée à '+String(Math.round(rate*10)/10).replace('.',',')+' par seconde, le reste attend au pied';
    return text+'.';
   }
   const closed=O.SIDES.filter(f=>!open.includes(f));

@@ -3662,7 +3662,10 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   // vivant ; jamais plus de points de vie. Une cité à un seul front a une entrée plafonnée : `passRate.perMetre` arrivées
   // par seconde et par mètre de largeur (rampe de 12 m : 3 par seconde), au moins `passRate.min` ; le reste attend au pied.
   // `minFronts` : nombre de côtés non clos sans lequel aucun siège n'est possible.
-  C.OpenSiege217Rules=Object.freeze({version:1,generation:12,foldShares:Object.freeze({basis:'width',minShare:.1}),passRate:Object.freeze({perMetre:.25,min:1}),minFronts:1});
+  // Siège adossé, plafond de passage (décision du 22 novembre 2026, D-O2 inchangée) : toute cité à un seul front, quelle
+  // que soit sa largeur, est plafonnée à `passRate.max` arrivées par seconde au plus ; la Meneuse et son escorte, déjà
+  // sur la carte à l'assaut, entrent dans ce même débit (`lead`). Même effectif total, vague plus longue.
+  C.OpenSiege217Rules=Object.freeze({version:1,generation:12,foldShares:Object.freeze({basis:'width',minShare:.1}),passRate:Object.freeze({perMetre:.25,min:1,max:1.5}),minFronts:1});
   // Lecture pure de ces règles, sans tirage propre (le mélange des fronts est celui du jeu, passé en argument).
   // Sur une carte plate (`sides` absent), quatre côtés ouverts de même poids : le repli est l'identité.
   C.OpenSiege217=(()=>{
@@ -3695,8 +3698,19 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
     for(const f of group){const s=(share[f]||0)/sum*(done+1)-(emitted[f]||0);if(s>score+1e-12){score=s;best=f;}}
     return best;
    }
-   const rate=(fronts,sides)=>!sides||fronts.length!==1?Infinity:Math.max(R.passRate.min,R.passRate.perMetre*width(sides,fronts[0]));
+   // Débit d'une vague à un seul front : `perMetre` par mètre ; sur une cité à un seul côté non clos, quelle que soit sa
+   // largeur, jamais plus de `max` par seconde (une cité à plusieurs côtés dont la vague n'en prend qu'un garde le débit
+   // par mètre seul).
+   const rate=(fronts,sides)=>{
+    if(!sides||fronts.length!==1)return Infinity;
+    const metre=R.passRate.perMetre*width(sides,fronts[0]);
+    return Math.max(R.passRate.min,open(sides).length===1?Math.min(R.passRate.max,metre):metre);
+   };
    const gap=(interval,fronts,sides)=>Math.max(interval,1/rate(fronts,sides));
+   // Attente de la file avant la première arrivée quand `onSite` infectés (Meneuse et escorte) passent déjà par ce front :
+   // chacun prend une place du débit, `passGap` étant l'intervalle d'entrée de la partie (`gap`). Aucune attente hors
+   // d'une cité à un seul front.
+   const lead=(onSite,passGap,fronts,sides)=>{const n=Math.max(0,Math.floor(Number(onSite)||0)),t=Number(passGap);return n&&t>0&&Number.isFinite(t)&&Number.isFinite(rate(fronts,sides))?n*t:0;};
    // Nom du passage d'un côté, pour l'annonce : « la rampe du nord », « les deux ponts de l’est », « l’ouest ».
    function label(side,s){
     if(!s||s.status==='ouvert')return THE[side];
@@ -3723,7 +3737,7 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
     if(!plain(raw.emitted,f)||f.some(s=>!Number.isInteger(raw.emitted[s])||raw.emitted[s]<0)||f.reduce((n,s)=>n+raw.emitted[s],0)>(base.wavePlan?.total??0))fail('arrivées');
     return{wave:raw.wave,asked:raw.asked,folded:raw.folded,fronts:f.slice(),shares:Object.fromEntries(f.map(s=>[s,raw.shares[s]])),emitted:Object.fromEntries(f.map(s=>[s,raw.emitted[s]]))};
    }
-   return Object.freeze({SIDES,open,shares,fold,quotas,pick,rate,gap,label,phrase,normalize});
+   return Object.freeze({SIDES,open,shares,fold,quotas,pick,rate,gap,lead,label,phrase,normalize});
   })();
   // Vie de la cité de génération 12 (ouverture.md, préalable O9 (a), hors jeu) : quartiers et haltes d'expédition posés
   // sur le terrain par une fonction pure de la graine et de la description (hachage, aucun flux de génération). `clear` :

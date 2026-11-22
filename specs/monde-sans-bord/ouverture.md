@@ -511,6 +511,15 @@ Points 5 et 6 de `tasks.md`, et la question (f).
   - Innocuité : parcours déterministe de 240 s (base `8d7ea21` contre l'arbre de travail) identique octet pour
     octet ; parcours « empoisonné » dans le test ; repli identité prouvé sur les plans des vagues 1 à 60 des trois
     difficultés ; mondes G1–G11 des huit graines inchangés.
+- **Livré O7 (suite), décision du 22 novembre 2026** (sans effet en jeu ; détail, mesures et réserves : `tasks.md`,
+  section « O7 (suite) ») : le plafond de passage s'applique à **toute cité à un seul côté non clos, quelle que soit sa
+  largeur** — `passRate.max` 1,5 arrivée par seconde au plus (`C.OpenSiege217.rate` = max(1, min(1,5 ; 0,25 × largeur))) ;
+  une cité à plusieurs côtés dont la vague n'en prend qu'un garde le seul débit par mètre. La Meneuse rassemblée et son
+  escorte encore debout **entrent dans ce même débit** : à l'assaut, la file attend une place par infecté déjà sur la
+  carte (`C.OpenSiege217.lead`, appliqué par `abominations217`). Même effectif total, mêmes points de vie, vague plus
+  longue. Mesures (39 relevés d'O7 complets, harnais corrigé : la relève du Commandant figeait la partie) : une cité à un
+  seul côté de 32 à 64 m tient 164 à 176 s à l'âge 4 et 147 à 156 s à l'âge 6, contre 107 à 137 s et 73 à 88 s sur quatre
+  fronts ; aucune chute à l'âge 2. Valeur 2 par seconde écartée (chute à l'âge 2 sur 714).
 
 ### O8 — Rendu des falaises et de l'eau, puis vue FPS (**O8a et O8b livrés**, hors jeu)
 
@@ -715,6 +724,9 @@ Puis T7 (défaut pour toute nouvelle campagne, gradient de distance) : hors de c
   Les valeurs du plafond de passage par front restent à mesurer en O7. **O7** : repli au prorata de la largeur
   des côtés ouverts, plafond d'entrée d'une cité à un seul front de 0,25 arrivée par seconde et par mètre
   (`C.OpenSiege217Rules`) ; mesures sur 12 graines dans `tasks.md`, section O7 — valeurs à confirmer en jeu (O9).
+  **22 novembre 2026** : le plafond s'applique à toute cité à un seul côté quelle que soit sa largeur (1,5 arrivée par
+  seconde au plus) et l'escorte de la Meneuse entre dans ce même débit ; même effectif total, vague plus longue, jamais
+  plus de points de vie (`tasks.md`, section « O7 (suite) »).
 - **D-O3 — tranché** : la vue à la première personne est **disponible dès l'ouverture** de
   l'option expérimentale. O8b passe donc sur le chemin critique de O9 ; la hauteur d'un cran est
   fixée en O8b à 4 m (`C.TerrainRelief217Rules.stepMetres`, égale à la hauteur peinte d'O8a).

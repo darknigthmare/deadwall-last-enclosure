@@ -1226,6 +1226,9 @@ sauvegarde ; la partie complète joue alors `g.update` sur le terrain.
   côté sur les quatre directions ; `earthworks217` garde une grille de 128 cases (cases au-delà refusées) ; le
   scénario de mesure ne remplace pas une partie jouée (tourelles fixes au centre, aucun soldat posté, pas de
   réparation) : les valeurs `passRate` et `minShare` restent à confirmer en O9.
+- Suite (22 novembre 2026) : plafond absolu de 1,5 par seconde pour toute cité à un seul côté, escorte de la Meneuse
+  comprise ; relevés d'O7.7 complétés et repris avec un harnais corrigé — voir « O7 (suite) » plus bas. `minShare` reste
+  à confirmer en O9.
 
 ## Préalable O9 (b) — Tir FPS entre paliers, côtés de la Meneuse et des abominations, siège adossé sauvegardé (livré, sans effet en jeu)
 
@@ -1338,6 +1341,87 @@ la génération 12 reste refusée par le registre régional fermé (`C.WorldSave
   maisons et étals du contenu généré ne sont pas posés sur un terrain) ; la place d'un quartier ne garde pas une
   parcelle constructible ; les haltes reprennent le catalogue de la carte plate (noms, réserves) à une place
   déplacée ; les mesures d'O7 n'ont pas été rejouées sans quartiers fictifs ; rien n'a été joué par le menu.
+
+## O7 (suite) — Plafond de passage de toute cité à un seul côté, escorte de la Meneuse comprise (livré, sans effet en jeu)
+
+Fiche : [ouverture.md](ouverture.md), O7 et préalable O9 (b). Décision de l'utilisateur du 22 novembre 2026 (D-O2
+inchangée, même effectif total) : le plafond de passage s'applique à toute cité à un seul côté non clos, quelle que
+soit sa largeur, et l'escorte de la Meneuse entre dans ce même débit ; vague plus longue, jamais plus de points de vie,
+jamais moins d'effectif. Réserve principale d'O7 levée (une cité à un seul côté de 32 à 64 m tombait plus vite que la
+même vague sur quatre fronts). Toujours atteint par un harnais seulement : la génération 12 reste refusée.
+
+- [x] O7s.1 Règle : `C.OpenSiege217Rules.passRate.max` 1,5 (arrivées par seconde au plus) ; `C.OpenSiege217.rate` =
+      max(`min`, min(`max`, `perMetre` × largeur)) pour une vague à un seul front sur une cité à **un seul côté non
+      clos** ; une cité à plusieurs côtés dont la vague n'en prend qu'un garde le seul débit par mètre (comme avant :
+      rampe de 12 m d'une cité à deux côtés, 3 par seconde ; quatre côtés ouverts de 128 m, aucun plafond qui morde).
+      `perMetre` 0,25 et `min` 1 inchangés. Rampe de 12 m d'une cité à un seul côté : 1,5 par seconde (et non plus 3).
+- [x] O7s.2 Escorte : `C.OpenSiege217.lead(surPlace, intervalle, fronts, côtés)` = surPlace × intervalle sur un front
+      plafonné, 0 sinon ; `abominations217` (enveloppe de `startAssault`, après le moteur) compte la Meneuse rassemblée
+      et les membres de l'escorte encore debout et retarde d'autant la première arrivée de la file (`spawnTimer`) :
+      chacun prend une place du débit. Rien sur une carte plate (aucune lecture du siège adossé) ni sur une cité à
+      plusieurs fronts. L'attente est portée par `spawnTimer` (sauvegardé) et jamais rejouée à la reprise.
+- [x] O7s.3 Harnais de mesure (`scripts/measure-open-siege217.cjs`) : `--led` (Meneuse et escorte postées au calme
+      quand la vague est menée), `--rate=<n>` (étalonnage : plafond absolu remplacé dans le harnais seulement),
+      `--progress`. **Cause des « plus de 30 min par vague » d'O7 trouvée** : la mort du Commandant ouvre la relève
+      (`succession133`), qui fige toute la partie jusqu'au choix du joueur ; la boucle de mesure tournait alors sans
+      fin, temps de jeu arrêté. Le harnais prend désormais la première relève proposée (colonne « relève ») et s'arrête
+      sur un temps figé. Flux du jeu fixé par la graine et l'âge (`startNew` le tire de l'horloge). Restent de petits
+      écarts d'une exécution à l'autre (± 15 s sur une même graine) : à garder en tête pour lire le tableau.
+- [x] O7s.4 Mesures : les 39 relevés d'O7 (manquaient 12) et la catégorie « un seul côté » à 2 et à 1,5 par seconde,
+      avec la Meneuse et son escorte quand la vague est menée (vague 18 des graines 113, 450, 2761, 6, 10 ; vague 36 de
+      28). Même scénario qu'O7.7 (180 s au plus, pas de 0,125 s, tourelles fixes, sans soldats ni réparation),
+      harnais corrigé, quartiers du terrain (préalable O9 a). Temps jusqu'à la chute du cœur ; « > 180 » : debout à la
+      borne ; « fini » : vague achevée.
+
+| Catégorie | Graine | Largeur | Âge 2 (vague 6) | Âge 4 (vague 18) | Âge 6 (vague 36) |
+|---|---|---|---|---|---|
+| ouverte, 4 fronts | 9 | 544 m | > 180 (2 fronts) | 107 | 88 |
+| ouverte, 4 fronts | 6 | 608 m | > 180 (2 fronts) | 127 (menée) | 77 |
+| ouverte, 4 fronts | 20 | 480 m | > 180 (2 fronts) | 125 | 83 |
+| ouverte, 4 fronts | 28 | 512 m | > 180 (2 fronts) | 137 | 73 (menée) |
+| deux côtés | 1 | 224 m | > 180 | 104 | 77 |
+| deux côtés | 10 | 128 m | > 180 | 100 (menée) | 62 |
+| deux côtés | 17117 | 128 m | > 180 | 92 | 64 |
+| deux côtés | 50 | 64 m | fini 136 | 132 | 59 |
+| un seul côté, 2/s (étalonnage) | 450 | 64 m | > 180 | 140 (menée) | 121 |
+| un seul côté, 2/s (étalonnage) | 2761 | 32 m | fini 153 | 150 (menée) | 129 |
+| un seul côté, 2/s (étalonnage) | 714 | 32 m | **tombé 138** | 143 | 121 |
+| un seul côté, 2/s (étalonnage) | 113 | 96 m | > 180 | 120 (menée) | 128 |
+| un seul côté, **1,5/s (règle)** | 450 | 64 m | > 180 | 164 (menée) | 156 |
+| un seul côté, **1,5/s (règle)** | 2761 | 32 m | fini 161 | 176 (menée) | 154 |
+| un seul côté, **1,5/s (règle)** | 714 | 32 m | > 180 | 172 | 147 |
+| un seul côté, **1,5/s (règle)** | 113 | 96 m | > 180 | 140 (menée) | 149 |
+| rampe 12 m (synthétique), 1,5/s | 714 | 12 m | > 180 | 178 | 162 |
+
+      Lecture : à 1,5 par seconde, une cité à un seul côté de 32 à 64 m tient plus longtemps que la même vague sur
+      quatre fronts à chaque âge (âge 4 : 164 à 176 s contre 107 à 137 ; âge 6 : 147 à 156 s contre 73 à 88 ; âge 2 :
+      aucune chute, comme sur quatre fronts). À 2 par seconde, l'objectif tenait aux âges 4 et 6 (de justesse à l'âge 4 :
+      140 contre 137) mais 714 tombait à l'âge 2 (138 s) quand aucune cité à quatre fronts ne tombe : valeur écartée.
+      Les cadavres par mètre de front restent trois à quinze fois plus hauts sur un seul côté (0,8 à 4,7 contre 0,05 à
+      0,44 sur quatre fronts) : la pression des corps est conservée. À l'âge 6, la vague de 1 014 infectés entre en
+      11 min 16 s au plafond (au lieu de 71 à 152 s au rythme du plan) : vague plus longue, même effectif. Une cité à
+      deux côtés (sans plafond) tombe aussi vite ou plus vite que sur quatre fronts (59 à 64 s à l'âge 6) : non traité ici.
+- [x] O7s.5 Tests : `tests/open-siege217-pass.test.cjs` (5 cas, quatre en échec sur la base `c4c5c1b`) — règles gelées et lecture
+      pure (toute largeur d'un seul côté, plusieurs fronts et carte plate sans plafond, cité à plusieurs côtés dont la
+      vague prend un seul front : débit par mètre seul, `lead` borné) ; directeur sur 714 (32 m) et 450 (64 m) aux vagues
+      6, 18, 36 : intervalle plafonné, arrivées en 10 s, même effectif, mêmes points de vie qu'en carte plate ; Meneuse et
+      escorte de 450 : attente de 0,2 + 7 × 0,667 s, effectif annoncé + rassemblement conservé, aucune arrivée de la file
+      avant leur passage puis au plus le débit ; 17117 (deux côtés) sans attente, carte plate empoisonnée (aucune lecture
+      du siège adossé) ; sauvegarde en pleine attente, reprise sans attente de plus. `tests/open-siege217.test.cjs` adapté
+      à la décision (règles gelées avec `max` ; la rampe d'une cité à deux côtés garde 3 par seconde, la même rampe seule
+      1,5 ; 714 à 32 m : plafond absolu au lieu de 8 par seconde).
+- [x] O7s.6 Innocuité : procédure 3 (`scratchpad/o9b/proc3.cjs`, vague menée 13 comprise) base `c4c5c1b` et arbre
+      identiques octet pour octet (départ, mi-parcours, vague menée, fin, relecture, journal). Mondes G1–G11 des huit
+      graines : `audit-campaign-sites205` identique à `campagne205-eligibilite.json` hors tailles des trois sources
+      touchées (`core.js`, `abominations217.js`, `siege-readout.js`). Navigateur (port 8750) : partie 17117 par le menu (aucune clé
+      `openSiege217`), puis harnais de terrain 450, vague menée 14 : Meneuse et escorte de 6 à l'ouest, attente de la
+      file, entrée plafonnée lue « entrée plafonnée à 1,5 par seconde » (le plafond est désormais écrit à la française dans
+      `siege-readout.js`), aucune erreur de page.
+- Réserves : scénario de mesure inchangé (tourelles fixes au centre, aucun soldat posté, pas de réparation) : il ne
+  remplace pas une partie jouée ; écarts de ± 15 s d'une exécution à l'autre ; la Meneuse n'était menée que sur une
+  vague par graine dans les relevés ; une vague de l'âge 6 dure plus de 11 min au plafond (à éprouver en jeu : tension
+  ou ennui ?) ; les cités à deux côtés restent plus fragiles que sur quatre fronts à l'âge 6 ; rien n'a été joué en G12
+  par le menu.
 
 ## T5 — Ouverture expérimentale
 
