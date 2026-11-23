@@ -31,7 +31,8 @@ function cantons217(){if(state.generation!==12||!Array.isArray(state.cantons))re
 function ensure(){if(home!==g.world){const next=pending?C.Frontier.normalize(pending):fresh217();
 // Geometry and its bounded read caches are independent of loot, actors and damage.
 // Keep this same game's model across a compatible restore; destruction is read live.
-if(!pending||region?.seed!==g.world.seed||region?.generation!==next.generation||regionDetailVersion!==next.detailVersion||regionEcologyVersion!==next.ecologyVersion||regionHydrologyVersion!==next.hydrologyVersion||regionLandscape189!==(next.landscape189||'classic'))region=null;
+// D-O4 : en génération 12, un monde lié à d'autres révisions (cantons vus gardés, src/openworld217.js) n'est pas réutilisé.
+if(!pending||region?.seed!==g.world.seed||region?.generation!==next.generation||regionDetailVersion!==next.detailVersion||regionEcologyVersion!==next.ecologyVersion||regionHydrologyVersion!==next.hydrologyVersion||regionLandscape189!==(next.landscape189||'classic')||next.generation===12&&(region?.binding217??null)!==(root.DeadwallOpenWorld217?.bindingKey?.(g.world.seed)??null))region=null;
 home=g.world;state=next;takenCount=Object.keys(state.taken).length;pending=null;near=[];enemies.clear();bullets=[];action=null;locked=null;focus=null;candidates=[];sound={kind:'Silence',radius:0,time:0};pulse=0;}const v=car();if(state.car&&(!v||v.id!==state.car.id))state.car=null;if(v)v.regionAway=!!state.car;g.player.regionAbsent=state.active;return state;}
 // Frequent pose readers do not need geometry or a validated copy of the expedition history.
 function position(){ensure();return{active:state.active,generation:state.generation,detailVersion:state.detailVersion,ecologyVersion:state.ecologyVersion,hydrologyVersion:state.hydrologyVersion,...(state.landscape189?{landscape189:state.landscape189}:{}),x:state.x,y:state.y,z:state.z,inside:state.inside,a:state.a,car:state.car?{...state.car}:null};}

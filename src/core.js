@@ -3764,6 +3764,11 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   // cantons vérifiés contre le monde à la reprise, les plus proches du commandant d'abord (au-delà : forme seule) ;
   // `maxLive` et `pruneSeconds` : fiches d'animaux vivants gardées en mémoire (jamais sauvegardées) et cadence d'élagage.
   C.OpenLife217Rules=Object.freeze({version:1,generation:12,kind:'faune',waterSearch:80,maxKills:24000,strictCantons:16,maxLive:2048,pruneSeconds:1});
+  // D-O4 tranché (« le visité reste ») : une campagne sans bord reprise sous une autre révision du générateur garde ses cantons
+  // vus et sa cité ; seuls les cantons jamais vus suivent la révision courante. `maxEras` : révisions successives qu'une
+  // campagne peut porter ; `seam.ramp` : sur une couture entre deux révisions, une marche d'au plus ce nombre de crans (hors
+  // mer) est une rampe (raccord des paliers tirés dans deux champs différents).
+  C.WorldRevision217Rules=Object.freeze({version:1,maxEras:16,seam:Object.freeze({ramp:1})});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),

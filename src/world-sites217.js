@@ -64,6 +64,9 @@
   const refuse=reason=>{refusals[reason]=(refusals[reason]||0)+1;return false;};
   const lru=(map,key,cap,build)=>{if(map.has(key)){const v=map.get(key);map.delete(key);map.set(key,v);return v;}const v=build();map.set(key,v);while(map.size>cap)map.delete(map.keys().next().value);return v;};
   const infos=new Map(),plans=new Map(),details=new Map(),chunks=new Map();
+  // D-O4 : `options.foreign(kx, ky)` rend le mobilier (`info`, `chunk`) d'un monde d'une autre révision pour un canton déjà vu
+  // d'une campagne créée sous cette révision (src/openworld217.js) ; null = révision courante. Sans l'option, rien ne change.
+  const foreign=typeof options.foreign==='function'?options.foreign:null;
 
   // --- Mailles, paliers et arêtes, en coordonnées monde --------------------
   const inside=(x,y,pad=0)=>finite(x,y)&&world.contains(x,y,pad);
@@ -72,7 +75,14 @@
   function levelCell(gx,gy){const c=cellInfo(gx,gy);return c?c.info.canton.levels[c.i]:-1;}
   function waterCell(gx,gy){const c=cellInfo(gx,gy);return c?c.info.canton.water[c.i]:W.sea;}
   // Bit de passage d'une arête : porté par la maille ouest (arête est, bit 1) ou nord (arête sud, bit 2).
-  function passCell(gx,gy,dir){const c=cellInfo(gx,gy);return c?c.info.canton.passes[c.i]>>dir&1:0;}
+  function passCell(gx,gy,dir){const c=cellInfo(gx,gy);return c?(c.info.canton.passes[c.i]>>dir&1||(foreign?seamPass(gx,gy,dir):0)):0;}
+  // Raccord D-O4 (C.WorldRevision217Rules.seam) : sur une couture entre un canton gardé d'une révision et un canton d'une autre,
+  // les paliers des deux bords n'ont pas été tirés dans le même champ ; une marche d'au plus `seam.ramp` cran y est une rampe.
+  function seamPass(gx,gy,dir){
+   const nx=gx+(dir?0:1),ny=gy+(dir?1:0),kx=own(gx),ky=own(gy),lx=own(nx),ly=own(ny);if(kx===lx&&ky===ly)return 0;
+   if((foreign(kx,ky)||null)===(foreign(lx,ly)||null))return 0;
+   const a=levelCell(gx,gy),b=levelCell(nx,ny),S=C.WorldRevision217Rules.seam;return a>0&&b>0&&Math.abs(a-b)<=S.ramp?1:0;
+  }
   const levelAt=(x,y)=>inside(x,y)?levelCell(Math.floor(x/CELL),Math.floor(y/CELL)):-1;
   // Arêtes de changement de palier qui touchent le rectangle, dans un ordre fixe.
   function edgesIn(l,t,r,b){
@@ -90,7 +100,7 @@
 
   // --- Mobilier d'un canton : index des routes et de l'eau, lieux complets ---
   function index(list,box,pad,item){const x0=Math.max(0,Math.floor((Math.min(item.a.x,item.b.x)-pad-box.x)/CELL)),x1=Math.min(N-1,Math.floor((Math.max(item.a.x,item.b.x)+pad-box.x)/CELL)),y0=Math.max(0,Math.floor((Math.min(item.a.y,item.b.y)-pad-box.y)/CELL)),y1=Math.min(N-1,Math.floor((Math.max(item.a.y,item.b.y)+pad-box.y)/CELL));for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){const k=y*N+x;(list[k]||(list[k]=[])).push(item);}}
-  function info(kx,ky){return lru(infos,kx+','+ky,R.placeCache,()=>furnish(kx,ky));}
+  function info(kx,ky){if(foreign){const f=foreign(kx,ky);if(f)return f.info(kx,ky);}return lru(infos,kx+','+ky,R.placeCache,()=>furnish(kx,ky));}
   function furnish(kx,ky){
    const c=world.canton(kx,ky),box=c.bounds,segs=[],rivers=[],roadCells=new Array(N*N),riverCells=new Array(N*N),pad=reach;
    for(const r of c.roads)for(let k=1;k<r.points.length;k++){const s={id:r.id+'#'+k,road:r.id,a:r.points[k-1],b:r.points[k],width:r.width};segs.push(s);index(roadCells,box,pad+r.width/2,s);}
@@ -224,6 +234,7 @@
   function chunk(cx,cy){
    const empty={cx,cy,trees:[],rocks:[]};if(!Number.isInteger(cx)||!Number.isInteger(cy))return empty;
    const kx=Math.floor(cx/PER),ky=Math.floor(cy/PER);if(Math.abs(kx)>K.RULES.maxCoordinate||Math.abs(ky)>K.RULES.maxCoordinate)return empty;
+   if(foreign){const f=foreign(kx,ky);if(f)return f.chunk(cx,cy);}
    return lru(chunks,cx+','+cy,R.chunkCache,()=>{
     stats.chunks++;const self=info(kx,ky),c=self.canton,j=(cy-ky*PER)*PER+(cx-kx*PER),trees=[],rocks=[];
     for(const[kind,rule,list,name]of [['tree',R.trees,trees,'arbres'],['rock',R.rocks,rocks,'roches']]){
@@ -337,6 +348,8 @@
    movementLine:(a,b,z=0,insideId=null,ignore=null,r=R.footRadius)=>line(a,b,z,insideId,ignore,r,'movement'),
    lineOfSight,levelAt,edgesIn,terrainBlocked,waterBlocked,
    placesOf:(cx,cy)=>info(cx,cy).places,
+   // D-O4 : mobilier par canton, lu par un monde d'une révision plus récente pour les cantons gardés de celle-ci.
+   engine217:Object.freeze({info,chunk}),
    streamStats:()=>({...world.streamStats(),...stats,refusals:{...refusals},placeCache:infos.size,planCache:plans.size,detailCache:details.size,chunkCache:chunks.size})
   });
  }

@@ -1499,7 +1499,7 @@ octet à la base.
   3,6 km seulement ; images lentes (200–390 ms) dans le headless logiciel, de nuit surtout, sans pic propre aux coutures (le
   coût par canton est étalé par la préparation d'un canton par image) ; itinéraire borné à 25 cantons (T5.3, graphe macro à
   faire) ; aucune faune, écologie ni épave en G12 (T5.4) ; atlas et minicarte toujours bornés (O10 : l'atlas n'affiche pas
-  les routes au-delà d'une vue de 4 km) ; D-O4 : à la reprise d'une campagne d'une autre révision, **tous** les cantons sont
+  les routes au-delà d'une vue de 4 km) ; D-O4 (**levée depuis**, section « O9 (suite) — D-O4 ») : à la reprise d'une campagne d'une autre révision, **tous** les cantons sont
   régénérés par la révision courante (les cantons déjà vus aussi ; seuls les écarts sauvegardés sont gardés) ; la cité
   elle-même est rebâtie sur le terrain de la révision courante (des bâtiments peuvent alors se trouver sur un autre
   palier) ; la ligne « GPS RÉGIONAL · M » de la minicarte reste affichée un instant au retour dans la cité ; la caisse et le
@@ -1569,6 +1569,39 @@ module seule) ; une campagne sans bord créée avant cette tranche reste sans fa
   au-delà de 24 000 animaux abattus, les dépouilles les plus lointaines sont oubliées ; la densité, l'équilibrage de chasse
   et le coût par image n'ont pas été mesurés sur une partie jouée longue ; les migrations restent simulées autour des
   cantons chargés (D5).
+## O9 (suite) — D-O4 : le visité reste sous une autre révision du générateur (livré, derrière l'option)
+
+Fiche : [ouverture.md](ouverture.md), section 3, D-O4 (limite d'O9 levée). Décision de l'utilisateur : les cantons déjà vus et
+la cité gardent exactement leur forme d'origine ; seuls les cantons jamais visités suivent le nouveau générateur. Une
+campagne sans l'option ne lit rien de ce chantier (aucune clé, aucun module G12 lu à la reprise).
+
+- [x] D4.1 Moteurs de révision côte à côte (`src/openworld217.js`, `engines.register({revision, Gen, Open, Sites, Local})`) :
+      copie gelée des quatre modules d'une révision ; refus d'un moteur incomplet, de la révision courante ou d'un doublon.
+- [x] D4.2 Marque forme 2 `{version:2, active, revision, eras:[{revision, from}]}` écrite seulement après une reprise sous une
+      autre révision ; validation stricte (rangs croissants, révisions successives distinctes, au plus
+      `C.WorldRevision217Rules.maxEras`, jamais au-delà des cantons vus) ; époque vide remplacée, retour à la révision
+      précédente : époque retirée (`advance`).
+- [x] D4.3 Liaison posée avant la reprise (`bind`) : canton vu → moteur de son époque, cité → moteur de la création ;
+      `cityTerrain217` et `home` lisent la carte locale de la création ; `region` lit les cantons gardés et leur mobilier
+      dans un monde de leur révision (`world-open217` : option `generate` ; `world-sites217` : option `foreign`, accès
+      `engine217`) ; `frontier` ne réutilise pas un monde d'une autre liaison ; fiche de graine en partie : cité gardée.
+- [x] D4.4 Raccord des coutures entre révisions (`world-sites217` `seamPass`) : marche d'au plus `seam.ramp` (1) cran hors
+      mer = rampe. Mesures (8 graines × 25 cantons vus, 160 coutures) : falaises de couture 11,9 % → 0,23 % (monde d'une
+      seule révision : 5,1 %) ; arête sous le bout de route franchissable 284 → 310 sur 312 ; jonction routière en ligne
+      droite 138 → 152 sur 156 ; aucune couture fermée de plus (3, eau) ; itinéraires 47/48 comme sans révision.
+- [x] D4.5 Messages : « Monde révisé : … les cantons déjà vus et la cité gardent leur forme d'origine, seuls les cantons
+      jamais visités suivent le nouveau générateur » ; repli (révision absente) : texte d'O9 et « Révision d'origine absente ».
+      Poste de commandement : cantons gardés, cité comprise.
+- [x] D4.6 Tests : `tests/openworld217-revision.test.cjs` (6 cas) — campagne jouée dans un processus enfant sous une révision
+      simulée (`tests/helpers/open-engine217.cjs`, `tests/helpers/open-revision217-child.cjs`), reprise ici : cité et cantons
+      vus identiques octet pour octet à ce que la campagne d'origine a montré, cantons non vus = générateur courant, sauvegarde
+      et reprise identiques, 60 cantons vus sans un octet de plus dans la marque, couture, repli, validation.
+- Taille (60 cantons vus) : marque 176 octets (forme 1 : 91) ; description figée écartée : 3,43 Mo JSON hors arbres et
+  rochers (60,6 Mo avec).
+- Réserves : canton seulement aperçu (hors registre) non gardé ; plafonds 4 096 cantons vus et 16 révisions ; bande de
+  distance des lieux d'un canton jamais vu mesurée depuis la cité gardée ; aucune révision passée n'est encore livrée (le
+  générateur n'a pas changé depuis O9) : geler une révision au moment de la changer reste un geste de livraison (copie des
+  quatre modules et de leurs règles, `engines.register`) ; 4 jonctions routières sur 156 demandent un détour hors route.
 
 ## T5 — Ouverture expérimentale
 

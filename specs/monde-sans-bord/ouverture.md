@@ -713,7 +713,8 @@ G12 avec un message (décision D-O3).
     `night-gear`, `frontier-art` (relief et routes de la vue).
   - Scripts publics : huit modules G12 et `openworld217` ; gardes d'isolement remplacées par « chargé sans effet en G1–G11 »
     plus un test de comportement à globales empoisonnées.
-  - D-O4 tranché « évoluer, puis geler » (section 3).
+  - D-O4 tranché « évoluer, puis geler » (section 3) ; suite (23 novembre) : cantons vus et cité gardés sous une autre
+    révision (moteurs côte à côte, sauvegarde par bornes d'époques, raccord des coutures).
   - Hors portée, à suivre : atlas et minicarte sans étendue (O10), graphe macro des coutures (T5.3 : l'itinéraire reste borné
     à 25 cantons), faune et migrations propres aux cantons (T5.4 : hordes sur routes seulement, aucune faune G12).
 - **Livré T5.4** (faune, épaves et migrations des cantons ; détail, mesures et réserves : `tasks.md`, section « T5.4 ») :
@@ -767,10 +768,39 @@ Puis T7 (défaut pour toute nouvelle campagne, gradient de distance) : hors de c
   `detailVersion`). À la reprise, si la révision diffère, la campagne **reste jouable**, est signalée « monde révisé »
   (message clair à la reprise, ligne du poste de commandement) et ses cantons **non visités** peuvent différer ; les écarts
   sauvegardés (lieux repérés, prélèvements, cantons vus) restent, et le registre n'est alors vérifié que sur sa forme. Le
-  gel interviendra à la sortie d'« expérimental » (T7)
-  Limite d'O9 : la reprise régénère tous les cantons avec la révision courante, y compris ceux déjà vus (aucun canton
-  n'est conservé en clair) ; garder à l'identique les cantons visités demanderait de garder l'ancien générateur ou leur
-  contenu, à décider avant le gel.
+  gel interviendra à la sortie d'« expérimental » (T7).
+  **Limite d'O9 levée (23 novembre 2026, décision de l'utilisateur : « le visité reste »)** : les cantons déjà vus et la
+  cité gardent exactement leur forme d'origine ; seuls les cantons jamais visités suivent le nouveau générateur
+  (`tasks.md`, section « O9 (suite) — D-O4 »).
+  - Choix : **moteurs de révision conservés côte à côte, choisis canton par canton** (`DeadwallOpenWorld217.engines`), et
+    non une description figée. Mesure sur 60 cantons vus (17117) : une description figée pèserait 3,43 Mo en JSON (cantons
+    2,36 Mo, lieux 0,43 Mo, cité 0,63 Mo ; 0,71 Mo compressés), plus 60,6 Mo d'arbres et de rochers — au-delà de ce que
+    tient le stockage du navigateur ; les bornes d'époques pèsent 176 octets (85 de plus que la marque d'O9, 76 par
+    révision de plus), quel que soit le nombre de cantons vus, dont le registre ne garde déjà que les identifiants (473
+    octets pour 60). La reproduction est exacte par construction (même code, mêmes règles) au lieu de dépendre d'un format
+    de description à tenir à jour avec chaque champ du générateur.
+  - Sauvegarde : marque `openworld217` forme 2 `{version:2, active, revision, eras:[{revision, from}]}`, écrite seulement
+    après une reprise sous une autre révision (forme 1 inchangée sinon) ; `from` = rang, dans le registre `cantons` (qui ne
+    fait que s'allonger), du premier canton vu sous cette révision ; au plus `C.WorldRevision217Rules.maxEras` (16) ; une
+    époque où rien n'a été vu est remplacée.
+  - Liaison : à la reprise, avant la reconstruction de la cité et du monde, chaque canton vu reçoit le moteur de son époque ;
+    la cité celui de la création. Le monde courant lit leur canton et leur mobilier (lieux, arbres, rochers) dans un monde de
+    cette révision (`world-open217` option `generate`, `world-sites217` option `foreign`) ; sans liaison, rien ne change.
+    Révision d'origine absente de la version : repli d'O9 (tout au générateur courant), message « Révision d'origine
+    absente ».
+  - Couture entre un canton gardé et un canton régénéré (8 graines, 5 × 5 cantons vus, 160 coutures) : routes présentes des
+    deux côtés sur 156 coutures (4 sans route de part et d'autre), même point de couture sur 108, écart p90 64 m, maximum
+    416 m ; arêtes de falaise sur la couture 11,9 % sans raccord contre 5,1 % dans un monde d'une seule révision. Règle de
+    raccord (`C.WorldRevision217Rules.seam.ramp` = 1) : entre deux révisions, une marche d'un cran (hors mer) est une rampe
+    — falaises de couture 0,23 %, arête sous le bout de route franchissable 310/312 (284 sans), jonction en ligne droite d'un
+    bout de route à l'autre (relief et eau) 152/156 (138 sans) ; aucune couture fermée de plus qu'en monde d'une seule
+    révision (3, eau) ; itinéraires de la cité à deux cantons 47/48 comme sans révision.
+  - Réserves : un canton n'est « vu » que s'il entre au registre (commandant, voiture, lieu repéré) — un canton seulement
+    aperçu à l'écran depuis une couture suit la nouvelle révision ; au-delà de 4 096 cantons vus (plafond du registre) ou de
+    16 révisions, les cantons vus de plus ne sont plus distingués ; les lieux d'un canton jamais vu mesurent leur bande de
+    distance depuis la cité réelle (gardée) ; geler une révision demande, au moment de la changer, d'en livrer une copie
+    (quatre modules et leurs règles) enregistrée par `engines.register` — tant qu'aucune n'est livrée, une campagne d'une
+    révision passée suit le repli d'O9.
 - **D-O5 — tranché** : la carte de la cité **reste à 192 m** ; si le champ de flux coûte trop, on
   l'**optimise** plutôt que de revenir à 128 m, quitte à retarder l'ouverture. O6b doit donc
   mesurer et, si nécessaire, inclure l'optimisation.
