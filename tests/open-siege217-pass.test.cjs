@@ -46,7 +46,7 @@ test('siège adossé : plafond de passage gelé, appliqué à toute largeur d’
   assert.ok(Object.isFrozen(R) && Object.isFrozen(P));
   assert.deepEqual(JSON.parse(JSON.stringify(P)), { perMetre: .25, min: 1, max: 1.5 });
   assert.ok(Number.isFinite(P.max) && P.max >= P.min && P.max < 3, 'plafond absolu sous l’ancien débit d’une rampe de 12 m');
-  assert.equal(C.WorldSave217Rules.open, false, 'la génération 12 reste fermée');
+  assert.equal(C.WorldSave217Rules.open, true, 'O9 : génération 12 ouverte derrière l’option de menu');
   // Une cité à un seul côté : min(plafond absolu, débit par mètre), au moins `min`, quelle que soit la largeur.
   for (const width of [2, 4, 12, 32, 48, 64, 96, 142, 192]) {
     const sides = one(width), expected = Math.max(P.min, Math.min(P.max, P.perMetre * width));
@@ -150,6 +150,8 @@ test('siège adossé : l’attente de l’escorte est portée par la sauvegarde 
   const data = copy(g.serialize()), left = g.spawnTimer;
   assert.ok(Math.abs(data.spawnTimer - left) < 1e-9 && Math.abs(left - (lead - 15 * DT)) < 1e-9, 'cadence sauvegardée');
   assert.equal(data.version, 20); assert.ok(data.openSiege217, 'siège adossé sauvegardé');
+  // O9 : le monde de terrain du harnais porte le registre G12, qui exige la marque « expérimental » à la reprise.
+  data.expansions127.modules.openworld217 = globalThis.DeadwallOpenWorld217.fresh();
   // Reprise : la garde de taille de carte refuse encore la génération 12 ; le bloc du siège passe par sa validation.
   const real = SAVE.validate;
   SAVE.validate = raw => (raw.openSiege217 === undefined ? { ...raw } : { ...raw, openSiege217: O.normalize(raw.openSiege217, raw) });
