@@ -1423,6 +1423,12 @@ d'atlas calée sur l'étendue totale.
   47 ms pour la carte actuelle de 128 m : la décision de garder 192 m tient.
   Restent (O6b) : projectiles en vol, ouvriers, voirie et véhicule face aux
   falaises ; vivres et carburant dans les gisements.
+- **[EXPÉRIMENTAL] O10 livré : atlas et minicarte sans étendue fixe.** La
+  carte ne montre que ce que le commandant a parcouru ; chaque canton
+  traversé dévoile relief, routes, eaux et bourgs, le reste demeure dans le
+  brouillard. Le rayon d'action se lit sur la carte (aller simple et retour
+  à D-17). Pour une destination lointaine, le GPS trace la suite de passages
+  entre cantons ; seul le tronçon proche est garanti. Affichage seul.
 - **[EXPÉRIMENTAL] T5.4 livré : faune, épaves et migrations des cantons.**
   Dans une campagne sans bord neuve, chaque canton porte sa faune, tirée de
   la graine et du canton seuls, sur les règles de la région finie ; l'eau du

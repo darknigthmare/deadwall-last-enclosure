@@ -6,6 +6,8 @@
 
 `C.OpenLife217Rules` (faune des cantons) : `waterSearch` 80 m, `maxKills` 24 000, `strictCantons` 16, `maxLive` 2 048 ; densités, espèces et rendements de la région finie (74 animaux candidats/km² autour de 17117 contre 82 en G11, écart dû à la mer et aux lacs).
 
+`C.OpenAtlas217Rules` (présentation seule) : fenêtre de 15 cantons au plus avec marge d'un canton, graphe macro des coutures en couloir de ±4 cantons (écart maximal 160, 24 000 nœuds, 6 cantons par lecture), détour supposé 1,25. Mesures : estimation 1,17 à 1,23 fois le vol d'oiseau, 247 tronçons sur 248 reliés ; avec 16 de carburant utile, rayon d'action de 3,2 km à vol d'oiseau.
+
 `C.WorldRevision217Rules` : `maxEras` 16 révisions par campagne, rampe d'un cran sur les coutures entre révisions.
 
 ## Eau de pluie des haltes — 1.74
