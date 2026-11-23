@@ -1,5 +1,13 @@
 # Équilibrage de référence
 
+## Coopération, faune des cantons, révisions — 217
+
+`C.CoopPlay217Rules` : avatar d'invité à 100 PV, vitesse 136, 28 dégâts, 5 tirs/s, portée 700, chargeur de 30 pris dans `resources.ammo`, rechargement 2,2 s, retour au dépôt 8 s, invulnérabilité 2 s ; image à 8 Hz, rayon 900, 200 corps, 320 bâtiments ; relais 12 images/s par invité. Risque non mesuré : un à trois tireurs de plus allègent la pression sans que le nombre d'infectés n'augmente ; à surveiller, sans y répondre par des points de vie.
+
+`C.OpenLife217Rules` (faune des cantons) : `waterSearch` 80 m, `maxKills` 24 000, `strictCantons` 16, `maxLive` 2 048 ; densités, espèces et rendements de la région finie (74 animaux candidats/km² autour de 17117 contre 82 en G11, écart dû à la mer et aux lacs).
+
+`C.WorldRevision217Rules` : `maxEras` 16 révisions par campagne, rampe d'un cran sur les coutures entre révisions.
+
 ## Eau de pluie des haltes — 1.74
 
 `CampaignWater214Rules` centralise les quantités. Remise en service : 12 secondes, 4 bois et 4 ferrailles du sac, payés seulement à l’achèvement. Le tonneau préparé commence vide et contient au plus 24 unités d’eau de service. À pleine pluie, il reçoit 0,06 unité par seconde active ; le débit suit l’intensité réelle, sans collecte sous un toit, en pause ou après destruction. Un plein depuis zéro demande donc au minimum 400 secondes effectivement exposées à une pluie maximale, sans puisage.

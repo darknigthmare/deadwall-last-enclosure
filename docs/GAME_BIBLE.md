@@ -1297,6 +1297,8 @@ près. Sept décisions restent à trancher avant de rendre la coopération
 jouable (rôle de l'invité, transport, pause, sauvegarde de l'avatar, droits,
 nombre d'invités, image).
 
+**État livré (23 novembre 2026, décisions D1–D7 tranchées).** D1 : les deux rôles (responsable de district livré, chef de sortie à venir en C7) ; D2 : relais WebSocket existant, sans autorité ; D3 : aucune pause tant qu'un invité est assis ; D4 : avatar non sauvegardé, son chargeur rendu au dépôt ; D5 : combattre et signaler seulement ; D6 : jusqu'à trois invités ; D7 : image bornée autour de l'invité. L'hôte est la seule autorité : un invité n'envoie que des intentions. Le responsable de district est un défenseur de la cité, ciblé comme une unité, qui tire sur le stock de l'hôte et revient au dépôt 8 s après une chute. « Un joueur tient le mur pendant qu'un autre explore » est vrai dès que l'hôte part en sortie. Restent : vues 2,5D/FPS côté invité (C6.2), chef de sortie (C7), reconnexion (C8).
+
 ### 7.13 Un monde procédural sans bord **[DÉCISION]**
 
 #### D'où l'on part **[LIVRÉ]**
@@ -1421,6 +1423,17 @@ d'atlas calée sur l'étendue totale.
   47 ms pour la carte actuelle de 128 m : la décision de garder 192 m tient.
   Restent (O6b) : projectiles en vol, ouvriers, voirie et véhicule face aux
   falaises ; vivres et carburant dans les gisements.
+- **[EXPÉRIMENTAL] T5.4 livré : faune, épaves et migrations des cantons.**
+  Dans une campagne sans bord neuve, chaque canton porte sa faune, tirée de
+  la graine et du canton seuls, sur les règles de la région finie ; l'eau du
+  canton décide des espèces des berges. Le monde garde seulement ce que le
+  joueur a changé : bêtes abattues et épaves fouillées. Restent : contacts
+  naturels, enclos, cueillette et écologie des cantons.
+- **[EXPÉRIMENTAL] D-O4 tranché et livré : « le visité reste ».** Sous une
+  autre révision du générateur, les cantons vus et la cité restent ceux de
+  la création ; seuls les cantons jamais vus suivent le générateur courant.
+  Les anciennes révisions sont gardées dans le jeu ; la sauvegarde ne porte
+  que leurs limites (176 octets pour 60 cantons vus).
 - **[EXPÉRIMENTAL] O9 livré : la génération 12 est jouable** derrière
   l'option « Sans bord — expérimental » : cité de 192 m adossée (D-O5),
   falaise qui arrête vue et tirs d'en bas (D-O1), même effectif concentré
