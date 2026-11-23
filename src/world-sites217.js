@@ -341,7 +341,8 @@
 
   return Object.freeze({
    ...world,sitesVersion:R.version,
-   site,candidate:world.site,sitesNear,nearPOI,threatCount,occupants,plan,detailAt,
+   // O10 : lieux vus complets (par `site`), et non les candidats du monde d'O1 (le carnet lit `name`, `levels`).
+   site,seenSites:ids=>{const out=[],done=new Set();for(const id of ids instanceof Set?ids:Array.from(ids||[])){if(done.has(id))continue;done.add(id);const p=site(id);if(p)out.push(p);}return out;},candidate:world.site,sitesNear,nearPOI,threatCount,occupants,plan,detailAt,
    drive:p=>p?.drive||null,driveFor:p=>p?.surface||null,connectionFor:p=>p?.connection||p?.drive||null,
    chunk,around,blocked,line,vehicleClear,containers,
    opticalBlocked:(x,y,r=.05,z=0,insideId=null,ignore=null)=>blocked(x,y,r,z,insideId,ignore,true),

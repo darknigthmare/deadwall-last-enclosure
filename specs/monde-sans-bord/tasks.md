@@ -134,7 +134,7 @@ Laissé hors T1, avec sa tranche :
 
 - [ ] `forage193.js:16` et `biome-forage193.js:16` : bornes lues dans `GeographyRules135.size`,
       pas dans le monde — validateur d'identifiants, à traiter avec T4.
-- [ ] `atlas-projection.js` : caméra bornée par une étendue scalaire — T6.
+- [x] `atlas-projection.js` : caméra bornée par une étendue scalaire — T6 (O10 : `camera.window`, fenêtre glissante des cantons vus).
 - [ ] Comparaisons internes de `frontier-world.js` (`blocked`, `line`, `vehicleClear`, `chunk`,
       `prefetch`, décor) : laissées en clair — c'est l'implémentation du monde fini, que la
       façade G12 remplace entièrement (T5).
@@ -1602,6 +1602,65 @@ campagne sans l'option ne lit rien de ce chantier (aucune clé, aucun module G12
   distance des lieux d'un canton jamais vu mesurée depuis la cité gardée ; aucune révision passée n'est encore livrée (le
   générateur n'a pas changé depuis O9) : geler une révision au moment de la changer reste un geste de livraison (copie des
   quatre modules et de leurs règles, `engines.register`) ; 4 jonctions routières sur 156 demandent un détour hors route.
+## O10 — Atlas et minicarte sans étendue fixe ; rayon d'action ; GPS au-delà de 25 cantons (livré, derrière l'option)
+
+Fiche : [ouverture.md](ouverture.md), O10. Présentation seule (E9) : aucun stock, dégât, tirage ni horloge ; aucune clé de
+sauvegarde ; une campagne sans l'option ne lit pas le module (test à globale empoisonnée).
+
+- [x] O10.1 Règles `C.OpenAtlas217Rules` (`src/core.js`, après `C.OpenWorld217Rules`) : `window` {margin 1, max 15 cantons},
+      `rasters` 8 reliefs préparés par image de l'atlas, `summaries` 256 cantons relevés, `places` 1 024 lieux, `macro`
+      {margin 4, maxSpan 160, maxNodes 24 000, perCall 6, plans 4}, `range.detour` 1,25 (= `FieldSupplies.RULES.detourFactor`),
+      `detailed` = `WorldOpen217Rules.route`.
+- [x] O10.2 Caméra : `atlas-projection.camera().window(box)` borne la caméra à une fenêtre (zoom minimal : la fenêtre
+      entière) ; `window(null)` et l'absence d'appel gardent l'étendue scalaire (test : suite d'opérations identique).
+- [x] O10.3 Fenêtre glissante (`openworld217-atlas.window`) : cantons vus, canton du joueur et de D-17, marge d'un canton ;
+      au-delà de 15 cantons de côté, fenêtre centrée sur le joueur. `atlas-view` : `fit` (« RÉGION »), `city`, `locate`, jonctions
+      et dessin posent la fenêtre ; ligne de provenance G12 (graine, cantons vus, fenêtre, rayon d'action).
+- [x] O10.4 Peinture G12 (`atlas-render`, branches `unbounded`) : relief des cantons vus par `levelAt` (pur ; égal aux paliers
+      du canton, test), eau, routes, rivières et agglomérations relevées dans le canton du commandant (lu dans le cache, déjà
+      chargé, une fois par canton), lieux repérés de l'anneau voisin (un par image) ; canton vu non relevé : passages de
+      couture (`seam`, pur) reliés au centre en tirets ; brouillard hachuré ailleurs ; milieux lus par `biomeAt` pur sur les
+      cantons vus seulement (« brouillard · canton … non parcouru » ailleurs) ; étiquettes de milieux et `drawCrossings`
+      omis en G12. La peinture G12 ne lit aucun canton (`hits` inchangés) ; l'atlas entier ne génère ni ne charge aucun
+      canton (`generated`, `misses`, `size`, `evictions`, `routes` inchangés) ; les `hits` qui bougent viennent de la vision
+      (`visibility.frame`) et de `worldEvolution.overview`, déjà présentes.
+- [x] O10.5 Rayon d'action : réservoir + coffre (dans la voiture ou à la cité) + sac − réserve choisie, converti par
+      `travel131.fuelDistance` (barème du véhicule, réglage compris), ÷ 1,25 ; cercle en tirets et ellipse « retour à D-17 »
+      (foyers : voiture et cité) sur l'atlas, « Autonomie … » sur la minicarte ; à pied : « sans limite de carburant » ; vivres
+      du sac affichés sans portée (aucune consommation de nourriture en route).
+- [x] O10.6 GPS (T5.3) : `openworld217-atlas.guide`, appelé par `frontier.guidance` quand l'itinéraire borné du monde rend
+      null au-delà de 25 cantons. Graphe macro : nœuds = passages routiers des coutures (`seam`), arêtes = passage → centre du
+      canton → autre passage ; A* (heuristique : vol d'oiseau, admissible) dans le couloir départ-arrivée ± 4 cantons ;
+      6 cantons évalués par lecture (« itinéraire en préparation », cap direct) ; plan gardé tant que le joueur reste sur ses
+      cantons. Résultat : premier tronçon détaillé par `world.route` jusqu'au dernier passage touchant le canton du joueur,
+      puis passages de couture et allée du lieu (« tracé approché au-delà de 25 cantons »). `frontier.guidance` garde en G12
+      l'itinéraire d'un même départ et d'un même repère (une lecture à l'arrêt ne relance aucune recherche).
+- [x] O10.7 Minicarte (G12) : brouillard sur les cantons non vus, autonomie ; libellé « GPS RÉGIONAL · M » remplacé par celui
+      de la cité (« SECTEUR D-17 ») dès l'image du retour.
+- [x] O10.8 Correctif révélé par le harnais : `world-sites217` rend `seenSites` par `site(id)` (lieux complets) ; il rendait
+      les candidats du monde d'O1 (sans `name` ni `levels`) et le carnet de l'atlas plantait dès qu'un lieu était repéré en G12.
+- [x] O10.9 Script public `src/openworld217-atlas.js` (après `openworld217.js`) : `index.html`, `sw.js`, manifeste 219 / 245 ;
+      lecteur nommé dans les gardes d'isolement des cantons et du générateur. Tests `tests/openworld217-atlas.test.cjs` (7 cas).
+      Harnais `scripts/browser-openworld217-atlas.mjs <port> <dossier> [km]`.
+- Mesures (Node, huit graines, de D-17 vers un point à 30 km est et 3 km sud) : plan prêt en 32 à 46 lectures (188 à
+  271 cantons évalués, 314 à 469 nœuds, 93 à 640 ms au total sur machine chargée), 32 à 33 passages, 35,3 à 36,9 km estimés pour
+  30,1 km à vol d'oiseau ; contrôle par l'itinéraire borné du monde entre passages consécutifs : 247 tronçons reliés sur 248
+  (un tronçon non relié, graine 1947648717). Lecture la plus lente d'une tranche : environ 40 ms (champs macro froids).
+- Mesures navigateur (harnais `browser-openworld217-atlas.mjs`, graine 17117, headless sur machine partagée très chargée) :
+  courte sortie à pied et retour par la porte est : libellé « GPS RÉGIONAL · M » dehors, « SECTEUR D-17 » dès l'image du retour ;
+  10,6 km en voiture plein est (5 étapes routées) ; 11 cantons vus, tous relevés, 24 lieux relevés ; atlas ouvert en 371 ms,
+  fenêtre 13 × 3 km (cantons −1 à 11), glisser bute sur −1 024 et 12 288 m ; sonde E9 : `generated`, `misses`, `size`,
+  `routes`, `evictions` identiques avant et après l'ouverture ; rayon d'action 3,2 km (16 carburant hors réserve 2,
+  retour hors de portée à 10,1 km) ; repère à 34,9 km (K44_0) : GPS prêt en 42 lectures (médiane 0,9 ms, maximum 17,1 ms),
+  38,7 km par 36 passages, premier tronçon détaillé ; sauvegarde (67 ko, aucune clé du module) et reprise en sortie : atlas sans
+  chargement de canton ; aucune erreur de page. Images du trajet : médiane 67 ms, p95 297 ms (machine chargée, charge 15 à 30).
+- Réserves : tracé approché (centre du canton, pas le carrefour réel) ; un passage de couture peut ne pas être relié dans son
+  canton (mer, haute falaise : 1 sur 248 mesurés) — le tronçon détaillé le révèle en arrivant ; relevés de cantons en mémoire
+  seulement (après une reprise, les cantons vus non revisités montrent le tracé approché, sans eau ni agglomérations) ; lieux
+  repérés hors de l'anneau du joueur non peints tant qu'il n'y passe pas ; les autres voisinages de `world-sites217`
+  (`sitesIn`, `nearestSite`, `sitesByDistance`) rendent encore les candidats d'O1 — à vérifier par leurs lecteurs.
+- Innocuité : procédure 3 (base `c71ee11`) identique octet pour octet (sauvegardes et journal) ; mondes des huit graines :
+  `audit-campaign-sites205` sans aucune différence hors sources.
 
 ## T5 — Ouverture expérimentale
 
@@ -1612,14 +1671,18 @@ campagne sans l'option ne lit rien de ce chantier (aucune clé, aucun module G12
 - [x] T5.4 Migrations et hordes tirées par `pickRoad` (O9) et suivant les routes des cantons ; faune et épaves des cantons
       (section « T5.4 » ci-dessous, module `openlife217`, nouvelles campagnes sans bord). Restent hors portée : contacts
       naturels (`N165`), enclos, cueillette et écologie (`ecologyVersion` 0).
+- [x] T5.3 Itinéraire : graphe chargé (**fait**, borné à 25 cantons par `world-open217.route`) + graphe macro des coutures
+      (**fait en O10** : `openworld217-atlas.guide`, guidage seulement ; l'itinéraire borné reste celui du jeu).
+- [ ] T5.4 Migrations et hordes tirées par `pickRoad` (**fait**) ; épaves et faune sur cantons chargés (**à faire** : aucune
+      faune ni écologie en G12, `ecologyVersion` 0).
 - [x] T5.5 Réglage « Sans bord — expérimental » à la création de campagne ; module d'extension enregistré (O9.1, O9.7).
 - [x] T5.6 Harnais navigateur G12 : 20 km, sauvegarde, reprise, retour (`scripts/browser-openworld217.mjs`, O9.12).
 - Décision D3 : prise (option « expérimental », région finie par défaut).
 
 ## T6 — Atlas et minicarte
 
-- [ ] T6.1 Caméra sans étendue fixe, cadrage sur les cantons vus.
-- [ ] T6.2 Rendu par cantons vus ; brouillard au-delà ; rayon d'action du véhicule.
+- [x] T6.1 Caméra sans étendue fixe, cadrage sur les cantons vus (O10).
+- [x] T6.2 Rendu par cantons vus ; brouillard au-delà ; rayon d'action du véhicule (O10).
 
 ## T7 — Par défaut et gradient de distance
 

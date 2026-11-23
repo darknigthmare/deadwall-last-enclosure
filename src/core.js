@@ -3769,6 +3769,14 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   // campagne peut porter ; `seam.ramp` : sur une couture entre deux révisions, une marche d'au plus ce nombre de crans (hors
   // mer) est une rampe (raccord des paliers tirés dans deux champs différents).
   C.WorldRevision217Rules=Object.freeze({version:1,maxEras:16,seam:Object.freeze({ramp:1})});
+  // Atlas et minicarte sans étendue fixe (ouverture.md, tranche O10 ; tasks.md, T6) — présentation seule, aucune règle de jeu.
+  // `window` : fenêtre glissante de l'atlas en cantons (marge autour des cantons vus, côté maximal centré sur le joueur) ;
+  // `rasters` : reliefs de canton préparés par image de l'atlas ; `summaries` / `places` : cantons et lieux retenus en mémoire
+  // (lus dans le monde chargé, jamais générés) ; `macro` : graphe des coutures (fonction pure de la graine) pour un GPS au-delà
+  // de `WorldOpen217Rules.route.maxCantons` — marge du couloir, écart maximal départ-arrivée et nœuds au plus (cantons), cantons
+  // évalués par appel (préparation étalée), plans gardés ; `range` : rayon d'action du véhicule, détour routier supposé ;
+  // `detailed` : l'itinéraire borné du monde (même objet que `WorldOpen217Rules.route`), premier tronçon détaillé du GPS.
+  C.OpenAtlas217Rules=Object.freeze({version:1,generation:12,window:Object.freeze({margin:1,max:15}),rasters:8,summaries:256,places:1024,macro:Object.freeze({margin:4,maxSpan:160,maxNodes:24000,perCall:6,plans:4}),range:Object.freeze({detour:1.25}),detailed:C.WorldOpen217Rules.route});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),

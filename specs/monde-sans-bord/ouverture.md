@@ -73,7 +73,7 @@ O1 monde régional G12 (interface)  ── livré, hors jeu
 | O7 | Siège adossé : fronts par côté ouvert, enceintes sur falaise, équilibrage à deux côtés (**livré**) | Aucun (G12 non créable) | L | moyen / haut | O8 |
 | O8 | Rendu des falaises et de l'eau en 2D/2,5D (O8a, **livré**), vue FPS (O8b, **livré**) | Aucun | L + L | bas / moyen | O7 |
 | O9 | Ouverture : option de menu, fiche, branchement, chargement par anneau | **Oui, derrière l'option** | L | moyen / haut | — |
-| O10 | Atlas et minicarte sans étendue fixe ; rayon d'action (T6) | Oui (G12) | M | bas / bas | après O9 |
+| O10 | Atlas et minicarte sans étendue fixe ; rayon d'action (T6) — **livré** | Oui (G12) | M | bas / bas | après O9 |
 
 Chemin critique : O1 → O2 → O3 → O9 et O5 → O6 → O7 → O9. O4 et O8 avancent à côté.
 
@@ -742,6 +742,29 @@ G12 avec un message (décision D-O3).
   rayon d'action du véhicule (carburant restant × `fuelPerMetre`).
 - Tests `atlas-*` ; sonde : ouvrir l'atlas ne change pas `streamStats` (E9).
 - Parcours joueur 4 de la spec. Ampleur M.
+- **Livré O10** (derrière l'option ; détail, mesures et réserves : `tasks.md`, section O10) :
+  - Module de présentation `src/openworld217-atlas.js` (après `openworld217.js` ; `index.html`, `sw.js`, manifeste 219 scripts /
+    245 entrées), règles `C.OpenAtlas217Rules`. Lecteur nommé dans les gardes d'isolement des cantons et du générateur.
+  - Caméra : `camera.window(box)` (`atlas-projection.js`) borne la caméra à une fenêtre ; sans fenêtre, comportement inchangé.
+    `atlas-view` : fenêtre glissante = cantons vus + marge d'un canton, 15 cantons de côté au plus centrés sur le joueur ;
+    « RÉGION » cadre la fenêtre, glisser bute sur ses bords.
+  - `atlas-render` (G12 seulement) : relief des cantons vus par `levelAt` (pur, égal aux paliers du canton), eau, routes,
+    rivières et agglomérations relevées dans le canton du commandant au moment où il y est (déjà chargé), lieux repérés de
+    l'anneau voisin ; canton vu non relevé (après reprise) : passages de couture reliés au centre en tirets ; brouillard
+    hachuré ailleurs. La peinture G12 ne lit aucun canton ; ouvrir l'atlas ne génère ni ne charge aucun canton (E9, compteurs
+    `generated`, `misses`, `size`, `routes` inchangés ; seuls les `hits` de la vision et de `worldEvolution` existantes bougent).
+  - Rayon d'action : carburant du réservoir + coffre + sac − réserve, `travel131.fuelDistance`, ÷ détour 1,25 ; cercle et
+    ellipse « retour à D-17 » sur l'atlas, « Autonomie » sur la minicarte ; vivres du sac affichés (aucune portée : la
+    nourriture n'est pas consommée en route).
+  - GPS au-delà de 25 cantons (T5.3) : graphe macro des passages routiers de couture (`seam`, pur), A* dans un couloir de
+    ±4 cantons, 160 cantons d'écart au plus, 24 000 nœuds au plus, 6 cantons évalués par lecture du guidage (préparation par
+    tranches ; cap direct « itinéraire en préparation » entre-temps) ; premier tronçon détaillé par `world.route` jusqu'au
+    dernier passage touchant le canton du joueur, puis passages de couture (« tracé approché au-delà de 25 cantons »).
+    `frontier.guidance` garde l'itinéraire G12 pour un même départ et un même repère.
+  - Minicarte : brouillard des cantons non vus ; libellé « GPS RÉGIONAL · M » remplacé par celui de la cité dès l'image du
+    retour (G12).
+  - Correctif : `world-sites217.seenSites` rend les lieux complets (le carnet plantait sur les candidats d'O1).
+  - Innocuité : procédure 3 (base `c71ee11`) identique octet pour octet ; mondes des huit graines inchangés hors sources.
 
 Puis T7 (défaut pour toute nouvelle campagne, gradient de distance) : hors de ce plan.
 
