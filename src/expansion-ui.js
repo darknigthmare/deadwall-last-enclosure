@@ -90,8 +90,9 @@
     let descriptors = [], rowNodes = [], actionNodes = new Map(), tabNodes = new Map();
     const now = () => globalThis.performance?.now?.() ?? Date.now();
     function entries() {
-      // O9 : un module peut se retirer du poste quand il est sans objet pour la campagne (monde sans bord sur une région finie).
-      const value = g.expansions.entries().filter(d => d.available?.() !== false);
+      // Tous les modules enregistrés restent dans l'index des opérations (contrat 196) ; le monde sans bord, inactif sur
+      // une région finie, y affiche simplement « Campagne à région finie ».
+      const value = g.expansions.entries();
       return [...value].filter(d => d && typeof d.id === 'string').sort((a, b) => {
         const ai = ORDER.indexOf(a.id), bi = ORDER.indexOf(b.id);
         return (ai < 0 ? ORDER.length : ai) - (bi < 0 ? ORDER.length : bi);

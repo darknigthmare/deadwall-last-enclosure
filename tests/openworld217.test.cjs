@@ -50,7 +50,7 @@ test('O9 : partie sans l’option — aucun module de la génération 12 lu, sau
     assert.equal(g.world.terrain217, null); assert.equal(g.local.size, 4096); assert.notEqual(g.frontier.position().generation, 12);
     g.phaseTime = .5; steps(240); g.render(); g.renderMinimap();
     const d = g.serialize(); assert.equal(d.expansions127.modules.openworld217, undefined, 'aucune clé openworld217'); assert.equal(d.localTiles, undefined);
-    assert.equal(g.openWorld217.active(), false); assert.equal(g.expansionUI ? g.expansions.get('openworld217').available() : false, false, 'retiré du poste de commandement');
+    assert.equal(g.openWorld217.active(), false); assert.equal(g.expansionUI ? g.expansions.get('openworld217').available() : false, false, 'module inactif (l’index des opérations l’affiche comme région finie)');
     // Sortie régionale par le bord est (monde régional fini) et retour.
     g.player.x = g.local.size - 50; g.player.y = g.local.size / 2; assert.equal(g.frontier.enter(), true); steps(30); g.render();
     assert.notEqual(g.frontier.world().unbounded, true);
