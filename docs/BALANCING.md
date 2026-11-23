@@ -465,6 +465,10 @@ Réglages mesurés, non appliqués : `sickness.perPerson` 8 (vagues malades réd
 
 `C.OpenCityLife217Rules` : `clear` 2 cases (carré libre de 5 × 5 autour d'un lieu), `quarters.target` 45 m, bande `near` 28 / `far` 72 m, `spacing` 22 m entre quartiers ; `halts.spacing` 8 m. Points des chantiers de jour bornés à côté − 48 unités (6 096 sur 192 m). Aucune valeur de combat, de stock ou de vague. À confirmer en O9 : distance des quartiers dans un couloir étroit (17117) et trajets vers les points de terrain.
 
+## Ouverture du monde sans bord — O9 (expérimental)
+
+`C.OpenWorld217Rules` : `frame` 192 m ; `prefetch` 1 canton par image dans l'anneau de rayon 1 ; `lookAhead` 3 m à pied, 45 m en voiture ; `exitSearch` {2, 40} ; `revision` 1. `C.WorldSave217Rules.open` passe à vrai. Les valeurs de siège adossé (ci-dessous) n'ont pas encore été rejouées dans une partie lancée par le menu.
+
 ## Siège adossé — O7 (hors jeu)
 
 Décision du 22 novembre 2026 : `passRate.max` 1,5 (arrivées par seconde au plus, toute cité à un seul côté non clos, quelle que soit sa largeur) ; `C.OpenSiege217.rate` = max(`min`, min(`max`, `perMetre` × largeur)). Une cité à plusieurs côtés dont la vague ne prend qu'un front garde le débit par mètre seul. La Meneuse rassemblée et son escorte debout entrent dans le débit (une place chacune avant la première arrivée). Mesures (51 relevés) : à 1,5/s, une cité à un seul côté de 32 à 64 m tient 164 à 176 s à l'âge 4 et 147 à 156 s à l'âge 6, contre 107 à 137 s et 73 à 88 s sur quatre fronts ; aucune chute à l'âge 2 (à 2/s, la graine 714 tombait : écarté). Cadavres par mètre : 0,8 à 4,7 sur un seul côté contre 0,05 à 0,44 sur quatre fronts. Une vague de l'âge 6 dure 11 min 16 s au plafond (à éprouver en jeu). Les cités à deux côtés (59 à 64 s à l'âge 6) restent plus fragiles que sur quatre fronts : non traité. Écart de mesure ±15 s d'une exécution à l'autre.
