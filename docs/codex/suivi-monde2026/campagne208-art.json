@@ -589,7 +589,7 @@
     {
       "path": "src/expansion-ui.js",
       "bytes": 26555,
-      "sha256": "18d32f2bbb2cfe1743b74c5916650d74ad2a1dd1ac5de6276c62530ff004712f"
+      "sha256": "00737205634caa16b18474e47e6dc7411984edb9d66022a57da910b1ff79bc72"
     },
     {
       "path": "src/expedition-art.js",
@@ -1976,7 +1976,7 @@
     {
       "path": "src/expansion-ui.js",
       "bytes": 26555,
-      "sha256": "18d32f2bbb2cfe1743b74c5916650d74ad2a1dd1ac5de6276c62530ff004712f"
+      "sha256": "00737205634caa16b18474e47e6dc7411984edb9d66022a57da910b1ff79bc72"
     },
     {
       "path": "src/expedition-art.js",
@@ -3363,7 +3363,7 @@
     {
       "path": "src/expansion-ui.js",
       "bytes": 26555,
-      "sha256": "18d32f2bbb2cfe1743b74c5916650d74ad2a1dd1ac5de6276c62530ff004712f"
+      "sha256": "00737205634caa16b18474e47e6dc7411984edb9d66022a57da910b1ff79bc72"
     },
     {
       "path": "src/expedition-art.js",
@@ -4536,6 +4536,6 @@
     "Four actual V01 source models supply the support rectangles. Activity clocks are explicitly prepared render inputs, not executed service transactions.",
     "No human campaign, physical phone frame rate or complete200model visual qualification is claimed. Transaction and world access proofs are separate."
   ],
-  "startedUtc": "2026-11-23T08:50:05.516Z",
-  "completedUtc": "2026-11-23T08:50:07.679Z"
+  "startedUtc": "2026-11-23T11:28:03.702Z",
+  "completedUtc": "2026-11-23T11:28:11.436Z"
 }
