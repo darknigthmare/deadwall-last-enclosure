@@ -4,7 +4,7 @@
 //   (`C.OpenSiege217Rules.passRate.max` arrivées par seconde au plus) ;
 // - la Meneuse et son escorte, déjà sur la carte à l'assaut, entrent dans ce même débit : la file attend leur passage
 //   (`C.OpenSiege217.lead`) ; même effectif total, jamais plus de points de vie, vague plus longue.
-// - décision du 23 novembre 2026 : sur une cité à deux côtés, chaque passage étroit (moins de 64 m) a son plafond,
+// - décision du 23 novembre 2026 : sur une cité à deux côtés, chaque passage étroit (moins de 128 m, décision révisée le même jour après mesure) a son plafond,
 //   proportionnel à sa largeur (`C.OpenSiege217Rules.narrowPass`), lu selon le groupe de fronts de l'échelon en cours ;
 // Toujours hors jeu : la partie de terrain est construite par le harnais (la génération 12 reste refusée par le jeu et
 // par la sauvegarde) ; une carte plate et une cité à plusieurs fronts ne prennent aucun de ces chemins.
@@ -175,11 +175,11 @@ const twoSided = (a, b) => ({ north: { status: 'clos', width: 0 }, south: { stat
 
 test('cité à deux côtés : plafond gelé d’un passage étroit, proportionnel à sa largeur ; rien ailleurs', () => {
   assert.ok(Object.isFrozen(NP)); assert.deepEqual(Object.keys(NP), ['sides', 'below', 'perMetre']);
-  assert.equal(NP.sides, 2); assert.equal(NP.below, 64);
+  assert.equal(NP.sides, 2); assert.equal(NP.below, 128);
   assert.ok(NP.perMetre * 32 < P.perMetre * 32 && NP.perMetre * 32 <= 3, 'plus serré que le débit par mètre');
   for (const w of [2, 12, 24, 32, 48, 63]) {
-    const sides = twoSided(96, w), cap = Math.max(P.min, NP.perMetre * w);
-    assert.equal(O.narrow('west', sides), cap, w + ' m'); assert.equal(O.narrow('east', sides), Infinity, '96 m');
+    const sides = twoSided(160, w), cap = Math.max(P.min, NP.perMetre * w);
+    assert.equal(O.narrow('west', sides), cap, w + ' m'); assert.equal(O.narrow('east', sides), Infinity, '160 m');
     // Un seul front de la vague par le passage étroit : au plus son plafond.
     assert.equal(O.passGap(.075, ['west'], ['west'], sides), Math.max(.075, 1 / cap, O.gap(.075, ['west'], sides)));
     // Deux fronts : le passage étroit reçoit sa part du groupe ; échelon d'un seul front : tout le groupe passe par lui.
@@ -192,10 +192,10 @@ test('cité à deux côtés : plafond gelé d’un passage étroit, proportionne
     assert.equal(O.lead(0, .075, ['east', 'west'], sides, 'west'), 0);
   }
   // Proportionnel : un passage deux fois plus large laisse passer deux fois plus (au-dessus du plancher).
-  if (NP.perMetre * 24 >= P.min) assert.ok(Math.abs(O.narrow('west', twoSided(96, 48)) / O.narrow('west', twoSided(96, 24)) - 2) < 1e-12);
-  // 64 m et plus, cité à un seul, trois ou quatre côtés, carte plate : aucun plafond nouveau, `passGap` = `gap` exactement.
-  assert.equal(O.narrow('west', twoSided(96, 64)), Infinity); assert.equal(O.narrow('west', twoSided(32, 96)), Infinity);
-  assert.ok(Number.isFinite(O.narrow('east', twoSided(32, 96))));
+  if (NP.perMetre * 48 >= P.min) assert.ok(Math.abs(O.narrow('west', twoSided(160, 96)) / O.narrow('west', twoSided(160, 48)) - 2) < 1e-12);
+  // 128 m et plus, cité à un seul, trois ou quatre côtés, carte plate : aucun plafond nouveau, `passGap` = `gap` exactement.
+  assert.equal(O.narrow('west', twoSided(96, 128)), Infinity); assert.equal(O.narrow('west', twoSided(32, 160)), Infinity);
+  assert.ok(Number.isFinite(O.narrow('east', twoSided(32, 160)))); assert.ok(Number.isFinite(O.narrow('east', twoSided(96, 128))), '96 m : plafonné');
   const three = { ...twoSided(96, 32), north: { status: 'ouvert', width: 128, entries: [], passages: [] } }, four = { ...three, south: { status: 'ouvert', width: 32, entries: [], passages: [] } };
   for (const sides of [one(32), one(12), three, four, undefined]) for (const f of ['north', 'east', 'south', 'west']) assert.equal(O.narrow(f, sides), Infinity);
   for (const [fronts, sides] of [[['west'], one(32)], [['west'], one(12)], [['east', 'west'], three], [['west'], three], [['north', 'east', 'south', 'west'], four], [['west'], undefined]])
@@ -208,7 +208,7 @@ test('cité à deux côtés : sur le directeur, chaque passage étroit tient son
   for (const seed of [1, 10, 17117, 50]) {
     const sides = desc(seed).sides, open = O.open(sides); assert.equal(open.length, 2, seed + ' : deux côtés');
     const narrowSides = open.filter(f => Number.isFinite(O.narrow(f, sides)));
-    assert.deepEqual(narrowSides.map(f => sides[f].width), seed === 1 ? [] : seed === 50 ? [32, 32] : [32], seed + ' : passages étroits');
+    assert.deepEqual(narrowSides.map(f => sides[f].width).sort((a, b) => a - b), open.map(f => sides[f].width).filter(w => w < NP.below).sort((a, b) => a - b), seed + ' : passages étroits (moins de 128 m)');
     for (const wave of [6, 18, 36]) {
       terrainGame(seed); g.wave = wave; g.phase = 'warning'; g.prepareWave(); g.phase = 'assault'; g.startAssault();
       const plan = g.wavePlan, total = plan.total, through = Object.fromEntries(open.map(f => [f, []]));

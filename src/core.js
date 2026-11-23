@@ -3678,7 +3678,7 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   // `narrowPass.perMetre` × largeur arrivées par seconde par ce passage, au moins `passRate.min` (32 m : 1,5 par seconde,
   // le plafond d'un seul côté). Même effectif, vague plus longue ; la Meneuse et son escorte y prennent leur place comme
   // sur une cité à un seul côté. Le côté large (64 m et plus) garde le débit du plan.
-  C.OpenSiege217Rules=Object.freeze({version:1,generation:12,foldShares:Object.freeze({basis:'width',minShare:.1}),passRate:Object.freeze({perMetre:.25,min:1,max:1.5}),minFronts:1,narrowPass:Object.freeze({sides:2,below:64,perMetre:.046875})});
+  C.OpenSiege217Rules=Object.freeze({version:1,generation:12,foldShares:Object.freeze({basis:'width',minShare:.1}),passRate:Object.freeze({perMetre:.25,min:1,max:1.5}),minFronts:1,narrowPass:Object.freeze({sides:2,below:128,perMetre:.03125})});
   // Lecture pure de ces règles, sans tirage propre (le mélange des fronts est celui du jeu, passé en argument).
   // Sur une carte plate (`sides` absent), quatre côtés ouverts de même poids : le repli est l'identité.
   C.OpenSiege217=(()=>{
