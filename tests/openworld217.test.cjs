@@ -3,7 +3,7 @@
 // campagne de génération 12 (cité de 192 m adossée, monde régional sans bord, sauvegarde creuse), module d'extension
 // `openworld217` (marque expérimentale et révision du générateur, D-O4 « évoluer, puis geler »), fiche de graine, façade
 // régionale (un canton préparé par image, routes et relief autour de la vue). Une campagne lancée sans l'option ne lit
-// aucun module de la génération 12 (globales empoisonnées) et garde une sauvegarde sans clé de plus.
+// aucun module de la génération 12 (globales empoisonnées) et garde dans sa sauvegarde la seule forme inactive du module (aucune révision).
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -41,7 +41,7 @@ test('O9 : règles gelées, option de menu (région finie par défaut), scripts 
   assert.deepEqual(O.fresh().revision, O.revision()); assert.deepEqual(Object.keys(O.revision()), ['open', 'canton', 'relief', 'sites', 'local']);
 });
 
-test('O9 : partie sans l’option — aucun module de la génération 12 lu, sauvegarde sans clé de plus, sortie régionale historique', () => {
+test('O9 : partie sans l’option — aucun module de la génération 12 lu, sauvegarde avec la forme inactive du module, sortie régionale historique', () => {
   const own = Object.fromEntries(GLOBALS.map(k => [k, globalThis[k]])), touched = [];
   const poison = name => new Proxy({}, { get(_, key) { if (typeof key === 'string') touched.push(name + '.' + key); throw Error('module G12 lu sans l’option : ' + name + '.' + String(key)); } });
   try {
@@ -49,7 +49,7 @@ test('O9 : partie sans l’option — aucun module de la génération 12 lu, sau
     assert.notEqual(g.startNew('standard', '17117'), false); g.campaignIntro132?.skip?.();
     assert.equal(g.world.terrain217, null); assert.equal(g.local.size, 4096); assert.notEqual(g.frontier.position().generation, 12);
     g.phaseTime = .5; steps(240); g.render(); g.renderMinimap();
-    const d = g.serialize(); assert.equal(d.expansions127.modules.openworld217, undefined, 'aucune clé openworld217'); assert.equal(d.localTiles, undefined);
+    const d = g.serialize(); assert.deepEqual(d.expansions127.modules.openworld217, O.initial(), 'forme inactive seulement'); assert.equal(d.localTiles, undefined);
     assert.equal(g.openWorld217.active(), false); assert.equal(g.expansionUI ? g.expansions.get('openworld217').available() : false, false, 'module inactif (l’index des opérations l’affiche comme région finie)');
     // Sortie régionale par le bord est (monde régional fini) et retour.
     g.player.x = g.local.size - 50; g.player.y = g.local.size / 2; assert.equal(g.frontier.enter(), true); steps(30); g.render();
@@ -167,14 +167,13 @@ test('O9 : façade régionale — un canton préparé par appel, route la plus p
   if (site) { const r = R.route(w, { x: h.maxX + 5, y: h.y }, site); assert.ok(!r || r.metres > 0 && r.path.length > 1); }
 });
 
-test('O9 : une campagne à région finie relue par la sauvegarde native n’a pas de clé openworld217 (même document que serialize)', () => {
+test('O9 : une campagne à région finie relue par la sauvegarde native garde le même document (forme inactive)', () => {
   g.startNew('standard', '17117'); g.campaignIntro132?.skip?.();
   const before = strip(g.serialize());
-  assert.equal('openworld217' in before.expansions127.modules, false);
+  assert.deepEqual(before.expansions127.modules.openworld217, O.initial());
   // Chemin de `browser-metric174` : le document stocké est relu par DeadwallSave.parse (validateurs des modules).
   const parsed = strip(globalThis.DeadwallSave.parse(JSON.stringify(g.serialize())));
-  assert.equal('openworld217' in parsed.expansions127.modules, false, 'aucune clé ajoutée par la relecture');
-  assert.deepEqual(parsed.expansions127, before.expansions127);
+  assert.deepEqual(parsed.expansions127, before.expansions127, 'relecture identique');
   assert.equal(g.restoreSave(parsed), true); assert.equal(g.openWorld217.active(), false);
   assert.deepEqual(strip(g.serialize()).expansions127, before.expansions127);
 });

@@ -133,7 +133,7 @@
  function fresh(){return{version:1,active:true,revision:revision()};}
  function validate(raw,full){
   const g=full?.frontier?.generation;
-  if(raw===undefined){if(g===12)throw Error('Campagne sans bord sans marque expérimentale.');return full?undefined:initial();}
+  if(raw===undefined){if(g===12)throw Error('Campagne sans bord sans marque expérimentale.');return initial();}
   if(!raw||typeof raw!=='object'||Array.isArray(raw)||raw.version!==1||typeof raw.active!=='boolean'||Object.keys(raw).length!==KEYS.length||KEYS.some(k=>!(k in raw)))throw Error('Monde sans bord 217 invalide.');
   // Forme inactive (instantané d'une campagne à région finie, quand un appelant lit le registre sans la sauvegarde).
   if(raw.active===false){if(raw.revision!==null||g===12)throw Error('Monde sans bord 217 invalide.');return initial();}
@@ -165,9 +165,8 @@
   // Option de menu : septième argument de startNew. Elle ne vaut que pour ce départ.
   const start=g.startNew.bind(g);
   g.startNew=(...a)=>{const before=pending;pending=a[6]===true||a[5]?.generation===12;try{return start(...a);}finally{pending=before;}};
-  // Campagne sans l'option : aucune clé de sauvegarde (même document qu'avant l'ouverture, octet pour octet).
-  const serialize=g.serialize.bind(g);
-  g.serialize=(...a)=>{const d=serialize(...a);if(!state.active&&d?.expansions127?.modules)delete d.expansions127.modules.openworld217;return d;};
+  // Campagne sans l'option : forme inactive {version:1, active:false, revision:null}, comme tout module enregistré
+  // (contrat 202 : chaque module est présent dans l'écriture de la campagne ; relecture identique, metric174).
   const restore=g.restoreSave.bind(g);
   g.restoreSave=raw=>{const r=restore(raw);if(r!==false&&revised()&&!told){told=true;g.notify?.(REVISED_TEXT,'danger');}return r;};
   return api;

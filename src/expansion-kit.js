@@ -1,7 +1,7 @@
 /* Shared extension lifecycle: validate every module before replacing a campaign. */
 (function(root){
 'use strict';
-const copy=value=>value===undefined?undefined:JSON.parse(JSON.stringify(value));
+const copy=value=>JSON.parse(JSON.stringify(value));
 const known=new Map();
 function normalize(raw,full,validators=known){
  const invalid=()=>{throw Error('Registre des opérations 1.27 invalide.');};
@@ -9,8 +9,7 @@ function normalize(raw,full,validators=known){
  if(raw&&Object.keys(raw).some(k=>!['version','modules'].includes(k)))invalid();
  for(const key of Object.keys(raw?.modules||{}))if(!validators.has(key))invalid();
  const modules={};
- // Un module peut rendre `undefined` : il n'a alors aucune clé dans le document (monde sans bord hors de son option).
- for(const [id,validate]of validators){const value=validate(raw?.modules?.[id],full);if(value!==undefined)modules[id]=value;}
+ for(const [id,validate]of validators)modules[id]=validate(raw?.modules?.[id],full);
  const a=modules.campaign?.active;
  const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),cargo=C?.CampaignPackRules?.definitions[a?.kind]?.cargo;
  const campaignLoad=!!a&&((cargo==='outbound'||a.kind==='aid')&&a.stage==='field'||(cargo==='inbound'||['salvage','evacuation'].includes(a.kind))&&a.stage==='return');
