@@ -234,7 +234,8 @@ test('limites217 : `sitesNear` rend le voisinage dans l’ordre de la liste, san
 });
 
 test('limites217 : lecteurs de voisinage convertis, plus aucun parcours complet à ces endroits',()=>{
- const a=src('atlas-view.js');assert.equal(count(a,'sitesNear217(v.world,w.x,w.y,radius*1.5).filter(p=>v.seen.includes(p.id)).find(p=>{const l=G.local(p,w.x,w.y);return l.x>=-radius&&l.y>=-radius&&l.x<=p.w+radius&&l.y<=p.h+radius})'),1);assert.ok(!a.includes('world.pois.filter('));
+ const a=src('atlas-view.js');// O10 : sur un monde sans bord, les lieux vus viennent de `open217(v.world).seenPlaces(v)` ; le repli garde `sitesNear217`.
+ assert.equal(count(a,'sitesNear217(v.world,w.x,w.y,radius*1.5)).filter(p=>v.seen.includes(p.id)).find(p=>{'),1);assert.ok(a.includes('const l=G.local(p,w.x,w.y);return l.x>=-radius&&l.y>=-radius&&l.x<=p.w+radius&&l.y<=p.h+radius'));assert.ok(!a.includes('world.pois.filter('));
  const s=src('seed-card217.js');assert.equal(count(s,'for(const p of (world?.sitesNear?world.sitesNear(home.x,home.y,RULES.placeRadius):world?.pois)||[])if(finite(p?.x)&&finite(p?.y)&&Math.hypot(p.x-home.x,p.y-home.y)<=RULES.placeRadius)places++;'),1);
  assert.equal(count(src('frontier-art.js'),'pois.filter('),1);assert.equal(count(src('frontier-art.js'),'sitesById217(v.world,v.inside)'),1);
  for(const name of['campaign-services208.js','campaign-water-supports214.js'])assert.equal(count(src(name),'pois.includes('),1,name+' : seulement dans le repli');

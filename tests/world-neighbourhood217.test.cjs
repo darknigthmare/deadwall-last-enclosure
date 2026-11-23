@@ -130,7 +130,8 @@ test('O4 : sites d\'appel convertis, repli historique seulement sans accesseur',
  const checks={
   'remarkable217.js':[/world\.sitesIn\(\{left:cx\*S/],
   'seed-card217.js':[/world\.nearestSite\(home\.x,home\.y,wanted\)/],
-  'atlas-render.js':[/seenSites217\(v\.world,seen\)\.map/,/for\(const p of sitesIn217\(v\.world,view\)\)/,/for\(const p of seenSites217\(v\.world,seen\)\)/],
+  // O10 : sur un monde sans bord, l'atlas lit ses lieux par `OA.seenPlaces(v)` ; le repli garde les lecteurs de voisinage.
+  'atlas-render.js':[/seenSites217\(v\.world,seen\)\.map/,/for\(const p of (?:OA\?OA\.seenPlaces\(v\):)?sitesIn217\(v\.world,view\)\)/,/for\(const p of (?:OA\?OA\.seenPlaces\(v\):)?seenSites217\(v\.world,seen\)\)/],
   'field-atlas.js':[/sitesByDistance217\(g\.frontier\.world\(\)/,/for\(const p of seenSites217\(w,seen\)\)/,/candidates=seenSites217\(w,seen\)/],
   'field-atlas-ui.js':[/w\.seenSites\?w\.seenSites\(f\.seen\)/],
   'frontier-ui.js':[/v\.world\.seenSites\?v\.world\.seenSites\(v\.seen\)/],
