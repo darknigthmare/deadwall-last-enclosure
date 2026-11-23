@@ -1479,7 +1479,8 @@
       const milliseconds = timestamp - this.lastFrame;
       this.lastFrame = Number.isFinite(timestamp) ? timestamp : performance.now();
       if (this.settings.quality === 'auto' && this.displayQuality153 && this.dpr !== this.displayQuality153.dpr) this.applyDisplayResolution153(this.displayQuality153.dpr);
-      const active = () => this.state === 'playing' && !this.paused && !this.gameOver && !this.activeOverlay && !document.hidden && document.visibilityState !== 'hidden';
+      // Coopération (src/coop-host217.js, D3) : avec un invité assis, ni la pause ni un dossier n'arrêtent le pas ; hors session, prédicat inchangé.
+      const active = () => this.state === 'playing' && (this.coopHost217?.live?.() === true || !this.paused && !this.activeOverlay) && !this.gameOver && !document.hidden && document.visibilityState !== 'hidden';
       const rules=C.SIMULATION_RULES;
       if(active()&&Number.isFinite(milliseconds)&&milliseconds>0&&milliseconds<=rules.maxFrameSeconds*1000){
         const seconds=milliseconds/1000,steps=Math.min(rules.maxSteps,Math.ceil(seconds/rules.maxStepSeconds)),dt=seconds/steps;

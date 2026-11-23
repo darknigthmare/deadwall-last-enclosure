@@ -3636,6 +3636,12 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  C.CoopSession217Rules=Object.freeze({protocol:217,maxGuests:3,codeChars:Object.freeze([6,12]),nameChars:24,maxPending:32,perStep:8,maxSeq:2147483647,maxTick:2147483647,
   roles:Object.freeze({district:Object.freeze(['move','aim','fire','ping','hold']),sortie:Object.freeze(['move','aim','fire','ping'])}),
   view:Object.freeze({radius:900,maxZombies:240,maxBuildings:400,maxDistricts:16})});
+  // Coopération en jeu (specs/cooperation, tranches C2–C5, décisions D1–D7 du 23 novembre 2026) : budgets du relais 217,
+  // image envoyée à 8 Hz (D7), avatar d'invité tireur sur le stock de l'hôte (D5-A), temps continu et onglet caché (D3).
+  C.CoopPlay217Rules=Object.freeze({version:1,relay:Object.freeze({hostChars:30000,framesPerSecond:12,hostPerSecond:90,hostBurst:120,guestsPerRoom:3}),
+   frame:Object.freeze({hz:8,radius:900,maxBuildings:320,maxZombies:200,massCell:640,maxMasses:24,maxShots:40,maxPings:12,pingSeconds:8,pingGap:1.5}),
+   avatar:Object.freeze({health:100,speed:136,radius:12,magazine:30,reload:2.2,fireRate:5,damage:28,range:700,spread:.06,respawnSeconds:8,invulnerable:2}),
+   clock:Object.freeze({hiddenStepMs:250,hiddenMaxSeconds:1,hiddenGraceSeconds:90,checkMs:500})});
   // Terrain de la cité de génération 12 dans le jeu (ouverture.md, tranche O6a, hors jeu) : surcoûts du champ de flux des hordes,
   // dans l'unité de son pas (10 par case) — rampe payée sur l'arête qui change de palier, gué sur la case d'un ruisseau sans pont.
   // Mêmes valeurs que les coûts de chemin de la carte locale (`costs` de ses règles), relues par le test de la tranche.

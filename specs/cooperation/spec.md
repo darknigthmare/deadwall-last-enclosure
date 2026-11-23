@@ -114,10 +114,25 @@ forgés, cadence, admission, sockets tardifs, contre-pression.
 - Coopération sur des réseaux publics sans relais de confiance (voir D2).
 - Modification des règles de jeu solo, des générations, des flux RNG ou des identifiants.
 
-## 6. Décisions à soumettre à l'utilisateur
+## 6. Décisions
 
-Chaque décision propose deux ou trois options et une recommandation. Rien de ce qui suit n'est tranché
-par ce cadrage.
+### 6.0 Décisions tranchées par l'utilisateur (23 novembre 2026)
+
+| Id | Choix | Conséquence dans le code |
+|---|---|---|
+| D1 | **Les deux rôles** : responsable de district dans la cité (C4) **et** chef de sortie en région (C7, seconde bulle régionale détachée de `g.player`). | C4 livré (`src/coop-host217.js`). Tant que C7 manque, l'hôte refuse le rôle `sortie` avec la raison `role` ; l'interface le montre grisé. |
+| D2 | **A** — étendre le relais WebSocket existant, sans autorité, code de salle exigé, protocole 217 séparé du 200. | `scripts/coop-server.mjs` (C2). |
+| D3 | **A** — aucune pause tant qu'un invité est assis : dossiers et poste de commandement sans geler `update`, relève sans pause, onglet caché en pas réduits puis interruption propre ; pause solo intacte hors session. | Prédicat unique `g.coopHost217.live()`, lu par `loop` (`game.js`) et l'enveloppe de `update` (C5). |
+| D4 | **A + C** — l'avatar d'invité n'est pas sauvegardé, il réapparaît au dépôt ; son sac est versé au dépôt de l'hôte au départ et avant chaque sauvegarde. | Aucune clé de sauvegarde ajoutée ; le chargeur de l'avatar est compté dans `resources` de chaque `serialize` et rendu au dépôt au départ et à la mort. |
+| D5 | **A** — combattre et signaler seulement (déplacement, visée, tir, repère, district tenu) ; construction, lois, ordres et dépenses restent au Commandant unique. | Rôle `district` : `move`, `aim`, `fire`, `ping`, `hold`. Le tir puise dans le stock de munitions de l'hôte (chargeur de 30), sans autre dépense. |
+| D6 | **B** — jusqu'à trois invités dans le protocole ; un seul pour la première vérification en vrai navigateur. | Trois sièges au relais et chez l'hôte ; vérification Chromium avec un invité. |
+| D7 | **A** — image bornée autour de l'invité (rayon, nombre de corps) à 5–10 images/s avec interpolation, masses agrégées au-delà. | 8 images/s, rayon 900, 200 corps, 320 bâtiments, masses par carreaux de 640 ; interpolation et prédiction d'affichage chez l'invité. |
+
+Les options ci-dessous restent comme trace du cadrage.
+
+### 6.1 Options présentées lors du cadrage
+
+Chaque décision propose deux ou trois options et une recommandation.
 
 ### D1 — Quel rôle prend l'invité dans la première version jouable ?
 

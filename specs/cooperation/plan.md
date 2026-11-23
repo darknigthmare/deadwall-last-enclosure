@@ -1,6 +1,8 @@
 # Vraie coopération — plan
 
 Besoin : [spec.md](spec.md). Tâches : [tasks.md](tasks.md). Commit de référence : `cc9efd9`.
+Décisions D1–D7 tranchées le 23 novembre 2026 ([spec.md §6.0](spec.md)) ; C2 à C5 livrés, C6 en partie (bilan dans [tasks.md](tasks.md)).
+Vérification réelle : serveur de jeu 8756, relais 8757 (au lieu de 4512/4513 prévus).
 
 ## 1. Architecture cible
 
@@ -62,11 +64,11 @@ de [tasks.md](tasks.md).
 | Tranche | Contenu | Change le jeu ? | Parcours observable | Tests |
 |---|---|---|---|---|
 | **C1 (livrée)** | Protocole et état partagé purs, hôte + invité dans le même processus. Non chargé par `index.html`. | Non | Aucun (brique) | `tests/coop-session217.test.cjs` |
-| C2 | Relais : salles 217 avec un hôte et trois invités, code exigé, routage hôte ↔ invités seulement, protocole 200 intact. | Non (relais) | Deux terminaux Node se parlent par le relais. | test `ws` port 0, budgets, refus |
-| C3 | Adaptateur hôte **en lecture** : ouvrir une session (code), envoyer des images à 5–10 Hz depuis `serialize` ou une lecture plus légère ; aucune intention appliquée. Script public ajouté (manifeste). | Non en solo ; en session, l'hôte ne change pas | Un second onglet voit la cité de l'hôte en spectateur. | non-mutation, cadence, `replay.cjs` |
-| C4 | Avatar de responsable de district : acteur de cité de l'hôte, mû par les intentions, ciblé par les zombies, tire avec les munitions de l'hôte (D5-A). Absent de `serialize` (D4-A). | Oui, **en session seulement** | L'invité tient la porte nord pendant que l'hôte est en région. | ordre des intentions, cibles, sauvegarde identique avec/sans avatar, départ → sac au dépôt |
-| C5 | Temps continu en session (D3) : une porte unique « session active » pour `loop`, `update`, dossiers, poste de commandement, relève, onglet caché. | En session seulement | Le poste de commandement ouvert, la cité continue. | un test par module qui pose `paused`/`activeOverlay` |
-| C6 | Client invité : interface de connexion, peintres 2,5D et FPS sur l'image, interpolation, prédiction de son avatar. | Non pour l'hôte | Parcours 1 à 6 de la spec en vrai navigateur (deux onglets, ports 4512/4513). | peintres sans effet, image ancienne refusée |
+| C2 (livrée) | Relais : salles 217 avec un hôte et trois invités, code exigé, routage hôte ↔ invités seulement, protocole 200 intact. | Non (relais) | Deux terminaux Node se parlent par le relais. | test `ws` port 0, budgets, refus |
+| C3 (livrée) | Adaptateur hôte **en lecture** : ouvrir une session (code), envoyer des images à 5–10 Hz depuis `serialize` ou une lecture plus légère ; aucune intention appliquée. Script public ajouté (manifeste). | Non en solo ; en session, l'hôte ne change pas | Un second onglet voit la cité de l'hôte en spectateur. | non-mutation, cadence, `replay.cjs` |
+| C4 (livrée) | Avatar de responsable de district : acteur de cité de l'hôte, mû par les intentions, ciblé par les zombies, tire avec les munitions de l'hôte (D5-A). Absent de `serialize` (D4-A). | Oui, **en session seulement** | L'invité tient la porte nord pendant que l'hôte est en région. | ordre des intentions, cibles, sauvegarde identique avec/sans avatar, départ → sac au dépôt |
+| C5 (livrée) | Temps continu en session (D3) : une porte unique « session active » pour `loop`, `update`, dossiers, poste de commandement, relève, onglet caché. | En session seulement | Le poste de commandement ouvert, la cité continue. | un test par module qui pose `paused`/`activeOverlay` |
+| C6 (en partie) | Client invité : interface de connexion, peintres 2,5D et FPS sur l'image, interpolation, prédiction de son avatar. | Non pour l'hôte | Parcours 1 à 6 de la spec en vrai navigateur (deux onglets, ports 4512/4513). | peintres sans effet, image ancienne refusée |
 | C7 | Chef de sortie : seconde bulle régionale détachée de `g.player` (D1-B). | En session seulement | Un invité explore pendant que l'hôte tient le mur. | isolement des bulles, poursuites, véhicules |
 | C8 | Trois invités, reprise après coupure, fermeture propre, notes de version. | En session seulement | Rejoindre et quitter en cours de vague. | charge, reconnexion |
 
