@@ -266,6 +266,9 @@
   g.economyTick=function(dt,...rest){const result=economy.call(this,dt,...rest);tick(dt);return result;};
   // Déblaiement d'un mur : le geste et sa cadence restent ceux du moteur ; la charge réellement retirée entre dans la filière.
   const clear=g.clearCorpsesWithWorker;
+  // Cadence des ouvriers au calme (`calmClear`), lue par la boucle des ouvriers du moteur : règle sans état, lue dans la
+  // phase de la vague déjà sauvegardée. 1 hors de la filière, avant son âge et pendant l'alerte, l'assaut et la sécurisation.
+  const calmPace=()=>open()&&g.phase==='calm'?R.calmClear:1;
   g.clearCorpsesWithWorker=function(...args){const removed=clear.apply(this,args);if(removed>0)receive(removed);return removed;};
   // Signature : la fumée du bûcher s'ajoute au calcul du moteur, qui reste seul à le refaire.
   const metrics=g.refreshMetrics;
@@ -344,7 +347,7 @@
    return result;
   };
   const fresh=()=>{text='';clock=-Infinity;};
-  const api=Object.freeze({active,open,pending:()=>state.pending,left,counted,byDistrict,threshold:limit,stage:()=>stage(state.exposure),burning:()=>open()&&state.pyre?state.pyre:null,signature:()=>open()&&state.pyre?P.signature:0,
+  const api=Object.freeze({active,open,pending:()=>state.pending,left,counted,calmPace,byDistrict,threshold:limit,stage:()=>stage(state.exposure),burning:()=>open()&&state.pyre?state.pyre:null,signature:()=>open()&&state.pyre?P.signature:0,
    pit:()=>({digging:state.pitLeft>0,left:state.pitLeft,open:state.pitOpen,fill:state.pitFill,closed:state.pitsClosed}),
    receive,lightQuote,light,douseQuote,douse,pitQuote,openPit,tick,overview,actions,render,marks,drawMarks,snapshot:()=>validate(state)});g.corpseChain217=api;
   g.expansions.register({id:'corpseChain217',title:'Corps et salubrité',overview,actions,validate,snapshot:api.snapshot,

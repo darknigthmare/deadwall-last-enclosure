@@ -62,6 +62,9 @@
    if(state?.folded)text+=' — plan de '+state.asked+' fronts replié sur '+fronts.length+', même effectif';
    const rate=O.rate(fronts,sides),interval=Number(g.wavePlan?.spawnInterval)||0;
    if(Number.isFinite(rate)&&1/rate>interval)text+=' ; entrée plafonnée à '+String(Math.round(rate*10)/10).replace('.',',')+' par seconde, le reste attend au pied';
+   // Cité à deux côtés : plafond propre de chaque passage étroit de la vague.
+   else{const tight=typeof O.narrow==='function'?fronts.filter(f=>Number.isFinite(O.narrow(f,sides))):[];
+    if(tight.length)text+=' ; '+(tight.length>1?'passages étroits ':'passage étroit ')+'('+joined(tight.map(f=>SIDE_NAMES[f]))+') : '+String(Math.round(O.narrow(tight[0],sides)*10)/10).replace('.',',')+' par seconde au plus'+(tight.length>1?' chacun':'')+', le reste attend au pied';}
    return text+'.';
   }
   const closed=O.SIDES.filter(f=>!open.includes(f));

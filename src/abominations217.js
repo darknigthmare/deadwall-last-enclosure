@@ -285,7 +285,8 @@
   // L'assaut fixe l'effectif, une fois : avant que le moteur ne remplisse sa file et que la nuit ne soit comptée.
   const start=g.startAssault;
   // Siège adossé (G12 hors jeu) : sur une cité à un seul front, la Meneuse et son escorte encore debout passent par le même
-  // passage que la file ; chacun y prend une place du débit (`C.OpenSiege217.lead`) avant la première arrivée.
+  // passage que la file ; chacun y prend une place du débit (`C.OpenSiege217.lead`) avant la première arrivée. Sur une cité
+  // à deux côtés, de même quand la Meneuse vient par un passage étroit (`C.OpenSiege217.narrow`).
   function onSite(){
    const l=current(),e=escort();if(!l)return 0;
    const z=l.id&&l.status==='gathered'?g.zombies.find(o=>o.id===l.id&&!o.dead):null;
@@ -294,7 +295,7 @@
   function passLead(){
    const sides=g.world?.terrain217?.sides;if(!sides||typeof g.openSiegeState217!=='function')return;
    const s=g.openSiegeState217(),n=s?onSite():0;if(!n)return;
-   const t=C.OpenSiege217.lead(n,g.spawnGap217(),s.fronts,sides);if(t>0)g.spawnTimer+=t;
+   const t=C.OpenSiege217.lead(n,g.spawnGap217(),s.fronts,sides,post(seed(),g.wave,frame()).side);if(t>0)g.spawnTimer+=t;
   }
   if(typeof start==='function')g.startAssault=function(...args){
    let fixed=false;

@@ -365,3 +365,31 @@ test('filière des corps : la part des murs pendant l’assaut ne change ni la s
   const B=g.corpseChain217,notes=watch(g);assert.equal(B.active(),false);g.phase='assault';run(g,S.graceSeconds+10);calm(g);run(g,S.graceSeconds+10);
   assert.equal(B.stage(),0);assert.deepEqual(state(g),none());assert.equal(mine(notes).length,0);
 });
+
+// Rythme du déblaiement au calme (décision du 23 novembre 2026) : la boucle des ouvriers du moteur dégage le pied des murs
+// ×`calmClear` au calme seulement ; le geste `clearCorpsesWithWorker`, le Commandant, l'assaut, la charge des murs (rampes,
+// brèches) et les campagnes sans la filière gardent leurs cadences.
+function loopClear(g,phase,seconds=2,dt=.1){
+  const {wall,worker}=wallWithWorker(g);wall.corpseLoad=200;g.phase=phase;g.phaseTime=1e6;g.workerOrder='clear';
+  for(const u of g.units)if(u!==worker&&u.kind==='worker'){u.dead=true;}
+  worker.state='clear';worker.targetBuilding=wall.id;worker.carry=0;worker.think=1e6;
+  const before=wall.corpseLoad;for(let t=0;t<seconds-1e-9;t+=dt){const p=g.workerCleanupPoint(worker,wall);worker.x=p.x;worker.y=p.y;g.updateUnits(dt);}
+  return before-wall.corpseLoad;
+}
+test('filière des corps : au calme, les ouvriers déblaient ×calmClear par la boucle du moteur ; rien ailleurs',()=>{
+  assert.ok(Number.isFinite(R.calmClear)&&R.calmClear>=1.2&&R.calmClear<=1.3,'décision : +20 à 30 %');
+  const at=(phase,make=outpost)=>loopClear(make(),phase);
+  const calmDone=at('calm'),assault=at('assault'),aftermath=at('aftermath'),warning=at('warning');
+  assert.ok(assault>0,'l’ouvrier déblaie pendant l’assaut sans infecté proche');
+  near(calmDone/assault,R.calmClear,'au calme');near(aftermath,assault,'sécurisation : cadence du moteur');near(warning,assault,'alerte : cadence du moteur');
+  // Avant l'âge de la filière et dans une ancienne campagne (module absent de la sauvegarde) : cadence du moteur au calme.
+  const early=loopClear(campaign(),'calm'),earlyAssault=loopClear(campaign(),'assault');near(early,earlyAssault,'avant l’Avant-poste');
+  const old=()=>{const g=outpost(),data=JSON.parse(JSON.stringify(g.serialize()));delete data.expansions127.modules.corpseChain217;assert.equal(g.restoreSave(data),true);assert.equal(g.corpseChain217.active(),false);return g;};
+  near(loopClear(old(),'calm'),loopClear(old(),'assault'),'ancienne campagne : inactive');
+  // Lecture sans état ni effet : la cadence se lit dans la phase.
+  const g=outpost(),A=g.corpseChain217,snap=JSON.stringify(state(g));
+  for(const [phase,v] of [['calm',R.calmClear],['warning',1],['assault',1],['aftermath',1]]){g.phase=phase;assert.equal(A.calmPace(),v,phase);}
+  assert.equal(JSON.stringify(state(g)),snap,'aucun état de plus');
+  // Le geste lui-même (Commandant, ouvrier appelé directement) garde la cadence du moteur.
+  const {wall,worker}=wallWithWorker(calm(g));wall.corpseLoad=20;near(g.clearCorpsesWithWorker(worker,wall,1),C.WORKER_RULES.cleanupPerSecond);
+});

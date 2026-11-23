@@ -3599,7 +3599,9 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // sickness.siegeWalls : part de la charge au pied des murs comptée par la maladie pendant l'assaut et la sécurisation (les corps
  // frais d'un mur assiégé ne pourrissent pas encore) ; toute la charge compte de nouveau au calme. La charge des murs (rampes,
  // brèches) n'en dépend pas.
- C.CorpseChain217Rules=Object.freeze({startAge:2,reach:100,
+ // calmClear : au calme seulement (ni alerte, ni assaut, ni sécurisation), les ouvriers déblaient le pied des murs ×`calmClear`
+ // (le geste `clearCorpsesWithWorker` et sa cadence restent ceux du moteur ; le Commandant et les fossés n'en dépendent pas).
+ C.CorpseChain217Rules=Object.freeze({startAge:2,reach:100,calmClear:1.25,
   pyre:Object.freeze({perSecond:1.5,cost:Object.freeze({wood:.4,fuel:.1}),signature:60}),
   pit:Object.freeze({cost:Object.freeze({wood:20}),digSeconds:45,perSecond:.25,capacity:120}),
   sickness:Object.freeze({base:40,perPerson:4,clearRatio:.6,graceSeconds:120,moraleDrain:.2,sickWarnSeconds:300,sickSeconds:420,sickInterval:90,sickDamage:.35,
@@ -3671,7 +3673,12 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   // Siège adossé, plafond de passage (décision du 22 novembre 2026, D-O2 inchangée) : toute cité à un seul front, quelle
   // que soit sa largeur, est plafonnée à `passRate.max` arrivées par seconde au plus ; la Meneuse et son escorte, déjà
   // sur la carte à l'assaut, entrent dans ce même débit (`lead`). Même effectif total, vague plus longue.
-  C.OpenSiege217Rules=Object.freeze({version:1,generation:12,foldShares:Object.freeze({basis:'width',minShare:.1}),passRate:Object.freeze({perMetre:.25,min:1,max:1.5}),minFronts:1});
+  // Cité à deux côtés (décision du 23 novembre 2026, D-O2 inchangée) : sur une cité à `narrowPass.sides` côtés non clos
+  // exactement, chaque passage plus étroit que `narrowPass.below` mètres a aussi son plafond, proportionnel à sa largeur :
+  // `narrowPass.perMetre` × largeur arrivées par seconde par ce passage, au moins `passRate.min` (32 m : 1,5 par seconde,
+  // le plafond d'un seul côté). Même effectif, vague plus longue ; la Meneuse et son escorte y prennent leur place comme
+  // sur une cité à un seul côté. Le côté large (64 m et plus) garde le débit du plan.
+  C.OpenSiege217Rules=Object.freeze({version:1,generation:12,foldShares:Object.freeze({basis:'width',minShare:.1}),passRate:Object.freeze({perMetre:.25,min:1,max:1.5}),minFronts:1,narrowPass:Object.freeze({sides:2,below:64,perMetre:.046875})});
   // Lecture pure de ces règles, sans tirage propre (le mélange des fronts est celui du jeu, passé en argument).
   // Sur une carte plate (`sides` absent), quatre côtés ouverts de même poids : le repli est l'identité.
   C.OpenSiege217=(()=>{
@@ -3713,10 +3720,30 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
     return Math.max(R.passRate.min,open(sides).length===1?Math.min(R.passRate.max,metre):metre);
    };
    const gap=(interval,fronts,sides)=>Math.max(interval,1/rate(fronts,sides));
+   // Plafond propre d'un passage étroit d'une cité à deux côtés (arrivées par seconde par ce côté) ; `Infinity` ailleurs.
+   const narrow=(side,sides)=>{
+    const N=R.narrowPass,w=width(sides,side);
+    return sides&&w>0&&w<N.below&&open(sides).length===N.sides&&open(sides).includes(side)?Math.max(R.passRate.min,N.perMetre*w):Infinity;
+   };
+   // Intervalle d'entrée quand `group` (fronts qui reçoivent les arrivées en ce moment, parmi `fronts` de la vague) passe
+   // par des passages étroits : chacun reçoit sa part `share` du groupe, jamais au-delà de son plafond. Sans passage
+   // étroit, exactement `gap`.
+   function passGap(interval,fronts,group,sides,share){
+    let out=gap(interval,fronts,sides);const list=Array.isArray(group)&&group.length?group:fronts;
+    const own=share||shares(list,sides),sum=list.reduce((n,f)=>n+(own[f]||0),0);
+    for(const f of list){const cap=narrow(f,sides);if(Number.isFinite(cap))out=Math.max(out,(sum>0?(own[f]||0)/sum:1/list.length)/cap);}
+    return out;
+   }
    // Attente de la file avant la première arrivée quand `onSite` infectés (Meneuse et escorte) passent déjà par ce front :
    // chacun prend une place du débit, `passGap` étant l'intervalle d'entrée de la partie (`gap`). Aucune attente hors
    // d'une cité à un seul front.
-   const lead=(onSite,passGap,fronts,sides)=>{const n=Math.max(0,Math.floor(Number(onSite)||0)),t=Number(passGap);return n&&t>0&&Number.isFinite(t)&&Number.isFinite(rate(fronts,sides))?n*t:0;};
+   // `side` (facultatif) : côté de la Meneuse ; passage étroit d'une cité à deux côtés, chacun y prend une place de son
+   // plafond, même si la vague a plusieurs fronts.
+   const lead=(onSite,passGap,fronts,sides,side)=>{
+    const n=Math.max(0,Math.floor(Number(onSite)||0)),t=Number(passGap),own=side===undefined?Infinity:narrow(side,sides);
+    const base=n&&t>0&&Number.isFinite(t)&&Number.isFinite(rate(fronts,sides))?n*t:0;
+    return n&&Number.isFinite(own)?Math.max(base,n/own):base;
+   };
    // Nom du passage d'un côté, pour l'annonce : « la rampe du nord », « les deux ponts de l’est », « l’ouest ».
    function label(side,s){
     if(!s||s.status==='ouvert')return THE[side];
@@ -3743,7 +3770,7 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
     if(!plain(raw.emitted,f)||f.some(s=>!Number.isInteger(raw.emitted[s])||raw.emitted[s]<0)||f.reduce((n,s)=>n+raw.emitted[s],0)>(base.wavePlan?.total??0))fail('arrivées');
     return{wave:raw.wave,asked:raw.asked,folded:raw.folded,fronts:f.slice(),shares:Object.fromEntries(f.map(s=>[s,raw.shares[s]])),emitted:Object.fromEntries(f.map(s=>[s,raw.emitted[s]]))};
    }
-   return Object.freeze({SIDES,open,shares,fold,quotas,pick,rate,gap,lead,label,phrase,normalize});
+   return Object.freeze({SIDES,open,shares,fold,quotas,pick,rate,gap,narrow,passGap,lead,label,phrase,normalize});
   })();
   // Vie de la cité de génération 12 (ouverture.md, préalable O9 (a), hors jeu) : quartiers et haltes d'expédition posés
   // sur le terrain par une fonction pure de la graine et de la description (hachage, aucun flux de génération). `clear` :

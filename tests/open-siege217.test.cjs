@@ -68,7 +68,8 @@ function ring(w, r) {
 
 test('O7 : règles gelées, fonctions pures, et le repli est l’identité en G1–G11 (vagues 1 à 60, trois difficultés)', () => {
   assert.ok(Object.isFrozen(R) && Object.isFrozen(R.foldShares) && Object.isFrozen(R.passRate) && Object.isFrozen(O));
-  assert.deepEqual(JSON.parse(JSON.stringify(R)), { version: 1, generation: 12, foldShares: { basis: 'width', minShare: .1 }, passRate: { perMetre: .25, min: 1, max: 1.5 }, minFronts: 1 });
+  assert.deepEqual(JSON.parse(JSON.stringify(R)), { version: 1, generation: 12, foldShares: { basis: 'width', minShare: .1 }, passRate: { perMetre: .25, min: 1, max: 1.5 }, minFronts: 1, narrowPass: { sides: 2, below: 64, perMetre: R.narrowPass.perMetre } });
+  assert.ok(Object.isFrozen(R.narrowPass) && R.narrowPass.perMetre > 0 && R.narrowPass.perMetre * 63 < R.passRate.perMetre * 63, 'plafond d’un passage étroit sous le débit par mètre');
   assert.equal(C.WorldSave217Rules.open, true, 'O9 : génération 12 ouverte derrière l’option de menu');
   const four = Object.fromEntries(SIDES.map(s => [s, { status: 'ouvert', width: 128, entries: [{ from: 0, to: 128, width: 128 }], passages: [] }]));
   let plans = 0;
@@ -290,7 +291,7 @@ test('O7 : masse lointaine, annonce et lecture de siège sur les seuls côtés o
   assert.equal(g.phase, 'warning');
   assert.deepEqual([...g.fronts].sort(), ['east', 'west'], 'deux fronts, est et ouest');
   assert.ok(notes.some(t => /Migration détectée — \d+ contacts estimés, par l’est et l’ouest\./.test(t)), notes.join(' | '));
-  const sentence = Readout.frontsSentence(C, g); assert.match(sentence, /^Vague 5 par l’est \(96 m\) et l’ouest \(32 m\)\.$/);
+  const sentence = Readout.frontsSentence(C, g); assert.match(sentence, /^Vague 5 par l’est \(96 m\) et l’ouest \(32 m\) ; passage étroit \(ouest\) : \d+(,\d)? par seconde au plus, le reste attend au pied\.$/);
   // La masse : jamais au nord ni au sud, même si l'on force un front clos dans la liste.
   g.fronts = ['north', 'east', 'south', 'west'];
   const h = Horizon.horizon(g); assert.deepEqual([...h.fronts], ['east', 'west']);

@@ -1797,7 +1797,7 @@
             else{const before=b.progress,completed=b.work(dt*(this.hasResearch('logistics')?1.22:1.05)*(this.balance217?.effort()??1));if(b.progress>before)this.recordActorAction159(u,'build',1.2,{continuous:true,facing:Math.atan2(b.y-u.y,b.x-u.x)});if(completed)this.completeBuilding(b);}
           }
           else if(u.state==='gather'){const node=this.world.nodes.find(n=>n.id===u.targetNode);if(!node||node.depleted){u.state=u.carry>0?'return':'idle';u.think=0;}else if(!this.workerCanWorkAt(u,node,node.radius+12))this.moveWorkerToJob(u,node,dt,`gather:${node.id}`);else{const room=Math.max(0,u.maxCarry-u.carry),amount=node.harvest(Math.min(room,dt*3.4*this.difficulty.resourceYield*(this.hasResearch('logistics')?1.18:1)*(this.balance217?.effort()??1)*(this.biome217?.factor(node.type)??1)));u.carry+=amount;u.carryType=node.type;if(u.carry>=u.maxCarry-.1||node.depleted)u.state='return';}}
-          else if(u.state==='clear'){const b=this.world.buildings.get(u.targetBuilding);if(!b||b.dead||!b.completed||!b.def.wall||b.corpseLoad<=0){u.state='idle';u.think=0;}else{const point=this.workerCleanupPoint(u,b);if(this.workerCanWorkAt(u,point,C.WORKER_RULES.cleanupRange)){const before=b.corpseLoad;this.clearCorpsesWithWorker(u,b,dt*(this.balance217?.effort()??1));if(b.corpseLoad<before)this.recordActorAction159(u,'clear',1.2,{continuous:true,facing:Math.atan2(b.y-u.y,b.x-u.x)});}else this.moveWorkerToJob(u,point,dt,`clear:${b.id}`);}}
+          else if(u.state==='clear'){const b=this.world.buildings.get(u.targetBuilding);if(!b||b.dead||!b.completed||!b.def.wall||b.corpseLoad<=0){u.state='idle';u.think=0;}else{const point=this.workerCleanupPoint(u,b);if(this.workerCanWorkAt(u,point,C.WORKER_RULES.cleanupRange)){const before=b.corpseLoad;this.clearCorpsesWithWorker(u,b,dt*(this.balance217?.effort()??1)*(this.corpseChain217?.calmPace?.()??1));if(b.corpseLoad<before)this.recordActorAction159(u,'clear',1.2,{continuous:true,facing:Math.atan2(b.y-u.y,b.x-u.x)});}else this.moveWorkerToJob(u,point,dt,`clear:${b.id}`);}}
           else if(u.state==='return'){const storage=[...this.world.buildings.values()].filter(b=>!b.dead&&b.completed&&(b.type==='core'||b.type==='warehouse'||b.def.storageDepot)&&this.workerJobAvailable(u,`return:${b.id}`)).sort((a,b)=>distSq(u,a)-distSq(u,b))[0];if(storage)this.depositWorker(u,storage,dt);}
           else{const target={x:core.x+u.offset.x,y:core.y+u.offset.y};if(dist(u,target)>35)this.moveUnitToward(u,target,dt,u.speed*.6);}
         } else if(C.SURVIVORS[u.kind]?.specialist){
@@ -2025,10 +2025,12 @@
       const fronts=this.fronts.filter(f=>C.OpenSiege217.open(sides).includes(f)),list=fronts.length?fronts:C.OpenSiege217.open(sides);
       return this.openSiege217={wave:this.wave,asked:this.wavePlan?.fronts||list.length,folded:(this.wavePlan?.fronts||0)>list.length,fronts:Object.freeze(list.slice()),shares:C.OpenSiege217.shares(list,sides),emitted:Object.fromEntries(list.map(f=>[f,0]))};
     }
-    // Intervalle entre deux arrivées : celui du plan, plafonné par le passage d'une cité à un seul front.
+    // Intervalle entre deux arrivées : celui du plan, plafonné par le passage d'une cité à un seul front, et par chaque
+    // passage étroit d'une cité à deux côtés selon le groupe de fronts de la dernière arrivée (échelons de la nuit).
     spawnGap217() {
-      const s=this.openSiegeState217(),interval=this.wavePlan?.spawnInterval||.3;
-      return s?C.OpenSiege217.gap(interval,s.fronts,this.world.terrain217.sides):interval;
+      const s=this.openSiegeState217(),interval=this.wavePlan?.spawnInterval||.3;if(!s)return interval;
+      const last=this.openSiegeGroup217,group=last&&last.wave===this.wave?last.fronts:s.fronts;
+      return C.OpenSiege217.passGap(interval,s.fronts,group,this.world.terrain217.sides,s.shares);
     }
     // Annonce : le passage par lequel la horde entre (« par la rampe du nord »).
     siegeApproach217() {
@@ -2108,7 +2110,7 @@
     spawnZombie217(kind) {
       const sides=this.world.terrain217.sides,open=C.OpenSiege217.open(sides),state=this.openSiegeState217();
       const group=(this.fronts.length?this.fronts:state.fronts).filter(f=>open.includes(f)),pool=group.length?group:state.fronts;
-      const front=C.OpenSiege217.pick(pool,state.shares,state.emitted),entries=sides[front]?.entries||[];
+      const front=C.OpenSiege217.pick(pool,state.shares,state.emitted),entries=sides[front]?.entries||[];this.openSiegeGroup217={wave:this.wave,fronts:pool};
       if(!entries.length)return false;
       let left=this.random.range(0,entries.reduce((n,e)=>n+e.width,0)),entry=entries[entries.length-1];
       for(const e of entries){if(left<e.width){entry=e;break;}left-=e.width;}
