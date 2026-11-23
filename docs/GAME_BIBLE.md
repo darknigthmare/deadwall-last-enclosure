@@ -1299,6 +1299,19 @@ nombre d'invités, image).
 
 **État livré (23 novembre 2026, décisions D1–D7 tranchées).** D1 : les deux rôles (responsable de district livré, chef de sortie à venir en C7) ; D2 : relais WebSocket existant, sans autorité ; D3 : aucune pause tant qu'un invité est assis ; D4 : avatar non sauvegardé, son chargeur rendu au dépôt ; D5 : combattre et signaler seulement ; D6 : jusqu'à trois invités ; D7 : image bornée autour de l'invité. L'hôte est la seule autorité : un invité n'envoie que des intentions. Le responsable de district est un défenseur de la cité, ciblé comme une unité, qui tire sur le stock de l'hôte et revient au dépôt 8 s après une chute. « Un joueur tient le mur pendant qu'un autre explore » est vrai dès que l'hôte part en sortie. Restent : vues 2,5D/FPS côté invité (C6.2), chef de sortie (C7), reconnexion (C8).
 
+### 7.12 bis Intro du studio et écran d'accueil **[LIVRÉ]**
+
+Au lancement, un rideau de présentation (`src/intro-studio218.js`) recouvre le
+menu principal : cartons « Darknigthmare Kingdoms Games Productions » (blason
+original : écu de fer, couronne à trois fleurons, mur crénelé, lune, fissure
+rouge), « présente », « un jeu de Darknigthmare », puis l'enceinte la nuit, la
+horde au loin et le titre qui se fissure (environ 15 s, passable à tout
+moment). L'écran d'accueil « Appuyez pour commencer » débloque le son et rend
+la main au menu, intact. Présentation seule : aléa séparé à graine fixe, aucune
+horloge de jeu, rien d'écrit dans la sauvegarde ; seule préférence locale :
+« Passer l'intro au lancement ». Les navigateurs pilotés et `?intro=0` vont
+directement au menu.
+
 ### 7.13 Un monde procédural sans bord **[DÉCISION]**
 
 #### D'où l'on part **[LIVRÉ]**
