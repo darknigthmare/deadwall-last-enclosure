@@ -136,7 +136,7 @@
   if(raw===undefined){if(g===12)throw Error('Campagne sans bord sans marque expérimentale.');return initial();}
   if(!raw||typeof raw!=='object'||Array.isArray(raw)||raw.version!==1||typeof raw.active!=='boolean'||Object.keys(raw).length!==KEYS.length||KEYS.some(k=>!(k in raw)))throw Error('Monde sans bord 217 invalide.');
   // Forme inactive (instantané d'une campagne à région finie, quand un appelant lit le registre sans la sauvegarde).
-  if(raw.active===false){if(raw.revision!==null||g===12)throw Error('Monde sans bord 217 invalide.');return initial();}
+  if(raw.active===false){if(raw.revision!==null)throw Error('Monde sans bord 217 invalide.');if(g===12)throw Error('Campagne sans bord sans marque expérimentale.');return initial();}
   const v=raw.revision;if(!v||typeof v!=='object'||Array.isArray(v)||Object.keys(v).length!==REVISION_KEYS.length||REVISION_KEYS.some(k=>!Number.isInteger(v[k])||v[k]<1||v[k]>1e6))throw Error('Révision du monde sans bord invalide.');
   if(full&&g!==12)throw Error('Marque expérimentale sur une campagne à région finie.');
   return{version:1,active:true,revision:Object.fromEntries(REVISION_KEYS.map(k=>[k,v[k]]))};
