@@ -11,7 +11,11 @@ const finite=(v,min,max)=>typeof v==='number'&&Number.isFinite(v)&&v>=min&&v<=ma
 const initial=()=>({version:1,tuning:null,wrecks:[]});
 const validationWorlds=new Map();
 function wreckReserve(seed,id){return R.wreckMinimum+G.hash(seed,id,'mechanical-reserve131')%R.wreckVariance;}
-function resolveWreck(world,id){if(typeof id!=='string'||!/^P\d{4}:car:\d+$/.test(id))return null;const p=siteOf217(world,id.split(':')[0]);return p?.parking.find(v=>v.id===id&&!['bike','skate'].includes(v.type))||null;}
+/* T5.4 : épaves des lieux d'un monde sans bord (`K…:site:n:car:m`), démontables dans les campagnes de la faune des cantons
+ * (module `openlife217`) ; le lieu est le préfixe avant `:car:`. Région finie : `P0000:car:n`, comme avant. */
+const WRECK217=/^K(?:0|-?[1-9]\d{0,6})_(?:0|-?[1-9]\d{0,6}):site:(?:0|[1-9]\d{0,4}):car:\d+$/;
+const wreckSite217=id=>WRECK217.test(id)?id.slice(0,id.lastIndexOf(':car:')):id.split(':')[0];
+function resolveWreck(world,id){if(typeof id!=='string'||!/^P\d{4}:car:\d+$/.test(id)&&!WRECK217.test(id))return null;const p=siteOf217(world,wreckSite217(id));return p?.parking.find(v=>v.id===id&&!['bike','skate'].includes(v.type))||null;}
 function normalize(raw,full){
  if(raw===undefined)return initial();
  const fail=()=>{throw Error('Logistique lointaine : registre invalide.');};
@@ -22,8 +26,8 @@ function normalize(raw,full){
  if(full&&raw.wrecks.length){const key=full.worldSeed+':'+full.frontier?.generation+':'+(full.frontier?.ecologyVersion??0)+':'+(full.frontier?.detailVersion??0)+':'+(full.frontier?.landscape189||'classic')+':'+(full.frontier?.hydrologyVersion??0);if(!validationWorlds.has(key)){const W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null);validationWorlds.set(key,W.create(full.worldSeed,full.frontier.generation,{detailVersion:full.frontier.detailVersion??0,ecologyVersion:full.frontier.ecologyVersion??0,hydrologyVersion:full.frontier.hydrologyVersion??0,...(full.frontier.landscape189?{landscape189:full.frontier.landscape189}:{})}));if(validationWorlds.size>3)validationWorlds.delete(validationWorlds.keys().next().value);}world=validationWorlds.get(key);}
  const ids=new Set();
  for(const record of raw.wrecks){
-  if(!record||Object.keys(record).some(k=>!['id','recovered'].includes(k))||typeof record.id!=='string'||!/^P\d{4}:car:\d+$/.test(record.id)||ids.has(record.id)||!Number.isInteger(record.recovered)||!finite(record.recovered,1,R.wreckMinimum+R.wreckVariance-1))fail();
-  if(world){const v=resolveWreck(world,record.id);if(!v||record.recovered>wreckReserve(full.worldSeed,record.id)||(full.frontier.taken[record.id]||0)<v.amount-1e-7||!full.frontier.seen.includes(record.id.split(':')[0]))fail();}
+  if(!record||Object.keys(record).some(k=>!['id','recovered'].includes(k))||typeof record.id!=='string'||!/^P\d{4}:car:\d+$/.test(record.id)&&!(WRECK217.test(record.id)&&(!full||full.frontier?.generation===12))||ids.has(record.id)||!Number.isInteger(record.recovered)||!finite(record.recovered,1,R.wreckMinimum+R.wreckVariance-1))fail();
+  if(world){const v=resolveWreck(world,record.id);if(!v||record.recovered>wreckReserve(full.worldSeed,record.id)||(full.frontier.taken[record.id]||0)<v.amount-1e-7||!full.frontier.seen.includes(wreckSite217(record.id)))fail();}
   ids.add(record.id);out.wrecks.push({id:record.id,recovered:record.recovered});
  }
  return out;
@@ -47,7 +51,7 @@ function install(g){
  function interrupted(){return !alive()||g.player.reload>0||g.input.mouseDown||g.input.touchFire||[...g.input.keys,...g.input.pressed].some(k=>/^Key[WAZQSDERFVG]$|^Arrow|^Page|^Digit[123]$/.test(k));}
  function baseReason(){if(!available())return'Reprenez la campagne avec le commandant disponible.';if(task||g.expansions.busy('exploration131'))return'Terminez ou interrompez l’intervention en cours.';if(g.expeditions.driving()||g.frontier.position().car?.driving)return'Arrêtez-vous puis descendez du véhicule.';if(g.player.reload>0)return'Terminez le rechargement.';return'';}
  function manifest(id){const plan=R.manifests[id];if(!plan)return null;let room=Math.max(0,g.player.carryCapacity-C.bagTotal(g.player.carry));const transfer={};for(const [key,target]of Object.entries(plan.stock)){const n=Math.min(Math.max(0,target-g.player.carry[key]),Math.max(0,g.resources[key]),room);transfer[key]=n;room-=n;}return{plan,transfer,total:Object.values(transfer).reduce((a,b)=>a+b,0)};}
- function nearestWreck(){const p=pose();if(!p.active||p.z!==0||p.inside||p.car?.driving)return null;return Survey.targets(g.frontier.world(),p,g.frontier.snapshot().taken,R.wreckReach).find(v=>v.kind==='car'&&!['bike','skate'].includes(v.type))||null;}
+ function nearestWreck(){const p=pose();if(!p.active||p.z!==0||p.inside||p.car?.driving)return null;return Survey.targets(g.frontier.world(),p,g.frontier.snapshot().taken,R.wreckReach).find(v=>v.kind==='car'&&!['bike','skate'].includes(v.type)&&(!WRECK217.test(v.id)||g.openLife217?.active?.()===true))||null;}
  function wreckStatus(id){const v=resolveWreck(g.frontier.world(),id);if(!v)return null;const total=wreckReserve(g.world.seed,id),used=state.wrecks.find(r=>r.id===id)?.recovered||0;return{total,recovered:used,remaining:total-used};}
  function check(kind,arg){
   reconcile();const reason=baseReason();if(reason)return{ok:false,reason};const p=pose();if(!safe(p))return{ok:false,reason:'Éloignez les infectés avant de manipuler les fournitures.'};

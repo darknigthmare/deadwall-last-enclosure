@@ -716,6 +716,22 @@ G12 avec un message (décision D-O3).
   - D-O4 tranché « évoluer, puis geler » (section 3).
   - Hors portée, à suivre : atlas et minicarte sans étendue (O10), graphe macro des coutures (T5.3 : l'itinéraire reste borné
     à 25 cantons), faune et migrations propres aux cantons (T5.4 : hordes sur routes seulement, aucune faune G12).
+- **Livré T5.4** (faune, épaves et migrations des cantons ; détail, mesures et réserves : `tasks.md`, section « T5.4 ») :
+  - Module `openlife217` (`src/openlife217.js`, liste blanche, `ORDER`, `GROUPS`, `API_NAMES`, `LABELS`) : actif pour une
+    campagne NOUVELLE créée avec l'option ; une campagne sans l'option garde la forme inactive ; une campagne sans bord créée
+    avant cette tranche (sans clé) reste sans faune de canton. Règles `C.OpenLife217Rules` (adressage, eau, plafonds) ;
+    l'équilibrage de la faune est celui de la région finie (`Landscape189Rules.population`, guildes par milieu,
+    `BiomePopulation165Rules`), lu et non recopié.
+  - Animaux `K<cx>_<cy>:faune:<n>` (n = morceau de 256 m × 8 + emplacement), tirés par le flux nouveau
+    `K.stream(graine, cx, cy, 'faune-<morceau>-<groupe>')` ; eau lue sur les mailles et rivières du canton (mer salée, lacs et
+    cours d'eau doux, pont = traversée). La boucle régionale (`frontier.js`) les anime par la même logique que la région finie
+    (alarme, fuite, dérive, repos, activité du jour) ; peintres `wildlife-art165/189` ; chasse et pêche (`wildlife-harvest190`).
+  - Sauvegarde creuse : seuls les animaux abattus, par canton (`kills[canton][n] = [x, y, angle]`), au plus 24 000 ; le registre
+    régional G12 garde `wildlife165` vide ; validation stricte des 16 cantons cités les plus proches à la même révision,
+    forme seule au-delà ou sous une autre révision (D-O4).
+  - Épaves : véhicules garés des lieux de canton (déjà fouillables par le registre régional) ; démontage
+    (`exploration-pack131`, identifiants `K…:site:n:car:m`) ouvert aux campagnes du module.
+  - Migrations : hordes tirées par `pickRoad` (O9) ; cap tenu le long des routes des cantons (test).
 
 ### O10 — Atlas et minicarte sans étendue ; rayon d'action (T6)
 

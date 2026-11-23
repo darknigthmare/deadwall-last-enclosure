@@ -6,6 +6,12 @@ const P=root.DeadwallBiomePopulation165||(typeof require==='function'?require('.
 const W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null);
 const R=C.WildlifeHarvest190Rules, worlds=new Map(), copy=v=>JSON.parse(JSON.stringify(v));
 const initial=()=>({version:1,harvested:{}});
+/* T5.4 : gibier des cantons d'une campagne sans bord (`K…:faune:n`, src/openlife217.js). Même registre creux ; l'eau de la pêche
+ * est lue sur le canton (aucune hydrologie de la région finie en génération 12). Hors génération 12, rien ne change. */
+const LIFE217=/^K(?:0|-?[1-9]\d{0,6})_(?:0|-?[1-9]\d{0,6}):faune:(?:0|[1-9]\d{0,4})$/;
+const life217=()=>root.DeadwallOpenLife217||(typeof require==='function'?require('./openlife217.js'):null);
+const sample217=(w,x,y)=>w.hydrology?w.hydrology.sample(x,y):life217().water(w,x,y);
+const waterLine217=(w,a,b,r)=>w.hydrology?w.wildlifeWaterLine(a,b,r):life217().waterLine(w,a,b,r);
 function validate(raw,full){
  if(raw===undefined)return initial();
  const bad=()=>{throw Error('Registre des récoltes sauvages invalide.');};
@@ -13,8 +19,14 @@ function validate(raw,full){
  if(!raw.harvested||typeof raw.harvested!=='object'||Array.isArray(raw.harvested)||Object.keys(raw.harvested).length>R.maxRecords)bad();
  const s=initial();let world=null;
  for(const [id,n]of Object.entries(raw.harvested)){
-  if(!/^A(?:165|189)_(0|[1-9]\d{0,2})_(0|[1-9]\d{0,2})_[0-7]$/.test(id)||!Number.isFinite(n)||n<=0||n>Math.max(...Object.values(R.yields)))bad();
-  if(full){
+  if(!/^A(?:165|189)_(0|[1-9]\d{0,2})_(0|[1-9]\d{0,2})_[0-7]$/.test(id)&&!LIFE217.test(id)||!Number.isFinite(n)||n<=0||n>Math.max(...Object.values(R.yields)))bad();
+  if(full&&LIFE217.test(id)){
+   // Campagne sans bord : l'animal existe dans son canton et son espèce donne au moins cette part.
+   const f=full.frontier;if(f?.generation!==12)bad();
+   if(!world){const O=root.DeadwallOpenWorld217||(typeof require==='function'?require('./openworld217.js'):null),key='open217:'+full.worldSeed;if(!worlds.has(key)){worlds.set(key,O.region(full.worldSeed));if(worlds.size>3)worlds.delete(worlds.keys().next().value);}world=worlds.get(key);}
+   const q=life217().candidate(world,id);if(!q||q.id!==id||n>(R.yields[q.species]||0)+1e-7)bad();
+  }
+  else if(full){
    const f=full.frontier;if(f?.hydrologyVersion!==1||f.wildlife165?.[id]?.hp!==0)bad();
    if(!world){
     const key=[full.worldSeed,f.generation,f.detailVersion,f.ecologyVersion,f.hydrologyVersion,f.landscape189||'classic'].join(':');
@@ -50,7 +62,7 @@ function install(g){
  function baseReason(continuing=null){
   if(!permitted())return 'Rejoignez le terrain avec un commandant vivant.';
   const p=position();
-  if(!p.active||p.z!==0||p.hydrologyVersion!==1)return 'À pied, dans la région avec faune, au niveau du sol.';
+  if(!p.active||p.z!==0||p.hydrologyVersion!==1&&!(p.generation===12&&g.openLife217?.active?.()===true))return 'À pied, dans la région avec faune, au niveau du sol.';
   if(p.car?.driving||g.expeditions?.driving())return 'Descendez du véhicule avant de récolter.';
   if(g.fieldcraft?.context?.()?.mounted||g.siege?.toolActive?.())return 'Libérez vos mains : quittez l’affût ou rangez l’équipement de secours avant la récolte.';
   if(g.player.reload>0||g.expansions.busy('wildlife190')||task&&task!==continuing||g.selectedBuild)return 'Terminez l’action en cours et libérez vos mains.';
@@ -72,8 +84,8 @@ function install(g){
   const reach=kind==='fish'?R.castReach:R.reach;
   if(Math.hypot(p.x-q.x,p.y-q.y)>reach)return fail(kind==='fish'?'Poisson hors de portée de la ligne.':'Rapprochez-vous de la dépouille.');
   if(fish){
-   const shore=w.hydrology.sample(p.x,p.y),water=w.hydrology.sample(q.x,q.y);
-   if(shore.water||!water.water||water.crossing||!w.wildlifeWaterLine(p,q,.04))return fail('Pêchez depuis la terre ferme, avec une ligne libre jusqu’à l’eau.');
+   const shore=sample217(w,p.x,p.y),water=sample217(w,q.x,q.y);
+   if(shore.water||!water.water||water.crossing||!waterLine217(w,p,q,.04))return fail('Pêchez depuis la terre ferme, avec une ligne libre jusqu’à l’eau.');
   }else if(!w.movementLine(p,q,0,p.inside,null,.05))return fail('La dépouille est derrière un obstacle.');
   let tool=null;
   if(!fish){tool=equipped();if(!tool||!R.knives.includes(tool.id)||tool.condition<=0)return fail('Équipez un couteau ou une machette en état depuis l’armurerie.');}

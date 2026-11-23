@@ -3757,6 +3757,13 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   // d'un point libre le long du bord de la cité à la sortie ; `revision` : révision du générateur portée par la campagne (D-O4,
   // « évoluer, puis geler » : une campagne d'une autre révision reste jouable, signalée « monde révisé »).
   C.OpenWorld217Rules=Object.freeze({version:1,generation:12,frame:192,prefetch:Object.freeze({perFrame:1,radius:1}),lookAhead:Object.freeze({foot:3,car:45}),exitSearch:Object.freeze({step:2,reach:40}),revision:1});
+  // Faune et épaves des cantons du monde sans bord (T5.4, src/openlife217.js). Densités, espèces, guildes par milieu,
+  // dérive et alarme : celles de la région finie (`Landscape189Rules.population`, `BiomePopulation165Rules`), non recopiées.
+  // `waterSearch` : rayon (m) de recherche de l'eau la plus proche pour l'habitat (au-delà de la plus grande portée de berge,
+  // 65 m) ; `maxKills` : animaux abattus gardés (même plafond que les fiches de faune de la région finie) ; `strictCantons` :
+  // cantons vérifiés contre le monde à la reprise, les plus proches du commandant d'abord (au-delà : forme seule) ;
+  // `maxLive` et `pruneSeconds` : fiches d'animaux vivants gardées en mémoire (jamais sauvegardées) et cadence d'élagage.
+  C.OpenLife217Rules=Object.freeze({version:1,generation:12,kind:'faune',waterSearch:80,maxKills:24000,strictCantons:16,maxLive:2048,pruneSeconds:1});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),

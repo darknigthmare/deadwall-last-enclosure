@@ -1509,14 +1509,76 @@ octet à la base.
   des huit graines : `audit-campaign-sites205` sans aucune différence hors sources ; partie sans l'option : aucun module G12
   lu (test à globales empoisonnées), sauvegarde sans clé `openworld217`.
 
+## T5.4 — Faune, épaves et migrations des cantons (livré, nouvelles campagnes sans bord)
+
+Fiche : [ouverture.md](ouverture.md), « Livré T5.4 ». Une campagne NOUVELLE créée avec l'option « Sans bord — expérimental »
+reçoit la faune régionale de la région finie dans ses cantons ; une campagne sans l'option est inchangée (forme inactive du
+module seule) ; une campagne sans bord créée avant cette tranche reste sans faune de canton.
+
+- [x] T5.4.1 Règles `C.OpenLife217Rules` (`src/core.js`, fin de la zone 217) : `kind` `faune`, `waterSearch` 80 m,
+      `maxKills` 24 000, `strictCantons` 16, `maxLive` 2 048, `pruneSeconds` 1. Densités, espèces, guildes, dérive, alarme,
+      fuite et repos : ceux de la région finie (`Landscape189Rules.population`, `guilds`, `waterGuilds`,
+      `BiomePopulation165Rules`), lus et non recopiés.
+- [x] T5.4.2 Descripteurs purs (`src/openlife217.js`) : animal `K<cx>_<cy>:faune:<n>`, n = morceau de 256 m du canton × 8 +
+      emplacement (2 groupes × 4 membres) ; tirages du flux NOUVEAU `K.stream(graine, cx, cy, 'faune-<morceau>-<groupe>')`,
+      14 tirages par groupe, toujours (un rejet ne décale rien) ; même logique que `wildlife189.animal` : présence 85 %,
+      second groupe ancré sur l'eau du morceau, guilde du milieu (`biomeAt`) et de l'eau la plus proche, membre au-delà de
+      la taille de groupe de l'espèce écarté, exclusion de 280 m autour de la cité, des routes et de l'habitat.
+- [x] T5.4.3 Eau du canton (`water`) au format de `hydrology.sample` : mer (salée), lacs (doux) par mailles, rivières et
+      ruisseaux par leur tracé et leur largeur, pont = traversée (ni eau ni habitat aquatique) ; distance à l'eau jusqu'à
+      80 m ; échantillon local seul pour les espèces terrestres (coût).
+- [x] T5.4.4 Boucle régionale (`src/frontier.js`) : en génération 12 avec le module actif, `pop165()` (descripteurs du
+      module), `natural217()` (vetos `clear`/`line` et vitesse du module), `wl165()` (fiches tenues par le module, jamais
+      dans le registre G12 qui garde `wildlife165` vide) ; ailleurs, `Population165`, `Wildlife189` et `state.wildlife165`
+      comme avant (le module n'est jamais lu hors G12). Plafond des fiches de la région finie sans objet en G12 (fiches
+      vivantes élaguées au-delà de 2 048 loin du commandant).
+- [x] T5.4.5 Module d'extension `openlife217` (liste blanche, `ORDER`, `GROUPS` « RÉGION », `API_NAMES` `openLife217`,
+      `LABELS` « Faune des cantons ») : `reset()` actif sur l'option seulement, `validate(undefined)` inactif ; sauvegarde
+      creuse `kills[canton][n] = [x, y, angle]` (animaux abattus seuls, cantons et rangs triés) ; refus : faune de canton sur
+      une région finie, rang ≥ 128, canton non canonique, pose hors du canton, animal absent de la graine ou à plus de
+      40 m (dérive) de sa place (16 cantons cités les plus proches du commandant, même révision ; forme seule au-delà ou sous
+      une autre révision, D-O4).
+- [x] T5.4.6 Peintres (`wildlife-art165`, `wildlife-art189`, et le paquet généré `codex3000-live-data.js`) : silhouettes du
+      catalogue élargi pour `K…:faune:n`. Chasse et pêche (`wildlife-harvest190`) : gibier de canton préparé au couteau,
+      pêche avec l'eau du canton (`water`, `waterLine`), registre `harvested` par identifiant de canton, refusé sur une
+      région finie.
+- [x] T5.4.7 Épaves : véhicules garés des lieux de canton (fouille par le registre régional, déjà là) ; démontage
+      (`exploration-pack131`, `K…:site:n:car:m`, lieu = préfixe avant `:car:`) ouvert aux campagnes du module, même réserve
+      mécanique finie (8 à 16 ferrailles) ; refusé sur une région finie et pour un lieu jamais repéré.
+- [x] T5.4.8 Migrations : hordes tirées par `pickRoad` (O9), cap tenu le long de la route de canton la plus proche (test).
+- [x] T5.4.9 Tests `tests/openworld217-life.test.cjs` (8 cas) ; harnais navigateur `scripts/browser-openlife217.mjs <port> <dossier>`.
+- Mesures (graine 17117, machine partagée très chargée) :
+  - Descripteurs : 74 animaux par km² sur les 9 cantons autour de la cité de 17117 (82 par km² sur 144 morceaux d'une
+    région finie G11 « Régions naturelles » de la même graine : la mer et les lacs de G12 retirent des places terrestres) ;
+    coût comparable (1 050 ms pour 1 152 candidats G12, cantons chauds ; 931 ms pour 1 152 candidats finis).
+  - Navigateur (Playwright, `scripts/browser-openlife217.mjs`) : départ par le menu avec l'option, garage, voiture, sortie au
+    volant par le passage est, itinéraire de canton jusqu'au bord de route le plus proche d'un sanglier (`K1_0:faune:35`),
+    descente, approche à pied, tir réel au pistolet (visée à la souris) : sanglier abattu en 2 à 4 tirs ; sauvegarde
+    (bloc de la faune 124 octets, `frontier.wildlife165` vide) et reprise : dépouille à la même place, animal non revenu ;
+    épave (`K1_0:site:0:car:0`, camion du « Chalet forestier · Bois-Ferré 35 ») : coffre fouillé à E (14 ferrailles),
+    démontage complet (9 ferrailles), sauvegarde et reprise en pleine sortie (registre identique). 21 animaux vivants
+    rencontrés, 8 espèces (sanglier, chevreuil, renard, écureuil, lapin, faisan, corneille, héron). 5 843 images : médiane
+    11,1 ms, p95 127 ms, p99 297 ms (machine saturée, autres agents ; sans comparaison de base). Aucune erreur de page.
+- Innocuité : procédure 3 (parcours déterministe d'O9 (b), base `c71ee11`) sur une campagne sans l'option : sauvegardes de
+  départ, mi-parcours, fin et relecture identiques octet pour octet une fois retirée la forme inactive du nouveau module
+  (`{version:1, active:false, revision:null, kills:{}}`, présente dans toute sauvegarde comme le contrat 202 l'exige) ;
+  mondes G1–G11 des huit graines (`audit-campaign-sites205`) : aucune différence hors sources.
+- Réserves : contacts naturels (`N165`) absents des cantons ; enclos (`husbandry191`) et cueillette (`forage193`)
+  toujours réservés à la région finie ; écologie G12 neutre (`ecologyVersion` 0) ; une ancienne campagne sans bord ne
+  reçoit pas de faune ; la pose d'un animal vivant n'est pas sauvegardée (il reprend sa place d'origine à la reprise) ;
+  au-delà de 24 000 animaux abattus, les dépouilles les plus lointaines sont oubliées ; la densité, l'équilibrage de chasse
+  et le coût par image n'ont pas été mesurés sur une partie jouée longue ; les migrations restent simulées autour des
+  cantons chargés (D5).
+
 ## T5 — Ouverture expérimentale
 
 - [x] T5.1 Façade régionale (`src/openworld217.js`, `region`) sur le monde d'O2 ; aiguillage dans `frontier-world.create` (O9).
 - [x] T5.2 Chargement par anneau dans la boucle de `frontier.js`, un canton par image (O9.4).
 - [ ] T5.3 Itinéraire : graphe chargé (**fait**, borné à 25 cantons par `world-open217.route`) + graphe macro des coutures
       (**à faire** : au-delà, le GPS ne propose pas d'itinéraire).
-- [ ] T5.4 Migrations et hordes tirées par `pickRoad` (**fait**) ; épaves et faune sur cantons chargés (**à faire** : aucune
-      faune ni écologie en G12, `ecologyVersion` 0).
+- [x] T5.4 Migrations et hordes tirées par `pickRoad` (O9) et suivant les routes des cantons ; faune et épaves des cantons
+      (section « T5.4 » ci-dessous, module `openlife217`, nouvelles campagnes sans bord). Restent hors portée : contacts
+      naturels (`N165`), enclos, cueillette et écologie (`ecologyVersion` 0).
 - [x] T5.5 Réglage « Sans bord — expérimental » à la création de campagne ; module d'extension enregistré (O9.1, O9.7).
 - [x] T5.6 Harnais navigateur G12 : 20 km, sauvegarde, reprise, retour (`scripts/browser-openworld217.mjs`, O9.12).
 - Décision D3 : prise (option « expérimental », région finie par défaut).
