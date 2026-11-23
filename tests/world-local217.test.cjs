@@ -204,29 +204,29 @@ test('carte locale 217 : gisements — bois, pierre, ferraille en quantité comp
   const reasons=new Set(FIFTY.flatMap(s=>local(s).deposits.filter(d=>d.type==='wood').map(d=>d.why)));assert.deepEqual([...reasons].sort(),['arbres isolés','bois','lisière']);
 });
 
-test('carte locale 217 : module isolé — absent d’index.html, de sw.js et du build ; génération 12 refusée ; mondes G1–G11 intouchés',()=>{
+test('carte locale 217 : module chargé par le jeu depuis O9 (option « Sans bord ») ; mondes G1–G11 intouchés',()=>{
   const source=read('src/world-local217.js'),code=source.replace(/\/\/.*$/gm,'');
   assert.ok(!/Math\.random|Math\.hypot|Math\.pow|Date\.now|performance\.|localStorage|document\b|setTimeout|setInterval/.test(code),'module pur et portable');
   assert.deepEqual([...source.matchAll(/require\('([^']+)'\)/g)].map(m=>m[1]),['./core.js','./world-cantons217.js','./world-canton-gen217.js']);
   assert.ok(!/G\.hash|G\.rng|Frontier|Geography135|geography141|WorldContent|taken\b(?!\.)|expansions/.test(code.replace(/taken=\[\]|taken\.(some|push)/g,'')),'aucun flux ni registre des générations 1 à 11');
-  for(const file of ['index.html','sw.js','scripts/server.mjs','scripts/build.mjs','scripts/public-manifest183.cjs','src/expansion-kit.js','src/expansion-ui.js'])assert.ok(!read(file).includes('world-local217')&&!read(file).includes('WorldLocal217'),file);
-  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(!['world-local217.js','core.js'].includes(file)){
-    // Préalable O9 (a) : seule `game.js` lit la carte locale, une seule fois, par le global facultatif, pour reprendre une
-    // campagne de génération 12 (refusée sans le module) ; aucune autre mention, aucun chargement du module.
-    let text=read('src/'+file);
-    if(file==='game.js'){assert.equal((text.match(/WorldLocal217|world-local217/g)||[]).length,1,'game.js : une seule lecture de la carte locale');assert.match(text,/const L = globalThis\.DeadwallWorldLocal217; if \(typeof L\?\.describe !== 'function'\) throw new Error/);text=text.replace('globalThis.DeadwallWorldLocal217','');}
-    assert.ok(!text.includes('WorldLocal217')&&!text.includes('world-local217'),file+' ne doit pas dépendre de la carte locale');}
+  // O9 : script public chargé par le jeu (index.html après le cœur, sw.js) ; toujours absent des outils de build et des tables du registre des opérations.
+  {const html=read('index.html'),at=x=>html.indexOf('<script src="src/'+x+'"></script>');assert.ok(at('core.js')>=0&&at('core.js')<at('world-local217.js'),'chargé après le cœur');assert.ok(read('sw.js').includes('"src/world-local217.js"'));}
+  for(const file of ['scripts/server.mjs','scripts/build.mjs','scripts/public-manifest183.cjs','src/expansion-kit.js','src/expansion-ui.js'])assert.ok(!read(file).includes('world-local217')&&!read(file).includes('WorldLocal217'),file);
+  // Lecteurs : la cité de génération 12 (game.js), l'ouverture et la fiche de graine.
+  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(!['world-local217.js','core.js','game.js','openworld217.js','seed-card217.js'].includes(file)){const text=read('src/'+file);assert.ok(!text.includes('WorldLocal217')&&!text.includes('world-local217'),file+' ne doit pas dépendre de la carte locale');}
   assert.equal((read('src/core.js').match(/WorldLocal217Rules/g)||[]).length,1);
   // Le build publié, s'il existe, ne contient ni le module ni la page d'aperçu.
   const dist=path.join(ROOT,'dist');
+  // O9 : le build publié porte les modules de la génération 12 avec leurs balises, jamais la page d'aperçu (outil).
   if(fs.existsSync(dist)){const walk=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(dir,e.name)):[path.join(dir,e.name)]);
-   for(const file of walk(dist)){assert.ok(!/world-local217|world-canton-gen217|apercu-cantons217/.test(file),file);if(/\.(html|js|json|webmanifest)$/.test(file)&&fs.statSync(file).size<4e6&&!file.endsWith(path.join('src','core.js'))){let text=fs.readFileSync(file,'utf8');if(file.endsWith(path.join('src','game.js')))text=text.replace('globalThis.DeadwallWorldLocal217','');assert.ok(!text.includes('WorldLocal217'),file);}}}
+   for(const file of walk(dist))assert.ok(!/apercu-cantons217/.test(file),file);
+   if(fs.existsSync(path.join(dist,'index.html'))&&fs.readFileSync(path.join(dist,'index.html'),'utf8').includes('world-local217'))for(const f of ['world-local217.js','world-canton-gen217.js'])assert.ok(fs.existsSync(path.join(dist,'src',f)),f);}
   assert.ok(read('tools/apercu-cantons217.html').includes('hors jeu')&&read('scripts/apercu-cantons217.mjs').includes('world-local217'));
-  // La génération 12 reste refusée partout, et aucune option de menu n'en parle.
+  // O9 : la génération 12 s'ouvre par l'option de menu seulement (région finie par défaut) ; un registre historique marqué 12 reste refusé.
   const Wd=require('../src/frontier-world.js'),St=require('../src/frontier-state.js');
-  assert.throws(()=>Wd.create(17117,K.RULES.reservedGeneration),/Version du monde inconnue/);
-  assert.throws(()=>St.normalize({...St.initial(),generation:K.RULES.reservedGeneration}),/Génération inconnue/);
-  assert.ok(!/sans bord/i.test(read('index.html')),'aucune option de menu');
+  assert.equal(Wd.create(17117,K.RULES.reservedGeneration).unbounded,true);
+  assert.throws(()=>St.normalize({...St.initial(),generation:K.RULES.reservedGeneration}),/Génération inconnue|incomplet/);
+  assert.ok(/<select id="worldOpen217"[^>]*><option value="finite" selected>Région finie \(défaut\)<\/option><option value="open">Sans bord — expérimental<\/option>/.test(read('index.html')),'option de menu, région finie par défaut');
   // Décrire des cartes locales ne change rien à un monde existant ni à la carte locale actuelle de D-17.
   const print=world=>crypto.createHash('sha256').update(JSON.stringify([world.size,world.home,world.roads,world.pois.map(p=>[p.id,p.x,p.y,p.name]),world.towns])).digest('hex');
   const Content=require('../src/world-content.js'),before=[print(Wd.create(17117,4)),print(Wd.create(42,11))],content=JSON.stringify(Content.generate(17117)),frozen=JSON.stringify([R,C.WorldRelief217Rules]);

@@ -275,17 +275,21 @@ test('lieux 217 : coût mesuré par canton et par morceau (budget de 8 ms par im
   assert.equal(st.plans,0,'plans d’intérieur paresseux : aucun calculé pour meubler les cantons');
 });
 
-test('lieux 217 : module isolé, génération 12 refusée, mondes G1–G11 intouchés',()=>{
+test('lieux 217 : module chargé par le jeu depuis O9 (option « Sans bord »), mondes G1–G11 intouchés',()=>{
   const source=read('src/world-sites217.js'),code=source.replace(/\/\/.*$/gm,'');
   assert.ok(!/Math\.random|Math\.hypot|Math\.pow|Date\.now|performance\.|localStorage|document\b|setTimeout|setInterval/.test(code),'module pur et portable');
   assert.deepEqual([...source.matchAll(/require\('([^']+)'\)/g)].map(m=>m[1]),['./core.js','./world-cantons217.js','./world-canton-gen217.js','./world-open217.js','./frontier-geometry.js','./codex3000-runtime.js','./world-spawns131.js','./biomes135.js','./frontage174.js','./seed-detail157.js']);
   assert.ok(!/F\.rng|G\.rng|Geography135|geography141|WorldContent|expansions|\.taken\b|Biomes\.sample|scatter\(|pickBuilding/.test(code),'aucun flux des générations 1 à 11');
-  for(const file of ['index.html','sw.js','scripts/server.mjs','scripts/build.mjs','scripts/public-manifest183.cjs','src/expansion-kit.js','src/expansion-ui.js'])assert.ok(!read(file).includes('world-sites217')&&!read(file).includes('WorldSites217'),file);
-  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(!['world-sites217.js','world-save217.js','core.js'].includes(file)){const text=read('src/'+file);assert.ok(!text.includes('WorldSites217')&&!text.includes('world-sites217'),file+' ne doit pas dépendre des lieux G12');}
-  const dist=path.join(ROOT,'dist');if(fs.existsSync(dist))assert.ok(!fs.existsSync(path.join(dist,'src','world-sites217.js')));
+  // O9 : script public chargé par le jeu (index.html après le cœur, sw.js) ; toujours absent des outils de build et des tables du registre des opérations.
+  {const html=read('index.html'),at=x=>html.indexOf('<script src="src/'+x+'"></script>');assert.ok(at('core.js')>=0&&at('core.js')<at('world-sites217.js'),'chargé après le cœur');assert.ok(read('sw.js').includes('"src/world-sites217.js"'));}
+  for(const file of ['scripts/server.mjs','scripts/build.mjs','scripts/public-manifest183.cjs','src/expansion-kit.js','src/expansion-ui.js'])assert.ok(!read(file).includes('world-sites217')&&!read(file).includes('WorldSites217'),file);
+  // Lecteurs : la sauvegarde G12, l'ouverture (façade régionale) et le rejeu d'une carte sans bord (version de détail).
+  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(!['world-sites217.js','world-save217.js','core.js','openworld217.js','game.js'].includes(file)){const text=read('src/'+file);assert.ok(!text.includes('WorldSites217')&&!text.includes('world-sites217'),file+' ne doit pas dépendre des lieux G12');}
+  assert.ok(read('src/game.js').includes('recipe.detailVersion !== C.WorldSites217Rules.detailVersion'),'game.js ne lit que la version de détail des lieux G12');
+  const dist=path.join(ROOT,'dist');if(fs.existsSync(path.join(dist,'index.html'))&&fs.readFileSync(path.join(dist,'index.html'),'utf8').includes('world-sites217'))assert.ok(fs.existsSync(path.join(dist,'src','world-sites217.js')));
   const St=require('../src/frontier-state.js');
-  assert.throws(()=>Wd.create(17117,12),/Version du monde inconnue/);assert.throws(()=>St.normalize({...St.initial(),generation:12}),/Génération inconnue/);
-  assert.ok(!/sans bord/i.test(read('index.html')),'aucune option de menu');
+  assert.equal(Wd.create(17117,12).unbounded,true);assert.throws(()=>St.normalize({...St.initial(),generation:12}),/Génération inconnue|incomplet/);
+  assert.ok(/<select id="worldOpen217"[^>]*><option value="finite" selected>Région finie \(défaut\)<\/option><option value="open">Sans bord — expérimental<\/option>/.test(read('index.html')),'option de menu, région finie par défaut');
   const print=world=>crypto.createHash('sha256').update(JSON.stringify([world.size,world.home,world.roads,world.pois.map(p=>[p.id,p.x,p.y,p.a,p.type,p.name,p.programme3000||null]),world.towns])).digest('hex');
   const old=Wd.create(42,11),before=[print(Wd.create(17117,4)),print(old)],p=old.pois[40],floor=JSON.stringify(old.plan(p,0));
   for(const seed of SEEDS.slice(0,3)){const w=S.create(seed);for(const q of w.placesOf(0,0)){w.plan(q,0);w.detailAt(q,0);}w.chunk(0,0);w.blocked(w.home.x,w.home.y);}

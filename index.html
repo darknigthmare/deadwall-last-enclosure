@@ -137,6 +137,7 @@
       </div>
       <section class="scenario-picker" aria-labelledby="scenarioHeading"><h2 id="scenarioHeading">CONDITIONS DE DÉPART</h2><label for="startScenario">Choisissez votre situation initiale<select id="startScenario" aria-describedby="startScenarioDescription startScenarioFacts"><option value="classic">Le dépôt — départ recommandé</option><option value="convoy">Convoi de civils</option><option value="reconstruction">Dépôt à reconstruire</option><option value="rearguard">Arrière-garde</option></select></label><p id="startScenarioDescription"></p><p id="startScenarioFacts" class="scenario-facts"></p><small>Les hordes et objectifs restent communs. Records séparés par départ et difficulté.</small></section>
       <div class="seed-controls"><label for="worldLandscape189">GÉNÉRATION DES BIOMES<select id="worldLandscape189" aria-describedby="landscapeHint189"><option value="balanced" selected>Régions naturelles</option><option value="large">Grands biomes</option><option value="patchwork">Mosaïque naturelle</option><option value="classic">Paysage historique</option></select></label></div><p id="landscapeHint189" class="hint">Même graine + même profil = même monde. Continuer préserve le paysage enregistré. Les profils naturels ajoutent la faune étendue.</p>
+      <div class="seed-controls"><label for="worldOpen217">MONDE<select id="worldOpen217" aria-describedby="worldOpenHint217"><option value="finite" selected>Région finie (défaut)</option><option value="open">Sans bord — expérimental</option></select></label></div><p id="worldOpenHint217" class="hint">Sans bord : cité de 192 m adossée au relief, région de cantons sans limite. Expérimental : le générateur peut encore changer (une campagne d’une révision antérieure reste jouable, signalée « monde révisé ») ; une campagne sans bord n’est pas convertible en région finie. Le profil de biomes ne s’applique pas.</p>
       <div class="seed-controls"><label for="mapSeed">GRAINE DE CARTE · FACULTATIVE<input id="mapSeed" type="text" inputmode="numeric" maxlength="10" placeholder="Nouvelle carte aléatoire" aria-describedby="seedHint" autocomplete="off"></label><button id="randomMapSeedButton" aria-describedby="seedHint">TIRER UNE GRAINE</button><button id="menuRecordsButton" aria-haspopup="dialog" aria-controls="commandModal">ARCHIVES</button></div>
       <p class="seed-hint" id="seedHint">Champ vide : nouvelle graine à chaque départ. Un nombre de 0 à 4 294 967 295 reproduit le terrain, les biomes et la position de D-17 dans cette version du générateur. L’aperçu prépare uniquement le prochain départ.</p>
       <footer><span>VERSION 1.74.0 · RÉCUPÉRATEURS ET EAU DE SERVICE</span><span>UNE CRÉATION DARKNIGTHMARE</span><span>SAUVEGARDE AUTOMATIQUE</span></footer>
@@ -242,6 +243,14 @@
 <script src="src/geography135.js"></script>
 <script src="src/world-spawns131.js"></script>
 <script src="src/world-stream131.js"></script>
+<script src="src/world-cantons217.js"></script>
+<script src="src/world-canton-gen217.js"></script>
+<script src="src/world-local217.js"></script>
+<script src="src/world-open217.js"></script>
+<script src="src/world-sites217.js"></script>
+<script src="src/world-save217.js"></script>
+<script src="src/terrain-art217.js"></script>
+<script src="src/terrain-fps217.js"></script>
 
   <script src="src/scenarios.js"></script>
   <script src="src/squads.js"></script>
@@ -372,6 +381,7 @@
 <script src="src/exploration-pack131.js"></script>
 <script src="src/player-pack131.js"></script>
 <script src="src/world-pack131.js"></script>
+<script src="src/openworld217.js"></script>
 <script src="src/context-operations160.js"></script>
   <script src="src/vertical-siege176.js"></script>
   <script src="src/vertical-citadel175.js"></script>

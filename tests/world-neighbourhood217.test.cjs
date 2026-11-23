@@ -142,7 +142,9 @@ test('O4 : sites d\'appel convertis, repli historique seulement sans accesseur',
   'outposts217.js':[/b=\{by:typeof w\.siteIndex==='function'\?w\.siteIndex\(\)/]};
  for(const[file,list]of Object.entries(checks)){const text=src(file);for(const re of list)assert.match(text,re,file);}
  // Les accesseurs restent hors des modules hors jeu : world-open217.js n'est lu par aucun fichier de src/,
- // sauf world-sites217.js (tranche O2), qui l'enveloppe, et world-save217.js (tranche O3), qui le lit ; tous deux hors jeu.
- for(const file of fs.readdirSync(path.join(__dirname,'..','src')).filter(f=>f.endsWith('.js')&&f!=='world-open217.js'&&f!=='world-sites217.js'&&f!=='world-save217.js'))
+ // sauf world-sites217.js (tranche O2), qui l'enveloppe, world-save217.js (tranche O3), qui le lit, et depuis O9
+ // frontier-world.js, pour les seules limites de la génération 12 (`limitsForGeneration(12)`).
+ assert.match(src('frontier-world.js'),/const openLimits217=\(\)=>root\.DeadwallWorldOpen217\?\.LIMITS/);
+ for(const file of fs.readdirSync(path.join(__dirname,'..','src')).filter(f=>f.endsWith('.js')&&f!=='world-open217.js'&&f!=='world-sites217.js'&&f!=='world-save217.js'&&f!=='frontier-world.js'))
   assert.doesNotMatch(src(file),/require\([^)]*world-open217|DeadwallWorldOpen217/,file);
 });

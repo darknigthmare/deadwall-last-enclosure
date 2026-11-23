@@ -448,7 +448,7 @@ La nécropole se multiplie avec la corvée de déblaiement (×2,25 pendant la co
 
 | Risque | Verdict | Chiffres |
 |---|---|---|
-| Maladie chronique (`C.CorpseChain217Rules.sickness`) | Confirmé | Rempart : palier ≥ 2 dans 39/49 vagues 11–17 et 50/56 vagues 18–25, malades dans 21/56 vagues tardives, aucun mort. Cause : la charge des murs pendant des assauts de 300–600 s (médiane 438 s), charge max médiane 332 pour un seuil de 124–184. |
+| Maladie chronique (`C.CorpseChain217Rules.sickness`) | Réglé (`siegeWalls` .25) | Avant : rempart palier ≥ 2 dans 39/49 vagues 11–17 et 50/56 vagues 18–25 (charge des murs pendant des assauts de 300–600 s). Après : 4/49 et 20/56, 3 malades en 8 parties (contre 54), aucun départ ; la négligée reste au palier 6 dans 4/4 parties (159 départs). |
 | Escorte réveillée de jour | Infirmé sans sortie | 49 vagues menées : 0 réveil de jour. En sortie, Meneuse abattue dans 21/25 vagues menées. |
 | Ruptures (`C.Breach217Rules` 4/6) | Infirmé | 0 rupture en 16 parties soignées ; 2 en 8 parties négligées. |
 | Traîne-épave | Partiel | 12 < `rampMin` 15 : pas de rampe sur un mur propre (mesuré 0 → 12) ; sur un mur à 18 → 30. |
@@ -457,13 +457,21 @@ La nécropole se multiplie avec la corvée de déblaiement (×2,25 pendant la co
 | Eau de cité | Sans alerte | Âge Ville dans 7/24 parties (vagues 15–22) ; pénurie seulement si une citerne tombe. |
 | Lois | Non éprouvé | Âge 7 jamais atteint (âge max 4). |
 
+`sickness.siegeWalls` 0,25 : pendant l'assaut et la sécurisation, la maladie ne compte que le quart de la charge au pied des murs (les corps frais d'un mur assiégé ne pourrissent pas encore). Au calme, la charge non déblayée compte en entier ; corps à traiter et douves toujours en entier. Charge mécanique des murs (rampes, brèches, `C.CORPSE_PRESSURE`) inchangée. Règle sans état (lue dans la phase de vague déjà sauvegardée), seuil par habitant inchangé à 4. Reste 20/56 vagues tardives (5/8 sur 17117, 6/8 sur 4294967295) : levier restant = rythme du déblaiement au calme (230–330 corps en ~210 s). Non éprouvé en partie humaine.
+
 Réglages mesurés, non appliqués : `sickness.perPerson` 8 (vagues malades réduites de 30 à 60 % sur 3 graines, moral pire sur une) ; `graceSeconds` 240 (−10 à −35 %). Le levier dominant est la charge des murs pendant les assauts tardifs. Réserves : le banc n'est pas une partie humaine (la défense laisse fuir ~90 % de l'effectif dans l'enceinte) ; âges 3+ atteints par promotion ; sorties régionales, avant-postes, lois, factions et grands ouvrages non joués.
 
 ## Vie de la cité de terrain — préalable O9 (a) (hors jeu)
 
 `C.OpenCityLife217Rules` : `clear` 2 cases (carré libre de 5 × 5 autour d'un lieu), `quarters.target` 45 m, bande `near` 28 / `far` 72 m, `spacing` 22 m entre quartiers ; `halts.spacing` 8 m. Points des chantiers de jour bornés à côté − 48 unités (6 096 sur 192 m). Aucune valeur de combat, de stock ou de vague. À confirmer en O9 : distance des quartiers dans un couloir étroit (17117) et trajets vers les points de terrain.
 
+## Ouverture du monde sans bord — O9 (expérimental)
+
+`C.OpenWorld217Rules` : `frame` 192 m ; `prefetch` 1 canton par image dans l'anneau de rayon 1 ; `lookAhead` 3 m à pied, 45 m en voiture ; `exitSearch` {2, 40} ; `revision` 1. `C.WorldSave217Rules.open` passe à vrai. Les valeurs de siège adossé (ci-dessous) n'ont pas encore été rejouées dans une partie lancée par le menu.
+
 ## Siège adossé — O7 (hors jeu)
+
+Décision du 22 novembre 2026 : `passRate.max` 1,5 (arrivées par seconde au plus, toute cité à un seul côté non clos, quelle que soit sa largeur) ; `C.OpenSiege217.rate` = max(`min`, min(`max`, `perMetre` × largeur)). Une cité à plusieurs côtés dont la vague ne prend qu'un front garde le débit par mètre seul. La Meneuse rassemblée et son escorte debout entrent dans le débit (une place chacune avant la première arrivée). Mesures (51 relevés) : à 1,5/s, une cité à un seul côté de 32 à 64 m tient 164 à 176 s à l'âge 4 et 147 à 156 s à l'âge 6, contre 107 à 137 s et 73 à 88 s sur quatre fronts ; aucune chute à l'âge 2 (à 2/s, la graine 714 tombait : écarté). Cadavres par mètre : 0,8 à 4,7 sur un seul côté contre 0,05 à 0,44 sur quatre fronts. Une vague de l'âge 6 dure 11 min 16 s au plafond (à éprouver en jeu). Les cités à deux côtés (59 à 64 s à l'âge 6) restent plus fragiles que sur quatre fronts : non traité. Écart de mesure ±15 s d'une exécution à l'autre.
 
 Préalable O9 (b) : aucune valeur nouvelle. Le côté de la Meneuse sur terrain est `h modulo (nombre de côtés ouverts)` (identique à `h & 3` sur carte plate) ; poste à `standoff` 256 unités du bord, sur 30 à 70 % du côté, mesurés sur la carte de 192 m. Sur une cité à un seul côté ouvert, la Meneuse vient toujours de ce côté et son escorte (+20 %) s'ajoute au front étroit : renforce le risque relevé ci-dessous ; `passRate` et `minShare` à confirmer en O9.
 

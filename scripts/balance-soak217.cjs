@@ -121,7 +121,7 @@ function runSoak(options = {}) {
     const records = [], counters = { overlays: {}, orders: 0, builds: 0, walls: 0, ditches: 0, recruits: {}, repairs: 0, pyres: 0, pits: 0, promotions: [], sorties: 0, deaths: 0, recalls: 0, strayKills: 0, ammoAid: 0, lootAid: {}, guardKills: 0 };
     let wave = null;
     const startWave = () => {
-      wave = { wave: g.wave, phases: { calm: 0, warning: 0, assault: 0, aftermath: 0 }, moraleMin: g.morale, sickMax: 0, leftMax: 0, wallLoadMax: 0,
+      wave = { wave: g.wave, phases: { calm: 0, warning: 0, assault: 0, aftermath: 0 }, moraleMin: g.morale, sickMax: 0, leftMax: 0, countedMax: 0, wallLoadMax: 0,
         pansMax: 0, rampWalls: 0, ruptures: 0, rupturedWorks: 0, threatNotes: 0, waterStageMax: 0, zombiesMax: 0, escortWokenPhase: null, dragLoad: null,
         startNotes: notes.length, startStats: { ...g.stats }, startUnits: unitCounts() };
     };
@@ -140,7 +140,7 @@ function runSoak(options = {}) {
         population: g.population, housing: g.housing, units: unitCounts(),
         morale: round(g.morale), moraleMin: round(W.moraleMin),
         sickness: cc ? { stageMax: W.sickMax, exposure: round(cc.exposure), ill: cc.ill, died: cc.died, saved: cc.saved, pending: round(cc.pending), burned: round(cc.burned), buried: round(cc.buried),
-          leftMax: round(W.leftMax), threshold: g.corpseChain217?.open?.() ? round(g.corpseChain217.threshold()) : null, open: Boolean(g.corpseChain217?.open?.()) } : null,
+          leftMax: round(W.leftMax), countedMax: round(W.countedMax), threshold: g.corpseChain217?.open?.() ? round(g.corpseChain217.threshold()) : null, open: Boolean(g.corpseChain217?.open?.()) } : null,
         walls: { loadEnd: round(load.n), loadMax: round(W.wallLoadMax), ramps: load.ramps, rampWallsMax: W.rampWalls, ditchBodies: round(ditchBodies()), standing: countWalls(), pansMax: W.pansMax,
           threatNotes: text.filter(t => /menace de céder/.test(t)).length, ruptures: text.filter(t => /^Rupture au/.test(t)).length,
           rupturedWorks: text.map(t => /^Rupture au \S+ : (\d+) ouvrage/.exec(t)).filter(Boolean).reduce((n, m) => n + Number(m[1]), 0),
@@ -427,7 +427,7 @@ function runSoak(options = {}) {
       // Relevés continus de la vague en cours.
       const W = wave; W.phases[lastPhase] = (W.phases[lastPhase] || 0) + BOT.step;
       W.moraleMin = Math.min(W.moraleMin, g.morale);
-      const K = g.corpseChain217; if (K?.open?.()) { W.sickMax = Math.max(W.sickMax, K.stage()); W.leftMax = Math.max(W.leftMax, K.left()); }
+      const K = g.corpseChain217; if (K?.open?.()) { W.sickMax = Math.max(W.sickMax, K.stage()); W.leftMax = Math.max(W.leftMax, K.left()); W.countedMax = Math.max(W.countedMax, K.counted()); }
       const L = wallLoad(); W.wallLoadMax = Math.max(W.wallLoadMax, L.n); W.rampWalls = Math.max(W.rampWalls, L.ramps);
       W.pansMax = Math.max(W.pansMax, g.breach217?.threatened?.()?.length || 0);
       if (g.cityWater215?.needed?.()) W.waterStageMax = Math.max(W.waterStageMax, g.cityWater215.stage());
@@ -475,7 +475,7 @@ function summarize(report) {
     seed: report.seed, strategy: report.strategy, guard: report.guard, reached: report.reached, fell: report.fell, lastWave: last.wave, tier: last.tier,
     population: last.population, moraleEnd: last.morale, moraleMin: Math.min(...r.map(x => x.moraleMin)),
     sickFirstWave: firstSick ? firstSick.wave : null, sickStageMax: max(x => x.sickness?.stageMax), sickWaves: r.filter(x => (x.sickness?.stageMax || 0) >= 2).length,
-    ill: last.sickness?.ill ?? 0, sickDeaths: last.sickness?.died ?? 0, leftMax: max(x => x.sickness?.leftMax), thresholdEnd: last.sickness?.threshold ?? null,
+    ill: last.sickness?.ill ?? 0, sickDeaths: last.sickness?.died ?? 0, leftMax: max(x => x.sickness?.leftMax), countedMax: max(x => x.sickness?.countedMax), thresholdEnd: last.sickness?.threshold ?? null,
     ruptures: sum(x => x.walls.ruptures), rupturedWorks: sum(x => x.walls.rupturedWorks), ruptureWaves: r.filter(x => x.walls.ruptures > 0).length, pansMax: max(x => x.walls.pansMax),
     destroyed: sum(x => x.walls.destroyed), waterStageMax: max(x => x.water?.stageMax), departs: last.balance?.departs ?? 0, attractionEnd: last.balance?.attraction ?? 0,
     led: r.filter(x => x.led).map(x => x.wave + ':' + x.led.status + (x.led.woken ? '/réveil-' + x.led.wokenPhase : '')).join(' '),

@@ -511,6 +511,15 @@ Points 5 et 6 de `tasks.md`, et la question (f).
   - Innocuité : parcours déterministe de 240 s (base `8d7ea21` contre l'arbre de travail) identique octet pour
     octet ; parcours « empoisonné » dans le test ; repli identité prouvé sur les plans des vagues 1 à 60 des trois
     difficultés ; mondes G1–G11 des huit graines inchangés.
+- **Livré O7 (suite), décision du 22 novembre 2026** (sans effet en jeu ; détail, mesures et réserves : `tasks.md`,
+  section « O7 (suite) ») : le plafond de passage s'applique à **toute cité à un seul côté non clos, quelle que soit sa
+  largeur** — `passRate.max` 1,5 arrivée par seconde au plus (`C.OpenSiege217.rate` = max(1, min(1,5 ; 0,25 × largeur))) ;
+  une cité à plusieurs côtés dont la vague n'en prend qu'un garde le seul débit par mètre. La Meneuse rassemblée et son
+  escorte encore debout **entrent dans ce même débit** : à l'assaut, la file attend une place par infecté déjà sur la
+  carte (`C.OpenSiege217.lead`, appliqué par `abominations217`). Même effectif total, mêmes points de vie, vague plus
+  longue. Mesures (39 relevés d'O7 complets, harnais corrigé : la relève du Commandant figeait la partie) : une cité à un
+  seul côté de 32 à 64 m tient 164 à 176 s à l'âge 4 et 147 à 156 s à l'âge 6, contre 107 à 137 s et 73 à 88 s sur quatre
+  fronts ; aucune chute à l'âge 2. Valeur 2 par seconde écartée (chute à l'âge 2 sur 714).
 
 ### O8 — Rendu des falaises et de l'eau, puis vue FPS (**O8a et O8b livrés**, hors jeu)
 
@@ -625,7 +634,7 @@ sur les côtés ouverts), D-O3 (FPS dès l'ouverture).
 - Innocuité : procédure 3 (base O6c, plus une vague menée et une vague de Traîne-épave) identique octet pour octet ;
   mondes des huit graines identiques hors tailles de sources.
 
-### O9 — Ouverture « expérimental » (premier effet en jeu)
+### O9 — Ouverture « expérimental » (premier effet en jeu) (**livré**, derrière l’option)
 
 **Préalable O9 (a) — Quartiers, chantiers de jour et systèmes de cité sur un monde de terrain (livré, hors jeu).**
 Les chantiers O6b à O8b contournaient dans leurs harnais les systèmes de cité qui plantaient sur un monde de terrain ;
@@ -692,6 +701,21 @@ G12 avec un message (décision D-O3).
 - Parcours joueur : menu → *Sans bord — expérimental* → fiche (côtés fermés, passages) →
   départ dans la cité de 192 m adossée → vague à deux fronts → sortie en voiture → retour.
 - Ampleur L, risque G1–G11 moyen (premier chargement des modules), G12 haut.
+- **Livré O9** (premier effet en jeu, derrière l'option ; détail, mesures et réserves : `tasks.md`, section O9) :
+  - Menu : ligne « MONDE » (*Région finie (défaut)* / *Sans bord — expérimental*) et son aide, dans le volet « Carte
+    personnalisée et bilans » ; septième argument `open217` de `startNew` ; rejouer la carte et « nouvelle carte » gardent
+    l'option. Départ : cité de 192 m née de `world-local217`, registre G12 au centre du cadre, marque `openworld217`.
+  - Fiche : `seed-card217` lit la carte locale en G12 et à l'aperçu (côtés fermés et cause, passages, milieu, eau,
+    falaise, mention « expérimental »), sans tirage.
+  - Branchement : `frontier-world` (12 → `DeadwallOpenWorld217.region`, limites d'O1), `frontier-state` (module ouvert),
+    `frontier` (cantons vus, porte à la taille de la carte, bord fermé refusé, profils d'occupants G12, un canton par image),
+    `world-evolution` (`pickRoad`), `frontier-routing` (itinéraire borné du monde), `atlas-projection` (cadre de 192 m),
+    `night-gear`, `frontier-art` (relief et routes de la vue).
+  - Scripts publics : huit modules G12 et `openworld217` ; gardes d'isolement remplacées par « chargé sans effet en G1–G11 »
+    plus un test de comportement à globales empoisonnées.
+  - D-O4 tranché « évoluer, puis geler » (section 3).
+  - Hors portée, à suivre : atlas et minicarte sans étendue (O10), graphe macro des coutures (T5.3 : l'itinéraire reste borné
+    à 25 cantons), faune et migrations propres aux cantons (T5.4 : hordes sur routes seulement, aucune faune G12).
 
 ### O10 — Atlas et minicarte sans étendue ; rayon d'action (T6)
 
@@ -715,11 +739,22 @@ Puis T7 (défaut pour toute nouvelle campagne, gradient de distance) : hors de c
   Les valeurs du plafond de passage par front restent à mesurer en O7. **O7** : repli au prorata de la largeur
   des côtés ouverts, plafond d'entrée d'une cité à un seul front de 0,25 arrivée par seconde et par mètre
   (`C.OpenSiege217Rules`) ; mesures sur 12 graines dans `tasks.md`, section O7 — valeurs à confirmer en jeu (O9).
+  **22 novembre 2026** : le plafond s'applique à toute cité à un seul côté quelle que soit sa largeur (1,5 arrivée par
+  seconde au plus) et l'escorte de la Meneuse entre dans ce même débit ; même effectif total, vague plus longue, jamais
+  plus de points de vie (`tasks.md`, section « O7 (suite) »).
 - **D-O3 — tranché** : la vue à la première personne est **disponible dès l'ouverture** de
   l'option expérimentale. O8b passe donc sur le chemin critique de O9 ; la hauteur d'un cran est
   fixée en O8b à 4 m (`C.TerrainRelief217Rules.stepMetres`, égale à la hauteur peinte d'O8a).
-- **D-O4 — ouvert** : gel des règles de génération à l'ouverture. Proposé : gel à O9, version de
-  détail propre à G12 pour les corrections.
+- **D-O4 — tranché (O9) : « évoluer, puis geler »**. Tant que l'option reste « expérimental », le générateur G12 peut
+  changer. Une campagne G12 porte la révision de génération avec laquelle elle a été créée (module `openworld217` :
+  `revision` = {`open`, `canton`, `relief`, `sites`, `local`} ; registre régional : `reliefVersion`, `sitesVersion`,
+  `detailVersion`). À la reprise, si la révision diffère, la campagne **reste jouable**, est signalée « monde révisé »
+  (message clair à la reprise, ligne du poste de commandement) et ses cantons **non visités** peuvent différer ; les écarts
+  sauvegardés (lieux repérés, prélèvements, cantons vus) restent, et le registre n'est alors vérifié que sur sa forme. Le
+  gel interviendra à la sortie d'« expérimental » (T7)
+  Limite d'O9 : la reprise régénère tous les cantons avec la révision courante, y compris ceux déjà vus (aucun canton
+  n'est conservé en clair) ; garder à l'identique les cantons visités demanderait de garder l'ancien générateur ou leur
+  contenu, à décider avant le gel.
 - **D-O5 — tranché** : la carte de la cité **reste à 192 m** ; si le champ de flux coûte trop, on
   l'**optimise** plutôt que de revenir à 128 m, quitte à retarder l'ouverture. O6b doit donc
   mesurer et, si nécessaire, inclure l'optimisation.

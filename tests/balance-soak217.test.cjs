@@ -32,6 +32,8 @@ test('banc 217 : quatre vagues sur 17117, indicateurs dans des bornes raisonnabl
     assert.ok(r.phases.assault > 0 && r.phases.assault < 900, 'assaut ' + r.phases.assault);
     // Début de campagne : pas de maladie, pas de pénurie d'eau, moral haut, la cité vit.
     assert.ok(!r.sickness || r.sickness.stageMax < 2, 'pas de maladie dès la vague ' + r.wave);
+    // Corps comptés par la maladie (charge des murs en part pendant l'assaut) : jamais plus que les corps laissés.
+    if (r.sickness) assert.ok(Number.isFinite(r.sickness.countedMax) && r.sickness.countedMax >= 0 && r.sickness.countedMax <= r.sickness.leftMax + 1e-9, 'comptés ' + r.sickness.countedMax);
     assert.ok(!r.water || r.water.stageMax === 0, 'pas de pénurie d’eau');
     assert.ok(r.moraleMin >= 40, 'moral ' + r.moraleMin);
     assert.ok(r.population >= 3 && r.population <= r.housing + 1);

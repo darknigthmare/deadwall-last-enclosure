@@ -395,17 +395,21 @@ test('canton 217 : lieux candidats — identifiants de canton, à sec, hors cout
   assert.ok(count>400&&empty<cantons/3,'lieux présents : '+count+', cantons vides '+empty+'/'+cantons);
 });
 
-test('canton 217 : module isolé — rien de chargé par le jeu, génération 12 toujours refusée, mondes G1–G11 intouchés',()=>{
+test('canton 217 : module chargé par le jeu depuis O9 (option « Sans bord »), mondes G1–G11 intouchés',()=>{
   const source=read('src/world-canton-gen217.js'),code=source.replace(/\/\/.*$/gm,'');
   assert.ok(!/Math\.random|Math\.hypot|Math\.pow|Date\.now|performance\.|localStorage|document\b|setTimeout|setInterval/.test(code),'module pur et portable');
   assert.deepEqual([...source.matchAll(/require\('([^']+)'\)/g)].map(m=>m[1]),['./core.js','./world-cantons217.js'],'dépendances : les règles et la brique d’adressage');
   assert.ok(!/G\.hash|G\.rng|Frontier|Geography135|Hydrology165\b(?!Rules)|geography141|taken|localStorage/.test(code),'aucun flux ni registre des générations 1 à 11');
-  for(const file of ['index.html','sw.js','scripts/server.mjs','scripts/build.mjs','scripts/public-manifest183.cjs'])assert.ok(!read(file).includes('canton-gen217')&&!read(file).includes('apercu-cantons217'),file);
-  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(!['world-canton-gen217.js','world-local217.js','world-open217.js','world-sites217.js','world-save217.js','core.js'].includes(file)){const text=read('src/'+file);assert.ok(!text.includes('WorldRelief217')&&!text.includes('CantonGen217')&&!text.includes('canton-gen217'),file+' ne doit pas dépendre du générateur de cantons');}
+  // O9 : script public chargé par le jeu (index.html après le cœur, sw.js) ; toujours absent des outils de build et des tables du registre des opérations.
+  {const html=read('index.html'),at=x=>html.indexOf('<script src="src/'+x+'"></script>');assert.ok(at('core.js')>=0&&at('core.js')<at('world-canton-gen217.js'),'chargé après le cœur');assert.ok(read('sw.js').includes('"src/world-canton-gen217.js"'));}
+  for(const file of ['scripts/server.mjs','scripts/build.mjs','scripts/public-manifest183.cjs'])assert.ok(!read(file).includes('canton-gen217')&&!read(file).includes('apercu-cantons217'),file);
+  for(const file of ['index.html','sw.js'])assert.ok(!read(file).includes('apercu-cantons217'),file+' : la page d’aperçu reste un outil');
+  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(!['world-canton-gen217.js','world-local217.js','world-open217.js','world-sites217.js','world-save217.js','core.js','openworld217.js','seed-card217.js'].includes(file)){const text=read('src/'+file);assert.ok(!text.includes('WorldRelief217')&&!text.includes('CantonGen217')&&!text.includes('canton-gen217'),file+' ne doit pas dépendre du générateur de cantons');}
   assert.ok(read('tools/apercu-cantons217.html').includes('hors jeu'));
   const W=require('../src/frontier-world.js'),S=require('../src/frontier-state.js');
-  assert.throws(()=>W.create(17117,K.RULES.reservedGeneration),/Version du monde inconnue/);
-  assert.throws(()=>S.normalize({...S.initial(),generation:K.RULES.reservedGeneration}),/Génération inconnue/);
+  // O9 : frontier-world aiguille la génération 12 vers le monde sans bord ; un registre historique marqué 12 reste refusé.
+  assert.equal(W.create(17117,K.RULES.reservedGeneration).unbounded,true);
+  assert.throws(()=>S.normalize({...S.initial(),generation:K.RULES.reservedGeneration}),/Génération inconnue|incomplet/);
   assert.equal(G.generate(17117,0,0).generation,12);
   // Générer des cantons ne change rien à un monde existant : même empreinte avant et après.
   const print=world=>crypto.createHash('sha256').update(JSON.stringify([world.size,world.home,world.roads,world.pois.map(p=>[p.id,p.x,p.y,p.name]),world.towns])).digest('hex');

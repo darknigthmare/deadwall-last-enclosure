@@ -43,7 +43,7 @@ function recorder() {
 test('O9 (a) : règles gelées, quartiers et haltes nés du terrain sans tirage', () => {
   const R = C.OpenCityLife217Rules; assert.ok(Object.isFrozen(R) && Object.isFrozen(R.quarters) && Object.isFrozen(R.halts));
   assert.deepEqual(JSON.parse(JSON.stringify(R)), { version: 1, generation: 12, clear: 2, quarters: { target: 45, near: 28, far: 72, spacing: 22 }, halts: { spacing: 8 } });
-  assert.equal(C.WorldSave217Rules.open, false, 'la génération 12 reste fermée');
+  assert.equal(C.WorldSave217Rules.open, true, 'O9 : la génération 12 s’ouvre par l’option de menu');
   const themes = C.TERRITORY_SECTORS.map(s => s.id), catalogue = C.Expeditions.sitesFor({ cityGeometry202: 0 });
   for (const seed of [17117, 0, 46]) {
     const d = describe(seed), a = new World(seed, 0, MAP, d), b = new World(seed, 0, MAP, d);
@@ -160,18 +160,21 @@ test('O9 (a) : bornes des registres lues sur la carte de la campagne', () => {
   assert.equal(E.validate({ ...raw, ditches: [ditch(125, 5)] }, flat).ditches.length, 1);
 });
 
-test('O9 (a) : sauvegarde et reprise de la cité de terrain ; G12 toujours fermée au jeu', () => {
+test('O9 (a) : sauvegarde et reprise de la cité de terrain ; sans la marque expérimentale, refus propre', () => {
   const seed = 17117; life(seed);
   g.paused = false; for (let f = 0; f < 300; f++) g.update(1 / 30);
-  // Fermée : la sauvegarde est refusée proprement (registre régional d'une autre génération), la partie continue.
+  // Harnais sans l'option de menu (O9) : registre G12 neuf, mais aucune marque « expérimental » ; la sauvegarde est refusée
+  // proprement, la partie continue. Une carte de 192 m sans registre G12 reste refusée par la taille de carte.
   const status = g.lastSaveStatus;
   assert.equal(g.save(false), false); assert.equal(g.lastSaveStatus.code, 'invalid-state'); assert.ok(g.world.terrain217);
-  assert.throws(() => globalThis.DeadwallSave.validate(g.serialize()), /taille de carte locale/);
+  assert.equal(g.serialize().frontier.generation, 12, 'registre G12 neuf sur un monde de terrain');
+  assert.throws(() => globalThis.DeadwallSave.validate(g.serialize()), /marque expérimentale/);
+  assert.throws(() => globalThis.DeadwallSave.validate({ ...g.serialize(), frontier: C.Frontier.initial() }), /taille de carte locale/);
   // Ouverte (simulée ici seulement, comme tests/world-save217.test.cjs) : registre G12 neuf, carte locale exposée.
   const ownM = globalThis.DeadwallWorldSave217, ownL = globalThis.DeadwallWorldLocal217;
   globalThis.DeadwallWorldSave217 = { ...M, opened: () => true }; globalThis.DeadwallWorldLocal217 = Lw;
   try {
-    const d = g.serialize(); d.frontier = M.initial(Sites.create(seed).home);
+    const d = g.serialize(); d.frontier = M.initial(Sites.create(seed).home); d.expansions127.modules.openworld217 = globalThis.DeadwallOpenWorld217.fresh();
     assert.equal(d.localTiles, N);
     assert.doesNotThrow(() => globalThis.DeadwallSave.validate(JSON.parse(JSON.stringify(d))));
     const old = g.world; assert.equal(g.restoreSave(JSON.parse(JSON.stringify(d))), true);
@@ -191,9 +194,9 @@ test('O9 (a) : sauvegarde et reprise de la cité de terrain ; G12 toujours ferm�
   const flat = g.serialize(); assert.equal(flat.localTiles, undefined); assert.doesNotThrow(() => globalThis.DeadwallSave.validate(flat));
 });
 
-test('O9 (a) : isolement — rien de chargé en plus, chemins gardés par le terrain', () => {
+test('O9 (a) : modules G12 chargés par le jeu depuis O9, chemins gardés par le terrain', () => {
   const html = read('index.html');
-  for (const f of ['world-local217.js', 'world-open217.js', 'world-save217.js', 'terrain-art217.js', 'terrain-fps217.js']) assert.ok(!html.includes('src/' + f), f + ' absent du jeu');
+  for (const f of ['world-local217.js', 'world-open217.js', 'world-save217.js', 'terrain-art217.js', 'terrain-fps217.js']) assert.ok(html.includes('<script src="src/' + f + '"></script>'), f + ' chargé par le jeu (O9)');
   const game = read('src/game.js');
   assert.ok(game.includes('this.sites = quarters217(t);'));
   assert.ok(/clearLocation\(x,y\)\{if\(g\.world\.terrain217&&!g\.world\.reach217\(x,y\)\)return false;/.test(game));

@@ -48,19 +48,21 @@ function recordFrame(view) {
   return { main: main.log, mini: mini.log, view };
 }
 
-test('O8a : module de présentation isolé — sans tirage, horloge ni écriture ; hors index.html, sw.js et build ; appels gardés par le terrain', () => {
+test('O8a : module de présentation — sans tirage, horloge ni écriture ; chargé par le jeu depuis O9 ; appels gardés par le terrain', () => {
   const source = read('src/terrain-art217.js'), code = source.replace(/\/\/.*$/gm, '');
   assert.ok(!/Math\.random|Date\.now|performance\.|setTimeout|setInterval|requestAnimationFrame|localStorage|crypto|\.elapsed|\.random\b|Random\(/.test(code), 'ni tirage ni horloge');
   // Aucune écriture dans la partie, le monde ou le terrain : ni affectation, ni incrément, ni méthode qui modifie.
   assert.ok(!/\b(game|world|g|t|terrain)(\.[\w$]+|\[[^\]]+\])+\s*(=(?!=)|\+=|-=|\*=|\/=|\+\+|--)/.test(code), 'aucune affectation sur la partie ou le terrain');
   assert.ok(!/\b(game|world|g|t)\.[\w$.]*\.(push|splice|set|add|delete|fill|sort|pop|shift|unshift)\(/.test(code), 'aucune mutation de collection de la partie');
   assert.ok(!/WorldLocal217|world-local217|WorldRelief217|CantonGen217|WorldCantons217/.test(source), 'ne nomme pas les modules du monde');
-  for (const file of ['index.html', 'sw.js', 'scripts/server.mjs', 'scripts/build.mjs', 'scripts/public-manifest183.cjs', 'src/expansion-kit.js', 'src/expansion-ui.js'])
+  // O9 : script public chargé par le jeu (index.html après le cœur, sw.js) ; toujours absent des outils de build et des tables du registre des opérations.
+  {const html=read('index.html'),at=x=>html.indexOf('<script src="src/'+x+'"></script>');assert.ok(at('core.js')>=0&&at('core.js')<at('terrain-art217.js'),'chargé après le cœur');assert.ok(read('sw.js').includes('"src/terrain-art217.js"'));}
+  for (const file of ['scripts/server.mjs', 'scripts/build.mjs', 'scripts/public-manifest183.cjs', 'src/expansion-kit.js', 'src/expansion-ui.js'])
     assert.ok(!read(file).includes('terrain-art217'), file);
   const dist = path.join(ROOT, 'dist');
   if (fs.existsSync(dist)) {
     const walk = dir => fs.readdirSync(dir, { withFileTypes: true }).flatMap(e => e.isDirectory() ? walk(path.join(dir, e.name)) : [path.join(dir, e.name)]);
-    for (const file of walk(dist)) assert.ok(!/terrain-art217/.test(file), file);
+    if (fs.existsSync(path.join(dist, 'index.html')) && fs.readFileSync(path.join(dist, 'index.html'), 'utf8').includes('terrain-art217')) assert.ok(walk(dist).some(file => file.endsWith(path.join('src', 'terrain-art217.js'))), 'publié avec sa balise');
   }
   // Les points d'appel du jeu ne lisent le module que sur un monde de terrain.
   for (const file of ['src/game.js', 'src/exploration-125.js', 'src/visibility146.js']) for (const line of read(file).split('\n'))
@@ -69,7 +71,7 @@ test('O8a : module de présentation isolé — sans tirage, horloge ni écriture
   const R = C.TerrainArt217Rules; assert.ok(Object.isFrozen(R));
   assert.deepEqual({ ...R }, { version: 1, cliffMetres: 4, bevel: .35, bankMaxCells: 4, edgeFadeMetres: 6, grain: 7 });
   assert.equal(C.CityGeometry202.presentation.projectedHeightUnitsPerMetre, 16);
-  assert.equal(C.WorldSave217Rules.open, false, 'génération 12 toujours fermée');
+  assert.equal(C.WorldSave217Rules.open, true, 'O9 : génération 12 ouverte derrière l’option de menu');
 });
 
 test('O8a : en G1–G11, mêmes appels de dessin (sol, profondeur, minicarte) avec ou sans le module', () => {

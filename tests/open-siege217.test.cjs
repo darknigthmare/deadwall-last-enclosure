@@ -68,8 +68,8 @@ function ring(w, r) {
 
 test('O7 : règles gelées, fonctions pures, et le repli est l’identité en G1–G11 (vagues 1 à 60, trois difficultés)', () => {
   assert.ok(Object.isFrozen(R) && Object.isFrozen(R.foldShares) && Object.isFrozen(R.passRate) && Object.isFrozen(O));
-  assert.deepEqual(JSON.parse(JSON.stringify(R)), { version: 1, generation: 12, foldShares: { basis: 'width', minShare: .1 }, passRate: { perMetre: .25, min: 1 }, minFronts: 1 });
-  assert.equal(C.WorldSave217Rules.open, false, 'la génération 12 reste fermée');
+  assert.deepEqual(JSON.parse(JSON.stringify(R)), { version: 1, generation: 12, foldShares: { basis: 'width', minShare: .1 }, passRate: { perMetre: .25, min: 1, max: 1.5 }, minFronts: 1 });
+  assert.equal(C.WorldSave217Rules.open, true, 'O9 : génération 12 ouverte derrière l’option de menu');
   const four = Object.fromEntries(SIDES.map(s => [s, { status: 'ouvert', width: 128, entries: [{ from: 0, to: 128, width: 128 }], passages: [] }]));
   let plans = 0;
   for (const key of Object.keys(C.DIFFICULTIES)) for (let wave = 1; wave <= 60; wave++) {
@@ -103,6 +103,9 @@ test('O7 : règles gelées, fonctions pures, et le repli est l’identité en G1
   assert.ok(Math.abs(f.shares.east - 96 / 108) < 1e-12 && Math.abs(f.shares.west - 12 / 108) < 1e-12, JSON.stringify(f.shares));
   assert.deepEqual(O.quotas(1000, f.shares), { east: Math.round(1000 * f.shares.east), west: 1000 - Math.round(1000 * f.shares.east) });
   assert.equal(O.rate(['west'], two), 3); assert.equal(O.gap(.1, ['west'], two), 1 / 3); assert.equal(O.gap(.5, ['west'], two), .5);
+  // Décision du 22 novembre 2026 : la même rampe, seul côté non clos de la cité, est bornée par le plafond absolu.
+  const alone = { ...two, east: { status: 'clos', width: 0 } }, cap = Math.min(3, R.passRate.max);
+  assert.equal(O.rate(['west'], alone), cap); assert.equal(O.gap(.1, ['west'], alone), 1 / cap);
   assert.equal(O.phrase(['east', 'west'], two), 'l’est et la rampe de l’ouest');
   assert.equal(O.label('north', { status: 'passage', passages: [{ kind: 'col' }, { kind: 'col' }] }), 'les deux rampes du nord');
   assert.equal(O.label('south', { status: 'passage', passages: [{ kind: 'pont' }] }), 'le pont du sud');
@@ -185,10 +188,13 @@ test('O7 : contrainte de passage d’une cité à un seul front, mesurée sur le
   };
   const wide = spawnsIn(base, 10), tight = spawnsIn(narrow, 10);
   assert.deepEqual(wide.fronts, ['north']); assert.deepEqual(tight.fronts, ['north']);
-  assert.equal(wide.gap, Math.max(wide.interval, 1 / 8), '32 m : 8 par seconde au plus');
-  assert.equal(tight.gap, 1 / 3, 'rampe de 12 m : 3 par seconde');
-  assert.ok(tight.n <= 31 && tight.n >= 28, tight.n + ' arrivées en 10 s');
-  assert.ok(wide.n > tight.n * 1.6, wide.n + ' contre ' + tight.n);
+  // Plafond de passage pour toute cité à un seul côté (décision du 22 novembre 2026) : 32 m ne laisse plus passer
+  // 8 infectés par seconde, mais au plus `passRate.max` ; la rampe de 12 m, au plus min(3, `passRate.max`).
+  const max = R.passRate.max, ramp = Math.min(3, max);
+  assert.equal(wide.gap, Math.max(wide.interval, 1 / Math.min(8, max)), '32 m : plafond absolu');
+  assert.equal(tight.gap, Math.max(tight.interval, 1 / ramp), 'rampe de 12 m');
+  assert.ok(tight.n <= Math.ceil(10 * ramp) + 1 && tight.n >= Math.floor(9.8 * ramp) - 1, tight.n + ' arrivées en 10 s');
+  assert.ok(wide.n <= Math.ceil(10 * Math.min(8, max)) + 1, wide.n + ' arrivées en 10 s sur 32 m');
   // Le reste attend au pied : la file n'est pas perdue.
   assert.equal(g.spawnQueue.length + C.spawnCount(g.pendingSpawns) + g.zombies.length, g.wavePlan.total);
   restoreFlat();

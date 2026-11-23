@@ -246,7 +246,7 @@ function install(g){if(g.worldOps131)return g.worldOps131;if(!g.expansions)retur
  const start=g.startNew.bind(g);
  g.startNew=(...a)=>{
   const previousWorld=g.world,r=start(...a),recipe=a[5];
-  if(g.world!==previousWorld&&r!==false&&g.state==='playing'&&(recipe||pos().generation===4)){
+  if(g.world!==previousWorld&&r!==false&&g.state==='playing'&&pos().generation!==12&&(recipe||pos().generation===4)){
    const data=g.serialize();
    // Native new games request all shipped content (G11 / details 13).
    // Replay selects the original map versions within the same fresh campaign.

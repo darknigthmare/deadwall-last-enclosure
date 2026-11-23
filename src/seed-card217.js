@@ -31,7 +31,7 @@
  });
  // Scripts de génération qu'un worker d'aperçu charge avant de tracer une région, dans l'ordre d'`index.html`.
  // Noms relatifs à ce fichier. Une dépendance manquante fait échouer le worker : la page calcule alors elle-même.
- const WORKER_SCRIPTS=freeze(['frontier-specialists.js','frontier-places.js','settlement-plans.js','frontier-geometry.js','seed-detail157.js','codex3000-live-data.js','codex3000-runtime.js','region-roadkit.js','region-settlements.js','codex-context160-data.js','codex-context160.js','codex-geometry160.js','frontage174.js','frontier-world.js','frontier-state.js','frontier-logistics.js','field-atlas-state.js','essential-content.js','essential-state.js','world-evolution-state.js','core.js','biomes135.js','geography135.js','world-spawns131.js','world-stream131.js','profile.js','codex-layouts2026.js','codex-physical2026.js','codex-furnishings2026.js','codex-campaign205.js','biome217.js','remarkable217.js','world-pack131.js']);
+ const WORKER_SCRIPTS=freeze(['frontier-specialists.js','frontier-places.js','settlement-plans.js','frontier-geometry.js','seed-detail157.js','codex3000-live-data.js','codex3000-runtime.js','region-roadkit.js','region-settlements.js','codex-context160-data.js','codex-context160.js','codex-geometry160.js','frontage174.js','frontier-world.js','frontier-state.js','frontier-logistics.js','field-atlas-state.js','essential-content.js','essential-state.js','world-evolution-state.js','core.js','biomes135.js','geography135.js','world-spawns131.js','world-stream131.js','world-cantons217.js','world-canton-gen217.js','world-local217.js','profile.js','codex-layouts2026.js','codex-physical2026.js','codex-furnishings2026.js','codex-campaign205.js','biome217.js','remarkable217.js','world-pack131.js']);
  const OPENING=freeze(['wood','stone','scrap']);
  // Type de lieu régional qui fournit chaque ressource d'ouverture, et son nom dans une phrase.
  const SOURCES=freeze([['wood','sawmill'],['stone','quarry'],['scrap','scrapyard']]);
@@ -207,8 +207,42 @@
   if(lines.length<2&&card.water.known&&!card.water.none&&card.water.river&&card.water.river.distance<=RULES.waterNear)lines.push('Une rivière coule à '+distanceText(card.water.river.distance)+' de l’enceinte.');
   return[...first,...lines];
  }
+ // Monde sans bord (O9, option « expérimental ») : la fiche lit la carte locale de la graine (src/world-local217.js) — relief,
+ // côtés fermés par la falaise ou l'eau, passages ouverts et leur largeur, milieu, eau et falaise les plus proches — et dit
+ // que le générateur peut encore changer. Fonction pure de la graine et des gisements déjà relevés ; aucun tirage de jeu.
+ const SIDE_WORDS=freeze({north:'nord',east:'est',south:'sud',west:'ouest'});
+ const CAUSE_WORDS=freeze({falaise:'falaise',eau:'eau'});
+ const andList=a=>a.length<2?a.join(''):a.slice(0,-1).join(', ')+' et '+a[a.length-1];
+ const THE_SIDE=freeze({north:'le nord',east:'l’est',south:'le sud',west:'l’ouest'}),AT_SIDE=freeze({north:'au nord',east:'à l’est',south:'au sud',west:'à l’ouest'});
+ function describeOpen(input){
+  const C=core(),seed=input?.seed,L=need('DeadwallWorldLocal217','./world-local217.js'),d=input?.local217||L.describe(seed),sh=d.sheet;
+  const sides=Object.values(d.sides),open=sides.filter(x=>x.status!=='clos'),closed=sides.filter(x=>x.status==='clos');
+  const card={seed,generation:12,open217:true,profile:null,home:{x:0,y:0},preview:input?.preview===true};
+  card.opening=opening(input?.nodes,C,input?.local);
+  if(card.preview&&!card.opening.known)card.opening.text='Gisements à portée du centre : relevés au départ seulement.';
+  card.milieu=milieu(input?.milieu);card.places={source:null,title:'',items:[]};
+  const closedText=closed.length?closed.map(x=>SIDE_WORDS[x.side]+' ('+(CAUSE_WORDS[x.cause]||x.cause||'relief')+')').join(', ')+'.':'aucun : la cité est ouverte des quatre côtés.';
+  const passage=x=>SIDE_WORDS[x.side]+' '+Math.round(x.width)+' m'+(x.passages?.length?' par '+plural(x.passages.length,'rampe','rampes'):x.status==='ralenti'?' (gué ou pente)':'');
+  const water=sh.regional?.water,cliff=sh.regional?.cliff;
+  card.lines=[['Monde','Sans bord — expérimental : région de cantons sans limite, cité de '+d.frame+' m adossée. Le générateur peut encore changer.'],
+   ['Relief',sh.sentence],['Côtés fermés',upper(closedText)],['Passages',open.length?upper(open.map(passage).join(' · '))+'.':'Aucun.'],['Milieu',sh.biomeName+'.']];
+  if(card.milieu.text)card.lines.push(['Effet du milieu',card.milieu.text]);
+  card.lines.push(['Eau',water?upper(WATER_NAMES[water.kind]||water.kind)+' à '+distanceText(water.distance)+' ('+water.wind+').':'Aucune eau relevée à proximité.']);
+  if(cliff)card.lines.push(['Falaise',plural(cliff.drop,'cran','crans')+' à '+distanceText(cliff.distance)+' ('+cliff.wind+').']);
+  card.lines.push(['Ouverture',card.opening.text]);
+  const widest=[...open].sort((a,b)=>b.width-a.width)[0];
+  card.adviceLines=[open.length===1?'Un seul front : toute la vague passe par '+THE_SIDE[open[0].side]+', sur '+Math.round(open[0].width)+' m. Tenez ce passage.':
+   open.length?plural(open.length,'front ouvert','fronts ouverts')+' : la vague garde son effectif et se concentre sur '+andList(open.map(x=>THE_SIDE[x.side]))+(widest?' ; '+THE_SIDE[widest.side]+' est le plus large ('+Math.round(widest.width)+' m).':'.'):'Aucun front ouvert relevé.'];
+  if(closed.some(x=>x.cause==='falaise'))card.adviceLines.push('Le haut d’une falaise voit et tire vers le bas ; d’en bas, on ne voit ni ne touche ce qui est au-dessus.');
+  card.advice=card.adviceLines.join(' ');
+  card.summary=['sans bord (expérimental)',lower(sh.biomeName),closed.length?'fermée '+andList(closed.map(x=>AT_SIDE[x.side])):'ouverte',plural(open.length,'front','fronts')].join(' · ');
+  card.title=(card.preview?'Aperçu · ':'')+'Graine '+seed+' · Sans bord — expérimental';
+  card.share=['DEADWALL — '+card.title,...card.lines.map(([label,text])=>label+' : '+text),...(card.advice?['Conseil : '+card.advice]:[])].join('\n');
+  return freeze(card);
+ }
  // Fonction pure : mêmes données générées, même fiche. Elle ne garde aucune référence au monde.
  function describe(input){
+  if(input?.open217===true||input?.world?.unbounded===true)return describeOpen(input);
   const C=core(),world=input?.world||null,seed=input?.seed??world?.seed;
   const h=world?.home&&finite(world.home.x)&&finite(world.home.y)?{x:world.home.x,y:world.home.y}:{x:0,y:0};
   const landscape=input?.landscape??world?.landscape189??null,preset=landscape&&C?.Landscape189Rules?.presets?.[landscape];
@@ -250,12 +284,12 @@
    }
   }catch{milieu={active:false,profile:null};}
   const nodes=g?.world?.nodes;
-  return{seed:g?.world?.seed,world,landscape:world?.landscape189||'classic',nodes:nodes?[...(typeof nodes.values==='function'?nodes.values():nodes)]:[],remarkable,milieu,local:g?.local};
+  return{seed:g?.world?.seed,world,landscape:world?.landscape189||'classic',nodes:nodes?[...(typeof nodes.values==='function'?nodes.values():nodes)]:[],remarkable,milieu,local:g?.local,...(g?.frontier?.position?.().generation===12?{open217:true}:{})};
  }
  // Arguments de départ lus au menu, comme `requestNewGame` (src/game.js) les passe à `startNew`.
  function startChoice(doc){
   let current=true;try{current=root.DeadwallPlayerMenus194?.currentStart?.()!==false;}catch{current=true;}
-  return{seedText:String(doc?.getElementById?.('mapSeed')?.value||''),landscape:doc?.getElementById?.('worldLandscape189')?.value||'balanced',current};
+  return{seedText:String(doc?.getElementById?.('mapSeed')?.value||''),landscape:doc?.getElementById?.('worldLandscape189')?.value||'balanced',current,...(doc?.getElementById?.('worldOpen217')?.value==='open'?{open217:true}:{})};
  }
  // Région qu'un départ tracerait pour cette graine. Les versions viennent de la fonction que le départ réel appelle ;
  // la création reprend les options de `src/frontier.js`. Rien n'est écrit ailleurs que dans l'objet rendu.
@@ -271,6 +305,8 @@
  function preview(choice){
   const seed=need('DeadwallProfile','./profile.js').normalizeSeed(choice?.seed??choice?.seedText);
   if(seed===null)throw new RangeError('Saisissez ou tirez une graine pour en voir l’aperçu.');
+  // O9 : la carte d'une campagne sans bord ne dépend que de sa graine (aucun profil de paysage).
+  if(choice?.open217===true)return describeOpen({seed,preview:true});
   const world=previewWorld(seed,choice?.landscape??'classic',choice?.current!==false,choice?.recipe);
   const Biome=need('DeadwallBiome217','./biome217.js'),Remarkable=need('DeadwallRemarkable217','./remarkable217.js');
   return describe({seed,world,landscape:world.landscape189||'classic',preview:true,remarkable:Remarkable?.select?Remarkable.select(world):null,
@@ -361,7 +397,7 @@
   const previews=new Map();let previewBusy=null;
   const cache=new Map();
   let clock=-Infinity,shownKey='',ticks=0,started=false;
-  const previewKey=c=>{const seed=root.DeadwallProfile?.normalizeSeed?.(c.seedText);return seed===null||seed===undefined?null:[seed,c.landscape,c.current?1:0].join('|');};
+  const previewKey=c=>{const seed=root.DeadwallProfile?.normalizeSeed?.(c.seedText);return seed===null||seed===undefined?null:[seed,c.landscape,c.current?1:0,...(c.open217?['sans-bord']:[])].join('|');};
   function showPreview(value,message){
    if(!previewBox)return;
    previewBox.hidden=!value&&!message;write(previewTitle,value?value.title:message||'');
@@ -369,6 +405,7 @@
    if(!value){write(previewTip,'');write(previewNote,'');return;}
    for(const [label,text]of value.lines)previewList.append(el('dt',label),el('dd',text));
    write(previewTip,value.advice);
+   if(value.open217){write(previewNote,'Aperçu calculé sans démarrer : aucune campagne créée, aucune sauvegarde touchée. La cité adossée vient de la graine ; ses gisements ne sont relevés qu’au départ. Expérimental : une autre version du générateur peut changer cette carte.');return;}
    write(previewNote,'Aperçu calculé sans démarrer : aucune campagne créée, aucune sauvegarde touchée. Les gisements à portée du centre ne sont relevés qu’au départ.'
     +(value.places.source==='remarkable'?' Nids et lots des lieux remarquables se découvrent en campagne, en les repérant.':'')
     +' L’aperçu ne vérifie pas la carte locale de D-17 : une carte impraticable, cas rare, est remplacée au départ par une autre graine, avec une annonce.');
@@ -392,7 +429,7 @@
     worker.onmessage=event=>{const d=event?.data;if(!d||d.id!==id)return;if(d.card&&typeof d.card==='object')end(resolve,freeze(d.card));else{if(d.unloaded)workerOk=false;end(reject,Error(d.error||'worker'));}};
     // Erreur de script ou de chargement : ce worker ne servira pas davantage.
     worker.onerror=event=>{event?.preventDefault?.();workerOk=false;end(reject,Error('worker indisponible'));};
-    try{worker.postMessage({id,choice:{seedText:choice.seedText,landscape:choice.landscape,current:choice.current}});}catch(error){workerOk=false;end(reject,error);}
+    try{worker.postMessage({id,choice:{seedText:choice.seedText,landscape:choice.landscape,current:choice.current,...(choice.open217?{open217:true}:{})}});}catch(error){workerOk=false;end(reject,error);}
    });
   }
   // Calcul sur demande : une seule région à la fois, un résultat gardé par graine, profil et contenu de départ.
@@ -440,6 +477,7 @@
   let cancelPreview=()=>{};
   previewButton?.addEventListener?.('click',()=>{runPreview();});
   doc.getElementById('worldLandscape189')?.addEventListener?.('change',()=>{syncPreview();});
+  doc.getElementById('worldOpen217')?.addEventListener?.('change',()=>{syncPreview();});
   function card(){
    const key=keyOf(g);let value=cache.get(key);
    if(!value){
@@ -503,5 +541,5 @@
   g.seedCard217=Object.freeze({render,card,copy,key:()=>keyOf(g),menu:renderMenu,preview:runPreview,previewBusy:()=>Boolean(previewBusy),previewCount:()=>previews.size,previewMode:()=>lastMode});
   render();return true;
  }
- return Object.freeze({install,describe,inputs,preview,previewWorld,startChoice,distanceText,direction,copyText,serve,RULES,WORKER_SCRIPTS});
+ return Object.freeze({install,describe,describeOpen,inputs,preview,previewWorld,startChoice,distanceText,direction,copyText,serve,RULES,WORKER_SCRIPTS});
 });

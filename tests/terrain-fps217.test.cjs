@@ -59,21 +59,23 @@ test('O8b : règle de hauteur du cran, alignée sur la peinture O8a et cohérent
   assert.ok(RV.eyeHeight * 2 < RR.stepMetres && RV.muzzleHeight < RR.stepMetres);
   // Rampe de 12 m (carte locale) : pente d'environ 18°.
   const slope = Math.atan(RR.stepMetres / C.WorldLocal217Rules.ramp) * 180 / Math.PI; assert.ok(slope > 15 && slope < 20, slope);
-  assert.equal(C.WorldSave217Rules.open, false, 'génération 12 toujours fermée');
+  assert.equal(C.WorldSave217Rules.open, true, 'O9 : génération 12 ouverte derrière l’option de menu');
 });
 
-test('O8b : module de présentation isolé — sans tirage, horloge ni écriture ; hors index.html, sw.js et build ; appels gardés par le terrain', () => {
+test('O8b : module de présentation — sans tirage, horloge ni écriture ; chargé par le jeu depuis O9 ; appels gardés par le terrain', () => {
   const source = read('src/terrain-fps217.js'), code = source.replace(/\/\/.*$/gm, '');
   assert.ok(!/Math\.random|Date\.now|performance\.|setTimeout|setInterval|requestAnimationFrame|localStorage|crypto|\.elapsed|\.random\b|Random\(/.test(code), 'ni tirage ni horloge');
   assert.ok(!/\b(game|world|g|t|terrain|b|e|box|pose|muzzle)(\.[\w$]+|\[[^\]]+\])+\s*(=(?!=)|\+=|-=|\*=|\/=|\+\+|--)/.test(code), 'aucune affectation sur la partie, le monde ou les acteurs');
   assert.ok(!/\b(game|world|g|t|terrain)\.[\w$.]*\.(push|splice|set|add|delete|fill|sort|pop|shift|unshift)\(/.test(code), 'aucune mutation de collection de la partie');
   assert.ok(!/WorldLocal217|world-local217|WorldRelief217|CantonGen217|WorldCantons217/.test(source), 'ne nomme pas les modules du monde');
-  for (const file of ['index.html', 'sw.js', 'scripts/server.mjs', 'scripts/build.mjs', 'scripts/public-manifest183.cjs', 'src/expansion-kit.js', 'src/expansion-ui.js'])
+  // O9 : script public chargé par le jeu (index.html après le cœur, sw.js) ; toujours absent des outils de build et des tables du registre des opérations.
+  {const html=read('index.html'),at=x=>html.indexOf('<script src="src/'+x+'"></script>');assert.ok(at('core.js')>=0&&at('core.js')<at('terrain-fps217.js'),'chargé après le cœur');assert.ok(read('sw.js').includes('"src/terrain-fps217.js"'));}
+  for (const file of ['scripts/server.mjs', 'scripts/build.mjs', 'scripts/public-manifest183.cjs', 'src/expansion-kit.js', 'src/expansion-ui.js'])
     assert.ok(!read(file).includes('terrain-fps217'), file);
   const dist = path.join(ROOT, 'dist');
   if (fs.existsSync(dist)) {
     const walk = dir => fs.readdirSync(dir, { withFileTypes: true }).flatMap(e => e.isDirectory() ? walk(path.join(dir, e.name)) : [path.join(dir, e.name)]);
-    for (const file of walk(dist)) assert.ok(!/terrain-fps217/.test(file), file);
+    if (fs.existsSync(path.join(dist, 'index.html')) && fs.readFileSync(path.join(dist, 'index.html'), 'utf8').includes('terrain-fps217')) assert.ok(walk(dist).some(file => file.endsWith(path.join('src', 'terrain-fps217.js'))), 'publié avec sa balise');
   }
   // Points d'appel : le peintre FPS ne lit le module que sur un monde de terrain ; les gardes du commandant et des
   // passerelles sont neutres sans terrain.

@@ -284,8 +284,21 @@
   };
   // L'assaut fixe l'effectif, une fois : avant que le moteur ne remplisse sa file et que la nuit ne soit comptée.
   const start=g.startAssault;
+  // Siège adossé (G12 hors jeu) : sur une cité à un seul front, la Meneuse et son escorte encore debout passent par le même
+  // passage que la file ; chacun y prend une place du débit (`C.OpenSiege217.lead`) avant la première arrivée.
+  function onSite(){
+   const l=current(),e=escort();if(!l)return 0;
+   const z=l.id&&l.status==='gathered'?g.zombies.find(o=>o.id===l.id&&!o.dead):null;
+   return (z?1:0)+(e?guards().length:0);
+  }
+  function passLead(){
+   const sides=g.world?.terrain217?.sides;if(!sides||typeof g.openSiegeState217!=='function')return;
+   const s=g.openSiegeState217(),n=s?onSite():0;if(!n)return;
+   const t=C.OpenSiege217.lead(n,g.spawnGap217(),s.fronts,sides);if(t>0)g.spawnTimer+=t;
+  }
   if(typeof start==='function')g.startAssault=function(...args){
-   if(state.active&&g.world&&led(g.wave,seed())){
+   let fixed=false;
+   if(state.active&&g.world&&led(g.wave,seed())){fixed=true;
     sync();
     if(!g.wavePlan)g.prepareWave();
     let l=current();if(!l)l=state.led={wave:g.wave,id:0,status:'alive',delta:0};
@@ -300,7 +313,9 @@
      else say('La Meneuse n’a pas été abattue : elle marche avec la horde '+where+', '+contacts(l.delta)+' de plus ('+plan.total+' au lieu de '+before.total+').'+tail,'danger');
     }
    }
-   return start.apply(this,args);
+   const result=start.apply(this,args);
+   if(fixed)passLead();
+   return result;
   };
   const update=g.update;
   if(typeof update==='function')g.update=function(...args){const result=update.apply(this,args);tick();return result;};

@@ -48,7 +48,7 @@ function frames(n, step) { for (let f = 0; f < n; f++) { g.navigationBudget = C.
 test('O6b : règles gelées, et une carte plate ne prend aucun chemin du terrain (parcours empoisonné)', () => {
   const R = C.OpenCity217Rules; assert.ok(Object.isFrozen(R));
   assert.deepEqual({ ...R }, { version: 1, generation: 12, fallbackRing: 192, pathMaxExpanded: 16384 });
-  assert.equal(C.WorldSave217Rules.open, false, 'la génération 12 reste fermée');
+  assert.equal(C.WorldSave217Rules.open, true, 'O9 : génération 12 ouverte derrière l’option de menu');
   // Accesseurs neutres sur une carte plate.
   const flat = new World(17117, 0, MAP);
   assert.equal(flat.footprintClear217(-50, -50, 1e6, 1e6), true);

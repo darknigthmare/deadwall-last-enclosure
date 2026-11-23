@@ -57,6 +57,9 @@
 
  function create(seed,options={}){
   const world=O.create(seed,options.open||{}),effects=options.effects||{},detailVersion=options.detailVersion??R.detailVersion,home=world.home;
+  // O9 : la cité de la campagne (carte de 192 m, D-O5) occupe tout son cadre autour du site de fondation ; aucun lot, arbre
+  // ni rocher régional n'y est posé (le plat garanti de 64 m n'en couvrait que le centre).
+  const cityHalf=Math.max(home.size,C.OpenWorld217Rules?.frame||0)/2,city={canton:home.canton,minX:home.x-cityHalf,maxX:home.x+cityHalf,minY:home.y-cityHalf,maxY:home.y+cityHalf};
   const stats={places:0,placed:0,unfit:0,plans:0,details:0,chunks:0},refusals={};
   const refuse=reason=>{refusals[reason]=(refusals[reason]||0)+1;return false;};
   const lru=(map,key,cap,build)=>{if(map.has(key)){const v=map.get(key);map.delete(key);map.set(key,v);return v;}const v=build();map.set(key,v);while(map.size>cap)map.delete(map.keys().next().value);return v;};
@@ -138,7 +141,7 @@
   function check(self,s,p,road){
    const c=self.canton,box=c.bounds,m=R.seamMargin,body=lot(p),b=F.bounds(body);
    if(b.l<box.x+m||b.t<box.y+m||b.r>box.x+SIZE-m||b.b>box.y+SIZE-m)return refuse('couture');
-   if(c.id===home.canton&&F.overlap(b,{l:home.minX-R.homeMargin,r:home.maxX+R.homeMargin,t:home.minY-R.homeMargin,b:home.maxY+R.homeMargin}))return refuse('fondation');
+   if(c.id===home.canton&&F.overlap(b,{l:city.minX-R.homeMargin,r:city.maxX+R.homeMargin,t:city.minY-R.homeMargin,b:city.maxY+R.homeMargin}))return refuse('fondation');
    if(self.places.some(q=>F.overlap(b,q.reserve,R.parcelGap)))return refuse('voisin');
    for(let gy=Math.floor((b.t-box.y)/CELL);gy<=Math.floor((b.b-box.y)/CELL);gy++)for(let gx=Math.floor((b.l-box.x)/CELL);gx<=Math.floor((b.r-box.x)/CELL);gx++){
     const i=gy*N+gx;if(!F.obb(body,{x:box.x+(gx+.5)*CELL,y:box.y+(gy+.5)*CELL,w:CELL,h:CELL,a:0}))continue;
@@ -215,7 +218,7 @@
    for(const r of self.roadCells[i]||[])if(pointSegment(x,y,r.a.x,r.a.y,r.b.x,r.b.y)<r.width/2+rule.roadClearance+pad)return false;
    for(const r of self.riverCells[i]||[])if(pointSegment(x,y,r.a.x,r.a.y,r.b.x,r.b.y)<r.width/2+rule.waterClearance+pad)return false;
    for(const p of self.places)if(x>p.reserve.l-pad&&x<p.reserve.r+pad&&y>p.reserve.t-pad&&y<p.reserve.b+pad)return false;
-   const q=R.homeClearance+pad;if(c.id===home.canton&&x>home.minX-q&&x<home.maxX+q&&y>home.minY-q&&y<home.maxY+q)return false;
+   const q=R.homeClearance+pad;if(c.id===home.canton&&x>city.minX-q&&x<city.maxX+q&&y>city.minY-q&&y<city.maxY+q)return false;
    return true;
   }
   function chunk(cx,cy){

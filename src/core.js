@@ -1852,7 +1852,7 @@ const vehicles={skate:{name:'Skate renforcé',tier:0,speed:6.2,fuel:0,tank:0,car
 const districtBuildings={housing:{name:'Habitat annexe',cost:{wood:90,stone:70,scrap:35},housing:8},workshop:{name:'Atelier annexe',cost:{wood:60,stone:45,scrap:75},storage:80},clinic:{name:'Poste sanitaire',cost:{wood:55,stone:40,scrap:55,medicine:8}},depot:{name:'Dépôt annexe',cost:{wood:65,stone:55,scrap:45},storage:140},watch:{name:'Tour de veille',cost:{wood:80,stone:50,scrap:50}},power:{name:'Micro-réseau',cost:{wood:45,stone:25,scrap:100,fuel:10},power:4}};
 S.configure(Object.freeze({postures:{stand:{name:'Debout',speed:1,noise:1,vision:1},crouch:{name:'Accroupi',speed:.58,noise:.35,vision:.62},prone:{name:'Allongé',speed:.24,noise:.15,vision:.42}},surfaces:{asphalt:{name:'Goudron',speed:1,noise:1},floor:{name:'Sol intérieur',speed:1,noise:.8},gravel:{name:'Gravier',speed:.88,noise:1.25},grass:{name:'Herbe',speed:.84,noise:.72},forest:{name:'Sous-bois',speed:.68,noise:.66},mud:{name:'Boue',speed:.55,noise:.86}},vehicles,districtBuildings,districtSlots:8,behaviours:{resting:{name:'Attroupement',speed:0},migrating:{name:'Migration',speed:.72},frenzied:{name:'Meute fébrile',speed:1.65}},maxGroup:360,groupLimit:18,enemyHealth:60,attack:7,homeExclusion:280,eventMin:90,eventMax:150,companionRules:Object.freeze({maxCompanions:2,minimumPopulation:4,assignmentFood:2,radius:.32,followDistance:2,speed:3,healRange:3,healPerSecond:2,medicinePerHealth:.05,repairRange:4,repairPerSecond:3,scrapPerHealth:.05,shotRange:12,shotDamage:12,shotInterval:1.5,shotAmmo:1,scoutRange:700}),companions:{lea:{name:'Léa',role:'éclaireuse'},samir:{name:'Samir',role:'secouriste'},ines:{name:'Inès',role:'mécanicienne'},malik:{name:'Malik',role:'tireur'}},campaign:[{id:'roads',name:'Relier les routes'},{id:'towns',name:'Reconnaître les agglomérations'},{id:'annex',name:'Ouvrir une annexe'},{id:'horde',name:'Survivre à une horde sauvage'},{id:'fleet',name:'Diversifier la flotte'},{id:'allies',name:'Former une équipe de sortie'},{id:'megacity',name:'Faire grandir D-17'}]}));
 C.WorldEvolution=S;const previous=C.migrateSaveData;
-C.migrateSaveData=raw=>{if(!raw||typeof raw!=='object')return null;const modern=raw.version===20;if(modern&&!raw.worldEvolution)throw Error('Sauvegarde v20 sans évolution.');const legacyV2=raw.version===2&&raw.pendingSpawns===undefined?{...raw,wavePlan:null}:raw;const d=previous(modern?{...raw,version:19}:legacyV2);return d?{...d,version:20,worldEvolution:S.normalize(modern?raw.worldEvolution:undefined)}:null;};
+C.migrateSaveData=raw=>{if(!raw||typeof raw!=='object')return null;const modern=raw.version===20;if(modern&&!raw.worldEvolution)throw Error('Sauvegarde v20 sans évolution.');const legacyV2=raw.version===2&&raw.pendingSpawns===undefined?{...raw,wavePlan:null}:raw;const d=previous(modern?{...raw,version:19}:legacyV2);return d?{...d,version:20,worldEvolution:S.normalize(modern?raw.worldEvolution:undefined,raw.frontier?.generation)}:null;};
 C.SAVE_VERSION=20;C.SAVE_KEY='deadwall-save-v20';C.SAVE_BACKUP_KEY='deadwall-save-backup-v20';C.LEGACY_SAVE_KEYS=[...new Set(['deadwall-save-v19','deadwall-save-backup-v19',...C.LEGACY_SAVE_KEYS])];})(globalThis);
 
 /* 1.26 — autonomous night equipment; durations are simulation seconds, radii metres. */
@@ -3596,11 +3596,14 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // `sickSeconds` puis tous les `sickInterval` ; morts annoncées à `deathWarnSeconds`, une à `deathSeconds` puis toutes les
  // `deathInterval`, évitée contre `medicine.plain` médicaments (`medicine.clinic` avec une clinique en service).
  // weather : l'exposition avance ×`wet` quand la pluie observée dépasse `wetAbove`, ×`dry` sous `dryBelow`.
+ // sickness.siegeWalls : part de la charge au pied des murs comptée par la maladie pendant l'assaut et la sécurisation (les corps
+ // frais d'un mur assiégé ne pourrissent pas encore) ; toute la charge compte de nouveau au calme. La charge des murs (rampes,
+ // brèches) n'en dépend pas.
  C.CorpseChain217Rules=Object.freeze({startAge:2,reach:100,
   pyre:Object.freeze({perSecond:1.5,cost:Object.freeze({wood:.4,fuel:.1}),signature:60}),
   pit:Object.freeze({cost:Object.freeze({wood:20}),digSeconds:45,perSecond:.25,capacity:120}),
   sickness:Object.freeze({base:40,perPerson:4,clearRatio:.6,graceSeconds:120,moraleDrain:.2,sickWarnSeconds:300,sickSeconds:420,sickInterval:90,sickDamage:.35,
-   deathWarnSeconds:780,deathSeconds:960,deathInterval:180,medicine:Object.freeze({plain:4,clinic:2})}),
+   deathWarnSeconds:780,deathSeconds:960,deathInterval:180,medicine:Object.freeze({plain:4,clinic:2}),siegeWalls:.25}),
   weather:Object.freeze({wetAbove:.62,wet:1.5,dryBelow:.1,dry:.75})});
  // Vagues menées (GAME_BIBLE §3.5, la Meneuse), nouvelles campagnes seulement. À partir de `firstWave`, une vague sur
  // `every` est menée (décalage tiré de la graine, jamais une vague de géants). La Meneuse est une Errante ordinaire,
@@ -3622,8 +3625,8 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  C.WorldSites217Rules=Object.freeze({version:1,setback:22,lot:Object.freeze({side:13,front:19,back:29}),prohibited:Object.freeze({side:13,front:17,back:29}),seamMargin:12,homeMargin:16,parcelGap:1,riverClearance:8,typeTries:6,fallback:Object.freeze(['ruin','cabin']),drive:Object.freeze({width:4,front:19,step:4}),detailVersion:13,placeCache:36,planCache:48,detailCache:64,chunk:256,chunkCache:36,trees:Object.freeze({grid:33,spacing:3.4,roadClearance:5,edgeClearance:3,waterClearance:2,slots:1200}),rocks:Object.freeze({grid:10,spacing:2.8,roadClearance:6,edgeClearance:3,waterClearance:2,slots:120,chance:1}),homeClearance:24,lineStep:.5,maxLine:512,footRadius:.32,car:Object.freeze({w:4.8,h:2.03}),budgetMs:8});
  // Sauvegarde creuse G12 hors jeu (src/world-save217.js, tranche O3) : au plus `maxCantons` cantons chargés par validation, les plus proches
  // du joueur (au-delà, contrôle de forme seul) ; `maxSeenCantons` cantons vus ; les autres plafonds sont ceux du registre régional G1–G11.
- // open : registre G12 accepté par frontier-state (faux jusqu'à la tranche O9, qui ouvre la génération 12).
- C.WorldSave217Rules=Object.freeze({open:false,maxCantons:64,maxSeenCantons:4096,maxSeen:5000,maxTaken:120000,maxEnemies:15000});
+ // open : registre G12 accepté par frontier-state (vrai depuis la tranche O9, qui ouvre la génération 12 derrière l'option de menu).
+ C.WorldSave217Rules=Object.freeze({open:true,maxCantons:64,maxSeenCantons:4096,maxSeen:5000,maxTaken:120000,maxEnemies:15000});
   // Taille de la carte de la cité portée par la campagne (ouverture.md, tranche O5) : 128 cases pour toute
   // génération ; `generationTiles` nomme la seule exception, la génération 12 (192 m, D-O5), encore refusée.
   // La sauvegarde n'écrit `localTiles` que s'il diffère de `defaultTiles`.
@@ -3659,7 +3662,10 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   // vivant ; jamais plus de points de vie. Une cité à un seul front a une entrée plafonnée : `passRate.perMetre` arrivées
   // par seconde et par mètre de largeur (rampe de 12 m : 3 par seconde), au moins `passRate.min` ; le reste attend au pied.
   // `minFronts` : nombre de côtés non clos sans lequel aucun siège n'est possible.
-  C.OpenSiege217Rules=Object.freeze({version:1,generation:12,foldShares:Object.freeze({basis:'width',minShare:.1}),passRate:Object.freeze({perMetre:.25,min:1}),minFronts:1});
+  // Siège adossé, plafond de passage (décision du 22 novembre 2026, D-O2 inchangée) : toute cité à un seul front, quelle
+  // que soit sa largeur, est plafonnée à `passRate.max` arrivées par seconde au plus ; la Meneuse et son escorte, déjà
+  // sur la carte à l'assaut, entrent dans ce même débit (`lead`). Même effectif total, vague plus longue.
+  C.OpenSiege217Rules=Object.freeze({version:1,generation:12,foldShares:Object.freeze({basis:'width',minShare:.1}),passRate:Object.freeze({perMetre:.25,min:1,max:1.5}),minFronts:1});
   // Lecture pure de ces règles, sans tirage propre (le mélange des fronts est celui du jeu, passé en argument).
   // Sur une carte plate (`sides` absent), quatre côtés ouverts de même poids : le repli est l'identité.
   C.OpenSiege217=(()=>{
@@ -3692,8 +3698,19 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
     for(const f of group){const s=(share[f]||0)/sum*(done+1)-(emitted[f]||0);if(s>score+1e-12){score=s;best=f;}}
     return best;
    }
-   const rate=(fronts,sides)=>!sides||fronts.length!==1?Infinity:Math.max(R.passRate.min,R.passRate.perMetre*width(sides,fronts[0]));
+   // Débit d'une vague à un seul front : `perMetre` par mètre ; sur une cité à un seul côté non clos, quelle que soit sa
+   // largeur, jamais plus de `max` par seconde (une cité à plusieurs côtés dont la vague n'en prend qu'un garde le débit
+   // par mètre seul).
+   const rate=(fronts,sides)=>{
+    if(!sides||fronts.length!==1)return Infinity;
+    const metre=R.passRate.perMetre*width(sides,fronts[0]);
+    return Math.max(R.passRate.min,open(sides).length===1?Math.min(R.passRate.max,metre):metre);
+   };
    const gap=(interval,fronts,sides)=>Math.max(interval,1/rate(fronts,sides));
+   // Attente de la file avant la première arrivée quand `onSite` infectés (Meneuse et escorte) passent déjà par ce front :
+   // chacun prend une place du débit, `passGap` étant l'intervalle d'entrée de la partie (`gap`). Aucune attente hors
+   // d'une cité à un seul front.
+   const lead=(onSite,passGap,fronts,sides)=>{const n=Math.max(0,Math.floor(Number(onSite)||0)),t=Number(passGap);return n&&t>0&&Number.isFinite(t)&&Number.isFinite(rate(fronts,sides))?n*t:0;};
    // Nom du passage d'un côté, pour l'annonce : « la rampe du nord », « les deux ponts de l’est », « l’ouest ».
    function label(side,s){
     if(!s||s.status==='ouvert')return THE[side];
@@ -3720,7 +3737,7 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
     if(!plain(raw.emitted,f)||f.some(s=>!Number.isInteger(raw.emitted[s])||raw.emitted[s]<0)||f.reduce((n,s)=>n+raw.emitted[s],0)>(base.wavePlan?.total??0))fail('arrivées');
     return{wave:raw.wave,asked:raw.asked,folded:raw.folded,fronts:f.slice(),shares:Object.fromEntries(f.map(s=>[s,raw.shares[s]])),emitted:Object.fromEntries(f.map(s=>[s,raw.emitted[s]]))};
    }
-   return Object.freeze({SIDES,open,shares,fold,quotas,pick,rate,gap,label,phrase,normalize});
+   return Object.freeze({SIDES,open,shares,fold,quotas,pick,rate,gap,lead,label,phrase,normalize});
   })();
   // Vie de la cité de génération 12 (ouverture.md, préalable O9 (a), hors jeu) : quartiers et haltes d'expédition posés
   // sur le terrain par une fonction pure de la graine et de la description (hachage, aucun flux de génération). `clear` :
@@ -3728,6 +3745,12 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   // `quarters` : distance au centre visée et bande préférée (mètres ; 31 à 50 m sur la carte de 128 m, × 1,5), écart
   // minimal entre deux quartiers ; `halts.spacing` : écart minimal d'une halte aux autres lieux (mètres).
   C.OpenCityLife217Rules=Object.freeze({version:1,generation:12,clear:2,quarters:Object.freeze({target:45,near:28,far:72,spacing:22}),halts:Object.freeze({spacing:8})});
+  // Ouverture « Sans bord — expérimental » (ouverture.md, tranche O9) : génération 12 créable par l'option de menu seulement.
+  // `frame` : côté de la cité adossée (mètres, D-O5) ; `prefetch` : cantons préparés par image (anneau `radius` autour du point
+  // visé à `lookAhead` mètres devant le commandant, à pied ou en voiture) ; `exitSearch` : pas et portée (mètres) de la recherche
+  // d'un point libre le long du bord de la cité à la sortie ; `revision` : révision du générateur portée par la campagne (D-O4,
+  // « évoluer, puis geler » : une campagne d'une autre révision reste jouable, signalée « monde révisé »).
+  C.OpenWorld217Rules=Object.freeze({version:1,generation:12,frame:192,prefetch:Object.freeze({perFrame:1,radius:1}),lookAhead:Object.freeze({foot:3,car:45}),exitSearch:Object.freeze({step:2,reach:40}),revision:1});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),

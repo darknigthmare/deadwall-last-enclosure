@@ -93,7 +93,8 @@
     append(brief, scenario, difficulty);
     const seed = get('mapSeed')?.closest('.seed-controls') || card.querySelector('.seed-controls'), hint = get('seedHint'), saveNote = get('campaignSaveNote');
     const landscape = get('worldLandscape189')?.closest('.seed-controls'), landscapeHint = get('landscapeHint189');
-    if (seed?.parentNode) append(brief, disclose('campaignMap132', 'Carte personnalisée et bilans', landscape!==seed?landscape:null, landscapeHint, seed, hint));
+    const open217 = get('worldOpen217')?.closest('.seed-controls'), openHint217 = get('worldOpenHint217');
+    if (seed?.parentNode) append(brief, disclose('campaignMap132', 'Carte personnalisée et bilans', landscape!==seed?landscape:null, landscapeHint, open217!==seed?open217:null, openHint217, seed, hint));
     if (saveNote?.parentNode) append(brief, disclose('campaignStorage132', 'Sauvegarde locale · une campagne active', saveNote));
     append(card, identity, brief, footer);
     const caption = menu.querySelector('.menu-scene-caption'); if (caption?.parentNode) caption.hidden = true;
