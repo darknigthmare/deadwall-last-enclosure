@@ -588,8 +588,8 @@
     },
     {
       "path": "src/expansion-ui.js",
-      "bytes": 26519,
-      "sha256": "0c0b861d98235728f4dbf68dec8b3cd40fe526b2dde450135ccffd96f3745353"
+      "bytes": 26555,
+      "sha256": "18d32f2bbb2cfe1743b74c5916650d74ad2a1dd1ac5de6276c62530ff004712f"
     },
     {
       "path": "src/expedition-art.js",
@@ -898,8 +898,8 @@
     },
     {
       "path": "src/openworld217.js",
-      "bytes": 15765,
-      "sha256": "4464b998735ea16f49f093d07a782b91117127d71fc0d8a3c4c9823380298005"
+      "bytes": 15697,
+      "sha256": "63285871609a95d70e8545b9373f1493c38742c76a5a1f0e9b03ee82d3d7190b"
     },
     {
       "path": "src/operations-art.js",
@@ -1975,8 +1975,8 @@
     },
     {
       "path": "src/expansion-ui.js",
-      "bytes": 26519,
-      "sha256": "0c0b861d98235728f4dbf68dec8b3cd40fe526b2dde450135ccffd96f3745353"
+      "bytes": 26555,
+      "sha256": "18d32f2bbb2cfe1743b74c5916650d74ad2a1dd1ac5de6276c62530ff004712f"
     },
     {
       "path": "src/expedition-art.js",
@@ -2285,8 +2285,8 @@
     },
     {
       "path": "src/openworld217.js",
-      "bytes": 15765,
-      "sha256": "4464b998735ea16f49f093d07a782b91117127d71fc0d8a3c4c9823380298005"
+      "bytes": 15697,
+      "sha256": "63285871609a95d70e8545b9373f1493c38742c76a5a1f0e9b03ee82d3d7190b"
     },
     {
       "path": "src/operations-art.js",
@@ -3362,8 +3362,8 @@
     },
     {
       "path": "src/expansion-ui.js",
-      "bytes": 26519,
-      "sha256": "0c0b861d98235728f4dbf68dec8b3cd40fe526b2dde450135ccffd96f3745353"
+      "bytes": 26555,
+      "sha256": "18d32f2bbb2cfe1743b74c5916650d74ad2a1dd1ac5de6276c62530ff004712f"
     },
     {
       "path": "src/expedition-art.js",
@@ -3672,8 +3672,8 @@
     },
     {
       "path": "src/openworld217.js",
-      "bytes": 15765,
-      "sha256": "4464b998735ea16f49f093d07a782b91117127d71fc0d8a3c4c9823380298005"
+      "bytes": 15697,
+      "sha256": "63285871609a95d70e8545b9373f1493c38742c76a5a1f0e9b03ee82d3d7190b"
     },
     {
       "path": "src/operations-art.js",
@@ -4536,6 +4536,6 @@
     "Four actual V01 source models supply the support rectangles. Activity clocks are explicitly prepared render inputs, not executed service transactions.",
     "No human campaign, physical phone frame rate or complete200model visual qualification is claimed. Transaction and world access proofs are separate."
   ],
-  "startedUtc": "2026-11-23T06:05:00.775Z",
-  "completedUtc": "2026-11-23T06:05:03.275Z"
+  "startedUtc": "2026-11-23T08:22:20.502Z",
+  "completedUtc": "2026-11-23T08:22:22.861Z"
 }
