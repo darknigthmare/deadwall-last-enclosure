@@ -132,16 +132,22 @@ test('cantons 217 : cache borné, éviction hors de l’anneau protégé, conten
   assert.ok(lru.delete(100,100)&&!lru.has(100,100));lru.clear();assert.equal(lru.size,0);assert.deepEqual(lru.ids(),[]);
 });
 
-test('cantons 217 : brique isolée — aucune génération existante ne la lit, aucun script public ajouté',()=>{
+test('cantons 217 : brique chargée par le jeu depuis O9 (option « Sans bord ») — aucune génération 1 à 11 ne la lit',()=>{
   const source=read('src/world-cantons217.js');
   assert.ok(!/Math\.random|Date\.now|performance\.|localStorage|document\b|setTimeout|setInterval/.test(source.replace(/\/\/.*$/gm,'')),'module pur');
   assert.deepEqual([...source.matchAll(/require\('([^']+)'\)/g)].map(m=>m[1]),['./core.js'],'seule dépendance : les règles du cœur');
-  assert.ok(!read('index.html').includes('world-cantons217'),'non chargé par le jeu');assert.ok(!read('sw.js').includes('world-cantons217'));
-  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(file!=='world-cantons217.js'&&file!=='world-canton-gen217.js'&&file!=='world-local217.js'&&file!=='world-open217.js'&&file!=='world-sites217.js'&&file!=='world-save217.js'&&file!=='core.js')assert.ok(!read('src/'+file).includes('WorldCantons217'),file+' ne doit pas encore dépendre des cantons');
+  // O9 : script public, après le cœur et avant le générateur de cantons (ordre d'index.html, même liste dans sw.js).
+  const html=read('index.html'),at=f=>html.indexOf('<script src="src/'+f+'"></script>');
+  assert.ok(at('core.js')>=0&&at('core.js')<at('world-cantons217.js')&&at('world-cantons217.js')<at('world-canton-gen217.js'),'chargé par le jeu, après le cœur');assert.ok(read('sw.js').includes('"src/world-cantons217.js"'));
+  // Lecteurs : modules G12, l'ouverture, le registre des cantons vus de frontier.js et la fiche de graine (aperçu sans bord).
+  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(!['world-cantons217.js','world-canton-gen217.js','world-local217.js','world-open217.js','world-sites217.js','world-save217.js','core.js','openworld217.js','frontier.js','seed-card217.js'].includes(file))assert.ok(!read('src/'+file).includes('WorldCantons217'),file+' ne doit pas dépendre des cantons');
+  // frontier.js ne lit les cantons que pour une campagne de génération 12.
+  assert.ok(read('src/frontier.js').includes("function cantons217(){if(state.generation!==12||!Array.isArray(state.cantons))return;const K=root.DeadwallWorldCantons217;"));
   assert.equal((read('src/core.js').match(/WorldCantons217Rules/g)||[]).length,1);
   // Les générations acceptées et la taille de la région finie n'ont pas bougé.
   const W=require('../src/frontier-world.js'),S=require('../src/frontier-state.js');
   assert.equal(W.sizeForGeneration(11),24576);assert.equal(W.sizeForGeneration(4),8192);assert.equal(C.WorldStreamRules131.size,24576);assert.equal(C.GeographyRules135.size,24576);
-  assert.throws(()=>W.create(17117,R.reservedGeneration),/Version du monde inconnue/);
-  assert.throws(()=>S.normalize({...S.initial(),generation:R.reservedGeneration}),/Génération inconnue/);
+  // O9 : la génération 12 n'est plus inconnue de frontier-world (monde sans bord), mais un registre historique marqué 12 reste refusé.
+  assert.equal(W.create(17117,R.reservedGeneration).unbounded,true);
+  assert.throws(()=>S.normalize({...S.initial(),generation:R.reservedGeneration}),/Génération inconnue|incomplet/);
 });

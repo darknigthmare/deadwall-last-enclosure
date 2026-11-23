@@ -341,6 +341,8 @@
    const terrain=g.world?.terrain217?g.world:null,from217=terrain&&{x:origin.x*R.tile,y:origin.y*R.tile};
    return e=>{if(!live(e))return false;const to=aimPoint(e);if(L)to.z+=L.actor(e);const distance=Math.hypot(to.x-origin.x,to.y-origin.y,to.z-origin.z);if(distance>range||!clear(origin,to))return false;
     if(terrain&&!terrain.sightClear217(from217,e))return false;
+    // O9 : d'en haut, un contrebas « mort » (masqué par le rebord du plateau de la bouche) n'est pas vu : même sol que le tir.
+    if(L&&to.z<origin.z){const a=S.lookAt(origin,to),d=L.ground(origin,S.direction(a.yaw,a.pitch),distance);if(d!==null&&d<distance-.05)return false;}
     if(distance<=Math.max(R.nightSight,range*day))return true;
     return lights.some(l=>Math.hypot(to.x-l.x,to.y-l.y,to.z-l.z)<=l.range&&Math.abs(angle(Math.atan2(to.y-l.y,to.x-l.x)-(l.angle||0)))<=l.half&&clear(l,to,l.owner,l.module??null));
    };

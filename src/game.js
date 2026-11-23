@@ -808,7 +808,7 @@
       click('howToButton', () => this.showHelp(true)); click('helpPauseButton', () => this.showHelp(true)); click('closeHelp', () => this.showHelp(false));
       click('pauseButton', () => this.togglePause()); click('resumeButton', () => this.togglePause(false)); click('saveButton', () => this.save(true));
       click('quitButton', () => this.returnToMenu()); click('restartButton', () => this.replayCurrentMap()); click('gameOverMenuButton', () => this.returnToMenu());
-      click('gameOverNewMapButton', () => this.startNew(this.difficulty.id, '', this.scenarioId, this.frontier?.position().landscape189||'classic', this.frontier?.position().generation>=10 && this.frontier?.position().detailVersion===13));
+      click('gameOverNewMapButton', () => this.startNew(this.difficulty.id, '', this.scenarioId, this.frontier?.position().landscape189||'classic', this.frontier?.position().generation>=10 && this.frontier?.position().detailVersion===13, undefined, this.frontier?.position().generation===12 ? true : undefined));
       click('toggleBuild', () => this.setBuildCollapsed(!this.buildCollapsed));
       click('closeSelection', () => this.selectBuilding(null)); click('repairSelected', () => this.repairSelected()); click('upgradeSelected', () => this.upgradeSelected()); click('demolishSelected', () => this.requestDemolition());
       click('demolitionCancel', () => this.cancelDemolition(true)); click('demolitionConfirm', () => this.confirmDemolition());
@@ -942,7 +942,7 @@
         const accepted=globalThis.confirm?.('Remplacer la campagne active ? Ses dernières actions seront remplacées. Exportez une copie depuis les paramètres pour la conserver. Annuler ne change rien.');
         if(accepted!==true)return false;
       }
-      return this.startNew(this.selectedDifficulty(),document.getElementById('mapSeed')?.value||'',document.getElementById('startScenario')?.value||'classic',document.getElementById('worldLandscape189')?.value||'balanced', globalThis.DeadwallPlayerMenus194?.currentStart()!==false)!==false;
+      return this.startNew(this.selectedDifficulty(),document.getElementById('mapSeed')?.value||'',document.getElementById('startScenario')?.value||'classic',document.getElementById('worldLandscape189')?.value||'balanced', globalThis.DeadwallPlayerMenus194?.currentStart()!==false, undefined, document.getElementById('worldOpen217')?.value==='open'?true:undefined)!==false;
     }
 
     freshMapSeed() {
@@ -966,6 +966,8 @@
       if (recipe.landscape189 !== landscape189 || ![3,4].includes(recipe.explorationGeneration) || ![1,2,3,4].includes(recipe.layoutRevision) ||
           recipe.generation >= 4 && recipe.explorationGeneration !== 4 || recipe.layoutRevision === 4 && recipe.cityGeometry202 !== 1 ||
           keys.filter(key => key !== 'landscape189').some(key => !Number.isInteger(recipe[key]))) invalid();
+      // O9 : une carte sans bord (génération 12) se rejoue par l'option, avec ses propres versions de détail.
+      if (recipe.generation === 12) { if (recipe.cityGeometry202 !== 1 || recipe.explorationGeneration !== 4 || recipe.landscape189 !== 'classic' || recipe.ecologyVersion !== 0 || recipe.hydrologyVersion !== 0 || recipe.detailVersion !== C.WorldSites217Rules.detailVersion) invalid(); return Object.freeze(recipe); }
       C.Frontier.normalize({...C.Frontier.initial(),generation:recipe.generation,detailVersion:recipe.detailVersion,ecologyVersion:recipe.ecologyVersion,hydrologyVersion:recipe.hydrologyVersion,landscape189:recipe.landscape189});
       return Object.freeze(recipe);
     }
@@ -973,11 +975,15 @@
     replayCurrentMap() {
       const recipe = this.campaignMapRecipe();
       // Reuse only the map's versions; every campaign owner still starts fresh.
-      return this.startNew(this.difficulty.id, String(this.world.seed), this.scenarioId, recipe.landscape189, recipe.cityGeometry202 === 1, recipe);
+      return this.startNew(this.difficulty.id, String(this.world.seed), this.scenarioId, recipe.landscape189, recipe.cityGeometry202 === 1, recipe, recipe.generation === 12 ? true : undefined);
     }
 
-    startNew(id = 'standard', seedText = '', scenarioId = 'classic', landscape189 = 'classic', currentContent194 = false, mapRecipe) {
+    startNew(id = 'standard', seedText = '', scenarioId = 'classic', landscape189 = 'classic', currentContent194 = false, mapRecipe, open217) {
       if(typeof currentContent194!=='boolean'){this.notify('Paramètres de départ invalides.', 'danger');return false;}
+      // O9 : option « Sans bord — expérimental » (génération 12), seulement sur demande et si ses modules sont présents.
+      if(open217!==undefined&&typeof open217!=='boolean'){this.notify('Paramètres de départ invalides.', 'danger');return false;}
+      if(open217===true&&globalThis.DeadwallOpenWorld217?.available?.()!==true){this.notify('Monde sans bord indisponible dans cette version.', 'danger');return false;}
+      if(open217===true){landscape189='classic';currentContent194=true;}
       if(typeof landscape189!=='string'||!Object.hasOwn(C.Landscape189Rules.presets,landscape189)){this.notify('Profil de paysage invalide.', 'danger');return false;}
       if(mapRecipe!==undefined){try{mapRecipe=this.validateCampaignMapRecipe(mapRecipe,landscape189);}catch(error){this.notify(error.message,'danger');return false;}}
       let seed;
@@ -991,7 +997,9 @@
       this.scenarioId = scenario.id;
       this.audio.unlock(); this.difficulty = DIFFICULTIES[id]; this.random = new Random(Date.now()); this.nextId = 1;
       if(this.exploration125){this.exploration125.layoutRevision=mapRecipe?.layoutRevision??(currentContent194?4:3);if(mapRecipe)this.exploration125.generation=mapRecipe.explorationGeneration;}
-      this.world = new WorldMap(seed ?? this.previewMapSeed135 ?? this.freshMapSeed(), mapRecipe?.cityGeometry202 ?? (currentContent194 ? 1 : 0)); this.previewMapSeed135 = null; this.flow = new FlowField(); this.units = []; this.zombies = []; this.projectiles = []; this.particles = []; this.corpses = []; this.floaters = []; this.buckets.clear();
+      const mapSeed = seed ?? this.previewMapSeed135 ?? this.freshMapSeed();
+      // O9 : cité de 192 m née de la description locale de la graine (terrain, gisements, quartiers), sinon la carte historique.
+      this.world = open217 === true ? new WorldMap(mapSeed, 1, C.localMap217(C.LocalMap217Rules.generationTiles[12]), globalThis.DeadwallWorldLocal217.describe(mapSeed)) : new WorldMap(mapSeed, mapRecipe?.cityGeometry202 ?? (currentContent194 ? 1 : 0)); this.previewMapSeed135 = null; this.flow = new FlowField(); this.units = []; this.zombies = []; this.projectiles = []; this.particles = []; this.corpses = []; this.floaters = []; this.buckets.clear();
       this.fieldMarker=null;this.narrative=globalThis.DeadwallNarrative.create();this.workerOrder = 'auto'; this.runId = 'run:' + (globalThis.crypto?.randomUUID?.() || Date.now().toString(36) + ':' + Math.random().toString(36).slice(2));
       this.resources = makeBag({ wood: 180, scrap: 120, stone: 70, food: 130, fuel: 45, ammo: 180, medicine: 12 });
       if (id === 'story') add(this.resources, { wood: 50, scrap: 35, food: 50, ammo: 50 });
@@ -1042,7 +1050,8 @@
         elapsed:this.elapsed, dayClock:this.dayClock, weather:this.weather, weatherTarget:this.weatherTarget, morale:this.morale, rally:this.rally, stats:this.stats, objectiveIndex:this.objectiveIndex, objectiveProgress:this.objectiveProgress, objectiveReady:this.objectiveReady, nextId:this.nextId,
         randomState:this.random.state, research:this.research, activeCrisis:this.activeCrisis, depositedResources:this.depositedResources,
         // O9 (b) : siège adossé de la vague en cours, sur un terrain seulement (carte plate : aucune clé de plus).
-        ...(this.world.terrain217?.sides&&this.openSiege217?.wave===this.wave?{openSiege217:JSON.parse(JSON.stringify(this.openSiege217))}:{})
+        // O9 : seulement pendant une vague (alerte, assaut, après-coup) — un état lu au calme (lecture du siège) n'est pas une vague en cours.
+        ...(this.world.terrain217?.sides&&this.openSiege217?.wave===this.wave&&['warning','assault','aftermath'].includes(this.phase)?{openSiege217:JSON.parse(JSON.stringify(this.openSiege217))}:{})
       };
     }
 

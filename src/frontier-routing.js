@@ -48,6 +48,9 @@ function search(g,near,index){
  const value={dist,parent};cache.set(key,value);if(cache.size>SOURCE_CACHE_LIMIT)cache.delete(cache.keys().next().value);return value;
 }
 function route(world,from,poi){
+ // Monde sans bord O9 : itinéraire borné du monde lui-même (graphe des cantons de départ et d'arrivée, coutures comprises),
+ // prolongé par l'allée du lieu ; aucune liste globale de routes.
+ if(world?.unbounded){const drive=world.connectionFor?.(poi)||poi?.drive;if(!drive||!from||![from.x,from.y,drive.a?.x,drive.a?.y,drive.b?.x,drive.b?.y].every(Number.isFinite))return null;const r=world.route(from,drive.a);if(!r)return null;const tail=Math.hypot(drive.b.x-drive.a.x,drive.b.y-drive.a.y);return{path:[...r.path,{x:drive.b.x,y:drive.b.y}],metres:r.metres+tail,roadMetres:r.roadMetres,connectorMetres:r.connectorMetres+tail};}
  if(world?.connectionFor){const drive=world.connectionFor(poi);if(!drive)return null;poi={...poi,drive};}
  if(!from||!Number.isFinite(from.x)||!Number.isFinite(from.y)||!world?.roads?.length||!poi?.drive||![poi.drive.a,poi.drive.b].every(p=>p&&Number.isFinite(p.x)&&Number.isFinite(p.y)))return null;
  let homeBarrier=null,homeOrigin=null;

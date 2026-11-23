@@ -154,7 +154,12 @@ function install(g){
    const plan=g.exploration125?.generation===4?g.exploration125.plan:null;if(!plan)return[];
    return (plan.stations||[]).map((b,i)=>({id:'solar-d17-'+i,kind:'solar',domain,x:b.x-b.w/2-18,y:b.y+b.h/2+18,z:0,inside:null,r:R.fixtureRadius*32,color:'#c8dcbb',on:true,angle:0,half:Math.PI}));
   }
-  const w=g.frontier.world(),p=position();if(w!==fixtureWorld){fixtureWorld=w;fixtureCache=[];const G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null);
+  const w=g.frontier.world(),p=position();
+  // Monde sans bord O9 : panneaux des lieux voisins seulement (même règle par lieu), gardés par identifiant de lieu.
+  if(w.unbounded){if(w!==fixtureWorld){fixtureWorld=w;fixtureCache=new Map();}const G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null),out=[];
+   for(const b of w.nearPOI(p.x,p.y,130)){if(!fixtureCache.has(b.id)){let e=null;if(['fuel','firestation','bunker','generatorRoom','freight','townhall'].includes(b.type)&&G.hash(w.seed,b.id,'solar')%3===0){const q=G.global(b,b.w/2,-2);if(!w.blocked(q.x,q.y,.1,0,null))e={id:'solar-'+b.id,kind:'solar',domain:'region',...q,z:0,inside:null,r:R.fixtureRadius,color:'#c8dcbb',on:true,angle:0,half:Math.PI};}fixtureCache.set(b.id,e);if(fixtureCache.size>512)fixtureCache.delete(fixtureCache.keys().next().value);}const e=fixtureCache.get(b.id);if(e)out.push(e);}
+   return out.filter(e=>Math.hypot(e.x-p.x,e.y-p.y)<100).sort((a,b)=>Math.hypot(a.x-p.x,a.y-p.y)-Math.hypot(b.x-p.x,b.y-p.y)).slice(0,R.fixtureMax);}
+  if(w!==fixtureWorld){fixtureWorld=w;fixtureCache=[];const G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null);
    for(const b of w.pois){if(!['fuel','firestation','bunker','generatorRoom','freight','townhall'].includes(b.type)||G.hash(w.seed,b.id,'solar')%3!==0)continue;const q=G.global(b,b.w/2,-2);if(!w.blocked(q.x,q.y,.1,0,null))fixtureCache.push({id:'solar-'+b.id,kind:'solar',domain:'region',...q,z:0,inside:null,r:R.fixtureRadius,color:'#c8dcbb',on:true,angle:0,half:Math.PI});}
   }
   return fixtureCache.filter(e=>Math.hypot(e.x-p.x,e.y-p.y)<100).sort((a,b)=>Math.hypot(a.x-p.x,a.y-p.y)-Math.hypot(b.x-p.x,b.y-p.y)).slice(0,R.fixtureMax);

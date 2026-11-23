@@ -104,17 +104,21 @@ test('monde ouvert 217 : itinéraire borné à quelques cantons, continu, symét
   }
 });
 
-test('monde ouvert 217 : module isolé, génération 12 refusée, mondes G1–G11 intouchés',()=>{
+test('monde ouvert 217 : module chargé par le jeu depuis O9 (option « Sans bord »), mondes G1–G11 intouchés',()=>{
   const source=read('src/world-open217.js'),code=source.replace(/\/\/.*$/gm,'');
   assert.ok(!/Math\.random|Math\.hypot|Math\.pow|Date\.now|performance\.|localStorage|document\b|setTimeout|setInterval/.test(code),'module pur et portable');
   assert.deepEqual([...source.matchAll(/require\('([^']+)'\)/g)].map(m=>m[1]),['./core.js','./world-cantons217.js','./world-canton-gen217.js']);
   assert.ok(!/G\.hash|G\.rng|Frontier|Geography135|geography141|WorldContent|expansions|\.taken\b/.test(code),'aucun flux ni registre des générations 1 à 11');
-  for(const file of ['index.html','sw.js','scripts/server.mjs','scripts/build.mjs','scripts/public-manifest183.cjs','src/expansion-kit.js','src/expansion-ui.js'])assert.ok(!read(file).includes('world-open217')&&!read(file).includes('WorldOpen217'),file);
-  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(!['world-open217.js','world-sites217.js','world-save217.js','core.js'].includes(file)){const text=read('src/'+file);assert.ok(!text.includes('WorldOpen217')&&!text.includes('world-open217'),file+' ne doit pas dépendre du monde ouvert');}
+  // O9 : script public chargé par le jeu (index.html après le cœur, sw.js) ; toujours absent des outils de build et des tables du registre des opérations.
+  {const html=read('index.html'),at=x=>html.indexOf('<script src="src/'+x+'"></script>');assert.ok(at('core.js')>=0&&at('core.js')<at('world-open217.js'),'chargé après le cœur');assert.ok(read('sw.js').includes('"src/world-open217.js"'));}
+  for(const file of ['scripts/server.mjs','scripts/build.mjs','scripts/public-manifest183.cjs','src/expansion-kit.js','src/expansion-ui.js'])assert.ok(!read(file).includes('world-open217')&&!read(file).includes('WorldOpen217'),file);
+  // Lecteurs : les lieux et la sauvegarde G12, frontier-world pour les limites de la génération 12 seulement.
+  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(!['world-open217.js','world-sites217.js','world-save217.js','core.js','frontier-world.js'].includes(file)){const text=read('src/'+file);assert.ok(!text.includes('WorldOpen217')&&!text.includes('world-open217'),file+' ne doit pas dépendre du monde ouvert');}
   const Wd=require('../src/frontier-world.js'),St=require('../src/frontier-state.js');
-  assert.throws(()=>Wd.create(17117,K.RULES.reservedGeneration),/Version du monde inconnue/);
-  assert.throws(()=>St.normalize({...St.initial(),generation:K.RULES.reservedGeneration}),/Génération inconnue/);
-  assert.ok(!/sans bord/i.test(read('index.html')),'aucune option de menu');
+  assert.ok(read('src/frontier-world.js').includes("const limitsForGeneration=g=>g===12&&openLimits217()?openLimits217():limits(sizeForGeneration(g));"),'limites G12 lues seulement pour la génération 12');
+  assert.equal(Wd.create(17117,K.RULES.reservedGeneration).unbounded,true);assert.deepEqual(Object.keys(Wd.limitsForGeneration(12)).sort(),Object.keys(O.LIMITS).sort());
+  assert.throws(()=>St.normalize({...St.initial(),generation:K.RULES.reservedGeneration}),/Génération inconnue|incomplet/);
+  assert.ok(/<select id="worldOpen217"[^>]*><option value="finite" selected>Région finie \(défaut\)<\/option><option value="open">Sans bord — expérimental<\/option>/.test(read('index.html')),'option de menu, région finie par défaut');
   const print=world=>crypto.createHash('sha256').update(JSON.stringify([world.size,world.home,world.roads,world.pois.map(p=>[p.id,p.x,p.y,p.name]),world.towns])).digest('hex');
   const before=[print(Wd.create(17117,4)),print(Wd.create(42,11))];
   for(const seed of [17117,42]){const w=O.create(seed);w.route({x:w.home.x,y:w.home.y},{x:w.home.x+1500,y:w.home.y});w.sitesNear(0,0,2048);}

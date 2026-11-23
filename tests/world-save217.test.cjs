@@ -26,17 +26,21 @@ function walk(world,length=60,offset=0){
 const world=S.create(SEED);
 const trip=walk(world);
 
-test('sauvegarde G12 : règles, génération 12 fermée partout, chemin séparé de frontier-state branché mais inactif',()=>{
- assert.ok(Object.isFrozen(R)&&M.RULES===R);assert.equal(R.maxCantons,64);assert.equal(R.open,false);assert.equal(M.opened(),false);
+test('sauvegarde G12 : règles, génération 12 ouverte par O9 seulement par ce module, chemin séparé de frontier-state',()=>{
+ assert.ok(Object.isFrozen(R)&&M.RULES===R);assert.equal(R.maxCantons,64);assert.equal(R.open,true,'O9 : ouverte derrière l’option de menu');assert.equal(M.opened(),true);
  assert.equal((read('src/core.js').match(/WorldSave217Rules=/g)||[]).length,1);
  const g12=M.normalize(trip.state);
- // Module absent (le jeu) ou présent mais fermé : la génération 12 reste inconnue, comme avant.
- for(const present of [false,true]){
-  if(present)globalThis.DeadwallWorldSave217=M;
-  try{assert.throws(()=>St.normalize(copy(g12)),/Génération inconnue/);assert.throws(()=>St.validate(copy(g12),trip.data),/Génération inconnue/);
-   assert.throws(()=>St.normalize({...St.initial(),generation:12}),/Génération inconnue/);assert.throws(()=>Wd.create(SEED,12),/Version du monde inconnue/);}
-  finally{delete globalThis.DeadwallWorldSave217;}
- }
+ // Module absent : la génération 12 reste inconnue de frontier-state, comme avant.
+ assert.equal(globalThis.DeadwallWorldSave217,undefined);
+ assert.throws(()=>St.normalize(copy(g12)),/Génération inconnue/);assert.throws(()=>St.validate(copy(g12),trip.data),/Génération inconnue/);
+ assert.throws(()=>St.normalize({...St.initial(),generation:12}),/Génération inconnue/);
+ // Module présent et ouvert (le jeu depuis O9) : registre G12 exact seulement ; un registre historique marqué 12 est refusé.
+ globalThis.DeadwallWorldSave217=M;
+ try{assert.deepEqual(St.normalize(copy(g12)),g12);assert.throws(()=>St.normalize({...St.initial(),generation:12}),/incomplet/);}
+ finally{delete globalThis.DeadwallWorldSave217;}
+ // frontier-world aiguille la génération 12 vers le monde sans bord (src/openworld217.js) ; 13 reste inconnue.
+ assert.equal(Wd.create(SEED,12).unbounded,true);assert.throws(()=>Wd.create(SEED,13),/Version du monde inconnue/);
+ assert.equal(Wd.limitsForGeneration(12).extent().bounded,false);assert.equal(Wd.limitsForGeneration(11).extent().bounded,true);
  assert.throws(()=>C.migrateSaveData({version:20,frontier:copy(g12)}));
  // Ouvert (simulé ici seulement) : frontier-state délègue les deux appels au module, rien d'autre.
  const calls=[];globalThis.DeadwallWorldSave217={...M,opened:()=>true,normalize:raw=>{calls.push('n');return M.normalize(raw);},validate:(st,d)=>{calls.push('v');return M.validate(st,d);}};
@@ -113,8 +117,8 @@ test('sauvegarde G12 : falsifications refusées',()=>{
   'note sur lieu non repéré':s=>{s.notes[K.entityId(c.cx,c.cy,'site',997)]='todo';},
   'clé inconnue':s=>{s.extra=1;},
   'clé absente':s=>{delete s.cantons;},
-  'relief d’une autre version':s=>{s.reliefVersion++;},
-  'détail d’une autre version':s=>{s.detailVersion=12;},
+  'relief non entier':s=>{s.reliefVersion=1.5;},
+  'détail nul':s=>{s.detailVersion=0;},
   'écologie G1–G11':s=>{s.ecologyVersion=1;},
   'position hors adressage':s=>{s.x=O.LIMITS.axisMax(.32)+1;},
   'position non mesurable':s=>{s.y=NaN;},
@@ -124,6 +128,15 @@ test('sauvegarde G12 : falsifications refusées',()=>{
   'étage sans lieu':s=>{s.z=1;},
  };
  for(const[name,mutate]of Object.entries(cases)){const s=copy(base);mutate(s);assert.throws(()=>M.validate(JSON.parse(JSON.stringify(s,(k,v)=>Number.isNaN(v)?'NaN':v),(k,v)=>v==='NaN'?NaN:v),trip.data),Error,name);}
+ // D-O4 (« évoluer, puis geler ») : un registre d'une autre révision du générateur reste lisible, garde ses versions d'origine
+ // et n'est vérifié que sur sa forme (ses lieux peuvent ne plus exister) ; une falsification de forme reste refusée.
+ for(const mutate of [s=>{s.reliefVersion++;},s=>{s.sitesVersion++;},s=>{s.detailVersion=12;}]){
+  const r=copy(base);mutate(r);const back=M.validate(copy(r),trip.data);
+  assert.equal(back.reliefVersion,r.reliefVersion);assert.equal(back.sitesVersion,r.sitesVersion);assert.equal(back.detailVersion,r.detailVersion);
+  assert.equal(M.lastValidation().revised,true);assert.equal(M.lastValidation().strict.length,0);assert.ok(M.lastValidation().formOnly.length>0);
+  const bad=copy(r);bad.seen.push(bad.seen[0]);assert.throws(()=>M.validate(bad,trip.data),/double/);
+ }
+ M.validate(copy(base),trip.data);assert.equal(M.lastValidation().revised,undefined,'même révision : vérification complète');
  // Joueur déplacé dans la cité pendant la sortie ; voiture étrangère à la campagne.
  assert.throws(()=>M.validate(base,{...trip.data,player:{x:10,y:10}}),/Position locale/);
  const withCar=copy(base);withCar.car={id:7,x:base.x,y:base.y,a:0,driving:false};assert.throws(()=>M.validate(withCar,trip.data),/Voiture étrangère/);M.validate(withCar,{...trip.data,expeditions:{vehicle:{id:7}}});
@@ -163,16 +176,19 @@ test('sauvegarde G12 : carnet de reconnaissance par canton (`K…:cell:n`), carn
  assert.throws(()=>A.normalize({...A.initial(),cells:['K0_0:cell:0']}),/Secteurs parcourus/);assert.equal(A.cell(100,100),A.cell(100,100));assert.equal(A.cell(-1,0),-1);
 });
 
-test('sauvegarde G12 : module isolé — absent du jeu, lu par frontier-state seulement, aucun flux des générations 1 à 11',()=>{
+test('sauvegarde G12 : module chargé par le jeu depuis O9, lu par frontier-state et l’ouverture seulement, aucun flux des générations 1 à 11',()=>{
  const source=read('src/world-save217.js'),code=source.replace(/\/\/.*$/gm,'');
  assert.ok(!/Math\.random|Date\.now|performance\.|localStorage|document\b|setTimeout|setInterval/.test(code),'module pur');
  assert.deepEqual([...source.matchAll(/require\('([^']+)'\)/g)].map(m=>m[1]),['./core.js','./world-cantons217.js','./world-open217.js','./world-sites217.js','./frontier-geometry.js']);
  assert.ok(!/G\.rng|F\.rng|F\.hash|Geography135|geography141|WorldContent|expansions|W\.create/.test(code),'aucun flux ni monde des générations 1 à 11');
- for(const file of ['index.html','sw.js','scripts/server.mjs','scripts/build.mjs','scripts/public-manifest183.cjs','src/expansion-kit.js','src/expansion-ui.js'])assert.ok(!read(file).includes('world-save217')&&!read(file).includes('WorldSave217'),file);
- for(const file of fs.readdirSync(path.join(ROOT,'src')))if(!['world-save217.js','core.js','frontier-state.js'].includes(file)){const text=read('src/'+file);assert.ok(!text.includes('WorldSave217')&&!text.includes('world-save217'),file+' ne doit pas lire la sauvegarde G12');}
+ // O9 : script public (index.html, sw.js), toujours absent des outils de build et des tables du registre des opérations.
+ assert.ok(read('index.html').includes('<script src="src/world-save217.js"></script>')&&read('sw.js').includes('"src/world-save217.js"'));
+ for(const file of ['scripts/server.mjs','scripts/build.mjs','scripts/public-manifest183.cjs','src/expansion-kit.js','src/expansion-ui.js'])assert.ok(!read(file).includes('world-save217')&&!read(file).includes('WorldSave217'),file);
+ // Lecteurs : frontier-state, l'ouverture (src/openworld217.js), le registre des cantons vus de frontier.js, l'aperçu de la fiche ; aucun autre.
+ for(const file of fs.readdirSync(path.join(ROOT,'src')))if(!['world-save217.js','core.js','frontier-state.js','openworld217.js','frontier.js'].includes(file)){const text=read('src/'+file);assert.ok(!text.includes('WorldSave217')&&!text.includes('world-save217'),file+' ne doit pas lire la sauvegarde G12');}
  // frontier-state ne charge pas le module : il ne le lit que s'il est déjà présent, et s'il est ouvert.
  const fs217=read('src/frontier-state.js');assert.ok(!fs217.includes('world-save217'));assert.equal((fs217.match(/DeadwallWorldSave217/g)||[]).length,1);assert.ok(fs217.includes('M&&M.opened()?M:null'));
- const dist=path.join(ROOT,'dist');if(fs.existsSync(dist))assert.ok(!fs.existsSync(path.join(dist,'src','world-save217.js')));
+ const dist=path.join(ROOT,'dist');if(fs.existsSync(path.join(dist,'index.html'))&&fs.readFileSync(path.join(dist,'index.html'),'utf8').includes('world-save217'))assert.ok(fs.existsSync(path.join(dist,'src','world-save217.js')),'build O9 : le module publié accompagne sa balise');
  assert.equal(globalThis.DeadwallWorldSave217,undefined,'aucune globale posée sous Node');
 });
 

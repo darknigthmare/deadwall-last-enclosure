@@ -25,6 +25,8 @@
  const F=root.DeadwallFrontierGeometry||(node?require('./frontier-geometry.js'):null);
  const R=C.WorldSave217Rules,L=O.LIMITS,SITES=S.RULES,PER=K.SIZE/SITES.chunk;
  const CELLS=K.SIZE/C.FieldAtlas.RULES.cell;
+ // O9 : l'ancre de retour est un point de la carte de la cité G12 (192 cases, D-O5), et non plus de celle de 128 m.
+ const LOCAL=C.LocalMap217Rules.generationTiles[12]*C.TILE;
  const INT='(?:0|-?[1-9]\\d{0,6})',SITE='K'+INT+'_'+INT+':site:(?:0|[1-9]\\d{0,4})';
  const SITE_ID=new RegExp('^'+SITE+'$'),TAKEN_SITE=new RegExp('^('+SITE+'):(-?[0-9]|car|out):(0|[1-9]\\d{0,5})$'),ENEMY=new RegExp('^('+SITE+'):e(0|[1-9]\\d{0,2})$');
  const SCENERY=Object.freeze({arbre:SITES.trees,roche:SITES.rocks});
@@ -55,13 +57,15 @@
  function normalize(raw){
   if(!plain(raw)||raw.version!==2||raw.generation!==12)bad('Registre régional G12 invalide.');
   if(Object.keys(raw).some(k=>!KEYS.includes(k))||KEYS.some(k=>!(k in raw)))bad('Registre régional G12 incomplet.');
-  const v=versions();if(raw.reliefVersion!==v.reliefVersion||raw.sitesVersion!==v.sitesVersion||raw.detailVersion!==v.detailVersion)bad('Règles de génération G12 différentes.');
+  // D-O4 (« évoluer, puis geler ») : un registre écrit sous une autre révision du générateur reste lisible ; il garde ses versions
+  // d'origine (signalé « monde révisé » par src/openworld217.js) et sa validation se fait sur la forme seule (voir `validate`).
+  const v={reliefVersion:raw.reliefVersion,sitesVersion:raw.sitesVersion,detailVersion:raw.detailVersion};if(Object.values(v).some(n=>!Number.isInteger(n)||n<1||n>1e6))bad('Règles de génération G12 invalides.');
   if(raw.ecologyVersion!==0||raw.hydrologyVersion!==0||!plain(raw.wildlife165)||Object.keys(raw.wildlife165).length)bad('Population naturelle incompatible avec la génération 12.');
   if(typeof raw.quiet!=='boolean'||typeof raw.active!=='boolean')bad('État régional invalide.');
   const s={version:2,generation:12,...v,ecologyVersion:0,hydrologyVersion:0,quiet:raw.quiet,tracks:{},notes:{},pin:null,active:raw.active,x:0,y:0,z:0,inside:null,a:0,anchor:null,car:null,seen:[],taken:{},enemies:{},wildlife165:{},distance:0,shots:0,kills:0,cantons:[]};
   s.x=num(raw.x,L.axisMin(.32),L.axisMax(.32));s.y=num(raw.y,L.axisMin(.32),L.axisMax(.32));s.z=num(raw.z,-1,2,true);s.a=num(raw.a,-1e5,1e5);
   if(raw.inside!==null&&!siteOK(raw.inside))bad('Lieu absent.');s.inside=raw.inside;
-  if(raw.anchor!==null){if(!plain(raw.anchor)||Object.keys(raw.anchor).length!==2)bad('Ancre absente');s.anchor={x:num(raw.anchor.x,0,4096),y:num(raw.anchor.y,0,4096)};}
+  if(raw.anchor!==null){if(!plain(raw.anchor)||Object.keys(raw.anchor).length!==2)bad('Ancre absente');s.anchor={x:num(raw.anchor.x,0,LOCAL),y:num(raw.anchor.y,0,LOCAL)};}
   if(s.active&&!s.anchor)bad('Sortie sans point de retour.');if(!s.active&&s.z!==0)bad('Étage hors région.');if(s.z!==0&&s.inside===null)bad('Étage sans lieu.');
   if(raw.car!==null){const c=raw.car;if(!plain(c)||typeof c.driving!=='boolean'||Object.keys(c).length!==5)bad('État de voiture invalide.');s.car={id:num(c.id,1,2147483646,true),x:num(c.x,L.axisMin(3),L.axisMax(3)),y:num(c.y,L.axisMin(3),L.axisMax(3)),a:num(c.a,-1e5,1e5),driving:c.driving};if(c.driving&&(!s.active||s.z!==0||Math.hypot(c.x-s.x,c.y-s.y)>.001))bad('Conducteur et voiture désynchronisés.');}
   // Cantons vus : identifiants canoniques, sans doublon, plafonnés.
@@ -115,7 +119,9 @@
   const strict=list.slice(0,cap),loose=list.slice(cap);
   // Cache de cantons assez grand pour garder tous les cantons vérifiés : aucun n'est généré deux fois.
   const w=S.create(data.worldSeed,{open:{cache:{capacity:R.maxCantons+25}}}),before=w.streamStats().generated;
-  if(w.reliefVersion!==s.reliefVersion||w.sitesVersion!==s.sitesVersion)bad('Règles de génération G12 différentes.');
+  // D-O4 : registre d'une autre révision — les lieux qu'il cite peuvent ne plus exister à cette révision ; contrôle de forme seul.
+  const revised=w.reliefVersion!==s.reliefVersion||w.sitesVersion!==s.sitesVersion||SITES.detailVersion!==s.detailVersion;
+  if(revised){last=Object.freeze({cited:list.length,strict:Object.freeze([]),formOnly:Object.freeze(list.map(b=>b.id)),generated:0,cantons:Object.freeze(w.streamStats()),revised:true});return s;}
   for(const b of strict){
    const site=id=>w.site(id);
    for(const id of b.seen)if(!site(id))bad('Lieu absent de cette graine.');

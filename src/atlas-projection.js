@@ -5,6 +5,8 @@ function home(context){
  if(context?.home&&Number.isFinite(context.home.x))return context.home;
  const seed=context?.worldSeed??context?.world?.seed??context?.seed;
  const generation=context?.frontier?.position?.().generation??context?.frontier?.generation??context?.generation??3;
+ // O9 : cité sans bord (génération 12) : cadre de 192 m de la carte locale de la graine.
+ if(generation===12&&Number.isInteger(seed)){const O=root.DeadwallOpenWorld217||(typeof require==='function'?require('./openworld217.js'):null);if(!O?.available())throw Error('Monde sans bord absent');return O.home(seed);}
  if(generation>=6&&Number.isInteger(seed)){const geo=Geo();if(!geo)throw Error('Géographie régionale absente');return geo.home(seed,generation);}
  return{x:R.center,y:R.center,minX:R.homeMin,minY:R.homeMin,maxX:R.homeMax,maxY:R.homeMax,size:R.homeSize};
 }

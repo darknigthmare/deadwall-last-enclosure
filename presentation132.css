@@ -273,5 +273,5 @@
 }
 
 /* Versioned landscape selection lives in the same scrollable native menu. */
-.title132 #worldLandscape189 { display:block; width:100%; max-width:100%; min-height:44px; margin-top:5px; }
-.title132 #landscapeHint189 { margin:5px 18px; font-size:10px; line-height:1.5; }
+.title132 #worldLandscape189, .title132 #worldOpen217 { display:block; width:100%; max-width:100%; min-height:44px; margin-top:5px; }
+.title132 #landscapeHint189, .title132 #worldOpenHint217 { margin:5px 18px; font-size:10px; line-height:1.5; }

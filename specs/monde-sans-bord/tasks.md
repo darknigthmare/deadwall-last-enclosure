@@ -1422,17 +1422,104 @@ même vague sur quatre fronts). Toujours atteint par un harnais seulement : la g
   vague par graine dans les relevés ; une vague de l'âge 6 dure plus de 11 min au plafond (à éprouver en jeu : tension
   ou ennui ?) ; les cités à deux côtés restent plus fragiles que sur quatre fronts à l'âge 6 ; rien n'a été joué en G12
   par le menu.
+## O9 — Ouverture « Sans bord — expérimental » (livré : premier effet en jeu, derrière l'option de menu)
+
+Fiche : [ouverture.md](ouverture.md), O9 (décisions D-O1, D-O2, D-O3, D-O4 « évoluer, puis geler », D-O5). Portée choisie par
+l'utilisateur : cité + sorties. La région finie reste le défaut ; une campagne lancée sans l'option est identique octet pour
+octet à la base.
+
+- [x] O9.1 Option de menu (`index.html`, ligne `seed-controls` après `worldLandscape189`) : « MONDE » — *Région finie (défaut)* /
+      *Sans bord — expérimental*, texte d'aide (générateur susceptible de changer, « monde révisé », non convertible, profil
+      de biomes sans objet) ; rangée dans le volet « Carte personnalisée et bilans » (`presentation132.js`, `.css`).
+      `requestNewGame` passe un septième argument `open217` à `startNew` (validé : `true` ou absent) ; « rejouer la carte » et
+      « nouvelle carte » après une défaite gardent l'option. `startNew` construit la cité de 192 m née de
+      `DeadwallWorldLocal217.describe(graine)` (géométrie de cité 1, contenu actuel) ; module absent : refus avec message.
+- [x] O9.2 Registre G12 au départ : `frontier.js` (`fresh217`) pose `DeadwallWorldSave217.initial(cadre)` sur une cité de
+      terrain ; `world-pack131` ne rejoue pas les versions G5–G11 en G12. `C.WorldSave217Rules.open` passe à vrai.
+- [x] O9.3 Branchement : `frontier-world.create(…, 12)` → `DeadwallOpenWorld217.region` (façade sur `world-sites217`) ;
+      `limitsForGeneration(12)` = limites d'O1 ; `atlas-projection.home` = cadre de 192 m de la carte locale ;
+      `frontier-state.normalize` accepte 12 par le module ouvert ; `frontier.js` : registre des cantons vus (commandant,
+      voiture, lieux repérés), porte de retour à la taille de la carte de la campagne, arrivée exigée atteinte depuis le
+      centre (« Ce bord de D-17 est fermé par le relief »), profil des occupants G12 ; `frontier-routing.route` délègue au
+      monde sans bord ; `world-evolution` tire ses hordes par `pickRoad` (8-9), garde son cap sans route proche ;
+      `world-evolution-state` borne positions et structures G12 (identifiants `K…:site:n`) ; `night-gear` lit les panneaux des
+      lieux voisins ; `frontier-art` peint relief (paliers, eau, falaises) et routes des cantons de la vue ; `world-save217`
+      borne l'ancre à la carte de 192 m.
+- [x] O9.4 T5.2 chargement par anneau : `prefetch` (déjà appelé par la boucle régionale au point visé, 3 m à pied, 45 m en
+      voiture) prépare au plus **un** canton (lieux) par image dans l'anneau de 3 × 3 cantons
+      (`C.OpenWorld217Rules.prefetch`).
+- [x] O9.5 Façade : `nearestRoad` sur le tracé des routes (et non les centres de maille de 32 m), indexé par cases de 64 m,
+      identique au parcours complet ; `roadsIn(vue)` ; `biomeAt` (maille du canton) ; `wildlifeWater*`.
+- [x] O9.6 Lieux G12 hors du cadre de la cité : `world-sites217` n'admet plus de lot, arbre ni rocher dans les 192 m de D-17
+      (le plat de 64 m n'en couvrait que le centre ; quatre lieux de 17117 tombaient dans la cité).
+- [x] O9.7 Module d'extension `openworld217` (`src/openworld217.js`, liste blanche, `ORDER`, `GROUPS`, `API_NAMES`,
+      `LABELS`) : marque « expérimental » et révision `{open, canton, relief, sites, local}` ; `reset()` actif sur l'option
+      seulement ; `validate(undefined)` inactif ; G12 sans marque, marque sur une région finie : refusés ; instantané inactif
+      retiré de la sauvegarde (aucune clé de plus) ; retiré du poste de commandement hors campagne sans bord
+      (`available`). D-O4 : révision différente → reprise jouable, « Monde révisé » notifié et affiché, registre vérifié sur sa
+      forme seule (`world-save217`).
+- [x] O9.8 Fiche de graine (`seed-card217`) : en G12 et à l'aperçu avec l'option, fiche de la carte locale — monde
+      expérimental, relief, côtés fermés et leur cause, passages et largeurs, milieu, eau, falaise, ouverture, conseil sur les
+      fronts ; aperçu pur (aucun tirage) ; le worker d'aperçu charge les trois modules de la carte locale.
+- [x] O9.9 Scripts publics : `world-cantons217`, `world-canton-gen217`, `world-local217`, `world-open217`, `world-sites217`,
+      `world-save217`, `terrain-art217`, `terrain-fps217` (après `world-stream131`, le cœur étant chargé après
+      `frontier-world.js`) et `openworld217` (après `world-pack131`) : `index.html`, `sw.js`, manifeste 218 scripts /
+      244 entrées. Gardes d'isolement remplacées par « chargé, sans effet en G1–G11 » (ordre, lecteurs autorisés nommés,
+      outils de build exclus) plus le test de comportement à globales empoisonnées.
+- [x] O9.10 Cohérence vue/tir révélée par le chargement réel de `terrain-fps217` (le test d'O6c tournait sans le module) :
+      `sightQuery` refuse un contrebas masqué par le rebord du plateau de la bouche (même sol que `raycast`) ; l'affût ne
+      gaspille plus ses munitions sur un « angle mort ».
+- [x] O9.11 Tests : `tests/openworld217.test.cjs` (7 cas) ; tests d'isolement adaptés ; harnais
+      `tests/open-siege217-sides.test.cjs` (marque ajoutée à la reprise).
+- [x] O9.12 Harnais navigateur (T5.6) `scripts/browser-openworld217.mjs <port> <dossier> [km]` : menu (option, aperçu de la
+      fiche), départ par le bouton, vague 5 jouée en temps réel, puis boucle du jeu suspendue et images pas à pas (rendu une
+      image sur deux) : garage et voiture, voiture posée sur la voie d'entrée est, sortie au volant, étapes de 2,5 km par
+      `route` vers l'est, sauvegarde et reprise en sortie, retour par le même procédé jusqu'à la porte est, sauvegarde et
+      reprise dans la cité. Le harnais remplit le réservoir et répare la caisse à chaque image et prolonge le calme de la cité.
+- [x] O9.13 Retour au volant d'une voiture métrique : la porte de la cité (60 unités du bord) n'était jamais libre pour un
+      gabarit réel ; `leave` cherche, après la recherche latérale d'origine, une arrivée jusqu'à 192 unités plus avant dans la
+      cité sur la même porte (voiture métrique seulement ; une recherche qui réussissait avant ne change pas).
+- [x] O9.14 Siège adossé sauvegardé pendant une vague seulement (`serialize`) : un état lu au calme (`openSiegeState217`)
+      rendait la sauvegarde invalide (« vague ») après la première lecture du siège.
+- [x] O9.15 Monde sans bord : un segment plus long que `WorldSites217Rules.maxLine` (512 m) est une ligne obstruée pour la
+      boucle régionale (`line`, `movementLine`, `lineOfSight`, `wildlifeWaterLine`), jamais une erreur.
+- Mesures (navigateur headless, machine partagée ; graine 17117) :
+  - Boucle complète à 3,6 km (`shots-3km`) : sortie au volant par le passage est, aller 3 575 m (2 étapes routées),
+    sauvegarde en sortie acceptée (65,7 ko) et reprise en 0,8 s (registre identique), retour jusqu'à la porte est puis
+    dans la cité (au volant), sauvegarde et reprise dans la cité (génération 12, marque active) ; 4 cantons vus, empreintes
+    identiques aux deux passages ; 20 032 images : médiane 17,3 ms, p95 86,8 ms, p99 131 ms, maximum 281 ms ; à moins de
+    40 m d'une couture (1 690 images) : maximum 191 ms. Aucune erreur de page.
+  - Trajet de 20 km (`shots-20km`) : aller jusqu'à 20 582 m à l'est (9 étapes routées), sauvegarde (69,1 ko) et reprise
+    en 1,2 s en pleine sortie, registre identique ; le retour a atteint 12 887 m avant l'arrêt de la machine (deux
+    redémarrages de l'environnement ont interrompu les trajets longs, aucune erreur de page avant l'arrêt). Les empreintes
+    des 21 cantons de l'aller (K0_0 à K20_0 : `digest` du canton, identifiants et positions des lieux) relevées dans le
+    navigateur sont identiques à celles d'un monde G12 neuf calculé sous Node (même chemin que la reprise).
+  - Vague 5 sur 17117 : fronts est (96 m) et ouest (32 m), ligne « Vague 5 par l’est (96 m) et l’ouest (32 m). ».
+- Réserves : le retour complet de 20 km n'a pas été mené jusqu'à la porte (arrêts de la machine) — boucle complète prouvée à
+  3,6 km seulement ; images lentes (200–390 ms) dans le headless logiciel, de nuit surtout, sans pic propre aux coutures (le
+  coût par canton est étalé par la préparation d'un canton par image) ; itinéraire borné à 25 cantons (T5.3, graphe macro à
+  faire) ; aucune faune, écologie ni épave en G12 (T5.4) ; atlas et minicarte toujours bornés (O10 : l'atlas n'affiche pas
+  les routes au-delà d'une vue de 4 km) ; D-O4 : à la reprise d'une campagne d'une autre révision, **tous** les cantons sont
+  régénérés par la révision courante (les cantons déjà vus aussi ; seuls les écarts sauvegardés sont gardés) ; la cité
+  elle-même est rebâtie sur le terrain de la révision courante (des bâtiments peuvent alors se trouver sur un autre
+  palier) ; la ligne « GPS RÉGIONAL · M » de la minicarte reste affichée un instant au retour dans la cité ; la caisse et le
+  réservoir sont entretenus par le harnais (combat et carburant non mesurés) ; mesures d'équilibrage d'O7 non rejouées dans
+  une partie lancée par le menu.
+- Innocuité : procédures 3 (`o9a/proc3.cjs`, `o9b/proc3.cjs`, base `c4c5c1b`) identiques octet pour octet ; mondes G1–G11
+  des huit graines : `audit-campaign-sites205` sans aucune différence hors sources ; partie sans l'option : aucun module G12
+  lu (test à globales empoisonnées), sauvegarde sans clé `openworld217`.
 
 ## T5 — Ouverture expérimentale
 
-- [ ] T5.1 `src/world-open217.js` : façade ; aiguillage dans `frontier-world.create`.
-- [ ] T5.2 Chargement par anneau dans la boucle de `frontier.js`, un canton par image.
-- [ ] T5.3 Itinéraire : graphe chargé + graphe macro des coutures.
-- [ ] T5.4 Migrations, épaves, faune sur cantons chargés (D5).
-- [ ] T5.5 Réglage « Monde sans bord (expérimental) » à la création de campagne ; module
-      d'extension enregistré (`reset()` actif, `validate(undefined)` inactif).
-- [ ] T5.6 Harnais navigateur G12 : 20 km, sauvegarde, reprise, retour.
-- Décision requise : D3.
+- [x] T5.1 Façade régionale (`src/openworld217.js`, `region`) sur le monde d'O2 ; aiguillage dans `frontier-world.create` (O9).
+- [x] T5.2 Chargement par anneau dans la boucle de `frontier.js`, un canton par image (O9.4).
+- [ ] T5.3 Itinéraire : graphe chargé (**fait**, borné à 25 cantons par `world-open217.route`) + graphe macro des coutures
+      (**à faire** : au-delà, le GPS ne propose pas d'itinéraire).
+- [ ] T5.4 Migrations et hordes tirées par `pickRoad` (**fait**) ; épaves et faune sur cantons chargés (**à faire** : aucune
+      faune ni écologie en G12, `ecologyVersion` 0).
+- [x] T5.5 Réglage « Sans bord — expérimental » à la création de campagne ; module d'extension enregistré (O9.1, O9.7).
+- [x] T5.6 Harnais navigateur G12 : 20 km, sauvegarde, reprise, retour (`scripts/browser-openworld217.mjs`, O9.12).
+- Décision D3 : prise (option « expérimental », région finie par défaut).
 
 ## T6 — Atlas et minicarte
 

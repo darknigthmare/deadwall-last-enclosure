@@ -69,7 +69,7 @@ function ring(w, r) {
 test('O7 : règles gelées, fonctions pures, et le repli est l’identité en G1–G11 (vagues 1 à 60, trois difficultés)', () => {
   assert.ok(Object.isFrozen(R) && Object.isFrozen(R.foldShares) && Object.isFrozen(R.passRate) && Object.isFrozen(O));
   assert.deepEqual(JSON.parse(JSON.stringify(R)), { version: 1, generation: 12, foldShares: { basis: 'width', minShare: .1 }, passRate: { perMetre: .25, min: 1, max: 1.5 }, minFronts: 1 });
-  assert.equal(C.WorldSave217Rules.open, false, 'la génération 12 reste fermée');
+  assert.equal(C.WorldSave217Rules.open, true, 'O9 : génération 12 ouverte derrière l’option de menu');
   const four = Object.fromEntries(SIDES.map(s => [s, { status: 'ouvert', width: 128, entries: [{ from: 0, to: 128, width: 128 }], passages: [] }]));
   let plans = 0;
   for (const key of Object.keys(C.DIFFICULTIES)) for (let wave = 1; wave <= 60; wave++) {

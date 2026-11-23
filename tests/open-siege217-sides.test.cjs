@@ -146,6 +146,8 @@ test('O9 (b) : sauvegarde et reprise en pleine vague sur un terrain — les part
     const data = copy(g.serialize()), live = copy(g.openSiege217);
     if (mode !== 'continu') {
       if (mode === 'sans') delete data.openSiege217;
+      // O9 : le monde de terrain du harnais porte le registre G12, qui exige la marque « expérimental » à la reprise.
+      data.expansions127.modules.openworld217 = globalThis.DeadwallOpenWorld217.fresh();
       // Reprise : la garde de taille de carte refuse encore la génération 12 ; le bloc du siège passe par sa propre
       // validation, puis le monde de terrain est rendu (la reprise d'un monde G12 viendra avec O9).
       const real = SAVE.validate;

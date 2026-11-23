@@ -73,12 +73,12 @@ test('O6a : chemin de construction séparé — terrain et gisements de la descr
   assert.throws(() => new World(17117, 0, C.LOCAL_MAP217, desc(17117)), /Terrain de la cité invalide/);
   assert.throws(() => new World(17117, 0, MAP, { ...desc(17117), generation: 11 }), /Terrain de la cité invalide/);
   assert.throws(() => new World(17117, 0, MAP, { ...desc(17117), levels: desc(17117).levels.subarray(1) }), /Terrain de la cité invalide/);
-  // Toujours hors jeu : la partie n'a pas de terrain, la génération 12 n'est pas ouverte, le module n'est pas chargé.
-  assert.equal(g.world.terrain217, null); assert.equal(C.WorldSave217Rules.open, false);
+  // Partie sans l'option : aucun terrain ; depuis O9, la génération 12 est ouverte derrière l'option de menu seulement.
+  assert.equal(g.world.terrain217, null); assert.equal(C.WorldSave217Rules.open, true);
   // Surcoûts du terrain dans le jeu : gelés dans le cœur, égaux aux coûts de chemin de la carte locale.
   const R = C.CityTerrain217Rules; assert.ok(Object.isFrozen(R)); assert.equal(R.generation, 12);
   assert.deepEqual([R.rampCost, R.fordCost], [C.WorldLocal217Rules.costs.ramp, C.WorldLocal217Rules.costs.ford]);
-  assert.doesNotMatch(read('index.html'), /world-local217\.js/);
+  assert.match(read('index.html'), /<script src="src\/world-local217\.js"><\/script>/, 'O9 : carte locale chargée par le jeu, lue seulement par une campagne sans bord');
   assert.equal(snap(), before, 'la partie en cours ne bouge pas');
 });
 
