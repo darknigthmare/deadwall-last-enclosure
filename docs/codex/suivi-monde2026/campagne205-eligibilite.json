@@ -7,8 +7,8 @@
   "sources": [
     {
       "path": "index.html",
-      "bytes": 38711,
-      "sha256": "be369a186a00e2cc7688f37794e9df346346eced2abad064c24a63e8b3797929"
+      "bytes": 38992,
+      "sha256": "c4c632dc95e3e12a02f8956a51c38a6c1f59da0730eaae47793983ffec3b41cc"
     },
     {
       "path": "scripts/audit-campaign-sites205.cjs",
@@ -37,8 +37,8 @@
     },
     {
       "path": "src/abominations217.js",
-      "bytes": 52319,
-      "sha256": "afc0fd71f81ad060ea2f7877d2672613c203bc1debd0d1ae235d54d077fefa26"
+      "bytes": 52470,
+      "sha256": "e1d8d9983d4294a6adc6121f24d06ce60137419f22b8ff24f2d23cba17fa063e"
     },
     {
       "path": "src/actor-actions159.js",
@@ -77,18 +77,18 @@
     },
     {
       "path": "src/atlas-projection.js",
-      "bytes": 6776,
-      "sha256": "720ce21c8ab714144a7758c71637bf062e0d753cac3d99d82db7b022fc3a63c7"
+      "bytes": 7572,
+      "sha256": "6ea4031f8d49fb8ddb496a150f616bb52d4985284e31bb6233fb0d97f140c8aa"
     },
     {
       "path": "src/atlas-render.js",
-      "bytes": 18046,
-      "sha256": "54f9d28e507f7c7f21cd8cf566f9a81fd21379c919c4bca3e543ca22467cf508"
+      "bytes": 18572,
+      "sha256": "fcf166790a319ed68bfea675d2da95d0c581f0153435a529bb0c0d94a9300dea"
     },
     {
       "path": "src/atlas-view.js",
-      "bytes": 15819,
-      "sha256": "acfed5b68bbc22f95e1b2b0443f8a9531f593e65ebd9595628ae3057e3de50a6"
+      "bytes": 16784,
+      "sha256": "e42b534dd4c4ad0079f3a0a635fb0f5347d2ebaca76cca946c25b68f6947d535"
     },
     {
       "path": "src/balance217.js",
@@ -387,8 +387,8 @@
     },
     {
       "path": "src/codex3000-live-data.js",
-      "bytes": 11467394,
-      "sha256": "f3016b395e83f68b4ec7fbe703727269d03ed9fc3ff357c1441a70e08ca73ecc"
+      "bytes": 11467676,
+      "sha256": "fcd46e6152d4516cf08d984dd51746681c77a1e706e37ef49fc89e41ecb8e66d"
     },
     {
       "path": "src/codex3000-recipes159.js",
@@ -436,6 +436,21 @@
       "sha256": "ff54877ef83e2c9b31475689b1d73afc8b8e7c8bdf7070b74e1b2c685cc2e653"
     },
     {
+      "path": "src/coop-host217.js",
+      "bytes": 21465,
+      "sha256": "a7bab577a148fc998a5cf63872cb4df40b6ef523054d57ad960a0e4f4e150e5c"
+    },
+    {
+      "path": "src/coop-session217.js",
+      "bytes": 10548,
+      "sha256": "f3b5ddc999731efb8b70250c44fb3df61b99da59277dd59b15fb5fb00a5256ff"
+    },
+    {
+      "path": "src/coop-ui217.js",
+      "bytes": 23263,
+      "sha256": "5eae67517ce4a2cd64bd93462525234bc1bf3be27197d8590129caf2fef06e51"
+    },
+    {
       "path": "src/coop.js",
       "bytes": 12557,
       "sha256": "e418b0fdea50081e440a6888aa9724cd0ff082deb3da7c38b60eb7b3b8072157"
@@ -452,13 +467,13 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 384278,
-      "sha256": "494d4b6fd38e01eb043d11860450e06ad7ec74937caea3c42496980f87a22c18"
+      "bytes": 390073,
+      "sha256": "1242c978a16aecbc294f3915093eed86fe8f7a31375dec0e4112d7453cb7b805"
     },
     {
       "path": "src/corpse-chain217.js",
-      "bytes": 31758,
-      "sha256": "c81c11d3757a45d08d6c13abbebe90ba2c070a7ae4898ccbb6b7a927d1c8caaa"
+      "bytes": 32085,
+      "sha256": "d226f4e79ffb022a50e31fda9fc78bc5822f0a4e9093fb04e95ce0598db94699"
     },
     {
       "path": "src/corpse-heaps217.js",
@@ -552,13 +567,13 @@
     },
     {
       "path": "src/expansion-kit.js",
-      "bytes": 5536,
-      "sha256": "a0ab5141471c296dac2e490fecc93cc2a1e6216236019753348eeaaa0356984e"
+      "bytes": 5550,
+      "sha256": "7f4eff0f02b680ad41ae833bc1753fd43bb2e5569ad9a503610f2b90ce8fbc09"
     },
     {
       "path": "src/expansion-ui.js",
-      "bytes": 26555,
-      "sha256": "00737205634caa16b18474e47e6dc7411984edb9d66022a57da910b1ff79bc72"
+      "bytes": 26642,
+      "sha256": "3796b1b4578eec989de3255419a95044c5388ae2bd58141cbc9ef65547d74dbd"
     },
     {
       "path": "src/expedition-art.js",
@@ -597,8 +612,8 @@
     },
     {
       "path": "src/exploration-pack131.js",
-      "bytes": 15667,
-      "sha256": "958bcc542160af4f45b6aa403a5f2d3e7c599a6856839d1bd7c89386266ae2bc"
+      "bytes": 16247,
+      "sha256": "2a3962670cab41f18b367449e16838d8cadbdbf60b4ba2bb746e98fc6afd8055"
     },
     {
       "path": "src/exploration-scales.js",
@@ -732,13 +747,13 @@
     },
     {
       "path": "src/frontier.js",
-      "bytes": 52353,
-      "sha256": "b2a5f9a142896bbf40383cf232f2e3fc8d8261ccea14634c41e71113acff1f82"
+      "bytes": 53911,
+      "sha256": "c47e751688da5049fcd91d6e5de8d2341b1bb71d13698ad07622448d90691629"
     },
     {
       "path": "src/game.js",
-      "bytes": 492996,
-      "sha256": "7aa666036da2c6ad5823e4e25f979fba7266add73195aff10412b6a8b0dd4647"
+      "bytes": 493549,
+      "sha256": "8c6c9688ef964fd54a8b72e7aa456e89f5cdf1e498374818043ebc1075fac9bc"
     },
     {
       "path": "src/geography135.js",
@@ -806,6 +821,11 @@
       "sha256": "606c5282db9af8c993de798ed9e78c3b20dfb138c06597ac9f85dcb48c00136d"
     },
     {
+      "path": "src/intro-studio218.js",
+      "bytes": 31515,
+      "sha256": "c873ce509306b766a3ff082bcf5be353d06039d1d4d974bbc70d7814f8d0a6df"
+    },
+    {
       "path": "src/landscape189.js",
       "bytes": 2099,
       "sha256": "d685fae5bdd862f40cfdb4abcc63194ce7ebc46d870d32a8fadd41a49724144c"
@@ -866,9 +886,19 @@
       "sha256": "4d6abe8462f06ba7bcea043eae6ed30229cabd2fcf13c70c28f24b70048d7c4a"
     },
     {
+      "path": "src/openlife217.js",
+      "bytes": 18047,
+      "sha256": "be367a100bbfc4db86ba1b1e96ff81dbfe7ca1292336dfb853189d8b5908020e"
+    },
+    {
+      "path": "src/openworld217-atlas.js",
+      "bytes": 27359,
+      "sha256": "89faa811719bed9e8edae807e5f5628ccb3841825665bdc6f4a64504bba0eb65"
+    },
+    {
       "path": "src/openworld217.js",
-      "bytes": 15761,
-      "sha256": "3d28355c7eb2aa4d8813ed29b315a6f664f53185df35016fd31e9f9fe67fe710"
+      "bytes": 26048,
+      "sha256": "c6a45cc16dc7188e78040e76937c1338eb6161bb37191ef13c89008d37aa0c0b"
     },
     {
       "path": "src/operations-art.js",
@@ -1002,8 +1032,8 @@
     },
     {
       "path": "src/seed-card217.js",
-      "bytes": 46723,
-      "sha256": "13966b0aee500bf7a1bfda67a7e5673027cb31b62122e1ca3428249522babf12"
+      "bytes": 46793,
+      "sha256": "b6422d4b46a6c62d6a8ca1185893d4387d0d626f3cb9b925d8416d60e22c9703"
     },
     {
       "path": "src/seed-detail-art157.js",
@@ -1022,8 +1052,8 @@
     },
     {
       "path": "src/siege-readout.js",
-      "bytes": 11394,
-      "sha256": "618ab62c442f4de79939c94c2983d6e15cc4df04dcef3a137442a0b04be51a92"
+      "bytes": 12114,
+      "sha256": "0e1d3b7843574c5a35840d0079903f95b90ee6be8cef21f1940845f9f88cf5ef"
     },
     {
       "path": "src/site-infrastructure173.js",
@@ -1162,13 +1192,13 @@
     },
     {
       "path": "src/wildlife-art165.js",
-      "bytes": 8151,
-      "sha256": "f487c4d1bbf3c6529ec518d881cf498af051e214719193c864ba912af01e1195"
+      "bytes": 8345,
+      "sha256": "1065ddf2d601cd9fffe88fe66ac006adefaeb1d74b24cf6d854eceb6fe104140"
     },
     {
       "path": "src/wildlife-art189.js",
-      "bytes": 5088,
-      "sha256": "5e427665f5a0c7b96d62de78a3f5a096bc9826a01059043555f3a4136da2fae0"
+      "bytes": 5176,
+      "sha256": "8a026da856e4b5375680d9416a8526baef76ce3ddaf4a626a2f7068fc3ff8723"
     },
     {
       "path": "src/wildlife-harvest190-ui.js",
@@ -1177,8 +1207,8 @@
     },
     {
       "path": "src/wildlife-harvest190.js",
-      "bytes": 14118,
-      "sha256": "9f2063d0c0524c3d7f13a66387a5a1b778579abfa3c714be07b9599b19567ef8"
+      "bytes": 15394,
+      "sha256": "c275cc66f7bdc87364bbded1c16581fbd9cd66887094c1e7081d10ce1dcdfcca"
     },
     {
       "path": "src/wildlife189.js",
@@ -1267,8 +1297,8 @@
     },
     {
       "path": "src/world-open217.js",
-      "bytes": 13279,
-      "sha256": "cacb9ee9089f1643551e11b06505f150b3c655389e5c648fca1daab725a8760a"
+      "bytes": 13592,
+      "sha256": "6537c6bbde0e48b8ba3f7c5ab9600930b2f1c3699e5e239477dbfd976b2635ba"
     },
     {
       "path": "src/world-pack131.js",
@@ -1287,8 +1317,8 @@
     },
     {
       "path": "src/world-sites217.js",
-      "bytes": 34401,
-      "sha256": "f1cd20992a765cf7a5f051398afcb1c0399db963f57d0bedbdefd25d68ac06cc"
+      "bytes": 35966,
+      "sha256": "83a50c06f35e17efd2b6ffc10f69b4a55bba90a1df205789d5bdeafe3c84bac0"
     },
     {
       "path": "src/world-spawns131.js",
@@ -1309,8 +1339,8 @@
   "sourcesAfter": [
     {
       "path": "index.html",
-      "bytes": 38711,
-      "sha256": "be369a186a00e2cc7688f37794e9df346346eced2abad064c24a63e8b3797929"
+      "bytes": 38992,
+      "sha256": "c4c632dc95e3e12a02f8956a51c38a6c1f59da0730eaae47793983ffec3b41cc"
     },
     {
       "path": "scripts/audit-campaign-sites205.cjs",
@@ -1339,8 +1369,8 @@
     },
     {
       "path": "src/abominations217.js",
-      "bytes": 52319,
-      "sha256": "afc0fd71f81ad060ea2f7877d2672613c203bc1debd0d1ae235d54d077fefa26"
+      "bytes": 52470,
+      "sha256": "e1d8d9983d4294a6adc6121f24d06ce60137419f22b8ff24f2d23cba17fa063e"
     },
     {
       "path": "src/actor-actions159.js",
@@ -1379,18 +1409,18 @@
     },
     {
       "path": "src/atlas-projection.js",
-      "bytes": 6776,
-      "sha256": "720ce21c8ab714144a7758c71637bf062e0d753cac3d99d82db7b022fc3a63c7"
+      "bytes": 7572,
+      "sha256": "6ea4031f8d49fb8ddb496a150f616bb52d4985284e31bb6233fb0d97f140c8aa"
     },
     {
       "path": "src/atlas-render.js",
-      "bytes": 18046,
-      "sha256": "54f9d28e507f7c7f21cd8cf566f9a81fd21379c919c4bca3e543ca22467cf508"
+      "bytes": 18572,
+      "sha256": "fcf166790a319ed68bfea675d2da95d0c581f0153435a529bb0c0d94a9300dea"
     },
     {
       "path": "src/atlas-view.js",
-      "bytes": 15819,
-      "sha256": "acfed5b68bbc22f95e1b2b0443f8a9531f593e65ebd9595628ae3057e3de50a6"
+      "bytes": 16784,
+      "sha256": "e42b534dd4c4ad0079f3a0a635fb0f5347d2ebaca76cca946c25b68f6947d535"
     },
     {
       "path": "src/balance217.js",
@@ -1689,8 +1719,8 @@
     },
     {
       "path": "src/codex3000-live-data.js",
-      "bytes": 11467394,
-      "sha256": "f3016b395e83f68b4ec7fbe703727269d03ed9fc3ff357c1441a70e08ca73ecc"
+      "bytes": 11467676,
+      "sha256": "fcd46e6152d4516cf08d984dd51746681c77a1e706e37ef49fc89e41ecb8e66d"
     },
     {
       "path": "src/codex3000-recipes159.js",
@@ -1738,6 +1768,21 @@
       "sha256": "ff54877ef83e2c9b31475689b1d73afc8b8e7c8bdf7070b74e1b2c685cc2e653"
     },
     {
+      "path": "src/coop-host217.js",
+      "bytes": 21465,
+      "sha256": "a7bab577a148fc998a5cf63872cb4df40b6ef523054d57ad960a0e4f4e150e5c"
+    },
+    {
+      "path": "src/coop-session217.js",
+      "bytes": 10548,
+      "sha256": "f3b5ddc999731efb8b70250c44fb3df61b99da59277dd59b15fb5fb00a5256ff"
+    },
+    {
+      "path": "src/coop-ui217.js",
+      "bytes": 23263,
+      "sha256": "5eae67517ce4a2cd64bd93462525234bc1bf3be27197d8590129caf2fef06e51"
+    },
+    {
       "path": "src/coop.js",
       "bytes": 12557,
       "sha256": "e418b0fdea50081e440a6888aa9724cd0ff082deb3da7c38b60eb7b3b8072157"
@@ -1754,13 +1799,13 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 384278,
-      "sha256": "494d4b6fd38e01eb043d11860450e06ad7ec74937caea3c42496980f87a22c18"
+      "bytes": 390073,
+      "sha256": "1242c978a16aecbc294f3915093eed86fe8f7a31375dec0e4112d7453cb7b805"
     },
     {
       "path": "src/corpse-chain217.js",
-      "bytes": 31758,
-      "sha256": "c81c11d3757a45d08d6c13abbebe90ba2c070a7ae4898ccbb6b7a927d1c8caaa"
+      "bytes": 32085,
+      "sha256": "d226f4e79ffb022a50e31fda9fc78bc5822f0a4e9093fb04e95ce0598db94699"
     },
     {
       "path": "src/corpse-heaps217.js",
@@ -1854,13 +1899,13 @@
     },
     {
       "path": "src/expansion-kit.js",
-      "bytes": 5536,
-      "sha256": "a0ab5141471c296dac2e490fecc93cc2a1e6216236019753348eeaaa0356984e"
+      "bytes": 5550,
+      "sha256": "7f4eff0f02b680ad41ae833bc1753fd43bb2e5569ad9a503610f2b90ce8fbc09"
     },
     {
       "path": "src/expansion-ui.js",
-      "bytes": 26555,
-      "sha256": "00737205634caa16b18474e47e6dc7411984edb9d66022a57da910b1ff79bc72"
+      "bytes": 26642,
+      "sha256": "3796b1b4578eec989de3255419a95044c5388ae2bd58141cbc9ef65547d74dbd"
     },
     {
       "path": "src/expedition-art.js",
@@ -1899,8 +1944,8 @@
     },
     {
       "path": "src/exploration-pack131.js",
-      "bytes": 15667,
-      "sha256": "958bcc542160af4f45b6aa403a5f2d3e7c599a6856839d1bd7c89386266ae2bc"
+      "bytes": 16247,
+      "sha256": "2a3962670cab41f18b367449e16838d8cadbdbf60b4ba2bb746e98fc6afd8055"
     },
     {
       "path": "src/exploration-scales.js",
@@ -2034,13 +2079,13 @@
     },
     {
       "path": "src/frontier.js",
-      "bytes": 52353,
-      "sha256": "b2a5f9a142896bbf40383cf232f2e3fc8d8261ccea14634c41e71113acff1f82"
+      "bytes": 53911,
+      "sha256": "c47e751688da5049fcd91d6e5de8d2341b1bb71d13698ad07622448d90691629"
     },
     {
       "path": "src/game.js",
-      "bytes": 492996,
-      "sha256": "7aa666036da2c6ad5823e4e25f979fba7266add73195aff10412b6a8b0dd4647"
+      "bytes": 493549,
+      "sha256": "8c6c9688ef964fd54a8b72e7aa456e89f5cdf1e498374818043ebc1075fac9bc"
     },
     {
       "path": "src/geography135.js",
@@ -2108,6 +2153,11 @@
       "sha256": "606c5282db9af8c993de798ed9e78c3b20dfb138c06597ac9f85dcb48c00136d"
     },
     {
+      "path": "src/intro-studio218.js",
+      "bytes": 31515,
+      "sha256": "c873ce509306b766a3ff082bcf5be353d06039d1d4d974bbc70d7814f8d0a6df"
+    },
+    {
       "path": "src/landscape189.js",
       "bytes": 2099,
       "sha256": "d685fae5bdd862f40cfdb4abcc63194ce7ebc46d870d32a8fadd41a49724144c"
@@ -2168,9 +2218,19 @@
       "sha256": "4d6abe8462f06ba7bcea043eae6ed30229cabd2fcf13c70c28f24b70048d7c4a"
     },
     {
+      "path": "src/openlife217.js",
+      "bytes": 18047,
+      "sha256": "be367a100bbfc4db86ba1b1e96ff81dbfe7ca1292336dfb853189d8b5908020e"
+    },
+    {
+      "path": "src/openworld217-atlas.js",
+      "bytes": 27359,
+      "sha256": "89faa811719bed9e8edae807e5f5628ccb3841825665bdc6f4a64504bba0eb65"
+    },
+    {
       "path": "src/openworld217.js",
-      "bytes": 15761,
-      "sha256": "3d28355c7eb2aa4d8813ed29b315a6f664f53185df35016fd31e9f9fe67fe710"
+      "bytes": 26048,
+      "sha256": "c6a45cc16dc7188e78040e76937c1338eb6161bb37191ef13c89008d37aa0c0b"
     },
     {
       "path": "src/operations-art.js",
@@ -2304,8 +2364,8 @@
     },
     {
       "path": "src/seed-card217.js",
-      "bytes": 46723,
-      "sha256": "13966b0aee500bf7a1bfda67a7e5673027cb31b62122e1ca3428249522babf12"
+      "bytes": 46793,
+      "sha256": "b6422d4b46a6c62d6a8ca1185893d4387d0d626f3cb9b925d8416d60e22c9703"
     },
     {
       "path": "src/seed-detail-art157.js",
@@ -2324,8 +2384,8 @@
     },
     {
       "path": "src/siege-readout.js",
-      "bytes": 11394,
-      "sha256": "618ab62c442f4de79939c94c2983d6e15cc4df04dcef3a137442a0b04be51a92"
+      "bytes": 12114,
+      "sha256": "0e1d3b7843574c5a35840d0079903f95b90ee6be8cef21f1940845f9f88cf5ef"
     },
     {
       "path": "src/site-infrastructure173.js",
@@ -2464,13 +2524,13 @@
     },
     {
       "path": "src/wildlife-art165.js",
-      "bytes": 8151,
-      "sha256": "f487c4d1bbf3c6529ec518d881cf498af051e214719193c864ba912af01e1195"
+      "bytes": 8345,
+      "sha256": "1065ddf2d601cd9fffe88fe66ac006adefaeb1d74b24cf6d854eceb6fe104140"
     },
     {
       "path": "src/wildlife-art189.js",
-      "bytes": 5088,
-      "sha256": "5e427665f5a0c7b96d62de78a3f5a096bc9826a01059043555f3a4136da2fae0"
+      "bytes": 5176,
+      "sha256": "8a026da856e4b5375680d9416a8526baef76ce3ddaf4a626a2f7068fc3ff8723"
     },
     {
       "path": "src/wildlife-harvest190-ui.js",
@@ -2479,8 +2539,8 @@
     },
     {
       "path": "src/wildlife-harvest190.js",
-      "bytes": 14118,
-      "sha256": "9f2063d0c0524c3d7f13a66387a5a1b778579abfa3c714be07b9599b19567ef8"
+      "bytes": 15394,
+      "sha256": "c275cc66f7bdc87364bbded1c16581fbd9cd66887094c1e7081d10ce1dcdfcca"
     },
     {
       "path": "src/wildlife189.js",
@@ -2569,8 +2629,8 @@
     },
     {
       "path": "src/world-open217.js",
-      "bytes": 13279,
-      "sha256": "cacb9ee9089f1643551e11b06505f150b3c655389e5c648fca1daab725a8760a"
+      "bytes": 13592,
+      "sha256": "6537c6bbde0e48b8ba3f7c5ab9600930b2f1c3699e5e239477dbfd976b2635ba"
     },
     {
       "path": "src/world-pack131.js",
@@ -2589,8 +2649,8 @@
     },
     {
       "path": "src/world-sites217.js",
-      "bytes": 34401,
-      "sha256": "f1cd20992a765cf7a5f051398afcb1c0399db963f57d0bedbdefd25d68ac06cc"
+      "bytes": 35966,
+      "sha256": "83a50c06f35e17efd2b6ffc10f69b4a55bba90a1df205789d5bdeafe3c84bac0"
     },
     {
       "path": "src/world-spawns131.js",
