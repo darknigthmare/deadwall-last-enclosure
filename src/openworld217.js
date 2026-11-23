@@ -133,7 +133,7 @@
  function fresh(){return{version:1,active:true,revision:revision()};}
  function validate(raw,full){
   const g=full?.frontier?.generation;
-  if(raw===undefined){if(g===12)throw Error('Campagne sans bord sans marque expérimentale.');return initial();}
+  if(raw===undefined){if(g===12)throw Error('Campagne sans bord sans marque expérimentale.');return full?undefined:initial();}
   if(!raw||typeof raw!=='object'||Array.isArray(raw)||raw.version!==1||typeof raw.active!=='boolean'||Object.keys(raw).length!==KEYS.length||KEYS.some(k=>!(k in raw)))throw Error('Monde sans bord 217 invalide.');
   // Forme inactive (instantané d'une campagne à région finie, quand un appelant lit le registre sans la sauvegarde).
   if(raw.active===false){if(raw.revision!==null||g===12)throw Error('Monde sans bord 217 invalide.');return initial();}

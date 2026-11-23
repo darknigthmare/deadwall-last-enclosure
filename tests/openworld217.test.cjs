@@ -166,3 +166,15 @@ test('O9 : façade régionale — un canton préparé par appel, route la plus p
   const site = w.nearPOI(h.maxX + 300, h.y, 900)[0], R = globalThis.DeadwallFrontierRouting;
   if (site) { const r = R.route(w, { x: h.maxX + 5, y: h.y }, site); assert.ok(!r || r.metres > 0 && r.path.length > 1); }
 });
+
+test('O9 : une campagne à région finie relue par la sauvegarde native n’a pas de clé openworld217 (même document que serialize)', () => {
+  g.startNew('standard', '17117'); g.campaignIntro132?.skip?.();
+  const before = strip(g.serialize());
+  assert.equal('openworld217' in before.expansions127.modules, false);
+  // Chemin de `browser-metric174` : le document stocké est relu par DeadwallSave.parse (validateurs des modules).
+  const parsed = strip(globalThis.DeadwallSave.parse(JSON.stringify(g.serialize())));
+  assert.equal('openworld217' in parsed.expansions127.modules, false, 'aucune clé ajoutée par la relecture');
+  assert.deepEqual(parsed.expansions127, before.expansions127);
+  assert.equal(g.restoreSave(parsed), true); assert.equal(g.openWorld217.active(), false);
+  assert.deepEqual(strip(g.serialize()).expansions127, before.expansions127);
+});
