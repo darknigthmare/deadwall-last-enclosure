@@ -1297,7 +1297,11 @@ près. Sept décisions restent à trancher avant de rendre la coopération
 jouable (rôle de l'invité, transport, pause, sauvegarde de l'avatar, droits,
 nombre d'invités, image).
 
-**État livré (23 novembre 2026, décisions D1–D7 tranchées).** D1 : les deux rôles (responsable de district livré, chef de sortie à venir en C7) ; D2 : relais WebSocket existant, sans autorité ; D3 : aucune pause tant qu'un invité est assis ; D4 : avatar non sauvegardé, son chargeur rendu au dépôt ; D5 : combattre et signaler seulement ; D6 : jusqu'à trois invités ; D7 : image bornée autour de l'invité. L'hôte est la seule autorité : un invité n'envoie que des intentions. Le responsable de district est un défenseur de la cité, ciblé comme une unité, qui tire sur le stock de l'hôte et revient au dépôt 8 s après une chute. « Un joueur tient le mur pendant qu'un autre explore » est vrai dès que l'hôte part en sortie. Restent : vues 2,5D/FPS côté invité (C6.2), chef de sortie (C7), reconnexion (C8).
+**État livré (23 novembre 2026, décisions D1–D7 tranchées).** D1 : les deux rôles (responsable de district livré, chef de sortie livré en C7) ; D2 : relais WebSocket existant, sans autorité ; D3 : aucune pause tant qu'un invité est assis ; D4 : avatar non sauvegardé, son chargeur rendu au dépôt ; D5 : combattre et signaler seulement ; D6 : jusqu'à trois invités ; D7 : image bornée autour de l'invité. L'hôte est la seule autorité : un invité n'envoie que des intentions. Le responsable de district est un défenseur de la cité, ciblé comme une unité, qui tire sur le stock de l'hôte et revient au dépôt 8 s après une chute. « Un joueur tient le mur pendant qu'un autre explore » est vrai dès que l'hôte part en sortie. 
+
+**Vues de l'invité (C6.2, 28 novembre 2026).** L'invité voit la cité de l'hôte comme lui : en 2,5D par défaut, en FPS depuis les yeux de son avatar, ou en vue de dessus (bouton VUE ou touche V). Les trois vues lisent la même image bornée envoyée par l'hôte et la font peindre par les peintres du jeu. L'invité ne simule rien : ni stock, ni dégât, ni tirage, ni horloge ; seule la position de son propre avatar est prédite, au plus un quart de seconde. Sans WebGL, la vue FPS cède la place à la vue de dessus. Réserves : sol plat en FPS chez l'invité (pas de relief de génération 12), géants de siège, tas de corps, cadavres, ressources et véhicules absents de l'image.
+
+**Chef de sortie (C7) et reprise (C8).** Un invité peut explorer la région pendant que l'hôte tient le mur. Il part devant une jonction de D-17, marche à 3,5 m/s avec les collisions de la région, sans véhicule. Il affronte les occupants des lieux — mêmes identifiants, même santé au registre, poursuites séparées de celles de l'hôte —, fouille les lieux (E tenu) dans le même carnet de prélèvements que le Commandant et révèle les lieux qu'il approche. Son sac est versé au dépôt aux portes, à sa mort et à son départ, et compté dans chaque sauvegarde (D4). Un seul chef de sortie à la fois ; faune, véhicules et traces restent ceux de la bulle du Commandant. Un invité coupé garde son siège et son rôle 45 s et revient seul, onglet rechargé compris ; l'hôte qui perd le relais réessaie 30 s avec le même code. Trois invités vérifiés en navigateur. Réserves : la seconde bulle n'a ni étages, ni véhicule, ni faune, et les positions de ses contacts ne sont pas sauvegardées (seule leur santé l'est) ; l'hôte ne voit pas son chef de sortie sur la carte ; pas encore joué en génération 12.
 
 ### 7.12 bis Intro du studio et écran d'accueil **[LIVRÉ]**
 
@@ -1436,6 +1440,29 @@ d'atlas calée sur l'étendue totale.
   47 ms pour la carte actuelle de 128 m : la décision de garder 192 m tient.
   Restent (O6b) : projectiles en vol, ouvriers, voirie et véhicule face aux
   falaises ; vivres et carburant dans les gisements.
+- **[EXPÉRIMENTAL] Q1 livré : les six quartiers ont leur décor.** Dans une
+  campagne sans bord neuve, chaque quartier reçoit son décor identitaire
+  autour d'une place laissée libre : pavillons aux volets clos des Maisons
+  sans voix ; galerie à arcades et étals des Arcades muettes ; tentes et
+  mirador du Camp des veilleurs ; citernes et hangar de la Cour des citernes
+  ; carcasse d'autocar et abris de quai du Terminus des cendres ; baraque,
+  guérites et blocs du Passage du dernier feu. Des ruelles mènent à la place
+  et des parcelles au cordeau restent libres pour bâtir. Le décor est tiré
+  de la graine et du terrain seuls, posé sur le terrain atteint depuis le
+  centre (jamais l'eau, une rampe ou une route) ; il ne coupe aucune case
+  atteinte et barre le passage comme le reste du décor, sans arrêter la vue
+  ni les tirs. Une campagne sans bord antérieure reste sans décor de
+  quartier. Réserves : un quartier peut rester sans parcelle ; le décor ne
+  se fouille pas ; la minicarte ne le montre pas.
+- **[EXPÉRIMENTAL] T5.5 livré : nature des cantons.** Dans une campagne sans
+  bord neuve, les cantons portent aussi des errants isolés tirés de leur
+  milieu, qui font fuir la faune ; renards et sangliers y chassent et se
+  défendent comme dans la région finie ; un animal de canton se capture dans
+  un enclos et s'élève ; ramassages comestibles, bois mort et pierres se
+  cueillent, en quantité finie. L'écologie est celle de la région finie : ni
+  les bêtes abattues ni les ramassages épuisés ne reviennent, et le carnet «
+  Nature des cantons » signale les cantons épuisés. Une campagne sans bord
+  créée avant cette tranche reste sans ces nouveautés.
 - **[EXPÉRIMENTAL] O10 livré : atlas et minicarte sans étendue fixe.** La
   carte ne montre que ce que le commandant a parcouru ; chaque canton
   traversé dévoile relief, routes, eaux et bourgs, le reste demeure dans le
@@ -1446,8 +1473,8 @@ d'atlas calée sur l'étendue totale.
   Dans une campagne sans bord neuve, chaque canton porte sa faune, tirée de
   la graine et du canton seuls, sur les règles de la région finie ; l'eau du
   canton décide des espèces des berges. Le monde garde seulement ce que le
-  joueur a changé : bêtes abattues et épaves fouillées. Restent : contacts
-  naturels, enclos, cueillette et écologie des cantons.
+  joueur a changé : bêtes abattues et épaves fouillées. Contacts naturels,
+  enclos, cueillette et écologie : voir T5.5.
 - **[EXPÉRIMENTAL] D-O4 tranché et livré : « le visité reste ».** Sous une
   autre révision du générateur, les cantons vus et la cité restent ceux de
   la création ; seuls les cantons jamais vus suivent le générateur courant.
