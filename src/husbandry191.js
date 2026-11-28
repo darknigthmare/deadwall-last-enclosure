@@ -7,6 +7,14 @@ const limitsOf217=(W,g,size)=>W&&W.limitsForGeneration?W.limitsForGeneration(g):
 const P=root.DeadwallBiomePopulation165||(typeof require==='function'?require('./biome-population165.js'):null);
 const Wild=root.DeadwallWildlife189||(typeof require==='function'?require('./wildlife189.js'):null);
 const G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null);
+/* T5.5 : enclos d'une campagne sans bord NEUVE (module `openlife218` actif). Animaux de canton `K…:faune:n` (openlife217),
+ * eau lue sur le canton, bornes de la génération 12. Le registre porte alors `open218: true` (posé au premier travail) ; sans
+ * cette clé, validation et règles de la génération 10 inchangées. */
+const Life217=()=>root.DeadwallOpenLife217||(typeof require==='function'?require('./openlife217.js'):null);
+const Open217=()=>root.DeadwallOpenWorld217||(typeof require==='function'?require('./openworld217.js'):null);
+const waterAt=(w,x,y)=>w.unbounded?Life217().water(w,x,y)||{water:true,movementBlocked:true,crossing:false,salinity:0}:w.hydrology.sample(x,y);
+const openWorlds=new Map();
+function openWorld(seed){if(!openWorlds.has(seed)){openWorlds.set(seed,Open217().region(seed));if(openWorlds.size>2)openWorlds.delete(openWorlds.keys().next().value);}return openWorlds.get(seed);}
 const clone=v=>JSON.parse(JSON.stringify(v)),distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 const vehicleHitsPen=(p,car)=>G.obb(car,{x:p.x,y:p.y,a:0,w:R.penSize,h:R.penSize});
 const initial=()=>({version:1,next:1,behaviors:false,pens:[],animals:[]});
@@ -27,11 +35,11 @@ function validate(raw,full){
  const bad=()=>{throw Error('Registre des enclos et productions invalide.');};
  const fields=(o,keys)=>{if(!o||typeof o!=='object'||Array.isArray(o)||Object.keys(o).sort().join('|')!==keys.slice().sort().join('|'))bad();};
  const num=(v,min,max,int=false)=>{if(!Number.isFinite(v)||v<min||v>max||int&&!Number.isInteger(v))bad();return v;};
- fields(raw,['version','next','behaviors','pens','animals',...(Object.hasOwn(raw||{},'cargo203')?['cargo203']:[])]);if(raw.version!==1||typeof raw.behaviors!=='boolean'||!Array.isArray(raw.pens)||raw.pens.length>R.maxPens||!Array.isArray(raw.animals)||raw.animals.length>R.maxAnimals)bad();
+ fields(raw,['version','next','behaviors','pens','animals',...(Object.hasOwn(raw||{},'cargo203')?['cargo203']:[]),...(Object.hasOwn(raw||{},'open218')?['open218']:[])]);if(Object.hasOwn(raw,'open218')&&raw.open218!==true)bad();const open=raw.open218===true;if(raw.version!==1||typeof raw.behaviors!=='boolean'||!Array.isArray(raw.pens)||raw.pens.length>R.maxPens||!Array.isArray(raw.animals)||raw.animals.length>R.maxAnimals)bad();
  num(raw.next,1,1000000,true);const ids=new Set(),sources=new Set(),id=n=>{num(n,1,raw.next-1,true);if(ids.has(n))bad();ids.add(n);};
  for(const p of raw.pens){fields(p,['id','x','y','health','food','water','meat','hides','leather','breed','meatAge','hideAge',...(p&&Object.hasOwn(p,'breeding199')?['breeding199']:[])]);id(p.id);
   if(Object.hasOwn(p,'breeding199')&&(typeof p.breeding199!=='boolean'||!p.breeding199&&p.breed!==0))bad();
-  {const L217=limitsOf217(W,10,()=>W.sizeForGeneration(10));num(p.x,L217.axisMin(R.penSize),L217.axisMax(R.penSize));num(p.y,L217.axisMin(R.penSize),L217.axisMax(R.penSize));}num(p.health,0,R.health);
+  {const L217=limitsOf217(W,open?12:10,()=>W.sizeForGeneration(open?12:10));num(p.x,L217.axisMin(R.penSize),L217.axisMax(R.penSize));num(p.y,L217.axisMin(R.penSize),L217.axisMax(R.penSize));}num(p.health,0,R.health);
   for(const k of ['food','water','meat','hides','leather'])num(p[k],0,R.stockCapacity);
   num(p.breed,0,R.breedSeconds);num(p.meatAge,0,R.meatLife);num(p.hideAge,0,R.hideLife);
   if(raw.pens.some(q=>q!==p&&distance(q,p)<R.spacing))bad();
@@ -48,11 +56,26 @@ function validate(raw,full){
  for(const a of raw.animals){fields(a,['id','source','species','pen','sex','age','health','status','parents']);id(a.id);
   if(typeof a.species!=='string'||!Object.hasOwn(R.captive,a.species)||!pens.has(a.pen)||!['female','male'].includes(a.sex)||!['held','stranded','released','dead','processed'].includes(a.status)||!Array.isArray(a.parents))bad();
   num(a.age,0,1e9);num(a.health,0,100);if((a.status==='dead'||a.status==='processed')!==(a.health===0))bad();
-  if(a.source!==null){if(typeof a.source!=='string'||!/^A189_(0|[1-9]\d{0,2})_(0|[1-9]\d{0,2})_[0-7]$/.test(a.source)||sources.has(a.source)||a.parents.length)bad();sources.add(a.source);}
+  if(a.source!==null){if(typeof a.source!=='string'||!(open?Life217().owns(a.source):/^A189_(0|[1-9]\d{0,2})_(0|[1-9]\d{0,2})_[0-7]$/.test(a.source))||sources.has(a.source)||a.parents.length)bad();sources.add(a.source);}
   else {if(a.status==='stranded'||a.parents.length!==2||a.parents[0]===a.parents[1]||!R.captive[a.species].breed)bad();for(const parentId of a.parents){const parent=raw.animals.find(p=>p.id===parentId);if(!parent||parent.id>=a.id||parent.species!==a.species)bad();}const [mother,father]=a.parents.map(i=>raw.animals.find(p=>p.id===i));if(mother.sex===father.sex)bad();}
  }
  for(const p of raw.pens){const held=raw.animals.filter(a=>a.pen===p.id&&['held','stranded'].includes(a.status));if(held.length>R.penCapacity||new Set(held.map(a=>a.species)).size>1||held.some(a=>p.health>0?a.status==='stranded':a.status==='held'))bad();}
- if(full&&(raw.pens.length||raw.animals.length||raw.behaviors)){
+ if(full&&open){
+  // Monde sans bord : génération 12 exigée ; monde d'une autre révision (D-O4) : forme seule.
+  if(full.frontier?.generation!==12)bad();const w=openWorld(full.worldSeed),f=full.frontier;
+  if(f.reliefVersion===w.reliefVersion&&f.sitesVersion===w.sitesVersion){
+   for(const p of raw.pens){if(p.health>0&&f.active&&f.z===0&&Math.abs(f.x-p.x)<R.penSize/2+.32&&Math.abs(f.y-p.y)<R.penSize/2+.32)bad();if(distance(p,w.home)<C.BiomePopulation165Rules.homeExclusion)bad();const road=w.nearestRoad(p);if(road&&road.d<road.road.width/2+R.penSize)bad();
+    if(p.health>0&&f.car){const vehicle=C.WorldEvolution?.RULES?.vehicles?.[full.worldEvolution?.fleet?.active]||C.WorldEvolution?.RULES?.vehicles?.break||{w:4.6,h:1.85};if(vehicleHitsPen(p,{...f.car,w:vehicle.w,h:vehicle.h}))bad();}
+    for(const dx of [-1.5,-1,-.5,0,.5,1,1.5])for(const dy of [-1.5,-1,-.5,0,.5,1,1.5])if(w.blocked(p.x+dx,p.y+dy,.35,0,null)||waterAt(w,p.x+dx,p.y+dy).water)bad();
+   }
+   // La fiche vivante d'un captif de canton n'est pas sauvegardée (openlife217) : son origine, à la dérive près, borde l'enclos.
+   for(const a of raw.animals)if(a.source){const q=Life217().candidate(w,a.source);if(!q||q.species!==a.species)bad();
+    if(a.status!=='released'&&distance(q,raw.pens.find(p=>p.id===a.pen))>R.capturePenReach+C.BiomePopulation165Rules.animalDrift+.000001)bad();
+    if(a.sex!==(G.hash(full.worldSeed,a.source,'sex191')%2?'female':'male'))bad();
+   }
+  }
+ }
+ else if(full&&(raw.pens.length||raw.animals.length||raw.behaviors)){
   if(!full.frontier?.landscape189||full.frontier.hydrologyVersion!==1)bad();const w=worldFor(full);
   for(const p of raw.pens){if(p.x>=w.size-R.penSize||p.y>=w.size-R.penSize)bad();if(p.health>0&&full.frontier.active&&full.frontier.z===0&&Math.abs(full.frontier.x-p.x)<R.penSize/2+.32&&Math.abs(full.frontier.y-p.y)<R.penSize/2+.32)bad();if(distance(p,w.home)<C.BiomePopulation165Rules.homeExclusion)bad();const road=w.nearestRoad(p);if(road&&road.d<road.road.width/2+R.penSize)bad();
    if(p.health>0&&full.frontier.car){const vehicle=C.WorldEvolution?.RULES?.vehicles?.[full.worldEvolution?.fleet?.active]||C.WorldEvolution?.RULES?.vehicles?.break||{w:4.6,h:1.85};if(vehicleHitsPen(p,{...full.frontier.car,w:vehicle.w,h:vehicle.h}))bad();}
@@ -101,6 +124,7 @@ function install(g){
  if(g.husbandry191)return g.husbandry191;if(!g.expansions||!g.wildHarvest190)return null;
  let s=initial(),task=null,message='',cooldowns=new Map(),soundLeft=0;
  const pos=()=>g.frontier.position(),world=()=>g.frontier.world();
+ const open218=()=>pos().generation===12&&g.openLife218?.active?.()===true;
  const pen=id=>s.pens.find(p=>p.id===id),held=id=>s.animals.filter(a=>a.pen===id&&['held','stranded'].includes(a.status));
  const claimed=id=>s.animals.some(a=>a.source===id&&a.status!=='released');
  const carryingProducts=()=>s.cargo203?.stage==='held';
@@ -119,7 +143,7 @@ function install(g){
  const danger=()=>hostiles().some(e=>distance(e,pos())<R.dangerRange&&world().line(e,pos(),0,null,null,.05));
  const bad=reason=>({ok:false,reason});
  function base(continuing=false){if(!conscious()||!g.expansions.canAct())return 'Commandant indisponible.';const p=pos();
-  if(!p.active||p.z!==0||!p.landscape189||p.hydrologyVersion!==1)return 'À pied au sol dans un paysage naturel régional.';
+  if(!p.active||p.z!==0||!(open218()||p.landscape189&&p.hydrologyVersion===1))return 'À pied au sol dans un paysage naturel régional.';
   if(p.car?.driving||g.expeditions?.driving()||g.player.reload>0||g.selectedBuild||g.fieldcraft?.context?.().mounted||g.siege?.toolActive?.()||!continuing&&task||g.expansions.busy('husbandry191'))return 'Libérez vos mains et terminez les autres interventions.';
   if(danger())return 'Éloignez les infectés avant le travail.';return '';
  }
@@ -132,19 +156,19 @@ function install(g){
   const occupants=[pos(),...hostiles(),...g.frontier.wildlife165(),...companions,...(s.cargo203?.stage==='ground'?[{...s.cargo203.point,z:0,radius:.4}]:[])];
   if(occupants.some(a=>(a.z??0)===0&&Math.abs(a.x-q.x)<R.penSize/2+(a.radius||.4)+.25&&Math.abs(a.y-q.y)<R.penSize/2+(a.radius||.4)+.25))return 'Un occupant se trouve dans cette emprise.';
   const car=pos().car;if(car){const profile=g.worldEvolution?.vehicleProfile?.()||{w:4.6,h:1.85};if(vehicleHitsPen(q,{...car,w:profile.w,h:profile.h}))return 'Déplacez le véhicule garé hors de cette emprise.';}
-  for(const dx of[-1.5,-1,-.5,0,.5,1,1.5])for(const dy of[-1.5,-1,-.5,0,.5,1,1.5])if(w.blocked(q.x+dx,q.y+dy,.35,0,null)||w.hydrology.sample(q.x+dx,q.y+dy).water)return 'Choisissez trois mètres de sol sec et libre.';
+  for(const dx of[-1.5,-1,-.5,0,.5,1,1.5])for(const dy of[-1.5,-1,-.5,0,.5,1,1.5])if(w.blocked(q.x+dx,q.y+dy,.35,0,null)||waterAt(w,q.x+dx,q.y+dy).water)return 'Choisissez trois mètres de sol sec et libre.';
   if(!w.movementLine(pos(),access(q),0,pos().inside,null,.32))return 'L’accès sud doit rester libre.';return '';
  }
  function freshWaterFrom(from){
   const w=world(),hydrology=w.hydrology;
   const usable=q=>{
    if(!Number.isFinite(q.x)||!Number.isFinite(q.y)||distance(from,q)>R.reach)return false;
-   const h=hydrology.sample(q.x,q.y);
-   return h.water&&!h.crossing&&(h.salinity===0||h.salinity==='fresh')&&w.wildlifeWaterLine(from,q,.05);
+   const h=waterAt(w,q.x,q.y);
+   return h.water&&!h.crossing&&(h.salinity===0||h.salinity==='fresh')&&(w.unbounded?Life217().waterLine(w,from,q,.05):w.wildlifeWaterLine(from,q,.05));
   };
   // A bank can lie between the old radial probes. Query the existing water
   // surfaces and project onto their edges instead of increasing service reach.
-  const nearby=hydrology.featuresIn?.({x:from.x-R.reach,y:from.y-R.reach,w:R.reach*2,h:R.reach*2})||[];
+  const nearby=hydrology?.featuresIn?.({x:from.x-R.reach,y:from.y-R.reach,w:R.reach*2,h:R.reach*2})||[];
   for(const f of nearby){
    if(f.salinity!=='fresh'&&f.salinity!==0)continue;
    const count=f.shape==='line'?f.points.length-1:f.points.length;
@@ -167,6 +191,8 @@ function install(g){
   // Keep the historical directional probes for providers without surface data
   // and for another physically clear approach around a local obstruction.
   for(let i=0;i<24;i++){const a=i*Math.PI/12,q={x:from.x+Math.cos(a)*R.reach,y:from.y+Math.sin(a)*R.reach};if(usable(q))return q;}
+  // Monde sans bord : pas de surfaces d'eau à projeter ; sondes rapprochées dans la même portée.
+  if(w.unbounded)for(const k of[.75,.5,.25])for(let i=0;i<24;i++){const a=i*Math.PI/12,q={x:from.x+Math.cos(a)*R.reach*k,y:from.y+Math.sin(a)*R.reach*k};if(usable(q))return q;}
   return null;
  }
  const freshWater=p=>freshWaterFrom(access(p));
@@ -195,7 +221,7 @@ function install(g){
   else if(kind==='fill-bucket'){
    const w=world(),p=pos();
    if(!g.siege?.transferFieldWater199||bucket()>=C.Siege.RULES.bucketCapacity)return bad('Seau de service indisponible ou plein.');
-   if(w.blocked(p.x,p.y,W.RULES?.footRadius??.32,0,p.inside)||w.hydrology.sample(p.x,p.y).water||!freshWaterFrom(p))return bad('Rejoignez une berge libre d’eau douce, sans entrer dans l’eau.');
+   if(w.blocked(p.x,p.y,W.RULES?.footRadius??.32,0,p.inside)||waterAt(w,p.x,p.y).water||!freshWaterFrom(p))return bad('Rejoignez une berge libre d’eau douce, sans entrer dans l’eau.');
    seconds=R.waterSeconds;
   }
   else {
@@ -250,7 +276,7 @@ function install(g){
  }
  function notify(text){const stored=g.save(false);message=text+(stored?'':' Stockage indisponible : exportez la partie.');g.notify(message,stored?'good':'danger');}
  function cancel(reason='Travail interrompu. Les fournitures déjà engagées ne sont pas remboursées.'){if(!task)return false;task=null;message=reason;return true;}
- function commit(t){const p=pen(t.id);let dropInterrupted=false;
+ function commit(t){const p=pen(t.id);let dropInterrupted=false;if(open218())s.open218=true;
   if(t.kind==='build')s.pens.push({id:s.next++,...t.point,health:R.health,food:0,water:0,meat:0,hides:0,leather:0,breed:0,meatAge:0,hideAge:0});
   if(t.kind==='rebuild'){p.health=R.health;p.breed=0;for(const a of held(p.id))if(a.status==='stranded')a.status='held';}
   if(t.kind==='behaviors')s.behaviors=true;
@@ -330,7 +356,7 @@ function install(g){
  function solid(x,y,r=0){return s.pens.some(p=>p.health>0&&Math.abs(x-p.x)<R.penSize/2+r&&Math.abs(y-p.y)<R.penSize/2+r);}
  function vehicleBlocked(x,y,a,w,h){return s.pens.some(p=>p.health>0&&vehicleHitsPen(p,{x,y,a,w,h}));}
  function lineClear(a,b,r=.05){const steps=Math.ceil(distance(a,b)/.2);for(let i=0;i<=steps;i++)if(solid(a.x+(b.x-a.x)*i/Math.max(1,steps),a.y+(b.y-a.y)*i/Math.max(1,steps),r))return false;return true;}
- function naturalIntent(e){if(cooldowns.size>R.maxAnimals)for(const[id,time]of cooldowns)if(time<g.elapsed)cooldowns.delete(id);if(!s.behaviors||!e.id.startsWith('A189_')||task?.target===e.id||claimed(e.id))return null;
+ function naturalIntent(e){if(cooldowns.size>R.maxAnimals)for(const[id,time]of cooldowns)if(time<g.elapsed)cooldowns.delete(id);if(!s.behaviors||!(e.id.startsWith('A189_')||open218()&&Life217().owns(e.id))||task?.target===e.id||claimed(e.id))return null;
   const p=pos(),w=world(),now=g.elapsed,prey=Object.hasOwn(R.prey,e.species)?R.prey[e.species]:null;
   if(e.species==='boar'&&e.hp<e.profile.health&&e.alarm>0&&distance(e,p)<=R.boarReach&&w.movementLine(e,p,0,null,null,.1)){
    if((cooldowns.get(e.id)||0)<=now){g.frontier.damage(R.boarDamage);cooldowns.set(e.id,now+R.boarCooldown);}return null;

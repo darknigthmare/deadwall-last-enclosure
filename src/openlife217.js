@@ -166,7 +166,8 @@
    const t=Number.isFinite(g.elapsed)?g.elapsed:0;if(t-pruned<R.pruneSeconds&&t>=pruned)return;pruned=t;
    const live=Object.keys(records).filter(id=>records[id].hp>0);if(live.length<=R.maxLive)return;
    const p=g.frontier?.position?.();if(!p)return;const keep=B().streamRange+2*B().animalDrift;
-   for(const id of live)if(far(records[id].x-p.x,records[id].y-p.y)>keep)delete records[id];
+   // T5.5 : un captif d'enclos (openlife218) garde sa fiche, quelle que soit la distance.
+   for(const id of live)if(far(records[id].x-p.x,records[id].y-p.y)>keep&&!g.husbandry191?.claimed?.(id))delete records[id];
   }
   const active=()=>state.active;
   function kills(){

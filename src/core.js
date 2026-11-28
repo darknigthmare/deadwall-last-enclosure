@@ -3809,6 +3809,14 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   // d'affichage seul), directions de marche en FPS (pas angulaire de l'intention), signal posé devant soi en FPS (pixels).
   C.CoopViews217Rules=Object.freeze({version:1,frame:Object.freeze({maxUnits:48,maxDecks:64}),views:Object.freeze(['iso','fps','top']),
    iso:Object.freeze({zoom:1}),fps:Object.freeze({turn:.0045,pitch:.004,pitchLimit:.6,moveSteps:32,pingAhead:240})});
+  // Faune des cantons, suite (T5.5, src/openlife218.js) : contacts naturels, prédation, enclos, cueillette et écologie des cantons
+  // d'une campagne sans bord NEUVE. Densités, profils, dérives et plafonds : ceux de la région finie (`BiomePopulation165Rules`,
+  // `Husbandry191Rules`, `Forage193Rules`), lus et non recopiés. `contact` / `forage` : genre d'identifiant de canton
+  // (`K<cx>_<cy>:errant:<n>`, `K<cx>_<cy>:cueil:<n>`) ; `contact.bank` : distance (m) à l'eau sous laquelle un errant est « des
+  // berges » (même seuil que la région finie) ; `strictCantons` : cantons vérifiés contre la graine à la reprise (forme seule
+  // au-delà) ; `ecology` : écologie de la région finie (aucun renouvellement des morts ni des cueillettes) — `depleted` : part des
+  // animaux d'un canton abattus au-delà de laquelle le carnet le dit « épuisé », `rows` : cantons chassés listés au carnet.
+  C.OpenLife218Rules=Object.freeze({version:1,generation:12,contact:Object.freeze({kind:'errant',bank:50}),forage:Object.freeze({kind:'cueil'}),strictCantons:16,ecology:Object.freeze({depleted:.5,rows:6})});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),

@@ -727,7 +727,7 @@ Fiche : [ouverture.md](ouverture.md), O3. Test `tests/world-save217.test.cjs` (8
       `world-sites217` étendues au nouveau lecteur (aucune retirée) ; garde propre au module :
       seul `frontier-state.js` le nomme dans `src/`, sans le charger.
 - [ ] O3.5 (O9) `limitsForGeneration(12)` = limites d'O1 ; `field-atlas-state` appelle
-      `normalizeAtlas` ; identifiants de cueillette G12 (aucune cueillette G12 aujourd'hui) ;
+      `normalizeAtlas` ; identifiants de cueillette G12 (**fait en T5.5** : `K…:cueil:n`, nouvelles campagnes sans bord) ;
       sections de sauvegarde qui recréent le monde (services, hordes, campagne…) en G12.
 - `SAVE_VERSION` gardé à 20 (raisons : fiche O3).
 - Preuves (base `c9e60c2`, copie intacte de la base contre le worktree) :
@@ -1569,7 +1569,61 @@ module seule) ; une campagne sans bord créée avant cette tranche reste sans fa
   au-delà de 24 000 animaux abattus, les dépouilles les plus lointaines sont oubliées ; la densité, l'équilibrage de chasse
   et le coût par image n'ont pas été mesurés sur une partie jouée longue ; les migrations restent simulées autour des
   cantons chargés (D5).
-## O9 (suite) — D-O4 : le visité reste sous une autre révision du générateur (livré, derrière l'option)
+
+## T5.5 — Nature des cantons : contacts naturels, enclos, cueillette, écologie (livré, nouvelles campagnes sans bord)
+
+Suite des réserves de T5.4. Une campagne NOUVELLE créée avec l'option « Sans bord — expérimental » reçoit, autour de la faune
+de T5.4, ce que la région finie offre avec ses animaux ; une campagne à région finie est inchangée ; une campagne sans bord
+créée avant cette tranche (sauvegarde sans clé `openlife218`) se recharge identique et reste sans ces nouveautés (choix le
+plus sûr : ses errants, enclos et ramassages n'existaient pas, rien n'apparaît sous elle).
+
+- [x] T5.5.1 Règles `C.OpenLife218Rules` (`src/core.js`, fin de la zone 217) : genres `errant` et `cueil`, seuil des berges
+      50 m, `strictCantons` 16, écologie `depleted` 0,5 et `rows` 6. Densités, profils, dérive, plafonds, enclos et cueillette :
+      ceux de la région finie (`BiomePopulation165Rules`, `Husbandry191Rules`, `Forage193Rules`), lus et non recopiés.
+- [x] T5.5.2 Contacts naturels (`src/openlife218.js`) : errant `K<cx>_<cy>:errant:<n>` (n = morceau de 256 m × 1), flux NOUVEAU
+      `K.stream(graine, cx, cy, 'errant-<morceau>-<rang>')`, 4 tirages toujours ; même logique que `biome-population165.contact`
+      (présence 42 %, place à 8–92 % du morceau, hors cité, eau, routes et parcelles, profil tiré des ennemis du milieu,
+      « Errant des berges » à moins de 50 m de l'eau). Boucle régionale (`src/frontier.js`) : `populate165` lit ces errants
+      quand le module est actif ; leurs blessures, morts et poursuites vont au module (`ledger218`), jamais au registre G12
+      (`enemies`/`tracks`/`kills` du registre restent ceux des lieux). Dérive bornée par `contactDrift` sans la borne x/y ≥ 0
+      de la région finie (coordonnées négatives d'un monde sans bord). La faune les fuit comme dans la région finie (menaces
+      de `animalStep165`).
+- [x] T5.5.3 Prédation et défense du sanglier (`husbandry191.naturalIntent`) ouvertes aux animaux de canton, sur la même
+      option « Activer la prédation locale » que la région finie.
+- [x] T5.5.4 Enclos (`src/husbandry191.js`) : travaux ouverts en génération 12 quand le module est actif ; eau lue sur le
+      canton (`openlife217.water`, sondes rapprochées dans la même portée pour puiser) ; registre marqué `open218: true` au
+      premier travail — bornes de la génération 12 et sources `K…:faune:n` seulement avec cette marque ; sans elle, bornes de
+      la génération 10 et sources `A189_…` inchangées. Validation complète : génération 12 exigée, enclos hors cité, routes,
+      eau et obstacles, captif présent dans la graine (même espèce, sexe haché) à moins de 5 + 40 m (dérive) de son enclos ;
+      forme seule sous une autre révision (D-O4). La fiche du captif (non sauvegardée par T5.4) est recréée à sa place
+      d'origine à la reprise (`openLife218.adopt`) ; `openlife217` n'élague plus la fiche d'un captif.
+- [x] T5.5.5 Cueillette (`src/forage193.js`) : ramassage `K<cx>_<cy>:cueil:<n>` (n = morceau × 16 + emplacement), flux NOUVEAU
+      `'cueil-<morceau>-<emplacement>'`, 7 tirages toujours ; même logique que `biome-forage193.candidate`/`admitted` (espèces,
+      poids par milieu, quantités, exclusions). Même carnet (`harvested`), mêmes durées, endurance, sac et danger ; aucune
+      repousse. Validation : identifiant canonique ; avec la sauvegarde complète, génération 12 et ramassage présent dans la
+      graine pour les 16 cantons les plus proches du commandant.
+- [x] T5.5.6 Écologie : celle de la région finie — aucun renouvellement des animaux abattus ni des ramassages épuisés.
+      Carnet (lecture seule, opérations → RÉGION → « Nature des cantons ») : bêtes abattues par canton, sur le total de la
+      graine, « canton épuisé » à partir de la moitié.
+- [x] T5.5.7 Module d'extension `openlife218` (liste blanche, `ORDER`, `GROUPS` « RÉGION », `API_NAMES` `openLife218`,
+      `LABELS` « Nature des cantons »), restauré après `openlife217` et `husbandry191` ; `reset()` actif sur l'option
+      seulement, `validate(undefined)` inactif ; sauvegarde creuse `{enemies, tracks, kills}` des errants seuls.
+- [x] T5.5.8 Tests `tests/openlife218.test.cjs` (7 cas).
+- Mesures (graine 17117) : 35 errants admissibles à moins de 1,5 km de la cité (≈ 5 par km², la région finie en donne au plus
+  6,7) ; 140 ramassages à moins de 600 m (≈ 124 par km²). Coût : 275 ms pour les errants de 1,5 km, 287 ms pour les ramassages
+  de 600 m (cantons froids, sous Node).
+- Navigateur (Playwright, port 8781) : départ par le menu avec l'option ; errant `K0_0:errant:7` (Infecté récent) présent à
+  14 m ; enclos construit et lapin `K0_0:faune:2` capturé par les actions du menu des opérations (boucle suspendue pendant les
+  deux travaux : le lapin fuit le commandant à 9 m, règle de la région finie) ; noix `K0_0:cueil:88` cueillies (4 nourriture) ;
+  sauvegarde, rechargement de la page, « Continuer » : captif, marque `open218`, carnet de cueillette et poursuite de l'errant
+  identiques ; aucune erreur de page.
+- Innocuité : procédure 3 (base `0216bb7`) identique octet pour octet une fois retirée la forme inactive du nouveau module ;
+  mondes des huit graines (`audit-campaign-sites205`) : aucune différence hors sources.
+- Réserves : capture jouée en boucle suspendue (approche d'un animal alerte non jouée) ; le captif reprend sa place d'origine
+  à la reprise (pas sa pose de capture) ; un animal libéré n'est pas sauvegardé vivant (comme T5.4) ; pas de cueillette ni
+  d'errant pour une campagne sans bord de T5.4 ; écologie sans repeuplement (règle finie) — un repeuplement serait une
+  décision de conception nouvelle ; densités et pression des errants non mesurées sur une partie longue.
+ : le visité reste sous une autre révision du générateur (livré, derrière l'option)
 
 Fiche : [ouverture.md](ouverture.md), section 3, D-O4 (limite d'O9 levée). Décision de l'utilisateur : les cantons déjà vus et
 la cité gardent exactement leur forme d'origine ; seuls les cantons jamais visités suivent le nouveau générateur. Une
@@ -1669,8 +1723,8 @@ sauvegarde ; une campagne sans l'option ne lit pas le module (test à globale em
 - [ ] T5.3 Itinéraire : graphe chargé (**fait**, borné à 25 cantons par `world-open217.route`) + graphe macro des coutures
       (**à faire** : au-delà, le GPS ne propose pas d'itinéraire).
 - [x] T5.4 Migrations et hordes tirées par `pickRoad` (O9) et suivant les routes des cantons ; faune et épaves des cantons
-      (section « T5.4 » ci-dessous, module `openlife217`, nouvelles campagnes sans bord). Restent hors portée : contacts
-      naturels (`N165`), enclos, cueillette et écologie (`ecologyVersion` 0).
+      (section « T5.4 » ci-dessous, module `openlife217`, nouvelles campagnes sans bord). Contacts naturels, enclos,
+      cueillette et écologie des cantons : **faits en T5.5** (module `openlife218`, nouvelles campagnes sans bord).
 - [x] T5.3 Itinéraire : graphe chargé (**fait**, borné à 25 cantons par `world-open217.route`) + graphe macro des coutures
       (**fait en O10** : `openworld217-atlas.guide`, guidage seulement ; l'itinéraire borné reste celui du jeu).
 - [ ] T5.4 Migrations et hordes tirées par `pickRoad` (**fait**) ; épaves et faune sur cantons chargés (**à faire** : aucune

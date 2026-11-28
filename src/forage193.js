@@ -2,6 +2,11 @@
 (function(root){
 'use strict';
 const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),F=root.DeadwallBiomeForage193||(typeof require==='function'?require('./biome-forage193.js'):null),W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null);
+/* T5.5 : cueillette d'une campagne sans bord NEUVE (module `openlife218` actif) — ramassages finis `K…:cueil:n` décrits par
+ * `DeadwallOpenLife218.Forage` (même forme que `DeadwallBiomeForage193`), même carnet, mêmes quantités, aucune repousse.
+ * Ailleurs : `F193_…` et la région finie, comme avant. */
+const Life218=()=>root.DeadwallOpenLife218||(typeof require==='function'?require('./openlife218.js'):null);
+const Open217=()=>root.DeadwallOpenWorld217||(typeof require==='function'?require('./openworld217.js'):null);
 const copy=v=>JSON.parse(JSON.stringify(v)),worlds=new Map(),initial=()=>({version:1,enabled:false,harvested:[]}),rules=()=>C.Forage193Rules;
 function reference(full){
  const f=full.frontier,key=[full.worldSeed,f.generation,f.detailVersion,f.ecologyVersion,f.hydrologyVersion,f.landscape189||'classic'].join(':');
@@ -11,18 +16,36 @@ function reference(full){
 function validate(raw,full){
  if(raw===undefined)return initial();const bad=()=>{throw Error('Registre de cueillette193 invalide.');},R=rules();
  if(!raw||typeof raw!=='object'||Array.isArray(raw)||Object.keys(raw).length!==3||Object.keys(raw).some(k=>!['version','enabled','harvested'].includes(k))||raw.version!==1||typeof raw.enabled!=='boolean'||!Array.isArray(raw.harvested)||raw.harvested.length>R.maxRecords)bad();
- if(!raw.enabled&&raw.harvested.length)bad();const ids=new Set();let world=null;
+ if(!raw.enabled&&raw.harvested.length)bad();const ids=new Set(),open=[];let world=null;
  for(const id of raw.harvested){
+  if(typeof id==='string'&&id[0]==='K'){
+   // Ramassage de canton : forme canonique ; avec la sauvegarde complète, génération 12 et candidat présent dans la graine.
+   if(!Life218()?.ownsForage(id)||ids.has(id))bad();
+   if(full&&full.frontier?.generation!==12)bad();ids.add(id);open.push(id);continue;
+  }
   const match=typeof id==='string'&&/^F193_(0|[1-9]\d?)_(0|[1-9]\d?)_(0|[1-9]\d?)$/.exec(id),limit=Math.ceil(C.GeographyRules135.size/R.chunk);
   if(!match||Number(match[1])>=limit||Number(match[2])>=limit||Number(match[3])>=R.candidates||ids.has(id))bad();
   if(full){if(full.frontier?.generation<8||full.frontier?.ecologyVersion!==1||full.frontier?.hydrologyVersion!==1)bad();world||=reference(full);if(!F.candidate(world,id))bad();}
   ids.add(id);
  }
+ if(full&&open.length)strict218(open,full,bad);
  return{version:1,enabled:raw.enabled,harvested:[...ids]};
+}
+// Ramassages de canton cités dans les cantons les plus proches du commandant (même plafond que la faune) : présents dans la graine
+// à la même révision du monde ; au-delà, ou sous une autre révision (D-O4), forme seule.
+const openWorlds=new Map();
+function strict218(list,full,bad){
+ const f=full.frontier,L=Life218(),K=root.DeadwallWorldCantons217||require('./world-cantons217.js');
+ if(!openWorlds.has(full.worldSeed)){openWorlds.set(full.worldSeed,Open217().region(full.worldSeed));if(openWorlds.size>2)openWorlds.delete(openWorlds.keys().next().value);}
+ const w=openWorlds.get(full.worldSeed);if(f.reliefVersion!==w.reliefVersion||f.sitesVersion!==w.sitesVersion)return;
+ const here=K.at(f.x,f.y),d=e=>Math.max(Math.abs(e.cx-here.cx),Math.abs(e.cy-here.cy)),by=new Map();
+ for(const id of list){const e=K.parseEntity(id);if(!by.has(e.canton))by.set(e.canton,{...e,ids:[]});by.get(e.canton).ids.push(id);}
+ for(const c of[...by.values()].sort((a,b)=>d(a)-d(b)||a.cy-b.cy||a.cx-b.cx).slice(0,L.RULES.strictCantons))for(const id of c.ids)if(!L.Forage.candidate(w,id))bad();
 }
 function install(g){
  if(g.forage193)return g.forage193;if(!g.expansions||!g.frontier)return null;
  let state=initial(),spent=new Set(),task=null,message='',displayCache=null;
+ const open218=()=>{const p=g.frontier.position();return p.generation===12&&g.openLife218?.active?.()===true;},source=()=>open218()?Life218().Forage:F;
  const R=rules(),pos=()=>g.frontier.position(),alive=()=>g.state==='playing'&&!g.gameOver&&g.player&&!g.player.dead&&g.player.health>0;
  const permitted=()=>alive()&&g.expansions.canAct(),fail=reason=>({ok:false,reason}),bagFree=()=>Math.max(0,g.player.carryCapacity-C.bagTotal(g.player.carry));
  const emit=(hz=520)=>{try{g.audio?.tone?.(hz,.09,'triangle',.025,-35);}catch{/* Inventory commits do not depend on optional audio. */}};
@@ -43,7 +66,7 @@ function install(g){
   const w=g.frontier.world(),frame=g.visibility?.frame?.(),reach=Math.min(R.viewRange,Math.max(0,range)),key=[Math.floor(p.x/R.presentationCell),Math.floor(p.y/R.presentationCell),Math.floor(g.elapsed/R.presentationInterval),spent.size].join(':');
   // Only the bounded presentation shortlist is cached. Every transaction checks
   // current terrain, hands, threat and room again; sight is always read live.
-  if(!displayCache||displayCache.world!==w||displayCache.local!==g.world||displayCache.key!==key)displayCache={world:w,local:g.world,key,rows:F.around(w,p.x,p.y,R.viewRange+Math.SQRT2*R.presentationCell)};
+  if(!displayCache||displayCache.world!==w||displayCache.local!==g.world||displayCache.key!==key)displayCache={world:w,local:g.world,key,rows:source().around(w,p.x,p.y,R.viewRange+Math.SQRT2*R.presentationCell)};
   return displayCache.rows.filter(q=>!spent.has(q.id)&&Math.hypot(q.x-p.x,q.y-p.y)<=reach&&(frame?.canSeeRegionalPoint?frame.canSeeRegionalPoint(q):w.line(p,q,0,p.inside,null,.015)));
  }
  function danger(){
@@ -51,11 +74,11 @@ function install(g){
  }
  function quote(id,continuing=null){
   if(!permitted()||!state.enabled)return fail('Activez le carnet de cueillette au dépôt.');const p=pos();
-  if(!p.active||p.z!==0||p.generation<8||p.ecologyVersion!==1||p.hydrologyVersion!==1)return fail('Rejoignez la région naturelle au niveau du sol.');
+  if(!p.active||p.z!==0||!open218()&&(p.generation<8||p.ecologyVersion!==1||p.hydrologyVersion!==1))return fail('Rejoignez la région naturelle au niveau du sol.');
   if(p.car?.driving||g.expeditions?.driving()||g.fieldcraft?.context?.().mounted)return fail('Descendez du véhicule et quittez le poste de tir.');
   if(g.player.reload>0||g.selectedBuild||g.expansions.busy('forage193')||task&&task!==continuing)return fail('Terminez l’action en cours et libérez les mains.');
   if(spent.has(id))return fail('Ramassage épuisé : il ne se renouvelle pas.');if(spent.size>=R.maxRecords)return fail('Le carnet de cueillette est complet.');
-  const w=g.frontier.world(),q=F.candidate(w,id);if(!q||!F.admitted(w,q))return fail('Ramassage absent ou accès devenu impraticable.');
+  const w=g.frontier.world(),S=source(),q=S.candidate(w,id);if(!q||!S.admitted(w,q))return fail('Ramassage absent ou accès devenu impraticable.');
   if(Math.hypot(q.x-p.x,q.y-p.y)>R.reach)return fail('Rapprochez-vous du ramassage.');
   if(w.blocked(p.x,p.y,W.RULES.footRadius,0,p.inside)||!w.movementLine(p,q,0,p.inside,null,.05))return fail('Rejoignez le ramassage par un sol libre et une ligne dégagée.');
   const frame=g.visibility?.frame?.();if(frame?.canSeeRegionalPoint&&!frame.canSeeRegionalPoint(q))return fail('Le ramassage doit être visible depuis votre position.');
