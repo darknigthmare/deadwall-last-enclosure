@@ -181,6 +181,8 @@
    for(const c of V.network.presentation().crates)cube(out,{x:c.x/R.tile-.325,y:c.y/R.tile-.325,z:T?c.z+T.actorFloor(W,c,c,W.buildings,links):c.z,w:.65,h:.65,d:.65},[.56,.44,.28]);
    for(const u of g.units)if(alive(u)&&!u.regionAbsent){const p=V.population.pose(u);humanoid(out,u.x/R.tile,u.y/R.tile,1.8,.28,u.facing||0,motion(u,g.elapsed,p.z,!!g.settings?.reducedMotion),false,T?p.z+T.actorFloor(W,u,p,W.buildings,links):p.z);}
    for(const n of g.world.nodes)if(!n.depleted&&n.amount>0){const x=n.x/R.tile,y=n.y/R.tile,z=T?T.elevation(W,n.x,n.y):0;if(n.type==='wood'){fixed({x:x-.12,y:y-.12,z,w:.24,h:.24,d:2.5},[.35,.27,.17]);fixed({x:x-.8,y:y-.8,z:add(1.8,z),w:1.6,h:1.6,d:2.2},[.18,.28,.16]);}else fixed({x:x-.5,y:y-.5,z,w:1,h:1,d:.7},[.40,.42,.34]);}
+   // Décor des quartiers de la cité de terrain (src/quarter-decor218.js) : boîtes posées sur le relief ; jamais sans terrain.
+   if(T)for(const d of root.DeadwallQuarterDecor218?.boxesFor?.(g,T)||[])fixed(d.box,d.tint);
    const changed=staticMesh.update(staticBoxes);
    function upload(target,mesh,capacity){
     gl.bindBuffer(gl.ARRAY_BUFFER,target);

@@ -25,7 +25,8 @@ function attach(g){
  let world=null,solids=[],spatialIndex=new Map(),moving=null,quote=null,mounted=null,attempt=false,outcome='',opacity=null,action=null,indexWorld=null,indexNodes=null,indexVersion=-1,feedbackUntil=0;
  const wrap=(name,fn)=>{const old=g[name].bind(g);g[name]=(...a)=>fn(old,...a);};
  function fixtures(){return (g.expeditions.sites?.()||C.Expeditions.SITES).map(s=>({id:'exp:'+s.id,x:s.x,y:s.y,renderSize:86,fixture:true}));}
- function objects(){return g.world.nodes.filter(n=>!n.depleted).concat(fixtures());}
+ // Décor des quartiers (G12, src/quarter-decor218.js) : corps métriques lus comme le décor ; aucun sur une carte plate.
+ function objects(){return g.world.nodes.filter(n=>!n.depleted).concat(fixtures(),root.DeadwallQuarterDecor218?.solids?.(g)||[]);}
  function index(){indexWorld=g.world;indexNodes=g.world.nodes;indexVersion=g.world.navigationVersion;solids=objects();spatialIndex=new Map();for(const e of solids){const b=rect(e);for(let y=Math.floor(b.t/128);y<=Math.floor(b.b/128);y++)for(let x=Math.floor(b.l/128);x<=Math.floor(b.r/128);x++){const k=x+':'+y;if(!spatialIndex.has(k))spatialIndex.set(k,[]);spatialIndex.get(k).push(e);}}}
  function props(x,y,r=0){if(indexWorld!==g.world||indexNodes!==g.world.nodes||indexVersion!==g.world.navigationVersion)index();const found=new Set();for(let yy=Math.floor((y-r)/128);yy<=Math.floor((y+r)/128);yy++)for(let xx=Math.floor((x-r)/128);xx<=Math.floor((x+r)/128);xx++)for(const p of spatialIndex.get(xx+':'+yy)||[])if(!p.depleted)found.add(p);return found;}
  function blocked(x,y,r=0,ignore=null){

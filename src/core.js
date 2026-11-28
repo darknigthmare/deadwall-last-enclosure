@@ -3817,6 +3817,33 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   // au-delà) ; `ecology` : écologie de la région finie (aucun renouvellement des morts ni des cueillettes) — `depleted` : part des
   // animaux d'un canton abattus au-delà de laquelle le carnet le dit « épuisé », `rows` : cantons chassés listés au carnet.
   C.OpenLife218Rules=Object.freeze({version:1,generation:12,contact:Object.freeze({kind:'errant',bank:50}),forage:Object.freeze({kind:'cueil'}),strictCantons:16,ecology:Object.freeze({depleted:.5,rows:6})});
+  // Décor des six quartiers de la cité de terrain (génération 12, src/quarter-decor218.js) : maisons, étals, ruelles et
+  // parcelles constructibles libres, fonction pure de la graine et du terrain (hachage, aucun flux de génération). Mètres
+  // (une case = un mètre). `square` : demi-côté de la place laissée libre au cœur de chaque quartier ; `clear` : anneau autour
+  // d'une pièce pleine, atteint depuis le centre, à sec, du palier du quartier et hors rampe ; `gap` : ruelle minimale entre
+  // deux pièces pleines ; `roadMargin`, `fixtureMargin` : écart aux routes et aux lieux déjà posés (cœur, haltes, chantiers
+  // de jour, repères de quartier) et à l'emprise des gisements ; `centreClear`, `borderClear`, `passageClear` : distances minimales au centre,
+  // au bord de la cité et aux passages obligés des côtés ; `search` / `parcelSearch` : portée de la recherche autour de la
+  // place voulue ; `alley` : largeur et longueur maximale d'une ruelle peinte ; `parcel` : emprises libres réservées, de la
+  // plus grande à la plus petite (12 × 10 m, ou 10 × 8 m : une maison dans le sens de la place), et nombre visé par quartier. `kinds` : pièces (largeur le long de la place,
+  // profondeur, hauteur peinte) ; `themes` : recette de chaque quartier (pièce, décalage le long de la place, décalage vers
+  // l'extérieur de la cité, mètres depuis le cœur du quartier).
+  C.QuarterDecor218Rules=Object.freeze({version:1,generation:12,square:4,clear:2,gap:2,roadMargin:1,fixtureMargin:2,depositMargin:0,centreClear:22,borderClear:10,passageClear:12,search:14,parcelSearch:16,
+   alley:Object.freeze({width:2,reach:26}),parcel:Object.freeze({sizes:Object.freeze([Object.freeze([12,10]),Object.freeze([10,8])]),count:2,offsets:Object.freeze([Object.freeze([0,-17]),Object.freeze([0,18]),Object.freeze([-19,0]),Object.freeze([19,0])])}),
+   kinds:Object.freeze({
+    pavillon:Object.freeze({name:'Pavillon aux volets clos',w:7,h:6,height:5.5}),appentis:Object.freeze({name:'Appentis',w:3,h:3,height:2.6}),
+    arcade:Object.freeze({name:'Galerie à arcades',w:14,h:4,height:6}),etal:Object.freeze({name:'Étal renversé',w:3,h:2,height:2.2}),
+    tente:Object.freeze({name:'Tente de veille',w:4,h:3,height:2.6}),mirador:Object.freeze({name:'Mirador de planches',w:3,h:3,height:6.5}),
+    citerne:Object.freeze({name:'Citerne rouillée',w:5,h:5,height:5}),hangar:Object.freeze({name:'Hangar de pompage',w:9,h:7,height:5}),
+    abri:Object.freeze({name:'Abri de quai',w:5,h:2,height:2.8}),carcasse:Object.freeze({name:'Carcasse d’autocar brûlé',w:11,h:3,height:3.2}),kiosque:Object.freeze({name:'Kiosque fermé',w:3,h:3,height:3}),
+    guerite:Object.freeze({name:'Guérite',w:2,h:2,height:2.6}),blocs:Object.freeze({name:'Blocs de béton',w:6,h:1,height:1.1}),baraque:Object.freeze({name:'Baraque de contrôle',w:6,h:4,height:3})}),
+   themes:Object.freeze({
+    housing:Object.freeze([['pavillon',-9,-6],['pavillon',9,-6],['pavillon',-9,7],['pavillon',9,7],['appentis',0,-10],['etal',0,8]].map(Object.freeze)),
+    market:Object.freeze([['arcade',0,-8],['etal',-7,4],['etal',0,6],['etal',7,4],['kiosque',-12,4]].map(Object.freeze)),
+    aid:Object.freeze([['tente',-8,-6],['tente',8,-6],['tente',-8,6],['mirador',8,6],['etal',0,-9]].map(Object.freeze)),
+    industry:Object.freeze([['citerne',-8,-7],['citerne',0,-9],['hangar',10,4],['appentis',-9,6],['etal',0,8]].map(Object.freeze)),
+    transit:Object.freeze([['carcasse',0,-8],['abri',-8,5],['abri',8,5],['kiosque',11,-3],['etal',-11,-3]].map(Object.freeze)),
+    checkpoint:Object.freeze([['baraque',0,-8],['guerite',-6,5],['guerite',6,5],['blocs',-9,8],['blocs',9,8],['etal',-10,-3]].map(Object.freeze))})});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),
