@@ -116,14 +116,20 @@
   function viewFor(av){
    const reach=F.radius+4*TILE,near=[],zombies=[];
    for(const b of g.world.buildings.values())if(!b.dead&&Math.hypot(b.x-av.x,b.y-av.y)<=reach)near.push({id:b.id,type:b.type,gx:b.gx,gy:b.gy,health:b.health});
-   for(const z of g.zombies)if(!z.dead)zombies.push({id:z.id,kind:z.kind,x:z.x,y:z.y,health:z.health});
+   const realZ=new Map();for(const z of g.zombies)if(!z.dead){zombies.push({id:z.id,kind:z.kind,x:z.x,y:z.y,health:z.health});realZ.set(z.id,z);}
    const base=S.shareView({wave:g.wave,phase:g.phase,phaseTime:g.phaseTime,resources:g.resources,buildings:near,zombies},av,{radius:F.radius});
    const types=[],kinds=[],code=(list,v)=>{let i=list.indexOf(v);if(i<0){i=list.length;list.push(v);}return i;};
    const T=root.DeadwallTactics||null;
    let b=base.buildings.slice(0,F.maxBuildings).map(x=>{const real=g.world.buildings.get(x.id),d=real?.def||{};
     const flags=(d.wall?1:0)|(d.gate?2:0)|(T?.openGate?.(real)?4:0)|(real&&!real.completed?8:0)|(x.type==='core'?16:0);
-    return[x.id,code(types,x.type),x.gx,x.gy,real?.w||1,real?.h||1,real?.maxHealth>0?round(clamp(real.health/real.maxHealth,0,1)*100):100,flags,round(real?.corpseLoad||0)];});
-   let z=base.zombies.slice(0,F.maxZombies).map(x=>[x.id,code(kinds,x.kind),round(x.x),round(x.y)]);
+    // C6.2 (v2) : rotation et révision de géométrie, lues par les peintres 2,5D et FPS de l'invité.
+    return[x.id,code(types,x.type),x.gx,x.gy,real?.w||1,real?.h||1,real?.maxHealth>0?round(clamp(real.health/real.maxHealth,0,1)*100):100,flags,round(real?.corpseLoad||0),real?.rotation||0,real?.geometryVersion202||0];});
+   let z=base.zombies.slice(0,F.maxZombies).map(x=>{const q=realZ.get(x.id);return[x.id,code(kinds,x.kind),round(x.x),round(x.y),round((q?.facing||0)*100),q?.maxHealth>0?round(clamp(q.health/q.maxHealth,0,1)*100):100];});
+   // C6.2 : équipe de la cité (ouvriers, soldats) et étages de citadelle du rayon, pour les mêmes peintres.
+   const V2=C.CoopViews217Rules?.frame,ukinds=[],u=[];
+   for(const q of g.units||[]){if(!V2||u.length>=V2.maxUnits)break;if(q.dead||q.guest217||q.regionAbsent||Math.hypot(q.x-av.x,q.y-av.y)>F.radius)continue;u.push([q.id,code(ukinds,q.kind),round(q.x),round(q.y),round((q.facing||0)*100),q.maxHealth>0?round(clamp(q.health/q.maxHealth,0,1)*100):100]);}
+   const decks=[],shownB=new Set(base.buildings.map(x=>x.id));
+   if(V2)try{for(const box of g.vertical175?.geometry?.()||[]){if(decks.length>=V2.maxDecks)break;if(box.type==='structure'||!shownB.has(box.owner))continue;decks.push([box.owner,...[box.x,box.y,box.z,box.w,box.h,box.d].map(n=>Math.round(n*10)/10),box.type==='deck'?0:1]);}}catch(error){decks.length=0;}
    // Masses au-delà du rayon : comptes par carreau, sans position individuelle.
    const cells=new Map(),shown=new Set(z.map(x=>x[0]));
    for(const q of zombies){if(shown.has(q.id))continue;const key=Math.floor(q.x/F.massCell)+':'+Math.floor(q.y/F.massCell);const c=cells.get(key)||{n:0,x:0,y:0};c.n++;c.x+=q.x;c.y+=q.y;cells.set(key,c);}
@@ -132,15 +138,17 @@
    const mates=[...avatars.values()].filter(o=>o!==av).map(o=>[o.seat,o.name,round(o.x),round(o.y),+o.facing.toFixed(2),o.dead?1:0]);
    const p=g.player;
    let districts=[];try{districts=(g.districts?.list?.()||[]).slice(0,S.RULES.view.maxDistricts).map(d=>['ring:'+d.rank,String(d.name).slice(0,32),d.closed?1:0,d.infected?1:0]);}catch(error){districts=[];}
-   const view={v:1,wave:base.wave,phase:base.phase,phaseTime:base.phaseTime,night:+(1-(g.daylight?.()??1)).toFixed(2),size:g.local?.size||0,radius:base.radius,
+   const view={v:V2?2:1,wave:base.wave,phase:base.phase,phaseTime:base.phaseTime,night:+(1-(g.daylight?.()??1)).toFixed(2),size:g.local?.size||0,radius:base.radius,
     ammo:Math.floor(Number(g.resources.ammo)||0),hidden:zombies.length-z.length,types,kinds,b,z,masses,shots,mates,
     host:{x:round(p.x),y:round(p.y),a:+(p.facing||0).toFixed(2),away:p.regionAbsent?1:0,dead:p.dead?1:0,dossier:g.paused||g.activeOverlay?1:0},
     self:{x:+av.x.toFixed(1),y:+av.y.toFixed(1),a:+av.facing.toFixed(2),hp:round(av.health),max:av.maxHealth,dead:av.dead?1:0,respawn:+av.respawn.toFixed(1),mag:av.carry.ammo,reload:+av.reload.toFixed(1),district:av.district,speed:A.speed},
     pings:pings.filter(q=>g.elapsed-q.at<F.pingSeconds).map(q=>[q.seat,round(q.x),round(q.y),+(g.elapsed-q.at).toFixed(1)]),districts};
+   if(V2)Object.assign(view,{seed:Number(g.world.seed)>>>0,e:+(Number(g.elapsed)||0).toFixed(2),w:+(Number(g.weather)||0).toFixed(2),ukinds,u,decks});
    // Budget du relais (octets) : on retire d'abord les bâtiments, puis les corps les plus lointains.
    let text=JSON.stringify(view);
-   while(bytes(text)>R.relay.hostChars-400&&(view.b.length>16||view.z.length>16)){
-    if(view.b.length>16)view.b=view.b.slice(0,Math.ceil(view.b.length*.7));else{const cut=view.z.length-Math.ceil(view.z.length*.7);view.z=view.z.slice(0,view.z.length-cut);view.hidden+=cut;}
+   while(bytes(text)>R.relay.hostChars-400&&(view.b.length>16||view.z.length>16||view.u?.length||view.decks?.length)){
+    if(view.decks?.length)view.decks=view.decks.slice(0,Math.floor(view.decks.length*.5));else if(view.u?.length)view.u=view.u.slice(0,Math.floor(view.u.length*.5));
+    else if(view.b.length>16)view.b=view.b.slice(0,Math.ceil(view.b.length*.7));else{const cut=view.z.length-Math.ceil(view.z.length*.7);view.z=view.z.slice(0,view.z.length-cut);view.hidden+=cut;}
     text=JSON.stringify(view);
    }
    return view;
@@ -251,9 +259,11 @@
   if(typeof serialize==='function')g.serialize=function(...args){
    const data=serialize.apply(this,args);
    if(!session||!avatars.size||!data||typeof data!=='object'||!data.resources)return data;
+   // Une sauvegarde déclenchée pendant le pas des infectés (avatars prêtés à `units`) ne garde jamais un avatar (D4).
+   const units=Array.isArray(data.units)?data.units.filter(u=>u?.kind!=='guest217'):data.units;
    const resources={...data.resources};
    for(const key of C.RESOURCE_KEYS){let extra=0;for(const av of avatars.values())extra+=Number(av.carry[key])||0;if(extra>0)resources[key]=Math.min(Math.max(Number(this.storage)||0,resources[key]),resources[key]+extra);}
-   return{...data,resources};
+   return{...data,resources,...(Array.isArray(data.units)?{units}:{})};
   };
   const closing='Campagne de l’hôte fermée : la session est terminée.';
   for(const name of ['startNew','restoreSave']){const old=g[name];if(typeof old!=='function')continue;g[name]=function(...args){if(session)stop(true,closing);return old.apply(this,args);};}

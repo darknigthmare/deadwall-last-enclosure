@@ -64,7 +64,7 @@ octet pour octet** à la base ; les tests coop existants restent verts ; `--test
 ## C6 — Client invité (en partie livré)
 
 - [x] C6.1 Interface : adresse, code, rôle ; statut accessible (comme l'onglet coop actuel).
-- [~] C6.2 Peintres 2,5D et FPS sur l'image ; interpolation ; prédiction de son seul avatar.
+- [x] C6.2 Peintres 2,5D et FPS sur l'image ; interpolation ; prédiction de son seul avatar (livré, voir bilan C6.2).
 - [x] C6.3 Vrai navigateur, deux onglets (serveur local 4512, relais 4513) : parcours 1 à 6 de la spec.
 
 ## C7 — Chef de sortie (à faire, décision D1-B)
@@ -102,8 +102,26 @@ Décisions D1–D7 tranchées par l'utilisateur : voir [spec.md §6.0](spec.md).
   `activeOverlay`), boucle d'écran. Non testés un par un : relève (`succession133.js`), introduction de campagne,
   arsenal, paquetage, exploration : ils passent par le même masque, sans test dédié.
 - **C6** (en partie) : client invité (`createClient`), peintre de dessus dédié (`paint`), interpolation entre les
-  deux dernières images, prédiction d'affichage de son avatar, liste des districts, aide des commandes. Reste :
-  peindre l'image avec les peintres 2,5D et FPS existants (C6.2).
+  deux dernières images, prédiction d'affichage de son avatar, liste des districts, aide des commandes. C6.2 livré
+  ensuite (bilan ci-dessous).
+
+## Bilan C6.2 — vues 2,5D et FPS de l'invité
+
+- `src/coop-views218.js` (script public après `src/coop-ui217.js`) : façade de lecture de l'image. La vue 2,5D appelle les
+  méthodes de dessin du prototype de `Game` (sol, file de profondeur, bâtiments et leur art, unités, infectés, Commandant,
+  tirs, pluie, nuit) sur des objets d'affichage copiés de l'image ; la vue FPS nourrit `DeadwallVertical175Render.createFPS`
+  avec une citadelle de lecture (œil de l'avatar de l'invité, boîtes des bâtiments du rayon, étages lus dans l'image).
+  Aucune méthode de simulation, aucun tirage, aucune horloge : le temps d'animation est `e` (temps de l'hôte) interpolé.
+- Image v2 (`src/coop-host217.js`) : graine (variantes d'art), temps de l'hôte, pluie, rotation et révision de géométrie
+  des bâtiments, orientation et santé des corps, équipe de la cité (`C.CoopViews217Rules.frame.maxUnits`) et boîtes d'étages
+  de citadelle (`maxDecks`) ; le rognage au budget du relais retire d'abord étages et équipe. Mesure : environ 15,6 Ko pour
+  une cité de 436 bâtiments et 700 infectés (vague 30). Un invité lit encore une image v1.
+- Interface : vue 2,5D par défaut ; bouton « VUE » et touche V (2,5D → FPS → dessus). En FPS, la souris tourne le regard,
+  ZQSD marche selon le regard (intention toujours unitaire, 32 directions). Sans WebGL : retour annoncé à la vue de dessus.
+- Correctif relevé en vrai navigateur : une sauvegarde déclenchée pendant le pas des infectés (avatars prêtés à `units`)
+  était refusée (« type de survivant ») ; l'enveloppe de `serialize` de l'hôte retire désormais tout avatar (D4).
+- Tests : `tests/coop-views218.test.cjs`, cas C6.2 de `tests/coop-play217.test.cjs` ; vrai navigateur hôte + invité par le
+  relais (serveur 8771, relais 8772), captures 2,5D, FPS, dessus et repli sans WebGL pendant une vague.
 
 ## Reste à faire
 

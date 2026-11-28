@@ -3804,6 +3804,11 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   // évalués par appel (préparation étalée), plans gardés ; `range` : rayon d'action du véhicule, détour routier supposé ;
   // `detailed` : l'itinéraire borné du monde (même objet que `WorldOpen217Rules.route`), premier tronçon détaillé du GPS.
   C.OpenAtlas217Rules=Object.freeze({version:1,generation:12,window:Object.freeze({margin:1,max:15}),rasters:8,summaries:256,places:1024,macro:Object.freeze({margin:4,maxSpan:160,maxNodes:24000,perCall:6,plans:4}),range:Object.freeze({detour:1.25}),detailed:C.WorldOpen217Rules.route});
+  // Coopération, vues de l'invité (specs/cooperation, tranche C6.2) : champs d'image ajoutés (équipe et étages de citadelle
+  // du rayon, au plus), vues proposées dans l'ordre de bascule, caméra 2,5D, regard FPS (radians par pixel, tangage borné
+  // d'affichage seul), directions de marche en FPS (pas angulaire de l'intention), signal posé devant soi en FPS (pixels).
+  C.CoopViews217Rules=Object.freeze({version:1,frame:Object.freeze({maxUnits:48,maxDecks:64}),views:Object.freeze(['iso','fps','top']),
+   iso:Object.freeze({zoom:1}),fps:Object.freeze({turn:.0045,pitch:.004,pitchLimit:.6,moveSteps:32,pingAhead:240})});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),

@@ -32,9 +32,13 @@
  function decode(view){
   if(!view||typeof view!=='object')return null;
   const types=Array.isArray(view.types)?view.types:[],kinds=Array.isArray(view.kinds)?view.kinds:[];
-  const buildings=(Array.isArray(view.b)?view.b:[]).filter(Array.isArray).map(b=>({id:b[0],type:String(types[b[1]]??''),gx:+b[2]||0,gy:+b[3]||0,w:+b[4]||1,h:+b[5]||1,hp:+b[6]||0,flags:+b[7]||0,corpses:+b[8]||0}));
-  const zombies=(Array.isArray(view.z)?view.z:[]).filter(Array.isArray).map(z=>({id:z[0],kind:String(kinds[z[1]]??'walker'),x:+z[2]||0,y:+z[3]||0}));
-  return{...view,buildings,zombies};
+  const buildings=(Array.isArray(view.b)?view.b:[]).filter(Array.isArray).map(b=>({id:b[0],type:String(types[b[1]]??''),gx:+b[2]||0,gy:+b[3]||0,w:+b[4]||1,h:+b[5]||1,hp:+b[6]||0,flags:+b[7]||0,corpses:+b[8]||0,rotation:(+b[9]||0)&3,gv:b[10]===1?1:0}));
+  const zombies=(Array.isArray(view.z)?view.z:[]).filter(Array.isArray).map(z=>({id:z[0],kind:String(kinds[z[1]]??'walker'),x:+z[2]||0,y:+z[3]||0,facing:(+z[4]||0)/100,hp:z[5]===undefined?100:+z[5]||0}));
+  // Image v2 (C6.2) : équipe de la cité et étages de citadelle, lus par les vues 2,5D et FPS (src/coop-views218.js).
+  const ukinds=Array.isArray(view.ukinds)?view.ukinds:[];
+  const units=(Array.isArray(view.u)?view.u:[]).filter(Array.isArray).map(u=>({id:u[0],kind:String(ukinds[u[1]]??'worker'),x:+u[2]||0,y:+u[3]||0,facing:(+u[4]||0)/100,hp:u[5]===undefined?100:+u[5]||0}));
+  const decks=(Array.isArray(view.decks)?view.decks:[]).filter(d=>Array.isArray(d)&&d.slice(1,7).every(Number.isFinite)).map(d=>({owner:d[0],x:d[1],y:d[2],z:d[3],w:d[4],h:d[5],d:d[6],module:d[7]===1}));
+  return{...view,buildings,zombies,units,decks};
  }
  // Position d'affichage d'un corps entre deux images (interpolation), sans rien écrire.
  function blend(prev,cur,t){
@@ -146,7 +150,8 @@
    '#coop217Guest .coop217-hud{position:absolute;left:12px;top:10px;right:12px;padding:6px 10px;background:rgba(16,24,25,.88);border-left:4px solid #9bd17a;color:#eef2ea;font:13px/1.45 system-ui,sans-serif}'+
    '#coop217Guest .coop217-help{position:absolute;left:12px;bottom:10px;padding:4px 10px;background:rgba(16,24,25,.8);color:#c9d3c4;font:12px/1.4 system-ui,sans-serif}'+
    '#coop217Guest .coop217-districts{position:absolute;right:12px;top:64px;width:min(280px,40vw);padding:6px 10px;background:rgba(16,24,25,.85);color:#eef2ea;font:12px/1.5 system-ui,sans-serif}'+
-   '#coop217Guest .coop217-leave{position:absolute;right:12px;bottom:10px}';
+   '#coop217Guest .coop217-leave{position:absolute;right:12px;bottom:10px}#coop217Guest .coop217-view{position:absolute;right:210px;bottom:10px}'+
+   '#coop217Guest .coop217-cross{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:#f3f6ef;font:700 22px/1 monospace;pointer-events:none;text-shadow:0 0 3px #000}';
    (doc.head||doc.body).appendChild(style);}catch(error){}
 
   // ---- Côté invité : section du menu principal.
@@ -164,19 +169,37 @@
 
   // Vue de l'invité assis.
   const layer=el('div');layer.id='coop217Guest';layer.hidden=true;layer.setAttribute('role','application');layer.setAttribute('aria-label','Vue de la cité de l’hôte');
-  const canvas=el('canvas'),hudLine=el('div',undefined,'coop217-hud'),help=el('div','ZQSD/WASD : se déplacer · souris : viser · clic : tirer · F : signal au curseur · 1–8 : tenir un district · 0 : ne plus tenir · Échap : quitter','coop217-help');
+  const canvas=el('canvas'),hudLine=el('div',undefined,'coop217-hud'),help=el('div','ZQSD/WASD : se déplacer · souris : viser · clic : tirer · F : signal au curseur · 1–8 : tenir un district · 0 : ne plus tenir · V : changer de vue · Échap : quitter','coop217-help');
   const list=el('div',undefined,'coop217-districts'),leaveBtn=el('button','QUITTER LA CITÉ','coop217-leave');leaveBtn.type='button';
-  hudLine.setAttribute('role','status');layer.append(canvas,hudLine,list,help,leaveBtn);doc.body.appendChild(layer);
-  const held=new Set(),mouse={x:0,y:0};let raf=0,aim=0;
+  // C6.2 : vues 2,5D et FPS (src/coop-views218.js) ; le peintre de dessus reste la vue de repli.
+  const fpsCanvas=el('canvas');fpsCanvas.id='coop217Fps';fpsCanvas.hidden=true;fpsCanvas.setAttribute('aria-label','Vue FPS depuis votre avatar ; déplacez la souris pour tourner.');
+  const viewBtn=el('button','VUE : 2,5D','coop217-view');viewBtn.type='button';viewBtn.id='coop217View';const cross=el('div','+','coop217-cross');cross.hidden=true;
+  hudLine.setAttribute('role','status');layer.append(canvas,fpsCanvas,cross,hudLine,list,help,viewBtn,leaveBtn);doc.body.appendChild(layer);
+  const held=new Set(),mouse={x:0,y:0},VIEWS=C?.CoopViews217Rules?.views||['iso','fps','top'],VF=C?.CoopViews217Rules?.fps||{},NAMES={iso:'2,5D',fps:'FPS',top:'DESSUS'};
+  let raf=0,aim=0,pitch=0,mode=VIEWS[0],viewNote='';
+  const views=()=>g.coopViews218||null;
+  function setView(next){if(!VIEWS.includes(next))return false;mode=next;viewNote='';write(viewBtn,'VUE : '+NAMES[mode]);if(mode!=='fps'){pitch=0;client.setMove(moveOf(held));}return true;}
+  const cycleView=()=>setView(VIEWS[(VIEWS.indexOf(mode)+1)%VIEWS.length]);
+  // Marche : en FPS, l'avant suit le regard ; l'intention reste une direction unitaire.
+  const walk=()=>mode==='fps'&&root.DeadwallCoopViews218?.turnMove?root.DeadwallCoopViews218.turnMove(moveOf(held),aim):moveOf(held);
   const seated=()=>client.overview().status==='seated';
-  const screenToWorld=()=>{const st=client.frameState();if(!st)return null;const w=canvas.clientWidth||root.innerWidth||1280,h=canvas.clientHeight||root.innerHeight||720;return{x:st.self.x+(mouse.x-w/2),y:st.self.y+(mouse.y-h/2)};};
+  const screenToWorld=()=>{const st=client.frameState();if(!st)return null;if(mode==='fps'){const d=VF.pingAhead||240;return{x:st.self.x+Math.cos(aim)*d,y:st.self.y+Math.sin(aim)*d};}const w=canvas.clientWidth||root.innerWidth||1280,h=canvas.clientHeight||root.innerHeight||720;return{x:st.self.x+(mouse.x-w/2),y:st.self.y+(mouse.y-h/2)};};
   function paintNow(){
    raf=0;if(layer.hidden)return;
    const w=root.innerWidth||1280,h=root.innerHeight||720,dpr=root.devicePixelRatio||1;
    if(canvas.width!==Math.round(w*dpr)||canvas.height!==Math.round(h*dpr)){canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);}
-   const ctx=canvas.getContext?.('2d'),st=client.frameState();
-   if(ctx){ctx.setTransform?.(dpr,0,0,dpr,0,0);if(st)paint(ctx,{...st,width:w,height:h,aim});else{ctx.fillStyle='#161b17';ctx.fillRect(0,0,w,h);}}
-   const o=client.overview();write(hudLine,(o.status==='seated'?'':o.notice+' · ')+hud(st?.cur,o.notice));
+   const st=client.frameState(),Vw=views();
+   // FPS : peintre WebGL de la citadelle ; sans WebGL, retour à la vue de dessus avec un avis.
+   let shown=mode;
+   if(mode==='fps'){if(!st||(Vw&&Vw.fps(fpsCanvas,st,{aim,pitch})))shown='fps';else{shown='top';if(!Vw||Vw.webgl?.()===false){mode='top';write(viewBtn,'VUE : '+NAMES.top);viewNote='WebGL indisponible : vue de dessus.';}}}
+   fpsCanvas.hidden=shown!=='fps';canvas.hidden=shown==='fps';cross.hidden=shown!=='fps';
+   if(shown!=='fps'){
+    const ctx=canvas.getContext?.('2d');
+    if(ctx){ctx.setTransform?.(dpr,0,0,dpr,0,0);let done=false;
+     if(st&&shown==='iso'&&Vw){try{done=Vw.iso(ctx,st,{width:w,height:h,dpr,aim});}catch(error){done=false;}if(!done){mode='top';write(viewBtn,'VUE : '+NAMES.top);viewNote='Vue 2,5D indisponible : vue de dessus.';}ctx.setTransform?.(dpr,0,0,dpr,0,0);}
+     if(!done){if(st)paint(ctx,{...st,width:w,height:h,aim});else{ctx.fillStyle='#161b17';ctx.fillRect(0,0,w,h);}}}
+   }
+   const o=client.overview();write(hudLine,(o.status==='seated'?'':o.notice+' · ')+hud(st?.cur,o.notice)+(viewNote?' · '+viewNote:''));
    const ds=st?.cur?.districts||[],key=ds.map(d=>d.join('|')).join(';')+'#'+(st?.cur?.self?.district||'');
    if(list.dataset.key!==key){list.dataset.key=key;list.replaceChildren(el('strong','DISTRICTS'));if(!ds.length)list.appendChild(el('div','Aucune enceinte fermée autour du centre.'));ds.slice(0,8).forEach((d,i)=>list.appendChild(el('div',(i+1)+' · '+d[1]+(d[2]?'':' (ouverte)')+(d[3]?' · infecté':'')+(st.cur.self.district===d[0]?' · TENU':''))));}
    if(typeof root.requestAnimationFrame==='function')raf=root.requestAnimationFrame(paintNow);
@@ -192,14 +215,20 @@
    event.stopImmediatePropagation?.();
    if(event.target?.closest?.('input, select, textarea'))return;
    if(down&&event.code==='Escape'){event.preventDefault?.();client.leave();return;}
+   if(down&&event.code==='KeyV'&&!event.repeat){cycleView();return;}
    if(down&&event.code==='KeyF'&&!event.repeat){const at=screenToWorld();if(at)client.intent('ping',{x:Math.round(at.x),y:Math.round(at.y)});return;}
    if(down&&/^Digit[0-8]$/.test(event.code)&&!event.repeat){const n=Number(event.code.slice(5)),ds=client.frameState()?.cur?.districts||[];client.intent('hold',{district:n===0?null:ds[n-1]?.[0]??null});return;}
    const all=[...KEYS.up,...KEYS.down,...KEYS.left,...KEYS.right];
    if(!all.includes(event.code))return;event.preventDefault?.();
-   if(down)held.add(event.code);else held.delete(event.code);client.setMove(moveOf(held));
+   if(down)held.add(event.code);else held.delete(event.code);client.setMove(walk());
   };
   root.addEventListener?.('keydown',e=>key(true,e),true);root.addEventListener?.('keyup',e=>key(false,e),true);
   root.addEventListener?.('blur',()=>{if(seated()){held.clear();client.setMove({x:0,y:0});client.intent('fire',{on:false});}});
+  // FPS : la souris tourne le regard (déplacement relatif) ; le tangage n'est que d'affichage.
+  fpsCanvas.addEventListener('mousemove',e=>{const dx=Number(e.movementX)||0,dy=Number(e.movementY)||0;if(!dx&&!dy)return;aim=Math.atan2(Math.sin(aim+dx*(VF.turn||.0045)),Math.cos(aim+dx*(VF.turn||.0045)));pitch=Math.max(-(VF.pitchLimit||.6),Math.min(VF.pitchLimit||.6,pitch-dy*(VF.pitch||.004)));client.setAim(aim);if(held.size)client.setMove(walk());});
+  fpsCanvas.addEventListener('mousedown',e=>{if(e.button===0)client.intent('fire',{on:true});else if(e.button===2){e.preventDefault?.();const at=screenToWorld();if(at)client.intent('ping',{x:Math.round(at.x),y:Math.round(at.y)});}});
+  fpsCanvas.addEventListener('contextmenu',e=>e.preventDefault?.());
+  viewBtn.addEventListener('click',()=>cycleView());
   canvas.addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY;const w=canvas.clientWidth||root.innerWidth||1280,h=canvas.clientHeight||root.innerHeight||720;aim=Math.atan2(mouse.y-h/2,mouse.x-w/2);client.setAim(aim);});
   canvas.addEventListener('mousedown',e=>{if(e.button===0)client.intent('fire',{on:true});else if(e.button===2){e.preventDefault?.();const at=screenToWorld();if(at)client.intent('ping',{x:Math.round(at.x),y:Math.round(at.y)});}});
   canvas.addEventListener('contextmenu',e=>e.preventDefault?.());
@@ -234,7 +263,7 @@
   const togglePause=g.togglePause;
   if(typeof togglePause==='function')g.togglePause=function(...args){const result=togglePause.apply(this,args);try{refreshHost();}catch(error){}return result;};
   refreshHost();
-  g.coopUI217=Object.freeze({client,refresh:refreshHost,paint:ctx=>{const st=client.frameState();return st?paint(ctx,{...st,width:ctx.canvas?.width||1280,height:ctx.canvas?.height||720}):false;}});
+  g.coopUI217=Object.freeze({client,refresh:refreshHost,view:()=>mode,setView,paint:ctx=>{const st=client.frameState();return st?paint(ctx,{...st,width:ctx.canvas?.width||1280,height:ctx.canvas?.height||720}):false;}});
   return true;
  }
  return Object.freeze({install,createClient,paint,decode,hud,moveOf,blend});

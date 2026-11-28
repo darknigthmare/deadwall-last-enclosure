@@ -273,3 +273,27 @@ test('C3/C6 interface : rejoindre dans le menu principal, ouvrir sa cité dans l
  // Aucune clé de sauvegarde, aucun module d'extension : la coopération est une session, pas une règle de campagne.
  assert.ok(!read('src/expansion-kit.js').includes('coop'));assert.ok(!read('src/coop-host217.js').includes('expansions.register'));
 });
+
+// ---------- Vues de l'invité (C6.2) : image v2, le peintre de dessus reste le repli ----------
+test('C6.2 : image v2 lue par les vues 2,5D et FPS ; le peintre de dessus la peint toujours',()=>{
+ const {createCanvas}=require('@napi-rs/canvas');
+ const {g}=campaign();const s=seatGuests(g);g.spawnZombie('walker');steps(g,20);s.deliver();
+ const view=g.coopHost217.view(1);assert.equal(view.v,2);
+ for(const k of ['seed','e','w','u','ukinds','decks'])assert.ok(k in view,k);
+ assert.ok(Buffer.byteLength(JSON.stringify(view))<=R.relay.hostChars);
+ const cur=UI.decode(s.guests[0].guest.view());assert.ok(Array.isArray(cur.units)&&Array.isArray(cur.decks));
+ assert.ok(cur.zombies.every(z=>Number.isFinite(z.facing)&&Number.isFinite(z.hp)));
+ const canvas=createCanvas(200,120);assert.equal(UI.paint(canvas.getContext('2d'),{prev:null,cur,t:1,self:cur.self,width:200,height:120}),true);
+ // L'interface propose les trois vues ; la 2,5D d'abord.
+ assert.equal(g.coopUI217.view(),'iso');
+});
+
+test('C6.2 (vu en navigateur) : une sauvegarde pendant le pas des infectés ne garde pas l’avatar prêté à `units`',()=>{
+ const {g}=campaign();seatGuests(g);
+ const before=stamp(g.serialize());
+ // Même situation que pendant `updateZombies` : l'avatar est dans `units` le temps du pas.
+ const av=g.coopHost217.avatars()[0];g.units.push(av);
+ try{const d=g.serialize();assert.ok(!d.units.some(u=>u.kind==='guest217'));assert.equal(stamp(d),before);
+  g.save(false);assert.notEqual(g.lastSaveStatus?.code,'invalid-state','la sauvegarde passe la validation');}
+ finally{g.units.splice(g.units.indexOf(av),1);}
+});
