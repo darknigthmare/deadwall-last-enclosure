@@ -140,7 +140,7 @@ test('cantons 217 : brique chargée par le jeu depuis O9 (option « Sans bord »
   const html=read('index.html'),at=f=>html.indexOf('<script src="src/'+f+'"></script>');
   assert.ok(at('core.js')>=0&&at('core.js')<at('world-cantons217.js')&&at('world-cantons217.js')<at('world-canton-gen217.js'),'chargé par le jeu, après le cœur');assert.ok(read('sw.js').includes('"src/world-cantons217.js"'));
   // Lecteurs : modules G12, l'ouverture, le registre des cantons vus de frontier.js et la fiche de graine (aperçu sans bord).
-  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(!['world-cantons217.js','world-canton-gen217.js','world-local217.js','world-open217.js','world-sites217.js','world-save217.js','core.js','openworld217.js','frontier.js','seed-card217.js'].includes(file))assert.ok(!read('src/'+file).includes('WorldCantons217'),file+' ne doit pas dépendre des cantons');
+  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(!['world-cantons217.js','world-canton-gen217.js','world-local217.js','world-open217.js','world-sites217.js','world-save217.js','core.js','openworld217.js','openlife217.js','openworld217-atlas.js','frontier.js','seed-card217.js'].includes(file))assert.ok(!read('src/'+file).includes('WorldCantons217'),file+' ne doit pas dépendre des cantons');
   // frontier.js ne lit les cantons que pour une campagne de génération 12.
   assert.ok(read('src/frontier.js').includes("function cantons217(){if(state.generation!==12||!Array.isArray(state.cantons))return;const K=root.DeadwallWorldCantons217;"));
   assert.equal((read('src/core.js').match(/WorldCantons217Rules/g)||[]).length,1);

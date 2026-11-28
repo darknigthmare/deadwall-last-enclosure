@@ -47,7 +47,8 @@
   oval(c,l*(s==='heron'?.35:.29),-w*.09,l*.012,w*.023,'#24352d');
  }
  function drawAnimal(c,a,{reducedMotion=false,corpse=false}={}){
-  if(a?.id?.startsWith('A189_'))return (root.DeadwallWildlifeArt189||(typeof require==='function'?require('./wildlife-art189.js'):null))?.draw(c,a,{reducedMotion,corpse})||false;
+  // T5.4 : les animaux des cantons sans bord (`K…:faune:n`) ont les silhouettes du catalogue élargi.
+  if(a?.id?.startsWith('A189_')||/^K(?:0|-?[1-9]\d{0,6})_(?:0|-?[1-9]\d{0,6}):faune:(?:0|[1-9]\d{0,4})$/.test(a?.id||''))return (root.DeadwallWildlifeArt189||(typeof require==='function'?require('./wildlife-art189.js'):null))?.draw(c,a,{reducedMotion,corpse})||false;
   if(!a||!SPECIES.includes(a.species)||!finite(a)||!corpse&&(a.hp??a.health??0)<=0)return false;
   const rule=root.DeadwallCore?.BiomePopulation165Rules?.species?.[a.species],l=a.length??rule?.length,w=a.width??rule?.width;
   if(![l,w,a.a??0].every(Number.isFinite)||l<=0||w<=0)return false;

@@ -1,5 +1,15 @@
 # Équilibrage de référence
 
+## Coopération, faune des cantons, révisions — 217
+
+`C.CoopPlay217Rules` : avatar d'invité à 100 PV, vitesse 136, 28 dégâts, 5 tirs/s, portée 700, chargeur de 30 pris dans `resources.ammo`, rechargement 2,2 s, retour au dépôt 8 s, invulnérabilité 2 s ; image à 8 Hz, rayon 900, 200 corps, 320 bâtiments ; relais 12 images/s par invité. Risque non mesuré : un à trois tireurs de plus allègent la pression sans que le nombre d'infectés n'augmente ; à surveiller, sans y répondre par des points de vie.
+
+`C.OpenLife217Rules` (faune des cantons) : `waterSearch` 80 m, `maxKills` 24 000, `strictCantons` 16, `maxLive` 2 048 ; densités, espèces et rendements de la région finie (74 animaux candidats/km² autour de 17117 contre 82 en G11, écart dû à la mer et aux lacs).
+
+`C.OpenAtlas217Rules` (présentation seule) : fenêtre de 15 cantons au plus avec marge d'un canton, graphe macro des coutures en couloir de ±4 cantons (écart maximal 160, 24 000 nœuds, 6 cantons par lecture), détour supposé 1,25. Mesures : estimation 1,17 à 1,23 fois le vol d'oiseau, 247 tronçons sur 248 reliés ; avec 16 de carburant utile, rayon d'action de 3,2 km à vol d'oiseau.
+
+`C.WorldRevision217Rules` : `maxEras` 16 révisions par campagne, rampe d'un cran sur les coutures entre révisions.
+
 ## Eau de pluie des haltes — 1.74
 
 `CampaignWater214Rules` centralise les quantités. Remise en service : 12 secondes, 4 bois et 4 ferrailles du sac, payés seulement à l’achèvement. Le tonneau préparé commence vide et contient au plus 24 unités d’eau de service. À pleine pluie, il reçoit 0,06 unité par seconde active ; le débit suit l’intensité réelle, sans collecte sous un toit, en pause ou après destruction. Un plein depuis zéro demande donc au minimum 400 secondes effectivement exposées à une pluie maximale, sans puisage.
@@ -457,7 +467,7 @@ La nécropole se multiplie avec la corvée de déblaiement (×2,25 pendant la co
 | Eau de cité | Sans alerte | Âge Ville dans 7/24 parties (vagues 15–22) ; pénurie seulement si une citerne tombe. |
 | Lois | Non éprouvé | Âge 7 jamais atteint (âge max 4). |
 
-`sickness.siegeWalls` 0,25 : pendant l'assaut et la sécurisation, la maladie ne compte que le quart de la charge au pied des murs (les corps frais d'un mur assiégé ne pourrissent pas encore). Au calme, la charge non déblayée compte en entier ; corps à traiter et douves toujours en entier. Charge mécanique des murs (rampes, brèches, `C.CORPSE_PRESSURE`) inchangée. Règle sans état (lue dans la phase de vague déjà sauvegardée), seuil par habitant inchangé à 4. Reste 20/56 vagues tardives (5/8 sur 17117, 6/8 sur 4294967295) : levier restant = rythme du déblaiement au calme (230–330 corps en ~210 s). Non éprouvé en partie humaine.
+`calmClear` 1,25 : au calme seulement, la boucle des ouvriers déblaie le pied des murs ×1,25 (geste, Commandant, fossés et autres phases inchangés). Banc : vagues 18–25 malades 20/64 → 13/64, vagues 11–17 4/56 → 2/56, malades 3 → 0, palier maximal 4 → 2 ; la négligée reste au palier 6 (161 départs). `sickness.siegeWalls` 0,25 : pendant l'assaut et la sécurisation, la maladie ne compte que le quart de la charge au pied des murs (les corps frais d'un mur assiégé ne pourrissent pas encore). Au calme, la charge non déblayée compte en entier ; corps à traiter et douves toujours en entier. Charge mécanique des murs (rampes, brèches, `C.CORPSE_PRESSURE`) inchangée. Règle sans état (lue dans la phase de vague déjà sauvegardée), seuil par habitant inchangé à 4. Reste 20/56 vagues tardives (5/8 sur 17117, 6/8 sur 4294967295) : levier restant = rythme du déblaiement au calme (230–330 corps en ~210 s). Non éprouvé en partie humaine.
 
 Réglages mesurés, non appliqués : `sickness.perPerson` 8 (vagues malades réduites de 30 à 60 % sur 3 graines, moral pire sur une) ; `graceSeconds` 240 (−10 à −35 %). Le levier dominant est la charge des murs pendant les assauts tardifs. Réserves : le banc n'est pas une partie humaine (la défense laisse fuir ~90 % de l'effectif dans l'enceinte) ; âges 3+ atteints par promotion ; sorties régionales, avant-postes, lois, factions et grands ouvrages non joués.
 
@@ -470,6 +480,8 @@ Réglages mesurés, non appliqués : `sickness.perPerson` 8 (vagues malades réd
 `C.OpenWorld217Rules` : `frame` 192 m ; `prefetch` 1 canton par image dans l'anneau de rayon 1 ; `lookAhead` 3 m à pied, 45 m en voiture ; `exitSearch` {2, 40} ; `revision` 1. `C.WorldSave217Rules.open` passe à vrai. Les valeurs de siège adossé (ci-dessous) n'ont pas encore été rejouées dans une partie lancée par le menu.
 
 ## Siège adossé — O7 (hors jeu)
+
+Décision du 23 novembre 2026 (révisée le même jour après mesure) : `C.OpenSiege217Rules.narrowPass` {`sides` 2, `below` 128, `perMetre` 0,03125} : sur une cité à exactement deux côtés non clos, chaque passage de moins de 128 m reçoit au plus max(1, 0,03125 × largeur) arrivées par seconde (96 m : 3/s ; 32 m : 1/s). Mesures à l'âge 6 : 17117 et 10 (96 + 32 m) tiennent 93 et 105 s, au-dessus des 74–88 s sur quatre fronts ; avec le premier seuil (64 m), elles tombaient en 62–64 s car le premier échelon passait par le côté large non plafonné. La lecture de siège donne le débit propre à chaque passage (« passages étroits : est 3 par seconde et ouest 1 par seconde au plus »). Écart de ±15 s d'une exécution à l'autre ; non joué par le menu.
 
 Décision du 22 novembre 2026 : `passRate.max` 1,5 (arrivées par seconde au plus, toute cité à un seul côté non clos, quelle que soit sa largeur) ; `C.OpenSiege217.rate` = max(`min`, min(`max`, `perMetre` × largeur)). Une cité à plusieurs côtés dont la vague ne prend qu'un front garde le débit par mètre seul. La Meneuse rassemblée et son escorte debout entrent dans le débit (une place chacune avant la première arrivée). Mesures (51 relevés) : à 1,5/s, une cité à un seul côté de 32 à 64 m tient 164 à 176 s à l'âge 4 et 147 à 156 s à l'âge 6, contre 107 à 137 s et 73 à 88 s sur quatre fronts ; aucune chute à l'âge 2 (à 2/s, la graine 714 tombait : écarté). Cadavres par mètre : 0,8 à 4,7 sur un seul côté contre 0,05 à 0,44 sur quatre fronts. Une vague de l'âge 6 dure 11 min 16 s au plafond (à éprouver en jeu). Les cités à deux côtés (59 à 64 s à l'âge 6) restent plus fragiles que sur quatre fronts : non traité. Écart de mesure ±15 s d'une exécution à l'autre.
 

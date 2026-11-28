@@ -43,7 +43,10 @@
  function create(seed,options={}){
   seedOK(seed);
   const cache=K.createCache(options.cache||{}),stats={generated:0,routes:0,routeNodes:0};
-  const canton=(cx,cy)=>cache.ensure(cx,cy,()=>{stats.generated++;return G.generate(seed,cx,cy);});
+  // D-O4 : `options.generate(cx, cy)` rend le canton d'une autre révision du générateur (canton déjà vu d'une campagne
+  // créée sous cette révision, src/openworld217.js) ; rien (undefined) = générateur courant.
+  const own=typeof options.generate==='function'?options.generate:null;
+  const canton=(cx,cy)=>cache.ensure(cx,cy,()=>{stats.generated++;return own&&own(cx,cy)||G.generate(seed,cx,cy);});
   // Garde l'anneau protégé autour du dernier point lu, rend la mémoire au-delà.
   const settle=(cx,cy)=>{cache.evict(cx,cy);};
   const cellX=(c,i)=>c.bounds.x+(i%N+.5)*CELL,cellY=(c,i)=>c.bounds.y+(Math.floor(i/N)+.5)*CELL;

@@ -98,6 +98,14 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
   await window.webContents.executeJavaScript(`new Promise((resolve,reject) => {
     let attempts=0; const check=() => { if(globalThis.DEADWALL) requestAnimationFrame(()=>resolve(true)); else if(attempts++>100) reject(new Error('Game did not initialize')); else setTimeout(check,50); }; check();
   })`);
+  // Intro du studio (src/intro-studio218.js) : l'application de bureau n'est pas un navigateur piloté, l'intro s'ouvre ;
+  // on la passe comme un joueur (passer, puis l'écran d'accueil) avant de toucher au menu principal.
+  const intro = await window.webContents.executeJavaScript(`new Promise((resolve,reject) => {
+    const api=globalThis.DEADWALL.introStudio218; if(!api) return reject(new Error('Studio intro module missing'));
+    const mode=api.mode; if(api.isOpen()){ api.skip(); api.start(); }
+    let attempts=0; const check=() => { if(!api.isOpen()) resolve({mode,phase:api.phase()}); else if(attempts++>60) reject(new Error('Studio intro did not hand the main menu back')); else setTimeout(check,50); }; check();
+  })`);
+  assert.equal(intro.phase, 'menu', 'the studio intro hands the main menu back');
   const isolation = await window.webContents.executeJavaScript(`({ require:typeof require, process:typeof process, bridge:Object.keys(window.deadwallDesktop).sort(), desktop:window.deadwallDesktop.isDesktop, origin:location.href })`);
   assert.equal(isolation.require, 'undefined');
   assert.equal(isolation.process, 'undefined');

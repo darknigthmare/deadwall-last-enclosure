@@ -3599,7 +3599,9 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // sickness.siegeWalls : part de la charge au pied des murs comptée par la maladie pendant l'assaut et la sécurisation (les corps
  // frais d'un mur assiégé ne pourrissent pas encore) ; toute la charge compte de nouveau au calme. La charge des murs (rampes,
  // brèches) n'en dépend pas.
- C.CorpseChain217Rules=Object.freeze({startAge:2,reach:100,
+ // calmClear : au calme seulement (ni alerte, ni assaut, ni sécurisation), les ouvriers déblaient le pied des murs ×`calmClear`
+ // (le geste `clearCorpsesWithWorker` et sa cadence restent ceux du moteur ; le Commandant et les fossés n'en dépendent pas).
+ C.CorpseChain217Rules=Object.freeze({startAge:2,reach:100,calmClear:1.25,
   pyre:Object.freeze({perSecond:1.5,cost:Object.freeze({wood:.4,fuel:.1}),signature:60}),
   pit:Object.freeze({cost:Object.freeze({wood:20}),digSeconds:45,perSecond:.25,capacity:120}),
   sickness:Object.freeze({base:40,perPerson:4,clearRatio:.6,graceSeconds:120,moraleDrain:.2,sickWarnSeconds:300,sickSeconds:420,sickInterval:90,sickDamage:.35,
@@ -3636,6 +3638,12 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  C.CoopSession217Rules=Object.freeze({protocol:217,maxGuests:3,codeChars:Object.freeze([6,12]),nameChars:24,maxPending:32,perStep:8,maxSeq:2147483647,maxTick:2147483647,
   roles:Object.freeze({district:Object.freeze(['move','aim','fire','ping','hold']),sortie:Object.freeze(['move','aim','fire','ping'])}),
   view:Object.freeze({radius:900,maxZombies:240,maxBuildings:400,maxDistricts:16})});
+  // Coopération en jeu (specs/cooperation, tranches C2–C5, décisions D1–D7 du 23 novembre 2026) : budgets du relais 217,
+  // image envoyée à 8 Hz (D7), avatar d'invité tireur sur le stock de l'hôte (D5-A), temps continu et onglet caché (D3).
+  C.CoopPlay217Rules=Object.freeze({version:1,relay:Object.freeze({hostChars:30000,framesPerSecond:12,hostPerSecond:90,hostBurst:120,guestsPerRoom:3}),
+   frame:Object.freeze({hz:8,radius:900,maxBuildings:320,maxZombies:200,massCell:640,maxMasses:24,maxShots:40,maxPings:12,pingSeconds:8,pingGap:1.5}),
+   avatar:Object.freeze({health:100,speed:136,radius:12,magazine:30,reload:2.2,fireRate:5,damage:28,range:700,spread:.06,respawnSeconds:8,invulnerable:2}),
+   clock:Object.freeze({hiddenStepMs:250,hiddenMaxSeconds:1,hiddenGraceSeconds:90,checkMs:500})});
   // Terrain de la cité de génération 12 dans le jeu (ouverture.md, tranche O6a, hors jeu) : surcoûts du champ de flux des hordes,
   // dans l'unité de son pas (10 par case) — rampe payée sur l'arête qui change de palier, gué sur la case d'un ruisseau sans pont.
   // Mêmes valeurs que les coûts de chemin de la carte locale (`costs` de ses règles), relues par le test de la tranche.
@@ -3665,7 +3673,12 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   // Siège adossé, plafond de passage (décision du 22 novembre 2026, D-O2 inchangée) : toute cité à un seul front, quelle
   // que soit sa largeur, est plafonnée à `passRate.max` arrivées par seconde au plus ; la Meneuse et son escorte, déjà
   // sur la carte à l'assaut, entrent dans ce même débit (`lead`). Même effectif total, vague plus longue.
-  C.OpenSiege217Rules=Object.freeze({version:1,generation:12,foldShares:Object.freeze({basis:'width',minShare:.1}),passRate:Object.freeze({perMetre:.25,min:1,max:1.5}),minFronts:1});
+  // Cité à deux côtés (décision du 23 novembre 2026, D-O2 inchangée) : sur une cité à `narrowPass.sides` côtés non clos
+  // exactement, chaque passage plus étroit que `narrowPass.below` mètres a aussi son plafond, proportionnel à sa largeur :
+  // `narrowPass.perMetre` × largeur arrivées par seconde par ce passage, au moins `passRate.min` (32 m : 1,5 par seconde,
+  // le plafond d'un seul côté). Même effectif, vague plus longue ; la Meneuse et son escorte y prennent leur place comme
+  // sur une cité à un seul côté. Le côté large (64 m et plus) garde le débit du plan.
+  C.OpenSiege217Rules=Object.freeze({version:1,generation:12,foldShares:Object.freeze({basis:'width',minShare:.1}),passRate:Object.freeze({perMetre:.25,min:1,max:1.5}),minFronts:1,narrowPass:Object.freeze({sides:2,below:128,perMetre:.03125})});
   // Lecture pure de ces règles, sans tirage propre (le mélange des fronts est celui du jeu, passé en argument).
   // Sur une carte plate (`sides` absent), quatre côtés ouverts de même poids : le repli est l'identité.
   C.OpenSiege217=(()=>{
@@ -3707,10 +3720,30 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
     return Math.max(R.passRate.min,open(sides).length===1?Math.min(R.passRate.max,metre):metre);
    };
    const gap=(interval,fronts,sides)=>Math.max(interval,1/rate(fronts,sides));
+   // Plafond propre d'un passage étroit d'une cité à deux côtés (arrivées par seconde par ce côté) ; `Infinity` ailleurs.
+   const narrow=(side,sides)=>{
+    const N=R.narrowPass,w=width(sides,side);
+    return sides&&w>0&&w<N.below&&open(sides).length===N.sides&&open(sides).includes(side)?Math.max(R.passRate.min,N.perMetre*w):Infinity;
+   };
+   // Intervalle d'entrée quand `group` (fronts qui reçoivent les arrivées en ce moment, parmi `fronts` de la vague) passe
+   // par des passages étroits : chacun reçoit sa part `share` du groupe, jamais au-delà de son plafond. Sans passage
+   // étroit, exactement `gap`.
+   function passGap(interval,fronts,group,sides,share){
+    let out=gap(interval,fronts,sides);const list=Array.isArray(group)&&group.length?group:fronts;
+    const own=share||shares(list,sides),sum=list.reduce((n,f)=>n+(own[f]||0),0);
+    for(const f of list){const cap=narrow(f,sides);if(Number.isFinite(cap))out=Math.max(out,(sum>0?(own[f]||0)/sum:1/list.length)/cap);}
+    return out;
+   }
    // Attente de la file avant la première arrivée quand `onSite` infectés (Meneuse et escorte) passent déjà par ce front :
    // chacun prend une place du débit, `passGap` étant l'intervalle d'entrée de la partie (`gap`). Aucune attente hors
    // d'une cité à un seul front.
-   const lead=(onSite,passGap,fronts,sides)=>{const n=Math.max(0,Math.floor(Number(onSite)||0)),t=Number(passGap);return n&&t>0&&Number.isFinite(t)&&Number.isFinite(rate(fronts,sides))?n*t:0;};
+   // `side` (facultatif) : côté de la Meneuse ; passage étroit d'une cité à deux côtés, chacun y prend une place de son
+   // plafond, même si la vague a plusieurs fronts.
+   const lead=(onSite,passGap,fronts,sides,side)=>{
+    const n=Math.max(0,Math.floor(Number(onSite)||0)),t=Number(passGap),own=side===undefined?Infinity:narrow(side,sides);
+    const base=n&&t>0&&Number.isFinite(t)&&Number.isFinite(rate(fronts,sides))?n*t:0;
+    return n&&Number.isFinite(own)?Math.max(base,n/own):base;
+   };
    // Nom du passage d'un côté, pour l'annonce : « la rampe du nord », « les deux ponts de l’est », « l’ouest ».
    function label(side,s){
     if(!s||s.status==='ouvert')return THE[side];
@@ -3737,7 +3770,7 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
     if(!plain(raw.emitted,f)||f.some(s=>!Number.isInteger(raw.emitted[s])||raw.emitted[s]<0)||f.reduce((n,s)=>n+raw.emitted[s],0)>(base.wavePlan?.total??0))fail('arrivées');
     return{wave:raw.wave,asked:raw.asked,folded:raw.folded,fronts:f.slice(),shares:Object.fromEntries(f.map(s=>[s,raw.shares[s]])),emitted:Object.fromEntries(f.map(s=>[s,raw.emitted[s]]))};
    }
-   return Object.freeze({SIDES,open,shares,fold,quotas,pick,rate,gap,lead,label,phrase,normalize});
+   return Object.freeze({SIDES,open,shares,fold,quotas,pick,rate,gap,narrow,passGap,lead,label,phrase,normalize});
   })();
   // Vie de la cité de génération 12 (ouverture.md, préalable O9 (a), hors jeu) : quartiers et haltes d'expédition posés
   // sur le terrain par une fonction pure de la graine et de la description (hachage, aucun flux de génération). `clear` :
@@ -3751,6 +3784,26 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   // d'un point libre le long du bord de la cité à la sortie ; `revision` : révision du générateur portée par la campagne (D-O4,
   // « évoluer, puis geler » : une campagne d'une autre révision reste jouable, signalée « monde révisé »).
   C.OpenWorld217Rules=Object.freeze({version:1,generation:12,frame:192,prefetch:Object.freeze({perFrame:1,radius:1}),lookAhead:Object.freeze({foot:3,car:45}),exitSearch:Object.freeze({step:2,reach:40}),revision:1});
+  // Faune et épaves des cantons du monde sans bord (T5.4, src/openlife217.js). Densités, espèces, guildes par milieu,
+  // dérive et alarme : celles de la région finie (`Landscape189Rules.population`, `BiomePopulation165Rules`), non recopiées.
+  // `waterSearch` : rayon (m) de recherche de l'eau la plus proche pour l'habitat (au-delà de la plus grande portée de berge,
+  // 65 m) ; `maxKills` : animaux abattus gardés (même plafond que les fiches de faune de la région finie) ; `strictCantons` :
+  // cantons vérifiés contre le monde à la reprise, les plus proches du commandant d'abord (au-delà : forme seule) ;
+  // `maxLive` et `pruneSeconds` : fiches d'animaux vivants gardées en mémoire (jamais sauvegardées) et cadence d'élagage.
+  C.OpenLife217Rules=Object.freeze({version:1,generation:12,kind:'faune',waterSearch:80,maxKills:24000,strictCantons:16,maxLive:2048,pruneSeconds:1});
+  // D-O4 tranché (« le visité reste ») : une campagne sans bord reprise sous une autre révision du générateur garde ses cantons
+  // vus et sa cité ; seuls les cantons jamais vus suivent la révision courante. `maxEras` : révisions successives qu'une
+  // campagne peut porter ; `seam.ramp` : sur une couture entre deux révisions, une marche d'au plus ce nombre de crans (hors
+  // mer) est une rampe (raccord des paliers tirés dans deux champs différents).
+  C.WorldRevision217Rules=Object.freeze({version:1,maxEras:16,seam:Object.freeze({ramp:1})});
+  // Atlas et minicarte sans étendue fixe (ouverture.md, tranche O10 ; tasks.md, T6) — présentation seule, aucune règle de jeu.
+  // `window` : fenêtre glissante de l'atlas en cantons (marge autour des cantons vus, côté maximal centré sur le joueur) ;
+  // `rasters` : reliefs de canton préparés par image de l'atlas ; `summaries` / `places` : cantons et lieux retenus en mémoire
+  // (lus dans le monde chargé, jamais générés) ; `macro` : graphe des coutures (fonction pure de la graine) pour un GPS au-delà
+  // de `WorldOpen217Rules.route.maxCantons` — marge du couloir, écart maximal départ-arrivée et nœuds au plus (cantons), cantons
+  // évalués par appel (préparation étalée), plans gardés ; `range` : rayon d'action du véhicule, détour routier supposé ;
+  // `detailed` : l'itinéraire borné du monde (même objet que `WorldOpen217Rules.route`), premier tronçon détaillé du GPS.
+  C.OpenAtlas217Rules=Object.freeze({version:1,generation:12,window:Object.freeze({margin:1,max:15}),rasters:8,summaries:256,places:1024,macro:Object.freeze({margin:4,maxSpan:160,maxNodes:24000,perCall:6,plans:4}),range:Object.freeze({detour:1.25}),detailed:C.WorldOpen217Rules.route});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),

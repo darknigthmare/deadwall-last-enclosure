@@ -215,7 +215,7 @@
  const andList=a=>a.length<2?a.join(''):a.slice(0,-1).join(', ')+' et '+a[a.length-1];
  const THE_SIDE=freeze({north:'le nord',east:'l’est',south:'le sud',west:'l’ouest'}),AT_SIDE=freeze({north:'au nord',east:'à l’est',south:'au sud',west:'à l’ouest'});
  function describeOpen(input){
-  const C=core(),seed=input?.seed,L=need('DeadwallWorldLocal217','./world-local217.js'),d=input?.local217||L.describe(seed),sh=d.sheet;
+  const C=core(),seed=input?.seed,L=need('DeadwallWorldLocal217','./world-local217.js'),d=input?.local217||(input?.preview===true?null:root.DeadwallOpenWorld217?.city?.(seed))||L.describe(seed),sh=d.sheet;
   const sides=Object.values(d.sides),open=sides.filter(x=>x.status!=='clos'),closed=sides.filter(x=>x.status==='clos');
   const card={seed,generation:12,open217:true,profile:null,home:{x:0,y:0},preview:input?.preview===true};
   card.opening=opening(input?.nodes,C,input?.local);

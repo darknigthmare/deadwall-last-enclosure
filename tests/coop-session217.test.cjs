@@ -139,18 +139,26 @@ test('coop 217 : l’image partagée lit la vraie partie sans la modifier ni la 
  assert.equal(S.shareView({},{x:NaN}).focus.x,0);
 });
 
-test('coop 217 : brique isolée — aucun script public, aucun module du jeu ne la lit, présence 200 inchangée',()=>{
+test('coop 217 : brique pure — chargée avant ses deux seuls lecteurs (C3), présence 200 inchangée',()=>{
  const source=read('src/coop-session217.js');
  assert.ok(!/Math\.random|Date\.now|performance\.|localStorage|document\b|setTimeout|setInterval|WebSocket/.test(source.replace(/\/\/.*$/gm,'')),'module pur');
  assert.deepEqual([...source.matchAll(/require\('([^']+)'\)/g)].map(m=>m[1]),['./core.js']);
- assert.ok(!read('index.html').includes('coop-session217'));assert.ok(!read('sw.js').includes('coop-session217'));
+ // Tranche C3 : la brique devient un script public, chargé avant l'adaptateur hôte et l'interface (ordre seulement).
+ const html=read('index.html'),at=name=>html.indexOf('<script src="src/'+name+'"></script>');
+ assert.ok(at('coop-session217.js')>0&&at('coop-session217.js')<at('coop-host217.js')&&at('coop-host217.js')<at('coop-ui217.js'));
+ for(const name of ['coop-session217.js','coop-host217.js','coop-ui217.js'])assert.ok(read('sw.js').includes('"src/'+name+'"'),name);
+ // Elle reste lue par ses seuls lecteurs : l'adaptateur hôte et l'interface ; aucun autre module du jeu.
+ const readers=[];
  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(file!=='coop-session217.js'&&file!=='core.js'){
-  const text=read('src/'+file);assert.ok(!text.includes('coop-session217')&&!text.includes('DeadwallCoopSession217')&&!text.includes('CoopSession217Rules'),file);
+  const text=read('src/'+file);if(text.includes('coop-session217')||text.includes('DeadwallCoopSession217')||text.includes('CoopSession217Rules'))readers.push(file);
  }
+ assert.deepEqual(readers.sort(),['coop-host217.js','coop-ui217.js']);
  assert.equal((read('src/core.js').match(/CoopSession217Rules/g)||[]).length,1);
  // La préversion de présence garde son protocole et son relais sans autorité.
  const P=require('../src/coop.js');assert.deepEqual(Object.keys(P).sort(),['LIMITS','coordinate','install','label','normalizeSpace','normalizeState','parseMessage','spaceKey']);
- assert.ok(read('scripts/coop-server.mjs').includes('protocol:200'));assert.ok(!read('scripts/coop-server.mjs').includes('217'));
+ assert.ok(read('scripts/coop-server.mjs').includes('protocol:200'));
+ // Tranche C2 : le relais parle aussi le 217, par la seule brique pure (aucune autre dépendance ajoutée).
+ assert.deepEqual([...read('scripts/coop-server.mjs').matchAll(/from '(\.\.[^']+)'/g)].map(m=>m[1]),['../src/coop.js','../src/coop-session217.js']);
 });
 
 test('coop 217 : l’accusé de l’image ne couvre que les intentions appliquées par le pas',()=>{

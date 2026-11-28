@@ -128,7 +128,7 @@ const chunks217=(w,chunk)=>w.chunkRange?w.chunkRange(chunk).count:Math.ceil(w.si
  const path=(c,points,color,width=0)=>{c.beginPath();points.forEach((p,i)=>i?c.lineTo(...p):c.moveTo(...p));if(width){c.strokeStyle=color;c.lineWidth=width;c.stroke();}else{c.closePath();c.fillStyle=color;c.fill();}};
  function draw(c,a,{reducedMotion=false,corpse=false}={}){
   const R=core()?.Landscape189Rules,W=root.DeadwallWildlife189||(typeof require==='function'?require('./wildlife189.js'):null),d=W?.species()[a?.species];
-  if(!d||!(a.id?.startsWith('A189_')||/^B191_[1-9]\d*$/.test(a.id||''))||![a.x,a.y,a.a??0].every(Number.isFinite)||!corpse&&(a.hp??0)<=0)return false;
+  if(!d||!(a.id?.startsWith('A189_')||/^B191_[1-9]\d*$/.test(a.id||'')||/^K(?:0|-?[1-9]\d{0,6})_(?:0|-?[1-9]\d{0,6}):faune:(?:0|[1-9]\d{0,4})$/.test(a.id||''))||![a.x,a.y,a.a??0].every(Number.isFinite)||!corpse&&(a.hp??0)<=0)return false;
   const l=d.length,w=d.width,v=Number.isInteger(a.variant)?((a.variant%4)+4)%4:0,colors=d.colors||legacyColors()?.[a.species]||['#826c4d','#96805e','#6e5f48','#ab9470'];
   const fur=colors[v],dark='#343e34',light='#c5bb9c',phase=!corpse&&a.moving&&!reducedMotion&&Number.isFinite(a.stride165)?a.stride165:0,s=Math.sin(phase),flying=!corpse&&d.mode==='air'&&a.moving;
   c.save();try{
@@ -482,7 +482,8 @@ const chunks217=(w,chunk)=>w.chunkRange?w.chunkRange(chunk).count:Math.ceil(w.si
   oval(c,l*(s==='heron'?.35:.29),-w*.09,l*.012,w*.023,'#24352d');
  }
  function drawAnimal(c,a,{reducedMotion=false,corpse=false}={}){
-  if(a?.id?.startsWith('A189_'))return (root.DeadwallWildlifeArt189||(typeof require==='function'?require('./wildlife-art189.js'):null))?.draw(c,a,{reducedMotion,corpse})||false;
+  // T5.4 : les animaux des cantons sans bord (`K…:faune:n`) ont les silhouettes du catalogue élargi.
+  if(a?.id?.startsWith('A189_')||/^K(?:0|-?[1-9]\d{0,6})_(?:0|-?[1-9]\d{0,6}):faune:(?:0|[1-9]\d{0,4})$/.test(a?.id||''))return (root.DeadwallWildlifeArt189||(typeof require==='function'?require('./wildlife-art189.js'):null))?.draw(c,a,{reducedMotion,corpse})||false;
   if(!a||!SPECIES.includes(a.species)||!finite(a)||!corpse&&(a.hp??a.health??0)<=0)return false;
   const rule=root.DeadwallCore?.BiomePopulation165Rules?.species?.[a.species],l=a.length??rule?.length,w=a.width??rule?.width;
   if(![l,w,a.a??0].every(Number.isFinite)||l<=0||w<=0)return false;
