@@ -3636,7 +3636,7 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // Session de vraie coopération (specs/cooperation/, tranche C1) : un hôte autoritaire, au plus trois
  // invités qui n'envoient que des intentions. Budgets de protocole, sans effet sur la simulation solo.
  C.CoopSession217Rules=Object.freeze({protocol:217,maxGuests:3,codeChars:Object.freeze([6,12]),nameChars:24,maxPending:32,perStep:8,maxSeq:2147483647,maxTick:2147483647,
-  roles:Object.freeze({district:Object.freeze(['move','aim','fire','ping','hold']),sortie:Object.freeze(['move','aim','fire','ping'])}),
+  roles:Object.freeze({district:Object.freeze(['move','aim','fire','ping','hold']),sortie:Object.freeze(['move','aim','fire','ping','search'])}),
   view:Object.freeze({radius:900,maxZombies:240,maxBuildings:400,maxDistricts:16})});
   // Coopération en jeu (specs/cooperation, tranches C2–C5, décisions D1–D7 du 23 novembre 2026) : budgets du relais 217,
   // image envoyée à 8 Hz (D7), avatar d'invité tireur sur le stock de l'hôte (D5-A), temps continu et onglet caché (D3).
@@ -3844,6 +3844,18 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
     industry:Object.freeze([['citerne',-8,-7],['citerne',0,-9],['hangar',10,4],['appentis',-9,6],['etal',0,8]].map(Object.freeze)),
     transit:Object.freeze([['carcasse',0,-8],['abri',-8,5],['abri',8,5],['kiosque',11,-3],['etal',-11,-3]].map(Object.freeze)),
     checkpoint:Object.freeze([['baraque',0,-8],['guerite',-6,5],['guerite',6,5],['blocs',-9,8],['blocs',9,8],['etal',-10,-3]].map(Object.freeze))})});
+  // Coopération, chef de sortie (specs/cooperation, tranche C7, décision D1-B ; sac versé au dépôt, D4) : une seule seconde
+  // bulle régionale à la fois ; avatar en mètres de région (marche, chargeur pris au stock de l'hôte, sac, fouille) ; bulle
+  // (rayon d'apparition et d'oubli des contacts, budget de contacts propre, pas de flux de faune) ; retour : à moins de
+  // `homeReach` mètres de l'emprise de D-17 ; image : rayon, lieux et contacts au plus, échelle du peintre de l'invité.
+  C.CoopSortie217Rules=Object.freeze({version:1,maxSeats:1,
+   avatar:Object.freeze({health:100,walk:3.5,magazine:15,reload:2,fireRate:3,damage:34,range:24,aimWidth:.55,carry:40,lootRate:3,lootReach:6,clearRange:5.5,respawnSeconds:8,invulnerable:2,homeReach:6}),
+   bubble:Object.freeze({stream:130,spawnReach:80,despawn:180,maxEnemies:24,spawnEvery:.25,shotNoise:42,workNoise:11,pulse:.8}),
+   frame:Object.freeze({radius:70,maxSites:24,maxEnemies:48,maxShots:12,shotSeconds:.25,scale:12})});
+  // Coopération, reprise après coupure (tranche C8) : siège et rôle gardés `graceSeconds` après la perte d'un invité (jeton de
+  // reprise tiré par la crypto du navigateur, hors simulation) ; essais de l'invité (millisecondes, le dernier se répète) ;
+  // l'hôte qui perd le relais réessaie pendant `hostRetrySeconds` avant de fermer sa cité.
+  C.CoopResume217Rules=Object.freeze({version:1,graceSeconds:45,tokenChars:16,retryMs:Object.freeze([400,1000,2000,4000]),hostRetrySeconds:30,storageKey:'deadwall.coop217.resume'});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),

@@ -146,7 +146,7 @@ test('C4 D4 : sauvegarde sans clé nouvelle, chargeur compté au dépôt ; dépa
  assert.equal(stamp(g.serialize()),stamp(seated),'départ : sac versé au dépôt, aucune perte ni duplication');
 });
 
-test('C4 : mort de l’avatar, retour au dépôt ; rôle de sortie refusé tant que C7 manque ; Commandant unique',()=>{
+test('C4 : mort de l’avatar, retour au dépôt ; un seul chef de sortie (C7), le second refusé ; Commandant unique',()=>{
  const {g}=campaign();const s=seatGuests(g);
  const av=()=>g.coopHost217.avatars()[0];
  g.damageUnit(g.coopHost217.avatars()[0],1);assert.equal(av().health,R.avatar.health,'invulnérable à l’arrivée');
@@ -160,11 +160,13 @@ test('C4 : mort de l’avatar, retour au dépôt ; rôle de sortie refusé tant 
  for(const z of g.zombies)z.dead=true;g.zombies.length=0;
  steps(g,Math.ceil(R.avatar.respawnSeconds*30)+4);
  const c=g.core();assert.equal(av().dead,false);assert.ok(Math.hypot(av().x-c.x,av().y-c.y)<200,'retour au dépôt');
- // Rôle `sortie` : refusé proprement (tranche C7) ; `commandant` : jamais admis.
+ // Rôle `sortie` (C7) : un seul chef de sortie à la fois ; le second est refusé proprement (`role`) ; `commandant` : jamais admis.
  const other=S.createGuest({name:'Sam',role:'sortie'});g.coopHost217.receive({type:'relay',protocol:P,peer:7,message:other.hello(CODE)});
- const reply=s.out.filter(m=>m.peer===7);assert.equal(reply[0].message.reason,'role');assert.deepEqual(reply[1],{type:'drop',protocol:P,peer:7});
+ assert.equal(s.out.filter(m=>m.peer===7)[0].message.type,'welcome','premier chef de sortie admis');
+ const third=S.createGuest({name:'Noé',role:'sortie'});g.coopHost217.receive({type:'relay',protocol:P,peer:10,message:third.hello(CODE)});
+ const reply=s.out.filter(m=>m.peer===10);assert.equal(reply[0].message.reason,'role');assert.deepEqual(reply[1],{type:'drop',protocol:P,peer:10});
  g.coopHost217.receive({type:'relay',protocol:P,peer:8,message:{type:'hello',protocol:P,code:CODE,name:'X',role:'commandant'}});
- assert.equal(s.out.filter(m=>m.peer===8)[0].message.reason,'invalid');assert.equal(g.coopHost217.overview().guests.length,1);
+ assert.equal(s.out.filter(m=>m.peer===8)[0].message.reason,'invalid');assert.equal(g.coopHost217.overview().guests.length,2);
 });
 
 test('C4 : trois invités dans le protocole, intentions appliquées dans l’ordre (siège, numéro), signal et district tenu',()=>{

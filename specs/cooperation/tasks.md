@@ -67,15 +67,15 @@ octet pour octet** à la base ; les tests coop existants restent verts ; `--test
 - [x] C6.2 Peintres 2,5D et FPS sur l'image ; interpolation ; prédiction de son seul avatar (livré, voir bilan C6.2).
 - [x] C6.3 Vrai navigateur, deux onglets (serveur local 4512, relais 4513) : parcours 1 à 6 de la spec.
 
-## C7 — Chef de sortie (à faire, décision D1-B)
+## C7 — Chef de sortie (livré le 28 novembre 2026, décision D1-B ; sac versé au dépôt, D4)
 
-- [ ] C7.1 Seconde bulle régionale détachée de `g.player`.
-- [ ] C7.2 Tests d'isolement des bulles (poursuites, faune, véhicules, prélèvements).
+- [x] C7.1 Seconde bulle régionale détachée de `g.player` (voir le bilan C7 : objet de session hors de `frontier.js`).
+- [x] C7.2 Tests d'isolement des bulles (poursuites, faune, véhicules, prélèvements) et sauvegarde inchangée.
 
-## C8 — Trois invités, reprise, notes (à faire)
+## C8 — Trois invités, reprise, notes (livré le 28 novembre 2026)
 
-- [ ] C8.1 Charge à trois invités ; reconnexion ; fermeture propre.
-- [ ] C8.2 Paragraphes de bible, de journal et d'équilibrage rendus à l'utilisateur.
+- [x] C8.1 Charge à trois invités ; reconnexion ; fermeture propre.
+- [x] C8.2 Paragraphes de bible, de journal et d'équilibrage rendus à l'utilisateur.
 
 ## Bilan des tranches livrées le 23 novembre 2026
 
@@ -123,7 +123,56 @@ Décisions D1–D7 tranchées par l'utilisateur : voir [spec.md §6.0](spec.md).
 - Tests : `tests/coop-views218.test.cjs`, cas C6.2 de `tests/coop-play217.test.cjs` ; vrai navigateur hôte + invité par le
   relais (serveur 8771, relais 8772), captures 2,5D, FPS, dessus et repli sans WebGL pendant une vague.
 
+## Bilan C7 — chef de sortie
+
+- `src/coop-sortie218.js` (script public après `src/coop-views218.js`) : bulle de session `createBubble(g, {seat, name, pour,
+  tell})` et peintre régional de l'invité (`paint`, `hud`). **Écart au plan, point 1** : l'état de bulle de `src/frontier.js`
+  n'a pas été extrait en objet (fichier de 54 Ko où une centaine de fonctions lisent les fermetures `state`, `enemies`,
+  `near`… ; risque de régression jugé trop fort). La bulle de l'hôte reste donc la bulle d'origine, intacte ; la seconde est
+  un objet de session qui lit la région par les accesseurs publics de `g.frontier` (`world`, `contacts`, `enemyHealth`,
+  `siteStock`, `takeFromSite`, `discoveries`, `revealSites`, `position`). Seul ajout à `frontier.js` : `recordContact218`
+  (santé d'un contact de lieu au registre, comme `hitEnemy`), jamais appelé hors session.
+- Bulle : départ devant une jonction de D-17 (nord d'abord, repli latéral borné), marche à 3,5 m/s avec les mêmes collisions
+  que la bulle de l'hôte (sans véhicule), contacts de lieu au sol seulement (mêmes identifiants, niveaux, profils et santé de
+  registre ; budget propre de 24), poursuites par `DeadwallFrontierSurvey.step`, tir sans dispersion (aucun tirage),
+  fouille (`search`, E tenu) par `takeFromSite` : mêmes contenants, gardes et limite du carnet. Aucun flux de faune, aucun
+  véhicule, aucune trace écrite. Un contact vivant de la bulle de l'hôte quitte la seconde à chaque pas.
+- Ordre : le pas de l'hôte d'abord (sa bulle comprise), puis les bulles de session par siège croissant, intentions dans
+  l'ordre (siège, numéro).
+- D4 : sac versé au dépôt à moins de 6 m de l'emprise de D-17 (dans la capacité de stockage ; un dépôt plein laisse le reste
+  au sac), à la mort (sac et chargeur, puis retour aux portes en 8 s) et au départ ; sac et chargeur comptés dans chaque
+  sauvegarde, sans clé nouvelle. Un seul chef de sortie à la fois (`C.CoopSortie217Rules.maxSeats`).
+- Image régionale v2 (`region:1`) : avatar, sac, lieux du rayon de 70 m (24 au plus, stock libre des lieux repérés),
+  contacts (48 au plus), tirs, emprise de D-17, Commandant s'il est en région à proximité ; environ 0,5 à 2 Ko.
+- Preuve de neutralité : parcours scripté (cité 30 s, sortie de l'hôte, marche, fouille, tir, retour, rechargement de
+  mi-parcours) sur la base `e7336b3` et sur la tranche : sorties identiques octet pour octet.
+- Tests : `tests/coop-sortie218.test.cjs` (6 cas), cas C4 de `tests/coop-play217.test.cjs` adapté (le second chef de sortie
+  est refusé avec `role`).
+
+## Bilan C8 — trois invités, reprise, fermeture
+
+- Jeton de reprise (16 caractères, crypto du navigateur, hors simulation) rendu dans `welcome` ; `hello` peut le porter
+  (`normalizeHello`, relais qui le transmet). Coupure d'un invité : siège et rôle gardés 45 s
+  (`C.CoopResume217Rules.graceSeconds`), avatar retiré et sac au dépôt, le temps peut de nouveau s'arrêter ; retour avec
+  le jeton : même siège, même rôle, numéros d'intention remis à zéro (`createHost().resume`). Un jeton connu depuis un autre
+  socket remplace l'ancien sans doubler l'avatar. Délai dépassé : siège libéré, un retour tardif reçoit un siège libre.
+- Invité : reconnexion automatique (400 ms, 1, 2 puis 4 s) jusqu'à la fin du délai ; billet enregistré dans `localStorage`
+  (onglet rechargé ou rouvert : reprise au chargement) ; effacé au départ volontaire, au refus et à la fermeture.
+- Hôte : relais perdu, sièges gardés, nouvel essai pendant 30 s (`hostRetrySeconds`) avec le même code, puis fermeture propre.
+- Vrai navigateur (4 navigateurs Chromium, serveur 8773, relais 8774) : hôte + deux responsables de district + un chef de
+  sortie pendant une vague ; ~35 images/s reçues par invité sur 17 s (plafond du relais) ; simulation de l'hôte à 0,5× le
+  temps réel sur la machine de test (4 Chromium logiciels) ; onglet rechargé : siège repris en 0,3 s ; relais tué puis
+  relancé : hôte et trois invités sur les mêmes sièges en 8,5 s ; fermeture : « Campagne de l’hôte fermée », billets effacés.
+  Second parcours (serveur 8773, relais 8775) : chef de sortie au lieu occupé, un contact abattu, fouille de 18 ferraille.
+- Tests : `tests/coop-reconnect218.test.cjs` (protocole, hôte, client, bout en bout par le vrai relais redémarré).
+
 ## Reste à faire
+
+- Extraction de l'état de bulle de `src/frontier.js` (point 1 du plan C7) si une seconde bulle doit un jour conduire,
+  monter aux étages ou porter la faune ; non nécessaire au parcours livré.
+- C5.2 : tests un par un des modules qui posent `paused` restants (relève, introduction, arsenal, paquetage, exploration).
+
+## Ancienne liste (avant le 28 novembre 2026, traitée ci-dessus)
 
 - **C7 — chef de sortie** (non commencé ; la condition « le reste livré et vert » ne couvrait pas C6.2) :
   1. extraire de `src/frontier.js` l'état de bulle (`state.x/y/z/a`, `inside`, `near`, `enemies`, `bullets`,

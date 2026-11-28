@@ -28,8 +28,12 @@
   aim:v=>exact(v,['a'])&&finite(v.a,64)?{a:v.a}:null,
   fire:v=>exact(v,['on'])&&typeof v.on==='boolean'?{on:v.on}:null,
   ping:v=>exact(v,['x','y'])&&finite(v.x)&&finite(v.y)?{x:v.x,y:v.y}:null,
-  hold:v=>exact(v,['district'])&&(v.district===null||typeof v.district==='string'&&DISTRICT.test(v.district))?{district:v.district}:null
+  hold:v=>exact(v,['district'])&&(v.district===null||typeof v.district==='string'&&DISTRICT.test(v.district))?{district:v.district}:null,
+  // C7 : fouiller le lieu voisin (chef de sortie seulement, voir les rôles) ; une volonté, jamais une quantité.
+  search:v=>exact(v,['on'])&&typeof v.on==='boolean'?{on:v.on}:null
  });
+ // C8 : jeton de reprise d'un siège (tiré par l'hôte hors simulation), facultatif dans `hello`.
+ const RESUME=new RegExp('^[A-Z0-9]{'+((C.CoopResume217Rules&&C.CoopResume217Rules.tokenChars)||16)+'}$');
  function normalizeIntent(message,role){
   if(!exact(message,['type','protocol','seq','kind','data'])||message.type!=='intent'||message.protocol!==P)return null;
   if(!Number.isSafeInteger(message.seq)||message.seq<1||message.seq>R.maxSeq)return null;
@@ -38,9 +42,11 @@
   return data?{seq:message.seq,kind:message.kind,data}:null;
  }
  function normalizeHello(message){
-  if(!exact(message,['type','protocol','code','name','role'])||message.type!=='hello'||message.protocol!==P)return null;
+  const resumed=exact(message,['type','protocol','code','name','role','resume']);
+  if(!(resumed||exact(message,['type','protocol','code','name','role']))||message.type!=='hello'||message.protocol!==P)return null;
   if(typeof message.code!=='string'||!CODE.test(message.code)||typeof message.role!=='string'||!own(ROLES,message.role))return null;
-  return{code:message.code,name:label(message.name,'Invité'),role:message.role};
+  if(resumed&&(typeof message.resume!=='string'||!RESUME.test(message.resume)))return null;
+  return{code:message.code,name:label(message.name,'Invité'),role:message.role,...(resumed?{resume:message.resume}:{})};
  }
 
  // Image partagée : une lecture bornée de l'état de l'hôte (la forme de Game.serialize, ou un objet
@@ -106,18 +112,30 @@
    const s=seatOf(seat);if(!s||!view||typeof view!=='object'||Array.isArray(view))return null;
    return{type:'frame',protocol:P,tick,seat,ack:s.done,view:JSON.parse(JSON.stringify(view))};
   }
+  // C8 : un invité revenu après une coupure reprend son siège (même rôle) ; ses numéros d'intention repartent de zéro.
+  // L'hôte seul décide qu'un siège est gardé (jeton, délai) : la session vérifie seulement la forme, le code et le rôle.
+  function resume(seat,message){
+   const s=seatOf(seat);if(closed)return{ok:false,reply:{type:'refused',protocol:P,reason:'closed'}};
+   const hello=normalizeHello(message);
+   if(!hello||!s)return{ok:false,reply:{type:'refused',protocol:P,reason:'invalid'}};
+   if(hello.code!==code)return{ok:false,reply:{type:'refused',protocol:P,reason:'code'}};
+   if(hello.role!==s.role)return{ok:false,reply:{type:'refused',protocol:P,reason:'role'}};
+   Object.assign(s,{name:hello.name,last:0,done:0,queue:[]});
+   return{ok:true,seat,reply:{type:'welcome',protocol:P,seat,role:s.role,name:hello.name,tick}};
+  }
   function leave(seat){return seats.delete(seat);}
   function close(){closed=true;const notices=[...seats.keys()].sort((a,b)=>a-b).map(seat=>({seat,message:{type:'closed',protocol:P,tick}}));seats.clear();return notices;}
   function overview(){return{tick,closed,guests:[...seats.values()].sort((a,b)=>a.seat-b.seat).map(s=>({seat:s.seat,name:s.name,role:s.role,ack:s.last,pending:s.queue.length,refused:s.refused,district:s.district}))};}
-  return Object.freeze({admit,receive,step,frame,leave,close,overview,get tick(){return tick;}});
+  return Object.freeze({admit,resume,receive,step,frame,leave,close,overview,get tick(){return tick;}});
  }
 
  // Invité : ne simule rien. Il numérote ses intentions, garde celles que l'hôte n'a pas encore
  // confirmées (pour une prédiction d'affichage) et n'accepte qu'une image plus récente que la précédente.
  function createGuest(options={}){
   const name=label(options.name,'Invité'),role=own(ROLES,options.role)?options.role:'district';
-  let seat=null,seq=0,tick=-1,view=null,status='idle',reason='',pending=[];
-  function hello(code){status='joining';return{type:'hello',protocol:P,code:String(code),name,role};}
+  let seat=null,seq=0,tick=-1,view=null,status='idle',reason='',pending=[],token=null;
+  // C8 : `resume` (jeton reçu dans un `welcome` précédent) redemande le même siège après une coupure.
+  function hello(code,resume){status='joining';return{type:'hello',protocol:P,code:String(code),name,role,...(typeof resume==='string'&&RESUME.test(resume)?{resume}:{})};}
   function intent(kind,data){
    if(status!=='seated'||!ROLES[role].includes(kind)||seq>=R.maxSeq)return null;
    const checked=normalizeIntent({type:'intent',protocol:P,seq:seq+1,kind,data},role);
@@ -127,7 +145,7 @@
   }
   function receive(message){
    if(!record(message)||message.protocol!==P)return false;
-   if(message.type==='welcome'&&status==='joining'&&Number.isSafeInteger(message.seat)&&message.seat>=1&&message.seat<=R.maxGuests&&message.role===role){seat=message.seat;status='seated';tick=-1;return true;}
+   if(message.type==='welcome'&&status==='joining'&&Number.isSafeInteger(message.seat)&&message.seat>=1&&message.seat<=R.maxGuests&&message.role===role){seat=message.seat;status='seated';tick=-1;token=typeof message.resume==='string'&&RESUME.test(message.resume)?message.resume:null;return true;}
    if(message.type==='refused'&&status==='joining'){status='refused';reason=typeof message.reason==='string'?message.reason.slice(0,16):'';return true;}
    if(message.type==='closed'&&status==='seated'){status='closed';pending=[];return true;}
    if(message.type==='frame'&&status==='seated'&&message.seat===seat&&count(message.tick,R.maxTick)&&message.tick>tick&&count(message.ack,R.maxSeq)&&message.ack<=seq&&record(message.view)){
@@ -137,7 +155,7 @@
   }
   return Object.freeze({hello,intent,receive,
    pending:()=>pending.map(m=>({seq:m.seq,kind:m.kind,data:{...m.data}})),
-   view:()=>view,overview:()=>({name,role,seat,status,reason,tick,seq,pending:pending.length})});
+   view:()=>view,token:()=>token,overview:()=>({name,role,seat,status,reason,tick,seq,pending:pending.length})});
  }
 
  return Object.freeze({RULES:R,PROTOCOL:P,ROLES,normalizeIntent,normalizeHello,shareView,createHost,createGuest});

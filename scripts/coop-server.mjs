@@ -10,6 +10,7 @@ const {LIMITS,normalizeState,normalizeSpace,spaceKey,parseMessage,coordinate,lab
 const P217 = Session217.PROTOCOL, R217 = Session217.RULES, RELAY217 = globalThis.DeadwallCore.CoopPlay217Rules.relay;
 const CODE217 = new RegExp('^[A-Z0-9]{' + R217.codeChars[0] + ',' + R217.codeChars[1] + '}$');
 const TO_GUEST217 = new Set(['welcome', 'refused', 'frame', 'closed']);
+// C8 : un `hello` peut porter le jeton de reprise reçu dans un `welcome` ; le relais le transmet sans le lire.
 const record217 = v => !!v && typeof v === 'object' && !Array.isArray(v);
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -125,7 +126,7 @@ export function createCoopRelay({ port = 4290, host, joinTimeoutMs = 10000 } = {
       clearTimeout(deadline);
       const peer = ++room.next; room.peers.set(peer, socket);
       Object.assign(client, { role217: 'guest', code217: hello.code, peer217: peer, seat217: hello.role });
-      send(room.host, { type: 'relay', protocol: P217, peer, message: { type: 'hello', protocol: P217, code: hello.code, name: hello.name, role: hello.role } });
+      send(room.host, { type: 'relay', protocol: P217, peer, message: { type: 'hello', protocol: P217, code: hello.code, name: hello.name, role: hello.role, ...(hello.resume ? { resume: hello.resume } : {}) } });
       return;
     }
     const room = rooms217.get(client.code217);

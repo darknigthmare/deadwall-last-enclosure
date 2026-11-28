@@ -18,8 +18,10 @@
  const lib=(name,file)=>root[name]||(typeof require==='function'?require(file):null);
  const C=lib('DeadwallCore','./core.js'),S=lib('DeadwallCoopSession217','./coop-session217.js');
  const TILE=C?.TILE||32,F=C?.CoopPlay217Rules?.frame,clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v)),lerp=(a,b,t)=>a+(b-a)*t;
- const REFUSED=Object.freeze({code:'Code de salle incorrect.',full:'La cité est complète (trois invités).',closed:'La campagne de l’hôte n’est pas ouverte.',invalid:'Demande refusée : vérifiez le code (6 à 12 lettres majuscules ou chiffres).',absent:'Aucune cité ouverte avec ce code sur ce relais.',role:'Rôle pas encore disponible : choisissez responsable de district.'});
+ const REFUSED=Object.freeze({code:'Code de salle incorrect.',full:'La cité est complète (trois invités).',closed:'La campagne de l’hôte n’est pas ouverte.',invalid:'Demande refusée : vérifiez le code (6 à 12 lettres majuscules ou chiffres).',absent:'Aucune cité ouverte avec ce code sur ce relais.',role:'Rôle indisponible : un seul chef de sortie à la fois, et seulement si la région de l’hôte est lisible.'});
  const PHASES=Object.freeze({calm:'Calme',warning:'Alerte',assault:'Assaut'});
+ const RSR=C?.CoopResume217Rules,ROLE_NAMES=Object.freeze({district:'responsable de district',sortie:'chef de sortie'});
+ const Sortie=()=>root.DeadwallCoopSortie218||(typeof require==='function'?require('./coop-sortie218.js'):null);
  const KEYS=Object.freeze({up:['KeyW','KeyZ','ArrowUp'],down:['KeyS','ArrowDown'],left:['KeyA','KeyQ','ArrowLeft'],right:['KeyD','ArrowRight']});
 
  // Mouvement unitaire à partir des touches tenues : la seule « vitesse » qu'un invité peut envoyer.
@@ -96,42 +98,84 @@
  // Client invité : socket du relais, siège C1, intentions limitées, deux dernières images.
  function createClient(options={}){
   const Socket=options.WebSocket||root.WebSocket,now=options.now||(()=>root.performance?.now?.()??Date.now());
+  // C8 : reprise après coupure. Minuteries et stockage injectables (tests) ; l'heure murale ne sert qu'au délai de reprise.
+  const later=options.setTimeout||((f,ms)=>root.setTimeout?.(f,ms)),cancel=options.clearTimeout||(id=>root.clearTimeout?.(id)),clock=options.wall||(()=>Date.now());
+  const store=Object.hasOwn(options,'storage')?options.storage:(()=>{try{return root.localStorage||null;}catch(error){return null;}})();
   let socket=null,guest=null,status='idle',notice='',prev=null,cur=null,at0=0,at1=0,lastAim=-1,lastAimAt=-1e9,move={x:0,y:0},listeners=new Set();
+  let ticket=null,token=null,retryTimer=null,retryUntil=0,attempt=0,savedAt=-1e9;
   const emit=()=>{for(const f of listeners)try{f();}catch(error){}};
   const sendRaw=m=>{if(m&&socket?.readyState===1)socket.send(JSON.stringify(m));return Boolean(m);};
+  const grace=()=>(RSR?.graceSeconds||0)*1000;
+  function remember(){if(!store||!ticket||!token||!RSR)return;savedAt=now();try{store.setItem(RSR.storageKey,JSON.stringify({...ticket,token,at:clock()}));}catch(error){}}
+  function forget(){token=null;if(!store||!RSR)return;try{store.removeItem(RSR.storageKey);}catch(error){}}
+  function stopRetry(){if(retryTimer!==null){try{cancel(retryTimer);}catch(error){}retryTimer=null;}}
+  function connect(resume){
+   guest=S.createGuest({name:ticket.name,role:ticket.role});move={x:0,y:0};lastAim=-1;
+   try{socket=new Socket(ticket.url);}catch(error){socket=null;return false;}
+   const mine=socket;
+   socket.onopen=()=>{if(socket===mine){sendRaw(guest.hello(ticket.code,resume||undefined));if(status==='joining')notice='Demande envoyée à l’hôte…';emit();}};
+   socket.onmessage=event=>{if(socket!==mine)return;let m=null;try{m=JSON.parse(String(event.data));}catch(error){return;}receive(m);};
+   socket.onclose=()=>{if(socket!==mine)return;socket=null;
+    if(status==='seated'&&token&&RSR){status='reconnecting';retryUntil=now()+grace();attempt=0;notice='Liaison perdue : reconnexion au même siège…';schedule();}
+    else if(status==='reconnecting')schedule();
+    else if(status==='seated'||status==='joining'){notice=status==='joining'?'Relais injoignable.':'Liaison avec l’hôte perdue.';status='closed';}
+    emit();};
+   socket.onerror=()=>{};
+   return true;
+  }
+  // Essais bornés : délais `retryMs` (le dernier se répète) jusqu'à la fin du délai de grâce de l'hôte.
+  function schedule(){
+   stopRetry();
+   if(now()>retryUntil){status='closed';notice='Liaison avec l’hôte perdue : le siège n’a pas pu être repris.';forget();return;}
+   const d=RSR.retryMs[Math.min(attempt,RSR.retryMs.length-1)];attempt++;
+   retryTimer=later(()=>{retryTimer=null;if(status!=='reconnecting')return;if(!connect(token))schedule();emit();},d);
+  }
   function join(url,code,name,role){
    leave(false);
    if(!/^wss?:\/\/[^\s]+$/.test(String(url||''))||typeof Socket!=='function'){status='error';notice='Adresse de relais invalide (ws:// ou wss://).';emit();return false;}
-   guest=S.createGuest({name,role});prev=cur=null;status='joining';notice='Connexion au relais…';
-   try{socket=new Socket(String(url));}catch(error){status='error';notice='Relais injoignable.';emit();return false;}
-   const mine=socket;
-   socket.onopen=()=>{if(socket===mine){sendRaw(guest.hello(String(code||'').trim().toUpperCase()));notice='Demande envoyée à l’hôte…';emit();}};
-   socket.onmessage=event=>{if(socket!==mine)return;let m=null;try{m=JSON.parse(String(event.data));}catch(error){return;}receive(m);};
-   socket.onclose=()=>{if(socket!==mine)return;socket=null;if(status==='seated'||status==='joining'){notice=status==='joining'?'Relais injoignable.':'Liaison avec l’hôte perdue.';status='closed';}emit();};
-   socket.onerror=()=>{};
+   ticket={url:String(url),code:String(code||'').trim().toUpperCase(),name:String(name||''),role:Object.hasOwn(ROLE_NAMES,role)?role:'district'};token=null;
+   prev=cur=null;status='joining';notice='Connexion au relais…';
+   if(!connect(null)){status='error';notice='Relais injoignable.';emit();return false;}
+   emit();return true;
+  }
+  // C8 : reprendre un siège gardé (onglet rouvert) à partir d'un billet enregistré encore frais.
+  function resume(entry){
+   if(!RSR||!entry||typeof entry!=='object'||typeof entry.token!=='string'||typeof Socket!=='function')return false;
+   const age=clock()-Number(entry.at);if(!(age>=0&&age<grace())||!/^wss?:\/\/[^\s]+$/.test(String(entry.url||'')))return false;
+   leave(false);
+   ticket={url:String(entry.url),code:String(entry.code||'').toUpperCase(),name:String(entry.name||''),role:Object.hasOwn(ROLE_NAMES,entry.role)?entry.role:'district'};token=entry.token;
+   prev=cur=null;status='reconnecting';retryUntil=now()+grace()-age;attempt=0;notice='Reprise du siège après fermeture de l’onglet…';
+   if(!connect(token))schedule();
    emit();return true;
   }
   function receive(m){
    if(!guest||!guest.receive(m))return false;
    const o=guest.overview();
-   if(m.type==='welcome'){status='seated';notice='Assis au siège '+o.seat+' : responsable de district.';}
-   else if(m.type==='refused'){status='refused';notice=REFUSED[o.reason]||'Demande refusée.';try{socket?.close();}catch(error){}}
-   else if(m.type==='closed'){status='closed';notice='Campagne de l’hôte fermée. Vous n’emportez rien.';try{socket?.close();}catch(error){}}
-   else if(m.type==='frame'){const v=decode(guest.view());if(v){prev=cur;at0=at1;cur=v;at1=now();}}
+   if(m.type==='welcome'){const back=status==='reconnecting';stopRetry();status='seated';token=guest.token()||token;notice=(back?'Reconnecté au siège ':'Assis au siège ')+o.seat+' : '+(ROLE_NAMES[o.role]||o.role)+'.';remember();}
+   else if(m.type==='refused'){
+    // Pendant une reprise, un hôte encore absent du relais (il se reconnecte lui aussi) n'est pas un refus définitif.
+    if(status==='reconnecting'&&['absent','full'].includes(o.reason)){notice='Hôte pas encore revenu sur le relais : nouvelle tentative…';try{socket?.close();}catch(error){}emit();return true;}
+    stopRetry();status='refused';notice=REFUSED[o.reason]||'Demande refusée.';forget();try{socket?.close();}catch(error){}}
+   else if(m.type==='closed'){stopRetry();status='closed';notice='Campagne de l’hôte fermée. Vous n’emportez rien.';forget();try{socket?.close();}catch(error){}}
+   else if(m.type==='frame'){const v=decode(guest.view());if(v){prev=cur;at0=at1;cur=v;at1=now();}if(now()-savedAt>2000)remember();}
    emit();return true;
   }
   function intent(kind,data){return guest?sendRaw(guest.intent(kind,data)):false;}
   function setMove(next){if(next.x===move.x&&next.y===move.y)return false;move=next;return intent('move',next);}
   function setAim(a){const t=now();if(Math.abs(Math.atan2(Math.sin(a-lastAim),Math.cos(a-lastAim)))<.03||t-lastAimAt<80)return false;lastAim=a;lastAimAt=t;return intent('aim',{a:+a.toFixed(3)});}
-  function leave(announce=true){const s=socket;socket=null;if(s)try{s.close();}catch(error){}if(announce&&status!=='idle'){status='idle';notice='Vous avez quitté la cité.';}prev=cur=null;move={x:0,y:0};emit();}
+  function leave(announce=true){stopRetry();const s=socket;socket=null;if(s)try{s.close();}catch(error){}
+   if(announce){forget();if(status!=='idle'){status='idle';notice='Vous avez quitté la cité.';}}else if(status==='reconnecting')status='idle';
+   prev=cur=null;move={x:0,y:0};emit();}
   // Image d'affichage : interpolée entre les deux dernières, avatar prédit par la dernière intention non confirmée.
   function frameState(){
    if(!cur)return null;const t=now(),span=Math.max(1,at1-at0),k=prev?clamp((t-at1)/span,0,1):1,lag=clamp((t-at1)/1000,0,.25);
    const self=cur.self.dead?{...cur.self}:{...cur.self,x:cur.self.x+move.x*(cur.self.speed||0)*lag,y:cur.self.y+move.y*(cur.self.speed||0)*lag};
    return{prev,cur,t:k,self};
   }
-  return Object.freeze({join,leave,receive,intent,setMove,setAim,frameState,on:f=>{listeners.add(f);return()=>listeners.delete(f);},
-   overview:()=>({status,notice,seat:guest?.overview().seat??null,tick:guest?.overview().tick??-1,pending:guest?.overview().pending??0,frames:Boolean(cur)})});
+  // Billet de reprise enregistré (onglet rouvert), lu sans effet.
+  function stored(){if(!store||!RSR)return null;try{const e=JSON.parse(store.getItem(RSR.storageKey)||'null');return e&&typeof e==='object'?e:null;}catch(error){return null;}}
+  return Object.freeze({join,leave,resume,stored,receive,intent,setMove,setAim,frameState,on:f=>{listeners.add(f);return()=>listeners.delete(f);},
+   overview:()=>({status,notice,seat:guest?.overview().seat??null,role:ticket?.role??null,tick:guest?.overview().tick??-1,pending:guest?.overview().pending??0,frames:Boolean(cur),token:Boolean(token)})});
  }
 
  function install(g,doc){
@@ -159,7 +203,7 @@
   const join=el('details',undefined,'coop217');join.id='coop217Join';join.append(el('summary','COOPÉRATION · REJOINDRE UNE CITÉ'));
   join.appendChild(el('p','Un ami ouvre sa cité depuis son menu de pause et vous donne un code. Vous tenez un district à ses côtés : déplacement, visée, tir, signaux. Il garde la construction, les lois, les ordres et le stock.'));
   const relayIn=input('coop217Relay',defaultRelay(),{autocomplete:'off','aria-label':'Adresse du relais'}),codeIn=input('coop217Code','',{maxlength:'12',autocomplete:'off',autocapitalize:'characters'}),nameIn=input('coop217Name','Invité',{maxlength:'24'});
-  const roleIn=el('select');roleIn.id='coop217Role';const r1=el('option','Responsable de district');r1.value='district';const r2=el('option','Chef de sortie (tranche C7, pas encore disponible)');r2.value='sortie';r2.disabled=true;roleIn.append(r1,r2);
+  const roleIn=el('select');roleIn.id='coop217Role';const r1=el('option','Responsable de district');r1.value='district';const r2=el('option','Chef de sortie (explorer la région, un seul à la fois)');r2.value='sortie';roleIn.append(r1,r2);
   const joinBtn=el('button','REJOINDRE');joinBtn.type='button';joinBtn.id='coop217JoinButton';
   const joinState=el('p','Non connecté.');joinState.id='coop217JoinState';joinState.setAttribute('role','status');
   join.append(field('Adresse du relais',relayIn),field('Code de la cité',codeIn),field('Votre nom',nameIn),field('Rôle',roleIn),joinBtn,joinState);
@@ -170,6 +214,7 @@
   // Vue de l'invité assis.
   const layer=el('div');layer.id='coop217Guest';layer.hidden=true;layer.setAttribute('role','application');layer.setAttribute('aria-label','Vue de la cité de l’hôte');
   const canvas=el('canvas'),hudLine=el('div',undefined,'coop217-hud'),help=el('div','ZQSD/WASD : se déplacer · souris : viser · clic : tirer · F : signal au curseur · 1–8 : tenir un district · 0 : ne plus tenir · V : changer de vue · Échap : quitter','coop217-help');
+  const HELP_CITY=help.textContent,HELP_REGION='Région · ZQSD/WASD : marcher · souris : viser · clic : tirer · E (tenu) : fouiller le lieu voisin · F : signal · retour aux portes de D-17 : sac versé au dépôt · Échap : quitter';
   const list=el('div',undefined,'coop217-districts'),leaveBtn=el('button','QUITTER LA CITÉ','coop217-leave');leaveBtn.type='button';
   // C6.2 : vues 2,5D et FPS (src/coop-views218.js) ; le peintre de dessus reste la vue de repli.
   const fpsCanvas=el('canvas');fpsCanvas.id='coop217Fps';fpsCanvas.hidden=true;fpsCanvas.setAttribute('aria-label','Vue FPS depuis votre avatar ; déplacez la souris pour tourner.');
@@ -183,12 +228,21 @@
   // Marche : en FPS, l'avant suit le regard ; l'intention reste une direction unitaire.
   const walk=()=>mode==='fps'&&root.DeadwallCoopViews218?.turnMove?root.DeadwallCoopViews218.turnMove(moveOf(held),aim):moveOf(held);
   const seated=()=>client.overview().status==='seated';
-  const screenToWorld=()=>{const st=client.frameState();if(!st)return null;if(mode==='fps'){const d=VF.pingAhead||240;return{x:st.self.x+Math.cos(aim)*d,y:st.self.y+Math.sin(aim)*d};}const w=canvas.clientWidth||root.innerWidth||1280,h=canvas.clientHeight||root.innerHeight||720;return{x:st.self.x+(mouse.x-w/2),y:st.self.y+(mouse.y-h/2)};};
+  const screenToWorld=()=>{const st=client.frameState();if(!st)return null;
+   // C7 : en région, l'image est en mètres (échelle du peintre régional).
+   if(st.cur.region){const k=Number(st.cur.scale)||12,w=canvas.clientWidth||root.innerWidth||1280,h=canvas.clientHeight||root.innerHeight||720;return{x:st.self.x+(mouse.x-w/2)/k,y:st.self.y+(mouse.y-h/2)/k};}
+   if(mode==='fps'){const d=VF.pingAhead||240;return{x:st.self.x+Math.cos(aim)*d,y:st.self.y+Math.sin(aim)*d};}const w=canvas.clientWidth||root.innerWidth||1280,h=canvas.clientHeight||root.innerHeight||720;return{x:st.self.x+(mouse.x-w/2),y:st.self.y+(mouse.y-h/2)};};
   function paintNow(){
    raf=0;if(layer.hidden)return;
    const w=root.innerWidth||1280,h=root.innerHeight||720,dpr=root.devicePixelRatio||1;
    if(canvas.width!==Math.round(w*dpr)||canvas.height!==Math.round(h*dpr)){canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);}
    const st=client.frameState(),Vw=views();
+   // C7 : chef de sortie en région — peintre régional de dessus (src/coop-sortie218.js), quelle que soit la vue choisie.
+   const Sr=Sortie();
+   if(st?.cur?.region&&Sr){fpsCanvas.hidden=true;canvas.hidden=false;cross.hidden=true;const ctx=canvas.getContext?.('2d');if(ctx){ctx.setTransform?.(dpr,0,0,dpr,0,0);try{Sr.paint(ctx,{...st,width:w,height:h,aim});}catch(error){}}
+    const o=client.overview();write(hudLine,(o.status==='seated'?'':o.notice+' · ')+Sr.hud(st.cur));write(help,HELP_REGION);list.hidden=true;
+    if(typeof root.requestAnimationFrame==='function')raf=root.requestAnimationFrame(paintNow);return;}
+   list.hidden=false;write(help,HELP_CITY);
    // FPS : peintre WebGL de la citadelle ; sans WebGL, retour à la vue de dessus avec un avis.
    let shown=mode;
    if(mode==='fps'){if(!st||(Vw&&Vw.fps(fpsCanvas,st,{aim,pitch})))shown='fps';else{shown='top';if(!Vw||Vw.webgl?.()===false){mode='top';write(viewBtn,'VUE : '+NAMES.top);viewNote='WebGL indisponible : vue de dessus.';}}}
@@ -209,13 +263,16 @@
    if(on&&!raf&&typeof root.requestAnimationFrame==='function')raf=root.requestAnimationFrame(paintNow);
    if(!on){held.clear();if(raf&&typeof root.cancelAnimationFrame==='function')root.cancelAnimationFrame(raf);raf=0;}
   }
-  client.on(()=>{const o=client.overview();write(joinState,o.notice||'Non connecté.');show(o.status==='seated');if(o.status!=='seated'&&!layer.hidden)show(false);});
+  // C8 : pendant une reprise, la dernière image reste affichée avec l'avis de reconnexion.
+  client.on(()=>{const o=client.overview(),on=o.status==='seated'||o.status==='reconnecting';write(joinState,o.notice||'Non connecté.');show(on);if(!on&&!layer.hidden)show(false);});
   const key=(down,event)=>{
    if(!seated()||layer.hidden)return;
    event.stopImmediatePropagation?.();
    if(event.target?.closest?.('input, select, textarea'))return;
    if(down&&event.code==='Escape'){event.preventDefault?.();client.leave();return;}
    if(down&&event.code==='KeyV'&&!event.repeat){cycleView();return;}
+   // C7 : E tenu = fouiller (chef de sortie seulement ; refusé localement pour un autre rôle).
+   if(event.code==='KeyE'&&!event.repeat&&client.overview().role==='sortie'){event.preventDefault?.();client.intent('search',{on:down});return;}
    if(down&&event.code==='KeyF'&&!event.repeat){const at=screenToWorld();if(at)client.intent('ping',{x:Math.round(at.x),y:Math.round(at.y)});return;}
    if(down&&/^Digit[0-8]$/.test(event.code)&&!event.repeat){const n=Number(event.code.slice(5)),ds=client.frameState()?.cur?.districts||[];client.intent('hold',{district:n===0?null:ds[n-1]?.[0]??null});return;}
    const all=[...KEYS.up,...KEYS.down,...KEYS.left,...KEYS.right];
@@ -263,6 +320,8 @@
   const togglePause=g.togglePause;
   if(typeof togglePause==='function')g.togglePause=function(...args){const result=togglePause.apply(this,args);try{refreshHost();}catch(error){}return result;};
   refreshHost();
+  // C8 : onglet rouvert avant la fin du délai de grâce : reprise automatique du siège enregistré.
+  try{const e=client.stored();if(e)client.resume(e);}catch(error){}
   g.coopUI217=Object.freeze({client,refresh:refreshHost,view:()=>mode,setView,paint:ctx=>{const st=client.frameState();return st?paint(ctx,{...st,width:ctx.canvas?.width||1280,height:ctx.canvas?.height||720}):false;}});
   return true;
  }

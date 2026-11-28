@@ -7,6 +7,9 @@
 // - D5-A : un invité se déplace, vise, tire, signale et désigne le district qu'il tient ; rien d'autre.
 // - D3-A : tant qu'un invité est assis, ni la pause ni un dossier ne gèlent `update` ; onglet caché : pas réduits
 //   par minuterie, puis fermeture annoncée de la session. Hors session, rien ne change : la pause solo est intacte.
+// - C7 (D1-B) : un siège `sortie` (un seul à la fois) explore la région dans une seconde bulle (src/coop-sortie218.js),
+//   avancée ici après le pas de l'hôte, siège par siège ; son sac est versé au dépôt au retour et compté à chaque sauvegarde.
+// - C8 : un invité perdu garde son siège et son rôle `graceSeconds` (jeton de reprise) ; l'hôte qui perd le relais réessaie.
 // Sans session ouverte, chaque enveloppe appelle l'original et rend son résultat tel quel (solo identique au bit près).
 (function(root,factory){
  const api=factory(root);
@@ -21,6 +24,7 @@
  const lib=(name,file)=>root[name]||(typeof require==='function'?require(file):null);
  const C=lib('DeadwallCore','./core.js'),S=lib('DeadwallCoopSession217','./coop-session217.js');
  const R=C.CoopPlay217Rules,P=S.PROTOCOL,TILE=C.TILE,ALPHABET='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+ const RS=C.CoopResume217Rules,KS=C.CoopSortie217Rules,Sortie=()=>lib('DeadwallCoopSortie218','./coop-sortie218.js');
  const finite=Number.isFinite,clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v)),round=v=>Math.round(v);
  const bytes=text=>typeof root.TextEncoder==='function'?new root.TextEncoder().encode(text).length:text.length*3;
  const REASONS=Object.freeze({taken:'Ce code est déjà ouvert sur le relais.',invalid:'Le relais a refusé la demande.',absent:'Hôte absent.'});
@@ -34,11 +38,11 @@
  function install(g,doc){
   if(!g||g.coopHost217||!C||!S||typeof g.update!=='function')return false;
   const A=R.avatar,F=R.frame;
-  let session=null,link=null,code='',status='idle',notice='',tick=0,frameClock=0,hiddenSince=null,lastWall=0,timer=null;
-  const peers=new Map(),avatars=new Map(),pings=[];
+  let session=null,link=null,code='',status='idle',notice='',tick=0,frameClock=0,hiddenSince=null,lastWall=0,timer=null,relayUrl='',retry=null,Socket=null;
+  const peers=new Map(),avatars=new Map(),pings=[],sorties=new Map(),tokens=new Map(),held=new Map();
   const playing=()=>g.state==='playing'&&!g.gameOver;
-  // Prédicat unique du temps continu (C5) : une session ouverte et au moins un invité assis.
-  const live=()=>Boolean(session)&&avatars.size>0&&playing();
+  // Prédicat unique du temps continu (C5) : une session ouverte et au moins un invité assis (cité ou région).
+  const live=()=>Boolean(session)&&(avatars.size+sorties.size)>0&&playing();
   const tell=(text,tone='normal')=>{try{g.notify?.(text,tone);}catch(error){/* note facultative */}};
   const core=()=>{try{return g.core?.()||null;}catch(error){return null;}};
   const send=message=>{try{link?.send(message);}catch(error){/* le relais retire seul un socket cassé */}};
@@ -59,6 +63,12 @@
    for(const key of C.RESOURCE_KEYS){const have=Number(av.carry[key])||0;if(!(have>0))continue;const room=Math.max(0,(Number(g.storage)||0)-(Number(g.resources[key])||0)),put=Math.min(room,have);g.resources[key]+=put;moved+=put;av.carry[key]=0;}
    return moved;
   }
+  // C7 : sac d'un chef de sortie versé au dépôt ; ce qui est posé quitte le sac, un dépôt plein laisse le reste au sac.
+  function pourBag(bag){
+   let moved=0;
+   for(const key of C.RESOURCE_KEYS){const have=Number(bag[key])||0;if(!(have>0))continue;const room=Math.max(0,(Number(g.storage)||0)-(Number(g.resources[key])||0)),put=Math.min(room,have);g.resources[key]+=put;bag[key]=have-put;moved+=put;}
+   return moved;
+  }
   function spawn(av){const at=depot(av);Object.assign(av,{x:at.x,y:at.y,dead:false,health:av.maxHealth,respawn:0,invulnerable:A.invulnerable,reload:0,fireCooldown:0});draw(av);}
   function avatar(seat,name,role){
    const av={id:-seat,seat,name,role,kind:'guest217',guest217:true,x:0,y:0,radius:A.radius,health:A.health,maxHealth:A.health,dead:false,facing:0,
@@ -66,6 +76,7 @@
    spawn(av);return av;
   }
   function remove(seat,why){
+   const b=sorties.get(seat);if(b){sorties.delete(seat);b.dispose();if(why)tell(b.name+' '+why);return;}
    const av=avatars.get(seat);if(!av)return;
    avatars.delete(seat);av.dead=true;pour(av);
    for(const z of g.zombies||[])if(z.prey===av)z.prey=null;
@@ -96,6 +107,7 @@
   // Intentions rendues par `step()` dans l'ordre (siège, numéro) : appliquées avant tout le reste du pas.
   function apply(intents){
    for(const it of intents){
+    const b=sorties.get(it.seat);if(b){b.intent(it.kind,it.data);continue;}
     const av=avatars.get(it.seat);if(!av)continue;
     if(it.kind==='move')av.move={x:it.data.x,y:it.data.y};
     else if(it.kind==='aim')av.facing=Math.atan2(Math.sin(it.data.a),Math.cos(it.data.a));
@@ -153,27 +165,69 @@
    }
    return view;
   }
+  // C7 : image régionale du chef de sortie (src/coop-sortie218.js), avec l'état de la cité en quelques nombres.
+  function sortieView(b){
+   const p=g.player;
+   return{...b.view(),wave:g.wave,phase:g.phase,phaseTime:Math.round((Number(g.phaseTime)||0)*10)/10,night:+(1-(g.daylight?.()??1)).toFixed(2),ammo:Math.floor(Number(g.resources.ammo)||0),
+    host:{x:0,y:0,a:0,away:p.regionAbsent?1:0,dead:p.dead?1:0,dossier:g.paused||g.activeOverlay?1:0}};
+  }
   function sendFrames(){
-   for(const [peer,seat] of peers){const av=avatars.get(seat);if(!av)continue;const frame=session.frame(seat,viewFor(av));if(frame)sendTo(peer,frame);}
+   for(const [peer,seat] of peers){const av=avatars.get(seat),b=sorties.get(seat);if(!av&&!b)continue;const frame=session.frame(seat,b?sortieView(b):viewFor(av));if(frame)sendTo(peer,frame);}
+  }
+  // C7 : un seul chef de sortie à la fois, et seulement si la région se lit par les accesseurs de la bulle.
+  function seatSortie(seat,name){
+   const L=Sortie();if(!L||!KS||sorties.size>=KS.maxSeats)return null;
+   let b=null;try{b=L.createBubble(g,{seat,name,pour:pourBag,tell});}catch(error){b=null;}
+   if(b)sorties.set(seat,b);return b;
+  }
+  // Asseoir un invité admis (ou revenu) : avatar de cité ou bulle régionale. Faux si le rôle ne peut pas être tenu.
+  function seatUp(peer,seat,name,role){
+   if(role==='sortie'){if(!seatSortie(seat,name))return false;}
+   else avatars.set(seat,avatar(seat,name,role));
+   peers.set(peer,seat);return true;
+  }
+  // C8 : siège gardé après une coupure (jeton de reprise), sac versé au dépôt ; sans jeton, le siège est libéré.
+  function holdSeat(seat){
+   const av=avatars.get(seat),b=sorties.get(seat),who=av?.name||b?.name,role=av?.role||b?.role,token=tokens.get(seat);
+   remove(seat);
+   if(RS&&token&&who){held.set(seat,{token,name:who,role,until:wall()+RS.graceSeconds*1000});tell(who+' a perdu la liaison : siège '+seat+' gardé '+RS.graceSeconds+' s.','danger');}
+   else{tokens.delete(seat);session?.leave(seat);if(who)tell(who+' a quitté la cité.');}
+  }
+  function expireHeld(){
+   const now=wall();
+   for(const [seat,h] of [...held]){if(now<h.until)continue;held.delete(seat);tokens.delete(seat);session?.leave(seat);tell(h.name+' n’est pas revenu : siège '+seat+' libéré.');}
   }
 
   // ---- Messages du relais.
   function receive(message){
    if(!message||typeof message!=='object'||message.protocol!==P||!session)return false;
-   if(message.type==='hosting'&&message.code===code){status='open';notice='Cité ouverte : code '+code+'.';return true;}
-   if(message.type==='refused'&&status==='opening'){const why=REASONS[message.reason]||REASONS.invalid;stop(false);status='error';notice=why;return true;}
-   if(message.type==='gone'&&peers.has(message.peer)){const seat=peers.get(message.peer);peers.delete(message.peer);remove(seat,'a quitté la cité.');session.leave(seat);return true;}
+   if(message.type==='hosting'&&message.code===code){const back=status==='reconnecting';status='open';retry=null;notice=back?'Relais retrouvé : cité rouverte, code '+code+'.':'Cité ouverte : code '+code+'.';if(back)tell(notice,'good');return true;}
+   if(message.type==='refused'&&(status==='opening'||status==='reconnecting')){const why=REASONS[message.reason]||REASONS.invalid;stop(false);status='error';notice=why;return true;}
+   if(message.type==='gone'&&peers.has(message.peer)){const seat=peers.get(message.peer);peers.delete(message.peer);holdSeat(seat);return true;}
    if(message.type!=='relay'||!Number.isSafeInteger(message.peer)||!message.message)return false;
    const m=message.message,peer=message.peer;
    if(m.type==='hello'){
     if(peers.has(peer))return false;
     if(!playing()){sendTo(peer,{type:'refused',protocol:P,reason:'closed'});send({type:'drop',protocol:P,peer});return false;}
+    const refuse=reason=>{sendTo(peer,{type:'refused',protocol:P,reason});send({type:'drop',protocol:P,peer});return false;};
+    // C8 : jeton de reprise connu (siège gardé, ou encore assis derrière un socket à moitié fermé) : même siège, même rôle.
+    const back=typeof m.resume==='string'?[...tokens].find(([,t])=>t===m.resume)?.[0]:undefined;
+    if(back!==undefined){
+     const old=[...peers].find(([,seat])=>seat===back)?.[0];
+     if(old!==undefined){peers.delete(old);send({type:'drop',protocol:P,peer:old});remove(back);}
+     held.delete(back);
+     const r=session.resume(back,m);
+     if(!r.ok){tokens.delete(back);session.leave(back);sendTo(peer,r.reply);send({type:'drop',protocol:P,peer});return false;}
+     if(!seatUp(peer,back,r.reply.name,r.reply.role)){tokens.delete(back);session.leave(back);return refuse('role');}
+     sendTo(peer,{...r.reply,resume:tokens.get(back)});tell(r.reply.name+' est revenu : siège '+back+'.','good');frameClock=1;return true;
+    }
     const r=session.admit(m);
-    // D1 : le chef de sortie (seconde bulle régionale) est la tranche C7, pas encore livrée.
-    if(r.ok&&r.reply.role==='sortie'){session.leave(r.seat);sendTo(peer,{type:'refused',protocol:P,reason:'role'});send({type:'drop',protocol:P,peer});return false;}
     if(!r.ok){sendTo(peer,r.reply);send({type:'drop',protocol:P,peer});return false;}
-    peers.set(peer,r.seat);const av=avatar(r.seat,r.reply.name,r.reply.role);avatars.set(r.seat,av);
-    sendTo(peer,r.reply);tell(av.name+' a rejoint la cité : responsable de district. Le temps ne s’arrête plus.','good');
+    // D1-B (C7) : chef de sortie dans une seconde bulle régionale ; refusé (`role`) si un autre explore déjà ou si la région manque.
+    if(!seatUp(peer,r.seat,r.reply.name,r.reply.role)){session.leave(r.seat);return refuse('role');}
+    const token=RS?makeCode(RS.tokenChars):null;if(token)tokens.set(r.seat,token);
+    sendTo(peer,token?{...r.reply,resume:token}:r.reply);
+    tell(r.reply.name+(r.reply.role==='sortie'?' a rejoint la campagne : chef de sortie en région.':' a rejoint la cité : responsable de district.')+' Le temps ne s’arrête plus.','good');
     frameClock=1;return true;
    }
    if(m.type==='intent'&&peers.has(peer))return session.receive(peers.get(peer),m).ok;
@@ -183,29 +237,49 @@
    if(session||!playing())return{ok:false,reason:playing()?'Une session est déjà ouverte.':'Ouvrez d’abord une partie.'};
    const wanted=typeof options.code==='string'&&options.code?options.code.toUpperCase():makeCode();
    try{session=S.createHost({code:wanted});}catch(error){return{ok:false,reason:error.message};}
-   code=wanted;tick=0;frameClock=0;status='opening';notice='Ouverture de la cité…';pings.length=0;hiddenSince=null;lastWall=wall();
+   code=wanted;tick=0;frameClock=0;status='opening';notice='Ouverture de la cité…';pings.length=0;hiddenSince=null;lastWall=wall();retry=null;
    if(options.link){link=options.link;}
    else{
-    const url=String(options.url||'');
-    if(!/^wss?:\/\/[^\s]+$/.test(url)||typeof root.WebSocket!=='function'){session=null;status='error';notice='Adresse de relais invalide (ws:// ou wss://).';return{ok:false,reason:notice};}
-    let socket;try{socket=new root.WebSocket(url);}catch(error){session=null;status='error';notice='Relais injoignable.';return{ok:false,reason:notice};}
-    const current=socket;
-    link={socket,send:m=>{if(socket.readyState===1)socket.send(JSON.stringify(m));},close:()=>{try{socket.close();}catch(error){}}};
-    socket.onopen=()=>{if(link&&session)link.send({type:'host',protocol:P,code});};
-    socket.onmessage=event=>{let m=null;try{m=JSON.parse(String(event.data));}catch(error){return;}receive(m);};
-    socket.onclose=()=>{if(session&&link&&link.socket===current)stop(false,'Relais perdu : la cité n’est plus ouverte.');};
+    const url=String(options.url||'');Socket=options.WebSocket||root.WebSocket;
+    if(!/^wss?:\/\/[^\s]+$/.test(url)||typeof Socket!=='function'){session=null;status='error';notice='Adresse de relais invalide (ws:// ou wss://).';return{ok:false,reason:notice};}
+    relayUrl=url;if(!connect()){session=null;status='error';notice='Relais injoignable.';return{ok:false,reason:notice};}
    }
    if(options.link)send({type:'host',protocol:P,code});
    if(!timer&&typeof root.setInterval==='function'){timer=root.setInterval(watch,R.clock.checkMs);timer?.unref?.();}
    return{ok:true,code};
+  }
+  // Socket du relais. C8 : une coupure ne ferme plus la cité tout de suite : les sièges sont gardés et l'hôte réessaie
+  // pendant `hostRetrySeconds` (délais `retryMs`), puis ferme proprement si le relais ne revient pas.
+  function connect(){
+   let socket;try{socket=new Socket(relayUrl);}catch(error){return false;}
+   const current=socket;
+   link={socket,send:m=>{if(socket.readyState===1)socket.send(JSON.stringify(m));},close:()=>{try{socket.close();}catch(error){}}};
+   socket.onopen=()=>{if(link&&link.socket===current&&session)link.send({type:'host',protocol:P,code});};
+   socket.onmessage=event=>{if(!link||link.socket!==current)return;let m=null;try{m=JSON.parse(String(event.data));}catch(error){return;}receive(m);};
+   socket.onclose=()=>{if(session&&link&&link.socket===current)lost();};
+   socket.onerror=()=>{};
+   return true;
+  }
+  function lost(){
+   link=null;
+   if(!RS||status==='opening'&&!retry){stop(false,'Relais perdu : la cité n’est plus ouverte.');return;}
+   if(!retry){retry={until:wall()+RS.hostRetrySeconds*1000,attempt:0,at:0};for(const [peer,seat] of [...peers]){peers.delete(peer);holdSeat(seat);}tell('Relais perdu : la cité attend son retour.','danger');}
+   status='reconnecting';notice='Relais perdu : nouvelle tentative…';
+   const delays=RS.retryMs,wait=delays[Math.min(retry.attempt,delays.length-1)];retry.attempt++;retry.at=wall()+wait;
+  }
+  function retryRelay(){
+   if(!retry||link||!session)return;
+   const now=wall();if(now>retry.until){stop(false,'Relais perdu : la cité n’est plus ouverte.');return;}
+   if(now<retry.at)return;
+   if(!connect())lost();
   }
   // Fermer : chaque invité reçoit `closed`, chaque avatar rend son sac au dépôt, puis le relais libère le code.
   function stop(announce=true,why=''){
    if(!session)return false;
    const notices=session.close();
    for(const n of notices){const peer=[...peers].find(([,seat])=>seat===n.seat)?.[0];if(peer!==undefined)sendTo(peer,n.message);}
-   for(const seat of [...avatars.keys()])remove(seat);
-   peers.clear();pings.length=0;
+   for(const seat of [...avatars.keys(),...sorties.keys()])remove(seat);
+   peers.clear();pings.length=0;tokens.clear();held.clear();retry=null;
    if(announce)send({type:'unhost',protocol:P});
    const l=link;link=null;session=null;status='idle';notice=why||'Cité fermée.';
    try{l?.close?.();}catch(error){}
@@ -217,6 +291,7 @@
   function watch(){
    if(!session)return;
    if(!playing()){stop(true,'Campagne de l’hôte fermée : la session est terminée.');return;}
+   expireHeld();retryRelay();if(!session)return;
    const hidden=Boolean(doc?.hidden||doc?.visibilityState==='hidden'),now=wall();
    if(!hidden||!live()){hiddenSince=null;lastWall=now;return;}
    if(hiddenSince===null)hiddenSince=now;
@@ -235,7 +310,9 @@
    // D3-A : le pas avance malgré une pause ou un dossier ouvert ; un dossier ouvert pendant le pas reste ouvert.
    const paused=this.paused,overlay=this.activeOverlay;this.paused=false;this.activeOverlay=null;
    let result;
-   try{result=update.call(this,dt,...rest);}
+   try{result=update.call(this,dt,...rest);
+    // C7 : seconde bulle régionale, après le pas de l'hôte (sa bulle d'abord), puis siège par siège.
+    if(sorties.size&&playing()&&finite(dt)&&dt>0)for(const seat of [...sorties.keys()].sort((a,b)=>a-b))sorties.get(seat)?.step(dt);}
    finally{if(this.paused===false)this.paused=paused;if(this.activeOverlay===null)this.activeOverlay=overlay;}
    if(session&&finite(dt)&&dt>0){frameClock+=dt;if(frameClock>=1/F.hz){frameClock=0;sendFrames();}}
    return result;
@@ -258,11 +335,12 @@
   const serialize=g.serialize;
   if(typeof serialize==='function')g.serialize=function(...args){
    const data=serialize.apply(this,args);
-   if(!session||!avatars.size||!data||typeof data!=='object'||!data.resources)return data;
+   if(!session||!(avatars.size+sorties.size)||!data||typeof data!=='object'||!data.resources)return data;
    // Une sauvegarde déclenchée pendant le pas des infectés (avatars prêtés à `units`) ne garde jamais un avatar (D4).
    const units=Array.isArray(data.units)?data.units.filter(u=>u?.kind!=='guest217'):data.units;
    const resources={...data.resources};
-   for(const key of C.RESOURCE_KEYS){let extra=0;for(const av of avatars.values())extra+=Number(av.carry[key])||0;if(extra>0)resources[key]=Math.min(Math.max(Number(this.storage)||0,resources[key]),resources[key]+extra);}
+   const bags=[...sorties.values()].map(b=>b.carried());
+   for(const key of C.RESOURCE_KEYS){let extra=0;for(const av of avatars.values())extra+=Number(av.carry[key])||0;for(const bag of bags)extra+=Number(bag[key])||0;if(extra>0)resources[key]=Math.min(Math.max(Number(this.storage)||0,resources[key]),resources[key]+extra);}
    return{...data,resources,...(Array.isArray(data.units)?{units}:{})};
   };
   const closing='Campagne de l’hôte fermée : la session est terminée.';
@@ -288,9 +366,13 @@
    return result;
   };
   function overview(){
-   return Object.freeze({status,notice,code,live:live(),tick,guests:[...avatars.values()].sort((a,b)=>a.seat-b.seat).map(av=>Object.freeze({seat:av.seat,name:av.name,role:av.role,dead:av.dead,health:round(av.health),district:av.district,districtName:districtName(av.district),ammo:av.carry.ammo}))});
+   const region=[...sorties.values()].map(b=>{const q=b.pose(),st=b.stats();return Object.freeze({seat:b.seat,name:b.name,role:'sortie',dead:q.dead,health:round(q.health),district:null,districtName:null,ammo:st.mag,load:Math.round(st.load)});});
+   return Object.freeze({status,notice,code,live:live(),tick,guests:[...avatars.values()].map(av=>Object.freeze({seat:av.seat,name:av.name,role:av.role,dead:av.dead,health:round(av.health),district:av.district,districtName:districtName(av.district),ammo:av.carry.ammo})).concat(region).sort((a,b)=>a.seat-b.seat),
+    waiting:[...held].sort((a,b)=>a[0]-b[0]).map(([seat,h])=>Object.freeze({seat,name:h.name,role:h.role,seconds:Math.max(0,Math.ceil((h.until-wall())/1000))}))});
   }
-  g.coopHost217=Object.freeze({open,close:()=>stop(true),receive,live,overview,avatars:()=>[...avatars.values()].map(av=>({...av,move:{...av.move},carry:{...av.carry}})),view:seat=>avatars.has(seat)?viewFor(avatars.get(seat)):null,watch,code:()=>code});
+  g.coopHost217=Object.freeze({open,close:()=>stop(true),receive,live,overview,avatars:()=>[...avatars.values()].map(av=>({...av,move:{...av.move},carry:{...av.carry}})),
+   sorties:()=>[...sorties.values()].sort((a,b)=>a.seat-b.seat).map(b=>({seat:b.seat,name:b.name,...b.pose(),...b.stats(),carry:b.carried(),contacts:b.contacts(),start:b.start()})),
+   view:seat=>avatars.has(seat)?viewFor(avatars.get(seat)):sorties.has(seat)?sortieView(sorties.get(seat)):null,watch,code:()=>code});
   return true;
  }
  return Object.freeze({install,makeCode});

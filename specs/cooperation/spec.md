@@ -120,7 +120,7 @@ forgés, cadence, admission, sockets tardifs, contre-pression.
 
 | Id | Choix | Conséquence dans le code |
 |---|---|---|
-| D1 | **Les deux rôles** : responsable de district dans la cité (C4) **et** chef de sortie en région (C7, seconde bulle régionale détachée de `g.player`). | C4 livré (`src/coop-host217.js`). Tant que C7 manque, l'hôte refuse le rôle `sortie` avec la raison `role` ; l'interface le montre grisé. |
+| D1 | **Les deux rôles** : responsable de district dans la cité (C4) **et** chef de sortie en région (C7, seconde bulle régionale détachée de `g.player`). | C4 livré (`src/coop-host217.js`). C7 livré (`src/coop-sortie218.js`) : un seul chef de sortie à la fois ; un second, ou une région illisible, est refusé avec la raison `role`. |
 | D2 | **A** — étendre le relais WebSocket existant, sans autorité, code de salle exigé, protocole 217 séparé du 200. | `scripts/coop-server.mjs` (C2). |
 | D3 | **A** — aucune pause tant qu'un invité est assis : dossiers et poste de commandement sans geler `update`, relève sans pause, onglet caché en pas réduits puis interruption propre ; pause solo intacte hors session. | Prédicat unique `g.coopHost217.live()`, lu par `loop` (`game.js`) et l'enveloppe de `update` (C5). |
 | D4 | **A + C** — l'avatar d'invité n'est pas sauvegardé, il réapparaît au dépôt ; son sac est versé au dépôt de l'hôte au départ et avant chaque sauvegarde. | Aucune clé de sauvegarde ajoutée ; le chargeur de l'avatar est compté dans `resources` de chaque `serialize` et rendu au dépôt au départ et à la mort. |
